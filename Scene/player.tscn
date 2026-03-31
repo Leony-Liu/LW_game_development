@@ -227,3 +227,5 @@ script = ExtResource("8_g2vtq")
 [node name="Hurt" type="Node" parent="StateMachine"]
 
 [node name="Controled" type="Node" parent="StateMachine"]
+
+[node name="Skill" type="Node" parent="StateMachine"]
