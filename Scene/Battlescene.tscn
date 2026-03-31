@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://dendpgv3l41yl"]
+
+[ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scripts/Manager/game_battle_manager.gd" id="1_ebhhr"]
+[ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scripts/Manager/card_manager.gd" id="1_ygjx7"]
+[ext_resource type="PackedScene" uid="uid://5b5ov0svdb1d" path="res://Scene/player.tscn" id="2_o0j1h"]
+[ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/enermy.tscn" id="3_mvvqq"]
+[ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scripts/Manager/ui_manager.gd" id="3_nr23r"]
+[ext_resource type="Script" uid="uid://dvumg1jhtff6l" path="res://Scripts/Manager/player_deck_manager.gd" id="5_o0j1h"]
+[ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scripts/Manager/card_factory.gd" id="6_mvvqq"]
+[ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scripts/Manager/effect_manager.gd" id="7_oqqo5"]
+[ext_resource type="Script" uid="uid://c6668u5xgla8l" path="res://Scripts/Others/event_bus.gd" id="9_oqqo5"]
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_ebhhr")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_o0j1h")]
+
+[node name="Enermy" parent="." instance=ExtResource("3_mvvqq")]
+
+[node name="UIManager" type="CanvasLayer" parent="."]
+script = ExtResource("3_nr23r")
+
+[node name="CardManager" type="Node" parent="UIManager"]
+script = ExtResource("1_ygjx7")
+
+[node name="CardUI" type="Control" parent="UIManager/CardManager"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 237.0
+offset_top = 424.0
+offset_right = 277.0
+offset_bottom = 464.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIManager/CardManager/CardUI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerDeck" type="Node" parent="UIManager/CardManager"]
+script = ExtResource("5_o0j1h")
+
+[node name="CardFactory" type="Node" parent="UIManager/CardManager"]
+script = ExtResource("6_mvvqq")
+
+[node name="EffectManager" type="Node" parent="UIManager/CardManager"]
+script = ExtResource("7_oqqo5")
+
+[node name="EventBus" type="Node" parent="."]
+script = ExtResource("9_oqqo5")
