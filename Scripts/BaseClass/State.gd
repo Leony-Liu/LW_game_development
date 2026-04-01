@@ -5,8 +5,8 @@
 
 class_name State extends Node
 
-# 存储一个对玩家实体（Player 根节点）的引用，方便我们在状态里调用玩家的方法或数据
-var player: Node 
+# 存储根节点的引用，方便我们在状态里调用玩家的方法或数据
+var host: Node 
 
 
 

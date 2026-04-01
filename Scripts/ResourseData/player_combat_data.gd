@@ -30,9 +30,13 @@ signal mana_changed(current_stanima, max_stanima) # 能量变化后广播
 @export var current_stanima_recover_speed: float # 体力恢复速度
 @export var current_mana_recover_speed: float # 能量恢复速度
 
+
+# —————— 功能实现参数 ——————
 var _stanima_recovery_timer: float = 0.0 # 体力恢复累计器
 var _mana_recovery_timer: float = 0.0 # 能量恢复累计器
 
+
+# —————— 资源恢复部分 ——————
 # 体力恢复
 func stanima_recovery(delta:float)->void:
 	# 体力未满就开始恢复体力
@@ -43,8 +47,18 @@ func stanima_recovery(delta:float)->void:
 		if _stanima_recovery_timer >= current_stanima_recover_speed:
 			current_stanima += 1
 			print("战斗数据：体力恢复 + 1")
+# 能量恢复
+func mana_recovery(delta:float):
+	# 能量未满就开始恢复体力
+	if current_mana  < max_mana:
+		_mana_recovery_timer += delta
+		
+		# 跑完所需时间，能量就加一
+		if _mana_recovery_timer >= current_mana_recover_speed:
+			current_mana += 1
+			print("战斗数据：能量恢复 + 1")
 
-
+# —————— 资源扣除部分 ——————
 # 体力扣除
 func consume_stanima(cost: int) -> bool:
 	if current_stanima >= cost:
@@ -59,20 +73,6 @@ func consume_stanima(cost: int) -> bool:
 	else:
 		print("战斗数据：体力不足！")
 		return false
-
-
-# 能量恢复
-func mana_recovery(delta:float):
-	# 能量未满就开始恢复体力
-	if current_mana  < max_mana:
-		_mana_recovery_timer += delta
-		
-		# 跑完所需时间，能量就加一
-		if _mana_recovery_timer >= current_mana_recover_speed:
-			current_mana += 1
-			print("战斗数据：能量恢复 + 1")
-
-
 # 能量扣除
 func consume_mana(cost: int) -> bool:
 	if current_mana >= cost:

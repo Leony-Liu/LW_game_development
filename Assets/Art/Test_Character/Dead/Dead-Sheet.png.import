@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://buakd7108ck41"
-path="res://.godot/imported/Dead-Sheet.png-67006f49219910be59ace9a659e3a815.ctex"
+path="res://.godot/imported/Dead-Sheet.png-ca4f014920a21dd918575f1d910de8d9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Character/Dead/Dead-Sheet.png"
-dest_files=["res://.godot/imported/Dead-Sheet.png-67006f49219910be59ace9a659e3a815.ctex"]
+source_file="res://Assets/Art/Test_Character/Dead/Dead-Sheet.png"
+dest_files=["res://.godot/imported/Dead-Sheet.png-ca4f014920a21dd918575f1d910de8d9.ctex"]
 
 [params]
 

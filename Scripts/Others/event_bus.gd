@@ -4,5 +4,4 @@
 
 extends Node
 
-
 signal card_played(card_data:Dictionary) # 一张牌被打出

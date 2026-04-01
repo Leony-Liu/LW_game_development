@@ -9,27 +9,13 @@ extends Node
 @onready var state_machine = $StateMachine
 
 func _ready() -> void:
-	EventBus.card_played.connect(_on_card_played)
+	EventBus.card_played.connect(_on_card_played)# 接收卡牌被打出的信号及其数据
 
 
+# 将出牌信号传给状态交换机
 func _on_card_played(card_data:Dictionary)->void:
-	# 判断状态条件是否满足
-	if state_machine.current_state.name != "Idle":
-		print("玩家管理器：不可出牌")
-		return
-		
-	# CSV表头，拆解数据库数据
-	var cost = card_data["stanima_cost"]
-	var card_type = card_data["categories"] 
+	if state_machine.handle_card_played(card_data):
+		print("玩家管理器：成功出牌")
+	else :
+		print("玩家管理器：当前状态不可出牌")
 	
-	# 根据combatdata方法返回的布尔值判定
-	if combat_data.consume_stanima(cost):
-		
-		if card_type == "attack":
-			state_machine.transition_to("Attack",{"card":card_data})
-			
-		elif  card_type == "skills":
-			state_machine.transition_to("Skill",{"card":card_data})
-			
-		else :
-			print("玩家管理器：扣除体力失败")

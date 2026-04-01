@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Battlescene"
-run/main_scene="uid://dendpgv3l41yl"
+config/name="LW_game_development"
+run/main_scene="uid://0rtgdscsodly"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

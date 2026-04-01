@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0grjwsuwe8hh"
-path="res://.godot/imported/Attack-01-Sheet.png-d060900d665fb3d9f1139a79e2cc7381.ctex"
+uid="uid://bw58wmgp6sitr"
+path="res://.godot/imported/Jump-All-Sheet.png-8dee4193a94f34db4525f94075b78ed2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Character/Attack-01/Attack-01-Sheet.png"
-dest_files=["res://.godot/imported/Attack-01-Sheet.png-d060900d665fb3d9f1139a79e2cc7381.ctex"]
+source_file="res://Assets/Art/Test_Character/Jumlp-All/Jump-All-Sheet.png"
+dest_files=["res://.godot/imported/Jump-All-Sheet.png-8dee4193a94f34db4525f94075b78ed2.ctex"]
 
 [params]
 
