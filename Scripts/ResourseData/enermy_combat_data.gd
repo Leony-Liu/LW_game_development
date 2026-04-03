@@ -4,7 +4,7 @@
 #
 
 
-extends Resource
+extends Node
 class_name EnermyCombatData
 
 # —————— 1. 基础面板（裸装属性） ——————
