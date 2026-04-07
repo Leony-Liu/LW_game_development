@@ -11,7 +11,7 @@ var host: Node
 
 
 # 状态进入时调用（比如：刚进入 Idle 状态时，播放待机动画）
-func enter() -> void:
+func enter( msg :Dictionary = {}) -> void:
 	pass
 
 # 状态退出时调用（比如：离开 Idle 准备攻击时，清除某些变量）

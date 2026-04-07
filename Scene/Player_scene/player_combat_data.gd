@@ -7,6 +7,8 @@
 extends Node
 class_name PlayerCombatData
 
+@onready var calculator = $"../Calculator"
+@onready var inventory = $"../Inventory"
 
 # —————— 定义信号 ——————
 signal hp_changed(current_hp, max_hp) # 生命值变化后广播

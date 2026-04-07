@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.physics_update(delta)
 # 状态切换
-func transition_to(target_state_name: String) -> void:
+func transition_to( target_state_name: String , msg : Dictionary={} ) -> void:
 	# 安全检查：如果字典里没有要切换的状态名字，直接报错并退出，防止游戏崩溃
 	if not states.has(target_state_name):
 		push_error("试图切换到不存在的状态: ", target_state_name)
@@ -60,7 +60,7 @@ func transition_to(target_state_name: String) -> void:
 	# 2. 核心：把当前状态替换为目标状态
 	current_state = next_state
 	# 3. 让新的状态执行进入逻辑
-	current_state.enter()
+	current_state.enter(msg)
 # ———————————————— ↑ 状态交换机通用部分 ↑ ————————————————
 
 

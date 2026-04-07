@@ -1,11 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://7cdujhisinjp"]
+[gd_scene load_steps=17 format=3 uid="uid://7cdujhisinjp"]
 
 [ext_resource type="Script" uid="uid://dc3aq3o1f6s2u" path="res://Scene/Player_scene/player_manager.gd" id="1_oh5ij"]
 [ext_resource type="Texture2D" uid="uid://d0jtbxuwxm26l" path="res://Scene/Player_scene/Test_Character/Idle/Idle-Sheet.png" id="2_ml7e8"]
 [ext_resource type="Texture2D" uid="uid://0grjwsuwe8hh" path="res://Scene/Player_scene/Test_Character/Attack-01/Attack-01-Sheet.png" id="3_ihjo1"]
 [ext_resource type="Texture2D" uid="uid://buakd7108ck41" path="res://Scene/Player_scene/Test_Character/Dead/Dead-Sheet.png" id="4_dk1vr"]
 [ext_resource type="Script" uid="uid://b528jlmvg0rlj" path="res://Scene/Player_scene/player_combat_data.gd" id="5_hp4bs"]
+[ext_resource type="Script" uid="uid://ct5b3aa1o5wkd" path="res://Scene/Player_scene/combat_conculator.gd" id="6_ml7e8"]
 [ext_resource type="Script" uid="uid://5oeeixovhf8f" path="res://Scene/Player_scene/player_statemachine.gd" id="7_34jf3"]
+[ext_resource type="Script" uid="uid://b5j5ycl1keg03" path="res://Scene/Player_scene/player_inventory.gd" id="7_ihjo1"]
 [ext_resource type="Script" uid="uid://ctrd8f5wst0wd" path="res://Scene/Player_scene/player_idle.gd" id="8_g2vtq"]
 [ext_resource type="Script" uid="uid://hr0cvf4bbtrc" path="res://Scene/Player_scene/player_skill.gd" id="9_2fvbb"]
 [ext_resource type="Script" uid="uid://b57bb2as301b1" path="res://Scripts/player_attack.gd" id="9_ml7e8"]
@@ -218,6 +220,12 @@ current_mana = 5
 max_mana = 5
 current_stanima_recover_speed = 1.0
 current_mana_recover_speed = 1.0
+
+[node name="Calculator" type="Node" parent="Data"]
+script = ExtResource("6_ml7e8")
+
+[node name="Inventory" type="Node" parent="Data"]
+script = ExtResource("7_ihjo1")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_34jf3")
