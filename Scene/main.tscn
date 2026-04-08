@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cksmye2otuweh"]
+
+[ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_scene/Battlescene.tscn" id="1_f6udf"]
+
+[node name="MAIN" type="Node"]
+
+[node name="SceneHolder" type="Node" parent="."]
+
+[node name="BattleScene" parent="SceneHolder" instance=ExtResource("1_f6udf")]
+
+[node name="GlobalUI" type="Node" parent="."]

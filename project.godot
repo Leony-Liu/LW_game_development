@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LW_game_development"
-run/main_scene="uid://0rtgdscsodly"
+run/main_scene="uid://dhifg5jjl4ctq"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

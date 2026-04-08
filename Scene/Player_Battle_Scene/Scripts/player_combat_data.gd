@@ -96,4 +96,4 @@ func consume_mana(cost: int) -> bool:
 
 # —————— 血量扣除 ——————
 func get_hit(damage:int):
-	if 
+	pass
