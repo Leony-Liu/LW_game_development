@@ -95,5 +95,13 @@ func consume_mana(cost: int) -> bool:
 		return false
 
 # —————— 血量扣除 ——————
-func get_hit(damage:int):
-	if 
+func get_hit(damage:int,hit_context:String = "combat"):
+	
+	current_hp -= damage
+	current_hp = clampi(current_hp, 0, max_hp) 
+	hp_changed.emit(current_hp, max_hp)
+	
+	print("战斗数据：在 [%s] 受到 %d 点伤害，剩余血量：%d" % [hit_context, damage, current_hp])
+	
+	if current_hp <= 0:
+		EventBus.player_died.emit(hit_context)
