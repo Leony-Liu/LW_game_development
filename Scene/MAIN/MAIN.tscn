@@ -1,11 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://0rtgdscsodly"]
+[gd_scene load_steps=3 format=3 uid="uid://0rtgdscsodly"]
 
 [ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="1_nj6re"]
+[ext_resource type="PackedScene" uid="uid://dhifg5jjl4ctq" path="res://Scene/DungeonScene/Scenes/floorsScene.tscn" id="2_bg8uw"]
 
 [node name="MAIN" type="Node"]
 
 [node name="SceneHolder" type="Node" parent="."]
 
 [node name="BattleScene" parent="SceneHolder" instance=ExtResource("1_nj6re")]
+
+[node name="MapScene" parent="SceneHolder" instance=ExtResource("2_bg8uw")]
 
 [node name="GlobalUI" type="Node" parent="."]
