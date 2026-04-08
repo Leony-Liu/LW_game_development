@@ -1,7 +1,7 @@
 [gd_scene load_steps=25 format=3 uid="uid://davvetqo0kd2n"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_m6pnr"]
-[ext_resource type="Texture2D" uid="uid://dqia0xcvlj7yt" path="res://Scene/DungeonScene/Arts/knight.png" id="2_uxvck"]
+[ext_resource type="Script" uid="uid://bhdver1ucf7r8" path="res://Scene/Player_Dungeon_Scene/Scripts/player.gd" id="1_sxece"]
+[ext_resource type="Texture2D" uid="uid://dqia0xcvlj7yt" path="res://Scene/Player_Dungeon_Scene/Art/knight.png" id="2_uxvck"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qpdfw"]
 atlas = ExtResource("2_uxvck")
@@ -163,7 +163,7 @@ height = 14.0
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
 floor_block_on_wall = false
-script = ExtResource("1_m6pnr")
+script = ExtResource("1_sxece")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)

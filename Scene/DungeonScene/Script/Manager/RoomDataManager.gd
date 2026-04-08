@@ -5,7 +5,7 @@ extends Node2D
 class_name RoomDataManager
 var mySeed: RandomNumberGenerator
 
-@export var csv_file_path: String = "res://Scene/DungeonScene/DataBase/RoomType_and_Weight data.csv"
+@export var csv_file_path: String = "res://DataBase/DungeonDataBase/RoomType_and_Weight data.csv"
 var room_types: Array
 
 func _ready() -> void:
