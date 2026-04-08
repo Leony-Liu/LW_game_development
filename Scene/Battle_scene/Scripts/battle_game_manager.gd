@@ -8,11 +8,25 @@ class_name BattleGameManager
 var current_target_enemy: Node = null 
 
 func _ready() -> void:
-	# 1. 权力交接：现在由战斗裁判亲自监听全场的出牌信号
-	EventBus.card_played.connect(_on_card_played)
+	
+	EventBus.card_played.connect(_on_card_played)# 接收出牌信号
+	EventBus.player_dealt_damage.connect(_on_player_dealt_damage)# 接收计算完的总伤害
 
-
-# 2. 核心拦截逻辑
+# 接收玩家伤害，并转发给当前敌人
+func _on_player_dealt_damage(payload: Dictionary) -> void:
+	# 确保当前有敌人
+	if current_target_enemy != null:
+		print("战斗管理器：收到玩家伤害包，正在路由给当前敌人...")
+		
+		# 假设敌人的根节点下有个 EnemyManager 来处理挨打逻辑
+		# (根据你的节点结构，调用敌人身上对应的方法)
+		if current_target_enemy.has_node("EnemyManager"):
+			current_target_enemy.get_node("EnemyManager").take_damage(payload)
+	else:
+		print("战斗管理器：伤害打空了！当前场上没有敌人。")
+		
+		
+# 卡牌拦截逻辑
 func _on_card_played(card_data: Dictionary) -> void:
 	# 先进行外部规则验证
 	if not can_play_card(card_data, current_target_enemy):
@@ -28,7 +42,7 @@ func _on_card_played(card_data: Dictionary) -> void:
 		# 通知UI把卡牌退回
 
 
-# 3. 裁判规则库 
+# 裁判规则库 
 func can_play_card(card_data: Dictionary, target: Node) -> bool:
 	# 基础规则示例：如果这张牌是攻击牌，但场上没有敌人，则不能打出
 	if card_data.has("categories") and card_data["categories"] == "attack":

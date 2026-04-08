@@ -10,6 +10,7 @@ signal card_rejected(card_node: Control) # 卡牌不能打出
 
 # —————— 状态信号 ——————
 signal player_died(death_context: String)# 玩家死亡
+signal enemy_died(death_context: String)# 敌人死亡
 
 # —————— 过程性信号 ——————
 signal player_dealt_damage(payload: Dictionary)# 传递玩家造成的伤害

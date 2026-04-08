@@ -5,7 +5,7 @@ class_name PlayerCalculator
 @onready var inventory:PlayerInventory = $"../Inventory"
 
 
-
+# 计算所有伤害增益效果
 func calculate_outgoing_damage(base_damage: int, card_mult_bonus: float = 0.0) -> int:
 	
 	# 向背包要【装备子集】
