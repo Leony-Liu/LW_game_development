@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://dendpgv3l41yl"]
 
-[ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_scene/battle_game_manager.gd" id="1_ebhhr"]
-[ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_scene/card_manager.gd" id="1_ygjx7"]
-[ext_resource type="PackedScene" uid="uid://5b5ov0svdb1d" path="res://Scene/Player_scene/player.tscn" id="2_noken"]
-[ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Enemy_scene/Enemy.tscn" id="3_mvvqq"]
-[ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_scene/battle_ui_manager.gd" id="3_nr23r"]
-[ext_resource type="Script" uid="uid://dvumg1jhtff6l" path="res://Scene/Battle_scene/player_deck_manager.gd" id="5_o0j1h"]
-[ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_scene/card_factory.gd" id="6_mvvqq"]
-[ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scene/Battle_scene/effect_manager.gd" id="7_oqqo5"]
-[ext_resource type="Script" uid="uid://c6668u5xgla8l" path="res://Scripts/Others/event_bus.gd" id="9_oqqo5"]
+[ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_Scene/Scripts/battle_game_manager.gd" id="1_ebhhr"]
+[ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene/Scripts/card_manager.gd" id="1_ygjx7"]
+[ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/player.tscn" id="2_noken"]
+[ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Enemy_Battle_Scene/Enemy.tscn" id="3_mvvqq"]
+[ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_Scene/Scripts/battle_ui_manager.gd" id="3_nr23r"]
+[ext_resource type="Script" uid="uid://dvumg1jhtff6l" path="res://Scene/Battle_Scene/Scripts/player_deck_manager.gd" id="5_o0j1h"]
+[ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_Scene/Scripts/card_factory.gd" id="6_mvvqq"]
+[ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scene/Battle_Scene/Scripts/effect_manager.gd" id="7_oqqo5"]
+[ext_resource type="Script" uid="uid://c6668u5xgla8l" path="res://Scene/MAIN/Scripts/event_bus.gd" id="9_oqqo5"]
 
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_ebhhr")

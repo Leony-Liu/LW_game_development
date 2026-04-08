@@ -17,11 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-EventBus="*res://Scripts/Others/event_bus.gd"
-CardDataBase="*res://Scripts/Manager/card_database_manager.gd"
-PlayerDeckManager="*res://Scene/Battle_scene/player_deck_manager.gd"
-CardFactory="*res://Scene/Battle_scene/card_factory.gd"
-EffectManager="*res://Scene/Battle_scene/effect_manager.gd"
+EventBus="*res://Scene/MAIN/Scripts/event_bus.gd"
+CardDataBase="*res://Scene/MAIN/Scripts/Manager/card_database_manager.gd"
+PlayerDeckManager="*res://Scene/Battle_Scene/Scripts/player_deck_manager.gd"
+CardFactory="*res://Scene/Battle_Scene/Scripts/card_factory.gd"
+EffectManager="*res://Scene/Battle_Scene/Scripts/effect_manager.gd"
 
 [input]
 
