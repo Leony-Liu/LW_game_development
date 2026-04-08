@@ -95,6 +95,7 @@ func consume_mana(cost: int) -> bool:
 		return false
 
 # —————— 血量扣除 ——————
+<<<<<<< HEAD
 func get_hit(damage:int,hit_context:String = "combat"):
 	
 	current_hp -= damage
@@ -105,3 +106,7 @@ func get_hit(damage:int,hit_context:String = "combat"):
 	
 	if current_hp <= 0:
 		EventBus.player_died.emit(hit_context)
+=======
+func get_hit(damage:int):
+	pass
+>>>>>>> 82b9668e350a6ac2c66157a4687691e47f7e78b9
