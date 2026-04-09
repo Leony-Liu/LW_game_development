@@ -1,6 +1,6 @@
-id,categories,card_name,stanima_cost,mana_cost,damage,effects,reuse,posture_damage
-10001,attack,strike,1,0,10,0,1,10
-10002,attack,heavy_blow,2,0,20,vulnerable:20,1,20
-10003,attack,parry,1,0,0,parry,1,0
-10004,skills,roar,0,1,0,attack_power_increased,1,0
-10005,skills,revivify,0,1,0,player_hp_recover,0,0
+﻿id,categories,card_name,stanima_cost,mana_cost,damage,effects,reuse,posture_damage,description
+10001,attack,strike,1,0,10,0,1,10,打击：基础攻击牌
+10002,attack,heavy_blow,2,0,20,vulnerable:20,1,20,重击：上20脆弱
+10003,attack,parry,1,0,0,parry,1,0,
+10004,skills,roar,0,1,0,attack_power_increased,1,0,
+10005,skills,revivify,0,1,0,player_hp_recover,0,0,

@@ -1,13 +1,21 @@
 extends Node
 class_name EnemyAIBrain
 
-# 1. 绝对规范：锁死机制脚本所在的文件夹路径（注意最后的斜杠不能少！）
-const MECHANICS_BASE_DIR = "res://Scene/Enemy_Battle_Scene/Scripts/EnemyMechanics/"
+# ==========================================
+#  AI 行为参数黑板 (Blackboard)
+# 这些是怪物的默认性格，等待被具体的“机制芯片”修改
+# ==========================================
+var min_idle_time: float = 2.0  # 最小发呆时间
+var max_idle_time: float = 4.0  # 最大发呆时间
+var skill_chance: float = 0.2   # 释放技能的概率 (20%)
+var combo_count: int = 1        # 连击次数
 
-# 记录当前激活的机制
+# 机制脚本存放路径
+const MECHANICS_BASE_DIR = "res://Scene/Enemy_Battle_Scene/Scripts/EnemyMechanics/"
 var active_mechanics: Array[Node] = []
 
-# 2. 装配车间入口：接收从外部（CSV 或 测试代码）传来的机制名字列表
+
+# 装配车间入口：接收从外部（CSV 或 测试代码）传来的机制名字列表
 func initialize(mechanic_names: Array[String]):
 	for mech_name in mechanic_names:
 		# 动态拼接出绝对路径

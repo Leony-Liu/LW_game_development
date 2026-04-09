@@ -22,6 +22,7 @@ CardDataBase="*res://Scene/MAIN/Scripts/Manager/card_database_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene/Scripts/player_deck_manager.gd"
 CardFactory="*res://Scene/Battle_Scene/Scripts/card_factory.gd"
 EffectManager="*res://Scene/Battle_Scene/Scripts/effect_manager.gd"
+MechanicDatabaseManager="*res://Scene/MAIN/Scripts/Manager/enemymechanic_database_manager.gd"
 
 [input]
 

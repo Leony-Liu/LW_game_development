@@ -56,12 +56,7 @@ func load_csv_data(file_path: String):
 					card_info[header_name] = cell_value
 					
 					
-				# CSV 读进来的全部是字符串 (String)
-				# 逻辑：如果是纯数字字符串，自动转换回整数 (int)
-				if cell_value.is_valid_int():
-					card_info[header_name] = cell_value.to_int()
-				else:
-					card_info[header_name] = cell_value
+				
 		
 		# 3. 使用卡牌的 "id" 作为主键存入 database 字典
 		if card_info.has("id"):

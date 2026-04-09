@@ -9,5 +9,5 @@ func init_mechanic(host_enemy: Node):
 	
 	if combat_data:
 		# 强行修改敌人的面板数据！
-		combat_data.enermy_defense += 50
-		print("⚡ 机制 [坚硬甲壳] 已生效：宿主防御力永久 +50！当前防御：", combat_data.enermy_defense)
+		combat_data.enemy_defense += 50
+		print("⚡ 机制 [坚硬甲壳] 已生效：宿主防御力永久 +50！当前防御：", combat_data.enemy_defense)

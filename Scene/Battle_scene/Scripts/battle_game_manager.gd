@@ -63,9 +63,13 @@ func can_play_card(card_data: Dictionary) -> bool:
 		if current_enemy == null:
 			return false
 			
-		# 直接判定当前擂主的状态
-		var enemy_state = current_enemy.get_node("StateMachine").current_state.name
-		if enemy_state in ["Burrowed", "Invincible"]: 
-			return false
-			
+		# 【防弹代码】：安全地获取状态机
+		var sm = current_enemy.get_node_or_null("StateMachine")
+		
+		# 安全判定：节点存在 -> 身上有 current_state 属性 -> 且该属性不为空
+		if sm and "current_state" in sm and sm.current_state != null:
+			var enemy_state = sm.current_state.name
+			if enemy_state in ["Burrowed", "Invincible"]: 
+				return false
+				
 	return true
