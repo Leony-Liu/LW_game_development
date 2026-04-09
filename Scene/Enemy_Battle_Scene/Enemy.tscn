@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ci2n0jrhben06"]
+[gd_scene load_steps=5 format=3 uid="uid://ci2n0jrhben06"]
 
 [ext_resource type="Script" uid="uid://doi0ub4lh28op" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_manager.gd" id="1_b5lmm"]
 [ext_resource type="Script" uid="uid://bj0xedtqwge5m" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_combat_data.gd" id="2_1ul8j"]
+[ext_resource type="Script" uid="uid://d2yvk53x3vhs1" path="res://scene/Enemy_Battle_Scene/Scripts/enemy_calculator.gd" id="3_jrf23"]
+[ext_resource type="Script" uid="uid://bxc1q8qsd0vsp" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_ai_brain.gd" id="4_rkcga"]
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_b5lmm")
@@ -17,6 +19,9 @@ script = ExtResource("1_b5lmm")
 [node name="CombatData" type="Node" parent="Data"]
 script = ExtResource("2_1ul8j")
 
+[node name="Calculator" type="Node" parent="Data"]
+script = ExtResource("3_jrf23")
+
 [node name="StateMachine" type="Node" parent="."]
 
 [node name="Idle" type="Node" parent="StateMachine"]
@@ -28,3 +33,6 @@ script = ExtResource("2_1ul8j")
 [node name="Hurt" type="Node" parent="StateMachine"]
 
 [node name="Controled" type="Node" parent="StateMachine"]
+
+[node name="EnemyAIBrain" type="Node" parent="."]
+script = ExtResource("4_rkcga")

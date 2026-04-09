@@ -6,20 +6,22 @@ IGNORE_DIRS = {
     '.godot',      # Godot 4 缓存
     '.git',        # Git 记录
     'addons',      # 第三方插件（除非你想让我看插件源码）
-    'Art',         # 美术素材文件夹 (根据你的截图猜测)
+    'Art',         # 美术素材文件夹
     'Export'       # 导出文件夹
 }
 
 # 你希望提取内容的文件类型
-# 强烈建议只保留 .gd，因为 .tscn 场景文件里充满了杂乱的坐标数据，会严重干扰 AI 视线
 ALLOWED_EXTENSIONS = {'.gd'} 
 
-# 输出文件名
-OUTPUT_FILE = "项目结构.txt"
+# 【专属定制】：直接使用你指定的绝对路径 (前缀 r 表示原生字符串，防止 \ 被转义)
+desktop_path = r"D:\桌面"
+
+# 输出文件将直接保存在桌面上
+OUTPUT_FILE = os.path.join(desktop_path, "项目结构.txt")
 # =========================================
 
 def generate_context():
-    # 自动获取脚本自己所在的绝对路径（即你的 D 盘项目根目录）
+    # 自动获取脚本自己所在的绝对路径（即你的项目根目录）
     project_root = os.path.dirname(os.path.abspath(__file__))
     
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
@@ -78,7 +80,7 @@ def generate_context():
                         outfile.write(f"[无法读取文件内容: {e}]\n")
 
     print(f"✅ 提取完成！共提取了 {script_count} 个脚本。")
-    print(f"📄 请查看当前目录下的 {OUTPUT_FILE} 文件。")
+    print(f"📄 文件已成功保存到您的桌面: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     generate_context()

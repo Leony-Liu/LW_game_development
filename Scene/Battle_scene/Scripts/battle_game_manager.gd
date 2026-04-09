@@ -3,56 +3,69 @@ class_name BattleGameManager
 
 
 @onready var player_manager = $Player
+@onready var enemy_slot = $EnemySlot
 
-# 记录当前玩家锁定的敌人
-var current_target_enemy: Node = null 
+var current_enemy: Node = null # 当前敌人
 
 func _ready() -> void:
 	
 	EventBus.card_played.connect(_on_card_played)# 接收出牌信号
 	EventBus.player_dealt_damage.connect(_on_player_dealt_damage)# 接收计算完的总伤害
+	
+	_register_current_enemy()
+
+# 登记敌人列表的第一个敌人
+func _register_current_enemy():
+	if enemy_slot.get_child_count() > 0:
+		current_enemy = enemy_slot.get_child(0)
+		print("战斗裁判：已登记当前擂主 -> ", current_enemy.name)
+	else:
+		current_enemy = null
+		
+
+# 卡牌拦截
+func _on_card_played(card_data: Dictionary, card_node: Control) -> void:
+	
+	# 1. 外部裁判判定（比如敌人钻地了，或者没敌人）
+	if not can_play_card(card_data):
+		print("战斗裁判：拦截！目标无效或处于特殊状态。")
+		# 呼叫总线，让 UI 卡牌变红抖动
+		EventBus.card_rejected.emit(card_node)
+		return
+		
+	# 2. 内部状态判定（向下命令玩家出牌）
+	if player_manager.execute_card(card_data):
+		print("战斗裁判：允许出牌！")
+		# 既然牌都成功打出了，直接在画面上销毁这张牌
+		card_node.queue_free() 
+	else:
+		print("战斗裁判：拦截！玩家处于硬直或非Idle状态，无法出牌。")
+		# 同样打回去报错
+		EventBus.card_rejected.emit(card_node)
 
 # 接收玩家伤害，并转发给当前敌人
+# 在 battle_game_manager.gd 中
+
 func _on_player_dealt_damage(payload: Dictionary) -> void:
-	# 确保当前有敌人
-	if current_target_enemy != null:
-		print("战斗管理器：收到玩家伤害包，正在路由给当前敌人...")
+	# 只要擂台上有人，且他身上有 take_damage 这个方法
+	if current_enemy and current_enemy.has_method("take_damage"):
+		print("战斗裁判：收到玩家伤害包，直接路由给当前擂主...")
 		
-		# 假设敌人的根节点下有个 EnemyManager 来处理挨打逻辑
-		# (根据你的节点结构，调用敌人身上对应的方法)
-		if current_target_enemy.has_node("EnemyManager"):
-			current_target_enemy.get_node("EnemyManager").take_damage(payload)
+		# 直接调用根节点上的方法！水管连接到了极致的通畅！
+		current_enemy.take_damage(payload)
 	else:
-		print("战斗管理器：伤害打空了！当前场上没有敌人。")
+		print("战斗裁判：伤害打空了！")
 		
 		
 # 卡牌拦截逻辑
-func _on_card_played(card_data: Dictionary) -> void:
-	# 先进行外部规则验证
-	if not can_play_card(card_data, current_target_enemy):
-		print("战斗管理器：拦截！目标无效或处于特殊状态。")
-		
-		return
-		
-	# 外部规则通过，向下“命令”玩家去执行出牌
-	if player_manager.execute_card(card_data):
-		print("战斗管理器：允许出牌，玩家动作已执行。")
-	else:
-		print("战斗管理器：拦截！玩家处于硬直或非Idle状态，无法出牌。")
-		# 通知UI把卡牌退回
-
-
-# 裁判规则库 
-func can_play_card(card_data: Dictionary, target: Node) -> bool:
-	# 基础规则示例：如果这张牌是攻击牌，但场上没有敌人，则不能打出
+func can_play_card(card_data: Dictionary) -> bool:
 	if card_data.has("categories") and card_data["categories"] == "attack":
-		if target == null:
-			print("战斗管理器：没有可攻击的目标！")
+		if current_enemy == null:
 			return false
 			
-		# 这里可以读取敌人的状态机，判断敌人是不是处于 "无敌" / "飞行" 状态
-		# var enemy_state = target.get_node("StateMachine").current_state.name
-		# if enemy_state == "Invincible": return false
-		
-	# 所有条件通过，放行
+		# 直接判定当前擂主的状态
+		var enemy_state = current_enemy.get_node("StateMachine").current_state.name
+		if enemy_state in ["Burrowed", "Invincible"]: 
+			return false
+			
 	return true

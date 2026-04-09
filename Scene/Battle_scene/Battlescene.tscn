@@ -17,7 +17,9 @@ script = ExtResource("1_ebhhr")
 
 [node name="Player" parent="." instance=ExtResource("2_noken")]
 
-[node name="Enemy" parent="." instance=ExtResource("3_mvvqq")]
+[node name="EnemySlot" type="Node" parent="."]
+
+[node name="Enemy" parent="EnemySlot" instance=ExtResource("3_mvvqq")]
 
 [node name="UIManager" type="CanvasLayer" parent="."]
 script = ExtResource("3_nr23r")
