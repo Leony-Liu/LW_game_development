@@ -67,9 +67,8 @@ func transition_to( target_state_name: String , msg : Dictionary={} ) -> void:
 # 接收卡牌信号后判断状态并传数据给idle
 func handle_card_played(card_data:Dictionary)->bool:
 	if current_state.name == "Idle":
-		current_state.handle_card_played(card_data)
-		print("状态交换机：成功传输数据到idle")
-		return true
+		
+		return current_state.handle_card_played(card_data)
 	else:
-		print("状态交换机：当前状态不能出牌")
+		print("状态交换机：当前处于 %s 状态，不能出牌" % current_state.name)
 		return false

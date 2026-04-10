@@ -10,9 +10,11 @@ var current_enemy: Node = null # 当前敌人
 func _ready() -> void:
 	
 	EventBus.card_played.connect(_on_card_played)# 接收出牌信号
-	EventBus.player_dealt_damage.connect(_on_player_dealt_damage)# 接收计算完的总伤害
+	EventBus.player_dealt_damage.connect(_on_player_dealt_damage)# 接收玩家总伤害
+	EventBus.enemy_dealt_damage.connect(_on_enemy_dealt_damage)
 	
 	_register_current_enemy()
+
 
 # 登记敌人列表的第一个敌人
 func _register_current_enemy():
@@ -22,6 +24,7 @@ func _register_current_enemy():
 	else:
 		current_enemy = null
 		
+
 
 # 卡牌拦截
 func _on_card_played(card_data: Dictionary, card_node: Control) -> void:
@@ -43,9 +46,8 @@ func _on_card_played(card_data: Dictionary, card_node: Control) -> void:
 		# 同样打回去报错
 		EventBus.card_rejected.emit(card_node)
 
-# 接收玩家伤害，并转发给当前敌人
-# 在 battle_game_manager.gd 中
 
+# 接收玩家伤害，并转发给当前敌人
 func _on_player_dealt_damage(payload: Dictionary) -> void:
 	# 只要擂台上有人，且他身上有 take_damage 这个方法
 	if current_enemy and current_enemy.has_method("take_damage"):
@@ -56,7 +58,8 @@ func _on_player_dealt_damage(payload: Dictionary) -> void:
 	else:
 		print("战斗裁判：伤害打空了！")
 		
-		
+
+
 # 卡牌拦截逻辑
 func can_play_card(card_data: Dictionary) -> bool:
 	if card_data.has("categories") and card_data["categories"] == "attack":
@@ -73,3 +76,11 @@ func can_play_card(card_data: Dictionary) -> bool:
 				return false
 				
 	return true
+
+# 接收玩家伤害，并转发给当前敌人
+func _on_enemy_dealt_damage(payload: Dictionary) -> void:
+	if player_manager and player_manager.has_node("Data/CombatData"):
+		print("战斗裁判：收到敌人攻击包，路由给玩家...")
+		var p_combat_data = player_manager.get_node("Data/CombatData")
+		# 解析伤害并扣血
+		p_combat_data.get_hit(payload["damage"], payload["source"].name)

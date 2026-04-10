@@ -1,14 +1,17 @@
 extends Node
 class_name EnemyManager
 
+
 # 在场景里暴露给策划或地牢生成器配置
 @export var enemy_tier: int = 1 
 @export var mechanic_count: int = 2 # 这个怪身上要插几个机制芯片？
+
 
 @onready var combat_data: EnemyCombatData = $Data/CombatData
 @onready var calculator: EnemyCalculator = $Data/Calculator
 @onready var state_machine = $StateMachine
 @onready var ai_brain = $EnemyAIBrain
+
 
 func _ready() -> void:
 	print("====== 敌人装配开始 ======")
@@ -24,7 +27,7 @@ func _ready() -> void:
 		print("注意：该敌人没有抽到任何机制。")
 		
 	print("==========================")
-	
+
 
 # 接收玩家的伤害
 func take_damage(payload: Dictionary) -> void:

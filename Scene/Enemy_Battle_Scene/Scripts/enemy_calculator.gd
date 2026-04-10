@@ -14,5 +14,6 @@ func calculate_incoming_damage(incoming_dmg: int) -> int:
 	return real_damage
 
 # 攻击增益计算
-func calculate_outgoing_damage():
-	pass
+func calculate_outgoing_damage() -> int:
+	# 目前MVP阶段直接返回基础攻击力。后续可在这里加 Buff 倍率
+	return combat_data.enemy_damage

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://7cdujhisinjp"]
+[gd_scene load_steps=18 format=3 uid="uid://7cdujhisinjp"]
 
 [ext_resource type="Script" uid="uid://dc3aq3o1f6s2u" path="res://Scene/Player_Battle_Scene/Scripts/player_manager.gd" id="1_oh5ij"]
 [ext_resource type="Texture2D" uid="uid://d0jtbxuwxm26l" path="res://Scene/Player_Battle_Scene/Test_Character/Idle/Idle-Sheet.png" id="2_g2vtq"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://ctrd8f5wst0wd" path="res://Scene/Player_Battle_Scene/Scripts/player_idle.gd" id="8_g2vtq"]
 [ext_resource type="Script" uid="uid://hr0cvf4bbtrc" path="res://Scene/Player_Battle_Scene/Scripts/player_skill.gd" id="9_2fvbb"]
 [ext_resource type="Script" uid="uid://b57bb2as301b1" path="res://Scene/Player_Battle_Scene/Scripts/player_attack.gd" id="9_ml7e8"]
+[ext_resource type="Script" uid="uid://b44kh2qs37ufc" path="res://Scene/Player_Battle_Scene/player_parry.gd" id="10_0i6mq"]
 
 [sub_resource type="Animation" id="Animation_fvtld"]
 length = 0.001
@@ -235,6 +236,7 @@ initial_state = NodePath("Idle")
 script = ExtResource("8_g2vtq")
 
 [node name="Parry" type="Node" parent="StateMachine"]
+script = ExtResource("10_0i6mq")
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("9_ml7e8")
