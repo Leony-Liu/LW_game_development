@@ -1,8 +1,8 @@
-# 定义：基础卡牌
-# 作用：
-# A.拿着ID去数据库认领自己
-# B.点击后执行的部分
-# C.执行通用逻辑
+# card_base
+#
+# 身份领取
+# 出牌后发送自身数据
+# 视觉表现：接收报错与动画
 
 extends Control
 
@@ -12,12 +12,13 @@ var card_data:Dictionary# 卡牌数据存储
 
 func _ready():
 	_fetch_data_from_database()
-	
-	# 【新增】：初始化时，竖起耳朵听有没有自己被退回的消息
+	# 初始化时，监听自己是否被退回
 	EventBus.card_rejected.connect(_on_card_rejected)
 	
 	
-# A.拿到ID后去数据库找自己
+# ==========================================
+# 身份领取
+# ==========================================
 func _fetch_data_from_database():
 	# 1.失败检测
 	if card_id == 0:
@@ -29,7 +30,10 @@ func _fetch_data_from_database():
 	print("基础卡牌：成功获取数据 -> ", card_data.get("name", "未知卡牌"))
 	
 	
-# B.当卡牌被点击后执行：发送信号及该卡牌数据
+# ==========================================
+# 出牌后发送自身数据
+# ==========================================
+
 func _on_button_pressed():
 	print("基础卡牌：玩家点击了卡牌！发送请求...")
 	# 【修复关键】：不仅发数据，还要把实体(self)一起发过去！
@@ -37,14 +41,14 @@ func _on_button_pressed():
 
 
 # ==========================================
-# C. 视觉表现：接收报错与动画
+# 视觉表现：接收报错与动画
 # ==========================================
 
 # 监听到任何卡牌被退回时触发
 func _on_card_rejected(target_node: Control):
 	# 核心：看看裁判退回的到底是不是我自己？
-	#if target_node == self:
-		#play_error_shake()
+	if target_node == self:
+		play_error_shake()
 		pass
 
 # 播放报错动画（变红 + 左右抖动）

@@ -5,13 +5,13 @@
 [ext_resource type="Texture2D" uid="uid://0grjwsuwe8hh" path="res://Scene/Player_Battle_Scene/Test_Character/Attack-01/Attack-01-Sheet.png" id="3_2fvbb"]
 [ext_resource type="Texture2D" uid="uid://buakd7108ck41" path="res://Scene/Player_Battle_Scene/Test_Character/Dead/Dead-Sheet.png" id="4_ml7e8"]
 [ext_resource type="Script" uid="uid://b528jlmvg0rlj" path="res://Scene/Player_Battle_Scene/Scripts/player_combat_data.gd" id="5_hp4bs"]
-[ext_resource type="Script" uid="uid://ct5b3aa1o5wkd" path="res://Scene/Player_Battle_Scene/Scripts/combat_conculator.gd" id="6_6ltmb"]
+[ext_resource type="Script" uid="uid://ct5b3aa1o5wkd" path="res://Scene/Player_Battle_Scene/Scripts/player_combat_calculator.gd" id="6_6ltmb"]
 [ext_resource type="Script" uid="uid://5oeeixovhf8f" path="res://Scene/Player_Battle_Scene/Scripts/player_statemachine.gd" id="6_g2vtq"]
 [ext_resource type="Script" uid="uid://b5j5ycl1keg03" path="res://Scene/Player_Battle_Scene/Scripts/player_inventory.gd" id="7_2ji22"]
 [ext_resource type="Script" uid="uid://ctrd8f5wst0wd" path="res://Scene/Player_Battle_Scene/Scripts/player_idle.gd" id="8_g2vtq"]
 [ext_resource type="Script" uid="uid://hr0cvf4bbtrc" path="res://Scene/Player_Battle_Scene/Scripts/player_skill.gd" id="9_2fvbb"]
 [ext_resource type="Script" uid="uid://b57bb2as301b1" path="res://Scene/Player_Battle_Scene/Scripts/player_attack.gd" id="9_ml7e8"]
-[ext_resource type="Script" uid="uid://b44kh2qs37ufc" path="res://Scene/Player_Battle_Scene/player_parry.gd" id="10_0i6mq"]
+[ext_resource type="Script" uid="uid://b44kh2qs37ufc" path="res://Scene/Player_Battle_Scene/Scripts/player_parry.gd" id="10_0i6mq"]
 
 [sub_resource type="Animation" id="Animation_fvtld"]
 length = 0.001

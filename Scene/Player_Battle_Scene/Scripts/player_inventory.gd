@@ -1,12 +1,19 @@
+# player_inventory
+#
+# 定义装备字典
+# 装备升级与增益汇总
+# 死亡惩罚与重置
+
 extends Node
 class_name PlayerInventory
 
 # ==========================================
-# 核心数据：装备与背包
+# 数据部分
 # ==========================================
+
+# 玩家装备字典
 var equipment: Dictionary = {
-	# 5个固定部位：直接追踪它们的“强化状态”和“精炼词条”
-	# 初始设定为 1 级（0级代表死亡后失去加成/未激活）
+	# 5个固定部位：等级、强化词条（初始等级和词条都为空）
 	"helmet": {"level": 0, "affixes": []}, 
 	"chest":  {"level": 0, "affixes": []}, 
 	"legs":   {"level": 0, "affixes": []}, 
@@ -21,26 +28,30 @@ var equipment: Dictionary = {
 var backpack: Array = []
 
 
-
 func _ready() -> void:
-	EventBus.player_died.connect(reset_equipment_on_death)# 接收到玩家死亡信号后清理装备等级
+	# 接收到玩家死亡信号后执行清理装备的方法
+	EventBus.player_died.connect(reset_equipment_on_death)
 
 # ==========================================
-# 系统 A：装备升级与增益汇总 (核心公式驱动)
+# 装备升级与增益汇总
 # ==========================================
 
-# 升级指定部位的装备
+# 1. 升级指定部位的装备
 func upgrade_equipment(slot_name: String) -> void:
+	# 先筛选装备名称不是“饰品”的装备
 	if equipment.has(slot_name) and slot_name != "accessories":
-		# 假设满级是 5 级
+		# 若未满级（5级）
 		if equipment[slot_name]["level"] < 5:
+			# 装备等级+1
 			equipment[slot_name]["level"] += 1
 			print("背包系统：", slot_name, " 升级成功！当前等级：", equipment[slot_name]["level"])
 		else:
+			# 已满级
 			print("背包系统：", slot_name, " 已达到最高等级(5级)！")
 
-# 【核心接口】：给 Calculator 和 CombatData 提供的一键汇总面板
+# 2. 汇总装备增益（给 Calculator 和 CombatData 提供的汇总面板）
 func get_total_equipment_stats() -> Dictionary:
+	# 创建基础增益统计字典
 	var stats: Dictionary = {
 		"defense_bonus_percent": 0.0,  # 额外防御力百分比 (0.0 = 0%)
 		"max_hp_multiplier": 1.0,      # 最大生命值倍率 (1.0 = 原始生命)
@@ -50,19 +61,15 @@ func get_total_equipment_stats() -> Dictionary:
 		"mana_regen_bonus": 0.0,       # 额外能量恢复值
 		"poise_bonus": 0.0             # 额外韧性上限
 	}
-	
+	# 依次检查玩家装备字典内的各个部位等级
 	var slots = ["helmet", "chest", "legs", "gloves", "shoes"]
-	
 	for slot in slots:
 		var level = equipment[slot]["level"]
-		
 		# 0级没有任何效果，直接跳过计算
 		if level == 0:
 			continue
-			
-		# 全局基础属性：只要有等级，每级提供 2% 的防御力加成
+		# 只要有等级，每级提供 2% 的防御力加成
 		stats["defense_bonus_percent"] += level * 0.02
-		
 		# 部位专属属性：根据不同部位，给予特化增益
 		match slot:
 			# 胸甲（每级增加20%生命值倍率，最高100%）
@@ -71,13 +78,13 @@ func get_total_equipment_stats() -> Dictionary:
 			# 手套（每级增加10%伤害加成，最高50%）
 			"gloves":
 				stats["attack_multiplier"] += level * 0.10
-			# 腿甲（每级增加体力恢复）
+			# TODO 腿甲（每级增加体力恢复）！！！暂时数值不合理
 			"legs":
 				stats["stamina_regen_bonus"] += level * 5.0
-			# 头盔（每级增加能力恢复）
+			# TODO 头盔（每级增加能力恢复）！！！暂时数值不合理
 			"helmet":
 				stats["mana_regen_bonus"] += level * 2.0
-			# 鞋子（韧性增加）
+			# TODO 鞋子（韧性增加）！！！ 韧性系统未制作
 			"shoes":
 				stats["poise_bonus"] += level * 10.0
 				
@@ -85,7 +92,7 @@ func get_total_equipment_stats() -> Dictionary:
 
 
 # ==========================================
-# 系统 B：精炼词条逻辑 (占位测试版)
+# 精炼词条逻辑 (占位测试版)
 # ==========================================
 #
 ## 给指定部位精炼出一个固定词条（未来接入 CSV 随机库）
@@ -101,7 +108,7 @@ func get_total_equipment_stats() -> Dictionary:
 #
 
 # ==========================================
-# 系统 C：饰品穿脱逻辑
+# 饰品穿脱逻辑
 # ==========================================
 #
 ## 装备饰品 (尝试放入 0, 1, 2 槽位中空闲的那个)
@@ -118,19 +125,18 @@ func get_total_equipment_stats() -> Dictionary:
 #
 
 # ==========================================
-# 系统 D：死亡惩罚与重置
+# 死亡惩罚与重置
 # ==========================================
 
-# 这个方法应该由 EventBus 的 player_died 信号触发调用
+# 1. 死亡清空饰品栏及装备等级和精炼
 func reset_equipment_on_death() -> void:
 	print("背包系统：执行死亡惩罚！装备强化归零，饰品及背包物资丢失。")
-	
 	for slot in equipment:
 		if slot == "accessories":
-			# 爆出身上携带的饰品
+			# 清空饰品
 			equipment[slot] = [null, null, null]
 		else:
-			# 基础五件套降回 0 级，清空精炼
+			# 清空装备等级与精炼词条
 			equipment[slot]["level"] = 0
 			equipment[slot]["affixes"].clear()
 			
