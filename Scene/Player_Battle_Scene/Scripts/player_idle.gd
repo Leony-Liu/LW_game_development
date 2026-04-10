@@ -12,7 +12,7 @@ func update(delta: float) -> void:
 	host.get_node("Data/CombatData").mana_recovery(delta)
 
 
-# 假设玩家打出了一张牌，UI 把信号传给了主角，主角转发给当前状态
+# 出牌后切换状态
 func handle_card_played(card_data: Dictionary) -> void:
 	# 根据卡牌类型，决定去哪个状态
 	if card_data["categories"] == "attack":

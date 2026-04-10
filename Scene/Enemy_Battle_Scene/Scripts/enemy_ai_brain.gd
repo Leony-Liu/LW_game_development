@@ -15,7 +15,7 @@ const MECHANICS_BASE_DIR = "res://Scene/Enemy_Battle_Scene/Scripts/EnemyMechanic
 var active_mechanics: Array[Node] = []
 
 
-# 装配车间入口：接收从外部（CSV 或 测试代码）传来的机制名字列表
+# 敌人生成：接收从外部（CSV 或 测试代码）传来的机制名字列表
 func initialize(mechanic_names: Array[String]):
 	for mech_name in mechanic_names:
 		# 动态拼接出绝对路径
@@ -35,6 +35,6 @@ func initialize(mechanic_names: Array[String]):
 				mech_node.init_mechanic(owner) # owner 就是最顶层的 Enemy 根节点
 				
 		else:
-			push_error("AI大脑装配失败：找不到脚本 -> " + full_path)
+			push_error("敌人AI大脑装配失败：找不到脚本 -> " + full_path)
 			
-	print(" AI大脑：装配完毕！当前携带机制数量：", active_mechanics.size())
+	print(" 敌人AI大脑：装配完毕！当前携带机制数量：", active_mechanics.size())

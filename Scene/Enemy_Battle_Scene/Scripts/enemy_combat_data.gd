@@ -7,9 +7,11 @@ class_name EnemyCombatData
 
 # —————— 1. 基础面板（裸装属性） ——————
 @export var enemy_hp: int = 100 # 基础生命
+@export var enemy_damage: int = 10 # 基础攻击
+
 @export var enemy_defense: int = 0 # 基础防御值（固定数值）
 @export var enemy_reduction: int = 0 # 基础防御力（百分比）
-
+@export var enemy_poise: int = 100 # 基础韧性值
 
 @export var physical_damage_multiplier: int = 0 # 物理伤害倍率
 @export var magical_damage_multiplier: int = 0 # 物理伤害倍率

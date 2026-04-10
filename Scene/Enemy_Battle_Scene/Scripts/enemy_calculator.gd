@@ -3,7 +3,7 @@ class_name EnemyCalculator
 
 @onready var combat_data: EnemyCombatData = $"../CombatData"
 
-# 专门计算敌人挨打时，扣除防御后的【真实承受伤害】
+# 受伤减免计算
 func calculate_incoming_damage(incoming_dmg: int) -> int:
 	# 极简防御公式：传入伤害 - 敌人防御力
 	var real_damage = incoming_dmg - combat_data.enemy_defense
@@ -13,4 +13,6 @@ func calculate_incoming_damage(incoming_dmg: int) -> int:
 	
 	return real_damage
 
-# 以后如果敌人要打玩家，在这里写 calculate_outgoing_damage()
+# 攻击增益计算
+func calculate_outgoing_damage():
+	pass
