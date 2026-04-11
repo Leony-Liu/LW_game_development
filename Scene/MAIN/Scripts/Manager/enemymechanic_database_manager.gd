@@ -1,12 +1,18 @@
-extends Node
 # MechanicDatabaseManager (自动加载单例)
+#
+# 加载数据库
+# 提供一个机制抽取方法
+
+extends Node
 
 var database: Dictionary = {}
 
 func _ready():
 	load_csv_data("res://DataBase/EnemyMechanicsData.csv")
 
+# ==========================================
 # 数据库加载
+# ==========================================
 func load_csv_data(file_path: String):
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	if not file:
@@ -37,8 +43,9 @@ func load_csv_data(file_path: String):
 	print("机制数据库加载完成，共 %d 个机制。" % database.size())
 
 # ==========================================
-# 机制抽取算法：根据怪物的等级 Tier，抽出对应等级的机制池
+# 机制抽取算法
 # ==========================================
+# 抽取算法（输入：敌人等级、机制数量）
 func roll_mechanics_for_tier(enemy_tier: int, count: int) -> Array[String]:
 	var valid_mechanics: Array[String] = []
 	var selected_mechanics: Array[String] = []

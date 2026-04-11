@@ -1,17 +1,19 @@
+# player_statemachine
+#
+# 状态交换机通用部分
+# 接收卡牌信号后判断状态并传数据给idle
+
 extends Node
 class_name StateMachine
 
-
-# 导出一个变量，方便在编辑器里直接把默认状态（比如 Idle 节点）拖进来
+# ———————————————— ↓ 状态交换机通用部分 ↓ ————————————————
+# 在检查器中绑定初始状态
 @export var initial_state: State
-
 # 记录当前正在运行的状态
 var current_state: State
-# 字典：用来存放所有子状态的引用，格式为 {"Idle": Idle节点实例, "Attack": Attack节点实例}
+# 字典：用来存放所有子状态的引用
+# 格式为 {"Idle": Idle节点实例, "Attack": Attack节点实例}
 var states: Dictionary = {}
-
-
-# ———————————————— ↓ 状态交换机通用部分 ↓ ————————————————
 # 遍历状态子节点保存进字典并将根节点传入
 func _ready() -> void:
 	
@@ -67,9 +69,10 @@ func transition_to( target_state_name: String , msg : Dictionary={} ) -> void:
 # 接收卡牌信号后判断状态并传数据给idle
 func handle_card_played(card_data:Dictionary)->bool:
 	if current_state.name == "Idle":
-		current_state.handle_card_played(card_data)
-		print("状态交换机：成功传输数据到idle")
-		return true
+		# ↓ 这里的handle_card_played方法是可以放到各个状态的
+		# 目的是切换状态不用切换方法名
+		# 作用是处理当前手牌的数据
+		return current_state.handle_card_played(card_data)
 	else:
-		print("状态交换机：当前状态不能出牌")
+		print("状态交换机：当前处于 %s 状态，不能出牌" % current_state.name)
 		return false

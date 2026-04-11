@@ -1,22 +1,20 @@
-# 定义：玩家管理器（单例）
-# 作用：
-#
+# player_manager
+# 
+# 玩家卡牌入口
 
 extends Node
 
-
+# 绑定玩家数据与状态系统
 @onready var combat_data = $Data/CombatData
 @onready var state_machine = $StateMachine
 
 
-
-
-# 将出牌信号传给状态交换机
+# 玩家系统卡牌入口：出牌状态反馈
 func execute_card(card_data: Dictionary) -> bool:
 	if state_machine.handle_card_played(card_data):
-		print("玩家管理器：成功出牌")
+		print("玩家管理器：出牌成功")
 		return true
 	else:
-		print("玩家管理器：当前状态不可出牌")
+		print("玩家管理器：出牌失败")
 		return false
 	

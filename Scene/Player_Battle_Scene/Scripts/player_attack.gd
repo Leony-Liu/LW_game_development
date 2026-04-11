@@ -1,27 +1,33 @@
+# player_attack
+#
+# 接收数据并输出
+
+
 extends State
 
 var card_data: Dictionary
 
+# ==========================================
+# 接收数据并输出
+# ==========================================
+# 1. 接收后攻击流程启动
 func enter(msg: Dictionary = {}) -> void:
+	# 接收卡牌数据
 	if msg.has("card"):
 		card_data = msg["card"]
-	
 	print("Attack-玩家状态：开始播放攻击状态")
 	host.get_node("Visuals/AnimationPlayer").play("player_attack")
-	
-	# 【临时逻辑】：因为现在没有动画事件，我们用代码延迟 0.5 秒，模拟“刀砍到敌人身上”的那一帧
+	# TODO【临时逻辑】：因为现在没有动画事件，我们用代码延迟 0.5 秒，模拟“刀砍到敌人身上”的那一帧
 	await get_tree().create_timer(0.5).timeout
-	
 	# 执行伤害结算
 	_execute_damage()
-	
 	# 打完之后，自动切回待机状态
 	get_parent().transition_to("Idle")
 
-
+# 2. 打包伤害
 func _execute_damage() -> void:
 	# 1. 从卡牌数据里拿出“基础伤害”（这里加了个容错，如果没有 base_damage 字段默认给 10）
-	var base_dmg = card_data.get("base_damage", 10) 
+	var base_dmg = card_data.get("damage", 10) 
 	
 	# 2. 呼叫计算器，算出加上装备增益后的最终真实伤害
 	var calculator = host.get_node("Data/Calculator")
@@ -33,8 +39,6 @@ func _execute_damage() -> void:
 		"source": host,            # 是谁打出的伤害
 		"type": "physical"         # 伤害类型（物理/魔法/真实）
 	}
-	
 	print("Attack-玩家状态：计算完毕，发出伤害数据 -> ", payload)
-	
 	# 4. 把伤害包丢进信号管道
 	EventBus.player_dealt_damage.emit(payload)

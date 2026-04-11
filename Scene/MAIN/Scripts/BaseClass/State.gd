@@ -2,30 +2,27 @@
 # 
 #作用：
 
-
 class_name State extends Node
 
-# 存储根节点的引用，方便我们在状态里调用玩家的方法或数据
+# 当前场景的根节点
 var host: Node 
 
-
-
-# 状态进入时调用（比如：刚进入 Idle 状态时，播放待机动画）
+# 状态进入时调用一次
 func enter( msg :Dictionary = {}) -> void:
 	pass
-
-# 状态退出时调用（比如：离开 Idle 准备攻击时，清除某些变量）
+	
+# 状态退出时调用一次
 func exit() -> void:
 	pass
-
-# 每帧执行的逻辑（替代 _process）
+	
+# 每帧执行的逻辑（电脑卡跟着卡）
 func update(delta: float) -> void:
 	pass
 
-# 物理帧执行的逻辑（替代 _physics_process）
+# 物理帧执行的逻辑（电脑卡不影响）
 func physics_update(delta: float) -> void:
 	pass
-	
-# 专门用来接收玩家卡牌输入的逻辑
+
+# 仅在本状态下才会生效的玩家输入
 func handle_input(event: InputEvent) -> void:
 	pass

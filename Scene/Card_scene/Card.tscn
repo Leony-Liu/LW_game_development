@@ -57,7 +57,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TextureRect" type="TextureRect" parent="Visual"]
+[node name="CardBackground" type="TextureRect" parent="Visual"]
 layout_mode = 0
 offset_left = -72.0
 offset_top = -38.0
@@ -67,7 +67,12 @@ mouse_filter = 2
 texture = ExtResource("2_y7w7l")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Visual"]
+[node name="Illustration" type="TextureRect" parent="Visual"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CostLable" type="Label" parent="Visual"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0

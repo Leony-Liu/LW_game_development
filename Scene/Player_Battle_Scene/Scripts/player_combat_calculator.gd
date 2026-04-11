@@ -1,15 +1,24 @@
+# player_combat_calculator
+#
+# 计算所有玩家输出增益
+
 extends Node
 class_name PlayerCalculator
 
+#绑定同级节点
 @onready var data:PlayerCombatData = $"../CombatData"
 @onready var inventory:PlayerInventory = $"../Inventory"
 
 
-# 计算所有伤害增益效果
+# ==========================================
+# 计算所有玩家输出增益
+# ==========================================
+
+# 计算方法，返回最终伤害
 func calculate_outgoing_damage(base_damage: int, card_mult_bonus: float = 0.0) -> int:
 	
 	# 装备加成
-	var equip_stats = inventory.get_total_equipment_stats()
+	var equip_stats = inventory.get_total_equipment_stats() # 调用背包中计算装备加成的方法
 	var flat_atk = equip_stats["flat_attack_bonus"]# 装备-固定值
 	var equip_mult = equip_stats["equip_atk_mult_bonus"]# 装备-倍率
 	

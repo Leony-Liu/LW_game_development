@@ -1,8 +1,15 @@
+# enemy_calculator
+#
+# 伤害进出处理
+
 extends Node
 class_name EnemyCalculator
 
 @onready var combat_data: EnemyCombatData = $"../CombatData"
 
+# ==========================================
+# 伤害进出处理
+# ==========================================
 # 受伤减免计算
 func calculate_incoming_damage(incoming_dmg: int) -> int:
 	# 极简防御公式：传入伤害 - 敌人防御力
@@ -14,5 +21,6 @@ func calculate_incoming_damage(incoming_dmg: int) -> int:
 	return real_damage
 
 # 攻击增益计算
-func calculate_outgoing_damage():
-	pass
+func calculate_outgoing_damage() -> int:
+	# 目前MVP阶段直接返回基础攻击力。后续可在这里加 Buff 倍率
+	return combat_data.enemy_damage

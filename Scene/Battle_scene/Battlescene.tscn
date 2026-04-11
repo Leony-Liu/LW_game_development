@@ -1,14 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=6 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_scene/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_scene/Scripts/card_manager.gd" id="1_ygjx7"]
 [ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/player.tscn" id="2_noken"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Enemy_Battle_Scene/Enemy.tscn" id="3_mvvqq"]
 [ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_scene/Scripts/battle_ui_manager.gd" id="3_nr23r"]
-[ext_resource type="Script" uid="uid://dvumg1jhtff6l" path="res://Scene/Battle_scene/Scripts/player_deck_manager.gd" id="5_o0j1h"]
-[ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_scene/Scripts/card_factory.gd" id="6_mvvqq"]
-[ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scene/Battle_scene/Scripts/effect_manager.gd" id="7_oqqo5"]
-[ext_resource type="Script" uid="uid://c6668u5xgla8l" path="res://Scene/MAIN/Scripts/event_bus.gd" id="9_oqqo5"]
 
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_ebhhr")
@@ -16,6 +12,7 @@ script = ExtResource("1_ebhhr")
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_noken")]
+position = Vector2(170, 166)
 
 [node name="EnemySlot" type="Node" parent="."]
 
@@ -37,17 +34,7 @@ offset_bottom = 464.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UIManager/CardManager/CardUI"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PlayerDeck" type="Node" parent="UIManager/CardManager"]
-script = ExtResource("5_o0j1h")
-
-[node name="CardFactory" type="Node" parent="UIManager/CardManager"]
-script = ExtResource("6_mvvqq")
-
-[node name="EffectManager" type="Node" parent="UIManager/CardManager"]
-script = ExtResource("7_oqqo5")
-
-[node name="EventBus" type="Node" parent="."]
-script = ExtResource("9_oqqo5")
+offset_left = 384.0
+offset_top = 351.0
+offset_right = 424.0
+offset_bottom = 391.0

@@ -10,8 +10,10 @@ extends Node
 # 用于存放所有卡牌数据的字典。键(Key)是卡牌ID，值(Value)是卡牌具体信息的字典
 var database : Dictionary = {}
 
+
 func _ready():
 	load_csv_data("res://DataBase/AllCardData.csv")#调用方法并传入csv数据库地址
+
 
 # A.加载csv数据库的数据并打包
 func load_csv_data(file_path: String):
@@ -64,6 +66,7 @@ func load_csv_data(file_path: String):
 			database[card_id] = card_info
 		
 	print("数据库读取：卡牌数据库加载完成，共加载了 %d 张卡牌。" % database.size())
+
 
 # B.提供一个读取卡牌的方式
 func get_card(id: int) -> Dictionary:
