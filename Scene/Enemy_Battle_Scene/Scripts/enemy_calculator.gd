@@ -1,8 +1,15 @@
+# enemy_calculator
+#
+# 伤害进出处理
+
 extends Node
 class_name EnemyCalculator
 
 @onready var combat_data: EnemyCombatData = $"../CombatData"
 
+# ==========================================
+# 伤害进出处理
+# ==========================================
 # 受伤减免计算
 func calculate_incoming_damage(incoming_dmg: int) -> int:
 	# 极简防御公式：传入伤害 - 敌人防御力

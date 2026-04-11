@@ -1,15 +1,20 @@
+# enemy_idle
+#
+# TODO 模拟ai，一定时间后切换到攻击模式
+
 extends State
 
 var wait_timer: float = 0.0
 var target_wait_time: float = 2.0
 
+
 func enter(msg: Dictionary = {}) -> void:
 	wait_timer = 0.0
 	
-	# 从 AI 大脑获取发呆时间（战斗刚开始，或攻击结束后都会进入这里）
+	# TODO 暂定行动间隔生成
 	var ai_brain = host.get_node_or_null("EnemyAIBrain")
 	if ai_brain:
-		# 随机生成一个发呆时间，让敌人的行动具有不可预测性
+		# 随机生成行动间隔，让敌人的行动具有不可预测性
 		target_wait_time = randf_range(ai_brain.min_idle_time, ai_brain.max_idle_time)
 	else:
 		target_wait_time = 2.0
