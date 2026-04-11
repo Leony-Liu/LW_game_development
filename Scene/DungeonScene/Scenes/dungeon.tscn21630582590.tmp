@@ -616,7 +616,7 @@ sources/2 = SubResource("TileSetAtlasSource_aw6vt")
 [node name="Dungeon" type="Node2D"]
 y_sort_enabled = true
 
-[node name="TotalityManager" type="Node2D" parent="." node_paths=PackedStringArray("dungeon_logic", "obstatic_logic", "room_data_manager", "wall_set_logic", "test_tilemap")]
+[node name="TotalityManager" type="Node2D" parent="." node_paths=PackedStringArray("dungeon_logic", "obstatic_logic", "room_data_manager", "test_tilemap")]
 unique_name_in_owner = true
 script = ExtResource("1_6whob")
 MAP_DATA = ExtResource("2_8w3wl")
@@ -624,7 +624,6 @@ Wall_scene = ExtResource("3_6aska")
 dungeon_logic = NodePath("../DungeonLogic")
 obstatic_logic = NodePath("../ObstaticLogic")
 room_data_manager = NodePath("../RoomDataManager")
-wall_set_logic = NodePath("../WallSetLogic")
 test_tilemap = NodePath("../BasicTerrainLayer")
 
 [node name="RoomDataManager" type="Node2D" parent="."]
@@ -643,8 +642,7 @@ script = ExtResource("6_wjtap")
 obstaclemap = NodePath("../WallLayer")
 test_obstacle = Array[Resource]([ExtResource("9_prqi5"), ExtResource("7_chwn1")])
 
-[node name="WallSetLogic" type="Node2D" parent="." node_paths=PackedStringArray("wallLayer", "basicTerrainLayer")]
-unique_name_in_owner = true
+[node name="WallLogic" type="Node2D" parent="." node_paths=PackedStringArray("wallLayer", "basicTerrainLayer")]
 script = ExtResource("8_prqi5")
 wallLayer = NodePath("../WallLayer")
 basicTerrainLayer = NodePath("../BasicTerrainLayer")
@@ -655,3 +653,5 @@ tile_set = SubResource("TileSet_epypp")
 [node name="WallLayer" type="TileMapLayer" parent="."]
 y_sort_enabled = true
 tile_set = SubResource("TileSet_prqi5")
+
+[connection signal="WorldWall_change" from="WallLogic" to="TotalityManager" method="_on_wall_logic_world_wall_change"]

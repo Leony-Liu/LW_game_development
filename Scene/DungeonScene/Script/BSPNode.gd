@@ -1,8 +1,15 @@
 #BSP算法类
 #作用：分割地图、生成房间
 extends RefCounted
-
 class_name BSPNode
+
+enum  RoomType{
+	NONE = -1,
+	START = 0,
+	NORMAL = 1,
+	TREASURE = 2,
+	BOSS = 3
+}
 
 signal WorldRoom_change(new_room_occ: Dictionary)
 

@@ -1,13 +1,55 @@
-[gd_scene load_steps=6 format=3 uid="uid://cv36ihxkcgkjc"]
+[gd_scene load_steps=9 format=3 uid="uid://cv36ihxkcgkjc"]
 
 [ext_resource type="Texture2D" uid="uid://5nbijmly8la5" path="res://Scene/DungeonScene/Arts/Dungeon_Tiles.png" id="1_ig7pt"]
 [ext_resource type="Script" uid="uid://nhd6ptfwfo1e" path="res://Scene/DungeonScene/Script/Wall_shelter.gd" id="2_4ituk"]
+
+[sub_resource type="Shader" id="Shader_im8a8"]
+code = "shader_type canvas_item;
+
+// 接收全局的玩家位置
+uniform vec2 player_local_pos; 
+// 半径大小，可以在编辑器里调整
+uniform float radius = 100.0; 
+// 最小透明度
+uniform float min_alpha = 0.3;
+
+void fragment() {
+	// 直接获取当前像素在屏幕上的坐标
+    vec2 screen_pixel = FRAGCOORD.xy;
+	
+    // 这里的 VERTEX 是相对于物体左上角的像素坐标
+    // 距离就是：玩家相对于物体的位置 - 当前像素的位置
+    float dist = distance(VERTEX, player_local_pos);
+    vec4 tex = texture(TEXTURE, UV);
+    
+    // 如果距离小于半径，应用透明度
+    if (dist < radius) {
+        tex.a *= mix(min_alpha, 1.0, dist / radius);
+    }
+    
+    COLOR = tex;
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the material.
+//	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rl34v"]
+shader = SubResource("Shader_im8a8")
+shader_parameter/player_local_pos = Vector2(129.965, 107.085)
+shader_parameter/radius = 119.1
+shader_parameter/min_alpha = -0.19
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ei0g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4ituk"]
 texture = ExtResource("1_ig7pt")
 1:1/size_in_atlas = Vector2i(1, 2)
 1:1/0 = 0
 1:1/0/texture_origin = Vector2i(0, 8)
+1:1/0/material = SubResource("ShaderMaterial_4ei0g")
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_pn33w"]
@@ -19,9 +61,11 @@ sources/0 = SubResource("TileSetAtlasSource_4ituk")
 size = Vector2(16, 32)
 
 [node name="Wall" type="Node2D"]
+y_sort_enabled = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 y_sort_enabled = true
+material = SubResource("ShaderMaterial_rl34v")
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0)
 tile_set = SubResource("TileSet_pn33w")
 

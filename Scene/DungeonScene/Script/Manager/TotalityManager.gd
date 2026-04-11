@@ -35,7 +35,7 @@ func setup_and_generate(seed_value: int):
 	dungeon_logic.World_leaf_node_change.connect(_on_dungeon_logic_world_leaf_node_change)
 	dungeon_logic.WorldRoom_change.connect(_on_dungeon_logic_world_room_change)
 	dungeon_logic.WorldCorridor_change.connect(_on_dungeon_logic_world_corridor_change)
-	wall_set_logic.WorldWall_change.connect(_on_wall_set_logic_world_wall_change)
+	wall_set_logic.WorldWall_change.connect(_on_wall_logic_world_wall_change)
 	obstatic_logic.WorldObstacle_change.connect(_on_obstatic_node_world_obstacle_change)
 	obstatic_logic.WorldGap_change.connect(_on_obstatic_node_world_gap_change)
 	
@@ -79,12 +79,6 @@ func _on_dungeon_logic_world_room_change(new_room_occ: Dictionary) -> void:
 			World_room[room] = true
 
 
-func _on_wall_set_logic_world_wall_change(new_wall_occ: Dictionary) -> void:
-	for wall in new_wall_occ:
-		if not World_wall.has(wall):
-			World_wall[wall] = true
-
-
 func _on_dungeon_logic_world_corridor_change(new_corridor_occ: Dictionary) -> void:
 	for corridor in new_corridor_occ:
 		if not World_corridor.has(corridor) and not World_room.has(corridor):
@@ -96,3 +90,9 @@ func _on_dungeon_logic_world_corridor_change(new_corridor_occ: Dictionary) -> vo
 #func test_set_tiles():
 	#for obstacle in World_obstacle:
 		#test_tilemap.set_cell(obstacle, 2, Vector2i(2, 10))
+
+
+func _on_wall_logic_world_wall_change(new_wall_occ: Dictionary) -> void:
+	for wall in new_wall_occ:
+		if not World_wall.has(wall):
+			World_wall[wall] = true
