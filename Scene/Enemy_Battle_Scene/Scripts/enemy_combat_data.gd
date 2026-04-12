@@ -9,7 +9,8 @@ class_name EnemyCombatData
 # ==========================================
 # 基础数值
 # ==========================================
-@export var enemy_hp: int = 100 # 基础生命
+@export var enemy_max_hp: int = 100 # 最大生命
+@export var enemy_current_hp: int = 100 # 当前生命
 @export var enemy_damage: int = 10 # 基础攻击
 
 @export var enemy_defense: int = 0 # 基础防御值（固定数值）
@@ -26,10 +27,12 @@ class_name EnemyCombatData
 
 # 1. 敌人受伤
 func get_hit(real_damage: int, hit_context: String):
-	enemy_hp -= real_damage
-	print("敌人数据：受到 %d 点真实伤害！剩余血量：%d" % [real_damage, enemy_hp])
+	enemy_current_hp -= real_damage
+	print("敌人数据：受到 %d 点真实伤害！剩余血量：%d" % [real_damage, enemy_current_hp])
 	
-	if enemy_hp <= 0:
+	EventBus.enemy_hp_changed.emit(enemy_current_hp, enemy_max_hp) # 假设最大血量是 100，如果是变量就填 max_hp
+	
+	if enemy_current_hp <= 0:
 		die()
 
 # 2. 敌人死亡

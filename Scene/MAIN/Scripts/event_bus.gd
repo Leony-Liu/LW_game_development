@@ -12,3 +12,6 @@ signal enemy_died(death_context: String)  # 敌人死亡
 # —————— 过程性信号 ——————
 signal player_dealt_damage(payload: Dictionary) # 传递玩家造成的伤害
 signal enemy_dealt_damage(payload: Dictionary)  # 传递敌人造成的伤害
+
+# —————— UI 更新信号 ——————
+signal enemy_hp_changed(current_hp: int, max_hp: int) # 敌人血量变化
