@@ -17,7 +17,7 @@ func enter(msg:Dictionary = {}) -> void:
 # 在本状态内每帧执行
 func update(delta: float) -> void:
 	# 每帧恢复资源
-	host.get_node("Data/CombatData").stanima_recovery(delta)
+	host.get_node("Data/CombatData").stamina_recovery(delta)
 	host.get_node("Data/CombatData").mana_recovery(delta)
 	
 	# 当按下格挡键
@@ -25,7 +25,7 @@ func update(delta: float) -> void:
 		# 连接玩家战斗数据
 		var combat_data = host.get_node("Data/CombatData")
 		# 检查是否有体力
-		if combat_data.current_stanima > 0:
+		if combat_data.current_stamina > 0:
 			# 若有则直接进入格挡
 			get_parent().transition_to("Parry")
 		else:
@@ -33,7 +33,7 @@ func update(delta: float) -> void:
 			if Input.is_action_just_pressed("block_key"):# 注意：为防止每帧都执行，进行按下检测
 				print("待机状态：体力枯竭 (0点)！无法举起武器进行格挡！")
 				# 发送体力不足信号
-				host.get_nodenode("Data/CombatData")._not_enough_stanima.emit()
+				host.get_node("Data/CombatData").not_enough_stamina.emit()
 
 # ==========================================
 # 核验出牌资源
@@ -47,9 +47,9 @@ func handle_card_played(card_data: Dictionary) -> bool:
 	
 	# a. 攻击牌：核验体力
 	if card_data["categories"] == "attack":
-		var cost = card_data.get("stanima_cost", 1) # 默认消耗1点防错
+		var cost = card_data.get("stamina_cost", 1) # 默认消耗1点防错
 		# 成功扣除后进入攻击状态
-		if combat_data.consume_stanima(cost):
+		if combat_data.consume_stamina(cost):
 			print("待机状态：体力扣除成功，切入 Attack 状态")
 			get_parent().transition_to("Attack", {"card": card_data})
 			return true
