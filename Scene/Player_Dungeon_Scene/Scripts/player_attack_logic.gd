@@ -1,6 +1,5 @@
 extends Node
 
-signal BattleStart
 
 @onready var player = owner
 @export var attack_range: float#攻击距离
@@ -31,6 +30,7 @@ func attack():
 	
 	#返回攻击范围内敌人的列表
 	var result = space_state.instersect_shape(query)
+	EventBus.enter_battle_scene.emit()
 	
 	pass
 

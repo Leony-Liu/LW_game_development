@@ -1,16 +1,20 @@
-[gd_scene load_steps=19 format=3 uid="uid://dh74i2vi5p7q8"]
+[gd_scene load_steps=23 format=3 uid="uid://dh74i2vi5p7q8"]
 
 [ext_resource type="Script" uid="uid://bx24st46mifft" path="res://Scene/DungeonScene/Script/Manager/TotalityManager.gd" id="1_6whob"]
 [ext_resource type="Resource" uid="uid://b1td3kvqbdhl6" path="res://Scene/DungeonScene/DataBase/ResourseData/Map_data.tres" id="2_8w3wl"]
 [ext_resource type="Script" uid="uid://dx4lvafgfcl7b" path="res://Scene/DungeonScene/Script/Manager/RoomDataManager.gd" id="2_u7krg"]
 [ext_resource type="PackedScene" uid="uid://cv36ihxkcgkjc" path="res://Scene/DungeonScene/Scenes/PrefabScenes/wall.tscn" id="3_6aska"]
 [ext_resource type="Script" uid="uid://cwluk54iubbr1" path="res://Scene/DungeonScene/Script/DungeonLogic.gd" id="3_tx0tn"]
+[ext_resource type="Resource" uid="uid://cl54bbq8b4knm" path="res://Scene/DungeonScene/DataBase/ResourseData/RoomConfig/normal_room.tres" id="5_kmpjc"]
 [ext_resource type="Texture2D" uid="uid://5nbijmly8la5" path="res://Scene/DungeonScene/Arts/Dungeon_Tiles.png" id="6_aw6vt"]
+[ext_resource type="Resource" uid="uid://uo5jotahffqh" path="res://Scene/DungeonScene/DataBase/ResourseData/RoomConfig/treasure_room.tres" id="6_vuuyw"]
 [ext_resource type="Script" uid="uid://b1a01ywr2bx1b" path="res://Scene/DungeonScene/Script/ObstaticLogic.gd" id="6_wjtap"]
+[ext_resource type="Resource" uid="uid://brg2ybymejlpi" path="res://Scene/DungeonScene/DataBase/ResourseData/RoomConfig/boss_room.tres" id="7_82kw1"]
 [ext_resource type="Texture2D" uid="uid://bj7pggdfk0ntx" path="res://Scene/DungeonScene/Arts/Floors_Tiles.png" id="7_aw6vt"]
 [ext_resource type="Resource" uid="uid://dasjm0q57jhli" path="res://Scene/DungeonScene/DataBase/ResourseData/testObstacle2.tres" id="7_chwn1"]
 [ext_resource type="Script" uid="uid://be2thp1whkyu5" path="res://Scene/DungeonScene/Script/WallSetLogic.gd" id="8_prqi5"]
 [ext_resource type="Resource" uid="uid://cw7xwx4s5b1i7" path="res://Scene/DungeonScene/DataBase/ResourseData/testObstacle1.tres" id="9_prqi5"]
+[ext_resource type="Script" uid="uid://by5usabqjhvi5" path="res://Scene/DungeonScene/Script/enemie_set.gd" id="12_qc7q8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_prqi5"]
 texture = ExtResource("6_aw6vt")
@@ -630,6 +634,9 @@ test_tilemap = NodePath("../BasicTerrainLayer")
 [node name="RoomDataManager" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_u7krg")
+NORMAL_ROOM = ExtResource("5_kmpjc")
+TREASURE_ROOM = ExtResource("6_vuuyw")
+BOSS_ROOM = ExtResource("7_82kw1")
 
 [node name="DungeonLogic" type="Node2D" parent="." node_paths=PackedStringArray("tilemap", "room_data_manager")]
 unique_name_in_owner = true
@@ -655,3 +662,7 @@ tile_set = SubResource("TileSet_epypp")
 [node name="WallLayer" type="TileMapLayer" parent="."]
 y_sort_enabled = true
 tile_set = SubResource("TileSet_prqi5")
+
+[node name="Enemies" type="Node2D" parent="." node_paths=PackedStringArray("enemy_constainer")]
+script = ExtResource("12_qc7q8")
+enemy_constainer = NodePath(".")

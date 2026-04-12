@@ -55,6 +55,8 @@ func setup_and_generate(seed_value: int):
 	#print(World_gap)
 	#print(World_obstacle)
 	#print(World_corridor)
+	for node in leaf_node:
+		print(node.room_type_name)
 
 
 func _on_obstatic_node_world_obstacle_change(new_obstacle_occ: Dictionary) -> void:
