@@ -26,7 +26,7 @@ func pick_random_with_seed(array: Array, rng: RandomNumberGenerator):
 	return array[random_index]
 
 
-func generate_obstacle(leaf_node: Array[BSPNode], world_obstacle: Dictionary, world_corridor: Dictionary, world_wall: Dictionary, world_gap: Dictionary):
+func generate_obstacle(leaf_node: Array[BSPNode], world_obstacle: Dictionary, world_corridor: Dictionary, world_wall: Dictionary, world_gap: Dictionary, world_room: Dictionary):
 	for node in leaf_node:
 		var rect = get_room(node)
 		var place_times = 0
@@ -35,7 +35,7 @@ func generate_obstacle(leaf_node: Array[BSPNode], world_obstacle: Dictionary, wo
 			try_times += 1
 			var obstacle_data = pick_random_with_seed(test_obstacle, mySeed)
 			var place_coords = Vector2i(mySeed.randi_range(rect.position.x, rect.end.x), mySeed.randi_range(rect.position.y, rect.end.y))
-			if obstacle_occupied(place_coords, obstacle_data, world_obstacle, world_wall, world_corridor, world_gap):
+			if obstacle_occupied(place_coords, obstacle_data, world_obstacle, world_wall, world_corridor, world_gap, world_room):
 				place_times += 1
 
 
@@ -45,7 +45,7 @@ func get_room(node:BSPNode) -> Rect2i:
 	return Rect2i()
 
 
-func obstacle_occupied(place_pos: Vector2i, obstacle_data: Resource, Obstacle_occ: Dictionary, Wall_occ: Dictionary, Corridor_occ: Dictionary, Gap_occ: Dictionary) -> bool:
+func obstacle_occupied(place_pos: Vector2i, obstacle_data: Resource, Obstacle_occ: Dictionary, Wall_occ: Dictionary, Corridor_occ: Dictionary, Gap_occ: Dictionary, room_occ: Dictionary) -> bool:
 	var temp_obstacle_coords = {}
 	temp_obstacle_coords.clear()
 	
@@ -54,12 +54,12 @@ func obstacle_occupied(place_pos: Vector2i, obstacle_data: Resource, Obstacle_oc
 		return false
 	for v1 in obstacle_data.offset:
 		var obstacle_world_coords = place_pos + v1
-		while Obstacle_occ.has(obstacle_world_coords) or Wall_occ.has(obstacle_world_coords):
+		if not Obstacle_occ.has(obstacle_world_coords) and not Wall_occ.has(obstacle_world_coords) and room_occ.has(obstacle_world_coords):
+			if not temp_obstacle_coords.has(obstacle_world_coords):
+				temp_obstacle_coords[obstacle_world_coords] = true
+		else:
 			temp_obstacle_coords.clear()
 			return false
-		
-		if not temp_obstacle_coords.has(obstacle_world_coords):
-			temp_obstacle_coords[obstacle_world_coords] = true
 		
 		
 	var temp_gap_coords = {}
@@ -71,7 +71,7 @@ func obstacle_occupied(place_pos: Vector2i, obstacle_data: Resource, Obstacle_oc
 	for v1 in temp_obstacle_coords_keys:
 		for v2 in directions:
 			var gap_world_coords = v1 + v2
-			while Obstacle_occ.has(gap_world_coords) or Corridor_occ.has(gap_world_coords):
+			if Obstacle_occ.has(gap_world_coords) or Corridor_occ.has(gap_world_coords):
 				temp_gap_coords.clear()
 				return false
 			if not temp_gap_coords.has(gap_world_coords):

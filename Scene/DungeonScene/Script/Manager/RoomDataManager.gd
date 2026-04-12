@@ -61,7 +61,7 @@ func get_random_room_type():
 		
 		sum += w
 		if rand <= sum:
-			#print("抽中房间：", r["RoomType"])
+			print("抽中房间：", r["RoomType"])
 			return r["RoomType"]
 	
 	print("房间数据管理器：算法失败，触发兜底")

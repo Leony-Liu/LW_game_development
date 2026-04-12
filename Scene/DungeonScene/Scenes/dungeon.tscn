@@ -620,7 +620,7 @@ sources/2 = SubResource("TileSetAtlasSource_aw6vt")
 [node name="Dungeon" type="Node2D"]
 y_sort_enabled = true
 
-[node name="TotalityManager" type="Node2D" parent="." node_paths=PackedStringArray("dungeon_logic", "obstatic_logic", "room_data_manager", "wall_set_logic", "test_tilemap")]
+[node name="TotalityManager" type="Node2D" parent="." node_paths=PackedStringArray("dungeon_logic", "obstatic_logic", "room_data_manager", "wall_set_logic", "enemies_logic", "test_tilemap")]
 unique_name_in_owner = true
 script = ExtResource("1_6whob")
 MAP_DATA = ExtResource("2_8w3wl")
@@ -629,6 +629,7 @@ dungeon_logic = NodePath("../DungeonLogic")
 obstatic_logic = NodePath("../ObstaticLogic")
 room_data_manager = NodePath("../RoomDataManager")
 wall_set_logic = NodePath("../WallSetLogic")
+enemies_logic = NodePath("../Enemies")
 test_tilemap = NodePath("../BasicTerrainLayer")
 
 [node name="RoomDataManager" type="Node2D" parent="."]
@@ -663,6 +664,7 @@ tile_set = SubResource("TileSet_epypp")
 y_sort_enabled = true
 tile_set = SubResource("TileSet_prqi5")
 
-[node name="Enemies" type="Node2D" parent="." node_paths=PackedStringArray("enemy_constainer")]
+[node name="Enemies" type="Node2D" parent="." node_paths=PackedStringArray("enemy_constainer", "tilemap")]
 script = ExtResource("12_qc7q8")
 enemy_constainer = NodePath(".")
+tilemap = NodePath("../BasicTerrainLayer")

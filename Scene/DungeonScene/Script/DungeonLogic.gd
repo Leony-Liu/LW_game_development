@@ -206,17 +206,17 @@ func draw_tilemap():
 	#绘制房间
 	for node in leaf_node:
 		var r = node.room
-		match node.room_type:
-			0:
+		match node.room_type_name:
+			"START":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(8, 1)
-			1:
+			"NORMAL":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(5, 21)
-			2:
+			"TREASURE":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(5, 1)
-			3:
+			"BOSS":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(1, 20)
 		for x in range(r.position.x, r.end.x):

@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://vle13wwrrfje"]
+[gd_scene load_steps=15 format=3 uid="uid://vle13wwrrfje"]
 
 [ext_resource type="Texture2D" uid="uid://dbxo755aixv8i" path="res://Scene/Enemy_Dungeon_Scene/Art/Collect_Down-Sheet.png" id="1_u6x70"]
 [ext_resource type="Script" uid="uid://ctd3stks0jo5n" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy.gd" id="2_l6lxh"]
 [ext_resource type="Script" uid="uid://cs4w656wj2ofl" path="res://Scene/Enemy_Dungeon_Scene/Manager/enemy_manager.gd" id="3_qqxeh"]
+[ext_resource type="Script" uid="uid://dmnqvtssw5bgc" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy_dungeo_information.gd" id="4_l6lxh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sdb46"]
 atlas = ExtResource("1_u6x70")
@@ -71,8 +72,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6nts2"]
 size = Vector2(4, 12)
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
 y_sort_enabled = true
+collision_layer = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 4
@@ -87,9 +89,9 @@ shape = SubResource("RectangleShape2D_6nts2")
 
 [node name="MoveLogic" type="Node" parent="."]
 script = ExtResource("2_l6lxh")
-speed = null
 
 [node name="EnemyManager" type="Node" parent="."]
 script = ExtResource("3_qqxeh")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="Information" type="Node" parent="."]
+script = ExtResource("4_l6lxh")

@@ -161,8 +161,9 @@ animations = [{
 radius = 5.0
 height = 14.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 y_sort_enabled = true
+collision_mask = 5
 floor_block_on_wall = false
 script = ExtResource("1_sxece")
 
@@ -182,3 +183,8 @@ zoom = Vector2(8, 8)
 
 [node name="AttackLogic" type="Node" parent="."]
 script = ExtResource("3_tpu7s")
+attack_range = 10.0
+attack_width = 10.0
+
+[node name="Line2D" type="Line2D" parent="AttackLogic"]
+default_color = Color(1, 0.101961, 0.0392157, 1)

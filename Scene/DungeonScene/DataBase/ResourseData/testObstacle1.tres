@@ -6,6 +6,6 @@
 [resource]
 script = ExtResource("1_3cj8j")
 obstacle_scene = ExtResource("1_va3y7")
-offset = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)])
+offset = Array[Vector2i]([Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6), Vector2i(3, 6), Vector2i(4, 6), Vector2i(5, 6), Vector2i(4, 5), Vector2i(5, 5), Vector2i(4, 4), Vector2i(5, 4), Vector2i(4, 3), Vector2i(5, 3), Vector2i(4, 2), Vector2i(5, 2), Vector2i(4, 1), Vector2i(5, 1), Vector2i(4, 0), Vector2i(5, 0)])
 back_offset_button = false
 metadata/_custom_type_script = "uid://d08q1746n50nt"

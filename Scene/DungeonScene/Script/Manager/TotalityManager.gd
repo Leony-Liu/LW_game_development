@@ -8,9 +8,9 @@ class_name totality_manager
 @export var obstatic_logic: ObstacleLogic
 @export var room_data_manager: RoomDataManager
 @export var wall_set_logic: wallSetLogic
+@export var enemies_logic: enemy_set
 
 @export var test_tilemap: TileMapLayer
-
 
 
 var World_obstacle: Dictionary = {}
@@ -28,6 +28,7 @@ func setup_and_generate(seed_value: int):
 	dungeon_logic.mySeed = rng
 	obstatic_logic.mySeed = rng
 	room_data_manager.mySeed = rng
+	enemies_logic.mySeed = rng
 	
 	room_data_manager.load_room_types(room_data_manager.csv_file_path)
 	dungeon_logic.room_data_manager = room_data_manager
@@ -46,17 +47,19 @@ func setup_and_generate(seed_value: int):
 	wall_set_logic.wall_occ(World_room, World_corridor)
 	wall_set_logic.set_wall(World_wall, Wall_scene)
 	
-	obstatic_logic.generate_obstacle(leaf_node, World_obstacle, World_corridor, World_wall, World_gap)
+	obstatic_logic.generate_obstacle(leaf_node, World_obstacle, World_corridor, World_wall, World_gap, World_room)
+	
+	enemies_logic.spawn_enemies_in_rooms(leaf_node, World_obstacle)
 	
 	
-	#test_set_tiles()
+	test_set_tiles()
 	#dungeon_logic.testSetTile(World_obstacle)
 	#print(World_wall)
 	#print(World_gap)
 	#print(World_obstacle)
 	#print(World_corridor)
-	for node in leaf_node:
-		print(node.room_type_name)
+	#for node in leaf_node:
+		#print(node.room_type_name)
 
 
 func _on_obstatic_node_world_obstacle_change(new_obstacle_occ: Dictionary) -> void:
@@ -89,9 +92,9 @@ func _on_dungeon_logic_world_corridor_change(new_corridor_occ: Dictionary) -> vo
 			continue
 
 
-#func test_set_tiles():
-	#for obstacle in World_obstacle:
-		#test_tilemap.set_cell(obstacle, 2, Vector2i(2, 10))
+func test_set_tiles():
+	for obstacle in World_obstacle:
+		test_tilemap.set_cell(obstacle, 1, Vector2i(9, 13))
 
 
 func _on_wall_logic_world_wall_change(new_wall_occ: Dictionary) -> void:

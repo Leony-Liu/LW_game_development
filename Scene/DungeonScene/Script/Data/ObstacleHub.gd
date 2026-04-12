@@ -32,3 +32,5 @@ func back_offset():
 	#计算偏移量并添加
 	for cell in used_cells:
 		offset.append(cell - origin)
+	
+	instance.free()
