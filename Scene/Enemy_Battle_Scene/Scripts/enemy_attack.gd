@@ -1,6 +1,7 @@
 # enemy_attack
 #
-#
+# 战斗体验数值
+# 攻击流程
 
 extends State
 

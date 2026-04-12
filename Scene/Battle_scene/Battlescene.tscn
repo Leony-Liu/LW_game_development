@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=7 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_scene/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_scene/Scripts/card_manager.gd" id="1_ygjx7"]
 [ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/player.tscn" id="2_noken"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Enemy_Battle_Scene/Enemy.tscn" id="3_mvvqq"]
 [ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_scene/Scripts/battle_ui_manager.gd" id="3_nr23r"]
+[ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_scene/PrivateScene/UI/HPBar/hp_bar_root.tscn" id="6_qo3ej"]
 
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_ebhhr")
@@ -21,20 +22,43 @@ position = Vector2(170, 166)
 [node name="UIManager" type="CanvasLayer" parent="."]
 script = ExtResource("3_nr23r")
 
-[node name="CardManager" type="Node" parent="UIManager"]
-script = ExtResource("1_ygjx7")
-
-[node name="CardUI" type="Control" parent="UIManager/CardManager"]
+[node name="UIRoot" type="Control" parent="UIManager"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 237.0
-offset_top = 424.0
-offset_right = 277.0
-offset_bottom = 464.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UIManager/CardManager/CardUI"]
-layout_mode = 0
-offset_left = 384.0
-offset_top = 351.0
-offset_right = 424.0
-offset_bottom = 391.0
+[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_container")]
+script = ExtResource("1_ygjx7")
+hand_container = NodePath("CardUI/HBoxContainer")
+
+[node name="CardUI" type="Control" parent="UIManager/UIRoot/CardManager"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIManager/UIRoot/CardManager/CardUI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HPBarRoot" parent="UIManager/UIRoot" instance=ExtResource("6_qo3ej")]
+layout_mode = 1

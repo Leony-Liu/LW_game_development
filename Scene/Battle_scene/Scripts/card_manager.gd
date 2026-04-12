@@ -15,7 +15,7 @@ var hand: Array = []# 手牌堆
 var discard_pile: Array = []# 弃牌堆
 
 # 参数
-@onready var hand_container = $CardUI/HBoxContainer
+@export var hand_container : HBoxContainer
 var card_count : int = 0
 
 

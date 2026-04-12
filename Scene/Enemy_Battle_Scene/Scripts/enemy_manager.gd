@@ -1,6 +1,7 @@
 # enemy_manager
 #
-#
+# 敌人初始化
+# 玩家伤害处理
 
 extends Node
 class_name EnemyManager
@@ -35,7 +36,9 @@ func _ready() -> void:
 		
 	print("==========================")
 
-
+# ==========================================
+# 玩家伤害处理
+# ==========================================
 # 接收玩家的伤害
 func take_damage(payload: Dictionary) -> void:
 	var incoming_dmg = payload["damage"]
