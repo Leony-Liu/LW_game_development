@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bl5ygsrigrbdm"
-path="res://.godot/imported/Jump-Start-Sheet.png-7c1bd2fb526992137ac18cd9518f4c1c.ctex"
+uid="uid://buakd7108ck41"
+path="res://.godot/imported/Dead-Sheet.png-6bde500a756b9199872c05fcf494545e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Player_Battle_Scene/Test_Character/Jump-Start/Jump-Start-Sheet.png"
-dest_files=["res://.godot/imported/Jump-Start-Sheet.png-7c1bd2fb526992137ac18cd9518f4c1c.ctex"]
+source_file="res://Scene/Player_Battle_Scene/Arts/Test_Character/Dead/Dead-Sheet.png"
+dest_files=["res://.godot/imported/Dead-Sheet.png-6bde500a756b9199872c05fcf494545e.ctex"]
 
 [params]
 

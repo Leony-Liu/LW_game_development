@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0jtbxuwxm26l"
-path="res://.godot/imported/Idle-Sheet.png-14fb7a2005a23dba6510eccc58824d52.ctex"
+uid="uid://bk38o6divsuvc"
+path="res://.godot/imported/Jump-End-Sheet.png-01bc4e5c7dbbbbc22fa531afcf1a01d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Player_Battle_Scene/Test_Character/Idle/Idle-Sheet.png"
-dest_files=["res://.godot/imported/Idle-Sheet.png-14fb7a2005a23dba6510eccc58824d52.ctex"]
+source_file="res://Scene/Player_Battle_Scene/Arts/Test_Character/Jump-End/Jump-End-Sheet.png"
+dest_files=["res://.godot/imported/Jump-End-Sheet.png-01bc4e5c7dbbbbc22fa531afcf1a01d3.ctex"]
 
 [params]
 

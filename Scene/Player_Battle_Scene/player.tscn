@@ -1,9 +1,9 @@
 [gd_scene load_steps=18 format=3 uid="uid://7cdujhisinjp"]
 
 [ext_resource type="Script" uid="uid://dc3aq3o1f6s2u" path="res://Scene/Player_Battle_Scene/Scripts/player_manager.gd" id="1_oh5ij"]
-[ext_resource type="Texture2D" uid="uid://d0jtbxuwxm26l" path="res://Scene/Player_Battle_Scene/Test_Character/Idle/Idle-Sheet.png" id="2_g2vtq"]
-[ext_resource type="Texture2D" uid="uid://0grjwsuwe8hh" path="res://Scene/Player_Battle_Scene/Test_Character/Attack-01/Attack-01-Sheet.png" id="3_2fvbb"]
-[ext_resource type="Texture2D" uid="uid://buakd7108ck41" path="res://Scene/Player_Battle_Scene/Test_Character/Dead/Dead-Sheet.png" id="4_ml7e8"]
+[ext_resource type="Texture2D" uid="uid://d0jtbxuwxm26l" path="res://Scene/Player_Battle_Scene/Arts/Test_Character/Idle/Idle-Sheet.png" id="2_g2vtq"]
+[ext_resource type="Texture2D" uid="uid://0grjwsuwe8hh" path="res://Scene/Player_Battle_Scene/Arts/Test_Character/Attack-01/Attack-01-Sheet.png" id="3_2fvbb"]
+[ext_resource type="Texture2D" uid="uid://buakd7108ck41" path="res://Scene/Player_Battle_Scene/Arts/Test_Character/Dead/Dead-Sheet.png" id="4_ml7e8"]
 [ext_resource type="Script" uid="uid://b528jlmvg0rlj" path="res://Scene/Player_Battle_Scene/Scripts/player_combat_data.gd" id="5_hp4bs"]
 [ext_resource type="Script" uid="uid://ct5b3aa1o5wkd" path="res://Scene/Player_Battle_Scene/Scripts/player_combat_calculator.gd" id="6_6ltmb"]
 [ext_resource type="Script" uid="uid://5oeeixovhf8f" path="res://Scene/Player_Battle_Scene/Scripts/player_statemachine.gd" id="6_g2vtq"]
