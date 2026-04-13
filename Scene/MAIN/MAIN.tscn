@@ -1,14 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://0rtgdscsodly"]
+[gd_scene load_steps=5 format=3 uid="uid://0rtgdscsodly"]
 
+[ext_resource type="Script" uid="uid://c3x6ga206pa3c" path="res://Scene/MAIN/Scripts/Manager/game_manager.gd" id="1_86uaw"]
 [ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_scene/Battlescene.tscn" id="1_nj6re"]
-[ext_resource type="PackedScene" uid="uid://dhifg5jjl4ctq" path="res://Scene/DungeonScene/Scenes/floorsScene.tscn" id="2_bg8uw"]
+[ext_resource type="PackedScene" uid="uid://dhifg5jjl4ctq" path="res://Scene/DungeonScene/Scenes/MapScene.tscn" id="2_bg8uw"]
+[ext_resource type="Script" uid="uid://c6668u5xgla8l" path="res://Scene/MAIN/Scripts/event_bus.gd" id="4_42ma7"]
 
 [node name="MAIN" type="Node"]
 
-[node name="SceneHolder" type="Node" parent="."]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("scene_holder")]
+script = ExtResource("1_86uaw")
+scene_holder = NodePath("../SceneHolder")
+battle_scene = ExtResource("1_nj6re")
 
-[node name="BattleScene" parent="SceneHolder" instance=ExtResource("1_nj6re")]
+[node name="SceneHolder" type="Node" parent="."]
 
 [node name="MapScene" parent="SceneHolder" instance=ExtResource("2_bg8uw")]
 
 [node name="GlobalUI" type="Node" parent="."]
+
+[node name="EventBus" type="Node" parent="."]
+script = ExtResource("4_42ma7")
+
+[connection signal="enter_battle_scene" from="EventBus" to="GameManager" method="_on_event_bus_enter_battle_scene"]

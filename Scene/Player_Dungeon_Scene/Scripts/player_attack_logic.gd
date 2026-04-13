@@ -1,3 +1,4 @@
+#
 extends Node
 
 
@@ -35,7 +36,7 @@ func attack():
 	var transform = Transform2D(last_direction.angle(), player.global_position)
 	query.transform = transform
 	
-	draw_debug_attack_range(transform, shape)
+	draw_debug_attack_range(transform, shape)#（测试）
 	
 	#制作敌人时请将Layer层设置为3
 	query.collision_mask = 4
@@ -60,8 +61,8 @@ func attack():
 	if hit_enemies["enemies"].is_empty():
 		return
 	else:
-		get_tree().change_scene_to_file("res://Scene/Battle_scene/Battlescene.tscn")
-		EventBus.enter_battle_scene.emit()
+		#get_tree().change_scene_to_file("res://Scene/Battle_scene/Battlescene.tscn")
+		EventBus.enter_battle_scene.emit(hit_enemies, support_enemies)
 	pass
 
 #支援范围检测
@@ -76,7 +77,7 @@ func support_check(hit_enemies_target: Dictionary) -> Dictionary:
 	var transform = Transform2D(0, player.global_position)
 	query.transform = transform
 	
-	draw_debug_support(transform, shape)
+	draw_debug_support(transform, shape)#（测试）
 	
 	query.collision_mask = 4
 	
@@ -85,7 +86,6 @@ func support_check(hit_enemies_target: Dictionary) -> Dictionary:
 	var support_enemies_target = {}
 	support_enemies_target.clear()
 	
-	print(result)
 	
 	for support in result:
 		var target = support.collider
@@ -102,7 +102,7 @@ func enemy_face()-> bool:
 	return true
 
 
-# 在你的玩家脚本中添加这个辅助函数
+#绘制玩家攻击范围（测试）
 func draw_debug_attack_range(transform: Transform2D, shape: ConvexPolygonShape2D):
 	var line = $Line2D
 	#line.global_position = Vector2(200,200)
@@ -125,7 +125,7 @@ func draw_debug_attack_range(transform: Transform2D, shape: ConvexPolygonShape2D
 	await get_tree().create_timer(0.5).timeout
 	line.visible = false
 
-
+#绘制可支援怪物范围（测试）
 func draw_debug_support(transform: Transform2D, shape:CircleShape2D):
 	var line = $Line2D2
 	#line.global_position = Vector2(200,200)
