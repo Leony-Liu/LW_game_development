@@ -32,6 +32,33 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 
+[file_customization]
+
+folder_colors={
+"res://DataBase/": "red",
+"res://Scene/": "blue",
+"res://Scene/Battle_scene/": "blue",
+"res://Scene/Battle_scene/PrivateScene/UI/": "purple",
+"res://Scene/Battle_scene/Scripts/": "yellow",
+"res://Scene/Card_scene/": "blue",
+"res://Scene/Card_scene/Scripts/": "yellow",
+"res://Scene/DungeonScene/": "blue",
+"res://Scene/DungeonScene/Arts/": "purple",
+"res://Scene/DungeonScene/Script/": "yellow",
+"res://Scene/Enemy_Battle_Scene/": "blue",
+"res://Scene/Enemy_Battle_Scene/Arts/": "purple",
+"res://Scene/Enemy_Battle_Scene/PrivateScene/": "blue",
+"res://Scene/Enemy_Battle_Scene/PrivateScene/EnemyVisuals/": "blue",
+"res://Scene/Enemy_Battle_Scene/PrivateScene/EnemyVisuals/Arts/": "purple",
+"res://Scene/Enemy_Battle_Scene/Scripts/": "yellow",
+"res://Scene/MAIN/Scripts/": "yellow",
+"res://Scene/Player_Battle_Scene/Arts/": "purple",
+"res://Scene/Player_Battle_Scene/Scripts/": "yellow",
+"res://Scene/Player_Dungeon_Scene/Art/": "purple",
+"res://Scene/Player_Dungeon_Scene/Scripts/": "yellow",
+"res://Theme/": "purple"
+}
+
 [input]
 
 Left={
