@@ -22,6 +22,20 @@ class_name EnemyCombatData
 @export var real_damage_multiplier: int = 0 # 真实伤害倍率
 
 # ==========================================
+# 初始化：战斗开始时同步初始数据给 UI
+# ==========================================
+func _ready() -> void:
+	# 使用 call_deferred 延迟到当前帧结束时执行
+	# 这样可以保证 UI 节点的 _ready 已经执行，信号线已经接好
+	call_deferred("_sync_initial_stats")
+
+func _sync_initial_stats() -> void:
+	print("玩家战斗数据：向 UI 推送初始面板数据...")
+	EventBus.enemy_hp_changed.emit(enemy_current_hp,enemy_max_hp)
+	
+
+
+# ==========================================
 # 提供改动方法
 # ==========================================
 

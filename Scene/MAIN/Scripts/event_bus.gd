@@ -18,4 +18,9 @@ signal enemy_dealt_damage(payload: Dictionary)  # 传递敌人造成的伤害
 signal enter_battle_scene()#玩家已准备好进入战斗场景
 
 # —————— UI 更新信号 ——————
+# 敌人
 signal enemy_hp_changed(current_hp: int, max_hp: int) # 敌人血量变化
+# 玩家
+signal player_hp_changed(current_hp: float, max_hp: float) # 玩家血量变化
+signal player_stamina_changed(current_stamina: int, max_stamina: int) # 玩家体力变化
+signal player_mana_changed(current_mana: int, max_mana: int) # 玩家能量变化

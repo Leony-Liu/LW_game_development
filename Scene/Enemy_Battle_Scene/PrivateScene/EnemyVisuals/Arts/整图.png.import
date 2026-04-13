@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mn2ejus4w476"
-path="res://.godot/imported/边框.png-ea038e6e3f6c65d00cfc8835347207b0.ctex"
+uid="uid://bweod8v1ggb1u"
+path="res://.godot/imported/整图.png-38c2847448d933696c67a33024293864.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Battle_scene/PrivateScene/UI/HPBar/边框.png"
-dest_files=["res://.godot/imported/边框.png-ea038e6e3f6c65d00cfc8835347207b0.ctex"]
+source_file="res://Scene/Enemy_Battle_Scene/PrivateScene/EnemyVisuals/Arts/整图.png"
+dest_files=["res://.godot/imported/整图.png-38c2847448d933696c67a33024293864.ctex"]
 
 [params]
 

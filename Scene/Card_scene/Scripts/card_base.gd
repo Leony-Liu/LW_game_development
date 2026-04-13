@@ -10,6 +10,8 @@ extends Control
 var card_id :int
 var card_data:Dictionary# 卡牌数据存储
 
+@onready var card_cost = $Visual/MarginContainer/CostLable
+
 func _ready():
 	_fetch_data_from_database()
 	# 初始化时，监听自己是否被退回
@@ -27,6 +29,21 @@ func _fetch_data_from_database():
 		
 	# 2.获取卡牌数据，打包进“card_data”
 	card_data = CardDataBase.get_card(card_id)
+	
+	# TODO 同步资源消耗ui，暂时为数字显示
+	if card_data["stamina_cost"] != 0 :
+		card_cost.text = str(card_data["stamina_cost"])
+		print("基础卡牌：已同步体力消耗 -> %d" %card_data["stamina_cost"])
+		
+	elif card_cost["mana_cost"] != 0:
+		card_cost.text = str(card_data["mana_cost"])
+		print("基础卡牌：已同步能量消耗 -> %d" %card_data["mana_cost"])
+		
+	elif card_data["stamina_cost"] == 0 and card_cost["mana_cost"] == 0:
+		card_cost.text  = str("")
+	else:
+		push_error("基础卡牌：该卡牌未设置体力/能量消耗")
+		
 	print("基础卡牌：成功获取数据 -> ", card_data.get("name", "未知卡牌"))
 	
 	

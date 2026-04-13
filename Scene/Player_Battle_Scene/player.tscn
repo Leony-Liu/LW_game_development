@@ -215,12 +215,12 @@ libraries = {
 script = ExtResource("5_hp4bs")
 current_hp = 100.0
 max_hp = 100.0
-current_stanima = 5
-max_stanima = 5
+current_stamina = 5
+max_stamina = 5
 current_mana = 5
 max_mana = 5
-current_stanima_recover_speed = 1.0
-current_mana_recover_speed = 2.0
+current_stamina_recover_speed = 2.0
+current_mana_recover_speed = 4.0
 
 [node name="Calculator" type="Node" parent="Data"]
 script = ExtResource("6_6ltmb")
