@@ -38,7 +38,7 @@ func attack():
 		print(enemy_node.name)
 		if target.is_in_group("Enemies"):
 			print("检测到打击的敌人")
-			var info_node = enemy_node.get_node_or_null("Information")
+			var info_node = target.get_node_or_null("Information")
 			if info_node:
 				hit_enemies[enemy_node] = info_node.ID
 	print(hit_enemies)
