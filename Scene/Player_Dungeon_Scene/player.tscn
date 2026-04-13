@@ -1,8 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://davvetqo0kd2n"]
+[gd_scene load_steps=27 format=3 uid="uid://davvetqo0kd2n"]
 
 [ext_resource type="Script" uid="uid://bhdver1ucf7r8" path="res://Scene/Player_Dungeon_Scene/Scripts/player.gd" id="1_sxece"]
 [ext_resource type="Texture2D" uid="uid://dqia0xcvlj7yt" path="res://Scene/Player_Dungeon_Scene/Art/knight.png" id="2_uxvck"]
 [ext_resource type="Script" uid="uid://bommkel330ioi" path="res://Scene/Player_Dungeon_Scene/Scripts/player_attack_logic.gd" id="3_tpu7s"]
+[ext_resource type="Script" uid="uid://cgsmu2ab28era" path="res://Scene/Player_Dungeon_Scene/Scripts/player_dungeon_manager.gd" id="4_ky541"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qpdfw"]
 atlas = ExtResource("2_uxvck")
@@ -159,7 +160,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4a3fx"]
 radius = 5.0
-height = 14.0
+height = 10.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 y_sort_enabled = true
@@ -172,10 +173,8 @@ position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_pe2ys")
 animation = &"run"
 autoplay = "idle"
-frame_progress = 0.741647
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_4a3fx")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -183,8 +182,16 @@ zoom = Vector2(8, 8)
 
 [node name="AttackLogic" type="Node" parent="."]
 script = ExtResource("3_tpu7s")
-attack_range = 10.0
-attack_width = 10.0
+attack_range = 20.0
 
 [node name="Line2D" type="Line2D" parent="AttackLogic"]
 default_color = Color(1, 0.101961, 0.0392157, 1)
+
+[node name="Line2D2" type="Line2D" parent="AttackLogic"]
+
+[node name="Manager" type="Node" parent="." node_paths=PackedStringArray("player_move_logic", "player_attack_logic")]
+script = ExtResource("4_ky541")
+player_move_logic = NodePath("..")
+player_attack_logic = NodePath("../AttackLogic")
+
+[connection signal="Direction_change" from="." to="Manager" method="_on_player_direction_change"]
