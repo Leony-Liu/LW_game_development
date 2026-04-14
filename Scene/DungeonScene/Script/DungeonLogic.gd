@@ -177,13 +177,16 @@ func set_room_type():
 	#房间列表随机一个出生点
 	var start_node = pick_random_with_seed(leaf_node, mySeed)
 	start_node.room_type = 0
+	start_node.room_type_name = BSPNode.RoomType.find_key(start_node.room_type)
 	print(start_node.room_type)
 		
 	for node in leaf_node:
 		if node == start_node:
 			continue
 		node.room_type = room_data_manager.get_random_room_type()
-		print(node.room_type)
+		node.room_type_name = BSPNode.RoomType.find_key(node.room_type)
+		room_data_manager.into_room_config(node)
+		
 	print("地牢生成逻辑：已分配房间类型")
 
 
@@ -203,17 +206,17 @@ func draw_tilemap():
 	#绘制房间
 	for node in leaf_node:
 		var r = node.room
-		match node.room_type:
-			0:
+		match node.room_type_name:
+			"START":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(8, 1)
-			1:
+			"NORMAL":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(5, 21)
-			2:
+			"TREASURE":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(5, 1)
-			3:
+			"BOSS":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(1, 20)
 		for x in range(r.position.x, r.end.x):

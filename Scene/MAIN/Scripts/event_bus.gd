@@ -13,6 +13,10 @@ signal enemy_died(death_context: String)  # 敌人死亡
 signal player_dealt_damage(payload: Dictionary) # 传递玩家造成的伤害
 signal enemy_dealt_damage(payload: Dictionary)  # 传递敌人造成的伤害
 
+
+# —————— 场景转换信号 ——————
+signal enter_battle_scene(hit_enemies: Dictionary, support_enemies: Dictionary)#玩家已准备好进入战斗场景
+
 # —————— UI 更新信号 ——————
 # 敌人
 signal enemy_hp_changed(current_hp: int, max_hp: int) # 敌人血量变化

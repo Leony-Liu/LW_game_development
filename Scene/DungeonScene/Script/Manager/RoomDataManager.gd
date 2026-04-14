@@ -1,9 +1,12 @@
 #房间数据管理器
 #
-
 extends Node2D
 class_name RoomDataManager
 var mySeed: RandomNumberGenerator
+
+@export var NORMAL_ROOM: RoomConfig
+@export var TREASURE_ROOM: RoomConfig
+@export var BOSS_ROOM: RoomConfig
 
 @export var csv_file_path: String = "res://DataBase/DungeonDataBase/RoomType_and_Weight data.csv"
 var room_types: Array
@@ -58,9 +61,18 @@ func get_random_room_type():
 		
 		sum += w
 		if rand <= sum:
-			#print("抽中房间：", r["RoomType"])
+			print("抽中房间：", r["RoomType"])
 			return r["RoomType"]
 	
 	print("房间数据管理器：算法失败，触发兜底")
 	return 0
 	
+
+func into_room_config(node:BSPNode):
+		match node.room_type_name:
+			"NORMAL":
+				node.room_config = NORMAL_ROOM
+			"TREASURE":
+				node.room_config = TREASURE_ROOM
+			"BOSS":
+				node.room_config = BOSS_ROOM

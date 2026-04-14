@@ -1,8 +1,15 @@
 #BSP算法类
 #作用：分割地图、生成房间
 extends RefCounted
-
 class_name BSPNode
+
+enum  RoomType{
+	NONE = -1,
+	START = 0,
+	NORMAL = 1,
+	TREASURE = 2,
+	BOSS = 3
+}
 
 signal WorldRoom_change(new_room_occ: Dictionary)
 
@@ -10,8 +17,10 @@ var bounds: Rect2i#当前分割块的边界
 var left_child: BSPNode#分割后左边的子块
 var right_child: BSPNode#分割后右边的子块
 var room: Rect2i#分割块里的房间
-var room_type:int = -1#-1为未分类，0为出生点，1为普通房
+var room_type: int
+var room_type_name: String
 
+var room_config: RoomConfig
 
 func _init(rect: Rect2i):
 	bounds = rect

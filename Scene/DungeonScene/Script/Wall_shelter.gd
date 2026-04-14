@@ -1,12 +1,14 @@
 extends Area2D
 
+
 @export var shelter_alpha = 0.6
 @export var normal_alpha = 1.0
 var target: CanvasItem
 
+
+
 func _ready() -> void:
 	target = get_parent().get_node("TileMapLayer")
-	
 
 
 func _on_body_entered(body: Node2D) -> void:
