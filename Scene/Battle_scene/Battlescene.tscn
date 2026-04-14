@@ -21,6 +21,8 @@ position = Vector2(923, 542)
 scale = Vector2(2.24461, 2.05018)
 texture = ExtResource("2_eei88")
 
+[node name="test" type="Node" parent="Environment"]
+
 [node name="Player" parent="." instance=ExtResource("2_noken")]
 position = Vector2(170, 166)
 
