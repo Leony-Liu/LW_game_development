@@ -13,6 +13,7 @@ var telegraph_time: float = 0.4   # 2. 提示时长：高危警告，弹反的�
 var recovery_time: float = 0.8    # 4. 后摇时长：敌人大喘气，玩家的绝对安全输出期
 
 func enter(msg: Dictionary = {}) -> void:
+	print("敌人进入状态：Attack")
 	# 开启异步协程，按顺序执行四个阶段
 	_execute_attack_flow()
 

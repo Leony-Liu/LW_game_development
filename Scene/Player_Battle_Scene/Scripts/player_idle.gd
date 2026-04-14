@@ -7,7 +7,7 @@ extends State
 
 # 进入本状态后立刻执行
 func enter(msg:Dictionary = {}) -> void:
-	print("玩家：回到待机状态")
+	print("玩家进入状态：Idle")
 	# host.get_node("Visuals/AnimationPlayer").play("player_idle")
 
 # ==========================================

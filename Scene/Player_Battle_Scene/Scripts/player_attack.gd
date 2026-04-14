@@ -12,6 +12,7 @@ var card_data: Dictionary
 # ==========================================
 # 1. 接收后攻击流程启动
 func enter(msg: Dictionary = {}) -> void:
+	print("玩家进入状态：Attack")
 	# 接收卡牌数据
 	if msg.has("card"):
 		card_data = msg["card"]
