@@ -3,9 +3,6 @@
 [ext_resource type="Script" uid="uid://bevfk1a46rt8a" path="res://Scene/Battle_scene/PrivateScene/UI/PlayerInformation/player_infromation.gd" id="1_on5e8"]
 
 [sub_resource type="FontFile" id="FontFile_on5e8"]
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
