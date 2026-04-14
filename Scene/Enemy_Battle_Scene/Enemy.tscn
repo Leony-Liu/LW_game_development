@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_hurt.gd" id="7_4uru5"]
 [ext_resource type="Script" uid="uid://byjsvmcjitw6q" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_attack.gd" id="7_spqwk"]
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy2" type="Node2D"]
 script = ExtResource("1_b5lmm")
 
 [node name="EnemyAIBrain" type="Node" parent="."]
