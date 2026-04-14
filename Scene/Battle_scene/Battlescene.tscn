@@ -13,6 +13,8 @@ script = ExtResource("1_ebhhr")
 
 [node name="Environment" type="Node2D" parent="."]
 
+[node name="test" type="Node" parent="Environment"]
+
 [node name="Player" parent="." instance=ExtResource("2_noken")]
 position = Vector2(170, 166)
 
