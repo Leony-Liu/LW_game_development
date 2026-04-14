@@ -9,6 +9,7 @@ extends State
 
 
 func enter(msg: Dictionary = {}) -> void:
+	print("敌人进入状态：Attack")
 	# 开启异步协程，按顺序执行四个阶段
 	_execute_attack()
 

@@ -10,6 +10,7 @@ var current_parry_quality: String = "startup"
 
 # 进入后设置格挡阶段为开始
 func enter(msg: Dictionary = {}) -> void:
+	print("玩家进入状态：Parry")
 	current_parry_quality = "startup"
 	
 	# host.get_node("Visuals/AnimationPlayer").play("player_parry_action") 
