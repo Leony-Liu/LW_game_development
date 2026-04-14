@@ -38,6 +38,7 @@ folder_colors={
 "res://DataBase/": "red",
 "res://Scene/": "blue",
 "res://Scene/Battle_scene/": "blue",
+"res://Scene/Battle_scene/Arts/": "purple",
 "res://Scene/Battle_scene/PrivateScene/UI/": "purple",
 "res://Scene/Battle_scene/Scripts/": "yellow",
 "res://Scene/Card_scene/": "blue",
