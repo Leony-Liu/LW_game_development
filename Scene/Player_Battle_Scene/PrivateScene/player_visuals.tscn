@@ -1,3 +1,54 @@
-[gd_scene format=3 uid="uid://3kynny3yul0x"]
+[gd_scene load_steps=3 format=3 uid="uid://3kynny3yul0x"]
+
+[ext_resource type="Texture2D" uid="uid://c0ywv4wnmkskl" path="res://Scene/Player_Battle_Scene/Arts/Sword-Test/剑.png" id="1_c5jf8"]
+[ext_resource type="Texture2D" uid="uid://kf7p4040fo7a" path="res://Scene/Player_Battle_Scene/Arts/hand-test/hand.png" id="2_glg2u"]
 
 [node name="PlayerVisuals" type="Node2D"]
+
+[node name="Skeleton2D" type="Skeleton2D" parent="."]
+
+[node name="sword" type="Bone2D" parent="Skeleton2D"]
+position = Vector2(1465, 799)
+scale = Vector2(0.345942, 0.345942)
+rest = Transform2D(0.345942, 0, 0, 0.345942, 1465, 799)
+
+[node name="hand-r-f-1" type="Bone2D" parent="Skeleton2D"]
+position = Vector2(1174, 1977)
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="hand-r-f-2" type="Bone2D" parent="Skeleton2D/hand-r-f-1"]
+position = Vector2(-228, -535)
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="hand-r-f-3" type="Bone2D" parent="Skeleton2D/hand-r-f-1/hand-r-f-2"]
+position = Vector2(-170, -415)
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="hand-r-b-2" type="Bone2D" parent="Skeleton2D"]
+position = Vector2(1171, 1907)
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="hand-r-b-2" type="Bone2D" parent="Skeleton2D/hand-r-b-2"]
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="hand-r-b-3" type="Bone2D" parent="Skeleton2D/hand-r-b-2/hand-r-b-2"]
+rest = Transform2D(1, 0, 0, 1, 0, 0)
+
+[node name="polygons" type="Node2D" parent="."]
+
+[node name="sword" type="Polygon2D" parent="polygons"]
+position = Vector2(-1225, -2352)
+texture = ExtResource("1_c5jf8")
+skeleton = NodePath("../../Skeleton2D")
+polygon = PackedVector2Array(1225.94, 364.62, 1071.6, 673.297, 903.543, 2360.73, 1033.88, 3014.09, 1237.95, 3230.17, 1493.46, 3032.96, 1603.21, 2381.31, 1394.14, 674.431, 1221, 712.973, 1252.13, 2341.85, 1237.6, 2993.4)
+uv = PackedVector2Array(1225.94, 364.62, 1071.6, 673.297, 903.543, 2360.73, 1033.88, 3014.09, 1237.95, 3230.17, 1493.46, 3032.96, 1603.21, 2381.31, 1476.31, 664.721, 1221, 712.973, 1252.13, 2341.85, 1237.6, 2993.4)
+polygons = [PackedInt32Array(8, 1, 0), PackedInt32Array(8, 7, 0), PackedInt32Array(8, 9, 2, 1), PackedInt32Array(7, 8, 9, 6), PackedInt32Array(9, 10, 3, 2), PackedInt32Array(9, 6, 5, 10), PackedInt32Array(10, 4, 3), PackedInt32Array(10, 5, 4)]
+bones = ["Bone2D", PackedFloat32Array(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)]
+internal_vertex_count = 3
+
+[node name="hand-r-f" type="Polygon2D" parent="polygons"]
+texture = ExtResource("2_glg2u")
+polygon = PackedVector2Array(803.013, 574.765, 322.204, 961.688, 492.905, 1482.33, 601.016, 1616.04, 834.308, 2293.16, 1107.43, 2375.66, 1611, 2196.43, 1673.59, 1897.7, 1283.82, 1394.13, 1278.13, 1214.89, 1269.6, 662.961, 925.348, 1331.54, 950.953, 1482.33)
+uv = PackedVector2Array(803.013, 574.765, 322.204, 961.688, 492.905, 1482.33, 601.016, 1616.04, 834.308, 2293.16, 1107.43, 2375.66, 1611, 2196.43, 1673.59, 1897.7, 1283.82, 1394.13, 1278.13, 1214.89, 1269.6, 662.961, 925.348, 1331.54, 950.953, 1482.33)
+polygons = [PackedInt32Array(0, 1, 2, 11), PackedInt32Array(0, 10, 9, 11), PackedInt32Array(2, 3, 12, 11), PackedInt32Array(9, 11, 12, 8), PackedInt32Array(3, 4, 5, 12), PackedInt32Array(12, 5, 6, 7, 8)]
+internal_vertex_count = 2
