@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0ywv4wnmkskl"
-path="res://.godot/imported/剑.png-1402d1f6343f2038d6537d345e14f6fd.ctex"
+uid="uid://dgxfqdbp868p7"
+path="res://.godot/imported/hand-l.png-f4535a6d233f8ad78c65eec8742a4bb9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Player_Battle_Scene/Arts/Sword-Test/剑.png"
-dest_files=["res://.godot/imported/剑.png-1402d1f6343f2038d6537d345e14f6fd.ctex"]
+source_file="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Arts/hand-test/hand-l.png"
+dest_files=["res://.godot/imported/hand-l.png-f4535a6d233f8ad78c65eec8742a4bb9.ctex"]
 
 [params]
 

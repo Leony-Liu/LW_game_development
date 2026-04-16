@@ -5,6 +5,8 @@
 
 extends State
 
+@onready var visuals = $"../../Visuals/PlayerVisuals"
+
 var card_data: Dictionary
 
 # ==========================================
@@ -13,17 +15,23 @@ var card_data: Dictionary
 # 1. 接收后攻击流程启动
 func enter(msg: Dictionary = {}) -> void:
 	print("玩家进入状态：Attack")
-	# 接收卡牌数据
 	if msg.has("card"):
 		card_data = msg["card"]
-	print("Attack-玩家状态：开始播放攻击状态")
-	host.get_node("Visuals/AnimationPlayer").play("player_attack")
-	# TODO【临时逻辑】：因为现在没有动画事件，我们用代码延迟 0.5 秒，模拟“刀砍到敌人身上”的那一帧
+	
+	if visuals and visuals.has_method("play_attack"):
+		visuals.play_attack()
+	
+	# 1. 等待 0.5 秒，模拟“武器砍中敌人”的那一帧
 	await get_tree().create_timer(0.5).timeout
-	# 执行伤害结算
 	_execute_damage()
-	# 打完之后，自动切回待机状态
-	get_parent().transition_to("Idle")
+	
+	# 2. 【核心】等待攻击动画彻底播放完毕
+	if visuals:
+		await visuals.anim_player.animation_finished
+	
+	# 3. 【安全判定】确保等待期间状态没有被强制改变（比如突然被敌人打出硬直死亡）
+	if get_parent().current_state == self:
+		get_parent().transition_to("Idle") # 动画播完了，才切回待机状态
 
 # 2. 打包伤害
 func _execute_damage() -> void:

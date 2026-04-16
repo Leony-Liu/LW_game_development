@@ -15,7 +15,8 @@ IGNORE_DIRS = {
 ALLOWED_EXTENSIONS = {'.gd'} 
 
 # 【专属定制】：直接使用你指定的绝对路径 (前缀 r 表示原生字符串，防止 \ 被转义)
-desktop_path = r"D:\Desktop"
+user_home = os.path.expanduser('~')
+desktop_path = os.path.join(user_home, "Desktop")
 
 # 输出文件将直接保存在桌面上
 OUTPUT_FILE = os.path.join(desktop_path, "项目结构.txt")

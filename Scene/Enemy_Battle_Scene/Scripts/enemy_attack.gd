@@ -26,3 +26,5 @@ func _execute_attack() -> void:
 	# 动画结束后切回Idle
 	await enemy_visual.anim.animation_finished
 	get_parent().transition_to("Idle")
+	
+# 发出伤害

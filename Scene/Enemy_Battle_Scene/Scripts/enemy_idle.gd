@@ -4,13 +4,18 @@
 
 extends State
 
+@onready var enemy_visual = $"../../Visuals/EnemyVisuals"
+
 var wait_timer: float = 0.0
 var target_wait_time: float = 2.0
 
 
 func enter(msg: Dictionary = {}) -> void:
 	print("敌人进入状态：Idle")
+	
 	wait_timer = 0.0
+	
+	
 	
 	# TODO 暂定行动间隔生成
 	var ai_brain = host.get_node_or_null("EnemyAIBrain")
