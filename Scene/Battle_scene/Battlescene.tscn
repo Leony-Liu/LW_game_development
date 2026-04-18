@@ -21,20 +21,13 @@ position = Vector2(923, 542)
 scale = Vector2(2.24461, 2.05018)
 texture = ExtResource("2_eei88")
 
-[node name="Sprite2D2" type="Sprite2D" parent="Environment"]
-modulate = Color(0.33, 0.33, 0.33, 1)
-position = Vector2(923, 542)
-scale = Vector2(2.24461, 2.05018)
-texture = ExtResource("2_eei88")
-
-[node name="test" type="Node" parent="Environment"]
-
-[node name="Player" parent="." instance=ExtResource("2_noken")]
-position = Vector2(170, 166)
-
 [node name="EnemySlot" type="Node" parent="."]
 
 [node name="Enemy" parent="EnemySlot" instance=ExtResource("3_mvvqq")]
+
+[node name="Player" parent="." instance=ExtResource("2_noken")]
+z_index = 10
+position = Vector2(170, 166)
 
 [node name="UIManager" type="CanvasLayer" parent="."]
 script = ExtResource("3_nr23r")

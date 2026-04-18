@@ -21,15 +21,15 @@ func enter(msg: Dictionary = {}) -> void:
 	if visuals and visuals.has_method("play_attack"):
 		visuals.play_attack()
 	
-	# 1. 等待 0.5 秒，模拟“武器砍中敌人”的那一帧
-	await get_tree().create_timer(0.5).timeout
-	_execute_damage()
+	# 通过信号连接攻击方法
+	if not visuals.hit_frame_reached.is_connected(_execute_damage):
+		visuals.hit_frame_reached.connect(_execute_damage)
 	
-	# 2. 【核心】等待攻击动画彻底播放完毕
+	# 【核心】等待攻击动画彻底播放完毕
 	if visuals:
 		await visuals.anim_player.animation_finished
 	
-	# 3. 【安全判定】确保等待期间状态没有被强制改变（比如突然被敌人打出硬直死亡）
+	# 【安全判定】确保等待期间状态没有被强制改变（比如突然被敌人打出硬直死亡）
 	if get_parent().current_state == self:
 		get_parent().transition_to("Idle") # 动画播完了，才切回待机状态
 

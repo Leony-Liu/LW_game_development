@@ -16,7 +16,6 @@ func enter(msg: Dictionary = {}) -> void:
 	wait_timer = 0.0
 	
 	
-	
 	# TODO 暂定行动间隔生成
 	var ai_brain = host.get_node_or_null("EnemyAIBrain")
 	if ai_brain:

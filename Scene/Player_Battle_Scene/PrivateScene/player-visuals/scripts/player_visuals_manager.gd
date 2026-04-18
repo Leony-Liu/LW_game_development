@@ -4,6 +4,8 @@ class_name PlayerVisualsManager
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
+signal hit_frame_reached 
+
 # 播放待机动画
 func play_idle() -> void:
 	anim_player.play("idle") 
@@ -15,3 +17,6 @@ func play_attack() -> void:
 # 播放格挡/弹反动画
 func play_parry() -> void:
 	anim_player.play("parry") 
+
+func hit()->void:
+	hit_frame_reached.emit()
