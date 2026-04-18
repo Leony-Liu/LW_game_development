@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_qeyuf")
 type_name = "normal"
-min_enemies = 2
-max_enemies = 5
+min_enemies = 1
+max_enemies = 1
 enemy_pool = Array[PackedScene]([ExtResource("1_isiat")])
 metadata/_custom_type_script = "uid://dyam6375tgtbf"

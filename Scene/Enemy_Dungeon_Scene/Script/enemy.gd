@@ -1,8 +1,7 @@
 #敌人管理器
-class_name DungeonEnemy
 extends Node
 
-@onready var enemy: DungeonEnemy = self
+@onready var enemy: CharacterBody2D = $"."
 @onready var my_info: DungeonEnemyInfo = $Information
 @export var animated: AnimatedSprite2D
 @onready var detection: Area2D = $Detection
@@ -14,9 +13,7 @@ var last_direction: Vector2 = Vector2.DOWN
 var player_target: Node2D
 var target_in_area: Node2D
 
-func _ready() -> void:
-	print("怪物的地图管家：",my_info.my_map_manager)
-	print("怪物所在地图：", my_info.TileMapReference)
+
 func _physics_process(delta: float) -> void:
 	if enemy.velocity.length() > 0.1:
 		last_direction = enemy.velocity.normalized()
@@ -45,8 +42,8 @@ func get_my_room() -> BSPNode:
 	return my_info.MyNode
 
 #怪物获取自身所在瓦片地图的方法
-func get_my_tilemap() -> TileMapLayer:
-	return my_info.TileMapReference
+func get_my_mapInfo() -> MapInfo:
+	return my_info.map_info
 
 #动画播放
 func play_animation(anim_name: String):

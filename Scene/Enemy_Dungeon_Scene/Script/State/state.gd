@@ -4,7 +4,7 @@ class_name DungeonEnemyState
 extends Node
 
 var machine: DungeonEnemyStateMachine
-var enemy: DungeonEnemy
+var enemy: CharacterBody2D
 
 func enter():
 	pass
