@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://bjqfwbslna44j"]
+[gd_scene load_steps=7 format=4 uid="uid://bjqfwbslna44j"]
 
 [ext_resource type="Texture2D" uid="uid://5nbijmly8la5" path="res://Scene/DungeonScene/Arts/Dungeon_Tiles.png" id="1_qssnm"]
 [ext_resource type="Script" uid="uid://nhd6ptfwfo1e" path="res://Scene/DungeonScene/Script/Wall_shelter.gd" id="2_oyxrl"]
@@ -19,7 +19,10 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_64jg8")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urgdl"]
-size = Vector2(32, 30)
+size = Vector2(63, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qssnm"]
+size = Vector2(30, 44)
 
 [node name="testobstacle1" type="Node2D"]
 y_sort_enabled = true
@@ -33,8 +36,12 @@ tile_set = SubResource("TileSet_l8y4k")
 script = ExtResource("2_oyxrl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(16, -1)
+position = Vector2(32.5, 95)
 shape = SubResource("RectangleShape2D_urgdl")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(80, 6)
+shape = SubResource("RectangleShape2D_qssnm")
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area2D" to="Area2D" method="_on_body_exited"]
