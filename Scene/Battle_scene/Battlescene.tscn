@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=8 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_scene/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_scene/Scripts/card_manager.gd" id="1_ygjx7"]
-[ext_resource type="Texture2D" uid="uid://cs83oeaei66dt" path="res://Scene/Battle_scene/Arts/test_background.jpg" id="2_eei88"]
 [ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/player.tscn" id="2_noken"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Enemy_Battle_Scene/Enemy.tscn" id="3_mvvqq"]
 [ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_scene/Scripts/battle_ui_manager.gd" id="3_nr23r"]
@@ -13,13 +12,6 @@
 script = ExtResource("1_ebhhr")
 
 [node name="Environment" type="Node2D" parent="."]
-position = Vector2(0, -5)
-
-[node name="Sprite2D" type="Sprite2D" parent="Environment"]
-modulate = Color(0.33, 0.33, 0.33, 1)
-position = Vector2(923, 542)
-scale = Vector2(2.24461, 2.05018)
-texture = ExtResource("2_eei88")
 
 [node name="EnemySlot" type="Node" parent="."]
 

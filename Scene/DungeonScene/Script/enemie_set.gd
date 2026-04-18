@@ -25,11 +25,13 @@ func spawn_enemies_in_rooms(leaf_node: Array[BSPNode], world_obstacle: Dictionar
 				if cfg.enemy_pool.size() > 0:
 					var enemy_scene = pick_random_with_seed(cfg.enemy_pool, mySeed)
 					var enemy = enemy_scene.instantiate()
-					enemy.get_node("EnemyManager").MyNode = node
+					enemy.get_node("Information").MyNode = node
 					enemy.get_node("Information").ID = mySeed.randi_range(20001, 2100)
+					enemy.get_node("Information").TileMapReference = tilemap
 					add_child(enemy)
 					enemy.add_to_group("Enemies")
 					enemy.global_position = get_enemy_set_pos(node, world_obstacle)
+					
 	pass
 
 

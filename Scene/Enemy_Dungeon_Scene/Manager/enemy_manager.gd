@@ -1,3 +1,13 @@
 extends Node
 
-var MyNode: BSPNode = null#记录怪物所属的房间
+enum enemy_condition{
+	Idel,
+	Patrol,
+	Pursue
+}
+
+@export var informations: Node
+
+func _ready() -> void:
+	
+	pass
