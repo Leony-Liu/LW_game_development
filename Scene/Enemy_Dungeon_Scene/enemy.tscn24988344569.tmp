@@ -112,9 +112,8 @@ script = ExtResource("8_deow4")
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("9_eedxu")
 
-[node name="Movement" type="Node" parent="." node_paths=PackedStringArray("enemy")]
+[node name="Movement" type="Node" parent="."]
 script = ExtResource("9_fdnxt")
-enemy = NodePath("..")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 

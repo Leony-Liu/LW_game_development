@@ -5,4 +5,4 @@ extends Node
 @export var BattleID: int = 20001#怪物进入战斗的类型ID
 @export var TileMapReference: TileMapLayer#记录怪物所在瓦片地图
 var MyNode: BSPNode = null#记录怪物所属的房间
-var my_map_manager: Node2D#获取所在地图的totalitymanager
+var map_info: MapInfo

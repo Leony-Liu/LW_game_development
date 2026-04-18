@@ -9,6 +9,7 @@ class_name totality_manager
 @export var room_data_manager: RoomDataManager
 @export var wall_set_logic: wallSetLogic
 @export var enemies_logic: enemy_set
+@export var map_information: MapInfo
 
 @export var test_tilemap: TileMapLayer
 
@@ -48,7 +49,7 @@ func setup_and_generate(seed_value: int):
 	wall_set_logic.set_wall(World_wall, Wall_scene)
 	
 	obstatic_logic.generate_obstacle(leaf_node, World_obstacle, World_corridor, World_wall, World_gap, World_room)
-	
+	map_information.get_data()#储存当层地图数据
 	enemies_logic.spawn_enemies_in_rooms(leaf_node, World_obstacle)
 	
 	

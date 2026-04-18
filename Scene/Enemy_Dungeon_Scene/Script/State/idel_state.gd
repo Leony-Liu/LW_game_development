@@ -6,6 +6,7 @@ func enter():
 	timer = 0.0
 	enemy.play_animation("Idle")
 	enemy.movement.move_stop()
+	print("进入待机状态")
 	pass
 
 

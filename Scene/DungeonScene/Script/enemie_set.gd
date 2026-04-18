@@ -6,6 +6,8 @@ var mySeed: RandomNumberGenerator
 @export var tilemap: TileMapLayer
 @export var manager: Node2D
 
+@export var map_info: MapInfo
+
 func pick_random_with_seed(array: Array, rng: RandomNumberGenerator):
 	if array.is_empty(): return null
 	
@@ -28,8 +30,7 @@ func spawn_enemies_in_rooms(leaf_node: Array[BSPNode], world_obstacle: Dictionar
 					var enemy = enemy_scene.instantiate()
 					enemy.get_node("Information").MyNode = node
 					enemy.get_node("Information").ID = mySeed.randi_range(20001, 2100)
-					enemy.get_node("Information").TileMapReference = tilemap
-					enemy.get_node("Information").my_map_manager = manager
+					enemy.get_node("Information").map_info = map_info
 					add_child(enemy)
 					enemy.add_to_group("Enemies")
 					enemy.global_position = get_enemy_set_pos(node, world_obstacle)
