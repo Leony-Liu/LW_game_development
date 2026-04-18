@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://vle13wwrrfje"]
+[gd_scene load_steps=21 format=3 uid="uid://vle13wwrrfje"]
 
 [ext_resource type="Texture2D" uid="uid://dbxo755aixv8i" path="res://Scene/Enemy_Dungeon_Scene/Art/Collect_Down-Sheet.png" id="1_u6x70"]
 [ext_resource type="Script" uid="uid://ctd3stks0jo5n" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy.gd" id="2_l6lxh"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://b7kjbl42hrf7i" path="res://Scene/Enemy_Dungeon_Scene/Script/State/idel_state.gd" id="7_fdnxt"]
 [ext_resource type="Script" uid="uid://bqgw3xtmj8ohe" path="res://Scene/Enemy_Dungeon_Scene/Script/State/patrol_state.gd" id="8_deow4"]
 [ext_resource type="Script" uid="uid://ceh71nsx5oayt" path="res://Scene/Enemy_Dungeon_Scene/Script/State/chase_state.gd" id="9_eedxu"]
+[ext_resource type="Script" uid="uid://bfp3em5s22qnf" path="res://Scene/Enemy_Dungeon_Scene/Script/dungeon_enemy_movement.gd" id="9_fdnxt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sdb46"]
 atlas = ExtResource("1_u6x70")
@@ -76,9 +77,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_l6lxh"]
 radius = 3.0
 
-[node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
+[sub_resource type="CircleShape2D" id="CircleShape2D_fdnxt"]
+radius = 32.0156
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("ray") groups=["Enemies"]]
 y_sort_enabled = true
 collision_layer = 4
+script = ExtResource("2_l6lxh")
+ray = NodePath("RayCast2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 4
@@ -90,12 +96,8 @@ autoplay = "default"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_l6lxh")
 
-[node name="MoveLogic#" type="Node" parent="."]
-script = ExtResource("2_l6lxh")
-
-[node name="EnemyManager#" type="Node" parent="." node_paths=PackedStringArray("move_logic", "informations")]
+[node name="EnemyManager#" type="Node" parent="." node_paths=PackedStringArray("informations")]
 script = ExtResource("3_qqxeh")
-move_logic = NodePath("../MoveLogic#")
 informations = NodePath("../Information")
 
 [node name="Information" type="Node" parent="."]
@@ -114,3 +116,14 @@ script = ExtResource("8_deow4")
 script = ExtResource("9_eedxu")
 
 [node name="Movement" type="Node" parent="."]
+script = ExtResource("9_fdnxt")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="Detection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
+shape = SubResource("CircleShape2D_fdnxt")
+
+[connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]

@@ -6,11 +6,8 @@ enum enemy_condition{
 	Pursue
 }
 
-@export var move_logic: Node
 @export var informations: Node
 
 func _ready() -> void:
-	move_logic.tilemap = informations.TileMapReference
-	#print(move_logic.tilemap)
 	
 	pass
