@@ -19,6 +19,7 @@ script = ExtResource("4_rkcga")
 
 [node name="EnemyVisuals" parent="Visuals" instance=ExtResource("3_i0fvd")]
 position = Vector2(972, 898)
+script = null
 
 [node name="Data" type="Node" parent="."]
 
@@ -43,3 +44,5 @@ script = ExtResource("7_spqwk")
 [node name="Parry" type="Node" parent="StateMachine"]
 
 [node name="Controled" type="Node" parent="StateMachine"]
+
+[node name="test" type="Node" parent="."]
