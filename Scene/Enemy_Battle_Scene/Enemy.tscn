@@ -7,10 +7,6 @@
 [ext_resource type="Script" uid="uid://bxc1q8qsd0vsp" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_ai_brain.gd" id="4_rkcga"]
 [ext_resource type="Script" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_state_machine.gd" id="5_8yahm"]
 [ext_resource type="Script" uid="uid://cjx74meur6pb8" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_idle.gd" id="6_42ml3"]
-<<<<<<< HEAD
-[ext_resource type="Script" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_hurt.gd" id="7_4uru5"]
-=======
->>>>>>> battle_development
 [ext_resource type="Script" uid="uid://byjsvmcjitw6q" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_attack.gd" id="7_spqwk"]
 
 [node name="Enemy2" type="Node2D"]
