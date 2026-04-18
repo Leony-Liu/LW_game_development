@@ -14,6 +14,7 @@ func _ready() -> void:
 				child.machine = self#在状态子节点脚本中不用声明新的machine变量就可以直接用
 				child.enemy = owner#状态子节点锁定它归属的敌人根节点
 	print(states.keys())
+	
 	current_state = states["idle"]
 	current_state.enter()
 
