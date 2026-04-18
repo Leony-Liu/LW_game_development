@@ -43,5 +43,3 @@ script = ExtResource("7_spqwk")
 [node name="Parry" type="Node" parent="StateMachine"]
 
 [node name="Controled" type="Node" parent="StateMachine"]
-
-[node name="test" type="Node" parent="."]

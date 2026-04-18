@@ -10,6 +10,10 @@ script/source = "extends Node2D
 var current_telegraph_time: float  # 提示阶段时长
 var current_wait_time: float       # 等待阶段时长
 
+
+signal enemy_hit_frame_reached # 敌人攻击命中帧信号
+
+
 func pause_for_telegraph():
 	anim.pause()
 	print(\"提示等待代码正常生效\")
@@ -18,6 +22,10 @@ func pause_for_telegraph():
 	if current_wait_time > 0:
 		await get_tree().create_timer(current_wait_time).timeout
 	anim.play()
+
+
+func hit():
+	enemy_hit_frame_reached.emit()
 "
 
 [sub_resource type="Animation" id="Animation_e7gmr"]
@@ -866,6 +874,23 @@ tracks/34/keys = {
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.38, 1.38), Vector2(1, 1)]
 }
+tracks/35/type = "method"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath(".")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(0.8, 1.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"pause_for_telegraph"
+}, {
+"args": [],
+"method": &"hit"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_v2abk"]
 resource_name = "idle"
@@ -953,10 +978,12 @@ rest = Transform2D(1, 0, 0, 1, -114, 39)
 [node name="Arm-low-L" type="Bone2D" parent="Character/Body/Chest/Arm-up-L"]
 position = Vector2(-55, 104)
 rotation = -0.227427
+scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, -55, 104)
 
 [node name="Hand-L" type="Bone2D" parent="Character/Body/Chest/Arm-up-L/Arm-low-L"]
 position = Vector2(-33, 107)
+scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, -33, 107)
 
 [node name="arm-up-r" type="Bone2D" parent="Character/Body/Chest"]
@@ -966,6 +993,7 @@ rest = Transform2D(1, 0, 0, 1, 123, 21)
 
 [node name="arm-low-r" type="Bone2D" parent="Character/Body/Chest/arm-up-r"]
 position = Vector2(45, 99)
+scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 45, 99)
 
 [node name="hand-r" type="Bone2D" parent="Character/Body/Chest/arm-up-r/arm-low-r"]
@@ -980,6 +1008,7 @@ rest = Transform2D(1, 0, 0, 1, -29, 18)
 [node name="Leg-up-l" type="Bone2D" parent="Character/Body"]
 position = Vector2(-51, 26)
 rotation = 0.245921
+scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, -51, 26)
 
 [node name="leg-low-l" type="Bone2D" parent="Character/Body/Leg-up-l"]
@@ -1004,6 +1033,7 @@ rest = Transform2D(1, 0, 0, 1, 43, 138)
 
 [node name="feet-r" type="Bone2D" parent="Character/Body/leg-up-r/leg-low-r"]
 position = Vector2(26, 147)
+scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 26, 147)
 
 [node name="Polygons" type="Node2D" parent="."]

@@ -6,6 +6,7 @@
 extends State
 
 @onready var enemy_visual = $"../../Visuals/EnemyVisuals"
+@onready var enemy_calculator = $"../../Data/Calculator"
 
 # ==========================================
 # 战斗体验数值，供机制更改
@@ -16,18 +17,37 @@ var recovery_time: float = 0.8    # 4. 后摇时长：敌人大喘气，玩家�
 
 func enter(msg: Dictionary = {}) -> void:
 	print("敌人进入状态：Attack")
+	
+	if not enemy_visual.enemy_hit_frame_reached.is_connected(_deal_damage):
+		enemy_visual.enemy_hit_frame_reached.connect(_deal_damage)
+		
 	_execute_attack()
+
+func exit() -> void:
+	# 退出时断开连接
+	if enemy_visual.enemy_hit_frame_reached.is_connected(_deal_damage):
+		enemy_visual.enemy_hit_frame_reached.disconnect(_deal_damage)
 
 # ==========================================
 # 攻击流程
 # ==========================================
-func _execute_attack() -> void:
-	enemy_visual.current_telegraph_time = 1.0  # 提示阶段持续 1 秒
-	enemy_visual.current_wait_time = 0.5       # 提示结束后，再停顿 0.5 秒才劈下
-	enemy_visual.anim.play("attack")
-	
-	# 动画结束后切回Idle
-	await enemy_visual.anim.animation_finished
-	get_parent().transition_to("Idle")
-	
+
 # 发出伤害
+func _deal_damage() -> void:
+	# 1. 让计算器算出伤害
+	var dmg = enemy_calculator.calculate_outgoing_damage()
+	# 2. 打包数据
+	var payload = {
+		"damage": dmg,
+		"source": host,
+		"type": "physical"
+	}
+	# 3. 通过总线发给裁判
+	EventBus.enemy_dealt_damage.emit(payload)
+	print("敌人攻击：对玩家发出伤害 -> ", dmg)
+	
+func _execute_attack() -> void:
+	enemy_visual.anim.play("attack")
+	await enemy_visual.anim.animation_finished
+	if get_parent().current_state == self:
+		get_parent().transition_to("Idle")
