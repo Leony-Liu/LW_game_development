@@ -111,6 +111,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
 theme = SubResource("Theme_d862h")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_i38s8")
 theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_fjayt")

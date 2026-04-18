@@ -1,6 +1,5 @@
 
 
-
 extends Control
 
 @onready var current_hp_bar = $current_hp

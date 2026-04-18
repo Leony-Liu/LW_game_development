@@ -53,6 +53,7 @@ folder_colors={
 "res://Scene/Enemy_Battle_Scene/Scripts/": "yellow",
 "res://Scene/MAIN/Scripts/": "yellow",
 "res://Scene/Player_Battle_Scene/Arts/": "purple",
+"res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Arts/": "purple",
 "res://Scene/Player_Battle_Scene/Scripts/": "yellow",
 "res://Scene/Player_Dungeon_Scene/Art/": "purple",
 "res://Scene/Player_Dungeon_Scene/Scripts/": "yellow",

@@ -5,9 +5,16 @@
 
 extends State
 
+@onready var visuals = $"../../Visuals/PlayerVisuals"
+
 # 进入本状态后立刻执行
 func enter(msg:Dictionary = {}) -> void:
+	
 	print("玩家进入状态：Idle")
+	# 获取视觉管理器并播放动画
+	if visuals and visuals.has_method("play_idle"):
+		visuals.play_idle()
+	
 	# host.get_node("Visuals/AnimationPlayer").play("player_idle")
 
 # ==========================================
