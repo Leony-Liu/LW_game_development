@@ -4,10 +4,9 @@ class_name DungeonEnemyState
 extends Node
 
 var machine: DungeonEnemyStateMachine
-var enemy = owner#怪物主体
+var enemy: DungeonEnemy
 
 func enter():
-	
 	pass
 
 func exit(): 

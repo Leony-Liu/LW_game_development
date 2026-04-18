@@ -2,10 +2,12 @@
 class_name DungeonEnemy
 extends Node
 
-@onready var enemy: CharacterBody2D = owner
-var tilemap: TileMapLayer
+@onready var enemy: DungeonEnemy = self
+@onready var my_info: DungeonEnemyInfo = $Information
+@export var animated: AnimatedSprite2D
 @onready var detection: Area2D = $Detection
 @export var ray: RayCast2D
+@export var movement: GungeonEnemeyMoveMent
 
 var last_direction: Vector2 = Vector2.DOWN
 
@@ -16,7 +18,7 @@ var target_in_area: Node2D
 func _physics_process(delta: float) -> void:
 	if enemy.velocity.length() > 0.1:
 		last_direction = enemy.velocity.normalized()
-	
+		
 	if target_in_area:
 		if is_player_in_fov(target_in_area):
 			ray.enabled = true
@@ -36,17 +38,17 @@ func _physics_process(delta: float) -> void:
 func get_detected_player() -> CharacterBody2D:
 	return player_target
 
+#怪物获取自身房间的方法
+func get_my_room() -> BSPNode:
+	return my_info.MyNode
 
-#func get_patrol_target()-> Vector2:
-	#if my_node == null:
-		#return enemy.global_position
-	#
-	#var room = my_node.room
-	#var target_x = randf_range(room.position.x, room.end.x)
-	#var target_y = randf_range(room.position.y, room.end.y)
-	#var target_pos = Vector2i(target_x, target_y)
-	#var world_target_pos = tilemap.local_to_map(target_pos)
-	#return world_target_pos
+#怪物获取自身所在瓦片地图的方法
+func get_my_tilemap() -> TileMapLayer:
+	return my_info.TileMapReference
+
+#动画播放
+func play_animation(anim_name: String):
+	animated.play(anim_name)
 
 
 func _on_detection_body_entered(body: Node2D) -> void:

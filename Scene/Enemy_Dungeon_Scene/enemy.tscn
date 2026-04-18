@@ -1,8 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://vle13wwrrfje"]
+[gd_scene load_steps=20 format=3 uid="uid://vle13wwrrfje"]
 
 [ext_resource type="Texture2D" uid="uid://dbxo755aixv8i" path="res://Scene/Enemy_Dungeon_Scene/Art/Collect_Down-Sheet.png" id="1_u6x70"]
 [ext_resource type="Script" uid="uid://ctd3stks0jo5n" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy.gd" id="2_l6lxh"]
-[ext_resource type="Script" uid="uid://cs4w656wj2ofl" path="res://Scene/Enemy_Dungeon_Scene/Manager/enemy_manager.gd" id="3_qqxeh"]
 [ext_resource type="Script" uid="uid://dmnqvtssw5bgc" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy_dungeo_information.gd" id="4_l6lxh"]
 [ext_resource type="Script" uid="uid://cwoyidhq4tn7v" path="res://Scene/Enemy_Dungeon_Scene/Script/State/state_machine.gd" id="5_sdb46"]
 [ext_resource type="Script" uid="uid://b7kjbl42hrf7i" path="res://Scene/Enemy_Dungeon_Scene/Script/State/idel_state.gd" id="7_fdnxt"]
@@ -70,7 +69,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_sdbya")
 }],
 "loop": true,
-"name": &"default",
+"name": &"Idle",
 "speed": 10.0
 }]
 
@@ -80,25 +79,23 @@ radius = 3.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_fdnxt"]
 radius = 32.0156
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("ray") groups=["Enemies"]]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("animated", "ray", "movement") groups=["Enemies"]]
 y_sort_enabled = true
 collision_layer = 4
 script = ExtResource("2_l6lxh")
+animated = NodePath("AnimatedSprite2D")
 ray = NodePath("RayCast2D")
+movement = NodePath("Movement")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 4
 position = Vector2(0, -7)
 scale = Vector2(0.43, 0.43)
 sprite_frames = SubResource("SpriteFrames_qy7x4")
-autoplay = "default"
+animation = &"Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_l6lxh")
-
-[node name="EnemyManager#" type="Node" parent="." node_paths=PackedStringArray("informations")]
-script = ExtResource("3_qqxeh")
-informations = NodePath("../Information")
 
 [node name="Information" type="Node" parent="."]
 script = ExtResource("4_l6lxh")

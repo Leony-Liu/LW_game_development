@@ -17,7 +17,6 @@ func _ready() -> void:
 	current_state = states["idle"]
 	current_state.enter()
 
-
 #怪物状态转变方法
 func change_state(new_state_name: String):
 	#防止传回位置状态
