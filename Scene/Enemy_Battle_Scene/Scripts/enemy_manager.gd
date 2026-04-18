@@ -46,6 +46,6 @@ func take_damage(payload: Dictionary) -> void:
 	
 	#  扔给计算器算真实伤害
 	var real_damage = calculator.calculate_incoming_damage(incoming_dmg)
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	 
+	
 	#  扔给 CombatData 去扣血
 	combat_data.get_hit(real_damage, "player_attack")

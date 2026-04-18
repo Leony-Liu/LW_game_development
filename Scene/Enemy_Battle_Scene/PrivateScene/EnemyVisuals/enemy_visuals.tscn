@@ -1,6 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvwff7fyjmfoc"]
+[gd_scene load_steps=7 format=3 uid="uid://dvwff7fyjmfoc"]
 
 [ext_resource type="Texture2D" uid="uid://bweod8v1ggb1u" path="res://Scene/Enemy_Battle_Scene/PrivateScene/EnemyVisuals/Arts/整图.png" id="1_v2abk"]
+
+[sub_resource type="GDScript" id="GDScript_v2abk"]
+script/source = "extends Node2D
+
+@onready var anim = $AnimationPlayer 
+
+var current_telegraph_time: float  # 提示阶段时长
+var current_wait_time: float       # 等待阶段时长
+
+func pause_for_telegraph():
+	anim.pause()
+	print(\"提示等待代码正常生效\")
+	if current_telegraph_time > 0:
+		await get_tree().create_timer(current_telegraph_time).timeout
+	if current_wait_time > 0:
+		await get_tree().create_timer(current_wait_time).timeout
+	anim.play()
+"
 
 [sub_resource type="Animation" id="Animation_e7gmr"]
 length = 0.001
@@ -910,6 +928,7 @@ _data = {
 }
 
 [node name="EnemyVisuals" type="Node2D"]
+script = SubResource("GDScript_v2abk")
 
 [node name="Character" type="Skeleton2D" parent="."]
 position = Vector2(-474, -905)
@@ -966,11 +985,13 @@ rest = Transform2D(1, 0, 0, 1, -51, 26)
 [node name="leg-low-l" type="Bone2D" parent="Character/Body/Leg-up-l"]
 position = Vector2(4, 125)
 rotation = -0.062873
+scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 4, 125)
 
 [node name="feet-l" type="Bone2D" parent="Character/Body/Leg-up-l/leg-low-l"]
 position = Vector2(7, 158)
 rotation = 0.0486608
+scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 7, 158)
 
 [node name="leg-up-r" type="Bone2D" parent="Character/Body"]

@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://cjx74meur6pb8" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_idle.gd" id="6_42ml3"]
 [ext_resource type="Script" uid="uid://byjsvmcjitw6q" path="res://Scene/Enemy_Battle_Scene/Scripts/enemy_attack.gd" id="7_spqwk"]
 
-[node name="Enemy2" type="Node2D"]
+[node name="Enemy" type="Node2D"]
 script = ExtResource("1_b5lmm")
 
 [node name="EnemyAIBrain" type="Node" parent="."]
@@ -18,7 +18,7 @@ script = ExtResource("4_rkcga")
 [node name="Visuals" type="Node2D" parent="."]
 
 [node name="EnemyVisuals" parent="Visuals" instance=ExtResource("3_i0fvd")]
-position = Vector2(972, 898)
+position = Vector2(979, 877)
 
 [node name="Data" type="Node" parent="."]
 
