@@ -13,14 +13,13 @@ script = ExtResource("1_ebhhr")
 
 [node name="Environment" type="Node2D" parent="."]
 
-[node name="test" type="Node" parent="Environment"]
-
-[node name="Player" parent="." instance=ExtResource("2_noken")]
-position = Vector2(170, 166)
-
 [node name="EnemySlot" type="Node" parent="."]
 
 [node name="Enemy" parent="EnemySlot" instance=ExtResource("3_mvvqq")]
+
+[node name="Player" parent="." instance=ExtResource("2_noken")]
+z_index = 10
+position = Vector2(170, 166)
 
 [node name="UIManager" type="CanvasLayer" parent="."]
 script = ExtResource("3_nr23r")

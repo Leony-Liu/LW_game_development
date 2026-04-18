@@ -62,3 +62,5 @@ func _execute_attack_flow() -> void:
 	# 流程结束，收尾并切回发呆状态
 	print("EnemyAttack：攻击流程结束，返回 Idle")
 	get_parent().transition_to("Idle")
+	
+# 发出伤害

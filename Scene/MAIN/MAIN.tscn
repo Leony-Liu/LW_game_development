@@ -16,6 +16,8 @@ battle_scene = ExtResource("1_nj6re")
 
 [node name="MapScene" parent="SceneHolder" instance=ExtResource("2_bg8uw")]
 
+[node name="BattleScene" parent="SceneHolder" instance=ExtResource("1_nj6re")]
+
 [node name="GlobalUI" type="Node" parent="."]
 
 [node name="EventBus" type="Node" parent="."]
