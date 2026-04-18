@@ -14,7 +14,9 @@ var last_direction: Vector2 = Vector2.DOWN
 var player_target: Node2D
 var target_in_area: Node2D
 
-
+func _ready() -> void:
+	print("怪物的地图管家：",my_info.my_map_manager)
+	print("怪物所在地图：", my_info.TileMapReference)
 func _physics_process(delta: float) -> void:
 	if enemy.velocity.length() > 0.1:
 		last_direction = enemy.velocity.normalized()
