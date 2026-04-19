@@ -14,12 +14,24 @@ var current_parry_quality: String = "startup"
 func enter(msg: Dictionary = {}) -> void:
 	
 	print("玩家进入状态：Parry")
+	current_parry_quality = "startup" # 默认初始状态
+	
+	# 连接动画帧发出的信号
+	if not visuals.parry_window_changed.is_connected(set_parry_quality):
+		visuals.parry_window_changed.connect(set_parry_quality)
 	
 	visuals.play_parry()
-	
 	await visuals.anim_player.animation_finished
 	
-	get_parent().transition_to("Idle")
+	# 动画结束，如果不强制打断的话，切回待机
+	if get_parent().current_state == self:
+		get_parent().transition_to("Idle")
+	
+func exit() -> void:
+	# 退出状态时断开连接，防止发生Bug
+	if visuals.parry_window_changed.is_connected(set_parry_quality):
+		visuals.parry_window_changed.disconnect(set_parry_quality)
+		
 # ==========================================
 # 开放调用的专属方法
 # ==========================================
@@ -28,11 +40,6 @@ func enter(msg: Dictionary = {}) -> void:
 func set_parry_quality(quality: String) -> void:
 	current_parry_quality = quality
 	print("玩家格挡：动画帧到达！当前格挡判定切换为：", quality)
-
-# 结束格挡
-func finish_parry() -> void:
-	print("玩家格挡：弹反动作结束，收招回待机。")
-	get_parent().transition_to("Idle")
 
 # 提供一个检查当前格挡阶段的方法
 func get_parry_quality() -> String:

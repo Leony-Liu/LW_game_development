@@ -1,9 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://3kynny3yul0x"]
+[gd_scene load_steps=13 format=3 uid="uid://3kynny3yul0x"]
 
 [ext_resource type="Texture2D" uid="uid://c0ywv4wnmkskl" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Arts/Sword-Test/剑.png" id="1_slya1"]
 [ext_resource type="Script" uid="uid://bwfcpo2wuw2qw" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/scripts/player_visuals_manager.gd" id="1_w5lrf"]
 [ext_resource type="Texture2D" uid="uid://kf7p4040fo7a" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Arts/hand-test/hand-r.png" id="2_w5lrf"]
 [ext_resource type="Texture2D" uid="uid://dgxfqdbp868p7" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Arts/hand-test/hand-l.png" id="3_guqo7"]
+[ext_resource type="AudioStream" uid="uid://b6ymsgjpm7gul" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Sound/Effect/格挡.wav" id="5_nx128"]
+[ext_resource type="AudioStream" uid="uid://c5sgarwn0vpc" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Sound/Effect/玩家攻击.wav" id="6_lo5h2"]
+[ext_resource type="AudioStream" uid="uid://dw8uxi2tixnhv" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Sound/Effect/被击中.wav" id="7_lo5h2"]
 
 [sub_resource type="Animation" id="Animation_w5lrf"]
 length = 0.001
@@ -409,6 +412,21 @@ tracks/16/keys = {
 "method": &"hit"
 }]
 }
+tracks/17/type = "audio"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("AttackSound")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_lo5h2")
+}],
+"times": PackedFloat32Array(0.73225)
+}
+tracks/17/use_blend = true
 
 [sub_resource type="Animation" id="Animation_slya1"]
 resource_name = "idle"
@@ -665,7 +683,7 @@ tracks/4/path = NodePath("hand-behind/hand-l-b:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.0317754, 0.0666667, 0.8),
+"times": PackedFloat32Array(0, 0.0122705, 0.0295312, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(873, 1411), Vector2(911, 1170), Vector2(258, 934), Vector2(873, 1411)]
@@ -677,7 +695,7 @@ tracks/5/path = NodePath("hand-behind/hand-l-b:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.0317754, 0.0666667, 0.8),
+"times": PackedFloat32Array(0, 0.0122705, 0.0295312, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, -0.649087, -0.462203, 0.0]
@@ -713,7 +731,7 @@ tracks/8/path = NodePath("hand-front/hand-l-f:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.0684557, 0.301035, 0.308191, 0.8),
+"times": PackedFloat32Array(0, 0.0297622, 0.262342, 0.269498, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1164, 1215), Vector2(1167, 1301), Vector2(1170, 1315), Vector2(1179, 1453), Vector2(1164, 1215)]
@@ -737,7 +755,7 @@ tracks/10/path = NodePath("hand-front/hand-r-f:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.0738227, 0.8),
+"times": PackedFloat32Array(0, 0.0351292, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(1484, 1103), Vector2(391, 957), Vector2(1484, 1103)]
@@ -749,7 +767,7 @@ tracks/11/path = NodePath("hand-front/hand-r-f:rotation")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(0, 0.0738227, 0.8),
+"times": PackedFloat32Array(0, 0.0351292, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [-0.505556, 0.541339, -0.505556]
@@ -785,7 +803,7 @@ tracks/14/path = NodePath("sword/sword:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
-"times": PackedFloat32Array(0, 0.0651087, 0.8),
+"times": PackedFloat32Array(0, 0.0264152, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(1385, 771), Vector2(615, 733), Vector2(1385, 771)]
@@ -797,10 +815,30 @@ tracks/15/path = NodePath("sword/sword:rotation")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
-"times": PackedFloat32Array(0, 0.0651087, 0.8),
+"times": PackedFloat32Array(0, 0.0264152, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [0.218461, 1.4303, 0.218461]
+}
+tracks/16/type = "method"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath(".")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0.013913, 0.249224, 0.497844),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["perfect"],
+"method": &"change_parry_window"
+}, {
+"args": ["normal"],
+"method": &"change_parry_window"
+}, {
+"args": ["recovery"],
+"method": &"change_parry_window"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_guqo7"]
@@ -906,3 +944,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_guqo7")
 }
 autoplay = "idle"
+
+[node name="ParrySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_nx128")
+
+[node name="AttackSound" type="AudioStreamPlayer" parent="."]
+
+[node name="GetHitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_lo5h2")

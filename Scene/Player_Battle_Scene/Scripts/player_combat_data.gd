@@ -10,6 +10,8 @@ class_name PlayerCombatData
 #绑定同级节点
 @onready var calculator:PlayerCalculator = $"../Calculator"
 @onready var inventory:PlayerInventory = $"../Inventory"
+@onready var visuals = $"../../Visuals/PlayerVisuals"
+
 
 # ==========================================
 # 参数部分
@@ -147,45 +149,76 @@ func get_hit(incoming_damage: int, hit_context: String = "combat"):
 		# 在格挡：启动格挡状态内的格挡方法
 		var quality = state_machine.current_state.get_parry_quality()
 		
-		# a. 若方法返回为完美格挡
+		# ----------------------------------------
+		# 1. 完美格挡 (Perfect)
+		# ----------------------------------------
 		if quality == "perfect":
-			# 清除所有伤害
-			final_damage = 0
-			print("玩家战斗数据：完美弹反 (Perfect Parry)！免疫全部 %d 点伤害！" % incoming_damage)
+			final_damage = 0 # 抵御全部伤害
+			print("✨ 完美弹反！不消耗体力，完全抵御伤害！")
 			
-			# TODO [画面表现] 预留：顿帧(Hitstop)、屏幕震动、播放清脆的打铁音效
-			# 【进阶玩法】：在这里 emit 一个信号，让敌人增加架势条(Poise)
+			_trigger_perfect_parry_slowmo() # 触发超强正反馈慢动作！
 			
-		# b. 若方法返回为普通格挡
+			if visuals:visuals.play_parry_sound()
+			# (进阶) 你可以在这里发射一个信号，通知敌人扣除架势条，或让敌人陷入眩晕状态
+			
+		# ----------------------------------------
+		# 2. 普通格挡 (Normal)
+		# ----------------------------------------
 		elif quality == "normal":
-			# 消耗一点体力
 			var stamina_cost = 1 
-			print("玩家战斗数据：普通格挡！尝试消耗 %d 点体力抵挡攻击..." % stamina_cost)
+			print("🛡️ 普通格挡判定！尝试消耗 %d 点体力..." % stamina_cost)
 			
-			if consume_stamina(stamina_cost):
-				print("玩家战斗数据：体力充足，成功防下该次攻击，不受伤害。")
-				final_damage = 0
+			if consume_stamina(stamina_cost): # 正常消耗体力
+				final_damage = 0 # 体力足够，抵御全部伤害
+				print("防御成功！未受伤害。")
+				
+				if visuals:visuals.play_parry_sound()
 			else:
-				# 兜底报错，以防逻辑出错
-				push_error("严重错误：玩家在 Parry 状态下体力不足 1 点！")
-				final_damage = incoming_damage
-	
-	# 最终伤害结算
+				# 体力不足，破防！受到全额伤害
+				print("❌ 破防！体力不足，受到全额伤害！")
+				
+		# ----------------------------------------
+		# 3. 无效阶段 (startup / recovery)
+		# ----------------------------------------
+		else:
+			print("💥 格挡时机不对(前摇或后摇中)！直接受到全额伤害！")
+			# final_damage 保持不变，下面会扣血
+			
+	# ==========================================
+	# 最终伤害结算扣血
+	# ==========================================
 	if final_damage > 0:
-		
-		# 当前生命值减去伤害数值
 		current_hp -= final_damage
+		current_hp = clampf(current_hp, 0.0, max_hp) # 防止血量变成负数
 		
-		# 限制玩家血量在 0 到最大血量之间（整数）
-		current_hp = clampi(current_hp, 0, max_hp) 
+		# 发送UI更新信号
+		hp_changed.emit(current_hp, max_hp) 
 		
-		# 生命值变化后发送信号（让UI变动、敌人AI检测）
-		hp_changed.emit(current_hp, max_hp) # 系统内信号
-		EventBus.player_hp_changed.emit(current_hp,max_hp) # 全局信号
+		EventBus.player_hp_changed.emit(current_hp, max_hp) 
 		
-		print("玩家战斗数据：：受到 %d 点真实伤害，剩余血量：%d" % [final_damage, current_hp])
+		visuals.play_get_hit_sound()
+		print("🩸 受到 %d 点伤害，剩余血量：%d" % [final_damage, current_hp])
 		
-		# 玩家死亡判定
 		if current_hp <= 0:
-			print("玩家战斗数据：玩家阵亡...")
+			print("💀 玩家阵亡...")
 			EventBus.player_died.emit(hit_context)
+
+
+# ==========================================
+# 视觉表现：完美格挡全局慢动作 (Hitstop)
+# ==========================================
+func _trigger_perfect_parry_slowmo() -> void:
+	# 1. 瞬间将游戏全局速度降至 10% (极具冲击力的停顿感)
+	Engine.time_scale = 0.01 
+	
+	# 2. 创建一个补间动画，让时间平滑恢复
+	var tween = create_tween()
+	
+	# 【极其关键的一行】：必须让这个 Tween 忽略全局 time_scale 的影响！
+	# 否则游戏变慢了，这个恢复时间的动画也会变慢，导致玩家卡在慢动作里出不来
+	tween.set_ignore_time_scale(true) 
+	
+	# 3. 在 0.5 秒(现实时间)内，把 Engine.time_scale 属性从 0.1 缓出恢复到 1.0
+	tween.tween_property(Engine, "time_scale", 1.0, 2)\
+		.set_trans(Tween.TRANS_QUART)\
+		.set_ease(Tween.EASE_OUT)
