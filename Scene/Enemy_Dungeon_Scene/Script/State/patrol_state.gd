@@ -18,8 +18,6 @@ func physics_update(delat):
 	enemy.movement.move_to(delat)
 	if enemy.movement.path_index >= enemy.movement.current_path.size():
 		machine.change_state("idle")
-	#machine.change_state("idle")
-	
 	pass
 
 

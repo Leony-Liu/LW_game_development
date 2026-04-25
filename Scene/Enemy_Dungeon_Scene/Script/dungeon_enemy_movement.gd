@@ -89,6 +89,7 @@ func A_star_find_path(start: Vector2i, end: Vector2i, tile_map: TileMapLayer) ->
 	var start_node = PathNode.new(start)
 	start_node.g_cost = 0
 	start_node.h_cost = get_distance(start, end)
+	start_node.f_cost = start_node.h_cost##
 	open_list.append(start_node)
 	
 	var max_iterations = 2000
@@ -100,36 +101,38 @@ func A_star_find_path(start: Vector2i, end: Vector2i, tile_map: TileMapLayer) ->
 			print("怪物寻路器：寻路超出最大计算步数，强行停止寻路")
 			break
 		#找到待检测列表中f_cost最小的路径节点
-		var current_node = open_list[0]
-		for node in open_list:
-			if node.f_cost < current_node.f_cost:
-				current_node = node
+		#var current_node = open_list[0]
+		#for node in open_list:
+			#if node.f_cost < current_node.f_cost:
+				#current_node = node
+		open_list.sort_custom(func(a, b): return a.f_cost < b.f_cost)##
+		var current_node = open_list.pop_front()##
+		
+		if current_node.position == end:
+			return reconstruct_path(current_node)
+		
+		#open_list.erase(current_node)#在待评估列表中移除当前节点##
+		closed_list[current_node.position] = true#把当前节点放进关闭列表
+		
+		for dir in check_directions:
+			var neighbor_pos = current_node.position + dir
 			
-			if current_node.position == end:
-				return reconstruct_path(current_node)
+			if my_map_info.obstacle_cell.has(neighbor_pos) or my_map_info.wall_cell.has(neighbor_pos):
+				continue
+			if closed_list.has(neighbor_pos): continue
 			
-			open_list.erase(current_node)#在待评估列表中移除当前节点
-			closed_list[current_node.position] = true#把当前节点放进关闭列表
-			
-			for dir in check_directions:
-				var neighbor_pos = current_node.position + dir
+			var new_g_cost = current_node.g_cost + 1
+			var neighbor_node = find_node_in_list(open_list, neighbor_pos)
+			if neighbor_node == null or new_g_cost < neighbor_node.g_cost:
+				if neighbor_node == null:
+					neighbor_node = PathNode.new(neighbor_pos)
+					open_list.append(neighbor_node)
 				
-				if my_map_info.obstacle_cell.has(neighbor_pos) or my_map_info.wall_cell.has(neighbor_pos):
-					continue
-				if closed_list.has(neighbor_pos): continue
+				neighbor_node.parent = current_node
+				neighbor_node.g_cost = new_g_cost
+				neighbor_node.h_cost = get_distance(neighbor_pos, end)
+				neighbor_node.f_cost = neighbor_node.g_cost + neighbor_node.h_cost
 				
-				var new_g_cost = current_node.g_cost + 1
-				var neighbor_node = find_node_in_list(open_list, neighbor_pos)
-				if neighbor_node == null or new_g_cost < neighbor_node.g_cost:
-					if neighbor_node == null:
-						neighbor_node = PathNode.new(neighbor_pos)
-						open_list.append(neighbor_node)
-					
-					neighbor_node.parent = current_node
-					neighbor_node.g_cost = new_g_cost
-					neighbor_node.h_cost = get_distance(neighbor_pos, end)
-					neighbor_node.f_cost = neighbor_node.g_cost + neighbor_node.h_cost
-					
 	return []
 
 #重终点回溯到起点
