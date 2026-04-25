@@ -978,12 +978,10 @@ rest = Transform2D(1, 0, 0, 1, -114, 39)
 [node name="Arm-low-L" type="Bone2D" parent="Character/Body/Chest/Arm-up-L"]
 position = Vector2(-55, 104)
 rotation = -0.227427
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, -55, 104)
 
 [node name="Hand-L" type="Bone2D" parent="Character/Body/Chest/Arm-up-L/Arm-low-L"]
 position = Vector2(-33, 107)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, -33, 107)
 
 [node name="arm-up-r" type="Bone2D" parent="Character/Body/Chest"]
@@ -997,41 +995,34 @@ rest = Transform2D(1, 0, 0, 1, 45, 99)
 
 [node name="hand-r" type="Bone2D" parent="Character/Body/Chest/arm-up-r/arm-low-r"]
 position = Vector2(4, 121)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 4, 121)
 
 [node name="Weapon" type="Bone2D" parent="Character/Body/Chest/arm-up-r/arm-low-r/hand-r"]
 position = Vector2(-40.6882, 32.4359)
 rotation = 0.119969
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, -29, 18)
 
 [node name="Leg-up-l" type="Bone2D" parent="Character/Body"]
 position = Vector2(-51, 26)
 rotation = 0.245921
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, -51, 26)
 
 [node name="leg-low-l" type="Bone2D" parent="Character/Body/Leg-up-l"]
 position = Vector2(4, 125)
 rotation = -0.062873
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 4, 125)
 
 [node name="feet-l" type="Bone2D" parent="Character/Body/Leg-up-l/leg-low-l"]
 position = Vector2(7, 158)
 rotation = 0.0486608
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 7, 158)
 
 [node name="leg-up-r" type="Bone2D" parent="Character/Body"]
 position = Vector2(84, 28)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 84, 28)
 
 [node name="leg-low-r" type="Bone2D" parent="Character/Body/leg-up-r"]
 position = Vector2(43, 138)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 43, 138)
 
 [node name="feet-r" type="Bone2D" parent="Character/Body/leg-up-r/leg-low-r"]

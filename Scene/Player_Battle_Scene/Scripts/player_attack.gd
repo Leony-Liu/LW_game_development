@@ -50,4 +50,4 @@ func _execute_damage() -> void:
 	}
 	print("Attack-玩家状态：计算完毕，发出伤害数据 -> ", payload)
 	# 4. 把伤害包丢进信号管道
-	EventBus.player_dealt_damage.emit(payload)
+	BattleBus.player_dealt_damage.emit(payload)

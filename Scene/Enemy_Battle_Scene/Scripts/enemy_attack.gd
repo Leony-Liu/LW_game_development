@@ -43,7 +43,7 @@ func _deal_damage() -> void:
 		"type": "physical"
 	}
 	# 3. 通过总线发给裁判
-	EventBus.enemy_dealt_damage.emit(payload)
+	BattleBus.enemy_dealt_damage.emit(payload)
 	print("敌人攻击：对玩家发出伤害 -> ", dmg)
 	
 func _execute_attack() -> void:

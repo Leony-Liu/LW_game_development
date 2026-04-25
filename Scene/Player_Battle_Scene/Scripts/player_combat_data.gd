@@ -55,9 +55,9 @@ func _ready() -> void:
 
 func _sync_initial_stats() -> void:
 	print("玩家战斗数据：向 UI 推送初始面板数据...")
-	EventBus.player_hp_changed.emit(current_hp, max_hp)
-	EventBus.player_stamina_changed.emit(current_stamina, max_stamina)
-	EventBus.player_mana_changed.emit(current_mana, max_mana)
+	BattleBus.player_hp_changed.emit(current_hp, max_hp)
+	BattleBus.player_stamina_changed.emit(current_stamina, max_stamina)
+	BattleBus.player_mana_changed.emit(current_mana, max_mana)
 
 # ==========================================
 # 体力、能量恢复（被动）
@@ -77,7 +77,7 @@ func stamina_recovery(delta:float)->void:
 			_stamina_recovery_timer -= current_stamina_recover_speed 
 			
 			# 发送全局信号，通知 UI 刷新
-			EventBus.player_stamina_changed.emit(current_stamina, max_stamina) 
+			BattleBus.player_stamina_changed.emit(current_stamina, max_stamina) 
 			
 			print("玩家战斗数据：体力恢复 + 1，当前体力：%d" % current_stamina)
 
@@ -95,7 +95,7 @@ func mana_recovery(delta:float):
 			_mana_recovery_timer -= current_mana_recover_speed 
 			
 			# 发送全局信号，通知 UI 刷新】
-			EventBus.player_mana_changed.emit(current_mana, max_mana) 
+			BattleBus.player_mana_changed.emit(current_mana, max_mana) 
 			
 			print("玩家战斗数据：能量恢复 + 1，当前能量：%d" % current_mana)
 
@@ -112,7 +112,7 @@ func consume_stamina(cost: int) -> bool:
 		_stamina_recovery_timer = 0.0 
 		# 体力变化后发送信号（让UI变动、敌人AI检测）
 		stamina_changed.emit(current_stamina, max_stamina) # 玩家系统内信号
-		EventBus.player_stamina_changed.emit(current_stamina,max_stamina) # 全局信号
+		BattleBus.player_stamina_changed.emit(current_stamina,max_stamina) # 全局信号
 		print("玩家战斗数据：消耗 %d 点体力" % cost)
 		return true
 	else:
@@ -128,7 +128,7 @@ func consume_mana(cost: int) -> bool:
 		# 能量变化后发送信号（让UI变动、敌人AI检测）
 		mana_changed.emit(current_mana, max_mana)
 		print("玩家战斗数据：消耗 %d 点能量" % cost)
-		EventBus.player_stamina_changed.emit(current_stamina,max_stamina)
+		BattleBus.player_stamina_changed.emit(current_stamina,max_stamina)
 		return true
 	else:
 		print("玩家战斗数据：能量不足！")
@@ -194,14 +194,14 @@ func get_hit(incoming_damage: int, hit_context: String = "combat"):
 		# 发送UI更新信号
 		hp_changed.emit(current_hp, max_hp) 
 		
-		EventBus.player_hp_changed.emit(current_hp, max_hp) 
+		BattleBus.player_hp_changed.emit(current_hp, max_hp) 
 		
 		visuals.play_get_hit_sound()
 		print("🩸 受到 %d 点伤害，剩余血量：%d" % [final_damage, current_hp])
 		
 		if current_hp <= 0:
 			print("💀 玩家阵亡...")
-			EventBus.player_died.emit(hit_context)
+			BattleBus.player_died.emit(hit_context)
 
 
 # ==========================================

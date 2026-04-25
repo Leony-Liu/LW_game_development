@@ -19,9 +19,9 @@ var current_enemy: Node = null # 当前敌人
 # 接收系统内信号：玩家、敌人伤害
 func _ready() -> void:
 	
-	EventBus.card_played.connect(_on_card_played)# 接收出牌信号
-	EventBus.player_dealt_damage.connect(_on_player_dealt_damage)# 接收玩家发出的总伤害
-	EventBus.enemy_dealt_damage.connect(_on_enemy_dealt_damage)# 接收敌人发出的总伤害
+	BattleBus.card_played.connect(_on_card_played)# 接收出牌信号
+	BattleBus.player_dealt_damage.connect(_on_player_dealt_damage)# 接收玩家发出的总伤害
+	BattleBus.enemy_dealt_damage.connect(_on_enemy_dealt_damage)# 接收敌人发出的总伤害
 	
 	_register_current_enemy()
 
@@ -64,15 +64,16 @@ func _on_card_played(card_data: Dictionary, card_node: Control) -> void:
 	# 环境许可失败
 	if not can_play_card(card_data):
 		print("战斗裁判：出牌失败！目标无效或处于特殊状态。")
-		EventBus.card_rejected.emit(card_node)
+		BattleBus.card_rejected.emit(card_node)
 		return
 	# 内部状态判定
 	if player_manager.execute_card(card_data):
 		print("战斗裁判：出牌成功")
-		card_node.queue_free() 
+		# 【修改点】：不再直接 queue_free()，而是发送信号让卡牌管理器接管
+		BattleBus.card_successfully_played.emit(card_node)
 	else:
 		print("战斗裁判：卡牌被拦截，出牌失败")
-		EventBus.card_rejected.emit(card_node)
+		BattleBus.card_rejected.emit(card_node)
 
 
 # ==========================================

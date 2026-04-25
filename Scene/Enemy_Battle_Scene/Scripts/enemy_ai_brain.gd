@@ -12,7 +12,7 @@ class_name EnemyAIBrain
 var min_idle_time: float = 2.0  # 最小发呆时间
 var max_idle_time: float = 4.0  # 最大发呆时间
 var skill_chance: float = 0.2   # 释放技能的概率 (20%)
-var combo_count: int = 1        # 连击次数
+var combo_count: int = 2        # 连击次数
 
 # ==========================================
 # 根据抽取的机制生成机制节点

@@ -8,8 +8,8 @@ class_name EnemyManager
 
 
 # 在场景里暴露给策划或地牢生成器配置
-@export var enemy_tier: int = 1 
-@export var mechanic_count: int = 2 # 这个怪身上要插几个机制芯片？
+@export var enemy_tier: int = 1 # 敌人等级
+@export var mechanic_count: int = 2 # 机制数量
 
 
 @onready var combat_data: EnemyCombatData = $Data/CombatData

@@ -12,7 +12,7 @@ var catchup_tween: Tween
 
 func _ready() -> void:
 	# 监听总线里的敌人扣血信号
-	EventBus.enemy_hp_changed.connect(_on_enemy_hp_changed)
+	BattleBus.enemy_hp_changed.connect(_on_enemy_hp_changed)
 
 
 func _on_enemy_hp_changed(current: int, max_hp: int) -> void:

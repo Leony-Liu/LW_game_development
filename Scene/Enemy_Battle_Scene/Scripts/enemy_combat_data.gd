@@ -31,7 +31,7 @@ func _ready() -> void:
 
 func _sync_initial_stats() -> void:
 	print("玩家战斗数据：向 UI 推送初始面板数据...")
-	EventBus.enemy_hp_changed.emit(enemy_current_hp,enemy_max_hp)
+	BattleBus.enemy_hp_changed.emit(enemy_current_hp,enemy_max_hp)
 	
 
 
@@ -44,7 +44,7 @@ func get_hit(real_damage: int, hit_context: String):
 	enemy_current_hp -= real_damage
 	print("敌人数据：受到 %d 点真实伤害！剩余血量：%d" % [real_damage, enemy_current_hp])
 	
-	EventBus.enemy_hp_changed.emit(enemy_current_hp, enemy_max_hp) # 假设最大血量是 100，如果是变量就填 max_hp
+	BattleBus.enemy_hp_changed.emit(enemy_current_hp, enemy_max_hp) # 假设最大血量是 100，如果是变量就填 max_hp
 	
 	if enemy_current_hp <= 0:
 		die()
@@ -52,5 +52,5 @@ func get_hit(real_damage: int, hit_context: String):
 # 2. 敌人死亡
 func die():
 	print("敌人数据：被击败")
-	EventBus.enemy_died.emit(owner)
+	BattleBus.enemy_died.emit(owner)
 	owner.queue_free()
