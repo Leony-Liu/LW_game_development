@@ -18,8 +18,8 @@ var discard_pile: Array = []# 弃牌堆
 @export var hand_container : HBoxContainer
 @export var max_hand_size : int = 5  # 【新增】限制最大手牌数量
 @export var player_node: Node2D 
+@export var card_factory : Node
 
-@onready var card_factory = $"../../../CardFactory"
 var card_count : int = 0
 
 
@@ -43,17 +43,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 			
 		# 2. 获取玩家节点（假设玩家和 CardManager 都在战斗场景根节点下）
-		# 这里的 "../Player" 对应你项目结构中的 Player 节点
-		
 		if not player_node:
 			print("卡牌管理器：未找到'Player'节点")
 			return
 			
 		# 3. 安全检测：只有在待机（Idle）状态下才能抽牌，防止在受击或攻击时抽牌
-		var state_machine = player_node.get_node_or_null("StateMachine")
-		if state_machine and state_machine.current_state.name != "Idle":
-			print("系统：玩家正在行动或受击中，无法抽牌！")
-			return
+		#var state_machine = player_node.get_node_or_null("StateMachine")
+		#if state_machine and state_machine.current_state.name != "Idle":
+			#print("系统：玩家正在行动或受击中，无法抽牌！")
+			#return
 			
 		# 4. 体力扣除判定
 		var combat_data = player_node.get_node_or_null("Data/CombatData")
@@ -72,7 +70,6 @@ func _unhandled_input(event: InputEvent) -> void:
 # 牌堆整理
 # ==========================================
 # 1. 读取玩家牌组,并塞入抽牌堆（未实例化）
-
 func _get_player_card_deck():
 	var playerdeck = PlayerDeckManager.get_deck().duplicate()
 	draw_pile = playerdeck

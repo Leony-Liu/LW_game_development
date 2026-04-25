@@ -8,15 +8,14 @@ extends Node
 
 
 # —————— A.输入 ——————
-# 手动设置牌组
-# 在检查器面板中显示，格式为 {卡牌ID: 数量}
+# TODO 暂时为手动设置牌组
 @export var starter_deck_config: Dictionary = {
 	10001: 5,
 	10002: 5
 }
+
 # —————— B.参数及初始化 ——————
-# 最终生成的卡牌 ID 列表（用于洗牌、抽牌等）
-var deck_ids: Array = []
+var deck_ids: Array = [] # 玩家牌组
 
 
 func _ready():
