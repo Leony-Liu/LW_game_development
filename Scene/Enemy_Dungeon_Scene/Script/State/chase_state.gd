@@ -2,6 +2,7 @@
 extends DungeonEnemyState
 
 var update_path_timer: float = 0.0
+var lost_target_timer: float = 0.0
 
 func enter():
 	print("怪物进入追击状态")
@@ -12,10 +13,13 @@ func enter():
 func physics_update(delta):
 	var target = enemy.player_target
 	if not target:
-		print("怪物没有发现玩家")
-		machine.change_state("patrol")
+		lost_target_timer += delta
+		if lost_target_timer > 0.5:
+			print("怪物没有发现玩家")
+			machine.change_state("patrol")
+		return
 		
-	
+	lost_target_timer = 0.0
 	update_path_timer += delta
 	if update_path_timer > 0.02:
 		enemy.movement.set_target(target.global_position)

@@ -66,4 +66,4 @@ func _on_detection_body_exited(body: Node2D) -> void:
 #检查玩家是否再敌人的fov内
 func is_player_in_fov(player: Node2D) -> bool:
 	var to_player = (player.global_position - enemy.global_position).normalized()
-	return last_direction.dot(to_player) > 0#点积计算判断
+	return last_direction.dot(to_player) > -1.0#点积计算判断
