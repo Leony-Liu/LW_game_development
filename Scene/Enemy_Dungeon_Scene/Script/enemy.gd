@@ -19,6 +19,7 @@ func _physics_process(delta: float) -> void:
 		last_direction = enemy.velocity.normalized()
 		
 	if target_in_area:
+		print("玩家进入范围")
 		if is_player_in_fov(target_in_area):
 			ray.enabled = true
 			ray.target_position = ray.to_local(target_in_area.global_position)
@@ -26,6 +27,7 @@ func _physics_process(delta: float) -> void:
 			
 			if ray.is_colliding() and ray.get_collider() == target_in_area:
 				player_target = target_in_area
+				print("怪物发现玩家")
 			else:
 				player_target = null
 		else:
@@ -64,4 +66,4 @@ func _on_detection_body_exited(body: Node2D) -> void:
 #检查玩家是否再敌人的fov内
 func is_player_in_fov(player: Node2D) -> bool:
 	var to_player = (player.global_position - enemy.global_position).normalized()
-	return last_direction.dot(to_player) > 0.77#点积计算判断
+	return last_direction.dot(to_player) > 0#点积计算判断
