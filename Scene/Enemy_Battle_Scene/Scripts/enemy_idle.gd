@@ -6,8 +6,8 @@ extends State
 
 @onready var enemy_visual = $"../../Visuals/EnemyVisuals"
 
-var wait_timer: float = 0.0
-var target_wait_time: float = 2.0
+var wait_timer: float = 0.0 # 开局等待时长
+var target_wait_time: float = 2.0 # 攻击间隔
 
 
 func enter(msg: Dictionary = {}) -> void:
