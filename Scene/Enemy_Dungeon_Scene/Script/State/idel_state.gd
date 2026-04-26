@@ -4,7 +4,7 @@ extends DungeonEnemyState
 var timer: float
 func enter():
 	timer = randf_range(2.0, 3.0)
-	enemy.play_animation("Idle")
+	enemy.anima_play("idle")
 	enemy.movement.move_stop()
 	print("进入待机状态")
 	pass

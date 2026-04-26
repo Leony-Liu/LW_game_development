@@ -3,7 +3,7 @@ extends CharacterBody2D
 signal Direction_change(new_direction: Vector2)
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-@export var SPEED = 300.0
+@export var SPEED = 75
 @export var last_direction: Vector2
 
 func _physics_process(delta: float) -> void:

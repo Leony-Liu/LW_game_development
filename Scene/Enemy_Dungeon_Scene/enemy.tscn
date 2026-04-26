@@ -1,77 +1,116 @@
-[gd_scene load_steps=20 format=3 uid="uid://vle13wwrrfje"]
+[gd_scene load_steps=19 format=3 uid="uid://vle13wwrrfje"]
 
-[ext_resource type="Texture2D" uid="uid://dbxo755aixv8i" path="res://Scene/Enemy_Dungeon_Scene/Art/Collect_Down-Sheet.png" id="1_u6x70"]
+[ext_resource type="Script" uid="uid://cj5oruxi4qoop" path="res://Scene/Enemy_Dungeon_Scene/Script/animation_player.gd" id="2_deow4"]
 [ext_resource type="Script" uid="uid://ctd3stks0jo5n" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy.gd" id="2_l6lxh"]
 [ext_resource type="Script" uid="uid://dmnqvtssw5bgc" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy_dungeo_information.gd" id="4_l6lxh"]
 [ext_resource type="Script" uid="uid://cwoyidhq4tn7v" path="res://Scene/Enemy_Dungeon_Scene/Script/State/state_machine.gd" id="5_sdb46"]
 [ext_resource type="Script" uid="uid://b7kjbl42hrf7i" path="res://Scene/Enemy_Dungeon_Scene/Script/State/idel_state.gd" id="7_fdnxt"]
 [ext_resource type="Script" uid="uid://bqgw3xtmj8ohe" path="res://Scene/Enemy_Dungeon_Scene/Script/State/patrol_state.gd" id="8_deow4"]
+[ext_resource type="Script" uid="uid://c1m8xxqnalrin" path="res://Scene/Enemy_Dungeon_Scene/Script/State/attack_state.gd" id="8_eedxu"]
 [ext_resource type="Script" uid="uid://ceh71nsx5oayt" path="res://Scene/Enemy_Dungeon_Scene/Script/State/chase_state.gd" id="9_eedxu"]
 [ext_resource type="Script" uid="uid://bfp3em5s22qnf" path="res://Scene/Enemy_Dungeon_Scene/Script/dungeon_enemy_movement.gd" id="9_fdnxt"]
+[ext_resource type="Texture2D" uid="uid://bwtjtdrllcslc" path="res://Scene/Enemy_Dungeon_Scene/Art/Mushroom_spike.png" id="10_17o5n"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sdb46"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(0, 0, 64, 64)
+[sub_resource type="Animation" id="Animation_6nts2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Attack/AttackCheck:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nyq73"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(64, 0, 64, 64)
+[sub_resource type="Animation" id="Animation_qy7x4"]
+resource_name = "idle"
+length = 0.50001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 1, 2, 3]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7s3na"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(128, 0, 64, 64)
+[sub_resource type="Animation" id="Animation_sdbya"]
+resource_name = "walk"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17, 18]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fdnxt"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(192, 0, 64, 64)
+[sub_resource type="Animation" id="Animation_deow4"]
+resource_name = "attack"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Attack/AttackCheck:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_deow4"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(256, 0, 64, 64)
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m8l0b"]
+_data = {
+&"RESET": SubResource("Animation_6nts2"),
+&"attack": SubResource("Animation_deow4"),
+&"idle": SubResource("Animation_qy7x4"),
+&"walk": SubResource("Animation_sdbya")
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eedxu"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_17o5n"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(384, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sdbya"]
-atlas = ExtResource("1_u6x70")
-region = Rect2(448, 0, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_qy7x4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sdb46")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nyq73")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7s3na")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fdnxt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_deow4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eedxu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_17o5n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sdbya")
-}],
-"loop": true,
-"name": &"Idle",
-"speed": 10.0
-}]
+[sub_resource type="CircleShape2D" id="CircleShape2D_eedxu"]
+radius = 16.0312
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l6lxh"]
 radius = 3.0
@@ -79,20 +118,34 @@ radius = 3.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_fdnxt"]
 radius = 118.017
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("animated", "ray", "movement") groups=["Enemies"]]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("ray", "movement", "anima", "sprite") groups=["Enemies"]]
 y_sort_enabled = true
 collision_layer = 4
 script = ExtResource("2_l6lxh")
-animated = NodePath("AnimatedSprite2D")
 ray = NodePath("RayCast2D")
 movement = NodePath("Movement")
+anima = NodePath("AnimationPlayer")
+sprite = NodePath("Sprite2D")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-light_mask = 4
-position = Vector2(0, -7)
-scale = Vector2(0.43, 0.43)
-sprite_frames = SubResource("SpriteFrames_qy7x4")
-animation = &"Idle"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." node_paths=PackedStringArray("enemy")]
+root_node = NodePath("../Sprite2D")
+libraries = {
+&"": SubResource("AnimationLibrary_m8l0b")
+}
+script = ExtResource("2_deow4")
+enemy = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("10_17o5n")
+flip_h = true
+hframes = 10
+vframes = 5
+
+[node name="Attack" type="Area2D" parent="."]
+
+[node name="AttackCheck" type="CollisionShape2D" parent="Attack"]
+shape = SubResource("CircleShape2D_eedxu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_l6lxh")
@@ -112,6 +165,10 @@ script = ExtResource("8_deow4")
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("9_eedxu")
 
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("attack")]
+script = ExtResource("8_eedxu")
+attack = NodePath("../../Attack")
+
 [node name="Movement" type="Node" parent="." node_paths=PackedStringArray("enemy")]
 script = ExtResource("9_fdnxt")
 enemy = NodePath("..")
@@ -123,5 +180,7 @@ enemy = NodePath("..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
 shape = SubResource("CircleShape2D_fdnxt")
 
+[connection signal="animation_finished" from="AnimationPlayer" to="StateMachine/Attack" method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="Attack" to="StateMachine/Attack" method="_on_attack_body_entered"]
 [connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]

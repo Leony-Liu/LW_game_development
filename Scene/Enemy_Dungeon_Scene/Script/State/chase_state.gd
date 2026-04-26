@@ -23,14 +23,14 @@ func physics_update(delta):
 	update_path_timer += delta
 	if update_path_timer > 0.02:
 		enemy.movement.set_target(target.global_position)
+		enemy.anima_play("walk")
 		print("怪物追击玩家")
 		update_path_timer = 0.0
 	enemy.movement.move_to(delta)
 	
-	#if target:
-		#enemy.movement.move_to(target.global_position)
-	#else:
-		#machine.change_state("patrol")#目标丢失，切换巡逻状态
+	var distance = enemy.global_position.distance_to(target.global_position)
+	if distance < 10:
+		machine.change_state("attack")
 
 
 func exit():

@@ -12,6 +12,7 @@ func enter():
 	print("进入巡逻状态")
 	partrol_target = get_patrol_target()
 	enemy.movement.set_target(partrol_target)
+	enemy.anima_play("walk")
 	print("获取巡逻坐标:", partrol_target)
 
 func physics_update(delat):

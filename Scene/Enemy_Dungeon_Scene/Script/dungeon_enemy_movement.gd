@@ -3,7 +3,7 @@ extends Node
 
 @export var enemy: CharacterBody2D
 var velocity: Vector2 = Vector2.ZERO
-var speed: float = 200
+var speed: float = 50
 
 var my_map_info: MapInfo
 
@@ -69,7 +69,7 @@ func move_to(delta:float, need_repath:bool = false):
 		#if enemy.global_position.distance_to(to_pos) < 5.0:
 			#path_index += 1
 			#current_path.remove_at(0)
-	print("怪物试图走动")
+	#print("怪物试图走动")
 	pass
 
 #怪物停止移动

@@ -3,10 +3,13 @@ extends Node
 
 @onready var enemy: CharacterBody2D = $"."
 @onready var my_info: DungeonEnemyInfo = $Information
-@export var animated: AnimatedSprite2D
 @onready var detection: Area2D = $Detection
 @export var ray: RayCast2D
 @export var movement: GungeonEnemeyMoveMent
+
+@export var anima: AnimationPlayer
+@export var sprite: Sprite2D
+
 
 var last_direction: Vector2 = Vector2.DOWN
 
@@ -19,7 +22,6 @@ func _physics_process(delta: float) -> void:
 		last_direction = enemy.velocity.normalized()
 		
 	if target_in_area:
-		print("玩家进入范围")
 		if is_player_in_fov(target_in_area):
 			ray.enabled = true
 			ray.target_position = ray.to_local(target_in_area.global_position)
@@ -27,13 +29,17 @@ func _physics_process(delta: float) -> void:
 			
 			if ray.is_colliding() and ray.get_collider() == target_in_area:
 				player_target = target_in_area
-				print("怪物发现玩家")
 			else:
 				player_target = null
 		else:
 			player_target = null
 	else:
 		player_target = null
+
+
+func anima_play(anim_name: String):
+	anima.play(anim_name)
+	pass
 
 
 func get_detected_player() -> CharacterBody2D:
@@ -46,10 +52,6 @@ func get_my_room() -> BSPNode:
 #怪物获取自身所在瓦片地图的方法
 func get_my_mapInfo() -> MapInfo:
 	return my_info.map_info
-
-#动画播放
-func play_animation(anim_name: String):
-	animated.play(anim_name)
 
 
 func _on_detection_body_entered(body: Node2D) -> void:
