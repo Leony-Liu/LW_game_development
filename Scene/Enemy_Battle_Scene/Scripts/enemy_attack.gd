@@ -8,12 +8,6 @@ extends State
 @onready var enemy_visual = $"../../Visuals/EnemyVisuals"
 @onready var enemy_calculator = $"../../Data/Calculator"
 
-# ==========================================
-# 战斗体验数值，供机制更改
-# ==========================================
-var windup_time: float = 0.6      # 1. 前摇时长：玩家看到起手势
-var telegraph_time: float = 0.4   # 2. 提示时长：高危警告，弹反的黄金期开始
-var recovery_time: float = 0.8    # 4. 后摇时长：敌人大喘气，玩家的绝对安全输出期
 
 func enter(msg: Dictionary = {}) -> void:
 	print("敌人进入状态：Attack")
