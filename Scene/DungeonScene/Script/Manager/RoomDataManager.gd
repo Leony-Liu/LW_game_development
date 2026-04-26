@@ -36,7 +36,7 @@ func load_room_types(path:String):
 		}
 
 		room_types.append(room_data)
-	print("房间数据管理器：已获取房间数据")
+	print("房间数据管理器：已获取房间数据", room_types)
 
 #给房间分类
 func get_random_room_type():

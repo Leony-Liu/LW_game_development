@@ -19,6 +19,8 @@ func physics_update(delat):
 	enemy.movement.move_to(delat)
 	if enemy.movement.path_index >= enemy.movement.current_path.size():
 		machine.change_state("idle")
+	if enemy.get_detected_player():
+		machine.change_state("chase")
 	pass
 
 

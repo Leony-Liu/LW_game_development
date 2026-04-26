@@ -174,18 +174,31 @@ func generate_corridors(node:BSPNode):
 
 #分配房间类型
 func set_room_type():
+	var to_be_distributed:Array[BSPNode] = []
+	for node in leaf_node:
+		to_be_distributed.append(node)
 	#房间列表随机一个出生点
-	var start_node = pick_random_with_seed(leaf_node, mySeed)
+	var start_node = pick_random_with_seed(to_be_distributed, mySeed)
 	start_node.room_type = 0
 	start_node.room_type_name = BSPNode.RoomType.find_key(start_node.room_type)
-	print(start_node.room_type)
-		
-	for node in leaf_node:
+	to_be_distributed.erase(start_node)
+	
+	print(start_node.room_type_name)
+	
+	var boss_node = pick_random_with_seed(to_be_distributed, mySeed)
+	boss_node.room_type = 1
+	boss_node.room_type_name = BSPNode.RoomType.find_key(boss_node.room_type)
+	to_be_distributed.erase(boss_node)
+	print(boss_node.room_type_name)
+	print(to_be_distributed)
+	
+	for node in to_be_distributed:
 		if node == start_node:
 			continue
 		node.room_type = room_data_manager.get_random_room_type()
 		node.room_type_name = BSPNode.RoomType.find_key(node.room_type)
 		room_data_manager.into_room_config(node)
+		to_be_distributed.erase(node)
 		
 	print("地牢生成逻辑：已分配房间类型")
 

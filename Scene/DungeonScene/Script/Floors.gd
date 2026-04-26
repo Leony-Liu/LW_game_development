@@ -21,6 +21,7 @@ func generate_all_floors():
 		var floor_seed = rng.randi()
 		
 		var manager = new_dungeon.get_node("TotalityManager")
+		manager.Floor = i
 		manager.setup_and_generate(floor_seed)
 		
 		if i == 0:

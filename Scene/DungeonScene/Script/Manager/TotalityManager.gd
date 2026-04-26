@@ -2,6 +2,7 @@ extends Node2D
 class_name totality_manager
 
 @export var MAP_DATA = Resource
+@export var Floor: int
 @export var Wall_scene: PackedScene
 
 @export var dungeon_logic: DungeonLogic
@@ -12,7 +13,6 @@ class_name totality_manager
 @export var map_information: MapInfo
 
 @export var test_tilemap: TileMapLayer
-
 
 var World_obstacle: Dictionary = {}
 var World_wall: Dictionary = {}

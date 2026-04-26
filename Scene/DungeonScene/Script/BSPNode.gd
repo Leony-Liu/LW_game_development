@@ -6,9 +6,9 @@ class_name BSPNode
 enum  RoomType{
 	NONE = -1,
 	START = 0,
-	NORMAL = 1,
-	TREASURE = 2,
-	BOSS = 3
+	NORMAL = 2,
+	TREASURE = 3,
+	BOSS = 1
 }
 
 signal WorldRoom_change(new_room_occ: Dictionary)

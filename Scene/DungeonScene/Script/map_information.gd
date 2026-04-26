@@ -1,6 +1,7 @@
 class_name MapInfo
 extends Node
 
+@export var floor: int
 @export var map_manager: Node2D
 var basic_tilemap: TileMapLayer
 var obstacle_cell: Dictionary

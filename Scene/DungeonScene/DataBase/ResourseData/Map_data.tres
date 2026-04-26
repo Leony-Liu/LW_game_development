@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource("1_ydalu")
-MapSize = Vector2i(150, 150)
+MapSize = Vector2i(200, 200)
 MinSpliteSize = 70
 MinRoomSize = 30
 RoomPadding = 10
 CorridorHeight = 2
-SplitDepth = 1
+SplitDepth = 3
 metadata/_custom_type_script = "uid://somspqa4al1y"

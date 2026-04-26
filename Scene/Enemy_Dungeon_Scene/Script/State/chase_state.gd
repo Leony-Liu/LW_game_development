@@ -14,14 +14,14 @@ func physics_update(delta):
 	var target = enemy.player_target
 	if not target:
 		lost_target_timer += delta
-		if lost_target_timer > 0.5:
+		if lost_target_timer > 0.08:
 			print("怪物没有发现玩家")
 			machine.change_state("patrol")
 		return
 		
 	lost_target_timer = 0.0
 	update_path_timer += delta
-	if update_path_timer > 0.02:
+	if update_path_timer > 0.5:
 		enemy.movement.set_target(target.global_position)
 		enemy.anima_play("walk")
 		print("怪物追击玩家")
