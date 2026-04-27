@@ -15,6 +15,8 @@ var current_state: State
 # 格式为 {"Idle": Idle节点实例, "Attack": Attack节点实例}
 var states: Dictionary = {}
 # 遍历状态子节点保存进字典并将根节点传入
+
+
 func _ready() -> void:
 	
 	# 稍微延迟一帧初始化，确保父节点以及所有组件都已经准备好

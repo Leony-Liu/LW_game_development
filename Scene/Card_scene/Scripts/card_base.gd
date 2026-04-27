@@ -51,7 +51,7 @@ func _ready():
 	BattleBus.card_rejected.connect(_on_card_rejected)
 	
 # ==========================================
-# 身份领取 (保持不变)
+# 身份领取 
 # ==========================================
 func _fetch_data_from_database():
 	if card_id == 0:
@@ -69,7 +69,7 @@ func _fetch_data_from_database():
 		push_error("基础卡牌：该卡牌未设置体力/能量消耗")
 		
 # ==========================================
-# 出牌与报错 (保持不变)
+# 出牌与报错
 # ==========================================
 func _on_button_pressed():
 	BattleBus.card_played.emit(card_data, self)
