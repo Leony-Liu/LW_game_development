@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RoomConfig" load_steps=3 format=3 uid="uid://cl54bbq8b4knm"]
 
-[ext_resource type="PackedScene" uid="uid://vle13wwrrfje" path="res://Scene/Enemy_Dungeon_Scene/enemy.tscn" id="1_isiat"]
+[ext_resource type="PackedScene" uid="uid://ctuxffvr11one" path="res://Scene/Enemy_Dungeon_Scene/enemy_2.tscn" id="1_isiat"]
 [ext_resource type="Script" uid="uid://dyam6375tgtbf" path="res://Scene/DungeonScene/Script/Data/room_config.gd" id="1_qeyuf"]
 
 [resource]

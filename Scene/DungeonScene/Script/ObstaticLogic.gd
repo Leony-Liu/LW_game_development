@@ -9,6 +9,7 @@ signal WorldObstacle_change(new_obstacle_occ: Dictionary)
 signal WorldGap_change(new_gap_occ: Dictionary)
 
 @export var obstaclemap: TileMapLayer
+@export var basicmap: TileMapLayer
 
 var directions = [
 	Vector2i(1,0), Vector2i(-1,0),
@@ -99,3 +100,12 @@ func place_obstacle(obstacle_place_coord:Vector2i, obstacle_ins_scene: PackedSce
 	obstaclemap.add_child(instance)
 	print("障碍物生成器：障碍物已生成")
 	pass
+
+func replace_tile(world_obstacle: Dictionary, world_gap: Dictionary):
+	var tile_atlas_croods = Vector2(5, 1)
+	var tiles_sourceID = 0
+	for tile_croods in world_obstacle:
+		basicmap.erase_cell(tile_croods)
+		basicmap.set_cell(tile_croods, tiles_sourceID, tile_atlas_croods)
+	for tile_croods in world_gap:
+		basicmap.set_cell(tile_croods, tiles_sourceID, tile_atlas_croods)

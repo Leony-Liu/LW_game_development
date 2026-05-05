@@ -174,32 +174,25 @@ func generate_corridors(node:BSPNode):
 
 #分配房间类型
 func set_room_type():
-	var to_be_distributed:Array[BSPNode] = []
-	for node in leaf_node:
-		to_be_distributed.append(node)
 	#房间列表随机一个出生点
-	var start_node = pick_random_with_seed(to_be_distributed, mySeed)
+	var start_node = pick_random_with_seed(leaf_node, mySeed)
 	start_node.room_type = 0
 	start_node.room_type_name = BSPNode.RoomType.find_key(start_node.room_type)
-	to_be_distributed.erase(start_node)
+
 	
 	print(start_node.room_type_name)
 	
-	var boss_node = pick_random_with_seed(to_be_distributed, mySeed)
+	var boss_node = pick_random_with_seed(leaf_node, mySeed)
 	boss_node.room_type = 1
 	boss_node.room_type_name = BSPNode.RoomType.find_key(boss_node.room_type)
-	to_be_distributed.erase(boss_node)
-	print(boss_node.room_type_name)
-	print(to_be_distributed)
+
 	
-	for node in to_be_distributed:
+	for node in leaf_node:
 		if node == start_node:
 			continue
 		node.room_type = room_data_manager.get_random_room_type()
 		node.room_type_name = BSPNode.RoomType.find_key(node.room_type)
 		room_data_manager.into_room_config(node)
-		to_be_distributed.erase(node)
-		
 	print("地牢生成逻辑：已分配房间类型")
 
 
@@ -222,16 +215,16 @@ func draw_tilemap():
 		match node.room_type_name:
 			"START":
 				current_source_id = 1
-				current_atlas_coords = Vector2i(8, 1)
+				current_atlas_coords = Vector2i(5, 1)
 			"NORMAL":
 				current_source_id = 1
-				current_atlas_coords = Vector2i(5, 21)
+				current_atlas_coords = Vector2i(5, 1)
 			"TREASURE":
 				current_source_id = 1
 				current_atlas_coords = Vector2i(5, 1)
 			"BOSS":
 				current_source_id = 1
-				current_atlas_coords = Vector2i(1, 20)
+				current_atlas_coords = Vector2i(5, 1)
 		for x in range(r.position.x, r.end.x):
 			for y in range(r.position.y, r.end.y):
 				tilemap.set_cell(Vector2i(x, y), current_source_id, current_atlas_coords)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dh74i2vi5p7q8"]
+[gd_scene load_steps=25 format=3 uid="uid://dh74i2vi5p7q8"]
 
 [ext_resource type="Script" uid="uid://bx24st46mifft" path="res://Scene/DungeonScene/Script/Manager/TotalityManager.gd" id="1_6whob"]
 [ext_resource type="Resource" uid="uid://b1td3kvqbdhl6" path="res://Scene/DungeonScene/DataBase/ResourseData/Map_data.tres" id="2_8w3wl"]
@@ -16,10 +16,6 @@
 [ext_resource type="Resource" uid="uid://cw7xwx4s5b1i7" path="res://Scene/DungeonScene/DataBase/ResourseData/testObstacle1.tres" id="9_prqi5"]
 [ext_resource type="Script" uid="uid://by5usabqjhvi5" path="res://Scene/DungeonScene/Script/enemie_set.gd" id="12_qc7q8"]
 [ext_resource type="Script" uid="uid://dp26t1h7qdokw" path="res://Scene/DungeonScene/Script/map_information.gd" id="16_vuuyw"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vuuyw"]
-texture = ExtResource("6_aw6vt")
-5:1/0 = 0
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_vuuyw"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -591,7 +587,6 @@ texture = ExtResource("7_aw6vt")
 navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_prqi5")
 sources/2 = SubResource("TileSetAtlasSource_y6u6v")
-sources/0 = SubResource("TileSetAtlasSource_vuuyw")
 
 [sub_resource type="Shader" id="Shader_y6u6v"]
 code = "shader_type canvas_item;

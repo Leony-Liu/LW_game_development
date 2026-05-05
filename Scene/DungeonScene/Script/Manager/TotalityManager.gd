@@ -49,11 +49,10 @@ func setup_and_generate(seed_value: int):
 	wall_set_logic.set_wall(World_wall, Wall_scene)
 	
 	obstatic_logic.generate_obstacle(leaf_node, World_obstacle, World_corridor, World_wall, World_gap, World_room)
+	obstatic_logic.replace_tile(World_obstacle, World_gap)
 	map_information.get_data()#储存当层地图数据
 	enemies_logic.spawn_enemies_in_rooms(leaf_node, World_obstacle)
 	
-	
-	test_set_tiles()
 	#dungeon_logic.testSetTile(World_obstacle)
 	#print(World_wall)
 	#print(World_gap)
@@ -91,11 +90,6 @@ func _on_dungeon_logic_world_corridor_change(new_corridor_occ: Dictionary) -> vo
 			World_corridor[corridor] = true
 		else:
 			continue
-
-
-func test_set_tiles():
-	for obstacle in World_obstacle:
-		test_tilemap.set_cell(obstacle, 1, Vector2i(9, 13))
 
 
 func _on_wall_logic_world_wall_change(new_wall_occ: Dictionary) -> void:

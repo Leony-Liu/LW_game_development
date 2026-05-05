@@ -58,18 +58,6 @@ func move_to(delta:float, need_repath:bool = false):
 	
 	if enemy.global_position.distance_to(to_pos) < 5.0:
 		path_index += 1
-	#if current_path.is_empty():
-		#move_stop()
-		#print("路径列表为空")
-	#else:
-		#var to_pos = my_map_info.basic_tilemap.map_to_local(current_path[0])
-		#var direction = (to_pos - enemy.global_position).normalized()
-		#enemy.velocity = direction * speed
-		#
-		#if enemy.global_position.distance_to(to_pos) < 5.0:
-			#path_index += 1
-			#current_path.remove_at(0)
-	#print("怪物试图走动")
 	pass
 
 #怪物停止移动

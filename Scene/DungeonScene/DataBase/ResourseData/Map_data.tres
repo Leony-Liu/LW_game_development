@@ -9,5 +9,5 @@ MinSpliteSize = 70
 MinRoomSize = 30
 RoomPadding = 10
 CorridorHeight = 2
-SplitDepth = 3
+SplitDepth = 1
 metadata/_custom_type_script = "uid://somspqa4al1y"

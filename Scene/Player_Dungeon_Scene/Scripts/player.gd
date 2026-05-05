@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+class_name Player
 signal Direction_change(new_direction: Vector2)
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 

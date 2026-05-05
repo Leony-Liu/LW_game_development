@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctuxffvr11one"]
+
+[ext_resource type="Script" uid="uid://dwgqkv10h8xtx" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy2/enemy_2.gd" id="1_txtp2"]
+[ext_resource type="Texture2D" uid="uid://bwtjtdrllcslc" path="res://Scene/Enemy_Dungeon_Scene/Art/Mushroom_spike.png" id="2_cob5i"]
+[ext_resource type="Script" uid="uid://dmnqvtssw5bgc" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy_dungeo_information.gd" id="3_ovk2q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l6lxh"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_txtp2"]
+radius = 142.285
+
+[node name="Enemy2" type="CharacterBody2D" groups=["Enemies"]]
+y_sort_enabled = true
+collision_layer = 4
+script = ExtResource("1_txtp2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("2_cob5i")
+flip_h = true
+hframes = 10
+vframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l6lxh")
+
+[node name="Navigation" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Navigation"]
+avoidance_enabled = true
+
+[node name="Timer" type="Timer" parent="Navigation"]
+wait_time = 0.1
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_txtp2")
+
+[node name="Information" type="Node" parent="."]
+script = ExtResource("3_ovk2q")
+
+[connection signal="velocity_computed" from="Navigation/NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="timeout" from="Navigation/Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
