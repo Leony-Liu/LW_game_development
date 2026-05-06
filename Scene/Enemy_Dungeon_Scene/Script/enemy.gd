@@ -37,9 +37,9 @@ func _physics_process(delta: float) -> void:
 		player_target = null
 
 
-func anima_play(anim_name: String):
-	anima.play(anim_name)
-	pass
+#func anima_play(anim_name: String):
+	#anima.play(anim_name)
+	#pass
 
 
 func get_detected_player() -> CharacterBody2D:

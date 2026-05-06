@@ -31,6 +31,7 @@ func spawn_enemies_in_rooms(leaf_node: Array[BSPNode], world_obstacle: Dictionar
 					enemy.get_node("Information").MyNode = node
 					enemy.get_node("Information").ID = mySeed.randi_range(20001, 2100)
 					enemy.get_node("Information").map_info = map_info
+					enemy.get_node("Information").mySeed = mySeed##
 					add_child(enemy)
 					enemy.add_to_group("Enemies")
 					enemy.global_position = get_enemy_set_pos(node, world_obstacle)

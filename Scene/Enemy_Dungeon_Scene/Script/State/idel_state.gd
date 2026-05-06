@@ -3,8 +3,8 @@ extends DungeonEnemyState
 
 var timer: float
 func enter():
-	timer = randf_range(2.0, 3.0)
-	enemy.anima_play("idle")
+	timer = enemy.my_info.mySeed.randf_range(2.0, 3.0)
+	enemy.anima_play("Idle")
 	enemy.movement.move_stop()
 	print("进入待机状态")
 	pass
@@ -13,7 +13,7 @@ func enter():
 func physics_update(delta):
 	timer -= delta
 	
-	if enemy.get_detected_player():
+	if enemy.get_player():
 		machine.change_state("chase")
 		return
 	

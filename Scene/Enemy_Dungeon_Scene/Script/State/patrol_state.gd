@@ -19,7 +19,7 @@ func physics_update(delat):
 	enemy.movement.move_to(delat)
 	if enemy.movement.path_index >= enemy.movement.current_path.size():
 		machine.change_state("idle")
-	if enemy.get_detected_player():
+	if enemy.get_player():
 		machine.change_state("chase")
 	pass
 
@@ -30,7 +30,7 @@ func get_patrol_target()-> Vector2:
 		return enemy.global_position
 	
 	var tilemap = enemy.get_my_mapInfo().basic_tilemap
-	var enemy_grid = tilemap.local_to_map(tilemap.to_local(enemy.global_position))
+	#var enemy_grid = tilemap.local_to_map(tilemap.to_local(enemy.global_position))
 	var room = enemy.get_my_room().room
 	var room_pos_x = room.position.x
 	var room_pos_y = room.position.y
@@ -39,9 +39,9 @@ func get_patrol_target()-> Vector2:
 	
 	var patrol_range = 5#当前位置±5的范围
 	for i in range(20):
-		var offset = Vector2i(randi_range(-patrol_range, patrol_range), randi_range(-patrol_range, patrol_range))
-		var candidate = enemy_grid + offset
-		if my_map_info.obstacle_cell.has(candidate): continue
-		if my_map_info.wall_cell.has(candidate): continue
-		return tilemap.map_to_local(candidate)
+		var patrol_target = Vector2i(enemy.my_info.mySeed.randi_range(room_pos_x, room_end_x), enemy.my_info.mySeed.randi_range(room_pos_y, room_end_y))
+		#var candidate = enemy_grid + offset
+		if my_map_info.obstacle_cell.has(patrol_target): continue
+		if my_map_info.wall_cell.has(patrol_target): continue
+		return tilemap.map_to_local(patrol_target)
 	return enemy.global_position

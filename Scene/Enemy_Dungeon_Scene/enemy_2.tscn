@@ -1,8 +1,89 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctuxffvr11one"]
+[gd_scene load_steps=18 format=3 uid="uid://ctuxffvr11one"]
 
 [ext_resource type="Script" uid="uid://dwgqkv10h8xtx" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy2/enemy_2.gd" id="1_txtp2"]
+[ext_resource type="Script" uid="uid://cj5oruxi4qoop" path="res://Scene/Enemy_Dungeon_Scene/Script/animation_player.gd" id="2_1m07j"]
 [ext_resource type="Texture2D" uid="uid://bwtjtdrllcslc" path="res://Scene/Enemy_Dungeon_Scene/Art/Mushroom_spike.png" id="2_cob5i"]
 [ext_resource type="Script" uid="uid://dmnqvtssw5bgc" path="res://Scene/Enemy_Dungeon_Scene/Script/enemy_dungeo_information.gd" id="3_ovk2q"]
+[ext_resource type="Script" uid="uid://bfp3em5s22qnf" path="res://Scene/Enemy_Dungeon_Scene/Script/dungeon_enemy_movement.gd" id="4_dtjiu"]
+[ext_resource type="Script" uid="uid://cwoyidhq4tn7v" path="res://Scene/Enemy_Dungeon_Scene/Script/State/state_machine.gd" id="4_h44qr"]
+[ext_resource type="Script" uid="uid://b7kjbl42hrf7i" path="res://Scene/Enemy_Dungeon_Scene/Script/State/idel_state.gd" id="5_dtjiu"]
+[ext_resource type="Script" uid="uid://ceh71nsx5oayt" path="res://Scene/Enemy_Dungeon_Scene/Script/State/chase_state.gd" id="6_1m07j"]
+[ext_resource type="Script" uid="uid://bqgw3xtmj8ohe" path="res://Scene/Enemy_Dungeon_Scene/Script/State/patrol_state.gd" id="7_qcccm"]
+[ext_resource type="Script" uid="uid://c1m8xxqnalrin" path="res://Scene/Enemy_Dungeon_Scene/Script/State/attack_state.gd" id="8_twcx6"]
+
+[sub_resource type="Animation" id="Animation_4yw1d"]
+resource_name = "Idle"
+length = 0.70001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_7o8gl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_61ai3"]
+resource_name = "Move"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17, 18]
+}
+
+[sub_resource type="Animation" id="Animation_071nw"]
+resource_name = "Attack"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uxjmf"]
+_data = {
+&"Attack": SubResource("Animation_071nw"),
+&"Idle": SubResource("Animation_4yw1d"),
+&"Move": SubResource("Animation_61ai3"),
+&"RESET": SubResource("Animation_7o8gl")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l6lxh"]
 radius = 3.0
@@ -10,10 +91,20 @@ radius = 3.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_txtp2"]
 radius = 142.285
 
-[node name="Enemy2" type="CharacterBody2D" groups=["Enemies"]]
+[node name="Enemy2" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent_2d", "anima", "movement", "my_info") groups=["Enemies"]]
 y_sort_enabled = true
 collision_layer = 4
 script = ExtResource("1_txtp2")
+navigation_agent_2d = NodePath("Navigation/NavigationAgent2D")
+anima = NodePath("AnimationPlayer")
+movement = NodePath("MoveMent")
+my_info = NodePath("Information")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_uxjmf")
+}
+script = ExtResource("2_1m07j")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
@@ -43,7 +134,27 @@ shape = SubResource("CircleShape2D_txtp2")
 [node name="Information" type="Node" parent="."]
 script = ExtResource("3_ovk2q")
 
+[node name="MoveMent" type="Node" parent="." node_paths=PackedStringArray("enemy")]
+script = ExtResource("4_dtjiu")
+enemy = NodePath("..")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("4_h44qr")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("5_dtjiu")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("6_1m07j")
+
+[node name="Patrol" type="Node" parent="StateMachine"]
+script = ExtResource("7_qcccm")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("8_twcx6")
+
 [connection signal="velocity_computed" from="Navigation/NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="velocity_computed" from="Navigation/NavigationAgent2D" to="MoveMent" method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="timeout" from="Navigation/Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
