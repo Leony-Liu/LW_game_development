@@ -1,7 +1,7 @@
 #怪物巡逻状态
 extends DungeonEnemyState
 
-var partrol_target: Vector2
+var patrol_target: Vector2
 var my_map_info: MapInfo
 
 func _ready() -> void:
@@ -9,18 +9,15 @@ func _ready() -> void:
 	my_map_info = enemy.get_my_mapInfo()
 
 func enter():
-	print("进入巡逻状态")
-	partrol_target = get_patrol_target()
-	enemy.movement.set_target(partrol_target)
+	print("怪物进入巡逻状态")
+	patrol_target = get_patrol_target()
+	enemy.movement.move_to(patrol_target)
 	enemy.anima_play("walk")
-	print("获取巡逻坐标:", partrol_target)
 
 func physics_update(delat):
-	enemy.movement.move_to(delat)
-	if enemy.movement.path_index >= enemy.movement.current_path.size():
+	if enemy.global_position == patrol_target:
+		enemy.movement.move_stop()
 		machine.change_state("idle")
-	if enemy.get_player():
-		machine.change_state("chase")
 	pass
 
 

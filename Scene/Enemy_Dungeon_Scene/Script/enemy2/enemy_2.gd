@@ -3,7 +3,9 @@ class_name Enemy
 @export var speed := 50
 @export var player_node: Player
 @export var navigation_agent_2d: NavigationAgent2D
+
 @export var anima: AnimationPlayer
+@export var sprite: Sprite2D
 @export var movement: GungeonEnemeyMoveMent
 @export var my_info: DungeonEnemyInfo
 

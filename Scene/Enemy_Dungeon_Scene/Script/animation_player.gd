@@ -1,6 +1,6 @@
 extends AnimationPlayer
 
-@export var enemy = owner 
+@export var enemy = owner as Enemy
 
 func _process(delta: float) -> void:
 	var dir = Vector2(enemy.velocity.x, enemy.velocity.y)
