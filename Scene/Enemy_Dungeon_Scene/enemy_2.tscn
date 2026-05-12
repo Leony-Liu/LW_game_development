@@ -155,6 +155,7 @@ script = ExtResource("7_qcccm")
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("8_twcx6")
 
+[connection signal="navigation_finished" from="Navigation/NavigationAgent2D" to="MoveMent" method="_on_navigation_agent_2d_navigation_finished"]
 [connection signal="velocity_computed" from="Navigation/NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="velocity_computed" from="Navigation/NavigationAgent2D" to="MoveMent" method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="timeout" from="Navigation/Timer" to="." method="_on_timer_timeout"]

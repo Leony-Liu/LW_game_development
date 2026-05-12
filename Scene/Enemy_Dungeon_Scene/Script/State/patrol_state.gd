@@ -11,12 +11,11 @@ func _ready() -> void:
 func enter():
 	print("怪物进入巡逻状态")
 	patrol_target = get_patrol_target()
-	enemy.movement.move_to(patrol_target)
 	enemy.anima_play("walk")
 
 func physics_update(delat):
-	if enemy.global_position == patrol_target:
-		enemy.movement.move_stop()
+	enemy.movement.move_to(patrol_target)
+	if enemy.movement.is_arrvid():
 		machine.change_state("idle")
 	pass
 
@@ -36,7 +35,7 @@ func get_patrol_target()-> Vector2:
 	
 	var patrol_range = 5#当前位置±5的范围
 	for i in range(20):
-		var patrol_target = Vector2i(enemy.my_info.mySeed.randi_range(room_pos_x, room_end_x), enemy.my_info.mySeed.randi_range(room_pos_y, room_end_y))
+		var patrol_target = Vector2i(enemy.my_info.mySeed.randi_range(room_pos_x + 2, room_end_x - 2), enemy.my_info.mySeed.randi_range(room_pos_y + 2, room_end_y - 2))
 		#var candidate = enemy_grid + offset
 		if my_map_info.obstacle_cell.has(patrol_target): continue
 		if my_map_info.wall_cell.has(patrol_target): continue

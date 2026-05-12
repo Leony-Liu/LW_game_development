@@ -24,18 +24,30 @@ func _ready() -> void:
 
 #怪物寻路
 func move_to(target: Vector2):
-	navigation_agent_2d.target_position = target
-	if not navigation_agent_2d.is_navigation_finished():
-		var direction = enemy.to_local(navigation_agent_2d.get_next_path_position()).normalized()
-		navigation_agent_2d.set_velocity(direction * speed)
+	if navigation_agent_2d.target_position != target:
+		navigation_agent_2d.target_position = target
+		
+	if navigation_agent_2d.is_navigation_finished():
+		move_stop()
+		
+	var next_path_pos = navigation_agent_2d.get_next_path_position()
+	var direction = enemy.global_position.direction_to(next_path_pos)
+	navigation_agent_2d.set_velocity(direction * speed)
 	pass
 
 #怪物停止移动
 func move_stop():
-	enemy.velocity = Vector2.ZERO
+	navigation_agent_2d.set_velocity(Vector2.ZERO)
 
+
+func is_arrvid() -> bool:
+	return navigation_agent_2d.is_navigation_finished()
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	enemy.velocity = safe_velocity
 	enemy.move_and_slide()
+	pass # Replace with function body.
+
+
+func _on_navigation_agent_2d_navigation_finished() -> void:
 	pass # Replace with function body.
