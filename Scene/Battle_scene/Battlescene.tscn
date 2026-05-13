@@ -81,14 +81,6 @@ layout_mode = 1
 [node name="PlayerInfromation" parent="UIManager/UIRoot" instance=ExtResource("7_tsycl")]
 layout_mode = 1
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_utnyt")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.09356, 1.33686, -0.578647)
-omni_range = 5.94624
-omni_attenuation = 2.0
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.28537, 1.49491, 0.585255)
 
@@ -114,7 +106,18 @@ size = Vector3(5, 0.2, 5)
 transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 1.28042, 1.81021, -5.13119)
 size = Vector3(5, 0.2, 5)
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Sprite3D" type="Sprite3D" parent="Environment"]
 transform = Transform3D(0.427091, 0, 0, 0, 0.427091, 0, 0, 0, 1, 0.693414, 1.0845, -2.73957)
 shaded = true
 texture = ExtResource("10_g3sj8")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_utnyt")
+
+[node name="Light" type="Node" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Light"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.09356, 2.18814, -0.578647)
+light_energy = 1.948
+omni_range = 4.85538
+omni_attenuation = 2.0
