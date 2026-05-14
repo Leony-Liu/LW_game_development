@@ -952,7 +952,7 @@ _data = {
 &"idle": SubResource("Animation_v2abk")
 }
 
-[node name="EnemyVisuals" type="Node2D"]
+[node name="EnemyVisuals" type="Node3D"]
 script = SubResource("GDScript_v2abk")
 
 [node name="Character" type="Skeleton2D" parent="."]

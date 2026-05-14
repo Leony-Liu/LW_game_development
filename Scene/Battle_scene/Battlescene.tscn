@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_scene/Scripts/battle_ui_manager.gd" id="3_nr23r"]
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_scene/PrivateScene/UI/EnemyHPBar/enemy_hp_bar_root.tscn" id="6_qo3ej"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_scene/PrivateScene/UI/PlayerInformation/player_infromation.tscn" id="7_tsycl"]
-[ext_resource type="Texture2D" uid="uid://bweod8v1ggb1u" path="res://Scene/Enemy_Battle_Scene/PrivateScene/EnemyVisuals/Arts/整图.png" id="10_g3sj8"]
+[ext_resource type="Texture2D" uid="uid://cec7qbt65s770" path="res://Scene/Battle_scene/Arts/ZombieMan_ODDBLOT_2k.png" id="10_g3sj8"]
 
 [sub_resource type="Environment" id="Environment_utnyt"]
 background_mode = 1
@@ -28,10 +28,6 @@ script = ExtResource("3_8a10i")
 
 [node name="Enemy" parent="EnemySlot" instance=ExtResource("3_mvvqq")]
 
-[node name="Player" parent="." instance=ExtResource("2_noken")]
-z_index = 10
-position = Vector2(170, 166)
-
 [node name="UIManager" type="CanvasLayer" parent="."]
 script = ExtResource("3_nr23r")
 
@@ -46,7 +42,7 @@ grow_vertical = 2
 [node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_container", "player_node", "card_factory")]
 script = ExtResource("1_ygjx7")
 hand_container = NodePath("CardUI/HBoxContainer")
-player_node = NodePath("../../../Player")
+player_node = NodePath("")
 card_factory = NodePath("../../../CardFactory")
 
 [node name="CardUI" type="Control" parent="UIManager/UIRoot/CardManager"]
@@ -81,9 +77,6 @@ layout_mode = 1
 [node name="PlayerInfromation" parent="UIManager/UIRoot" instance=ExtResource("7_tsycl")]
 layout_mode = 1
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.28537, 1.49491, 0.585255)
-
 [node name="Environment" type="Node" parent="."]
 
 [node name="Ground" type="CSGBox3D" parent="Environment"]
@@ -107,7 +100,7 @@ transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.371
 size = Vector3(5, 0.2, 5)
 
 [node name="Sprite3D" type="Sprite3D" parent="Environment"]
-transform = Transform3D(0.427091, 0, 0, 0, 0.427091, 0, 0, 0, 1, 0.693414, 1.0845, -2.73957)
+transform = Transform3D(0.141841, 0, 0, 0, 0.141841, 0, 0, 0, 1, 1.29927, 1.0845, -1.08098)
 shaded = true
 texture = ExtResource("10_g3sj8")
 
@@ -121,3 +114,6 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.0935
 light_energy = 1.948
 omni_range = 4.85538
 omni_attenuation = 2.0
+
+[node name="Player" parent="." instance=ExtResource("2_noken")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.38269, 1.46493, 1.09637)

@@ -11,12 +11,8 @@
 [ext_resource type="Script" uid="uid://b57bb2as301b1" path="res://Scene/Player_Battle_Scene/Scripts/player_attack.gd" id="9_ml7e8"]
 [ext_resource type="Script" uid="uid://b44kh2qs37ufc" path="res://Scene/Player_Battle_Scene/Scripts/player_parry.gd" id="10_0i6mq"]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node3D"]
 script = ExtResource("1_oh5ij")
-
-[node name="Visuals" type="Node2D" parent="."]
-
-[node name="PlayerVisuals" parent="Visuals" instance=ExtResource("2_qk2sp")]
 
 [node name="Data" type="Node" parent="."]
 
@@ -56,3 +52,11 @@ script = ExtResource("9_ml7e8")
 
 [node name="Skill" type="Node" parent="StateMachine"]
 script = ExtResource("9_2fvbb")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="Visuals" type="Node3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0394566, -1.27039, -1.3374)
+
+[node name="PlayerVisuals" parent="Camera3D/Visuals" instance=ExtResource("2_qk2sp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.381515, 0.62175, 0)
