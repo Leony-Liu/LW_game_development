@@ -18,7 +18,7 @@ script = ExtResource("4_rkcga")
 [node name="Visuals" type="Node2D" parent="."]
 
 [node name="EnemyVisuals" parent="Visuals" instance=ExtResource("3_i0fvd")]
-position = Vector2(979, 877)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 979, 877, 0)
 
 [node name="Data" type="Node" parent="."]
 

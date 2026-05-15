@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://3kynny3yul0x"]
+[gd_scene load_steps=18 format=3 uid="uid://3kynny3yul0x"]
 
 [ext_resource type="Texture2D" uid="uid://c0ywv4wnmkskl" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Arts/Sword-Test/剑.png" id="1_slya1"]
 [ext_resource type="Script" uid="uid://bwfcpo2wuw2qw" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/scripts/player_visuals_manager.gd" id="1_w5lrf"]
@@ -852,6 +852,14 @@ _data = {
 &"parry": SubResource("Animation_guqo7")
 }
 
+[sub_resource type="Animation" id="Animation_m8gyk"]
+resource_name = "attack"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a13h0"]
+_data = {
+&"attack": SubResource("Animation_m8gyk")
+}
+
 [node name="PlayerVisuals" type="Node3D"]
 script = ExtResource("1_w5lrf")
 
@@ -964,16 +972,20 @@ libraries = {
 autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a13h0")
+}
 
 [node name="WeaponPoint" type="Node3D" parent="."]
-transform = Transform3D(0.859941, 0, -0.510393, 0, 1, 0, 0.510393, 0, 0.859941, 0.303853, -0.556848, -0.0632461)
+transform = Transform3D(0.859941, 0, -0.510393, 0, 1, 0, 0.510393, 0, 0.859941, 0.67271, -0.556848, -0.0632461)
 
 [node name="weapon" type="Sprite3D" parent="WeaponPoint"]
 transform = Transform3D(0.117277, 0, 0, 0, 0.116363, 0, 0, 0, 1, 0.00932825, 0.982094, 0)
 texture = ExtResource("8_ff4kr")
 
 [node name="RightHandPoint" type="Node3D" parent="."]
-transform = Transform3D(0.677144, -0.530071, -0.510393, 0.616404, 0.78743, 1.36158e-08, 0.401899, -0.314608, 0.859941, 0.506965, 0, 0.099724)
+transform = Transform3D(0.60611, -0.609978, -0.510448, 0.709354, 0.704852, 4.64171e-06, 0.359788, -0.362091, 0.859908, 0.548917, 0.100955, 0.104335)
+visible = false
 
 [node name="righthand" type="Sprite3D" parent="RightHandPoint"]
 transform = Transform3D(0.0401909, 0, 0, 0, 0.0401909, 0, 0, 0, 1, 0, 0, 0)
@@ -981,7 +993,8 @@ render_priority = 127
 texture = ExtResource("9_m8gyk")
 
 [node name="LeftHandPoint" type="Node3D" parent="."]
-transform = Transform3D(0.714487, 0.47447, 0.514185, -0.553203, 0.833047, 0, -0.42834, -0.284449, 0.857679, -1.0834, 0.00392151, 0.0466037)
+transform = Transform3D(0.714487, 0.47447, 0.514185, -0.553203, 0.833047, 0, -0.42834, -0.284449, 0.857679, -1.0834, 0.0823404, -0.0376645)
+visible = false
 
 [node name="lefthand" type="Sprite3D" parent="LeftHandPoint"]
 transform = Transform3D(0.0401909, 0, 0, 0, 0.0401909, 0, 0, 0, 1, 0.0027135, 0.00180191, 0.000609517)

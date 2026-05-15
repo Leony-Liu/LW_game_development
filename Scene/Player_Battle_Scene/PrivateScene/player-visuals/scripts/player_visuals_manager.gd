@@ -1,5 +1,5 @@
 
-extends Node2D
+extends Node3D
 class_name PlayerVisualsManager
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer

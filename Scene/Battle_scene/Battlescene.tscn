@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_scene/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_scene/Scripts/card_manager.gd" id="1_ygjx7"]
 [ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scene/Battle_scene/Scripts/effect_manager.gd" id="2_g3sj8"]
-[ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/Player.tscn" id="2_noken"]
+[ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/player.tscn" id="2_noken"]
 [ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_scene/Scripts/card_factory.gd" id="3_8a10i"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Enemy_Battle_Scene/Enemy.tscn" id="3_mvvqq"]
 [ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_scene/Scripts/battle_ui_manager.gd" id="3_nr23r"]
@@ -39,10 +39,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_container", "player_node", "card_factory")]
+[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_container", "card_factory")]
 script = ExtResource("1_ygjx7")
 hand_container = NodePath("CardUI/HBoxContainer")
-player_node = NodePath("")
 card_factory = NodePath("../../../CardFactory")
 
 [node name="CardUI" type="Control" parent="UIManager/UIRoot/CardManager"]
@@ -110,10 +109,10 @@ environment = SubResource("Environment_utnyt")
 [node name="Light" type="Node" parent="."]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Light"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.09356, 2.18814, -0.578647)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.36824, 3.00928, -0.832178)
 light_energy = 1.948
-omni_range = 4.85538
-omni_attenuation = 2.0
+omni_range = 4.565
+omni_attenuation = 0.963
 
 [node name="Player" parent="." instance=ExtResource("2_noken")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.38269, 1.46493, 1.09637)

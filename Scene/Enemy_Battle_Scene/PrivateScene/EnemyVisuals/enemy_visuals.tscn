@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bweod8v1ggb1u" path="res://Scene/Enemy_Battle_Scene/PrivateScene/EnemyVisuals/Arts/整图.png" id="1_v2abk"]
 
 [sub_resource type="GDScript" id="GDScript_v2abk"]
-script/source = "extends Node2D
+script/source = "extends Node3D
 
 @onready var anim = $AnimationPlayer 
 
