@@ -1,0 +1,140 @@
+[gd_scene load_steps=8 format=3 uid="uid://brvty3q6cxtuc"]
+
+[ext_resource type="Script" uid="uid://da188hmp5ovv8" path="res://Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/player_visuals_manager.gd" id="1_3crav"]
+[ext_resource type="PackedScene" uid="uid://cwfbt1bteuxcx" path="res://Scene/Battle_Scene_Player/player_3Dvisuals/Arts/machete 1.glb" id="2_ru8wh"]
+
+[sub_resource type="Animation" id="Animation_a13h0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.67271, -0.556848, -0.0632461)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPoint:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.535642, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_m8gyk"]
+resource_name = "attack-r"
+length = 2.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.775, 0.860956, 0.9175, 1.2, 2.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.67271, -0.556848, -0.0632461), Vector3(0.836091, -0.00122566, 0.477), Vector3(0.826236, -0.0347408, 0.444412), Vector3(0.0337184, -0.0625787, 0.417003), Vector3(-0.0145568, -0.432969, 0.322074), Vector3(0.67271, -0.556848, -0.0632461)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPoint:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.775, 0.860956, 0.9175, 1.2, 2.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.535642, 0), Vector3(-0.642676, -0.945513, -0.706778), Vector3(-0.603909, -0.920789, -0.664145), Vector3(-0.708699, -0.748354, 1.73958), Vector3(-0.594535, -0.649495, 2.08376), Vector3(0, -0.535642, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qioht"]
+resource_name = "idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.67271, -0.556848, -0.0632461), Vector3(0.67271, -0.489552, -0.0632461)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPoint:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.535642, 0), Vector3(0, -0.535642, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_swu03"]
+resource_name = "parry"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.67271, -0.556848, -0.0632461), Vector3(0.67271, -0.556848, -0.0632461), Vector3(1.66266, 0.22887, 0.321801), Vector3(1.62459, 0.19865, 0.306991)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPoint:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.535642, 0), Vector3(0.384728, -0.382432, 0.750779), Vector3(0.145778, 0.0107928, 1.36133), Vector3(0.140171, -0.0102239, 1.30897)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a13h0"]
+_data = {
+&"RESET": SubResource("Animation_a13h0"),
+&"attack-r": SubResource("Animation_m8gyk"),
+&"idle": SubResource("Animation_qioht"),
+&"parry": SubResource("Animation_swu03")
+}
+
+[node name="player_3Dvisuals" type="Node3D"]
+script = ExtResource("1_3crav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a13h0")
+}
+autoplay = "idle"
+
+[node name="WeaponPoint" type="Node3D" parent="."]
+transform = Transform3D(0.859941, 0, -0.510393, 0, 0.999999, 0, 0.510393, 0, 0.859941, 0.67271, -0.556848, -0.0632461)
+
+[node name="machete 1" parent="WeaponPoint" instance=ExtResource("2_ru8wh")]
+transform = Transform3D(-0.0279656, -0.109495, 0.759938, 0.767786, -0.00398821, 0.0276797, 0, 0.760442, 0.109568, 0.977498, 0.035604, 0.140936)

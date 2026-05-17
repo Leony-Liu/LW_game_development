@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=3 uid="uid://ci2n0jrhben06"]
+
+[ext_resource type="Script" uid="uid://doi0ub4lh28op" path="res://Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd" id="1_b5lmm"]
+[ext_resource type="Script" uid="uid://bj0xedtqwge5m" path="res://Scene/Battle_Scene_Enemy/Scripts/enemy_combat_data.gd" id="2_1ul8j"]
+[ext_resource type="Script" uid="uid://d2yvk53x3vhs1" path="res://Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd" id="3_jrf23"]
+[ext_resource type="PackedScene" uid="uid://xxjxhutvlefn" path="res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn" id="3_spqwk"]
+[ext_resource type="Script" uid="uid://bxc1q8qsd0vsp" path="res://Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd" id="4_rkcga"]
+[ext_resource type="Script" uid="uid://c6qiwbln4sxom" path="res://Scene/Battle_Scene_Enemy/Scripts/enemy_state_machine.gd" id="5_8yahm"]
+[ext_resource type="Script" uid="uid://cjx74meur6pb8" path="res://Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd" id="6_42ml3"]
+[ext_resource type="Script" uid="uid://byjsvmcjitw6q" path="res://Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd" id="7_spqwk"]
+
+[node name="Enemy" type="Node3D"]
+script = ExtResource("1_b5lmm")
+
+[node name="EnemyAIBrain" type="Node" parent="."]
+script = ExtResource("4_rkcga")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="enemy_3dvisuals" parent="Visuals" instance=ExtResource("3_spqwk")]
+
+[node name="Data" type="Node" parent="."]
+
+[node name="CombatData" type="Node" parent="Data"]
+script = ExtResource("2_1ul8j")
+
+[node name="Calculator" type="Node" parent="Data"]
+script = ExtResource("3_jrf23")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_8yahm")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("6_42ml3")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("7_spqwk")
+
+[node name="Skill" type="Node" parent="StateMachine"]
+
+[node name="Parry" type="Node" parent="StateMachine"]
+
+[node name="Controled" type="Node" parent="StateMachine"]

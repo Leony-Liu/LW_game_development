@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://d4lo5ywjrle2p"]
+
+[ext_resource type="Script" uid="uid://2lxesc776017" path="res://Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd" id="1_5soxg"]
+[ext_resource type="Texture2D" uid="uid://c513o4fa1etss" path="res://Scene/Battle_Scene_Main/EnemyHPBar/差值血量.png" id="2_7fqla"]
+[ext_resource type="Texture2D" uid="uid://x63ea576ylmu" path="res://Scene/Battle_Scene_Main/EnemyHPBar/当前血量.png" id="3_vujmf"]
+[ext_resource type="Texture2D" uid="uid://mn2ejus4w476" path="res://Scene/Battle_Scene_Main/EnemyHPBar/边框.png" id="4_065f2"]
+
+[sub_resource type="Theme" id="Theme_5soxg"]
+Label/font_sizes/font_size = 60
+
+[node name="EnemyHPBarRoot" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+scale = Vector2(0.76, 0.52)
+script = ExtResource("1_5soxg")
+
+[node name="different_hp" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -667.0
+offset_top = 54.0
+offset_right = 716.0
+offset_bottom = 211.0
+grow_horizontal = 2
+value = 100.0
+texture_progress = ExtResource("2_7fqla")
+
+[node name="current_hp" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -665.0
+offset_top = 71.0
+offset_right = 716.0
+offset_bottom = 200.0
+grow_horizontal = 2
+value = 100.0
+texture_progress = ExtResource("3_vujmf")
+
+[node name="border" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -877.5
+offset_right = 877.5
+offset_bottom = 294.0
+grow_horizontal = 2
+texture = ExtResource("4_065f2")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 92
+
+[node name="currentHP" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_5soxg")
+text = "this is a bug"

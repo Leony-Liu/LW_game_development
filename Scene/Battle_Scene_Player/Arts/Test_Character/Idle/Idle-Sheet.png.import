@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrijf1mq6q8x"
-path="res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"
+uid="uid://d0jtbxuwxm26l"
+path="res://.godot/imported/Idle-Sheet.png-917d0d66d174e46b6fe9b2c4675d02fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Card_Scene/Arts/CardBackground.png"
-dest_files=["res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"]
+source_file="res://Scene/Battle_Scene_Player/Arts/Test_Character/Idle/Idle-Sheet.png"
+dest_files=["res://.godot/imported/Idle-Sheet.png-917d0d66d174e46b6fe9b2c4675d02fe.ctex"]
 
 [params]
 

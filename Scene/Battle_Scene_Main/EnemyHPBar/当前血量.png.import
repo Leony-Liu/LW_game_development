@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrijf1mq6q8x"
-path="res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"
+uid="uid://x63ea576ylmu"
+path="res://.godot/imported/当前血量.png-c8a63f00b895d4c99a059d304412590b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Card_Scene/Arts/CardBackground.png"
-dest_files=["res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"]
+source_file="res://Scene/Battle_Scene_Main/EnemyHPBar/当前血量.png"
+dest_files=["res://.godot/imported/当前血量.png-c8a63f00b895d4c99a059d304412590b.ctex"]
 
 [params]
 

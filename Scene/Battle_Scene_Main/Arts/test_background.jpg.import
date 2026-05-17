@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrijf1mq6q8x"
-path="res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"
+uid="uid://dfkw304x1bxrn"
+path="res://.godot/imported/test_background.jpg-e57fc5d0509df1ad4f6833c6eb54131d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Card_Scene/Arts/CardBackground.png"
-dest_files=["res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"]
+source_file="res://Scene/Battle_Scene_Main/Arts/test_background.jpg"
+dest_files=["res://.godot/imported/test_background.jpg-e57fc5d0509df1ad4f6833c6eb54131d.ctex"]
 
 [params]
 

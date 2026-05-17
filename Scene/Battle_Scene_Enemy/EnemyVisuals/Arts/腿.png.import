@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrijf1mq6q8x"
-path="res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"
+uid="uid://boe7bwpbnwc0m"
+path="res://.godot/imported/腿.png-ec3652a18b3abaac68da74b98e109079.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Card_Scene/Arts/CardBackground.png"
-dest_files=["res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"]
+source_file="res://Scene/Battle_Scene_Enemy/EnemyVisuals/Arts/腿.png"
+dest_files=["res://.godot/imported/腿.png-ec3652a18b3abaac68da74b98e109079.ctex"]
 
 [params]
 

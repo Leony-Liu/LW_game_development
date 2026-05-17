@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://b5bqwwplbqjgj"]
 
-[ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Card_scene/Scripts/card_base.gd" id="1_avhnj"]
-[ext_resource type="Texture2D" uid="uid://bfrijf1mq6q8x" path="res://Scene/Card_scene/Arts/CardBackground.png" id="2_y7w7l"]
+[ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
+[ext_resource type="Texture2D" uid="uid://bfrijf1mq6q8x" path="res://Scene/Card_Scene/Arts/CardBackground.png" id="2_y7w7l"]
 
 [sub_resource type="Theme" id="Theme_xivxr"]
 Label/colors/font_color = Color(0.315423, 0.787908, 0.0982825, 1)
