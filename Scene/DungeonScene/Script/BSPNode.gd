@@ -58,29 +58,38 @@ func create_room(min_room_size: int, padding: int, rng: RandomNumberGenerator):
 		if left_child: left_child.create_room(min_room_size, padding, rng)
 		if right_child: right_child.create_room(min_room_size, padding, rng)
 	else:
-		var max_w = bounds.size.x - padding * 2
-		var max_h = bounds.size.y - padding * 2
-		
-		var safe_min_w = mini(min_room_size, max_w)
-		var safe_min_h = mini(min_room_size, max_h)
-		
-		var room_w = rng.randi_range(safe_min_w, max_w)#房间宽
-		var room_h = rng.randi_range(safe_min_h, max_h)#房间高
-		
-		#限制房间长宽比，防止出现面条房
-		var max_ratio = 1.8
-		if float(room_w) / float(room_h) > max_ratio:
-			room_w = int(room_h * max_ratio)
-		elif float(room_h) / float(room_w) > max_ratio:
-			room_h = int(room_w * max_ratio)
-		
-		var max_x = maxi(padding, bounds.size.x - room_w - padding)
-		var max_y = maxi(padding, bounds.size.y - room_h - padding)
-		
-		var room_pos_x = bounds.position.x + rng.randi_range(padding, max_x)
-		var room_pos_y = bounds.position.y + rng.randi_range(padding, max_y)
-		room = Rect2i(room_pos_x, room_pos_y, room_w, room_h)
-		
+		if room_type == 0:
+			var room_w = 10
+			var room_h = 10
+			var max_x = maxi(padding, bounds.size.x - room_w - padding)
+			var max_y = maxi(padding, bounds.size.y - room_h - padding)
+			var room_pos_x = bounds.position.x + rng.randi_range(padding, max_x)
+			var room_pos_y = bounds.position.y + rng.randi_range(padding, max_y)
+			room = Rect2i(room_pos_x, room_pos_y, room_w, room_h)
+		else:
+			var max_w = bounds.size.x - padding * 2
+			var max_h = bounds.size.y - padding * 2
+			
+			var safe_min_w = mini(min_room_size, max_w)
+			var safe_min_h = mini(min_room_size, max_h)
+			
+			var room_w = rng.randi_range(safe_min_w, max_w)#房间宽
+			var room_h = rng.randi_range(safe_min_h, max_h)#房间高
+			
+			#限制房间长宽比，防止出现面条房
+			var max_ratio = 1.8
+			if float(room_w) / float(room_h) > max_ratio:
+				room_w = int(room_h * max_ratio)
+			elif float(room_h) / float(room_w) > max_ratio:
+				room_h = int(room_w * max_ratio)
+			
+			var max_x = maxi(padding, bounds.size.x - room_w - padding)
+			var max_y = maxi(padding, bounds.size.y - room_h - padding)
+			
+			var room_pos_x = bounds.position.x + rng.randi_range(padding, max_x)
+			var room_pos_y = bounds.position.y + rng.randi_range(padding, max_y)
+			room = Rect2i(room_pos_x, room_pos_y, room_w, room_h)
+			
 		var temp_room_croods = {}
 		temp_room_croods.clear()
 		for x in range(room.position.x, room.end.x):

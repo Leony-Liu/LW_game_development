@@ -51,6 +51,7 @@ func setup_and_generate(seed_value: int):
 	obstatic_logic.generate_obstacle(leaf_node, World_obstacle, World_corridor, World_wall, World_gap, World_room)
 	obstatic_logic.replace_tile(World_obstacle, World_gap)
 	map_information.get_data()#储存当层地图数据
+	print(leaf_node[0].room_type_name)
 	enemies_logic.spawn_enemies_in_rooms(leaf_node, World_obstacle)
 	
 	#dungeon_logic.testSetTile(World_obstacle)

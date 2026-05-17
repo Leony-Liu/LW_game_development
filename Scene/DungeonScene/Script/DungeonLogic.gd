@@ -29,7 +29,6 @@ var corridors: Array[Rect2i] = []#走廊占用的瓦片范围
 #根据种子需求重写的pick_random()方法
 func pick_random_with_seed(array: Array, rng: RandomNumberGenerator):
 	if array.is_empty(): return null
-	
 	var random_index = rng.randi_range(0, array.size() - 1)
 	return array[random_index]
 
@@ -55,15 +54,21 @@ func generate_dungeon(data:map_data):
 	tilemap.clear()
 	
 	split_tree(root_node, split_depth)
+	collect_room_leaf(root_node)
+	#World_leaf_node_change.emit(leaf_node)
+	
+	set_room_type()
 	root_node.create_room(min_room_size, room_padding, mySeed)
 	
-	collect_room_leaf(root_node)
 	World_leaf_node_change.emit(leaf_node)
+	
+	#collect_room_leaf(root_node)
+	#World_leaf_node_change.emit(leaf_node)
 	
 	generate_corridors(root_node)
 	corridor_occ(corridors)
 	
-	set_room_type()
+	
 	draw_tilemap()
 	print("地牢生成逻辑：地牢生成完成")
 
@@ -178,17 +183,19 @@ func set_room_type():
 	var start_node = pick_random_with_seed(leaf_node, mySeed)
 	start_node.room_type = 0
 	start_node.room_type_name = BSPNode.RoomType.find_key(start_node.room_type)
-
-	
-	print(start_node.room_type_name)
+	print("初始房间",start_node,start_node.room_type)
 	
 	var boss_node = pick_random_with_seed(leaf_node, mySeed)
+	if boss_node == start_node:
+		boss_node = pick_random_with_seed(leaf_node,mySeed)
 	boss_node.room_type = 1
 	boss_node.room_type_name = BSPNode.RoomType.find_key(boss_node.room_type)
+	room_data_manager.into_room_config(boss_node)
+	print("boss房",boss_node,boss_node.room_type_name)
 
 	
 	for node in leaf_node:
-		if node == start_node:
+		if node == start_node or node == boss_node:
 			continue
 		node.room_type = room_data_manager.get_random_room_type()
 		node.room_type_name = BSPNode.RoomType.find_key(node.room_type)
