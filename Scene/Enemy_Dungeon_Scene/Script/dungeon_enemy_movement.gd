@@ -18,6 +18,7 @@ var current_path: Array[Vector2i]
 var path_index: int = 0
 var current_target: Vector2 = Vector2.ZERO
 
+
 func _ready() -> void:
 	await get_tree().create_timer(2.0).timeout
 	my_map_info = enemy.get_my_mapInfo()
@@ -32,7 +33,9 @@ func move_to(target: Vector2):
 		
 	var next_path_pos = navigation_agent_2d.get_next_path_position()
 	var direction = enemy.global_position.direction_to(next_path_pos)
-	navigation_agent_2d.set_velocity(direction * speed)
+	enemy.velocity = direction * speed#
+	enemy.move_and_slide()#
+	#navigation_agent_2d.set_velocity(direction * speed)
 	pass
 
 #怪物停止移动

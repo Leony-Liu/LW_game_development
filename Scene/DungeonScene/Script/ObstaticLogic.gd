@@ -29,6 +29,8 @@ func pick_random_with_seed(array: Array, rng: RandomNumberGenerator):
 
 func generate_obstacle(leaf_node: Array[BSPNode], world_obstacle: Dictionary, world_corridor: Dictionary, world_wall: Dictionary, world_gap: Dictionary, world_room: Dictionary):
 	for node in leaf_node:
+		if node.room_type_name == "START":
+			continue
 		var rect = get_room(node)
 		var place_times = 0
 		var try_times = 0
@@ -91,7 +93,6 @@ func obstacle_occupied(place_pos: Vector2i, obstacle_data: Resource, Obstacle_oc
 	place_obstacle(place_pos, obstacle_data.obstacle_scene)
 	return true
 
-
 func place_obstacle(obstacle_place_coord:Vector2i, obstacle_ins_scene: PackedScene):
 	var instance = obstacle_ins_scene.instantiate()
 	var local_pos = obstaclemap.map_to_local(obstacle_place_coord)
@@ -107,5 +108,5 @@ func replace_tile(world_obstacle: Dictionary, world_gap: Dictionary):
 	for tile_croods in world_obstacle:
 		basicmap.erase_cell(tile_croods)
 		basicmap.set_cell(tile_croods, tiles_sourceID, tile_atlas_croods)
-	for tile_croods in world_gap:
-		basicmap.set_cell(tile_croods, tiles_sourceID, tile_atlas_croods)
+	#for tile_croods in world_gap:
+		#basicmap.set_cell(tile_croods, tiles_sourceID, tile_atlas_croods)

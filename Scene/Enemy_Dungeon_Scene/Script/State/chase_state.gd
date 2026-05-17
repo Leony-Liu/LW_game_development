@@ -4,7 +4,7 @@ extends DungeonEnemyState
 var update_path_timer: float = 0.0
 var lost_target_timer: float = 0.0
 
-var updateTimer: float = 0.1
+var updateTimer: float = 0.3
 var target_node: Player
 
 func enter():

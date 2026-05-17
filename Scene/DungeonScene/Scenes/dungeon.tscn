@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dh74i2vi5p7q8"]
+[gd_scene load_steps=27 format=3 uid="uid://dh74i2vi5p7q8"]
 
 [ext_resource type="Script" uid="uid://bx24st46mifft" path="res://Scene/DungeonScene/Script/Manager/TotalityManager.gd" id="1_6whob"]
 [ext_resource type="Resource" uid="uid://b1td3kvqbdhl6" path="res://Scene/DungeonScene/DataBase/ResourseData/Map_data.tres" id="2_8w3wl"]
@@ -17,14 +17,17 @@
 [ext_resource type="Script" uid="uid://by5usabqjhvi5" path="res://Scene/DungeonScene/Script/enemie_set.gd" id="12_qc7q8"]
 [ext_resource type="Script" uid="uid://dp26t1h7qdokw" path="res://Scene/DungeonScene/Script/map_information.gd" id="16_vuuyw"]
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_vuuyw"]
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vuuyw"]
 texture = ExtResource("6_aw6vt")
 5:1/0 = 0
+5:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_vuuyw")
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_vuuyw"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_82kw1"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, 8, -8, -8, 8, -8, 8, 8)])
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_prqi5"]
@@ -58,7 +61,7 @@ texture = ExtResource("6_aw6vt")
 3:1/0 = 0
 4:1/0 = 0
 5:1/0 = 0
-5:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_vuuyw")
+5:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_82kw1")
 6:1/0 = 0
 7:1/0 = 0
 8:1/0 = 0
@@ -638,6 +641,7 @@ y_sort_enabled = true
 unique_name_in_owner = true
 script = ExtResource("1_6whob")
 MAP_DATA = ExtResource("2_8w3wl")
+Floor = null
 Wall_scene = ExtResource("3_6aska")
 dungeon_logic = NodePath("../DungeonLogic")
 obstatic_logic = NodePath("../ObstaticLogic")
