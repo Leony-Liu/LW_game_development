@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://3kynny3yul0x"]
+[gd_scene load_steps=19 format=3 uid="uid://3kynny3yul0x"]
 
 [ext_resource type="Texture2D" uid="uid://c0ywv4wnmkskl" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/Arts/Sword-Test/剑.png" id="1_slya1"]
 [ext_resource type="Script" uid="uid://bwfcpo2wuw2qw" path="res://Scene/Player_Battle_Scene/PrivateScene/player-visuals/scripts/player_visuals_manager.gd" id="1_w5lrf"]
@@ -854,9 +854,62 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_m8gyk"]
 resource_name = "attack"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.67271, -0.556848, -0.0632461)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPoint:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.535642, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a13h0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.67271, -0.556848, -0.0632461)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPoint:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.535642, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a13h0"]
 _data = {
+&"RESET": SubResource("Animation_a13h0"),
 &"attack": SubResource("Animation_m8gyk")
 }
 

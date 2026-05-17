@@ -1,15 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=11 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_scene/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_scene/Scripts/card_manager.gd" id="1_ygjx7"]
 [ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scene/Battle_scene/Scripts/effect_manager.gd" id="2_g3sj8"]
-[ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/player.tscn" id="2_noken"]
+[ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Player_Battle_Scene/Player.tscn" id="2_noken"]
 [ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_scene/Scripts/card_factory.gd" id="3_8a10i"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Enemy_Battle_Scene/Enemy.tscn" id="3_mvvqq"]
 [ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_scene/Scripts/battle_ui_manager.gd" id="3_nr23r"]
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_scene/PrivateScene/UI/EnemyHPBar/enemy_hp_bar_root.tscn" id="6_qo3ej"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_scene/PrivateScene/UI/PlayerInformation/player_infromation.tscn" id="7_tsycl"]
-[ext_resource type="Texture2D" uid="uid://cec7qbt65s770" path="res://Scene/Battle_scene/Arts/ZombieMan_ODDBLOT_2k.png" id="10_g3sj8"]
 
 [sub_resource type="Environment" id="Environment_utnyt"]
 background_mode = 1
@@ -27,6 +26,7 @@ script = ExtResource("3_8a10i")
 [node name="EnemySlot" type="Node" parent="."]
 
 [node name="Enemy" parent="EnemySlot" instance=ExtResource("3_mvvqq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.42204, 1.24703, -0.952943)
 
 [node name="UIManager" type="CanvasLayer" parent="."]
 script = ExtResource("3_nr23r")
@@ -98,11 +98,6 @@ size = Vector3(5, 0.2, 5)
 transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 1.28042, 1.81021, -5.13119)
 size = Vector3(5, 0.2, 5)
 
-[node name="Sprite3D" type="Sprite3D" parent="Environment"]
-transform = Transform3D(0.141841, 0, 0, 0, 0.141841, 0, 0, 0, 1, 1.29927, 1.0845, -1.08098)
-shaded = true
-texture = ExtResource("10_g3sj8")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_utnyt")
 
@@ -115,4 +110,4 @@ omni_range = 4.565
 omni_attenuation = 0.963
 
 [node name="Player" parent="." instance=ExtResource("2_noken")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.38269, 1.46493, 1.09637)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.38269, 2.04141, 1.09637)

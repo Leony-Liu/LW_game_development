@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://xxjxhutvlefn"]
+
+[ext_resource type="Texture2D" uid="uid://crxssm0k1qdl7" path="res://Scene/Enemy_Battle_Scene/PrivateScene/EnemyVisuals/Arts/ZombieMan_ODDBLOT_2k.png" id="1_x0a4j"]
+
+[node name="enemy_3dvisuals" type="Node3D"]
+
+[node name="EnemyPoint" type="Node3D" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="EnemyPoint"]
+transform = Transform3D(0.146841, 0, 0, 0, 0.146841, 0, 0, 0, 1.00496, 0, 0, 0)
+texture = ExtResource("1_x0a4j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
