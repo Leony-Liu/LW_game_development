@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrijf1mq6q8x"
-path="res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"
+uid="uid://kf7p4040fo7a"
+path="res://.godot/imported/hand-r.png-592cbf818c1e2f35031b07458fc5401f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Card_Scene/Arts/CardBackground.png"
-dest_files=["res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"]
+source_file="res://Scene/Battle_Scene_Player/player-visuals/Arts/hand-test/hand-r.png"
+dest_files=["res://.godot/imported/hand-r.png-592cbf818c1e2f35031b07458fc5401f.ctex"]
 
 [params]
 

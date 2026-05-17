@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrijf1mq6q8x"
-path="res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"
+uid="uid://bw58wmgp6sitr"
+path="res://.godot/imported/Jump-All-Sheet.png-a84b7ce6c4cd3322cc1d67b93cdda16b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Card_Scene/Arts/CardBackground.png"
-dest_files=["res://.godot/imported/CardBackground.png-465f42ecbfe894c0a3250dbfd0a6b2a2.ctex"]
+source_file="res://Scene/Battle_Scene_Player/Arts/Test_Character/Jumlp-All/Jump-All-Sheet.png"
+dest_files=["res://.godot/imported/Jump-All-Sheet.png-a84b7ce6c4cd3322cc1d67b93cdda16b.ctex"]
 
 [params]
 
