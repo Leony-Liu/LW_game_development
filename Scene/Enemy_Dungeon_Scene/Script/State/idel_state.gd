@@ -6,7 +6,7 @@ func enter():
 	timer = enemy.my_info.mySeed.randf_range(2.0, 3.0)
 	enemy.anima_play("Idle")
 	enemy.movement.move_stop()
-	print("进入待机状态")
+	print("怪物进入待机状态")
 	pass
 
 

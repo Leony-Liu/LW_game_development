@@ -15,8 +15,10 @@ func enter():
 
 func physics_update(delat):
 	enemy.movement.move_to(patrol_target)
-	if enemy.movement.is_arrvid():
+	if enemy.movement.is_arrived():
 		machine.change_state("idle")
+	if enemy.get_player():
+		machine.change_state("chase")
 	pass
 
 

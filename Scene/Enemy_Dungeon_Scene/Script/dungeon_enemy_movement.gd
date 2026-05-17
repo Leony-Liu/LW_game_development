@@ -43,7 +43,7 @@ func move_stop():
 	navigation_agent_2d.set_velocity(Vector2.ZERO)
 
 
-func is_arrvid() -> bool:
+func is_arrived() -> bool:
 	return navigation_agent_2d.is_navigation_finished()
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:

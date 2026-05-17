@@ -4,8 +4,9 @@ extends DungeonEnemyState
 var update_path_timer: float = 0.0
 var lost_target_timer: float = 0.0
 
-var updateTimer: float = 0.3
+var updateTimer: float = 0.0
 var target_node: Player
+var last_target: Vector2
 
 func enter():
 	target_node = enemy.get_player()
@@ -16,15 +17,20 @@ func enter():
 #调用移动敌人组件
 func physics_update(delta):
 	#定时刷新目标状态
-	updateTimer -= delta
-	if updateTimer == 0.0:
+	updateTimer += delta
+	if updateTimer >= 0.5:
 		target_node = enemy.get_player()
+		updateTimer = 0.0
+	print(target_node)
 	
-	if target_node == null:
-		machine.change_state("idle")
+	if not target_node:
+		enemy.movement.move_to(last_target)
+		if enemy.movement.is_arrived():
+			machine.change_state("idle")
 	
 	if target_node:
 		var target = target_node.global_position
+		last_target = target
 		enemy.movement.move_to(target)
 	
 	#if not target:
