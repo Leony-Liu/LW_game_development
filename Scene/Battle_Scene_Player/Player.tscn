@@ -24,7 +24,7 @@ current_stamina = 5
 max_stamina = 5
 current_mana = 5
 max_mana = 5
-current_stamina_recover_speed = 2.0
+current_stamina_recover_speed = 1.0
 current_mana_recover_speed = 4.0
 
 [node name="Calculator" type="Node" parent="Data"]
@@ -54,9 +54,10 @@ script = ExtResource("9_ml7e8")
 script = ExtResource("9_2fvbb")
 
 [node name="PlayerVisuals" type="Camera3D" parent="."]
+fov = 60.0
 
 [node name="Visuals" type="Node3D" parent="PlayerVisuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.445091, -2.07704, -3.13164)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.373764, -0.688858)
 
 [node name="player_3Dvisuals" parent="PlayerVisuals/Visuals" instance=ExtResource("10_jpghs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.278983, 0.644365, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.18342)

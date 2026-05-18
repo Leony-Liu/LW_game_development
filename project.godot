@@ -21,6 +21,7 @@ EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
 BattleBus="*res://Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
 CardDataBase="*res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd"
 MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd"
+AudioManager="*res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 
 [display]
@@ -34,6 +35,7 @@ window/stretch/mode="canvas_items"
 [file_customization]
 
 folder_colors={
+"res://Audio/": "green",
 "res://DataBase/": "red",
 "res://Scene/": "blue",
 "res://Scene/Battle_Scene_Enemy/": "blue",
@@ -51,7 +53,6 @@ folder_colors={
 "res://Scene/Battle_Scene_Player/Arts/": "purple",
 "res://Scene/Battle_Scene_Player/Scripts/": "yellow",
 "res://Scene/Battle_Scene_Player/player-visuals/Arts/": "purple",
-"res://Scene/Battle_Scene_Player/player-visuals/Sound/": "green",
 "res://Scene/Battle_Scene_Player/player_3Dvisuals/Arts/": "purple",
 "res://Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/": "yellow",
 "res://Scene/Card_Scene/": "blue",

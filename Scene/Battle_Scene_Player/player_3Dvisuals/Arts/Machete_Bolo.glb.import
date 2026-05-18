@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cwfbt1bteuxcx"
-path="res://.godot/imported/machete 1.glb-63cfe1fb60f594a5cfdd886d17915437.scn"
+uid="uid://dddvoja81je5q"
+path="res://.godot/imported/Machete_Bolo.glb-8a0ad51ac2099d14feae16ab07d569d5.scn"
 
 [deps]
 
-source_file="res://Scene/Battle_Scene_Player/player_3Dvisuals/Arts/machete 1.glb"
-dest_files=["res://.godot/imported/machete 1.glb-63cfe1fb60f594a5cfdd886d17915437.scn"]
+source_file="res://Scene/Battle_Scene_Player/player_3Dvisuals/Arts/Machete_Bolo.glb"
+dest_files=["res://.godot/imported/Machete_Bolo.glb-8a0ad51ac2099d14feae16ab07d569d5.scn"]
 
 [params]
 

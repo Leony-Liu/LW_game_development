@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c5sgarwn0vpc"
-path="res://.godot/imported/玩家攻击.wav-247fe41bb76a250744e67057cfaf111a.sample"
+path="res://.godot/imported/attack.wav-01582d4103f6db6263b638c944caf899.sample"
 
 [deps]
 
-source_file="res://Scene/Battle_Scene_Player/player-visuals/Sound/Effect/玩家攻击.wav"
-dest_files=["res://.godot/imported/玩家攻击.wav-247fe41bb76a250744e67057cfaf111a.sample"]
+source_file="res://Audio/SFX/Players/attack.wav"
+dest_files=["res://.godot/imported/attack.wav-01582d4103f6db6263b638c944caf899.sample"]
 
 [params]
 

@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://bwfcpo2wuw2qw" path="res://Scene/Battle_Scene_Player/player-visuals/scripts/player_visuals_manager.gd" id="1_w5lrf"]
 [ext_resource type="Texture2D" uid="uid://kf7p4040fo7a" path="res://Scene/Battle_Scene_Player/player-visuals/Arts/hand-test/hand-r.png" id="2_w5lrf"]
 [ext_resource type="Texture2D" uid="uid://dgxfqdbp868p7" path="res://Scene/Battle_Scene_Player/player-visuals/Arts/hand-test/hand-l.png" id="3_guqo7"]
-[ext_resource type="AudioStream" uid="uid://b6ymsgjpm7gul" path="res://Scene/Battle_Scene_Player/player-visuals/Sound/Effect/格挡.wav" id="5_nx128"]
-[ext_resource type="AudioStream" uid="uid://c5sgarwn0vpc" path="res://Scene/Battle_Scene_Player/player-visuals/Sound/Effect/玩家攻击.wav" id="6_lo5h2"]
-[ext_resource type="AudioStream" uid="uid://dw8uxi2tixnhv" path="res://Scene/Battle_Scene_Player/player-visuals/Sound/Effect/被击中.wav" id="7_lo5h2"]
+[ext_resource type="AudioStream" uid="uid://b6ymsgjpm7gul" path="res://Audio/SFX/Players/parry.wav" id="5_nx128"]
+[ext_resource type="AudioStream" uid="uid://c5sgarwn0vpc" path="res://Audio/SFX/Players/attack.wav" id="6_lo5h2"]
+[ext_resource type="AudioStream" uid="uid://dw8uxi2tixnhv" path="res://Audio/SFX/Players/hurt.wav" id="7_lo5h2"]
 
 [sub_resource type="Animation" id="Animation_w5lrf"]
 length = 0.001

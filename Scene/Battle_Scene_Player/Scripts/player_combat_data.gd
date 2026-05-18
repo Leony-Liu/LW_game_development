@@ -10,7 +10,7 @@ class_name PlayerCombatData
 #绑定同级节点
 @onready var calculator:PlayerCalculator = $"../Calculator"
 @onready var inventory:PlayerInventory = $"../Inventory"
-@onready var visuals = $"../../Visuals/PlayerVisuals"
+@onready var visuals = $"../../PlayerVisuals/Visuals/player_3Dvisuals"
 
 
 # ==========================================
@@ -158,7 +158,7 @@ func get_hit(incoming_damage: int, hit_context: String = "combat"):
 			
 			_trigger_perfect_parry_slowmo() # 触发超强正反馈慢动作！
 			
-			if visuals:visuals.play_parry_sound()
+			BattleBus.play_sfx.emit("sfx_player","parry",visuals.global_position)# 播放格挡音效
 			# (进阶) 你可以在这里发射一个信号，通知敌人扣除架势条，或让敌人陷入眩晕状态
 			
 		# ----------------------------------------
@@ -172,10 +172,10 @@ func get_hit(incoming_damage: int, hit_context: String = "combat"):
 				final_damage = 0 # 体力足够，抵御全部伤害
 				print("防御成功！未受伤害。")
 				
-				if visuals:visuals.play_parry_sound()
+				BattleBus.play_sfx.emit("sfx_player","parry",visuals.global_position)
 			else:
 				# 体力不足，破防！受到全额伤害
-				print("❌ 破防！体力不足，受到全额伤害！")
+				print("体力不足，受到全额伤害！")
 				
 		# ----------------------------------------
 		# 3. 无效阶段 (startup / recovery)
@@ -196,7 +196,8 @@ func get_hit(incoming_damage: int, hit_context: String = "combat"):
 		
 		BattleBus.player_hp_changed.emit(current_hp, max_hp) 
 		
-		visuals.play_get_hit_sound()
+		BattleBus.play_sfx.emit("sfx_player","hurt",visuals.global_position)# 播放受伤音效
+		
 		print("🩸 受到 %d 点伤害，剩余血量：%d" % [final_damage, current_hp])
 		
 		if current_hp <= 0:

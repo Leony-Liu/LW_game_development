@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dw8uxi2tixnhv"
-path="res://.godot/imported/被击中.wav-ea739f4b61fc2d6efb8f7c5324a430a6.sample"
+path="res://.godot/imported/hurt.wav-a63766dc27cf9d8e80cf11db8c076e0d.sample"
 
 [deps]
 
-source_file="res://Scene/Battle_Scene_Player/player-visuals/Sound/Effect/被击中.wav"
-dest_files=["res://.godot/imported/被击中.wav-ea739f4b61fc2d6efb8f7c5324a430a6.sample"]
+source_file="res://Audio/SFX/Players/hurt.wav"
+dest_files=["res://.godot/imported/hurt.wav-a63766dc27cf9d8e80cf11db8c076e0d.sample"]
 
 [params]
 
