@@ -1,0 +1,72 @@
+{
+	"categories": [
+		{
+			"uuid": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"title": "Task",
+			"color": "00a0d1"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "259dc995-07d7-4e8a-a6e2-fb84e3a9fb32",
+			"title": "Todo",
+			"tasks": [
+				"bf665362-250e-4b66-affe-633b2d38b032"
+			]
+		},
+		{
+			"uuid": "3ee4b200-8aee-41c2-98fb-ea461b36bc9d",
+			"title": "Doing",
+			"tasks": [
+				"ab17d140-adb6-430f-99f2-d17aa6ed7d2f"
+			]
+		},
+		{
+			"uuid": "e7ee6d83-77f6-4f0d-991a-d5eb8b734f68",
+			"title": "Done",
+			"tasks": []
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "ab17d140-adb6-430f-99f2-d17aa6ed7d2f",
+			"title": "3d卡牌实装",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": [
+				{
+					"details": "底板绘制",
+					"done": false
+				},
+				{
+					"details": "花纹绘制",
+					"done": false
+				},
+				{
+					"details": "图标绘制",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "bf665362-250e-4b66-affe-633b2d38b032",
+			"title": "",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": []
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"259dc995-07d7-4e8a-a6e2-fb84e3a9fb32"
+			],
+			[
+				"3ee4b200-8aee-41c2-98fb-ea461b36bc9d"
+			],
+			[
+				"e7ee6d83-77f6-4f0d-991a-d5eb8b734f68"
+			]
+		]
+	}
+}
