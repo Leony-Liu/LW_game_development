@@ -3,6 +3,33 @@
 [ext_resource type="Script" uid="uid://da188hmp5ovv8" path="res://Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/player_visuals_manager.gd" id="1_3crav"]
 [ext_resource type="PackedScene" uid="uid://dddvoja81je5q" path="res://Scene/Battle_Scene_Player/player_3Dvisuals/Arts/Machete_Bolo.glb" id="2_ru8wh"]
 
+[sub_resource type="Animation" id="Animation_ru8wh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.264603, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponPoint:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.17228, 0.0973986, -0.31401)]
+}
+
 [sub_resource type="Animation" id="Animation_wktgb"]
 resource_name = "attack1"
 length = 1.6
@@ -43,33 +70,6 @@ tracks/2/keys = {
 "args": [],
 "method": &"hit"
 }]
-}
-
-[sub_resource type="Animation" id="Animation_ru8wh"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponPoint:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.264603, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponPoint:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.17228, 0.0973986, -0.31401)]
 }
 
 [sub_resource type="Animation" id="Animation_s8cs1"]
@@ -210,10 +210,9 @@ _data = {
 script = ExtResource("1_3crav")
 
 [node name="WeaponPoint" type="Node3D" parent="."]
-transform = Transform3D(0.951743, 0.291556, 0.0958051, -0.304303, 0.937023, 0.171429, -0.0397902, -0.192311, 0.980527, 0.264603, 0, 0)
+transform = Transform3D(0.951743, 0.291556, 0.0958051, -0.304302, 0.937023, 0.171429, -0.0397904, -0.19231, 0.980527, 0.264603, 0, 0)
 
 [node name="Machete_Bolo" parent="WeaponPoint" instance=ExtResource("2_ru8wh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
