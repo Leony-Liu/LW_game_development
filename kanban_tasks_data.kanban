@@ -2,8 +2,18 @@
 	"categories": [
 		{
 			"uuid": "e628f30c-a594-4e43-9198-c3a3dfe63422",
-			"title": "Task",
+			"title": "任务",
 			"color": "00a0d1"
+		},
+		{
+			"uuid": "c93e3b4b-49fa-482f-8cf5-65474c689950",
+			"title": "紧急",
+			"color": "e22727"
+		},
+		{
+			"uuid": "75f9eb30-50fa-4434-97db-315a33d29826",
+			"title": "额外",
+			"color": "74c082"
 		}
 	],
 	"stages": [
@@ -11,7 +21,8 @@
 			"uuid": "259dc995-07d7-4e8a-a6e2-fb84e3a9fb32",
 			"title": "Todo",
 			"tasks": [
-				"bf665362-250e-4b66-affe-633b2d38b032"
+				"9c6337df-f94c-4c5f-bb1f-c790c2c65d3a",
+				"d64cfca1-c68c-484f-9aa7-483e02251f97"
 			]
 		},
 		{
@@ -24,13 +35,15 @@
 		{
 			"uuid": "e7ee6d83-77f6-4f0d-991a-d5eb8b734f68",
 			"title": "Done",
-			"tasks": []
+			"tasks": [
+				"a2dfe830-e9ff-48e0-ac39-24a6c39f7e9c"
+			]
 		}
 	],
 	"tasks": [
 		{
 			"uuid": "ab17d140-adb6-430f-99f2-d17aa6ed7d2f",
-			"title": "3d卡牌实装",
+			"title": "战斗场景：新卡牌实装",
 			"description": "",
 			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
 			"steps": [
@@ -49,8 +62,22 @@
 			]
 		},
 		{
-			"uuid": "bf665362-250e-4b66-affe-633b2d38b032",
-			"title": "",
+			"uuid": "9c6337df-f94c-4c5f-bb1f-c790c2c65d3a",
+			"title": "全局：渲染管线搭建",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": []
+		},
+		{
+			"uuid": "d64cfca1-c68c-484f-9aa7-483e02251f97",
+			"title": "战斗场景：战术道具系统",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": []
+		},
+		{
+			"uuid": "a2dfe830-e9ff-48e0-ac39-24a6c39f7e9c",
+			"title": "战斗场景：战斗测试场景3d化",
 			"description": "",
 			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
 			"steps": []
