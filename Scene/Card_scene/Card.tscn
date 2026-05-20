@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://b5bqwwplbqjgj"]
 
 [ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
-[ext_resource type="Texture2D" uid="uid://bfrijf1mq6q8x" path="res://Scene/Card_Scene/Arts/CardBackground.png" id="2_y7w7l"]
+[ext_resource type="Texture2D" uid="uid://skrrav6lu8fd" path="res://Scene/Card_Scene/Arts/未命名作品.png" id="2_xivxr"]
 
 [sub_resource type="Theme" id="Theme_xivxr"]
 Label/colors/font_color = Color(0.315423, 0.787908, 0.0982825, 1)
@@ -48,12 +48,12 @@ corner_radius_bottom_left = 25
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8wvxw"]
 
 [node name="Card" type="Control"]
-custom_minimum_size = Vector2(130, 200)
 layout_mode = 3
 anchor_right = 0.113
 anchor_bottom = 0.309
+offset_top = -1.0
 offset_right = -0.17601
-offset_bottom = -0.23201
+offset_bottom = -1.23203
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_avhnj")
@@ -65,14 +65,14 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="CardBackground" type="TextureRect" parent="Visual"]
-layout_mode = 0
-offset_left = -72.0
-offset_top = -38.0
-offset_right = 202.0
-offset_bottom = 236.0
+custom_minimum_size = Vector2(128, 180)
+layout_mode = 1
+offset_right = 274.0
+offset_bottom = 274.0
 mouse_filter = 2
-texture = ExtResource("2_y7w7l")
+texture = ExtResource("2_xivxr")
 expand_mode = 1
+stretch_mode = 4
 
 [node name="Illustration" type="TextureRect" parent="Visual"]
 layout_mode = 1

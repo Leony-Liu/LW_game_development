@@ -44,6 +44,7 @@ value = 100.0
 texture_progress = ExtResource("3_vujmf")
 
 [node name="border" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

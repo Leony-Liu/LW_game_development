@@ -22,7 +22,9 @@
 			"title": "Todo",
 			"tasks": [
 				"9c6337df-f94c-4c5f-bb1f-c790c2c65d3a",
-				"d64cfca1-c68c-484f-9aa7-483e02251f97"
+				"d64cfca1-c68c-484f-9aa7-483e02251f97",
+				"19244397-1179-4403-a5d5-c1d89c8b0c07",
+				"a3b8f19f-c293-4585-90bd-a0dd82d806ca"
 			]
 		},
 		{
@@ -43,21 +45,25 @@
 	"tasks": [
 		{
 			"uuid": "ab17d140-adb6-430f-99f2-d17aa6ed7d2f",
-			"title": "战斗场景：新卡牌实装",
+			"title": "战斗场景：3d卡牌实装",
 			"description": "",
 			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
 			"steps": [
 				{
 					"details": "底板绘制",
-					"done": false
+					"done": true
 				},
 				{
 					"details": "花纹绘制",
-					"done": false
+					"done": true
 				},
 				{
 					"details": "图标绘制",
-					"done": false
+					"done": true
+				},
+				{
+					"details": "卡牌名称",
+					"done": true
 				}
 			]
 		},
@@ -78,6 +84,33 @@
 		{
 			"uuid": "a2dfe830-e9ff-48e0-ac39-24a6c39f7e9c",
 			"title": "战斗场景：战斗测试场景3d化",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": []
+		},
+		{
+			"uuid": "19244397-1179-4403-a5d5-c1d89c8b0c07",
+			"title": "战斗场景：画面表现优化",
+			"description": "",
+			"category": "75f9eb30-50fa-4434-97db-315a33d29826",
+			"steps": [
+				{
+					"details": "镜头晃动",
+					"done": false
+				},
+				{
+					"details": "敌人溅血",
+					"done": false
+				},
+				{
+					"details": "玩家输出伤害显示",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "a3b8f19f-c293-4585-90bd-a0dd82d806ca",
+			"title": "战斗场景：敌人3d模型和动作导入",
 			"description": "",
 			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
 			"steps": []

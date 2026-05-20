@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgvtlyetgteko"]
+
+[ext_resource type="Texture2D" uid="uid://bep0clkchqiga" path="res://Scene/Battle_Card_Scene_3D/Arts/test1.png" id="1_7vlpo"]
+[ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Fort/Born2bSportyV2.ttf" id="2_3xcr7"]
+
+[node name="Card3D" type="Node3D"]
+
+[node name="CardBackground" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+texture_filter = 0
+texture = ExtResource("1_7vlpo")
+
+[node name="Cost" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.480025, 1.50895, 0.0732875)
+texture_filter = 0
+modulate = Color(0.17, 1, 0.197667, 1)
+text = "THIS IS A BUG"
+font = ExtResource("2_3xcr7")
+font_size = 128
+outline_size = 0
+
+[node name="CardName" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.267198, 0.141247)
+text = "THIS IS A BUG"
+font = ExtResource("2_3xcr7")
+font_size = 64
+outline_size = 0

@@ -41,7 +41,9 @@ enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg")
 folder_colors={
 "res://Audio/": "green",
 "res://DataBase/": "red",
+"res://Fort/": "purple",
 "res://Scene/": "blue",
+"res://Scene/Battle_Card_Scene_3D/Arts/": "purple",
 "res://Scene/Battle_Scene_Enemy/": "blue",
 "res://Scene/Battle_Scene_Enemy/Arts/": "purple",
 "res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Arts/": "purple",
