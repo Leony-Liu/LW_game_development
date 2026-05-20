@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bxuqmpw4ej4a"
-path="res://.godot/imported/Born2bSportyV2.ttf-986df9456552e47ef2bb01472b66376e.fontdata"
+uid="uid://cxvcfs37fakec"
+path="res://.godot/imported/SirClive.ttf-62d55aa09763b05e5e0cb28abdcfb2f7.fontdata"
 
 [deps]
 
-source_file="res://Fort/Born2bSportyV2.ttf"
-dest_files=["res://.godot/imported/Born2bSportyV2.ttf-986df9456552e47ef2bb01472b66376e.fontdata"]
+source_file="res://Arts/Fort/SirClive.ttf"
+dest_files=["res://.godot/imported/SirClive.ttf-62d55aa09763b05e5e0cb28abdcfb2f7.fontdata"]
 
 [params]
 

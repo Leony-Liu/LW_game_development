@@ -39,9 +39,11 @@ enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg")
 [file_customization]
 
 folder_colors={
+"res://Arts/": "purple",
+"res://Arts/Fort/": "purple",
+"res://Arts/Theme/": "purple",
 "res://Audio/": "green",
 "res://DataBase/": "red",
-"res://Fort/": "purple",
 "res://Scene/": "blue",
 "res://Scene/Battle_Card_Scene_3D/Arts/": "purple",
 "res://Scene/Battle_Scene_Enemy/": "blue",
@@ -69,8 +71,7 @@ folder_colors={
 "res://Scene/Enemy_Dungeon_Scene/Art/": "purple",
 "res://Scene/Main_Scene/Scripts/": "yellow",
 "res://Scene/Player_Dungeon_Scene/Art/": "purple",
-"res://Scene/Player_Dungeon_Scene/Scripts/": "yellow",
-"res://Theme/": "purple"
+"res://Scene/Player_Dungeon_Scene/Scripts/": "yellow"
 }
 
 [input]

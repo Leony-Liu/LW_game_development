@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuy22mqbybfs5"]
+
+[ext_resource type="PackedScene" uid="uid://be14v3xcj86t0" path="res://Arts/AnimationLibrary/UAL1_Standard.glb" id="1_weqyl"]
+
+[node name="UAL1_Standard" instance=ExtResource("1_weqyl")]
