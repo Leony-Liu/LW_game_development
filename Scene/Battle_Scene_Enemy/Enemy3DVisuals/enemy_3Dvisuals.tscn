@@ -1,114 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://xxjxhutvlefn"]
+[gd_scene load_steps=5 format=3 uid="uid://xxjxhutvlefn"]
 
 [ext_resource type="Script" uid="uid://beeylpksvjoso" path="res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/enemy_visuals_manager.gd" id="1_vy3jx"]
 [ext_resource type="PackedScene" uid="uid://bup7qrph21wvm" path="res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Arts/testenemymodle.glb" id="2_uomuk"]
 [ext_resource type="AnimationLibrary" uid="uid://bxhgitu0whjyv" path="res://Arts/AnimationLibrary/Ual1_test.res" id="3_uomuk"]
 [ext_resource type="AnimationLibrary" uid="uid://b2hnqxi0ep1bv" path="res://Arts/AnimationLibrary/Ual2_test.res" id="4_2r3jc"]
-
-[sub_resource type="Animation" id="Animation_vy3jx"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("EnemyPoint:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("EnemyPoint:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_occor"]
-resource_name = "attack"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("EnemyPoint:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.733333, 0.833333, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.119592), Vector3(0, 0, 0.994228), Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("EnemyPoint:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.733333, 0.833333, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.833333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"hit"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_assqq"]
-resource_name = "idle"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("EnemyPoint:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("EnemyPoint:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_occor"]
-_data = {
-&"RESET": SubResource("Animation_vy3jx"),
-&"attack": SubResource("Animation_occor"),
-&"idle": SubResource("Animation_assqq")
-}
 
 [node name="enemy_3dvisuals" type="Node3D"]
 script = ExtResource("1_vy3jx")
@@ -117,14 +12,10 @@ script = ExtResource("1_vy3jx")
 
 [node name="testenemymodle2" parent="EnemyPoint" instance=ExtResource("2_uomuk")]
 
-[node name="testenemyAnime" type="AnimationPlayer" parent="EnemyPoint/testenemymodle2"]
+[node name="testenemyAnime" type="AnimationPlayer" parent="."]
+root_node = NodePath("../EnemyPoint/testenemymodle2")
 libraries = {
 &"": ExtResource("3_uomuk"),
 &" ": ExtResource("4_2r3jc")
 }
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_occor")
-}
-autoplay = "idle"
+autoplay = " /Zombie_Idle"

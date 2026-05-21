@@ -57,8 +57,11 @@ func _sync_initial_stats() -> void:
 	print("玩家战斗数据：向 UI 推送初始面板数据...")
 	BattleBus.player_hp_changed.emit(current_hp, max_hp)
 	BattleBus.player_stamina_changed.emit(current_stamina, max_stamina)
+	BattleBus.player_staminars_changed.emit(current_stamina_recover_speed)
 	BattleBus.player_mana_changed.emit(current_mana, max_mana)
-
+	BattleBus.player_manars_changed.emit(current_mana_recover_speed)
+	BattleBus.player_defence_changed.emit(current_defence)
+	BattleBus.player_shield_changed.emit(current_shield)
 # ==========================================
 # 体力、能量恢复（被动）
 # ==========================================

@@ -68,6 +68,22 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.0132, 0.4444, 0.66, 1)
 text = "this is a bug"
 
+[node name="Defence" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "this is a bug"
+
+[node name="Shield" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "this is a bug"
+
+[node name="Stamina_RS" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "this is a bug"
+
+[node name="Mana_RS" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "this is a bug"
+
 [node name="TacticalBackpack" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15

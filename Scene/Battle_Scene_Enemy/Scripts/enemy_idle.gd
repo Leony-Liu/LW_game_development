@@ -13,6 +13,8 @@ var target_wait_time: float = 2.0 # 攻击间隔
 func enter(msg: Dictionary = {}) -> void:
 	print("敌人进入状态：Idle")
 	
+	
+		
 	wait_timer = 0.0
 	
 	
@@ -26,10 +28,9 @@ func enter(msg: Dictionary = {}) -> void:
 		
 	print("EnemyIdle：开始发呆，准备在 %.1f 秒后行动" % target_wait_time)
 	
-	# ==========================================
-	# [画面表现]：在这里播放敌人的 默认呼吸 / 待机 动画
-	# 例如：host.get_node("Visuals/AnimationPlayer").play("idle")
-	# ==========================================
+	if enemy_visual.has_method("play_idle"):
+		enemy_visual.play_idle()
+
 
 func update(delta: float) -> void:
 	wait_timer += delta
