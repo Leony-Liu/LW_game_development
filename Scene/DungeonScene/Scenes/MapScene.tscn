@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dgxewv5lhj85y" path="res://Scene/DungeonScene/Script/Floors.gd" id="1_7wqne"]
 [ext_resource type="PackedScene" uid="uid://dh74i2vi5p7q8" path="res://Scene/DungeonScene/Scenes/dungeon.tscn" id="2_gup4m"]
-[ext_resource type="PackedScene" uid="uid://davvetqo0kd2n" path="res://Scene/Player_Dungeon_Scene/player.tscn" id="3_gup4m"]
+[ext_resource type="PackedScene" uid="uid://davvetqo0kd2n" path="res://Scene/Dungeon_Player_Scene/player.tscn" id="3_gup4m"]
 
 [node name="MapScene" type="Node2D"]
 

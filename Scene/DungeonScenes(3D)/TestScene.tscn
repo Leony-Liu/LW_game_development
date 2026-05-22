@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfq0bmdaffeew"]
+
+[ext_resource type="PackedScene" uid="uid://88hhvx6dcosd" path="res://Scene/Dungeon_Player_Scene/Player3D.tscn" id="1_b0ec4"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(7.805, 1, 8.465)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.508265, 1.01866, -0.833796)
+use_collision = true
+
+[node name="Player3d" parent="." instance=ExtResource("1_b0ec4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.797784, 0.602943, 0, -0.602943, 0.797784, 0, 4, 3)

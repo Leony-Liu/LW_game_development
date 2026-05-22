@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="RoomConfig" load_steps=3 format=3 uid="uid://brg2ybymejlpi"]
 
 [ext_resource type="Script" uid="uid://dyam6375tgtbf" path="res://Scene/DungeonScene/Script/Data/room_config.gd" id="1_jxhbw"]
-[ext_resource type="PackedScene" uid="uid://ctuxffvr11one" path="res://Scene/Enemy_Dungeon_Scene/enemy_2.tscn" id="1_y14yo"]
+[ext_resource type="PackedScene" uid="uid://ctuxffvr11one" path="res://Scene/Dungeon_Enemy_Scene/enemy_2.tscn" id="1_y14yo"]
 
 [resource]
 script = ExtResource("1_jxhbw")

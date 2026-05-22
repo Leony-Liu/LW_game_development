@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dsafxa6blclot"
-path="res://.godot/imported/UAL1_Standard.glb-b85eaea39de2fa4ded5bb3f42b53135e.scn"
+path="res://.godot/imported/UAL1_Standard.glb-136898217aa0fb073bcea2c6f03311b1.scn"
 
 [deps]
 
-source_file="res://Scene/Player_Dungeon_Scene/Art/UAL1_Standard.glb"
-dest_files=["res://.godot/imported/UAL1_Standard.glb-b85eaea39de2fa4ded5bb3f42b53135e.scn"]
+source_file="res://Scene/Dungeon_Player_Scene/Art/UAL1_Standard.glb"
+dest_files=["res://.godot/imported/UAL1_Standard.glb-136898217aa0fb073bcea2c6f03311b1.scn"]
 
 [params]
 
