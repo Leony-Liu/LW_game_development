@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfaaunpy35ua5"]
+
+[ext_resource type="PackedScene" uid="uid://dsafxa6blclot" path="res://Scene/Player_Dungeon_Scene/Art/UAL1_Standard.glb" id="1_sooom"]
+
+[node name="UAL1_Standard" instance=ExtResource("1_sooom")]
