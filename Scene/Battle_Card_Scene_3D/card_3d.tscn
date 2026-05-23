@@ -5,13 +5,17 @@
 
 [node name="Card3D" type="Node3D"]
 
-[node name="CardBackground" type="Sprite3D" parent="."]
+[node name="CardBackground" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Background" type="Sprite3D" parent="CardBackground"]
 texture_filter = 0
 texture = ExtResource("1_3xcr7")
 
-[node name="Cost" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6745, 0.119431)
+[node name="CostNumber" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.688, 0.098)
+
+[node name="Cost" type="Label3D" parent="CostNumber"]
 texture_filter = 0
 modulate = Color(0.17, 1, 0.197667, 1)
 text = "THIS IS A BUG"
@@ -19,11 +23,15 @@ font = ExtResource("2_3xcr7")
 font_size = 128
 outline_size = 0
 
-[node name="CardName" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.198683, 0.141247)
+[node name="CardNamePoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.195838, 0.166408)
+
+[node name="CardName" type="Label3D" parent="CardNamePoint"]
 texture_filter = 0
 modulate = Color(0, 0, 0, 1)
 text = "THIS IS A BUG"
 font = ExtResource("2_3xcr7")
 font_size = 64
 outline_size = 0
+
+[node name="CardIcon" type="Node3D" parent="."]
