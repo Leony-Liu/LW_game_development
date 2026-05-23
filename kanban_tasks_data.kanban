@@ -25,14 +25,19 @@
 				"d64cfca1-c68c-484f-9aa7-483e02251f97",
 				"19244397-1179-4403-a5d5-c1d89c8b0c07",
 				"a3b8f19f-c293-4585-90bd-a0dd82d806ca",
+<<<<<<< HEAD
 				"7ca83d8f-1d03-4be3-b192-b919b9117184"
+=======
+				"0044b939-7e2f-4f58-9c6f-f141c1b94f30"
+>>>>>>> ee5eccb35db5a2836a90015eef9417aaf077a2f0
 			]
 		},
 		{
 			"uuid": "3ee4b200-8aee-41c2-98fb-ea461b36bc9d",
 			"title": "Doing",
 			"tasks": [
-				"ab17d140-adb6-430f-99f2-d17aa6ed7d2f"
+				"ab17d140-adb6-430f-99f2-d17aa6ed7d2f",
+				"be38a2f3-9557-4eb2-92a4-905abaa0b2b2"
 			]
 		},
 		{
@@ -125,11 +130,48 @@
 			"steps": []
 		},
 		{
+<<<<<<< HEAD
 			"uuid": "7ca83d8f-1d03-4be3-b192-b919b9117184",
 			"title": "全局：主菜单及连接各个场景",
 			"description": "",
 			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
 			"steps": []
+=======
+			"uuid": "be38a2f3-9557-4eb2-92a4-905abaa0b2b2",
+			"title": "地图场景：玩家系统基础搭建",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": [
+				{
+					"details": "动作导入",
+					"done": true
+				},
+				{
+					"details": "动作绑定尝试",
+					"done": true
+				},
+				{
+					"details": "全部基础动作绑定",
+					"done": false
+				},
+				{
+					"details": "实现移动",
+					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "0044b939-7e2f-4f58-9c6f-f141c1b94f30",
+			"title": "地图场景：画面表现优化",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": [
+				{
+					"details": "更自然的镜头跟随",
+					"done": false
+				}
+			]
+>>>>>>> ee5eccb35db5a2836a90015eef9417aaf077a2f0
 		}
 	],
 	"layout": {

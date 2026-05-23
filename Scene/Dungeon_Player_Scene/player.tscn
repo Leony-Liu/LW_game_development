@@ -1,9 +1,9 @@
 [gd_scene load_steps=27 format=3 uid="uid://davvetqo0kd2n"]
 
-[ext_resource type="Script" uid="uid://bhdver1ucf7r8" path="res://Scene/Player_Dungeon_Scene/Scripts/player.gd" id="1_sxece"]
-[ext_resource type="Texture2D" uid="uid://dqia0xcvlj7yt" path="res://Scene/Player_Dungeon_Scene/Art/knight.png" id="2_uxvck"]
-[ext_resource type="Script" uid="uid://bommkel330ioi" path="res://Scene/Player_Dungeon_Scene/Scripts/player_attack_logic.gd" id="3_tpu7s"]
-[ext_resource type="Script" uid="uid://cgsmu2ab28era" path="res://Scene/Player_Dungeon_Scene/Scripts/player_dungeon_manager.gd" id="4_ky541"]
+[ext_resource type="Script" uid="uid://bhdver1ucf7r8" path="res://Scene/Dungeon_Player_Scene/Scripts/player.gd" id="1_sxece"]
+[ext_resource type="Texture2D" uid="uid://dqia0xcvlj7yt" path="res://Scene/Dungeon_Player_Scene/Art/knight.png" id="2_uxvck"]
+[ext_resource type="Script" uid="uid://bommkel330ioi" path="res://Scene/Dungeon_Player_Scene/Scripts/player_attack_logic.gd" id="3_tpu7s"]
+[ext_resource type="Script" uid="uid://cgsmu2ab28era" path="res://Scene/Dungeon_Player_Scene/Scripts/player_dungeon_manager.gd" id="4_ky541"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qpdfw"]
 atlas = ExtResource("2_uxvck")

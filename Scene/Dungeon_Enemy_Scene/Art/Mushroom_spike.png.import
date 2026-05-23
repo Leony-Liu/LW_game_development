@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bwtjtdrllcslc"
-path="res://.godot/imported/Mushroom_spike.png-7a73123d04ef5d1d0b11f1265908ae1f.ctex"
+path="res://.godot/imported/Mushroom_spike.png-7401956e3d79b2786765430e448c3b2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scene/Enemy_Dungeon_Scene/Art/Mushroom_spike.png"
-dest_files=["res://.godot/imported/Mushroom_spike.png-7a73123d04ef5d1d0b11f1265908ae1f.ctex"]
+source_file="res://Scene/Dungeon_Enemy_Scene/Art/Mushroom_spike.png"
+dest_files=["res://.godot/imported/Mushroom_spike.png-7401956e3d79b2786765430e448c3b2c.ctex"]
 
 [params]
 

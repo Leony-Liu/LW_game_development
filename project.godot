@@ -68,10 +68,10 @@ folder_colors={
 "res://Scene/DungeonScene/": "blue",
 "res://Scene/DungeonScene/Arts/": "purple",
 "res://Scene/DungeonScene/Script/": "yellow",
-"res://Scene/Enemy_Dungeon_Scene/Art/": "purple",
-"res://Scene/Main_Scene/Scripts/": "yellow",
-"res://Scene/Player_Dungeon_Scene/Art/": "purple",
-"res://Scene/Player_Dungeon_Scene/Scripts/": "yellow"
+"res://Scene/Dungeon_Enemy_Scene/Art/": "purple",
+"res://Scene/Dungeon_Player_Scene/Art/": "purple",
+"res://Scene/Dungeon_Player_Scene/Scripts/": "yellow",
+"res://Scene/Main_Scene/Scripts/": "yellow"
 }
 
 [input]
