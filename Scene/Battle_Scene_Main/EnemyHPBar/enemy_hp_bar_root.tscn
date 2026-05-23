@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://d4lo5ywjrle2p"]
+[gd_scene load_steps=7 format=3 uid="uid://d4lo5ywjrle2p"]
 
 [ext_resource type="Script" uid="uid://2lxesc776017" path="res://Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd" id="1_5soxg"]
 [ext_resource type="Texture2D" uid="uid://c513o4fa1etss" path="res://Scene/Battle_Scene_Main/EnemyHPBar/差值血量.png" id="2_7fqla"]
 [ext_resource type="Texture2D" uid="uid://x63ea576ylmu" path="res://Scene/Battle_Scene_Main/EnemyHPBar/当前血量.png" id="3_vujmf"]
 [ext_resource type="Texture2D" uid="uid://mn2ejus4w476" path="res://Scene/Battle_Scene_Main/EnemyHPBar/边框.png" id="4_065f2"]
+[ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Arts/Fort/Born2bSportyV2.ttf" id="5_kvywy"]
 
 [sub_resource type="Theme" id="Theme_5soxg"]
 Label/font_sizes/font_size = 60
@@ -74,4 +75,6 @@ theme_override_constants/margin_top = 92
 [node name="currentHP" type="Label" parent="MarginContainer"]
 layout_mode = 2
 theme = SubResource("Theme_5soxg")
+theme_override_fonts/font = ExtResource("5_kvywy")
+theme_override_font_sizes/font_size = 86
 text = "this is a bug"

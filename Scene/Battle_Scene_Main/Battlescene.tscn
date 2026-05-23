@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=12 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="1_ygjx7"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Battle_Scene_Enemy/Enemy.tscn" id="3_mvvqq"]
 [ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_Scene_Main/Scripts/battle_ui_manager.gd" id="3_nr23r"]
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn" id="6_qo3ej"]
+[ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="7_3b3d8"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene_Main/PlayerInformation/player_infromation.tscn" id="7_tsycl"]
 
 [sub_resource type="Environment" id="Environment_utnyt"]
@@ -38,49 +39,31 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_container", "player_node", "card_factory")]
-script = ExtResource("1_ygjx7")
-hand_container = NodePath("CardUI/HBoxContainer")
-player_node = NodePath("../../../Player")
-card_factory = NodePath("../../../CardFactory")
-
-[node name="CardUI" type="Control" parent="UIManager/UIRoot/CardManager"]
-layout_mode = 3
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UIManager/UIRoot/CardManager/CardUI"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
+mouse_filter = 2
 
 [node name="EnemyHPBarRoot" parent="UIManager/UIRoot" instance=ExtResource("6_qo3ej")]
 layout_mode = 1
+mouse_filter = 2
 
 [node name="PlayerInfromation" parent="UIManager/UIRoot" instance=ExtResource("7_tsycl")]
 layout_mode = 1
 
+[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_deck_node", "player_node", "card_factory")]
+script = ExtResource("1_ygjx7")
+hand_deck_node = NodePath("PlayerHandDeck")
+player_node = NodePath("../../../Player")
+card_factory = NodePath("../../../CardFactory")
+
+[node name="PlayerHandDeck" parent="UIManager/UIRoot/CardManager" instance=ExtResource("7_3b3d8")]
+offset_left = -352.0
+offset_top = -208.0
+offset_right = 348.0
+offset_bottom = -28.0
+
 [node name="Environment" type="Node" parent="."]
 
 [node name="Ground" type="CSGBox3D" parent="Environment"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00495684, -0.0114741, 0.00205199)
 size = Vector3(20, 0.2, 20)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]

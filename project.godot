@@ -32,10 +32,6 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg")
-
 [file_customization]
 
 folder_colors={
@@ -64,6 +60,7 @@ folder_colors={
 "res://Scene/Battle_Scene_Player/player_3Dvisuals/Arts/": "purple",
 "res://Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/": "yellow",
 "res://Scene/Card_Scene/": "blue",
+"res://Scene/Card_Scene/Arts/": "purple",
 "res://Scene/Card_Scene/Scripts/": "yellow",
 "res://Scene/DungeonScene/": "blue",
 "res://Scene/DungeonScene/Arts/": "purple",

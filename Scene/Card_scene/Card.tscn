@@ -1,128 +1,107 @@
-[gd_scene load_steps=16 format=3 uid="uid://b5bqwwplbqjgj"]
+[gd_scene load_steps=5 format=3 uid="uid://b5bqwwplbqjgj"]
 
 [ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
-[ext_resource type="Texture2D" uid="uid://skrrav6lu8fd" path="res://Scene/Card_Scene/Arts/未命名作品.png" id="2_xivxr"]
-
-[sub_resource type="Theme" id="Theme_xivxr"]
-Label/colors/font_color = Color(0.315423, 0.787908, 0.0982825, 1)
-Label/font_sizes/font_size = 50
-
-[sub_resource type="Theme" id="Theme_d862h"]
-Label/font_sizes/font_size = 32
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i38s8"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fjayt"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7viw0"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lagmf"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0dylo"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lbwik"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjayt"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.8, 0.8, 0.8, 0.878431)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ybsp0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7viw0"]
-bg_color = Color(0.6, 0.6, 0.6, 0.65098)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dmmp7"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8wvxw"]
+[ext_resource type="Texture2D" uid="uid://smoqip68cmas" path="res://Scene/Card_Scene/Arts/testcard2.png" id="2_d862h"]
+[ext_resource type="Texture2D" uid="uid://cjhipnffu5q2e" path="res://Scene/Card_Scene/Arts/testcardimg.png" id="3_f1ty3"]
+[ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Arts/Fort/Born2bSportyV2.ttf" id="4_f1ty3"]
 
 [node name="Card" type="Control"]
+custom_minimum_size = Vector2(128, 180)
 layout_mode = 3
-anchor_right = 0.113
-anchor_bottom = 0.309
-offset_top = -1.0
-offset_right = -0.17601
-offset_bottom = -1.23203
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_left = -64.0
+offset_top = -180.0
+offset_right = 64.0
+pivot_offset = Vector2(64, 180)
 script = ExtResource("1_avhnj")
 
-[node name="Visual" type="Control" parent="."]
-custom_minimum_size = Vector2(130, 200)
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="CardBackground" type="TextureRect" parent="Visual"]
+[node name="Visuals" type="Control" parent="."]
 custom_minimum_size = Vector2(128, 180)
 layout_mode = 1
-offset_right = 274.0
-offset_bottom = 274.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
 mouse_filter = 2
-texture = ExtResource("2_xivxr")
-expand_mode = 1
-stretch_mode = 4
 
-[node name="Illustration" type="TextureRect" parent="Visual"]
+[node name="Background" type="TextureRect" parent="Visuals"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -180.0
+offset_right = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("2_d862h")
+
+[node name="Illustration" type="TextureRect" parent="Visuals/Background"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.753684, 0.764795)
+pivot_offset = Vector2(100, 100)
+mouse_filter = 2
+texture = ExtResource("3_f1ty3")
 
-[node name="MarginContainer" type="MarginContainer" parent="Visual"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme = SubResource("Theme_xivxr")
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 5
-
-[node name="CostLable" type="Label" parent="Visual/MarginContainer"]
-layout_mode = 2
-text = "this is a bug
-"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="Visual"]
-custom_minimum_size = Vector2(130, 200)
+[node name="CostContainer" type="HBoxContainer" parent="Visuals/Background"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -87.0
+offset_top = -14.0
+offset_right = 87.0
+offset_bottom = 26.0
 grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme = SubResource("Theme_d862h")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_i38s8")
-theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_fjayt")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_7viw0")
-theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_lagmf")
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_0dylo")
-theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_lbwik")
-theme_override_styles/hover = SubResource("StyleBoxFlat_fjayt")
-theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_ybsp0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_7viw0")
-theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_dmmp7")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_8wvxw")
+scale = Vector2(1.00338, 1)
+mouse_filter = 2
+alignment = 1
 
-[connection signal="pressed" from="Visual/Button" to="." method="_on_button_pressed"]
+[node name="CostLable" type="Label" parent="Visuals/Background/CostContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.87, 0.3625, 1)
+theme_override_fonts/font = ExtResource("4_f1ty3")
+theme_override_font_sizes/font_size = 48
+text = "THIS IS A BUG"
+
+[node name="NameContainer" type="HBoxContainer" parent="Visuals/Background"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -53.0
+offset_top = -40.0
+offset_right = 53.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+alignment = 1
+
+[node name="NameLable" type="Label" parent="Visuals/Background/NameContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.012, 0.012, 1)
+theme_override_fonts/font = ExtResource("4_f1ty3")
+theme_override_font_sizes/font_size = 36
+text = "THIS IS A BUG"

@@ -7,7 +7,7 @@ var current_scene: Node = null
 
 func _ready() -> void:
 	current_scene = scene_holder.get_node("MapScene")
-	BattleBus.enter_battle_scene.connect(_on_event_bus_enter_battle_scene)
+	EventBus.enter_battle_scene.connect(_on_event_bus_enter_battle_scene)
 	pass
 
 

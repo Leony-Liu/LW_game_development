@@ -1,37 +1,57 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgvtlyetgteko"]
+[gd_scene load_steps=6 format=3 uid="uid://b8hyatx2hj0h3"]
 
-[ext_resource type="Texture2D" uid="uid://dcgnyuh5qbjfm" path="res://Scene/Battle_Card_Scene_3D/Arts/testcard.png" id="1_3xcr7"]
+[ext_resource type="Script" uid="uid://bod8pvwekbcbb" path="res://Scene/Battle_Card_Scene_3D/Card_3d.gd" id="1_8vxy6"]
 [ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Arts/Fort/Born2bSportyV2.ttf" id="2_3xcr7"]
+[ext_resource type="Texture2D" uid="uid://smoqip68cmas" path="res://Scene/Card_Scene/Arts/testcard2.png" id="2_pexh0"]
+[ext_resource type="Texture2D" uid="uid://cjhipnffu5q2e" path="res://Scene/Card_Scene/Arts/testcardimg.png" id="4_hiif7"]
 
-[node name="Card3D" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_pexh0"]
+size = Vector3(0.135, 0.19, 0.03)
 
-[node name="CardBackground" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+[node name="Card3D" type="Area3D"]
+script = ExtResource("1_8vxy6")
 
-[node name="Background" type="Sprite3D" parent="CardBackground"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0904576, 0)
+shape = SubResource("BoxShape3D_pexh0")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="CardBackground" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, 0)
+
+[node name="Background" type="Sprite3D" parent="Visuals/CardBackground"]
+pixel_size = 0.001
 texture_filter = 0
-texture = ExtResource("1_3xcr7")
+texture = ExtResource("2_pexh0")
 
-[node name="CostNumber" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.688, 0.098)
+[node name="CostNumber" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175155, 0.0101314)
 
-[node name="Cost" type="Label3D" parent="CostNumber"]
+[node name="Cost" type="Label3D" parent="Visuals/CostNumber"]
+pixel_size = 0.001
 texture_filter = 0
 modulate = Color(0.17, 1, 0.197667, 1)
-text = "THIS IS A BUG"
-font = ExtResource("2_3xcr7")
-font_size = 128
-outline_size = 0
-
-[node name="CardNamePoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.195838, 0.166408)
-
-[node name="CardName" type="Label3D" parent="CardNamePoint"]
-texture_filter = 0
-modulate = Color(0, 0, 0, 1)
 text = "THIS IS A BUG"
 font = ExtResource("2_3xcr7")
 font_size = 64
 outline_size = 0
 
-[node name="CardIcon" type="Node3D" parent="."]
+[node name="CardNamePoint" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0163629, 0.0139748)
+
+[node name="CardName" type="Label3D" parent="Visuals/CardNamePoint"]
+pixel_size = 0.001
+texture_filter = 0
+modulate = Color(0, 0, 0, 1)
+text = "THIS IS A BUG"
+font = ExtResource("2_3xcr7")
+outline_size = 0
+
+[node name="CardIMG" type="Node3D" parent="Visuals"]
+transform = Transform3D(0.631601, 0, 0, 0, 0.631601, 0, 0, 0, 1, 0, 0.0904747, 0.00680648)
+
+[node name="Sprite3D" type="Sprite3D" parent="Visuals/CardIMG"]
+pixel_size = 0.001
+texture_filter = 0
+texture = ExtResource("4_hiif7")
