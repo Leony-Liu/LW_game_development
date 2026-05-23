@@ -24,7 +24,8 @@
 				"9c6337df-f94c-4c5f-bb1f-c790c2c65d3a",
 				"d64cfca1-c68c-484f-9aa7-483e02251f97",
 				"19244397-1179-4403-a5d5-c1d89c8b0c07",
-				"a3b8f19f-c293-4585-90bd-a0dd82d806ca"
+				"a3b8f19f-c293-4585-90bd-a0dd82d806ca",
+				"7ca83d8f-1d03-4be3-b192-b919b9117184"
 			]
 		},
 		{
@@ -119,6 +120,13 @@
 		{
 			"uuid": "36d7de2c-2ac5-4c89-8e36-b74ae029c472",
 			"title": "战斗场景：敌人模型3d替换",
+			"description": "",
+			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
+			"steps": []
+		},
+		{
+			"uuid": "7ca83d8f-1d03-4be3-b192-b919b9117184",
+			"title": "全局：主菜单及连接各个场景",
 			"description": "",
 			"category": "e628f30c-a594-4e43-9198-c3a3dfe63422",
 			"steps": []
