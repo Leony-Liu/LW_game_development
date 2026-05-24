@@ -66,7 +66,17 @@ func _process(delta: float) -> void:
 		for buff_id in expired_buffs:
 			active_buffs.erase(buff_id)
 		BattleBus.enemy_buffs_changed.emit(active_buffs)
-
+		
+# ==========================================
+# 主动移除 Buff 的方法
+# ==========================================
+func remove_buff(buff_id: String) -> void:
+	if active_buffs.has(buff_id):
+		active_buffs.erase(buff_id)
+		# 核心：每次主动移除 Buff，都必须广播通知 UI 刷新！
+		BattleBus.enemy_buffs_changed.emit(active_buffs)
+		print("🗑️ 已主动消耗/移除 Buff [%s]！" % buff_id)
+		
 # ==========================================
 # 提供改动方法
 # ==========================================
