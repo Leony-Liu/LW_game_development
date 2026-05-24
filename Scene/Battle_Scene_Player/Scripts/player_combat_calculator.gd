@@ -37,15 +37,12 @@ func calculate_outgoing_damage(base_damage: int, card_mult_bonus: float = 0.0) -
 	var total_multiplier = 1.0 + equip_mult + card_mult_bonus + timed_atk_buff
 	print("玩家计算器：成功汇总乘区数值为-%f" % total_multiplier)
 	
+# ... 前面算装备和 Buff 提取的代码保留 ...
+	
 	# 终极核算：总加区 * 总乘区
 	var final_damage = total_flat_attack * total_multiplier
 	print("玩家计算器：最终伤害结算完成-%d" % final_damage)
 	
-	# ================= 核心新增：消耗计次类 Buff =================
-	# 蓄力是“下一次攻击生效”，所以在造成伤害后必须立刻把它从状态池中抹除
-	if data.active_buffs.has("charge"):
-		data.active_buffs.erase("charge")
-		print("玩家计算器：蓄力效果已消耗！")
-	# =========================================================
+	# ⚠️ 把原来这里 if active_buffs.has("charge") 的逻辑彻底删掉！
 	
 	return int(final_damage)

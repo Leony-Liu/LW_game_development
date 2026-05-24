@@ -47,9 +47,30 @@ var _mana_recovery_timer: float = 0.0 # 能量恢复累计器
 # ==========================================
 # 统一状态池 (Buff/Debuff Manager)
 # ==========================================
-# 结构: { "buff_id": {"value": 数值, "duration": 剩余时间} }
 var active_buffs: Dictionary = {}
 
+# 【全新架构】：Buff 消耗触发器分类池
+# 以后新增任何即抛型 Buff，只需要在这里填名字，底层逻辑一行都不用改！
+var buff_triggers: Dictionary = {
+	"on_attack": ["charge", "next_attack_crit"], # 攻击完成后需要消耗的 Buff
+	"on_hit": ["perfect_block_buff"],            # 被打之后需要消耗的 Buff
+	"on_turn_end": ["vulnerable"]                # 以后如果做回合制，回合结束消耗的 Buff
+}
+# 万能触发器消耗方法
+func consume_buffs_by_trigger(trigger_type: String) -> void:
+	if not buff_triggers.has(trigger_type): return
+	
+	var is_changed = false
+	# 遍历属于这个触发器的所有 Buff
+	for buff_id in buff_triggers[trigger_type]:
+		if active_buffs.has(buff_id):
+			active_buffs.erase(buff_id) # 抹除数据
+			print("💥 触发器 [%s] 消耗了 Buff: %s" % [trigger_type, buff_id])
+			is_changed = true
+			
+	# 【核心修复】：只要有任何数据被抹除，立刻用大喇叭通知 UI 重新生成列表！
+	if is_changed:
+		BattleBus.player_buffs_changed.emit(active_buffs)
 # 万能添加/刷新 Buff 方法
 # 万能添加/刷新 Buff 方法
 func apply_buff(buff_id: String, value: float, duration: float) -> void:
@@ -61,6 +82,16 @@ func apply_buff(buff_id: String, value: float, duration: float) -> void:
 		
 	# 【核心新增】：向 UI 发送最新字典！
 	BattleBus.player_buffs_changed.emit(active_buffs)
+	
+# ==========================================
+# 主动移除 Buff 的方法
+# ==========================================
+func remove_buff(buff_id: String) -> void:
+	if active_buffs.has(buff_id):
+		active_buffs.erase(buff_id)
+		# 核心：每次主动移除 Buff，都必须广播通知 UI 刷新！
+		BattleBus.player_buffs_changed.emit(active_buffs)
+		print("🗑️ 已主动消耗/移除 Buff [%s]！" % buff_id)
 
 func _process(delta: float) -> void:
 	if active_buffs.is_empty(): return
