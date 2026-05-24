@@ -55,9 +55,9 @@ player_node = NodePath("../../../Player")
 card_factory = NodePath("../../../CardFactory")
 
 [node name="PlayerHandDeck" parent="UIManager/UIRoot/CardManager" instance=ExtResource("7_3b3d8")]
-offset_left = -352.0
+offset_left = -360.0
 offset_top = -208.0
-offset_right = 348.0
+offset_right = 360.0
 offset_bottom = -28.0
 
 [node name="Environment" type="Node" parent="."]

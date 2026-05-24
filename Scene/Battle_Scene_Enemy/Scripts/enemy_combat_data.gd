@@ -21,6 +21,8 @@ class_name EnemyCombatData
 @export var magical_damage_multiplier: int = 0 # 物理伤害倍率
 @export var real_damage_multiplier: int = 0 # 真实伤害倍率
 
+var active_buffs: Dictionary = {}
+
 # ==========================================
 # 初始化：战斗开始时同步初始数据给 UI
 # ==========================================
@@ -33,7 +35,37 @@ func _sync_initial_stats() -> void:
 	print("玩家战斗数据：向 UI 推送初始面板数据...")
 	BattleBus.enemy_hp_changed.emit(enemy_current_hp,enemy_max_hp)
 	
+# ==========================================
+# 统一状态池 (Buff/Debuff Manager)
+# ==========================================
 
+func apply_buff(buff_id: String, value: float, duration: float) -> void:
+	if active_buffs.has(buff_id):
+		active_buffs[buff_id]["duration"] = max(active_buffs[buff_id]["duration"], duration)
+		active_buffs[buff_id]["value"] += value 
+	else:
+		active_buffs[buff_id] = {"value": value, "duration": duration}
+		
+	# 通知 UI
+	BattleBus.enemy_buffs_changed.emit(active_buffs)
+
+func get_buff_value(buff_id: String) -> float:
+	if active_buffs.has(buff_id):
+		return active_buffs[buff_id]["value"]
+	return 0.0
+
+func _process(delta: float) -> void:
+	if active_buffs.is_empty(): return
+	var expired_buffs = []
+	for buff_id in active_buffs:
+		active_buffs[buff_id]["duration"] -= delta
+		if active_buffs[buff_id]["duration"] <= 0:
+			expired_buffs.append(buff_id)
+			
+	if expired_buffs.size() > 0:
+		for buff_id in expired_buffs:
+			active_buffs.erase(buff_id)
+		BattleBus.enemy_buffs_changed.emit(active_buffs)
 
 # ==========================================
 # 提供改动方法

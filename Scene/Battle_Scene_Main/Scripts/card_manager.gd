@@ -26,6 +26,8 @@ func _ready():
 	
 	# 监听成功出牌的信号
 	BattleBus.card_successfully_played.connect(_on_card_successfully_played)
+	# 监听主动弃牌请求
+	BattleBus.card_discard_requested.connect(_on_card_discard_requested)
 
 # ==========================================
 # 玩家主动控制抽牌 (按键 F)
@@ -149,3 +151,24 @@ func _on_card_successfully_played(card_node: Node):
 		card_node.play_discard_animation()
 	else:
 		card_node.queue_free()
+
+# ==========================================
+# 玩家主动右键弃牌
+# ==========================================
+func _on_card_discard_requested(card_node: Node) -> void:
+	if not player_node: return
+	
+	# 1. 寻找玩家的战斗数据节点
+	var combat_data = player_node.get_node_or_null("Data/CombatData")
+	
+	# 2. 尝试扣除 1 点体力
+	if combat_data and combat_data.consume_stamina(1):
+		print("卡牌管理器：消耗 1 点体力，主动弃置卡牌成功！")
+		# 完美复用你之前写好的“进入弃牌堆并播放动画”的方法
+		_on_card_successfully_played(card_node)
+	else:
+		print("卡牌管理器：体力不足，无法弃牌！")
+		# 拒绝弃牌，让卡牌发红抖动，并解锁让玩家可以继续操作
+		BattleBus.card_rejected.emit(card_node)
+		if combat_data:
+			combat_data.not_enough_stamina.emit() # 触发UI红光或提示音

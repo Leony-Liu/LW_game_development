@@ -23,8 +23,15 @@ extends Control
 @onready var illustration = $Visuals/Background/Illustration
 @onready var cost_container = $Visuals/Background/CostContainer
 @onready var name_container = $Visuals/Background/NameContainer
-@onready var card_cost_label = $Visuals/Background/CostContainer/CostLable # 注意这里你原来拼写是 Lable，如果改了记得同步修改
+@onready var cost_label = $Visuals/Background/CostContainer/CostLable # 注意这里你原来拼写是 Lable，如果改了记得同步修改
+@onready var name_label = $Visuals/Background/NameContainer/NameLable # 严格对应截图中的节点名
 
+# ==========================================
+# 卡牌UI颜色设置 (可在右侧检查器直接修改)
+# ==========================================
+@export_category("UI 颜色设置")
+@export var attack_cost_color: Color = Color("ff7700") # 默认亮橙色
+@export var skill_cost_color: Color = Color("00bfff")  # 默认亮蓝色
 # ==========================================
 # 数据与状态
 # ==========================================
@@ -67,10 +74,45 @@ func _fetch_data_from_database() -> void:
 	if card_id == 0: return
 	card_data = CardDataBase.get_card(card_id)
 	
-	var cost = card_data.get("stamina_cost", 0)
-	if cost == 0: 
+	# ==========================================
+	# 1. 文本与翻译本地化装载
+	# ==========================================
+	# 获取 CSV 里的 name_key，去本地化字典里找翻译
+	var name_key = card_data.get("name_key", "CARD_NAME_UNKNOWN")
+	name_label.text = tr(name_key)
+	
+	# ==========================================
+	# 2. 费用数值读取与颜色区分
+	# ==========================================
+	var category = card_data.get("categories", "attack") # 默认是 attack
+	var cost = 0
+	
+	if category == "attack":
+		cost = card_data.get("stamina_cost", 0)
+		# 使用暴露到检查器的变量
+		cost_label.add_theme_color_override("font_color", attack_cost_color)
+		
+	elif category == "skill":
 		cost = card_data.get("mana_cost", 0)
-	card_cost_label.text = str(cost) if cost > 0 else ""
+		# 使用暴露到检查器的变量
+		cost_label.add_theme_color_override("font_color", skill_cost_color)
+	# 兜底：如果消耗大于0就显示数字，否则显示 0
+	cost_label.text = str(cost) if cost > 0 else "0"
+	
+	# ==========================================
+	# 3. 动态加载插图（精准匹配你现在的文件夹结构）
+	# ==========================================
+	# 这里需要你在 CSV 表格里加一列 "image_name"，填入 "strike"、"heavy_blow" 等
+	# 如果没找到，默认加载一个叫 default_image.png 的图防报错
+	var img_name = card_data.get("image_name", "default_image") 
+	
+	# 根据你的最新截图，把路径完全写死到 CardIllustration 文件夹下
+	var img_path = "res://Scene/Card_Scene/Arts/CardIllustration/%s.png" % img_name
+	
+	if ResourceLoader.exists(img_path):
+		illustration.texture = load(img_path)
+	else:
+		print("⚠️ 警告：找不到卡牌插图资源 -> ", img_path)
 
 # ==========================================
 # 核心交互逻辑：悬停与视差
@@ -147,11 +189,20 @@ func _process(delta: float) -> void:
 # 出牌与回调
 # ==========================================
 func _on_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if event is InputEventMouseButton and event.pressed:
 		if is_locked: return
-		print("2D卡牌被点击，发起出牌请求...")
-		is_locked = true
-		BattleBus.card_played.emit(card_data, self)
+		
+		# 左键：常规出牌
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			print("2D卡牌被左键点击，发起出牌请求...")
+			is_locked = true
+			BattleBus.card_played.emit(card_data, self)
+			
+		# 右键：主动弃牌
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			print("2D卡牌被右键点击，发起弃牌请求...")
+			is_locked = true
+			BattleBus.card_discard_requested.emit(self)
 
 func _on_card_rejected(target_node: Control) -> void:
 	if target_node == self:

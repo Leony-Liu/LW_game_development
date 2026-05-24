@@ -40,6 +40,7 @@ folder_colors={
 "res://Arts/Theme/": "purple",
 "res://Audio/": "green",
 "res://DataBase/": "red",
+"res://Localization/": "pink",
 "res://Scene/": "blue",
 "res://Scene/Battle_Card_Scene_3D/Arts/": "purple",
 "res://Scene/Battle_Scene_Enemy/": "blue",
@@ -113,6 +114,11 @@ open_backpack={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194326,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://Localization/loc_ui.en.translation", "res://Localization/loc_ui.zh.translation", "res://Localization/loc_card.en.translation", "res://Localization/loc_card.zh.translation")
+locale/test="en"
 
 [rendering]
 

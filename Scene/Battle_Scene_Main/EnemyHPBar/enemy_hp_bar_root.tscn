@@ -1,10 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://d4lo5ywjrle2p"]
 
 [ext_resource type="Script" uid="uid://2lxesc776017" path="res://Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd" id="1_5soxg"]
-[ext_resource type="Texture2D" uid="uid://c513o4fa1etss" path="res://Scene/Battle_Scene_Main/EnemyHPBar/差值血量.png" id="2_7fqla"]
-[ext_resource type="Texture2D" uid="uid://x63ea576ylmu" path="res://Scene/Battle_Scene_Main/EnemyHPBar/当前血量.png" id="3_vujmf"]
-[ext_resource type="Texture2D" uid="uid://mn2ejus4w476" path="res://Scene/Battle_Scene_Main/EnemyHPBar/边框.png" id="4_065f2"]
 [ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Arts/Fort/Born2bSportyV2.ttf" id="5_kvywy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82qon"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvywy"]
+bg_color = Color(0.937078, 0.432192, 1.92523e-07, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5n6un"]
+bg_color = Color(0.82, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_5soxg"]
 Label/font_sizes/font_size = 60
@@ -18,57 +24,35 @@ grow_horizontal = 2
 scale = Vector2(0.76, 0.52)
 script = ExtResource("1_5soxg")
 
-[node name="different_hp" type="TextureProgressBar" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -667.0
-offset_top = 54.0
-offset_right = 716.0
-offset_bottom = 211.0
-grow_horizontal = 2
+[node name="different_hp" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = -673.684
+offset_top = 107.692
+offset_right = 674.316
+offset_bottom = 153.692
+theme_override_styles/background = SubResource("StyleBoxFlat_82qon")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kvywy")
+show_percentage = false
+
+[node name="current_hp" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = -673.684
+offset_top = 107.692
+offset_right = 674.316
+offset_bottom = 153.692
+theme_override_styles/background = SubResource("StyleBoxFlat_82qon")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5n6un")
 value = 100.0
-texture_progress = ExtResource("2_7fqla")
-
-[node name="current_hp" type="TextureProgressBar" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -665.0
-offset_top = 71.0
-offset_right = 716.0
-offset_bottom = 200.0
-grow_horizontal = 2
-value = 100.0
-texture_progress = ExtResource("3_vujmf")
-
-[node name="border" type="TextureRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -877.5
-offset_right = 877.5
-offset_bottom = 294.0
-grow_horizontal = 2
-texture = ExtResource("4_065f2")
-
-[node name="Control" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+show_percentage = false
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+offset_left = -200.0
+offset_right = 204.0
+offset_bottom = 179.0
 grow_horizontal = 2
 theme_override_constants/margin_top = 92
 
@@ -76,5 +60,7 @@ theme_override_constants/margin_top = 92
 layout_mode = 2
 theme = SubResource("Theme_5soxg")
 theme_override_fonts/font = ExtResource("5_kvywy")
-theme_override_font_sizes/font_size = 86
+theme_override_font_sizes/font_size = 64
 text = "this is a bug"
+horizontal_alignment = 1
+vertical_alignment = 1

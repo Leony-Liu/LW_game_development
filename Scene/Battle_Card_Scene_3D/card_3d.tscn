@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bod8pvwekbcbb" path="res://Scene/Battle_Card_Scene_3D/Card_3d.gd" id="1_8vxy6"]
 [ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Arts/Fort/Born2bSportyV2.ttf" id="2_3xcr7"]
 [ext_resource type="Texture2D" uid="uid://smoqip68cmas" path="res://Scene/Card_Scene/Arts/testcard2.png" id="2_pexh0"]
-[ext_resource type="Texture2D" uid="uid://cjhipnffu5q2e" path="res://Scene/Card_Scene/Arts/testcardimg.png" id="4_hiif7"]
+[ext_resource type="Texture2D" uid="uid://cjhipnffu5q2e" path="res://Scene/Card_Scene/Arts/CardIllustration/strike.png" id="4_hiif7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pexh0"]
 size = Vector3(0.135, 0.19, 0.03)

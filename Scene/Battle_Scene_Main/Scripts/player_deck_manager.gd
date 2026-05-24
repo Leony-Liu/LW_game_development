@@ -11,7 +11,9 @@ extends Node
 # TODO 暂时为手动设置牌组
 @export var starter_deck_config: Dictionary = {
 	10001: 5,
-	10002: 5
+	10002: 3,
+	20001: 2,
+	20002: 2
 }
 
 # —————— B.参数及初始化 ——————

@@ -100,6 +100,54 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
+[node name="PlayerBuff" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -736.0
+offset_right = 148.0
+offset_bottom = -461.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerBuff"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_3dl66")
+
+[node name="name" type="Label" parent="PlayerBuff/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.98, 1)
+theme_override_font_sizes/font_size = 24
+text = "PlayerBuff:"
+
+[node name="EnemyBuff" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -424.0
+offset_right = 148.0
+offset_bottom = -149.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EnemyBuff"]
+layout_mode = 2
+mouse_filter = 2
+theme = SubResource("Theme_3dl66")
+
+[node name="name" type="Label" parent="EnemyBuff/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.91, 1)
+theme_override_font_sizes/font_size = 24
+text = "EnemyBuff:"
+
 [node name="TacticalBackpack" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15

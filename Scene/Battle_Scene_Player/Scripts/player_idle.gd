@@ -65,7 +65,7 @@ func handle_card_played(card_data: Dictionary) -> bool:
 			return false
 			
 	# b. 技能牌：核验能量
-	elif card_data["categories"] == "skills":
+	elif card_data["categories"] == "skill":
 		var cost = card_data.get("mana_cost", 1) # 默认消耗1点防错
 		# 成功扣除后进入技能状态
 		if combat_data.consume_mana(cost):

@@ -1,3 +1,5 @@
-id,categories,card_name,stamina_cost,mana_cost,damage,effects,reuse,posture_damage,description
-10001,attack,strike,1,0,10,0,1,10,打击：攻击牌测试            
-10002,attack,heavy_blow,2,0,20,vulnerable:20,1,20, 重击：效果测试增加20点脆弱  
+id,name_key,desc_key,categories,stamina_cost,mana_cost,damage,reuse,image_name,effects
+10001,CARD_NAME_STRIKE,CARD_DESC_STRIKE,attack,1,0,10,1,strike,0
+10002,CARD_NAME_HEAVYBLOW,CARD_DESC_HEAVYBLOW,attack,2,0,20,1,heavy_blow,vulnerable:1
+20001,CARD_NAME_CHARGE,CARD_DESC_CHARGE,skill,0,1,0,1,charge,add_buff:charge:10:999
+20002,CARD_NAME_ATTACKSURGE,CARD_DESC_ATTACKSURGE,skill,0,1,0,1,attack_surge,add_buff:attack_surge:0.5:10

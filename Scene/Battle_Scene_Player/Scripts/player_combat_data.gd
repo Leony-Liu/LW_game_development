@@ -44,6 +44,44 @@ signal not_enough_mana() # 能量不足
 var _stamina_recovery_timer: float = 0.0 # 体力恢复累计器
 var _mana_recovery_timer: float = 0.0 # 能量恢复累计器
 
+# ==========================================
+# 统一状态池 (Buff/Debuff Manager)
+# ==========================================
+# 结构: { "buff_id": {"value": 数值, "duration": 剩余时间} }
+var active_buffs: Dictionary = {}
+
+# 万能添加/刷新 Buff 方法
+# 万能添加/刷新 Buff 方法
+func apply_buff(buff_id: String, value: float, duration: float) -> void:
+	if active_buffs.has(buff_id):
+		active_buffs[buff_id]["duration"] = max(active_buffs[buff_id]["duration"], duration)
+		active_buffs[buff_id]["value"] += value 
+	else:
+		active_buffs[buff_id] = {"value": value, "duration": duration}
+		
+	# 【核心新增】：向 UI 发送最新字典！
+	BattleBus.player_buffs_changed.emit(active_buffs)
+
+func _process(delta: float) -> void:
+	if active_buffs.is_empty(): return
+	var expired_buffs = []
+	for buff_id in active_buffs:
+		active_buffs[buff_id]["duration"] -= delta
+		if active_buffs[buff_id]["duration"] <= 0:
+			expired_buffs.append(buff_id)
+			
+	if expired_buffs.size() > 0:
+		for buff_id in expired_buffs:
+			active_buffs.erase(buff_id)
+		# 【核心新增】：有Buff过期消失了，通知 UI 刷新！
+		BattleBus.player_buffs_changed.emit(active_buffs)
+
+# 提供给计算器调用的读取方法
+func get_buff_value(buff_id: String) -> float:
+	if active_buffs.has(buff_id):
+		return active_buffs[buff_id]["value"]
+	return 0.0
+
 
 # ==========================================
 # 初始化：战斗开始时同步初始数据给 UI
@@ -122,16 +160,19 @@ func consume_stamina(cost: int) -> bool:
 		print("玩家战斗数据：体力不足！")
 		return false
 # 2. 能量扣除
+# 2. 能量扣除
 func consume_mana(cost: int) -> bool:
 	if current_mana >= cost:
 		current_mana -= cost
 		
 		# 消耗能量后，打断当前的充能进度，从零开始重新算
 		_mana_recovery_timer = 0.0 
-		# 能量变化后发送信号（让UI变动、敌人AI检测）
+		# 能量变化后发送玩家内部信号
 		mana_changed.emit(current_mana, max_mana)
 		print("玩家战斗数据：消耗 %d 点能量" % cost)
-		BattleBus.player_stamina_changed.emit(current_stamina,max_stamina)
+		
+		# 【修复Bug】：这里原来写成了 stamina_changed，现在改回 mana_changed
+		BattleBus.player_mana_changed.emit(current_mana, max_mana)
 		return true
 	else:
 		print("玩家战斗数据：能量不足！")
