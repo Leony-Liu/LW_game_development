@@ -6,8 +6,11 @@ extends Node
 @export_group("Movement")
 @onready var player: CharacterBody3D = owner
 @export var speed: float = 1.0#移动速度
+@export var acceleration = 20.0#加速度
 @export var rotation_speed: float = 10.0#转向速度
 @onready var player_point: Node3D = $"../PlayerPoint"
+
+var last_move_direction := Vector3.BACK
 
 @export_group("Camera")
 @onready var camera_pivot: Node3D = %CameraPivot
@@ -22,18 +25,16 @@ func _physics_process(delta: float) -> void:
 	move_direction.y = 0.0#确保人物前进方向不会向地里倾斜
 	move_direction = move_direction.normalized()#向量归一化得到地面平面上的方向
 	
-	#if direction.length() > 0:
-		#player.velocity.x = direction.x * speed
-		#player.velocity.z = direction.z * speed
-		#
-		#var target_rotation = atan2(direction.x, direction.z)
-		#player_point.rotation.y = lerp_angle(player_point.rotation.y, target_rotation, rotation_speed * delta)
-		
-		#anim_state.travel("Walk")
-	#else:
-		#player.velocity.x = move_toward(player.velocity.x, 0, speed)
-		#player.velocity.z = move_toward(player.velocity.z, 0, speed)
-		#
-		#anim_state.travel("Idle")
-	#
-	#player.move_and_slide()
+	player.velocity = player.velocity.move_toward(move_direction * speed, acceleration * delta)#控制角色平滑加速
+	player.move_and_slide()
+	
+	if move_direction.length() > 0.2:
+		last_move_direction = move_direction
+	
+	var target_angle := Vector3.BACK.signed_angle_to(last_move_direction, Vector3.UP)#Vector3.BACK为基准向量，signed_angle_to决定向左还是向右转
+	player_point.global_rotation.y = lerp_angle(player_point.global_rotation.y, target_angle, rotation_speed * delta)#控制角色平滑转向
+	
+	if player.velocity.length() > 0.0:
+		anim_state.travel("Walk")
+	else:
+		anim_state.travel("Idle")
