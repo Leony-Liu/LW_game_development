@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://smoqip68cmas"
-path.s3tc="res://.godot/imported/testcard2.png-7b3ce1a5b090ea7187914d932687df93.s3tc.ctex"
+uid="uid://clec1bhnj6acd"
+path.s3tc="res://.godot/imported/111_Character_Killer_03.png-427e94acfbeb2c01c17a60a70c84306b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "77dc8ff75f3e8470f6a6f45c20a09144"
+}
 
 [deps]
 
-source_file="res://Scene/Card_Scene/Arts/testcard2.png"
-dest_files=["res://.godot/imported/testcard2.png-7b3ce1a5b090ea7187914d932687df93.s3tc.ctex"]
+source_file="res://Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/111_Character_Killer_03.png"
+dest_files=["res://.godot/imported/111_Character_Killer_03.png-427e94acfbeb2c01c17a60a70c84306b.s3tc.ctex"]
 
 [params]
 

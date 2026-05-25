@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bup7qrph21wvm"
-path="res://.godot/imported/testenemymodle.glb-e5c18d39dc83f4b0e63d2a4124097a7d.scn"
+uid="uid://bs6srhc7jr2sx"
+path="res://.godot/imported/enemytest.glb-285079d89a83d2a39289e9625ec33384.scn"
 
 [deps]
 
-source_file="res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Arts/testenemymodle.glb"
-dest_files=["res://.godot/imported/testenemymodle.glb-e5c18d39dc83f4b0e63d2a4124097a7d.scn"]
+source_file="res://Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/enemytest.glb"
+dest_files=["res://.godot/imported/enemytest.glb-285079d89a83d2a39289e9625ec33384.scn"]
 
 [params]
 

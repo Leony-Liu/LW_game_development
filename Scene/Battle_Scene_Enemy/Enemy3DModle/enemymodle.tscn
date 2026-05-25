@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dim8fqn0ofybr"]
+
+[ext_resource type="PackedScene" uid="uid://bs6srhc7jr2sx" path="res://Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/enemytest.glb" id="1_i67ia"]
+
+[node name="Enemymodle" instance=ExtResource("1_i67ia")]

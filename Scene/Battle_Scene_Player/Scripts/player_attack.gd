@@ -35,19 +35,21 @@ func enter(msg: Dictionary = {}) -> void:
 
 # 2. 打包伤害
 func _execute_damage() -> void:
-	# 1. 从卡牌数据里拿出“基础伤害”（这里加了个容错，如果没有 base_damage 字段默认给 10）
 	var base_dmg = card_data.get("damage", 10) 
-	
-	# 2. 呼叫计算器，算出加上装备增益后的最终真实伤害
 	var calculator = host.get_node("Data/Calculator")
 	var final_dmg = calculator.calculate_outgoing_damage(base_dmg)
 	
-	# 3. 把伤害数据打包成一个字典（Payload），方便以后塞入更多信息
 	var payload = {
-		"damage": final_dmg,       # 最终伤害数值
-		"source": host,            # 是谁打出的伤害
-		"type": "physical"         # 伤害类型（物理/魔法/真实）
+		"damage": final_dmg,       
+		"source": host,            
+		"type": "physical"         
 	}
 	print("Attack-玩家状态：计算完毕，发出伤害数据 -> ", payload)
-	# 4. 把伤害包丢进信号管道
+	
+	# 1. 伤害发出去给敌人
 	BattleBus.player_dealt_damage.emit(payload)
+	
+	# 2. 【全新架构介入】：通知战斗数据，执行所有的“攻击后消耗”逻辑！
+	var combat_data = host.get_node("Data/CombatData")
+	if combat_data.has_method("consume_buffs_by_trigger"):
+		combat_data.consume_buffs_by_trigger("on_attack")
