@@ -14,12 +14,12 @@ func _ready() -> void:
 	print("================================")
 
 func play_idle() -> void:
-	anim_player.play(" /Zombie_Idle")
+	anim_player.play("Ual2_test/Zombie_Idle")
 
 func play_attack() -> void:
 	if anim_player.is_playing():
 		anim_player.stop()
-	anim_player.play(" /Zombie_Scratch")
+	anim_player.play("Ual2_test/Zombie_Scratch")
 	print("视觉管理器：僵尸开始攻击")
 
 # ==========================================

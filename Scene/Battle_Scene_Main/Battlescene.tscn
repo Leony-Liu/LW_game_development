@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=15 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="1_ygjx7"]
@@ -10,6 +10,12 @@
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn" id="6_qo3ej"]
 [ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="7_3b3d8"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene_Main/PlayerInformation/player_infromation.tscn" id="7_tsycl"]
+[ext_resource type="Texture2D" uid="uid://k7v3ck5y0d80" path="res://Scene/Battle_Scene_Main/Arts/Modles/texture/Horror_Floor_12-128x128.png" id="10_krinb"]
+[ext_resource type="PackedScene" uid="uid://cgmk8os2mw0of" path="res://Scene/Battle_Scene_Main/Arts/Modles/sceneobject/brick_wall.glb" id="12_q8kpu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8kpu"]
+albedo_texture = ExtResource("10_krinb")
+uv1_scale = Vector3(20, 20, 20)
 
 [sub_resource type="Environment" id="Environment_utnyt"]
 background_mode = 1
@@ -65,17 +71,20 @@ offset_bottom = -28.0
 [node name="Ground" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00495684, -0.0114741, 0.00205199)
 size = Vector3(20, 0.2, 20)
+material = SubResource("StandardMaterial3D_q8kpu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_utnyt")
 
 [node name="Light" type="Node" parent="."]
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Light"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 3.58259, 0)
-light_energy = 1.948
-omni_range = 10.224
-omni_attenuation = 0.963
+[node name="SpotLight3D" type="SpotLight3D" parent="Light"]
+transform = Transform3D(0.953691, -0.271043, 0.130421, -3.72529e-09, 0.433596, 0.901107, -0.300789, -0.859378, 0.413517, 0.512177, 3.44428, 0)
+spot_attenuation = -0.6
+spot_angle = 23.98
 
 [node name="Player" parent="." instance=ExtResource("2_noken")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24058, 0.0950817)
+transform = Transform3D(1, 0, 0, 0, 0.997829, 0.0658559, 0, -0.0658559, 0.997829, 0, 1.47472, 0.0950817)
+
+[node name="brick_wall2" parent="." instance=ExtResource("12_q8kpu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16686, 0.00637555, -1.84506)

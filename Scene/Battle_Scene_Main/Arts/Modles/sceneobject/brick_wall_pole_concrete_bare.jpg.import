@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckul68ynpgder"
-path.s3tc="res://.godot/imported/testenemymodle_RED_base.png-e629105db0e4150997fb0416da6630d2.s3tc.ctex"
+uid="uid://d4bt2emrlpisi"
+path.s3tc="res://.godot/imported/brick_wall_pole_concrete_bare.jpg-02f64df59b222bf3e6f1e939eb50eac3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "89ce465f3bb3aba26c267207b70aa3c3"
+"md5": "62a0bfec3ee80325a5a67676c782cfd4"
 }
 
 [deps]
 
-source_file="res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Arts/testenemymodle_RED_base.png"
-dest_files=["res://.godot/imported/testenemymodle_RED_base.png-e629105db0e4150997fb0416da6630d2.s3tc.ctex"]
+source_file="res://Scene/Battle_Scene_Main/Arts/Modles/sceneobject/brick_wall_pole_concrete_bare.jpg"
+dest_files=["res://.godot/imported/brick_wall_pole_concrete_bare.jpg-02f64df59b222bf3e6f1e939eb50eac3.s3tc.ctex"]
 
 [params]
 

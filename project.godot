@@ -45,7 +45,7 @@ folder_colors={
 "res://Scene/Battle_Card_Scene_3D/Arts/": "purple",
 "res://Scene/Battle_Scene_Enemy/": "blue",
 "res://Scene/Battle_Scene_Enemy/Arts/": "purple",
-"res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Arts/": "purple",
+"res://Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/": "purple",
 "res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/": "yellow",
 "res://Scene/Battle_Scene_Enemy/EnemyVisuals/": "blue",
 "res://Scene/Battle_Scene_Enemy/EnemyVisuals/Arts/": "purple",
