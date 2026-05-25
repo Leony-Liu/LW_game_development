@@ -10,8 +10,8 @@ class_name BattleGameManager
 
 
 # 绑定玩家和敌人列表子节点
-@onready var player_manager = $Player
-@onready var enemy_slot = $EnemySlot
+@onready var player_manager = $SubViewportContainer/SubViewport/Player
+@onready var enemy_slot = $SubViewportContainer/SubViewport/EnemySlot
 
 var current_enemy: Node = null # 当前敌人
 

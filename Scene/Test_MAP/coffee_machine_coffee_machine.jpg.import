@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://ddcfllmk2uii"
+path.s3tc="res://.godot/imported/coffee_machine_coffee_machine.jpg-a84e5d89cdd2d9174f1bb45567d84e55.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "6547b32f9c8c6bea7ffdb429956d3da1"
+}
+
+[deps]
+
+source_file="res://Scene/Test_MAP/coffee_machine_coffee_machine.jpg"
+dest_files=["res://.godot/imported/coffee_machine_coffee_machine.jpg-a84e5d89cdd2d9174f1bb45567d84e55.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

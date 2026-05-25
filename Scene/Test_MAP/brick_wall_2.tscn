@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://85pemmvv3jwy"]
+
+[ext_resource type="PackedScene" uid="uid://c0rs4nw70r76h" path="res://Scene/Test_MAP/brick_wall.glb" id="1_xmpsl"]
+
+[node name="brick_wall2" instance=ExtResource("1_xmpsl")]

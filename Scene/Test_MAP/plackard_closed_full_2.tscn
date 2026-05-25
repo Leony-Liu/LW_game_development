@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkwplx5oyrc41"]
+
+[ext_resource type="PackedScene" uid="uid://br0fi0xx6fpf8" path="res://Scene/Test_MAP/plackard_closed_full.glb" id="1_tihvp"]
+
+[node name="plackard_closed_full2" instance=ExtResource("1_tihvp")]

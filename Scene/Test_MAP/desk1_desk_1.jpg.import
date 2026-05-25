@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clec1bhnj6acd"
-path.s3tc="res://.godot/imported/111_Character_Killer_03.png-427e94acfbeb2c01c17a60a70c84306b.s3tc.ctex"
+uid="uid://c03d22c3vyugf"
+path.s3tc="res://.godot/imported/desk1_desk_1.jpg-af5ffa5fa358991d49cc98f035060667.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "77dc8ff75f3e8470f6a6f45c20a09144"
+"md5": "38b7b813526a220a1507fe5adfb69d63"
 }
 
 [deps]
 
-source_file="res://Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/111_Character_Killer_03.png"
-dest_files=["res://.godot/imported/111_Character_Killer_03.png-427e94acfbeb2c01c17a60a70c84306b.s3tc.ctex"]
+source_file="res://Scene/Test_MAP/desk1_desk_1.jpg"
+dest_files=["res://.godot/imported/desk1_desk_1.jpg-af5ffa5fa358991d49cc98f035060667.s3tc.ctex"]
 
 [params]
 
