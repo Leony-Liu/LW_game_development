@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://wtu8rd5y2fhr"]
-
-[ext_resource type="PackedScene" uid="uid://b0paj730borpm" path="res://Scene/Test_MAP/armchair_blue.glb" id="1_o5th2"]
-
-[node name="armchair_blue2" instance=ExtResource("1_o5th2")]

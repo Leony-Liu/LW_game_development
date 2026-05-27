@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cttk1a4h58k8j"]
-
-[ext_resource type="PackedScene" uid="uid://d0kux8i6uyaps" path="res://Scene/Test_MAP/computer_monitor.glb" id="1_hwod0"]
-
-[node name="computer_monitor2" instance=ExtResource("1_hwod0")]

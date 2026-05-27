@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv4kojiy2j5dy"]
+
+[ext_resource type="PackedScene" uid="uid://7ostt5ucjnim" path="res://Scene/Test_MAP/Art/water_cooler.glb" id="1_e0fpu"]
+
+[node name="water_cooler2" instance=ExtResource("1_e0fpu")]

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://w6goqnetwslr"]
+
+[ext_resource type="PackedScene" uid="uid://dtume7xss5tnj" path="res://Scene/Test_MAP/Art/desk1_alt2.glb" id="1_twyli"]
+
+[node name="desk1_alt22" instance=ExtResource("1_twyli")]

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://eelx6gj3tayp"]
+
+[ext_resource type="PackedScene" uid="uid://4q1muxowwgy4" path="res://Scene/Test_MAP/Art/elastic_ball.glb" id="1_e1dmw"]
+
+[node name="elastic_ball2" instance=ExtResource("1_e1dmw")]

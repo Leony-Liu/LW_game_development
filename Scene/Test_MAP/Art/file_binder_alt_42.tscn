@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfybnlouu3xpd"]
+
+[ext_resource type="PackedScene" uid="uid://dkqfflu4lrebx" path="res://Scene/Test_MAP/Art/file_binder_alt4.glb" id="1_7v6jq"]
+
+[node name="file_binder_alt42" instance=ExtResource("1_7v6jq")]

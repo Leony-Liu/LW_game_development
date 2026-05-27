@@ -1,26 +1,63 @@
-[gd_scene load_steps=5 format=3 uid="uid://0rtgdscsodly"]
+[gd_scene load_steps=6 format=3 uid="uid://0rtgdscsodly"]
 
-[ext_resource type="Script" uid="uid://c3x6ga206pa3c" path="res://Scene/Main_Scene/Scripts/Manager/game_manager.gd" id="1_86uaw"]
-[ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene_Main/Battlescene.tscn" id="1_nj6re"]
-[ext_resource type="PackedScene" uid="uid://dhifg5jjl4ctq" path="res://Scene/DungeonScene/Scenes/MapScene.tscn" id="2_bg8uw"]
-[ext_resource type="Script" uid="uid://c6668u5xgla8l" path="res://Scene/Main_Scene/Scripts/event_bus.gd" id="4_42ma7"]
+[ext_resource type="Script" uid="uid://boj2pb07rnd5m" path="res://Scene/Main_Scene/main.gd" id="1_7wq48"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/Test_MAP/scripts/test_map.gdshader" id="1_sx5wa"]
+[ext_resource type="PackedScene" uid="uid://dcwlpndhrutbe" path="res://Scene/UI/main_menu.tscn" id="4_r781s"]
 
-[node name="MAIN" type="Node"]
+[sub_resource type="Environment" id="Environment_7wq48"]
+background_mode = 1
+background_energy_multiplier = 0.0
+glow_enabled = true
+glow_blend_mode = 0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0853
+volumetric_fog_albedo = Color(0.56, 0.56, 0.56, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("scene_holder")]
-script = ExtResource("1_86uaw")
-scene_holder = NodePath("../SceneHolder")
-battle_scene = ExtResource("1_nj6re")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0wouf"]
+shader = ExtResource("1_sx5wa")
+shader_parameter/color_depth = 32.0
+shader_parameter/contrast = 1.1
+shader_parameter/brightness = 1.0
+shader_parameter/dither_strength = 0.05
+shader_parameter/dither_scale = 1.0
+shader_parameter/chromatic_aberration = 0.001
+shader_parameter/scanline_intensity = 0.15
+shader_parameter/vignette_intensity = 0.8
 
-[node name="SceneHolder" type="Node" parent="."]
+[node name="MAIN" type="Node" node_paths=PackedStringArray("world_viewport", "ui_layer")]
+script = ExtResource("1_7wq48")
+world_viewport = NodePath("WorldContainer/WorldViewport/SceneHolder")
+ui_layer = NodePath("UILayer")
+initial_ui_scene = ExtResource("4_r781s")
 
-[node name="MapScene" parent="SceneHolder" instance=ExtResource("2_bg8uw")]
+[node name="WorldContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
 
-[node name="BattleScene" parent="SceneHolder" instance=ExtResource("1_nj6re")]
+[node name="WorldViewport" type="SubViewport" parent="WorldContainer"]
+handle_input_locally = false
+size = Vector2i(480, 270)
+render_target_update_mode = 4
 
-[node name="GlobalUI" type="Node" parent="."]
+[node name="SceneHolder" type="Node" parent="WorldContainer/WorldViewport"]
 
-[node name="EventBus" type="Node" parent="."]
-script = ExtResource("4_42ma7")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WorldContainer/WorldViewport/SceneHolder"]
+environment = SubResource("Environment_7wq48")
 
-[connection signal="enter_battle_scene" from="EventBus" to="GameManager" method="_on_event_bus_enter_battle_scene"]
+[node name="CRT_Layer" type="CanvasLayer" parent="WorldContainer/WorldViewport"]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="WorldContainer/WorldViewport/CRT_Layer"]
+material = SubResource("ShaderMaterial_0wouf")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 10

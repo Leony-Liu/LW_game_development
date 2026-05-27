@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcwlpndhrutbe"]
+
+[ext_resource type="Texture2D" uid="uid://fuhvkbtq3o0f" path="res://Scene/UI/Arts/Main menu.png" id="1_3si4p"]
+[ext_resource type="Script" uid="uid://d1e8q2cd5rlh0" path="res://Scene/UI/main_menu.gd" id="1_3125x"]
+[ext_resource type="PackedScene" uid="uid://cbdfq4kxjejmi" path="res://Scene/Test_MAP/test_map.tscn" id="2_0hanu"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3125x")
+target_world_scene = ExtResource("2_0hanu")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_3si4p")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -44.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 500
+theme_override_constants/margin_bottom = 230
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+theme_override_constants/separation = 45
+
+[node name="startgame" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="filelist" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="quitegame" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2

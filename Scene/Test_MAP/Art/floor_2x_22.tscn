@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccqqpgj7mkefg"]
+
+[ext_resource type="PackedScene" uid="uid://yocu7anrgqp8" path="res://Scene/Test_MAP/Art/floor_2x2.glb" id="1_xfg7d"]
+
+[node name="floor_2x22" instance=ExtResource("1_xfg7d")]

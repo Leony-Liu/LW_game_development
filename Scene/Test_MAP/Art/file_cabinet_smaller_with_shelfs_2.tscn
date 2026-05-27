@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://sxgi3xkc81sc"]
+
+[ext_resource type="PackedScene" uid="uid://fu6pf4y3qcx3" path="res://Scene/Test_MAP/Art/file_cabinet_smaller_with_shelfs.glb" id="1_cj18f"]
+
+[node name="file_cabinet_smaller_with_shelfs2" instance=ExtResource("1_cj18f")]
