@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgx4e442kmbp1"]
+
+[ext_resource type="PackedScene" uid="uid://diynehmeio51j" path="res://Scene/VisualTest_MAP/Art/divider_black.glb" id="1_3pbxg"]
+
+[node name="divider_black2" instance=ExtResource("1_3pbxg")]

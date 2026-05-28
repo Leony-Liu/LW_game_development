@@ -10,8 +10,8 @@ class_name BattleGameManager
 
 
 # 绑定玩家和敌人列表子节点
-@onready var player_manager = $SubViewportContainer/SubViewport/Player
-@onready var enemy_slot = $SubViewportContainer/SubViewport/EnemySlot
+@export var player :Node3D
+@export var enemy_slot :Node
 
 var current_enemy: Node = null # 当前敌人
 
@@ -67,7 +67,7 @@ func _on_card_played(card_data: Dictionary, card_node: Control) -> void:
 		BattleBus.card_rejected.emit(card_node)
 		return
 	# 内部状态判定
-	if player_manager.execute_card(card_data):
+	if player.execute_card(card_data):
 		print("战斗裁判：出牌成功")
 		# 【修改点】：不再直接 queue_free()，而是发送信号让卡牌管理器接管
 		BattleBus.card_successfully_played.emit(card_node)
@@ -94,9 +94,9 @@ func _on_player_dealt_damage(payload: Dictionary) -> void:
 # 2. 接收玩家攻击信号后：并转发给当前敌人
 func _on_enemy_dealt_damage(payload: Dictionary) -> void:
 	# 判断是否有玩家，且玩家有数据
-	if player_manager and player_manager.has_node("Data/CombatData"):
+	if player and player.has_node("Data/CombatData"):
 		print("战斗裁判：收到敌人攻击包，路由给玩家...")
 		# 连接玩家数据脚本
-		var p_combat_data = player_manager.get_node("Data/CombatData")
+		var p_combat_data = player.get_node("Data/CombatData")
 		# 执行玩家数据脚本内的受伤方法
 		p_combat_data.get_hit(payload["damage"], payload["source"].name)

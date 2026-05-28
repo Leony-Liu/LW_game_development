@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://rkqe8u1n53oh"]
+
+[ext_resource type="PackedScene" uid="uid://glrxx4u7fyp" path="res://Scene/VisualTest_MAP/Art/mug.glb" id="1_t6o7n"]
+
+[node name="mug2" instance=ExtResource("1_t6o7n")]

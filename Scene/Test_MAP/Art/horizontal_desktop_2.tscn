@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cys1a6xnr8e3a"]
-
-[ext_resource type="PackedScene" uid="uid://cueald2mkaqwx" path="res://Scene/Test_MAP/Art/horizontal_desktop.glb" id="1_4srr7"]
-
-[node name="horizontal_desktop2" instance=ExtResource("1_4srr7")]

@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://g271n3ffa58o"]
-
-[ext_resource type="PackedScene" uid="uid://bwnbgbjdct3we" path="res://Scene/Test_MAP/Art/book_case.glb" id="1_uettx"]
-
-[node name="book_case2" instance=ExtResource("1_uettx")]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpqolt27khm53"]
+
+[ext_resource type="PackedScene" uid="uid://2begauwitnkv" path="res://Scene/VisualTest_MAP/Art/shoplight.glb" id="1_xrrtl"]
+
+[node name="shoplight" instance=ExtResource("1_xrrtl")]
+
+[node name="Lights_13" parent="." index="0"]
+transform = Transform3D(0.712704, 0, 0, 0, 0.712704, 0, 0, 0, 0.712704, 0.019743, -0.0570517, 0.0105643)
+
+[node name="light" type="Node3D" parent="Lights_13" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.164104, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights_13/light" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.39547, -0.192703, -0.0020754)
+light_size = 0.3
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights_13/light" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.505826, -0.192703, -0.0020754)
+light_size = 0.3
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lights_13/light" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.419762, -0.192703, -0.0020754)
+light_size = 0.3
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="Lights_13/light" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.39927, -0.192703, -0.0020754)
+light_size = 0.3

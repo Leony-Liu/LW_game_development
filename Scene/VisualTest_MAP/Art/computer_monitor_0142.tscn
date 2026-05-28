@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bud08dtall23e"]
+
+[ext_resource type="PackedScene" uid="uid://dnn2it60ll3ol" path="res://Scene/VisualTest_MAP/Art/computer_monitor.014.glb" id="1_ya2j8"]
+
+[node name="computer_monitor_0142" instance=ExtResource("1_ya2j8")]

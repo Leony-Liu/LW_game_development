@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=14 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="1_ygjx7"]
@@ -17,12 +17,10 @@
 albedo_texture = ExtResource("10_krinb")
 uv1_scale = Vector3(20, 20, 20)
 
-[sub_resource type="Environment" id="Environment_utnyt"]
-background_mode = 1
-ambient_light_energy = 0.0
-
-[node name="BattleScene" type="Node3D"]
+[node name="BattleScene" type="Node3D" node_paths=PackedStringArray("player", "enemy_slot")]
 script = ExtResource("1_ebhhr")
+player = NodePath("Player")
+enemy_slot = NodePath("EnemySlot")
 
 [node name="EffectManager" type="Node" parent="."]
 script = ExtResource("2_g3sj8")
@@ -30,46 +28,29 @@ script = ExtResource("2_g3sj8")
 [node name="CardFactory" type="Node" parent="."]
 script = ExtResource("3_8a10i")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-texture_filter = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(6, 6)
+[node name="EnemySlot" type="Node" parent="."]
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-handle_input_locally = false
-size = Vector2i(320, 180)
-render_target_update_mode = 4
-
-[node name="EnemySlot" type="Node" parent="SubViewportContainer/SubViewport"]
-
-[node name="Enemy" parent="SubViewportContainer/SubViewport/EnemySlot" instance=ExtResource("3_mvvqq")]
+[node name="Enemy" parent="EnemySlot" instance=ExtResource("3_mvvqq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115089, -1.14)
 
-[node name="Environment" type="Node" parent="SubViewportContainer/SubViewport"]
+[node name="Environment" type="Node" parent="."]
 
-[node name="Light" type="Node" parent="SubViewportContainer/SubViewport/Environment"]
+[node name="Light" type="Node" parent="Environment"]
 
-[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Environment/Light"]
+[node name="SpotLight3D" type="SpotLight3D" parent="Environment/Light"]
 transform = Transform3D(0.953691, -0.271043, 0.130421, -3.72529e-09, 0.433596, 0.901107, -0.300789, -0.859378, 0.413517, 0.512177, 3.44428, 0)
 spot_attenuation = -0.6
 spot_angle = 23.98
 
-[node name="Ground" type="CSGBox3D" parent="SubViewportContainer/SubViewport/Environment"]
+[node name="Ground" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00495684, -0.0114741, 0.00205199)
 size = Vector3(20, 0.2, 20)
 material = SubResource("StandardMaterial3D_q8kpu")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Environment"]
-environment = SubResource("Environment_utnyt")
-
-[node name="brick_wall2" parent="SubViewportContainer/SubViewport/Environment" instance=ExtResource("12_q8kpu")]
+[node name="brick_wall2" parent="Environment" instance=ExtResource("12_q8kpu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16686, 0.00637555, -1.84506)
 
-[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_noken")]
+[node name="Player" parent="." instance=ExtResource("2_noken")]
 transform = Transform3D(1, 0, 0, 0, 0.997829, 0.0658559, 0, -0.0658559, 0.997829, 0, 1.47472, 0.0950817)
 
 [node name="UIManager" type="CanvasLayer" parent="."]
@@ -94,7 +75,7 @@ layout_mode = 1
 [node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_deck_node", "player_node", "card_factory")]
 script = ExtResource("1_ygjx7")
 hand_deck_node = NodePath("PlayerHandDeck")
-player_node = NodePath("../../../SubViewportContainer/SubViewport/Player")
+player_node = NodePath("../../../Player")
 card_factory = NodePath("../../../CardFactory")
 
 [node name="PlayerHandDeck" parent="UIManager/UIRoot/CardManager" instance=ExtResource("7_3b3d8")]
