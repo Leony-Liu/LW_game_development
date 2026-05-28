@@ -387,19 +387,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2.04229, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.04229, 0)
 
 [node name="plackard_closed_full5" parent="Wall" instance=ExtResource("27_orcwo")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137162, 2.04229, -3.01569)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137162, 2.479, -3.01569)
 
 [node name="plackard_closed_full6" parent="Wall" instance=ExtResource("27_orcwo")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137172, 2.04229, -6.01569)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137177, 2.479, -6.01569)
 
 [node name="plackard_closed_full7" parent="Wall" instance=ExtResource("27_orcwo")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137172, 2.04229, -9.01569)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137177, 2.479, -9.01569)
 
 [node name="plackard_closed_full8" parent="Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137162, 0, -12.0157)
 
 [node name="plackard_closed_full9" parent="Wall" instance=ExtResource("27_orcwo")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137172, 2.04229, -12.0157)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137172, 2.479, -12.0157)
 
 [node name="light" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.383812, 4.10964, -3.24154)

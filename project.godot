@@ -22,6 +22,7 @@ BattleBus="*res://Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
 CardDataBase="*res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd"
 MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd"
 AudioManager="*res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd"
+SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
 SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 
@@ -72,7 +73,8 @@ folder_colors={
 "res://Scene/Dungeon_Player_Scene/Scripts/": "yellow",
 "res://Scene/Main_Scene/Scripts/": "yellow",
 "res://Scene/Test_MAP/Art/": "purple",
-"res://Scene/UI/Arts/": "purple"
+"res://Scene/UI/Arts/": "purple",
+"res://Scene/UI/Scripts/": "yellow"
 }
 
 [input]
