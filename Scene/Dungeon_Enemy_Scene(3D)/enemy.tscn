@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx7dvcxk1g305"]
+
+[ext_resource type="PackedScene" uid="uid://bx2p4cn2vx0qt" path="res://Scene/Dungeon_Enemy_Scene(3D)/testenemymodle.tscn" id="1_rjst2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7co3p"]
+radius = 0.155687
+height = 1.46441
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3j1pb"]
+animation = &"Ual2_test/Zombie_Idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0ms6d"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_rtrcv"]
+states/Ual2_test_Zombie_Idle/node = SubResource("AnimationNodeAnimation_3j1pb")
+states/Ual2_test_Zombie_Idle/position = Vector2(416.667, 38)
+transitions = ["Start", "Ual2_test_Zombie_Idle", SubResource("AnimationNodeStateMachineTransition_0ms6d")]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rjst2"]
+radius = 0.15494
+height = 1.46761
+
+[node name="Enemy" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.753467, 0)
+shape = SubResource("CapsuleShape3D_7co3p")
+
+[node name="EnemyPoint" type="Node3D" parent="."]
+
+[node name="testenemymodle" parent="EnemyPoint" instance=ExtResource("1_rjst2")]
+
+[node name="GeneralSkeleton" parent="EnemyPoint/testenemymodle/metarig" index="0"]
+bones/0/position = Vector3(-0.000500266, 0.799527, -0.155499)
+bones/0/rotation = Quaternion(-0.019449, 0.0772406, -0.00191274, 0.996821)
+bones/2/rotation = Quaternion(0.423989, -0.153991, 0.0823087, 0.888676)
+bones/3/rotation = Quaternion(0.195115, -0.114061, -0.00481572, 0.974113)
+bones/4/rotation = Quaternion(-0.245142, 0.0460511, 0.023666, 0.968104)
+bones/5/rotation = Quaternion(0.0157017, 0.0572251, 0.0013499, 0.998237)
+bones/7/rotation = Quaternion(0.529267, 0.509269, 0.506722, -0.451391)
+bones/8/rotation = Quaternion(0.396734, 0.846615, -0.354694, 0.00607528)
+bones/9/rotation = Quaternion(0.0319103, -0.962269, 0.210627, 0.169284)
+bones/10/rotation = Quaternion(0.0452675, 0.848056, -0.254665, 0.46249)
+bones/11/rotation = Quaternion(0.528037, -0.51464, -0.511344, -0.441419)
+bones/12/rotation = Quaternion(-0.329927, 0.845946, -0.418894, -0.00717483)
+bones/13/rotation = Quaternion(0.271925, 0.679485, -0.293744, 0.614875)
+bones/14/rotation = Quaternion(0.00830451, -0.679, 0.112365, 0.725441)
+bones/19/rotation = Quaternion(2.9456e-05, 0.357242, 0.934003, 0.00421102)
+bones/20/rotation = Quaternion(-0.0413462, 0.924855, -0.362314, -0.107996)
+bones/21/rotation = Quaternion(0.040487, 0.710193, -0.688585, 0.140849)
+bones/22/rotation = Quaternion(1.87171e-08, 1, 5.96046e-08, 1.97255e-08)
+bones/24/rotation = Quaternion(0.00110264, 0.127172, 0.979273, 0.157643)
+bones/25/rotation = Quaternion(-0.0865469, 0.879284, -0.43271, -0.179251)
+bones/26/rotation = Quaternion(0.0529211, 0.506708, -0.855957, -0.088227)
+bones/27/rotation = Quaternion(4.47656e-08, 1, 5.96046e-08, 1.54295e-08)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../EnemyPoint/testenemymodle")
+tree_root = SubResource("AnimationNodeStateMachine_rtrcv")
+anim_player = NodePath("../EnemyPoint/testenemymodle/AnimationPlayer")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.755774, 0)
+shape = SubResource("CapsuleShape3D_rjst2")
+
+[node name="Movement" type="Node" parent="."]
+
+[editable path="EnemyPoint/testenemymodle"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dfq0bmdaffeew"]
+[gd_scene load_steps=4 format=3 uid="uid://dfq0bmdaffeew"]
 
-[ext_resource type="PackedScene" uid="uid://88hhvx6dcosd" path="res://Scene/Dungeon_Player_Scene/Player3D.tscn" id="1_b0ec4"]
+[ext_resource type="PackedScene" uid="uid://88hhvx6dcosd" path="res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn" id="1_b0ec4"]
 [ext_resource type="PackedScene" uid="uid://ccqqpgj7mkefg" path="res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn" id="2_salop"]
+[ext_resource type="PackedScene" uid="uid://bx7dvcxk1g305" path="res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn" id="3_bvpl2"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -227,3 +228,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.24982, 0, -1.21942)
 
 [node name="floor_2x93" parent="Floors" instance=ExtResource("2_salop")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24982, 0, -1.21942)
+
+[node name="Enemies" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.42375, 0, 1.11648)
+
+[node name="Enemy" parent="Enemies" instance=ExtResource("3_bvpl2")]
