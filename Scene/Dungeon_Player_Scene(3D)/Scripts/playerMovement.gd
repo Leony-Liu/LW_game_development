@@ -1,4 +1,7 @@
+#玩家移动组件
+#专门负责玩家的位移
 extends Node
+class_name DungeonPlayerMovement
 
 @onready var anim_tree: AnimationTree = $"../AnimationTree"
 @onready var anim_state = anim_tree.get("parameters/playback")
@@ -16,8 +19,15 @@ var last_move_direction := Vector3.BACK
 @onready var camera_pivot: Node3D = %CameraPivot
 @onready var camera: Camera3D = %Camera3D
 
+@export_group("StateMachine")
+@export var state_machine: DungeonPlayerStateMachine
 
 func _physics_process(delta: float) -> void:
+	#如果当前状态不允许移动则跳过移动逻辑，不能移动，但能处理重力
+	if state_machine.current_state and not state_machine.current_state.can_move:
+		player.move_and_slide()
+		return
+	
 	var input_dir = Input.get_vector("Left", "Right", "Up", "Down")#获取输入方向
 	var forward = camera.global_basis.z#获取前进方向
 	var right = camera.global_basis.x#获取向右方向
@@ -33,8 +43,3 @@ func _physics_process(delta: float) -> void:
 	
 	var target_angle := Vector3.BACK.signed_angle_to(last_move_direction, Vector3.UP)#Vector3.BACK为基准向量，signed_angle_to决定向左还是向右转
 	player_point.global_rotation.y = lerp_angle(player_point.global_rotation.y, target_angle, rotation_speed * delta)#控制角色平滑转向
-	
-	if player.velocity.length() > 0.0:
-		anim_state.travel("Walk")
-	else:
-		anim_state.travel("Idle")

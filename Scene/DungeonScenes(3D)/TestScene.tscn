@@ -6,8 +6,6 @@
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Player3d" parent="." instance=ExtResource("1_b0ec4")]
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.797784, 0.602943, 0, -0.602943, 0.797784, 0, 4, 3)
 
@@ -233,3 +231,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24982, 0, -1.21942)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.42375, 0, 1.11648)
 
 [node name="Enemy" parent="Enemies" instance=ExtResource("3_bvpl2")]
+
+[node name="Player3d" parent="." instance=ExtResource("1_b0ec4")]
