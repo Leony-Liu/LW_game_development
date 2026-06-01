@@ -8,6 +8,8 @@ extends Control
 @onready var resolution_btn = $VBoxContainer/MarginContainer2/HBoxContainer/OptionButton
 @onready var fullscreen_check = $VBoxContainer/MarginContainer3/HBoxContainer/CheckBox
 
+
+
 func _ready() -> void:
 	# ==========================================
 	# 2. 初始化 UI 状态 (从 SettingsManager 读取数据)
@@ -67,3 +69,26 @@ func _update_volume_label(val: float) -> void:
 	# 把 0.0~1.0 的小数转换成 0~100 的整数百分比
 	var percent = int(val * 100)
 	volume_percent_label.text = str(percent) + " %"
+	
+# ==========================================
+# 监听玩家按键
+# ==========================================
+func _unhandled_input(event: InputEvent) -> void:
+	# "ui_cancel" 是 Godot 默认的取消动作，通常绑定了 ESC 键
+	if event.is_action_pressed("ui_cancel"):
+		_return_to_main_menu()
+
+# ==========================================
+# 返回主菜单的具体逻辑
+# ==========================================
+func _return_to_main_menu() -> void:
+	var main_root = get_tree().root.get_node_or_null("MAIN")
+	if not main_root:
+		return
+		
+	var load_main_logic = func():
+		# 关键点：用 load() 在按下 ESC 的瞬间去读取场景，彻底告别循环依赖报错！
+		var main_menu = load("res://Scene/UI/main_menu.tscn")
+		main_root.load_ui_scene(main_menu) 
+		
+	SceneManager.transition_to(load_main_logic, 0.5)

@@ -1,16 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://cju7wln8x7rim"]
+[gd_scene load_steps=4 format=3 uid="uid://cju7wln8x7rim"]
 
+[ext_resource type="Script" uid="uid://du231n4g8qwjk" path="res://Scene/UI/Scripts/filelist_menu.gd" id="1_04a8g"]
 [ext_resource type="Texture2D" uid="uid://djv77ajv08axo" path="res://Scene/UI/Arts/File List.png" id="1_osgac"]
+[ext_resource type="PackedScene" uid="uid://cbdfq4kxjejmi" path="res://Scene/VisualTest_MAP/visualtest_map.tscn" id="2_syg7e"]
 
-[node name="filelist" type="Control"]
+[node name="filelist" type="Control" node_paths=PackedStringArray("name_input_panel", "line_edit", "confirm_button", "cancel_button", "delete_confirm_panel", "confirm_delete_btn", "cancel_delete_btn")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_04a8g")
+base_scene = ExtResource("2_syg7e")
+name_input_panel = NodePath("NameInputPanel")
+line_edit = NodePath("NameInputPanel/VBoxContainer/LineEdit")
+confirm_button = NodePath("NameInputPanel/VBoxContainer/HBoxContainer/ConfirmButton")
+cancel_button = NodePath("NameInputPanel/VBoxContainer/HBoxContainer/CancelButton")
+delete_confirm_panel = NodePath("DeleteConfirmPanel")
+confirm_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/ConfirmDeleteBtn")
+cancel_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/CancelDeleteBtn")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,3 +39,114 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.07, 0.07, 0.07, 0.592157)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -392.0
+offset_top = -178.5
+offset_right = 408.0
+offset_bottom = 421.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 0)
+
+[node name="SaveListContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="NameInputPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -62.5075
+offset_right = 250.0
+offset_bottom = 62.5075
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(250, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NameInputPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LineEdit" type="LineEdit" parent="NameInputPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NameInputPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="NameInputPanel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Confrim"
+
+[node name="CancelButton" type="Button" parent="NameInputPanel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="DeleteConfirmPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -62.5075
+offset_right = 250.0
+offset_bottom = 62.5075
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(250, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeleteConfirmPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="DeleteConfirmPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "WARNING"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="DeleteConfirmPanel/VBoxContainer"]
+layout_mode = 2
+text = " This cannot be undone. Are you sure you want to delete this file?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DeleteConfirmPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ConfirmDeleteBtn" type="Button" parent="DeleteConfirmPanel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Confrim"
+
+[node name="CancelDeleteBtn" type="Button" parent="DeleteConfirmPanel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"

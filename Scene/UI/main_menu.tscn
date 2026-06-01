@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcwlpndhrutbe"]
+[gd_scene load_steps=6 format=3 uid="uid://dcwlpndhrutbe"]
 
 [ext_resource type="Texture2D" uid="uid://fuhvkbtq3o0f" path="res://Scene/UI/Arts/Main menu.png" id="1_3si4p"]
 [ext_resource type="Script" uid="uid://d1e8q2cd5rlh0" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
 [ext_resource type="PackedScene" uid="uid://cbdfq4kxjejmi" path="res://Scene/VisualTest_MAP/visualtest_map.tscn" id="2_0hanu"]
 [ext_resource type="PackedScene" uid="uid://cju7wln8x7rim" path="res://Scene/UI/filelist.tscn" id="3_6i1m0"]
+[ext_resource type="PackedScene" uid="uid://dq13sgkxdyni6" path="res://Scene/UI/options.tscn" id="4_68aio"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -15,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_3125x")
 startgame_scene = ExtResource("2_0hanu")
 filelist_scene = ExtResource("3_6i1m0")
+options_scene = ExtResource("4_68aio")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
