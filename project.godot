@@ -133,6 +133,11 @@ open_backpack={
 locale/translations=PackedStringArray("res://Localization/loc_ui.en.translation", "res://Localization/loc_ui.zh.translation", "res://Localization/loc_card.en.translation", "res://Localization/loc_card.zh.translation")
 locale/test="en"
 
+[layer_names]
+
+3d_physics/layer_6="EnemyHurtbox"
+3d_physics/layer_7="PlayerHurtbox"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

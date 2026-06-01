@@ -3,8 +3,8 @@
 extends Node
 class_name DungeonPlayerMovement
 
-@onready var anim_tree: AnimationTree = $"../AnimationTree"
-@onready var anim_state = anim_tree.get("parameters/playback")
+@export var anim_tree: AnimationTree
+@onready var anim_state: AnimationNodeStateMachinePlayback = anim_tree.get("parameters/StateMachine/playback")
 
 @export_group("Movement")
 @onready var player: CharacterBody3D = owner
