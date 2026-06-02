@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=13 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd" id="1_ebhhr"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="1_ygjx7"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Battle_Scene_Player/Player.tscn" id="2_noken"]
 [ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_Scene_Main/Scripts/card_factory.gd" id="3_8a10i"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Battle_Scene_Enemy/Enemy.tscn" id="3_mvvqq"]
-[ext_resource type="Script" uid="uid://cn6n0udgtnrfh" path="res://Scene/Battle_Scene_Main/Scripts/battle_ui_manager.gd" id="3_nr23r"]
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn" id="6_qo3ej"]
 [ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="7_3b3d8"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene_Main/PlayerInformation/player_infromation.tscn" id="7_tsycl"]
@@ -54,7 +53,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16686, 0.00637555, -1.8450
 transform = Transform3D(1, 0, 0, 0, 0.997829, 0.0658559, 0, -0.0658559, 0.997829, 0, 1.47472, 0.0950817)
 
 [node name="UIManager" type="CanvasLayer" parent="."]
-script = ExtResource("3_nr23r")
 
 [node name="UIRoot" type="Control" parent="UIManager"]
 layout_mode = 3
@@ -72,10 +70,9 @@ mouse_filter = 2
 [node name="PlayerInfromation" parent="UIManager/UIRoot" instance=ExtResource("7_tsycl")]
 layout_mode = 1
 
-[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_deck_node", "player_node", "card_factory")]
+[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_deck_node", "card_factory")]
 script = ExtResource("1_ygjx7")
 hand_deck_node = NodePath("PlayerHandDeck")
-player_node = NodePath("../../../Player")
 card_factory = NodePath("../../../CardFactory")
 
 [node name="PlayerHandDeck" parent="UIManager/UIRoot/CardManager" instance=ExtResource("7_3b3d8")]

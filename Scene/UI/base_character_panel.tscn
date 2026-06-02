@@ -1,4 +1,8 @@
-[gd_scene format=3 uid="uid://dkj2k1ytq2r0h"]
+[gd_scene load_steps=4 format=3 uid="uid://dkj2k1ytq2r0h"]
+
+[ext_resource type="Script" uid="uid://bl8l67k5ryvn6" path="res://Scene/UI/Scripts/base_character_panel.gd" id="1_xqupy"]
+[ext_resource type="PackedScene" uid="uid://n05xm1fkk7fr" path="res://Scene/Battle_Scene_Main/Battle_world.tscn" id="2_q2du5"]
+[ext_resource type="PackedScene" uid="uid://ch7vmvkdljhp1" path="res://Scene/Battle_Scene_Main/Battle_UI.tscn" id="3_c331j"]
 
 [node name="base_character_panel" type="Control"]
 layout_mode = 3
@@ -7,6 +11,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_xqupy")
+target_map_world = ExtResource("2_q2du5")
+target_map_ui = ExtResource("3_c331j")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -22,3 +29,22 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "base_character_panel"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 40
+
+[node name="Button" type="Button" parent="MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "进入地图"

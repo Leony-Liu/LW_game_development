@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://77xlfdn6pd75"]
 
-[ext_resource type="Script" uid="uid://ccbjhofwpoe3l" path="res://Scene/UI/base_main.gd" id="1_nrg1i"]
+[ext_resource type="Script" uid="uid://ccbjhofwpoe3l" path="res://Scene/UI/Scripts/base_main.gd" id="1_nrg1i"]
 [ext_resource type="PackedScene" uid="uid://dkj2k1ytq2r0h" path="res://Scene/UI/base_character_panel.tscn" id="2_hbtpv"]
 [ext_resource type="PackedScene" uid="uid://bx850snuq2qn4" path="res://Scene/UI/base_craft_panel.tscn" id="3_5c7rp"]
 [ext_resource type="PackedScene" uid="uid://5alm1m6p2cv7" path="res://Scene/UI/base_shop_panel.tscn" id="4_ja5bn"]
@@ -24,6 +24,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[node name="ContentArea" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="base_character_panel" parent="ContentArea" instance=ExtResource("2_hbtpv")]
+layout_mode = 1
+
+[node name="base_craft_panel" parent="ContentArea" instance=ExtResource("3_5c7rp")]
+layout_mode = 1
+
+[node name="base_shop_panel" parent="ContentArea" instance=ExtResource("4_ja5bn")]
+layout_mode = 1
+
+[node name="base_upgrade_panel" parent="ContentArea" instance=ExtResource("5_q12vp")]
+layout_mode = 1
+
+[node name="base_warehouse_panel" parent="ContentArea" instance=ExtResource("6_i352q")]
+layout_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -62,27 +85,3 @@ text = "Upgrade"
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Craft"
-
-[node name="ContentArea" type="Control" parent="."]
-layout_mode = 1
-anchor_top = 0.069
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.52
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="base_character_panel" parent="ContentArea" instance=ExtResource("2_hbtpv")]
-layout_mode = 1
-
-[node name="base_craft_panel" parent="ContentArea" instance=ExtResource("3_5c7rp")]
-layout_mode = 1
-
-[node name="base_shop_panel" parent="ContentArea" instance=ExtResource("4_ja5bn")]
-layout_mode = 1
-
-[node name="base_upgrade_panel" parent="ContentArea" instance=ExtResource("5_q12vp")]
-layout_mode = 1
-
-[node name="base_warehouse_panel" parent="ContentArea" instance=ExtResource("6_i352q")]
-layout_mode = 1

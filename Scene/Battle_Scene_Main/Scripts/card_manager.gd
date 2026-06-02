@@ -15,7 +15,6 @@ var discard_pile: Array = [] # 弃牌堆
 # 节点引用 (在检查器中配置)
 @export var hand_deck_node: Node  # 【修改点】指向 player_hand_deck 场景根节点 (包含5个槽位)
 @export var max_hand_size: int = 5  # 限制最大手牌数量
-@export var player_node: Node       # 玩家节点
 @export var card_factory: Node      # 卡牌工厂
 
 var card_count: int = 0
@@ -29,6 +28,11 @@ func _ready():
 	# 监听主动弃牌请求
 	BattleBus.card_discard_requested.connect(_on_card_discard_requested)
 
+
+func _get_player_node() -> Node:
+	# 动态在场景树中寻找标记为 "Player" 的节点
+	return get_tree().get_first_node_in_group("Player")
+	
 # ==========================================
 # 玩家主动控制抽牌 (按键 F)
 # ==========================================
@@ -41,11 +45,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 			
 		# 2. 获取玩家节点
+		var player_node = _get_player_node()
 		if not player_node:
-			print("卡牌管理器：未找到 'Player' 节点")
+			print("卡牌管理器：未找到 'Player' 节点，可能 3D 场景还未加载完毕")
 			return
 			
-		# 3. 体力扣除判定
 		var combat_data = player_node.get_node_or_null("Data/CombatData")
 		if combat_data:
 			# 尝试扣除 1 点体力
@@ -156,9 +160,9 @@ func _on_card_successfully_played(card_node: Node):
 # 玩家主动右键弃牌
 # ==========================================
 func _on_card_discard_requested(card_node: Node) -> void:
+	var player_node = _get_player_node()
 	if not player_node: return
 	
-	# 1. 寻找玩家的战斗数据节点
 	var combat_data = player_node.get_node_or_null("Data/CombatData")
 	
 	# 2. 尝试扣除 1 点体力

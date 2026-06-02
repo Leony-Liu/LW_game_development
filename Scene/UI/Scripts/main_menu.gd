@@ -20,21 +20,28 @@ func _ready() -> void:
 # ==========================================
 # 开始游戏按钮回调逻辑
 # ==========================================
+# ==========================================
+# 开始游戏按钮回调逻辑 (继续上次游戏)
+# ==========================================
 func _on_start_game_pressed() -> void:
 	if not startgame_scene:
 		push_error("主菜单错误：未配置 START GAME 的目标场景！")
 		return
 		
-	var main_root = get_tree().root.get_node_or_null("MAIN")
-	if not main_root:
-		push_error("找不到 MAIN 根节点，请确保游戏从 MAIN.tscn 启动")
-		return
+	var saves = SaveManager.get_all_saves()
 	
-	var load_base_logic = func():
-		# 直接传递资源对象，而不是字符串
-		main_root.load_world_scene(startgame_scene) 
-		
-	SceneManager.transition_to(load_base_logic, 0.5)
+	if saves.size() > 0:
+		var latest_save_id = saves[0]["id"]
+		if SaveManager.load_save(latest_save_id):
+			var main_root = get_tree().root.get_node_or_null("MAIN")
+			if main_root:
+				var load_base_logic = func():
+					# 【修复这里】从 load_world_scene 改为 load_ui_scene
+					main_root.load_ui_scene(startgame_scene) 
+				SceneManager.transition_to(load_base_logic, 0.5)
+	else:
+		print("未检测到本地存档，自动为您跳转至存档列表界面...")
+		_filelist_open_pressed()
 
 # ==========================================
 # 存档列表按钮回调逻辑

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://du231n4g8qwjk" path="res://Scene/UI/Scripts/filelist_menu.gd" id="1_04a8g"]
 [ext_resource type="Texture2D" uid="uid://djv77ajv08axo" path="res://Scene/UI/Arts/File List.png" id="1_osgac"]
-[ext_resource type="PackedScene" uid="uid://cbdfq4kxjejmi" path="res://Scene/VisualTest_MAP/visualtest_map.tscn" id="2_syg7e"]
+[ext_resource type="PackedScene" uid="uid://77xlfdn6pd75" path="res://Scene/UI/Base_Main.tscn" id="2_syg7e"]
 
 [node name="filelist" type="Control" node_paths=PackedStringArray("name_input_panel", "line_edit", "confirm_button", "cancel_button", "delete_confirm_panel", "confirm_delete_btn", "cancel_delete_btn")]
 layout_mode = 3

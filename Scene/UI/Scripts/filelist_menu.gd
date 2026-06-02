@@ -140,7 +140,8 @@ func _on_exist_save_clicked(save_id: String) -> void:
 		var main_root = get_tree().root.get_node_or_null("MAIN") 
 		if main_root and base_scene: 
 			var load_base_logic = func(): 
-				main_root.load_world_scene(base_scene) 
+				# 【修复这里】从 load_world_scene 改为 load_ui_scene
+				main_root.load_ui_scene(base_scene) 
 			SceneManager.transition_to(load_base_logic, 0.5) 
 
 func _on_new_save_slot_clicked() -> void:
@@ -155,9 +156,13 @@ func _on_confirm_create_save() -> void:
 		print("警告：名字不能为空！")
 		return
 		
-	# 呼叫大管家写入本地 JSON
-	SaveManager.create_new_save(new_name)
+	# 【修改】接收大管家返回的新 ID
+	var new_id = SaveManager.create_new_save(new_name)
 	name_input_panel.hide()
 	
-	# 重新刷新列表，此时就能看到刚建好的存档和移动后的+号了！
-	_refresh_save_list()
+	if new_id != "":
+		# 【新增】如果有返回ID，直接复用已有的读取逻辑，直达基地！
+		_on_exist_save_clicked(new_id)
+	else:
+		# 如果失败了，至少刷新一下列表
+		_refresh_save_list()
