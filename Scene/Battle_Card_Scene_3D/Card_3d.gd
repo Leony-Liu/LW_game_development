@@ -7,6 +7,8 @@ extends Area3D
 @export var discard_y_offset: float = 2.0 # 3D中的消失向上漂移距离
 @export var draw_duration: float = 0.20 
 
+@onready var illustration_sprite: Sprite3D = $Visuals/CardIMG/Sprite3D
+
 var card_id: int
 var card_data: Dictionary
 
@@ -43,13 +45,25 @@ func _fetch_data_from_database() -> void:
 	
 	card_data = CardDataBase.get_card(card_id)
 	
-	# 同步UI显示 
+	# 1. 同步UI显示 
 	var cost = card_data.get("stamina_cost", 0)
 	if cost == 0:
 		cost = card_data.get("mana_cost", 0)
 	
 	cost_label.text = str(cost) if cost > 0 else ""
 	name_label.text = str(card_data.get("name", "Unknown"))
+
+	# ==========================================
+	# 核心修改：将卡面换上对应的外部美术资源
+	# ==========================================
+	var img_name = card_data.get("image_name", "card") 
+	var img_path = "res://Scene/Card_Scene/Arts/CardIllustration/%s.png" % img_name
+	
+	if ResourceLoader.exists(img_path):
+		# 2. 【核心修复】把图片赋值给插图节点，千万别再动 background_sprite 了！
+		illustration_sprite.texture = load(img_path)
+	else:
+		print("⚠️ 3D卡牌警告：找不到对应的插图资源 -> ", img_path)
 
 # ==========================================
 # 3D 交互与出牌广播

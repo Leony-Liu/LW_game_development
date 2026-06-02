@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5rx8b18vfr3k"]
+[gd_scene load_steps=4 format=3 uid="uid://c5rx8b18vfr3k"]
 
 [ext_resource type="Script" uid="uid://bevfk1a46rt8a" path="res://Scene/Battle_Scene_Main/PlayerInformation/player_infromation.gd" id="1_on5e8"]
-[ext_resource type="Script" uid="uid://coet4u787fvad" path="res://Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd" id="2_3dl66"]
 
 [sub_resource type="FontFile" id="FontFile_on5e8"]
 subpixel_positioning = 0
@@ -37,8 +36,6 @@ cache/0/8/0/scale = 1.0
 Label/font_sizes/font_size = 50
 Label/fonts/font = SubResource("FontFile_on5e8")
 
-[sub_resource type="Theme" id="Theme_oxo5f"]
-
 [node name="PlayerInfromation" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -51,189 +48,79 @@ script = ExtResource("1_on5e8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -1064.0
 offset_right = 148.0
-offset_bottom = -789.0
-grow_vertical = 0
+offset_bottom = 357.0
 mouse_filter = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="MainVBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
 theme = SubResource("Theme_3dl66")
 
-[node name="HP" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="HP" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0, 0, 1)
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
-[node name="Stanima" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Stanima" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1064, 0.56, 0.11396, 1)
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
-[node name="Mana" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Mana" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0132, 0.4444, 0.66, 1)
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
-[node name="Defence" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Defence" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
-[node name="Shield" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Shield" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
-[node name="Stamina_RS" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Stamina_RS" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
-[node name="Mana_RS" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Mana_RS" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "this is a bug"
 
-[node name="PlayerBuff" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -736.0
-offset_right = 148.0
-offset_bottom = -461.0
-grow_vertical = 0
-mouse_filter = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_bottom = 20
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/MainVBoxContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PlayerBuff"]
+[node name="PlayerBuffContainer" type="VBoxContainer" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 theme = SubResource("Theme_3dl66")
 
-[node name="name" type="Label" parent="PlayerBuff/VBoxContainer"]
+[node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/PlayerBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.98, 0.98, 1)
 theme_override_font_sizes/font_size = 24
 text = "PlayerBuff:"
 
-[node name="EnemyBuff" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -424.0
-offset_right = 148.0
-offset_bottom = -149.0
-grow_vertical = 0
-mouse_filter = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_bottom = 20
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/MainVBoxContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="EnemyBuff"]
+[node name="EnemyBuffContainer" type="VBoxContainer" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 theme = SubResource("Theme_3dl66")
 
-[node name="name" type="Label" parent="EnemyBuff/VBoxContainer"]
+[node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/EnemyBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.91, 1)
 theme_override_font_sizes/font_size = 24
 text = "EnemyBuff:"
-
-[node name="TacticalBackpack" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("2_3dl66")
-
-[node name="ItemContainer" type="Control" parent="TacticalBackpack"]
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -250.0
-grow_horizontal = 0
-grow_vertical = 0
-pivot_offset = Vector2(125, 125)
-mouse_filter = 2
-
-[node name="BtnTop" type="Button" parent="TacticalBackpack/ItemContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -132.0
-offset_right = 40.0
-offset_bottom = -52.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_oxo5f")
-
-[node name="BtnBottom" type="Button" parent="TacticalBackpack/ItemContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = 52.0
-offset_right = 40.0
-offset_bottom = 132.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_oxo5f")
-
-[node name="BtnLeft" type="Button" parent="TacticalBackpack/ItemContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -135.0
-offset_top = -40.0
-offset_right = -55.0
-offset_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_oxo5f")
-
-[node name="BtnRight" type="Button" parent="TacticalBackpack/ItemContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 49.0
-offset_top = -40.0
-offset_right = 129.0
-offset_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_oxo5f")

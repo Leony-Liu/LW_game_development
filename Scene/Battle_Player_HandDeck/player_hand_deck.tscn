@@ -16,26 +16,26 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Slot_1" type="Control" parent="."]
-custom_minimum_size = Vector2(128, 180)
+custom_minimum_size = Vector2(170, 250)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_2" type="Control" parent="."]
-custom_minimum_size = Vector2(128, 180)
+custom_minimum_size = Vector2(170, 250)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_3" type="Control" parent="."]
-custom_minimum_size = Vector2(128, 180)
+custom_minimum_size = Vector2(170, 250)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_4" type="Control" parent="."]
-custom_minimum_size = Vector2(128, 180)
+custom_minimum_size = Vector2(170, 250)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_5" type="Control" parent="."]
-custom_minimum_size = Vector2(128, 180)
+custom_minimum_size = Vector2(170, 250)
 layout_mode = 2
 mouse_filter = 2
