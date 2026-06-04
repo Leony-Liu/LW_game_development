@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cj5lxabk52up0"]
+
+[ext_resource type="Script" uid="uid://dhb8cxikaehqh" path="res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd" id="1_d8rvg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ygyrt"]
+size = Vector3(1.6239, 3.00433, 0.521637)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1c1jw"]
+size = Vector3(1.61414, 3.00732, 1.30017)
+
+[node name="Door" type="StaticBody3D"]
+script = ExtResource("1_d8rvg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.10352e-05, 1.50237, -0.0280914)
+shape = SubResource("BoxShape3D_ygyrt")
+
+[node name="Model" type="MultiMeshInstance3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00300598, 1.50342, -0.0316467)
+size = Vector3(1.62302, 3, 0.526428)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00738525, 1.5004, 0.373718)
+shape = SubResource("BoxShape3D_1c1jw")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

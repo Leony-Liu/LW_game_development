@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://diyjv03ndijqc"]
+
+[ext_resource type="PackedScene" uid="uid://fwefggmfu5qi" path="res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn" id="1_1rxul"]
+[ext_resource type="Script" uid="uid://cfs3d5l0vw2xe" path="res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd" id="1_ojoop"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ojoop"]
+size = Vector3(0.732422, 1.05273, 0.782837)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iy2re"]
+size = Vector3(0.733337, 1.05164, 1)
+
+[node name="Box" type="StaticBody3D"]
+script = ExtResource("1_ojoop")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00683594, 0.537681, -0.000183105)
+shape = SubResource("BoxShape3D_ojoop")
+
+[node name="ModelPoint" type="Node3D" parent="."]
+
+[node name="file_cabinet_smallest2" parent="ModelPoint" instance=ExtResource("1_1rxul")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00332642, 0.527178, 0.382287)
+shape = SubResource("BoxShape3D_iy2re")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
