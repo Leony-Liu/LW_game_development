@@ -2,20 +2,21 @@
 
 [ext_resource type="Script" uid="uid://bod8pvwekbcbb" path="res://Scene/Battle_Card_Scene_3D/Card_3d.gd" id="1_8vxy6"]
 [ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Arts/Fort/Born2bSportyV2.ttf" id="2_3xcr7"]
-[ext_resource type="Texture2D" uid="uid://smoqip68cmas" path="res://Scene/Card_Scene/Arts/testcard2.png" id="2_pexh0"]
+[ext_resource type="Texture2D" uid="uid://cqvqcm0prx1k2" path="res://Scene/Card_Scene/Arts/card.png" id="2_pexh0"]
 [ext_resource type="Texture2D" uid="uid://cjhipnffu5q2e" path="res://Scene/Card_Scene/Arts/CardIllustration/strike.png" id="4_hiif7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pexh0"]
-size = Vector3(0.135, 0.19, 0.03)
+size = Vector3(0.17, 0.25, 0.03)
 
 [node name="Card3D" type="Area3D"]
 script = ExtResource("1_8vxy6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0904576, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12516, 0)
 shape = SubResource("BoxShape3D_pexh0")
 
 [node name="Visuals" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035171, 0)
 
 [node name="CardBackground" type="Node3D" parent="Visuals"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, 0)
@@ -26,7 +27,7 @@ texture_filter = 0
 texture = ExtResource("2_pexh0")
 
 [node name="CostNumber" type="Node3D" parent="Visuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175155, 0.0101314)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.213274, 0.0101314)
 
 [node name="Cost" type="Label3D" parent="Visuals/CostNumber"]
 pixel_size = 0.001
@@ -38,7 +39,7 @@ font_size = 64
 outline_size = 0
 
 [node name="CardNamePoint" type="Node3D" parent="Visuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0163629, 0.0139748)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0142394, 0.0139748)
 
 [node name="CardName" type="Label3D" parent="Visuals/CardNamePoint"]
 pixel_size = 0.001
@@ -49,7 +50,7 @@ font = ExtResource("2_3xcr7")
 outline_size = 0
 
 [node name="CardIMG" type="Node3D" parent="Visuals"]
-transform = Transform3D(0.631601, 0, 0, 0, 0.631601, 0, 0, 0, 1, 0, 0.0904747, 0.00680648)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0904747, 0.00680648)
 
 [node name="Sprite3D" type="Sprite3D" parent="Visuals/CardIMG"]
 pixel_size = 0.001

@@ -42,4 +42,4 @@ material = SubResource("StandardMaterial3D_q8kpu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16686, 0.00637555, -1.84506)
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("7_q16qa")]
-transform = Transform3D(1, 0, 0, 0, 0.997829, 0.0658559, 0, -0.0658559, 0.997829, 0, 1.47472, 0.0950817)
+transform = Transform3D(1, 0, 0, 0, 0.997829, 0.0658559, 0, -0.0658559, 0.997829, 0, 1.27562, 0.0950817)
