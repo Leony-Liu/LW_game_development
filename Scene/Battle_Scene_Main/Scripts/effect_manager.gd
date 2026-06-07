@@ -1,15 +1,9 @@
-# 定义：效果管理器(单例)
-# 作用：
+# effect_manager.gd
 # A.解析数据库传出来的字符串并分发任务
 # B.具体的效果函数
-# 备注：
-# 效果方法名 = "_effect_" + 在CSV表格里面写的效果名称
-
 
 extends Node
 
-
-# A.核心入口：解析字符串并分发任务
 func execute_effects(effect_string: String, source_node: Node, target_node: Node):
 	if effect_string == "" or effect_string == "0": return
 	var effect_list = effect_string.split(";")
@@ -20,7 +14,6 @@ func execute_effects(effect_string: String, source_node: Node, target_node: Node
 		
 		var method_name = "_effect_" + effect_name
 		if has_method(method_name):
-			# 核心修改：将拆分后的字符串数组 (parts) 整体传给方法，让方法自己决定如何提取
 			call(method_name, parts, source_node, target_node)
 		else:
 			push_error("效果管理器：未找到效果方法 -> " + method_name)
@@ -28,24 +21,18 @@ func execute_effects(effect_string: String, source_node: Node, target_node: Node
 # ==========================================
 # 具体效果实现
 # ==========================================
-# ==========================================
-# 具体效果实现
-# ==========================================
 
-# 1. 易伤效果 (适配了新的 parts 数组参数)
+# 1. 易伤效果 
 func _effect_vulnerable(parts: PackedStringArray, source: Node, target: Node):
-	# parts = ["vulnerable", "数值"]
 	var val1 = parts[1].to_float() if parts.size() > 1 else 1.0
-	
 	if target.has_node("Data/CombatData"):
 		target.get_node("Data/CombatData").vulnerable_stacks += int(val1)
-		print("⚔️ 施加易伤！剩余次数: ", target.get_node("Data/CombatData").vulnerable_stacks)
 
-# 2. 万能状态挂载器 (取代了之前的 charge 和 attack_surge)
+# 2. 万能状态挂载器 (解决：下次攻击、限时状态增益)
 func _effect_add_buff(parts: PackedStringArray, source: Node, target: Node):
-	# CSV 格式要求： add_buff:buff的英文名:数值:持续时间
-	# 举例 蓄力： add_buff:charge:10:999 (999代表无限时间，直到攻击被消耗)
-	# 举例 增幅： add_buff:attack_surge:0.5:10
+	# 正确格式： add_buff:buff_id:数值:时间
+	# 压步配置示例： add_buff:next_atk_mult:0.5:999 
+	# 蓄力配置示例： add_buff:damage_up_percent:0.25:5
 	if parts.size() < 4: 
 		push_error("⚠️ add_buff 效果参数不足！正确格式应为 add_buff:buff_id:数值:时间")
 		return
@@ -54,8 +41,24 @@ func _effect_add_buff(parts: PackedStringArray, source: Node, target: Node):
 	var value = parts[2].to_float()
 	var duration = parts[3].to_float()
 	
-	# 注意：如果你写的是给玩家自己的 buff，在卡牌打出时 source 通常就是玩家
-	# 但由于目前你有些增益是写在技能牌上的，技能牌的 target 其实也是自己
-	# 为了保险起见，增益 buff 通常直接挂在打出者 (source) 身上
 	if source.has_node("Data/CombatData"):
 		source.get_node("Data/CombatData").apply_buff(buff_id, value, duration)
+
+# 3. 【新增】：手牌动态强化器 (解决：振奋攻击)
+func _effect_buff_hand(parts: PackedStringArray, source: Node, target: Node):
+	# 格式规范： buff_hand:目标大类:修改属性:增加数值
+	# 振奋攻击示例： buff_hand:attack:damage:10
+	if parts.size() < 4:
+		push_error("⚠️ buff_hand 参数不足！格式应为 buff_hand:category:stat_name:value")
+		return
+		
+	var target_category = parts[1].strip_edges()
+	var stat_name = parts[2].strip_edges()
+	var value = parts[3].to_float()
+	
+	# 通过相对路径找到同级的 CardManager
+	var card_manager = get_node_or_null("../CardManager")
+	if card_manager and card_manager.has_method("apply_buff_to_hand"):
+		card_manager.apply_buff_to_hand(target_category, stat_name, value)
+	else:
+		push_error("效果管理器：未找到 CardManager 或缺失对应强化方法！")

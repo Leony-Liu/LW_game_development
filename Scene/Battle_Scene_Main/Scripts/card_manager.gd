@@ -176,3 +176,29 @@ func _on_card_discard_requested(card_node: Node) -> void:
 		BattleBus.card_rejected.emit(card_node)
 		if combat_data:
 			combat_data.not_enough_stamina.emit() # 触发UI红光或提示音
+
+
+# ==========================================
+# 卡牌数据动态修改 (被 EffectManager 调用)
+# ==========================================
+func apply_buff_to_hand(target_category: String, stat_name: String, value: float) -> void:
+	var buffed_count = 0
+	
+	# 遍历手牌区实际存在的所有卡牌实体
+	for card_node in hand:
+		if "card_data" in card_node:
+			# 获取这张卡的底层字典
+			var data = card_node.card_data
+			
+			# 如果目标分类是 "all"，或者卡牌分类正好匹配 (如 "attack")
+			if target_category == "all" or data.get("categories", "") == target_category:
+				# 获取原数值，加上强化数值
+				var current_val = data.get(stat_name, 0)
+				data[stat_name] = current_val + value
+				buffed_count += 1
+				
+				# 可选视觉反馈：如果卡牌拥有发光或跳动方法，在此触发
+				# if card_node.has_method("play_buff_animation"):
+				#     card_node.play_buff_animation()
+				
+	print("卡牌管理器：【手牌强化成功】已对 %d 张 %s 卡牌的 %s 属性增加了 %f" % [buffed_count, target_category, stat_name, value])

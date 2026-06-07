@@ -1,7 +1,7 @@
 # player_attack
 #
 # 接收数据并输出
-
+# 核心拓展：引入攻击牌自身的 Effect/Buff 解析器
 
 extends State
 
@@ -33,7 +33,7 @@ func enter(msg: Dictionary = {}) -> void:
 	if get_parent().current_state == self:
 		get_parent().transition_to("Idle") # 动画播完了，才切回待机状态
 
-# 2. 打包伤害
+# 2. 打包伤害与全新效果结算流程
 func _execute_damage() -> void:
 	var base_dmg = card_data.get("damage", 10) 
 	var calculator = host.get_node("Data/Calculator")
@@ -41,7 +41,7 @@ func _execute_damage() -> void:
 	
 	var payload = {
 		"damage": final_dmg,       
-		"source": host,            
+		"source": host,      
 		"type": "physical"         
 	}
 	print("Attack-玩家状态：计算完毕，发出伤害数据 -> ", payload)
@@ -53,3 +53,14 @@ func _execute_damage() -> void:
 	var combat_data = host.get_node("Data/CombatData")
 	if combat_data.has_method("consume_buffs_by_trigger"):
 		combat_data.consume_buffs_by_trigger("on_attack")
+
+# ====================================================================
+	# 🌟 【核心新增】：像技能牌一样，解析并执行当前攻击牌自身携带的 effects
+# ====================================================================
+	# 修复点：在外层加上 str()，强制把取出来的数据变成字符串
+	var effect_string = str(card_data.get("effects", "")) 
+	
+	if effect_string != "" and effect_string != "0":
+		# 根据你项目节点树的定位，这里向上寻找与 StateMachine 同级的 EffectManager
+		var effect_mgr = host.get_node_or_null("../EffectManager")
+		# ... 后续代码保持不变 ...
