@@ -11,3 +11,9 @@ signal enter_battle_scene(hit_enemies: Dictionary, support_enemies: Dictionary)#
 
 #—————交互UI呼出信号————
 signal interaction_prompt_requested(show: bool, text: String, target: Node)
+
+#—————场景生成完成信号（用于Mapmanager）————
+signal map_generated
+
+#—————玩家切换场景信号（用于Mapmanager）————
+signal player_change_scence

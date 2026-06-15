@@ -1,7 +1,21 @@
+#地图中的门
+#作用：1、用于在地图中实例化场景的门；2、储存需要跳转过去从场景的路径
 extends StaticBody3D
+class_name Door
+
+enum DoorDirection{
+	UP,
+	Down,
+	Left,
+	Right
+}
 
 @export var prompt_text: String = "OPEN THE DOOR [E]"#UI文字
 var is_player_in_range: bool = false#玩家是否进入
+
+@export_group("门在房间场景中的设置")
+@export var door_id: int = 0#门的ID
+@export var door_direction: DoorDirection#门的朝向：上下左右
 
 func _ready() -> void:
 	pass
@@ -27,7 +41,7 @@ func _input(event: InputEvent) -> void:
 		open_chest()
 
 func open_chest():
-	print("箱子已开启，掉落卡牌！")
+	print("已开启房间门")
 	# 逻辑：播放动画、掉落物品、自毁或改变状态
 	EventBus.interaction_prompt_requested.emit(false, "", self)
 	# queue_free() 或播放打开动画

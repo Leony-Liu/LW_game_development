@@ -26,6 +26,7 @@ SaveManager="*res://Scene/Main_Scene/Scripts/Manager/save_manager.gd"
 SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
 SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
+MapManager="*res://Scene/DungeonScenes(3D)/Manager/map_manager.gd"
 
 [debug]
 
