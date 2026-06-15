@@ -1,33 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5bqwwplbqjgj"]
+[gd_scene load_steps=4 format=3 uid="uid://du6hyngojo5p6"]
 
-[ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
-[ext_resource type="Texture2D" uid="uid://bi1datfuhsmjk" path="res://Scene/Card_Scene/Arts/testcard3 1.png" id="2_f1ty3"]
-[ext_resource type="Texture2D" uid="uid://cv6g2ulymp20c" path="res://Scene/Card_Scene/Arts/CardIllustration/Group 54.png" id="3_k3fp1"]
+[ext_resource type="Script" uid="uid://fkyjq37pv87f" path="res://Scene/UI/Scripts/base_card_item.gd" id="1_ypf2h"]
+[ext_resource type="Texture2D" uid="uid://bi1datfuhsmjk" path="res://Scene/Card_Scene/Arts/testcard3 1.png" id="2_v6b5f"]
+[ext_resource type="Texture2D" uid="uid://cv6g2ulymp20c" path="res://Scene/Card_Scene/Arts/CardIllustration/Group 54.png" id="3_6coua"]
 
-[node name="Card" type="Control"]
-custom_minimum_size = Vector2(170, 250)
+[node name="base_card_item" type="Control"]
+custom_minimum_size = Vector2(128, 180)
 layout_mode = 3
 anchors_preset = 0
-offset_left = -85.0
-offset_top = -250.0
-offset_right = 85.0
-pivot_offset = Vector2(85, 250)
-script = ExtResource("1_avhnj")
-attack_cost_color = Color(0.116667, 1, 0, 1)
+offset_left = -64.0
+offset_top = -180.0
+offset_right = 64.0
+mouse_filter = 1
+script = ExtResource("1_ypf2h")
 
 [node name="Visuals" type="Control" parent="."]
-custom_minimum_size = Vector2(170, 250)
+custom_minimum_size = Vector2(128, 180)
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="Visuals"]
@@ -37,13 +31,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -64.0
+offset_left = -63.0
 offset_top = -180.0
-offset_right = 64.0
+offset_right = 65.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-texture = ExtResource("2_f1ty3")
+texture = ExtResource("2_v6b5f")
+expand_mode = 1
 
 [node name="Illustration" type="TextureRect" parent="Visuals/Background"]
 layout_mode = 1
@@ -52,16 +47,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -114.0
-offset_right = 100.0
-offset_bottom = 86.0
+offset_left = -51.0
+offset_top = -58.0
+offset_right = 49.0
+offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.65, 0.65)
-pivot_offset = Vector2(100, 100)
+pivot_offset = Vector2(50, 50)
 mouse_filter = 2
-texture = ExtResource("3_k3fp1")
+texture = ExtResource("3_6coua")
+expand_mode = 1
 
 [node name="CostContainer" type="HBoxContainer" parent="Visuals/Background"]
 layout_mode = 1
@@ -78,7 +73,7 @@ alignment = 2
 [node name="CostLable" type="Label" parent="Visuals/Background/CostContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.87, 0.3625, 1)
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "THIS IS A BUG"
 
 [node name="NameContainer" type="HBoxContainer" parent="Visuals/Background"]

@@ -85,6 +85,11 @@ folder_colors={
 "res://Scene/VisualTest_MAP/Art/": "purple"
 }
 
+[gui]
+
+theme/custom="uid://wupdljc1nnfi"
+theme/custom_font="uid://jdg6h0onc3a1"
+
 [input]
 
 draw_card={

@@ -11,6 +11,24 @@ class_name PlayerInventory
 # 数据部分
 # ==========================================
 
+# 模拟在 player_inventory.gd 或存档数据中的结构
+var mock_weapons = [
+	{
+		"uid": "w_001",
+		"name": "试作型大剑",
+		"desc": "一把沉重的武器。",
+		"equipped_cards": [10001, 10001, 10002, 20001], # 当前装备的卡牌ID
+		"card_pool": [10001, 10001, 10002, 10003, 20001, 20002] # 该武器可用的所有卡牌(包含已装备的)
+	},
+	{
+		"uid": "w_002",
+		"name": "战术匕首",
+		"desc": "轻巧致命。",
+		"equipped_cards": [10004, 10004, 20002], 
+		"card_pool": [10004, 10004, 10005, 20002, 20002]
+	}
+]
+
 # 玩家装备字典
 var equipment: Dictionary = {
 	# 5个固定部位：等级、强化词条（初始等级和词条都为空）
@@ -89,40 +107,6 @@ func get_total_equipment_stats() -> Dictionary:
 				stats["poise_bonus"] += level * 10.0
 				
 	return stats
-
-
-# ==========================================
-# 精炼词条逻辑 (占位测试版)
-# ==========================================
-#
-## 给指定部位精炼出一个固定词条（未来接入 CSV 随机库）
-#func refine_equipment(slot_name: String) -> void:
-	#if equipment.has(slot_name) and slot_name != "accessories":
-		#var mock_affix = {
-			#"effect_name": "bonus_phy_atk", # 词条效果：增加物理攻击
-			#"base_value": 10,               # 基础增加 10 点
-			#"affix_level": 1                # 词条自身的强化等级
-		#}
-		#equipment[slot_name]["affixes"].append(mock_affix)
-		#print("背包系统：", slot_name, " 精炼成功！新增固定词条：", mock_affix)
-#
-
-# ==========================================
-# 饰品穿脱逻辑
-# ==========================================
-#
-## 装备饰品 (尝试放入 0, 1, 2 槽位中空闲的那个)
-#func equip_accessory(accessory_data: Dictionary) -> bool:
-	#for i in range(equipment["accessories"].size()):
-		#if equipment["accessories"][i] == null:
-			#equipment["accessories"][i] = accessory_data
-			#print("背包系统：成功装备饰品到槽位 ", i, "：", accessory_data["name"])
-			## TODO: 通知 EffectManager / BuffManager 给玩家挂上饰品的被动效果
-			#return true
-			#
-	#print("背包系统：饰品槽已满！请先卸下饰品。")
-	#return false
-#
 
 # ==========================================
 # 死亡惩罚与重置
