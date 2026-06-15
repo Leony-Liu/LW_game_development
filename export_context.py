@@ -1,112 +1,103 @@
 import os
-import sys
+import re
 
 # ================= 配置区 =================
-# 你希望忽略的文件夹（防止打包毫无意义的缓存和素材）
+# 根据截图更新了忽略目录，剔除纯素材和缓存文件
 IGNORE_DIRS = {
-    '.godot',      # Godot 4 缓存
-    '.git',        # Git 记录
-    'addons',      # 第三方插件（除非你想让我看插件源码）
-    'Art',         # 美术素材文件夹
-    'Export'       # 导出文件夹
+    '.godot',      
+    '.git',        
+    'addons',      
+    'Arts',        # 你的截图里是 Arts
+    'Audio',       
+    'Export',
+    'Localization',# 如果这里面只有csv字典，也可以忽略
+    'DataBase'     # 如果不需要AI看纯数据表，可忽略，需要的话可以从列表移除
 }
 
-# 你希望提取内容的文件类型
 ALLOWED_EXTENSIONS = {'.gd'} 
 
-# 【专属定制】：直接使用你指定的绝对路径 (前缀 r 表示原生字符串，防止 \ 被转义)
 user_home = os.path.expanduser('~')
 desktop_path = os.path.join(user_home, "Desktop")
-
-# 输出文件将直接保存在桌面上
 OUTPUT_FILE = os.path.join(desktop_path, "项目结构.txt")
-# =========================================
+
+# 直接注入给大模型的系统指令，让AI闭嘴并准备好工作
+AI_SYSTEM_PROMPT = """<godot_project_context>
+<instruction>
+You are an expert Godot 4 & GDScript developer. 
+This file contains the complete structure and core scripts of the user's project.
+1. Read and understand the project architecture silently.
+2. DO NOT output a summary or acknowledge receipt of this file. 
+3. Wait for the user's next prompt and directly answer their technical questions based on this context.
+</instruction>
+<structure>
+"""
+
+def clean_code(code_text: str) -> str:
+    """清理代码：移除空行、无意义的装饰性注释，保留核心缩进和有效注释"""
+    lines = code_text.split('\n')
+    minified = []
+    
+    # 匹配诸如 # ======== 或 # -------- 的纯装饰性注释
+    decorative_comment_pattern = re.compile(r'^\s*#\s*[=\-\*]{3,}\s*$')
+    
+    for line in lines:
+        stripped = line.strip()
+        # 1. 剔除空行
+        if not stripped:
+            continue
+        # 2. 剔除装饰性注释
+        if decorative_comment_pattern.match(line):
+            continue
+            
+        # 保留原有的左侧缩进，去除右侧多余空格
+        minified.append(line.rstrip())
+        
+    return '\n'.join(minified)
 
 def generate_context():
-    # 自动获取脚本自己所在的绝对路径（即你的项目根目录）
     project_root = os.path.dirname(os.path.abspath(__file__))
     
-    print("==================================================")
-    print("🚀 开始提取项目上下文信息...")
-    print(f"📁 目标目录: {project_root}")
-    print("==================================================")
+    print("🚀 开始提取极简版项目上下文...")
     
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
-        # ---------------------------------------------------------
-        # 第一部分：生成项目目录树结构 (让 AI 拥有上帝视角)
-        # ---------------------------------------------------------
-        print("\n🔍 [1/2] 正在扫描并生成目录结构树...")
-        outfile.write("==================================================\n")
-        outfile.write("【项目目录结构】\n")
-        outfile.write("==================================================\n")
+        # 写入注入指令
+        outfile.write(AI_SYSTEM_PROMPT)
         
-        dir_count = 0
-        for root, dirs, files in os.walk(project_root):
-            # 过滤不需要的文件夹
-            dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
-            
-            # --- 终端进度输出 (同一行刷新) ---
-            dir_count += 1
-            rel_path = os.path.relpath(root, project_root)
-            sys.stdout.write(f"\r正在扫描目录 ({dir_count}): {rel_path}" + " " * 20)
-            sys.stdout.flush()
-            # -------------------------------
-            
-            # 计算缩进层级
-            level = root.replace(project_root, '').count(os.sep)
-            indent = ' ' * 4 * level
-            folder_name = os.path.basename(root)
-            if folder_name == ".":
-                folder_name = "res://"
-                
-            outfile.write(f"{indent}{folder_name}/\n")
-            
-            subindent = ' ' * 4 * (level + 1)
-            for f in files:
-                if any(f.endswith(ext) for ext in ALLOWED_EXTENSIONS):
-                    outfile.write(f"{subindent}{f}\n")
-        
-        print(f"\n✅ 目录结构生成完毕！共扫描 {dir_count} 个文件夹。")
-        outfile.write("\n\n")
-        
-        # ---------------------------------------------------------
-        # 第二部分：提取并拼接所有代码文件内容
-        # ---------------------------------------------------------
-        print("\n📄 [2/2] 正在提取核心代码文件内容...")
-        outfile.write("==================================================\n")
-        outfile.write("【核心代码内容】\n")
-        outfile.write("==================================================\n")
-        
-        script_count = 0
+        # 1. 提取极简目录结构 (只记录包含代码的路径)
+        file_paths = []
         for root, dirs, files in os.walk(project_root):
             dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
             for file in files:
                 if any(file.endswith(ext) for ext in ALLOWED_EXTENSIONS):
                     filepath = os.path.join(root, file)
+                    rel_path = os.path.relpath(filepath, project_root).replace('\\', '/')
+                    godot_path = f"res://{rel_path}"
+                    file_paths.append((godot_path, filepath))
+                    outfile.write(f"{godot_path}\n")
+        
+        outfile.write("</structure>\n<files>\n")
+        
+        # 2. 提取并压缩代码
+        script_count = 0
+        for godot_path, abs_path in file_paths:
+            script_count += 1
+            try:
+                with open(abs_path, 'r', encoding='utf-8') as infile:
+                    raw_code = infile.read()
+                    cleaned_code = clean_code(raw_code)
                     
-                    # --- 终端进度输出 (同一行刷新) ---
-                    script_count += 1
-                    sys.stdout.write(f"\r正在提取 ({script_count}): {file}" + " " * 30)
-                    sys.stdout.flush()
-                    # -------------------------------
-                    
-                    # 转换为 Godot 风格的路径以便于阅读
-                    godot_path = filepath.replace(".\\", "res://").replace("./", "res://")
-                    
-                    outfile.write(f"\n\n{'='*80}\n")
-                    outfile.write(f"文件路径: {godot_path}\n")
-                    outfile.write(f"{'='*80}\n")
-                    
-                    try:
-                        with open(filepath, 'r', encoding='utf-8') as infile:
-                            outfile.write(infile.read() + "\n")
-                    except Exception as e:
-                        outfile.write(f"[无法读取文件内容: {e}]\n")
+                    # 采用极简 XML 标签包裹代码：<f p="文件路径">代码</f>
+                    outfile.write(f'<f p="{godot_path}">\n')
+                    outfile.write(cleaned_code)
+                    outfile.write('\n</f>\n')
+            except Exception as e:
+                print(f"读取失败: {abs_path} - {e}")
+                
+        outfile.write("</files>\n</godot_project_context>")
 
-    print("\n\n==================================================")
-    print(f"🎉 提取完成！共提取了 {script_count} 个脚本文件。")
-    print(f"💾 文件已成功保存到桌面: {OUTPUT_FILE}")
-    print("==================================================")
+    print(f"\n✅ 提取完成！共压缩 {script_count} 个脚本。")
+    print(f"💾 文件已生成: {OUTPUT_FILE}")
+    print("💡 现在你可以直接把这个 txt 丢给 AI，不需要说任何废话了。")
 
 if __name__ == "__main__":
     generate_context()
