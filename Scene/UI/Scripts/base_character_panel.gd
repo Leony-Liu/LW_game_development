@@ -1,167 +1,210 @@
 extends Control
+# base_character_panel.gd
 
-# ==========================================
-# 场景跳转配置
-# ==========================================
 @export_category("Level Navigation")
-@export var target_map_world: PackedScene 
-@export var target_map_ui: PackedScene 
+@export var target_map_world: PackedScene
+@export var target_map_ui: PackedScene
 
 @onready var enter_map_btn = $MarginContainer/Button
 @onready var category_tabs = $MarginContainer2/HBoxContainer/Right_BackpackPanelMargin/Right_BackpackPanel/CategoryTabs
 
-# ==========================================
-# 状态与精细化假数据 (Mock Data)
-# ==========================================
-var current_selected_item: Dictionary = {}
-var current_category: String = "weapon" # 记住当前打开的是哪个分类 Tab
+var current_selected_uid: String = ""
+var current_category: String = "weapon"
 
-# 🌟【数据升级】：
-# 1. 增加了 equip_type 用于严格校验槽位（比如 armor 分类下具体是 helmet 还是 chest）
-# 2. 增加了 is_equipped 用于判断是否要从背包中隐藏
-# 3. 增加了 count 用于模拟道具堆叠
-var mock_inventory = [
-	{"uid": "w1", "name": "生锈铁剑", "type": "weapon", "equip_type": "weapon", "is_equipped": false, "desc": "攻击力: 10\n自带卡组: 重击x3"},
-	{"uid": "w2", "name": "骑士长枪", "type": "weapon", "equip_type": "weapon", "is_equipped": false, "desc": "攻击力: 15\n自带卡组: 突刺x2"},
-	{"uid": "a1", "name": "铁头盔", "type": "armor", "equip_type": "helmet", "is_equipped": false, "desc": "防御力: 3\n保护你的脑袋。"},
-	{"uid": "a2", "name": "破旧皮甲", "type": "armor", "equip_type": "chest", "is_equipped": false, "desc": "防御力: 5\n重量: 轻"},
-	{"uid": "i1", "name": "治疗药水", "type": "item", "equip_type": "item", "is_equipped": false, "count": 3, "desc": "恢复 50 点生命值。"},
-	{"uid": "i2", "name": "磨刀石", "type": "item", "equip_type": "item", "is_equipped": false, "count": 1, "desc": "下一次攻击伤害提升。"}
-]
+const BACKPACK_MAX_SLOTS: int = 20 # 角色界面的背包网格容量（可根据你的行列数修改）
 
 func _ready() -> void:
 	if enter_map_btn:
 		enter_map_btn.pressed.connect(_on_enter_map_pressed)
-		
-	# 1. 绑定分类 Tab 
-	for tab in category_tabs.get_children():
-		if tab is Button:
-			tab.pressed.connect(_on_tab_pressed.bind(tab.name.to_lower()))
-			
-	# 2. 🌟【核心升级：严格绑定槽位类型】
-	# 防具槽位：将自身的名字(转小写)作为限定类型，例如 "Helmet" -> "helmet"
-	for slot in %ArmorSlots.get_children():
-		if slot is Button:
-			slot.pressed.connect(_on_equip_slot_pressed.bind(slot.name.to_lower(), slot))
-			
-	# 武器和道具槽位：因为可以随便放，所以统一用 "weapon" 和 "item"
-	for slot in %WeaponSlots.get_children():
-		if slot is Button:
-			slot.pressed.connect(_on_equip_slot_pressed.bind("weapon", slot))
-			
-	for slot in %itemSlots.get_children():
-		if slot is Button:
-			slot.pressed.connect(_on_equip_slot_pressed.bind("item", slot))
-		
+	
+	# 1. 绑定分类 Tab
+	if category_tabs:
+		for tab in category_tabs.get_children():
+			if tab is Button:
+				tab.pressed.connect(_on_tab_pressed.bind(tab.name.to_lower()))
+	
+	# 2. 动态绑定槽位并注入 (允许装配的分类, 专属Location标签)
+	if get_node_or_null("%ArmorSlots"):
+		for slot in %ArmorSlots.get_children():
+			if slot is Button:
+				var loc_name = "equipped_" + slot.name.to_lower()
+				slot.pressed.connect(_on_equip_slot_pressed.bind("armor", loc_name, slot))
+	
+	if get_node_or_null("%WeaponSlots"):
+		for slot in %WeaponSlots.get_children():
+			if slot is Button:
+				var loc_name = "equipped_" + slot.name.to_lower()
+				slot.pressed.connect(_on_equip_slot_pressed.bind("weapon", loc_name, slot))
+	
+	if get_node_or_null("%itemSlots"):
+		for slot in %itemSlots.get_children():
+			if slot is Button:
+				var loc_name = "equipped_" + slot.name.to_lower()
+				slot.pressed.connect(_on_equip_slot_pressed.bind("item", loc_name, slot))
+	
 	_clear_detail()
-	_render_inventory(current_category)
+	_refresh_all()
 
-# ==========================================
-# 右侧：背包分类与渲染 (自动隐藏已装备物品)
-# ==========================================
+# --- 渲染刷新逻辑 ---
+func _refresh_all() -> void:
+	_render_inventory(current_category)
+	_render_equipped_slots()
+
 func _on_tab_pressed(category_type: String) -> void:
 	current_category = category_type
 	_render_inventory(category_type)
-	_clear_detail() # 切换分类时清空选中状态，防误触
+	_clear_detail()
+
+# 【核心修复】：安全清空节点引擎
+func _clear_grid_safely(grid: Container) -> void:
+	for child in grid.get_children():
+		grid.remove_child(child) 
+		child.queue_free()
 
 func _render_inventory(category_type: String) -> void:
 	var grid = get_node_or_null("%InventoryGrid")
 	if not grid: return
-		
-	for child in grid.get_children():
-		child.queue_free()
 	
-	for item in mock_inventory:
-		if typeof(item) != TYPE_DICTIONARY or not item.has("type"): continue
+	_clear_grid_safely(grid)
+	
+	# 向管家索要对应分类的背包物品
+	var backpack_items = InventoryManager.get_items("backpack", category_type)
+	
+	# 使用全新的 Figma 浅灰质感填充
+	for i in range(BACKPACK_MAX_SLOTS):
+		var btn = Button.new()
+		btn.custom_minimum_size = Vector2(150, 140) # 统一150x140规格
+		btn.focus_mode = Control.FOCUS_NONE
 		
-		# 🌟【核心逻辑】：如果已经穿在身上了，就不在背包里显示！
-		if item.get("is_equipped", false) == true: continue
+		# --- 创建完全匹配 Figma 草稿的浅灰色实体背景 ---
+		var style_box = StyleBoxFlat.new()
+		style_box.bg_color = Color("d9d9d9") # 浅灰占位色
+		style_box.border_color = Color("aaaaaa")
+		style_box.border_width_bottom = 2
+		style_box.border_width_right = 2
+		
+		btn.add_theme_stylebox_override("normal", style_box)
+		btn.add_theme_stylebox_override("hover", style_box)
+		btn.add_theme_stylebox_override("disabled", style_box)
+		
+		if i < backpack_items.size():
+			var item = backpack_items[i]
+			var static_data = ItemDatabaseManager.get_item_data(item["template_id"])
+			if static_data.is_empty(): continue
 			
-		if item["type"] == category_type:
-			var btn = Button.new()
-			# 🌟【叠加逻辑】：如果有 count 属性且大于 1，则显示数量
-			var display_name = item.get("name", "未知物品")
+			var display_name = tr(static_data.get("name_key", "未知物品"))
 			if item.has("count") and item["count"] > 1:
-				display_name += " x" + str(item["count"])
-				
+				display_name += "\nx" + str(item["count"])
+			
+			if item.get("is_broken", false):
+				btn.add_theme_color_override("font_color", Color.RED)
+				display_name += "\n(破损)"
+			else:
+				btn.add_theme_color_override("font_color", Color("1a1a1a")) # 浅灰底配深色字
+			
 			btn.text = display_name
-			btn.custom_minimum_size = Vector2(80, 80) 
-			btn.pressed.connect(_on_inventory_item_pressed.bind(item))
-			grid.add_child(btn)
+			btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
+			btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			
+			# 绑定角色面板专属的装备替换信号
+			btn.pressed.connect(_on_inventory_item_pressed.bind(item["uid"], static_data, item))
+		else:
+			# 空槽位
+			btn.text = ""
+			btn.disabled = true
+			btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			btn.modulate = Color.WHITE
+			
+		grid.add_child(btn)
 
-# ==========================================
-# 中间：选中背包物品查看详情
-# ==========================================
-func _on_inventory_item_pressed(item: Dictionary) -> void:
-	current_selected_item = item
-	%DetailName.text = item.get("name", "未知名称")
-	%DetailType.text = "类型: " + item.get("equip_type", "未知")
-	%DetailDesc.text = item.get("desc", "无描述")
+func _render_equipped_slots() -> void:
+	var all_slot_containers = []
+	if get_node_or_null("%ArmorSlots"): all_slot_containers.append(%ArmorSlots)
+	if get_node_or_null("%WeaponSlots"): all_slot_containers.append(%WeaponSlots)
+	if get_node_or_null("%itemSlots"): all_slot_containers.append(%itemSlots)
+	
+	for container in all_slot_containers:
+		for slot in container.get_children():
+			if slot is Button:
+				var loc_name = "equipped_" + slot.name.to_lower()
+				var items_in_slot = InventoryManager.get_items(loc_name)
+				
+				if items_in_slot.size() > 0:
+					var item = items_in_slot[0]
+					var static_data = ItemDatabaseManager.get_item_data(item["template_id"])
+					var d_name = tr(static_data.get("name_key", "未知"))
+					
+					if item.has("count") and item["count"] > 1:
+						d_name += " x" + str(item["count"])
+					
+					slot.text = d_name
+					slot.set_meta("equipped_uid", item["uid"])
+					
+					if item.get("is_broken", false):
+						slot.add_theme_color_override("font_color", Color.RED)
+					else:
+						slot.remove_theme_color_override("font_color")
+				else:
+					slot.text = slot.name
+					slot.set_meta("equipped_uid", "")
+					slot.remove_theme_color_override("font_color")
+
+# --- 交互逻辑 ---
+func _on_inventory_item_pressed(uid: String, static_data: Dictionary, dynamic_data: Dictionary) -> void:
+	current_selected_uid = uid
+	if get_node_or_null("%DetailName"):
+		%DetailName.text = tr(static_data.get("name_key", "未知名称"))
+		
+	if get_node_or_null("%DetailType"):
+		var specific_type = static_data.get("equip_type", static_data.get("wep_type", "通用"))
+		%DetailType.text = "类型: " + specific_type
+		
+	if get_node_or_null("%DetailDesc"):
+		var desc = tr(static_data.get("desc", "无描述"))
+		if dynamic_data.has("current_durability"):
+			desc += "\n耐久度: %d / %d" % [dynamic_data["current_durability"], static_data.get("max_durability", 100)]
+		%DetailDesc.text = desc
 
 func _clear_detail() -> void:
-	current_selected_item = {}
-	%DetailName.text = "未选择物品"
-	%DetailType.text = ""
-	%DetailDesc.text = "请在右侧背包中选择一个物品查看详情。\n(直接点击已装备的槽位可卸下物品)"
+	current_selected_uid = ""
+	if get_node_or_null("%DetailName"): %DetailName.text = "未选择物品"
+	if get_node_or_null("%DetailType"): %DetailType.text = ""
+	if get_node_or_null("%DetailDesc"): %DetailDesc.text = "请在右侧选择物品查看详情。\n(点击已装备槽位可卸下)"
 
-# ==========================================
-# 左侧：点击槽位进行穿戴 / 卸下
-# ==========================================
-func _on_equip_slot_pressed(slot_required_type: String, slot_node: Button) -> void:
-	# 检查这个槽位目前是不是已经穿了东西（通过 Godot 的 meta 存 UID）
+func _on_equip_slot_pressed(required_category: String, target_location: String, slot_node: Button) -> void:
 	var current_equipped_uid = slot_node.get_meta("equipped_uid", "")
 	
-	# ========================================
-	# 逻辑 A：手里没拿东西 -> 尝试卸下当前槽位的装备
-	# ========================================
-	if current_selected_item.is_empty():
+	# 情况 A：手里没拿东西 -> 卸下当前槽位的装备到背包
+	if current_selected_uid == "":
 		if current_equipped_uid != "":
-			_set_item_equipped_status(current_equipped_uid, false) # 改回未装备状态
-			slot_node.text = slot_node.name # 按钮文字恢复默认名字(如 "Helmet")
-			slot_node.set_meta("equipped_uid", "") # 清空槽位记忆
-			print("已卸下装备，放回背包。")
-			_render_inventory(current_category) # 刷新背包，物品重新出现
+			InventoryManager.move_item(current_equipped_uid, "backpack")
+			_refresh_all()
 		return
 		
-	# ========================================
-	# 逻辑 B：手里有东西 -> 尝试穿戴或替换
-	# ========================================
-	# 🌟【严格校验】：比如拿着 "weapon"，点到了 "helmet" 槽位，直接拦截！
-	if current_selected_item.get("equip_type") != slot_required_type:
-		print("❌ 类型不匹配！[%s] 不能放在 [%s] 槽位！" % [current_selected_item.get("name"), slot_required_type])
+	# 情况 B：手里拿着东西 -> 尝试穿戴/替换
+	var selected_item = InventoryManager.get_item_by_uid(current_selected_uid)
+	var static_data = ItemDatabaseManager.get_item_data(selected_item["template_id"])
+	var item_category = static_data.get("category", "")
+	
+	if item_category != required_category:
+		print("❌ 穿戴失败：物品类型不符。")
 		return
 		
-	# 如果槽位上本来就有东西，先把旧的卸下来放回背包
-	if current_equipped_uid != "":
-		_set_item_equipped_status(current_equipped_uid, false)
+	if selected_item.get("is_broken", false):
+		print("❌ 穿戴失败：装备已彻底破损，需先维修！")
+		return
 		
-	# 穿上新装备
-	current_selected_item["is_equipped"] = true
-	
-	# 更新 UI 显示 (如果是多数量道具，带上数量)
-	var display_name = current_selected_item["name"]
-	if current_selected_item.has("count") and current_selected_item["count"] > 1:
-		display_name += " x" + str(current_selected_item["count"])
-		
-	slot_node.text = display_name
-	slot_node.set_meta("equipped_uid", current_selected_item["uid"]) # 让槽位记住穿的是谁
-	
-	print("✅ 已成功装备：" + current_selected_item["name"])
-	
-	# 清空选中状态并刷新背包(让刚穿上的装备从背包消失)
-	_clear_detail()
-	_render_inventory(current_category)
-
-# 辅助函数：根据 UID 修改库里物品的装备状态
-func _set_item_equipped_status(uid: String, status: bool) -> void:
-	for item in mock_inventory:
-		if item.get("uid") == uid:
-			item["is_equipped"] = status
+	if required_category == "armor":
+		var specific_type = static_data.get("equip_type", "")
+		var slot_suffix = target_location.split("_")[1]
+		if specific_type != slot_suffix:
+			print("❌ 穿戴失败：部位不匹配 (%s 不能放在 %s)" % [specific_type, slot_suffix])
 			return
+			
+	InventoryManager.move_item(current_selected_uid, target_location)
+	_clear_detail()
+	_refresh_all()
 
-# ==========================================
-# 底部：进入地图
-# ==========================================
 func _on_enter_map_pressed() -> void:
 	if not target_map_world or not target_map_ui: return
 	var main_root = get_tree().root.get_node_or_null("MAIN")

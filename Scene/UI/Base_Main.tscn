@@ -15,6 +15,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nrg1i")
+panel_character_scene = ExtResource("2_hbtpv")
+panel_warehouse_scene = ExtResource("6_i352q")
+panel_shop_scene = ExtResource("4_ja5bn")
+panel_upgrade_scene = ExtResource("5_q12vp")
+panel_craft_scene = ExtResource("3_5c7rp")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -32,21 +37,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="base_character_panel" parent="ContentArea" instance=ExtResource("2_hbtpv")]
-layout_mode = 1
-
-[node name="base_craft_panel" parent="ContentArea" instance=ExtResource("3_5c7rp")]
-layout_mode = 1
-
-[node name="base_shop_panel" parent="ContentArea" instance=ExtResource("4_ja5bn")]
-layout_mode = 1
-
-[node name="base_upgrade_panel" parent="ContentArea" instance=ExtResource("5_q12vp")]
-layout_mode = 1
-
-[node name="base_warehouse_panel" parent="ContentArea" instance=ExtResource("6_i352q")]
-layout_mode = 1
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -54,7 +45,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 31.0
 grow_horizontal = 2
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_top = 20
 
 [node name="TopNavigationBar" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2

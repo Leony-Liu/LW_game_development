@@ -172,7 +172,7 @@ text = "道具"
 [node name="InventoryGrid" type="GridContainer" parent="MarginContainer2/HBoxContainer/Right_BackpackPanelMargin/Right_BackpackPanel"]
 unique_name_in_owner = true
 layout_mode = 2
-columns = 5
+columns = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

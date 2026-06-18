@@ -1,0 +1,15 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cfju5w5n8a56i"
+valid=false
+
+[deps]
+
+source_file="res://DataBase/Item/Weapons.csv"
+
+[params]
+
+compress=true
+delimiter=0
