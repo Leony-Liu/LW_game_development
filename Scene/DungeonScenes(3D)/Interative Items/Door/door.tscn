@@ -27,5 +27,8 @@ size = Vector3(1.62302, 3, 0.526428)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00738525, 1.5004, 0.373718)
 shape = SubResource("BoxShape3D_1c1jw")
 
+[node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.90949)
+
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

@@ -4,13 +4,13 @@ class_name Room
 var room_data: RoomData
 
 func get_spawn_position(side: String):
-	 match side:
+	match side:
 		"left":
-			return $SpawnLeft.global_position
+			return $DoorLeft.global_position
 		"right":
-			return $SpawnRight.global_position
+			return $DoorRight.global_position
 		"up":
-			return $SpawnUp.global_position
+			return $DoorUp.global_position
 		"down":
-			return $SpawnDown.global_position
+			return $DoorDown.global_position
 	return global_position

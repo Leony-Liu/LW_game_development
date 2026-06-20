@@ -180,16 +180,19 @@ transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 5, 0, 1)
 [node name="brick_wall13" parent="Walls" instance=ExtResource("2_3gweh")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 5, 0, -1)
 
-[node name="Door" parent="." instance=ExtResource("3_8u4ce")]
+[node name="Doors" type="Node3D" parent="."]
+
+[node name="DoorLeft" parent="Doors" instance=ExtResource("3_8u4ce")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.82868, 0, 1.83976)
 
-[node name="DoorLeft" type="Node3D" parent="."]
+[node name="DoorRight" parent="Doors" instance=ExtResource("3_8u4ce")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.19408, 0, -0.137611)
 
-[node name="DoorRight" type="Node3D" parent="."]
+[node name="DoorDown" parent="Doors" instance=ExtResource("3_8u4ce")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.24333, 0, -5.03894)
 
-[node name="DoorUp" type="Node3D" parent="."]
-
-[node name="DoorDown" type="Node3D" parent="."]
+[node name="DoorUp" parent="Doors" instance=ExtResource("3_8u4ce")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -4.31994, 0, 6.65104)
 
 [node name="Enemies" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.42375, 0, 1.11648)
