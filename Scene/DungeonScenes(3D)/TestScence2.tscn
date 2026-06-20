@@ -1,13 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://bsdjs57ymg03n"]
 
+[ext_resource type="Script" uid="uid://cbmd8berw4o1m" path="res://Scene/DungeonScenes(3D)/Scripts/room.gd" id="1_3gweh"]
 [ext_resource type="PackedScene" uid="uid://ccqqpgj7mkefg" path="res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn" id="1_mqp0l"]
 [ext_resource type="PackedScene" uid="uid://85pemmvv3jwy" path="res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn" id="2_3gweh"]
 [ext_resource type="PackedScene" uid="uid://cj5lxabk52up0" path="res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn" id="3_8u4ce"]
 [ext_resource type="PackedScene" uid="uid://bx7dvcxk1g305" path="res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn" id="4_73vbj"]
 [ext_resource type="PackedScene" uid="uid://diyjv03ndijqc" path="res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn" id="5_64d01"]
-[ext_resource type="PackedScene" uid="uid://dwf7eo5717q2s" path="res://Scene/UI/world_interactionUI.tscn" id="6_ls31x"]
 
-[node name="Node3D" type="Node3D"]
+[node name="Room" type="Node3D"]
+script = ExtResource("1_3gweh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.797784, 0.602943, 0, -0.602943, 0.797784, 0, 4, 3)
@@ -179,10 +180,16 @@ transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 5, 0, 1)
 [node name="brick_wall13" parent="Walls" instance=ExtResource("2_3gweh")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 5, 0, -1)
 
-[node name="Doors" type="Node3D" parent="."]
-
-[node name="Door" parent="Doors" instance=ExtResource("3_8u4ce")]
+[node name="Door" parent="." instance=ExtResource("3_8u4ce")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.82868, 0, 1.83976)
+
+[node name="DoorLeft" type="Node3D" parent="."]
+
+[node name="DoorRight" type="Node3D" parent="."]
+
+[node name="DoorUp" type="Node3D" parent="."]
+
+[node name="DoorDown" type="Node3D" parent="."]
 
 [node name="Enemies" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.42375, 0, 1.11648)
@@ -191,7 +198,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.42375, 0, 1.11648)
 
 [node name="Box" parent="." instance=ExtResource("5_64d01")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 0, -1)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Control" parent="CanvasLayer" instance=ExtResource("6_ls31x")]

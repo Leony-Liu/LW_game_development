@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dwf7eo5717q2s"]
 
-[ext_resource type="Script" uid="uid://c3h31ix32td0r" path="res://world_interaction_HUD.gd" id="1_wdm6u"]
+[ext_resource type="Script" uid="uid://b7ec4on0fwswn" path="res://Scene/UI/Scripts/world_interaction_HUD.gd" id="1_wdm6u"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

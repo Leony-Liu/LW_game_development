@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwljaaods183o"]
+
+[ext_resource type="Script" uid="uid://c3n5srm1pr6k0" path="res://Scene/DungeonScenes(3D)/Manager/map_manager.gd" id="1_83hb5"]
+[ext_resource type="PackedScene" uid="uid://dwf7eo5717q2s" path="res://Scene/UI/world_interactionUI.tscn" id="2_qyo7k"]
+
+[node name="World" type="Node3D"]
+
+[node name="MapManager" type="Node3D" parent="."]
+script = ExtResource("1_83hb5")
+
+[node name="RoomContainer" type="Node3D" parent="."]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="UILayer" instance=ExtResource("2_qyo7k")]
