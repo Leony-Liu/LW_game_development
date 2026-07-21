@@ -6,11 +6,15 @@ var room_data: RoomData
 func get_spawn_position(side: String):
 	match side:
 		"left":
-			return $DoorLeft.global_position
+			return $Doors/DoorLeft.get_spawn_position()
 		"right":
-			return $DoorRight.global_position
+			return $Doors/DoorRight.get_spawn_position()
 		"up":
-			return $DoorUp.global_position
+			return $Doors/DoorUp.get_spawn_position()
 		"down":
-			return $DoorDown.global_position
+			return $Doors/DoorDown.get_spawn_position()
 	return global_position
+
+
+func get_player_spawn() -> Vector3:
+	return $PlayerSpawn.global_position

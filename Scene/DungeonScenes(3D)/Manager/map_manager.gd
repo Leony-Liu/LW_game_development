@@ -3,13 +3,14 @@
 extends Node
 class_name MapManager
 
-@export var player_scence: PackedScene
+@export var player_scene: PackedScene
 
-const TARGET_ROOM_COUNT = 15
+const TARGET_ROOM_COUNT = 15#最大房间总数
 @export var room_scene: PackedScene
 @onready var room_container: Node3D = $"../RoomContainer"
 
 var rooms: Dictionary = {}
+
 var next_room_id: int = 0
 var current_room_id: int = 0
 var start_room_id: int = 0
@@ -19,6 +20,7 @@ func _ready() -> void:
 	generate_map()
 	connect_rooms()
 	build_map()
+	call_deferred("spawn_player")
 	pass
 
 func generate_map():
@@ -26,6 +28,8 @@ func generate_map():
 	
 	next_room_id = 0
 	var start_room = create_room(Vector2i.ZERO)
+	
+	start_room_id = start_room.id
 	
 	while rooms.size() < TARGET_ROOM_COUNT:
 		var existing_room:RoomData = rooms.values().pick_random()
@@ -79,8 +83,10 @@ func connect_rooms():
 
 func build_map():
 	for room_data in rooms.values():
+		
 		var room = room_scene.instantiate()
 		room.room_data = room_data
+		
 		room_container.add_child(room)
 		room.position = Vector3(room_data.grid_pos.x * 50,0,room_data.grid_pos.y * 50)
 		
@@ -129,7 +135,38 @@ func change_room(target_room_id: int, enter_side: String):
 			
 	if target_room == null:
 		return
-		
+	
+	print("========================")
+	print("切换到房间ID：", target_room.room_data.id)
+	print("房间格子坐标：", target_room.room_data.grid_pos)
+	print("房间世界坐标：", target_room.global_position)
+	
 	var player =get_tree().get_first_node_in_group("Player")
 	player.global_position = target_room.get_spawn_position(enter_side)
 	pass
+
+
+func spawn_player():
+	var player = player_scene.instantiate()
+	get_parent().add_child(player)
+	var start_room = find_room_instance(start_room_id)
+	if start_room == null:
+		print("没有初始房间")
+		return
+	player.global_position = start_room.get_player_spawn()
+	print("地图管理器：玩家已生成", player.global_position)
+	print("Floor:", start_room.get_node("Floors").global_position)
+	
+	await get_tree().process_frame
+	print("第一帧：", player.global_position)
+	await get_tree().process_frame
+	print("第二帧：", player.global_position)
+	await get_tree().process_frame
+	print("第三帧：", player.global_position)
+
+
+func find_room_instance(room_id:int) -> Room:
+	for room in room_container.get_children():
+		if room.room_data.id == room_id:
+			return room
+	return null

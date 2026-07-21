@@ -19,11 +19,11 @@ func _ready() -> void:
 	pass
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	if !body.is_in_group("Player"):
+	if body.is_in_group("Player"):
 		is_player_in_range = true
 		# 通知 UI 层显示提示
 		EventBus.interaction_prompt_requested.emit(true, prompt_text, self)
-		print("UI信号已发出")
+		#print("UI信号已发出")
 	pass
 
 
