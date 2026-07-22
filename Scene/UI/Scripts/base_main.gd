@@ -10,11 +10,11 @@ extends Control
 @export var panel_craft_scene: PackedScene
 
 # 2. 绑定顶部导航按钮
-@onready var btn_character = $MarginContainer/TopNavigationBar/Btn_Character
-@onready var btn_warehouse = $MarginContainer/TopNavigationBar/Btn_Warehouse
-@onready var btn_shop = $MarginContainer/TopNavigationBar/Btn_Shop
-@onready var btn_upgrade = $MarginContainer/TopNavigationBar/Btn_Upgrade
-@onready var btn_craft = $MarginContainer/TopNavigationBar/Btn_Craft
+@onready var btn_character = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Character
+@onready var btn_warehouse = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Warehouse
+@onready var btn_shop = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Shop
+@onready var btn_upgrade = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Upgrade
+@onready var btn_craft = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Craft
 
 # 3. 绑定内容展示区
 @onready var content_area = $ContentArea

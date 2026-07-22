@@ -113,7 +113,7 @@ theme = SubResource("Theme_3dl66")
 [node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/PlayerBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.98, 0.98, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "PlayerBuff:"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/MainVBoxContainer"]
@@ -127,5 +127,5 @@ theme = SubResource("Theme_3dl66")
 [node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/EnemyBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.91, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "EnemyBuff:"

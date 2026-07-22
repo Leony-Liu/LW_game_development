@@ -20,16 +20,16 @@ signal mana_changed(current_mana, max_mana)
 signal not_enough_stamina() 
 signal not_enough_mana() 
 
-@export var current_hp: float 
+@export var current_hp: float #血量
 @export var max_hp: float 
-@export var current_stamina: int 
+@export var current_stamina: int #体力
 @export var max_stamina: int 
-@export var current_mana: int 
+@export var current_mana: int #脑力
 @export var max_mana: int 
-@export var current_defence: float 
-@export var current_shield: float 
-@export var current_stamina_recover_speed: float 
-@export var current_mana_recover_speed: float 
+@export var current_defence: float  #防御力
+@export var current_shield: float #护甲值
+@export var current_stamina_recover_speed: float #体力恢复速度
+@export var current_mana_recover_speed: float #脑力恢复速度
 
 var _stamina_recovery_timer: float = 0.0 
 var _mana_recovery_timer: float = 0.0 

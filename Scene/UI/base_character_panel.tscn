@@ -114,3 +114,21 @@ horizontal_alignment = 1
 
 [node name="equipmentlist" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer"]
 layout_mode = 2
+
+[node name="StartgameMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -238.0
+offset_top = -94.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 30
+
+[node name="START GAME" type="Button" parent="StartgameMargin"]
+layout_mode = 2
+text = "START GAME"
