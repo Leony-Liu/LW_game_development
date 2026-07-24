@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcwlpndhrutbe"]
+[gd_scene load_steps=6 format=3 uid="uid://dcwlpndhrutbe"]
 
 [ext_resource type="Script" uid="uid://d1e8q2cd5rlh0" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
+[ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battle_Scene_Main/Battlescene.tscn" id="2_6i1m0"]
 [ext_resource type="PackedScene" uid="uid://cju7wln8x7rim" path="res://Scene/UI/filelist.tscn" id="3_6i1m0"]
 [ext_resource type="PackedScene" uid="uid://dq13sgkxdyni6" path="res://Scene/UI/options.tscn" id="4_68aio"]
 
@@ -15,6 +16,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3125x")
+startgame_scene = ExtResource("2_6i1m0")
 filelist_scene = ExtResource("3_6i1m0")
 options_scene = ExtResource("4_68aio")
 

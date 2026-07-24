@@ -18,14 +18,14 @@ config/icon="res://icon.svg"
 [autoload]
 
 EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
-BattleBus="*res://Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
+BattleBus="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
 CardDataBase="*res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd"
 MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd"
 AudioManager="*res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd"
 SaveManager="*res://Scene/Main_Scene/Scripts/Manager/save_manager.gd"
 SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
 SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
-PlayerDeckManager="*res://Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
+PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 InventoryManager="*res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd"
 
@@ -51,27 +51,24 @@ folder_colors={
 "res://DataBase/": "red",
 "res://Localization/": "pink",
 "res://Scene/": "blue",
-"res://Scene/Battle_Card_Scene_3D/Arts/": "purple",
-"res://Scene/Battle_Scene_Enemy/": "blue",
-"res://Scene/Battle_Scene_Enemy/Arts/": "purple",
-"res://Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/": "purple",
-"res://Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/": "yellow",
-"res://Scene/Battle_Scene_Enemy/EnemyVisuals/": "blue",
-"res://Scene/Battle_Scene_Enemy/EnemyVisuals/Arts/": "purple",
-"res://Scene/Battle_Scene_Enemy/Scripts/": "yellow",
-"res://Scene/Battle_Scene_Main/": "blue",
-"res://Scene/Battle_Scene_Main/Arts/": "purple",
-"res://Scene/Battle_Scene_Main/EnemyHPBar/": "blue",
-"res://Scene/Battle_Scene_Main/PlayerInformation/": "blue",
-"res://Scene/Battle_Scene_Main/Scripts/": "yellow",
-"res://Scene/Battle_Scene_Player/Arts/": "purple",
-"res://Scene/Battle_Scene_Player/Scripts/": "yellow",
-"res://Scene/Battle_Scene_Player/player-visuals/Arts/": "purple",
-"res://Scene/Battle_Scene_Player/player_3Dvisuals/Arts/": "purple",
-"res://Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/": "yellow",
-"res://Scene/Card_Scene/": "blue",
-"res://Scene/Card_Scene/Arts/": "purple",
-"res://Scene/Card_Scene/Scripts/": "yellow",
+"res://Scene/Battle_Scene/Battle_Scene_Enemy/": "blue",
+"res://Scene/Battle_Scene/Battle_Scene_Enemy/Arts/": "purple",
+"res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/": "purple",
+"res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/": "yellow",
+"res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/": "yellow",
+"res://Scene/Battle_Scene/Battle_Scene_Main/": "blue",
+"res://Scene/Battle_Scene/Battle_Scene_Main/Arts/": "purple",
+"res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/": "blue",
+"res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/": "blue",
+"res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/": "yellow",
+"res://Scene/Battle_Scene/Battle_Scene_Player/Arts/": "purple",
+"res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/": "yellow",
+"res://Scene/Battle_Scene/Battle_Scene_Player/player-visuals/Arts/": "purple",
+"res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Arts/": "purple",
+"res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/": "yellow",
+"res://Scene/Battle_Scene/Card_Scene/": "blue",
+"res://Scene/Battle_Scene/Card_Scene/Arts/": "purple",
+"res://Scene/Battle_Scene/Card_Scene/Scripts/": "yellow",
 "res://Scene/DungeonScene/": "blue",
 "res://Scene/DungeonScene/Arts/": "purple",
 "res://Scene/DungeonScene/Script/": "yellow",

@@ -1,15 +1,17 @@
 extends Control
 
-@onready var start_button = $MarginContainer/VBoxContainer/startgame
-@onready var file_button = $MarginContainer/VBoxContainer/filelist
-@onready var options_button = $MarginContainer/VBoxContainer/options # 确保路径对应你的场景树
-@onready var quit_button = $MarginContainer/VBoxContainer/quitegame
+@onready var start_button = %StartGame
+@onready var file_button = %FileList
+@onready var options_button = %Options
+@onready var quit_button = %QuitGame
 
-# 【专业做法】：暴露出目标关卡的挂载点
+
 @export_category("Navigation")
-@export var startgame_scene: PackedScene
+@export var battle_world_scene: PackedScene
+@export var battle_ui_scene: PackedScene
 @export var filelist_scene: PackedScene
 @export var options_scene: PackedScene
+
 
 func _ready() -> void:
 	start_button.pressed.connect(_on_start_game_pressed)
@@ -17,31 +19,42 @@ func _ready() -> void:
 	options_button.pressed.connect(_options_open_pressed)
 	quit_button.pressed.connect(_on_quit_game_pressed)
 	
-# ==========================================
-# 开始游戏按钮回调逻辑
-# ==========================================
+
 # ==========================================
 # 开始游戏按钮回调逻辑 (继续上次游戏)
 # ==========================================
+
 func _on_start_game_pressed() -> void:
-	if not startgame_scene:
-		push_error("主菜单错误：未配置 START GAME 的目标场景！")
+	if battle_world_scene == null:
+		push_error("主菜单错误：未配置 battle_world_scene。")
 		return
-		
-	var saves = SaveManager.get_all_saves()
-	
-	if saves.size() > 0:
-		var latest_save_id = saves[0]["id"]
-		if SaveManager.load_save(latest_save_id):
-			var main_root = get_tree().root.get_node_or_null("MAIN")
-			if main_root:
-				var load_base_logic = func():
-					# 【修复这里】从 load_world_scene 改为 load_ui_scene
-					main_root.load_ui_scene(startgame_scene) 
-				SceneManager.transition_to(load_base_logic, 0.5)
-	else:
-		print("未检测到本地存档，自动为您跳转至存档列表界面...")
-		_filelist_open_pressed()
+
+	if battle_ui_scene == null:
+		push_error("主菜单错误：未配置 battle_ui_scene。")
+		return
+
+	# 因为你始终没有真正切换主场景，所以 current_scene 就是 MAIN。
+	var main_root := get_tree().current_scene
+
+	if main_root == null:
+		push_error("主菜单错误：无法取得当前 MAIN 场景。")
+		return
+
+	if not main_root.has_method("load_combat_scene"):
+		push_error("主菜单错误：当前主场景没有 load_combat_scene() 方法。")
+		return
+
+	# 把 MAIN 的方法及参数封装成 Callable。
+	# 这样回调不依赖 main_menu 自身，菜单被清除后也没有引用问题。
+	var load_battle_callback := Callable(
+		main_root,
+		"load_combat_scene"
+	).bind(
+		battle_world_scene,
+		battle_ui_scene
+	)
+
+	SceneManager.transition_to(load_battle_callback, 0.5)
 
 # ==========================================
 # 存档列表按钮回调逻辑
@@ -60,7 +73,7 @@ func _filelist_open_pressed() -> void:
 	
 	# 3. 定义跳转逻辑 (闭包)
 	var load_filelist_logic = func():
-		# 【关键区别】：因为存档列表是 UI，所以这里调用 load_ui_scene
+
 		main_root.load_ui_scene(filelist_scene) 
 		
 	# 4. 调用全局转场管理器，0.5秒黑屏过渡
