@@ -444,6 +444,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.383812, 4.10964, -3.24154)
 
 [node name="shoplight" parent="WorldContainer/WorldViewport/SceneHolder/light" instance=ExtResource("27_gk4bi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00812244, 0, -0.0124598)
 
 [node name="路灯" parent="WorldContainer/WorldViewport/SceneHolder/light" instance=ExtResource("21_orcwo")]
 transform = Transform3D(0.00540699, 0, -0.241612, 0, 0.241673, 0, 0.241612, 0, 0.00540699, -1.68509, -4.10964, 6.02746)
