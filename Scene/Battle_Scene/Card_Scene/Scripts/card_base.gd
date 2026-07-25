@@ -1,236 +1,463 @@
-# card_base.gd (2D 视差重构版 - 最终完美版)
 extends Control
 
 # ==========================================
 # 动画参数配置
 # ==========================================
 @export_category("动画设置")
-@export var discard_duration: float = 0.15 
-@export var discard_y_offset: float = -40.0 
-@export var draw_duration: float = 0.20 
-
-# 伪3D视差强度调节
-@export_category("3D 视差强度")
-@export var max_rotation: float = 5.0 # 最大倾斜角度
-@export var text_float_height: float = 15.0 # 文字悬浮的高度（移动幅度）
-@export var bg_sink_depth: float = -5.0 # 背景下沉的深度（反向移动幅度）
+## 弃牌动画持续时间
+@export var discard_duration: float = 0.15
+## 弃牌时卡牌在 Y 轴上的移动距离
+@export var discard_y_offset: float = -40.0
+## 抽牌动画持续时间
+@export var draw_duration: float = 0.20
 
 # ==========================================
-# 节点绑定 (请确保这里的路径和你的场景树完全一致)
+# 整张卡牌的悬停反馈
 # ==========================================
-@onready var visual_root = $Visuals
-@onready var background = $Visuals/Background
-@onready var illustration = $Visuals/Background/Illustration
-@onready var cost_container = $Visuals/Background/CostContainer
-@onready var name_container = $Visuals/Background/NameContainer
-@onready var cost_label = $Visuals/Background/CostContainer/CostLable # 注意这里你原来拼写是 Lable，如果改了记得同步修改
-@onready var name_label = $Visuals/Background/NameContainer/NameLable # 严格对应截图中的节点名
+@export_category("悬停设置")
+## 鼠标移动到卡牌左右边缘时，卡牌的最大旋转角度
+@export var max_rotation: float = 5.0
+## 悬停时整张卡牌的放大倍率
+@export var hover_scale: float = 1.1
+## 悬停时整张卡牌向上移动的距离
+@export var hover_lift: float = 20.0
+## 悬停状态下使用的显示层级
+@export var hover_z_index: int = 100
+## 卡牌跟随鼠标旋转的速度
+@export var rotation_follow_speed: float = 10.0
+## 悬停进入动画持续时间
+@export var hover_enter_duration: float = 0.10
+## 悬停退出动画持续时间
+@export var hover_exit_duration: float = 0.15
 
 # ==========================================
-# 卡牌UI颜色设置 (可在右侧检查器直接修改)
+# 节点绑定
+# ==========================================
+## Visuals 包含整张卡牌的所有视觉节点
+@onready var visual_root: Control = %Visuals
+@onready var cost_label: Label = %CostLable
+@onready var name_label: Label = %NameLable
+
+
+# ==========================================
+# 卡牌 UI 颜色设置
 # ==========================================
 @export_category("UI 颜色设置")
-@export var attack_cost_color: Color = Color("ff7700") # 默认亮橙色
-@export var skill_cost_color: Color = Color("00bfff")  # 默认亮蓝色
-# ==========================================
-# 数据与状态
-# ==========================================
-var card_id: int
-var card_data: Dictionary
+@export var attack_cost_color: Color = Color("ff7700")
+@export var skill_cost_color: Color = Color("00bfff")
 
+# ==========================================
+# 卡牌数据
+# ==========================================
+## 由 CardFactory 在实例化卡牌时写入
+var card_id: int = 0
+## 从卡牌数据库读取出的数据
+var card_data: Dictionary = {}
+
+
+# ==========================================
+# 运行状态
+# ==========================================
+## 出牌或弃牌请求发出后锁定，防止重复操作
 var is_locked: bool = false
+## 鼠标当前是否悬停在卡牌上
 var is_hovered: bool = false
-var is_pos_initialized: bool = false # 【核心新增】：坐标懒加载锁
+## 是否已经记录过 Container 排版后的初始变换
+var is_transform_initialized: bool = false
 
-# 记录基础变换
-var original_min_size: Vector2
-var original_pos: Vector2
-var original_rot: float
-var original_scale: Vector2
 
-var orig_visual_pos: Vector2
-var orig_visual_scale: Vector2
+# ==========================================
+# 初始状态记录
+# ==========================================
+var original_minimum_size: Vector2
+var original_rotation: float
+var original_visual_position: Vector2
+var original_visual_scale: Vector2
+var original_z_index: int
 
-# 视差层级的原始坐标记录
-var orig_bg_pos: Vector2
-var orig_illu_pos: Vector2
-var orig_cost_pos: Vector2
-var orig_name_pos: Vector2
+
+# ==========================================
+# Tween 管理
+# ==========================================
+var hover_tween: Tween
+var reset_rotation_tween: Tween
 
 func _ready() -> void:
-	# 强制设置枢轴点为正中心，保证缩放和旋转从中心展开
-	pivot_offset = size / 2.0 
-	visual_root.pivot_offset = size / 2.0
-	
+	# 保存抽牌动画需要的初始宽度。
+	# 这一步必须在 play_draw_animation() 之前完成，
+	# 不能等到第一次悬停时才保存。
+	original_minimum_size = custom_minimum_size
+
+	if original_minimum_size.x <= 0.0:
+		original_minimum_size = size
+
 	_fetch_data_from_database()
-	
-	# 连接总线与鼠标信号
-	BattleBus.card_rejected.connect(_on_card_rejected)
-	self.mouse_entered.connect(_on_mouse_entered)
-	self.mouse_exited.connect(_on_mouse_exited)
-	self.gui_input.connect(_on_gui_input)
+	_connect_signals()
+	call_deferred("_initialize_transform")
+
+func _connect_signals() -> void:
+
+	if not BattleBus.card_rejected.is_connected(_on_card_rejected):
+		BattleBus.card_rejected.connect(_on_card_rejected)
+
+	if not mouse_entered.is_connected(_on_mouse_entered):
+		mouse_entered.connect(_on_mouse_entered)
+
+	if not mouse_exited.is_connected(_on_mouse_exited):
+		mouse_exited.connect(_on_mouse_exited)
+
+	if not gui_input.is_connected(_on_gui_input):
+		gui_input.connect(_on_gui_input)
+
+func _initialize_transform() -> void:
+	if not is_instance_valid(visual_root):
+		push_error("卡牌初始化失败：没有找到 Visuals 节点。")
+		return
+
+	# 整张卡牌围绕自身中心旋转。
+	pivot_offset = size * 0.5
+
+	# Visuals 围绕自身中心放大。
+	visual_root.pivot_offset = visual_root.size * 0.5
+
+	original_rotation = rotation_degrees
+	original_visual_position = visual_root.position
+	original_visual_scale = visual_root.scale
+	original_z_index = z_index
+
+	if original_minimum_size.x <= 0.0:
+		original_minimum_size = size
+
+	is_transform_initialized = true
+
+# ==========================================
+# 数据初始化
+# ==========================================
 
 func _fetch_data_from_database() -> void:
-	if card_id == 0: return
+	if card_id == 0:
+		push_warning("卡牌没有配置 card_id，跳过数据库读取。")
+		return
+
 	card_data = CardDataBase.get_card(card_id)
+
+	if card_data.is_empty():
+		push_error("卡牌数据库中没有找到 ID：%d" % card_id)
+		return
+
+	_update_card_name()
+	_update_card_cost()
 	
-	# ==========================================
-	# 1. 文本与翻译本地化装载
-	# ==========================================
-	# 获取 CSV 里的 name_key，去本地化字典里找翻译
-	var name_key = card_data.get("name_key", "CARD_NAME_UNKNOWN")
+
+func _update_card_name() -> void:
+	var name_key: String = str(
+		card_data.get("name_key", "CARD_NAME_UNKNOWN")
+	)
+
 	name_label.text = tr(name_key)
-	
-	# ==========================================
-	# 2. 费用数值读取与颜色区分
-	# ==========================================
-	var category = card_data.get("categories", "attack") # 默认是 attack
-	var cost = 0
-	
-	if category == "attack":
-		cost = card_data.get("stamina_cost", 0)
-		# 使用暴露到检查器的变量
-		cost_label.add_theme_color_override("font_color", attack_cost_color)
-		
-	elif category == "skill":
-		cost = card_data.get("mana_cost", 0)
-		# 使用暴露到检查器的变量
-		cost_label.add_theme_color_override("font_color", skill_cost_color)
-	# 兜底：如果消耗大于0就显示数字，否则显示 0
-	cost_label.text = str(cost) if cost > 0 else "0"
-	
-	# ==========================================
-	# 3. 动态加载插图（精准匹配你现在的文件夹结构）
-	# ==========================================
-	# 这里需要你在 CSV 表格里加一列 "image_name"，填入 "strike"、"heavy_blow" 等
-	# 如果没找到，默认加载一个叫 default_image.png 的图防报错
-	var img_name = card_data.get("image_name", "default_image") 
-	
-	# 根据你的最新截图，把路径完全写死到 CardIllustration 文件夹下
-	var img_path = "res://Scene/Card_Scene/Arts/CardIllustration/%s.png" % img_name
-	
-	if ResourceLoader.exists(img_path):
-		illustration.texture = load(img_path)
-	else:
-		print("⚠️ 警告：找不到卡牌插图资源 -> ", img_path)
+
+
+func _update_card_cost() -> void:
+	var category: String = str(
+		card_data.get("categories", "attack")
+	)
+
+	var cost: int = 0
+
+	match category:
+		"attack":
+			cost = int(card_data.get("stamina_cost", 0))
+			cost_label.add_theme_color_override(
+				"font_color",
+				attack_cost_color
+			)
+
+		"skill":
+			cost = int(card_data.get("mana_cost", 0))
+			cost_label.add_theme_color_override(
+				"font_color",
+				skill_cost_color
+			)
+
+		_:
+			cost = int(card_data.get("cost", 0))
+
+	cost_label.text = str(cost)
+
 
 # ==========================================
-# 核心交互逻辑：悬停与视差
+# 悬停逻辑
 # ==========================================
+
 func _on_mouse_entered() -> void:
-	if is_locked: return
-	
-	# 【终极修复】：坐标懒加载！
-	# 只有在鼠标第一次摸上去时，才记录 UI 的坐标。此时底层排版已经绝对稳定。
-	if not is_pos_initialized:
-		original_min_size = custom_minimum_size if custom_minimum_size.x != 0 else size
-		original_pos = position
-		original_rot = rotation_degrees
-		original_scale = scale
-		
-		orig_visual_pos = visual_root.position
-		orig_visual_scale = visual_root.scale
-		
-		orig_bg_pos = background.position
-		orig_cost_pos = cost_container.position
-		orig_name_pos = name_container.position
-		orig_illu_pos = illustration.position
-		
-		is_pos_initialized = true # 记录完毕，上锁
+	if is_locked:
+		return
+
+	if not is_transform_initialized:
+		_initialize_transform()
+
+	if not is_transform_initialized:
+		return
 
 	is_hovered = true
-	
-	# 悬浮放大动画
-	var tween = create_tween().set_parallel(true)
-	tween.tween_property(visual_root, "scale", orig_visual_scale * 1.1, 0.1)
-	tween.tween_property(visual_root, "position:y", orig_visual_pos.y - 20.0, 0.1) 
+
+	# 记录进入悬停前的层级。
+	# 如果外部手牌管理器动态修改了卡牌层级，
+	# 鼠标离开时仍然可以恢复到最新值。
+	original_z_index = z_index
+
+	# 悬停卡牌显示到其他卡牌之上。
+	z_index = hover_z_index
+
+	_kill_hover_tween()
+
+	hover_tween = create_tween()
+	hover_tween.set_parallel(true)
+
+	# 整张卡牌作为一个整体放大。
+	hover_tween.tween_property(
+		visual_root,
+		"scale",
+		original_visual_scale * hover_scale,
+		hover_enter_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 整张卡牌作为一个整体向上抬起。
+	hover_tween.tween_property(
+		visual_root,
+		"position",
+		original_visual_position + Vector2(0.0, -hover_lift),
+		hover_enter_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 
 func _on_mouse_exited() -> void:
-	if not is_pos_initialized: return # 防错：如果还没初始化过，就不要乱复位
+	if not is_transform_initialized:
+		return
+
 	is_hovered = false
-	
-	# 统统复位到懒加载时记录的原始状态
-	var tween = create_tween().set_parallel(true)
-	tween.tween_property(visual_root, "scale", orig_visual_scale, 0.15)
-	tween.tween_property(visual_root, "position", orig_visual_pos, 0.15)
-	
-	tween.tween_property(self, "rotation_degrees", original_rot, 0.15)
-	
-	tween.tween_property(background, "position", orig_bg_pos, 0.15)
-	tween.tween_property(cost_container, "position", orig_cost_pos, 0.15)
-	tween.tween_property(name_container, "position", orig_name_pos, 0.15)
-	tween.tween_property(illustration, "position", orig_illu_pos, 0.15)
-	
+	z_index = original_z_index
+
+	_kill_hover_tween()
+	_kill_reset_rotation_tween()
+
+	hover_tween = create_tween()
+	hover_tween.set_parallel(true)
+
+	# 整张牌复位。
+	# 不再分别移动背景、插图、名称和费用节点。
+	hover_tween.tween_property(
+		visual_root,
+		"scale",
+		original_visual_scale,
+		hover_exit_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	hover_tween.tween_property(
+		visual_root,
+		"position",
+		original_visual_position,
+		hover_exit_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	reset_rotation_tween = create_tween()
+	reset_rotation_tween.tween_property(
+		self,
+		"rotation_degrees",
+		original_rotation,
+		hover_exit_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 func _process(delta: float) -> void:
-	if is_hovered and not is_locked and is_pos_initialized:
-		# 1. 获取鼠标在卡牌内部的相对坐标 (-1 到 1)
-		var local_mouse = get_local_mouse_position()
-		var center = size / 2.0
-		var offset = (local_mouse - center) / center
-		
-		# 限制越界
-		offset.x = clamp(offset.x, -1.0, 1.0)
-		offset.y = clamp(offset.y, -1.0, 1.0)
+	if not is_hovered:
+		return
+	if is_locked:
+		return
+	if not is_transform_initialized:
+		return
+	var half_width := size.x * 0.5
+	if half_width <= 0.0:
+		return
+	var local_mouse_position := get_local_mouse_position()
 
-		# 2. 整体 2D 摇摆 (模拟透视倾斜)
-		var target_rotation = offset.x * max_rotation
-		rotation_degrees = lerp(rotation_degrees, target_rotation, 10.0 * delta)
-		
-		# 3. 视差核心：分离图层！
-		# 背景下沉
-		background.position = lerp(background.position, orig_bg_pos - (offset * bg_sink_depth), 12.0 * delta)
-		# 插图微微浮起
-		illustration.position = lerp(illustration.position, orig_illu_pos + (offset * (text_float_height * 0.4)), 14.0 * delta)
-		# 文字悬浮最高
-		cost_container.position = lerp(cost_container.position, orig_cost_pos + (offset * text_float_height), 15.0 * delta)
-		name_container.position = lerp(name_container.position, orig_name_pos + (offset * text_float_height), 15.0 * delta)
+	# 鼠标位于卡牌左边缘时接近 -1，
+	# 位于卡牌右边缘时接近 1。
+	var horizontal_offset := (
+		local_mouse_position.x - half_width
+	) / half_width
+
+	horizontal_offset = clamp(
+		horizontal_offset,
+		-1.0,
+		1.0
+	)
+
+	# 只旋转整张卡牌根节点。
+	# Visuals 内部的背景、插图、名称和费用不会独立移动。
+	var target_rotation := (
+		original_rotation
+		+ horizontal_offset * max_rotation
+	)
+
+	rotation_degrees = lerp(
+		rotation_degrees,
+		target_rotation,
+		clamp(rotation_follow_speed * delta, 0.0, 1.0)
+	)
+
+func _kill_hover_tween() -> void:
+	if hover_tween != null and hover_tween.is_valid():
+		hover_tween.kill()
+	hover_tween = null
+
+
+func _kill_reset_rotation_tween() -> void:
+	if (
+		reset_rotation_tween != null
+		and reset_rotation_tween.is_valid()
+	):
+		reset_rotation_tween.kill()
+	reset_rotation_tween = null
+
 
 # ==========================================
-# 出牌与回调
+# 输入与出牌
 # ==========================================
+
 func _on_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		if is_locked: return
+	if not event is InputEventMouseButton:
+		return
 		
-		# 左键：常规出牌
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			print("2D卡牌被左键点击，发起出牌请求...")
-			is_locked = true
-			BattleBus.card_played.emit(card_data, self)
-			
-		# 右键：主动弃牌
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			print("2D卡牌被右键点击，发起弃牌请求...")
-			is_locked = true
-			BattleBus.card_discard_requested.emit(self)
+	var mouse_event := event as InputEventMouseButton
+	
+	if not mouse_event.pressed:
+		return
+	if is_locked:
+		return
+	match mouse_event.button_index:
+		MOUSE_BUTTON_LEFT:
+			_request_play_card()
+			accept_event()
+		MOUSE_BUTTON_RIGHT:
+			_request_discard_card()
+			accept_event()
+
+func _request_play_card() -> void:
+	print("2D 卡牌发起出牌请求。")
+	is_locked = true
+	BattleBus.card_played.emit(
+		card_data,
+		self
+	)
+
+func _request_discard_card() -> void:
+	print("2D 卡牌发起弃牌请求。")
+	is_locked = true
+	BattleBus.card_discard_requested.emit(self)
 
 func _on_card_rejected(target_node: Control) -> void:
-	if target_node == self:
-		is_locked = false
-		play_error_shake()
+	if target_node != self:
+		return
+	is_locked = false
+	play_error_shake()
 
 # ==========================================
-# 动画效果表现
+# 动画效果
 # ==========================================
+
 func play_error_shake() -> void:
-	modulate = Color(1, 0.2, 0.2, 1) 
-	var tween = create_tween()
-	tween.tween_property(self, "position:x", position.x - 10, 0.05)
-	tween.tween_property(self, "position:x", position.x + 10, 0.05)
-	tween.tween_property(self, "position:x", position.x, 0.05)
-	tween.tween_property(self, "modulate", Color.WHITE, 0.15)
+	var original_position_x := position.x
+
+	modulate = Color(1.0, 0.2, 0.2, 1.0)
+
+	var tween := create_tween()
+
+	tween.tween_property(
+		self,
+		"position:x",
+		original_position_x - 10.0,
+		0.05
+	)
+
+	tween.tween_property(
+		self,
+		"position:x",
+		original_position_x + 10.0,
+		0.05
+	)
+
+	tween.tween_property(
+		self,
+		"position:x",
+		original_position_x,
+		0.05
+	)
+
+	tween.tween_property(
+		self,
+		"modulate",
+		Color.WHITE,
+		0.15
+	)
+
 
 func play_discard_animation() -> void:
 	is_locked = true
-	mouse_filter = Control.MOUSE_FILTER_IGNORE 
-	var tween = create_tween().set_parallel(true) 
-	tween.tween_property(self, "modulate:a", 0.0, discard_duration)
-	tween.tween_property(self, "position:y", position.y + discard_y_offset, discard_duration)
-	tween.chain().tween_callback(self.queue_free)
+	is_hovered = false
+
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	_kill_hover_tween()
+	_kill_reset_rotation_tween()
+
+	# 弃牌时保持在较高层级，避免消失动画被其他卡牌遮挡。
+	z_index = hover_z_index
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+
+	tween.tween_property(
+		self,
+		"modulate:a",
+		0.0,
+		discard_duration
+	)
+
+	tween.tween_property(
+		self,
+		"position:y",
+		position.y + discard_y_offset,
+		discard_duration
+	)
+
+	tween.chain().tween_callback(queue_free)
+
 
 func play_draw_animation() -> void:
-	custom_minimum_size.x = 0
+	# 如果延迟初始化还没执行，至少保证有一个可用宽度。
+	if original_minimum_size.x <= 0.0:
+		original_minimum_size = custom_minimum_size
+
+	if original_minimum_size.x <= 0.0:
+		original_minimum_size = size
+
+	var target_width := original_minimum_size.x
+
+	# Container 会根据 custom_minimum_size 重新排版卡槽。
+	custom_minimum_size.x = 0.0
 	modulate.a = 0.0
-	var tween = create_tween().set_parallel(true)
-	tween.tween_property(self, "custom_minimum_size:x", original_min_size.x, draw_duration).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "modulate:a", 1.0, draw_duration)
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+
+	tween.tween_property(
+		self,
+		"custom_minimum_size:x",
+		target_width,
+		draw_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(
+		self,
+		"modulate:a",
+		1.0,
+		draw_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

@@ -1,7 +1,27 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://wupdljc1nnfi"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://wupdljc1nnfi"]
 
 [ext_resource type="FontFile" uid="uid://jdg6h0onc3a1" path="res://Arts/Fort/ark-pixel-12px-monospaced-zh_cn.ttf" id="1_xvh6t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvh6t"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d78h3"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cp232"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66j2i"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [resource]
 default_font = ExtResource("1_xvh6t")
 default_font_size = 22
+Button/colors/font_color = Color(0.71, 0.71, 0.71, 0.870588)
+Button/colors/font_disabled_color = Color(0.55, 0.55, 0.55, 0.309804)
+Button/colors/font_focus_color = Color(0.91, 0.91, 0.91, 0.937255)
+Button/colors/font_pressed_color = Color(1, 1, 1, 0.52549)
+Button/styles/focus = SubResource("StyleBoxFlat_xvh6t")
+Button/styles/hover = SubResource("StyleBoxFlat_d78h3")
+Button/styles/normal = SubResource("StyleBoxFlat_cp232")
+Button/styles/pressed = SubResource("StyleBoxFlat_66j2i")

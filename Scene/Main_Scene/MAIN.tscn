@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://0rtgdscsodly"]
 
 [ext_resource type="Script" uid="uid://boj2pb07rnd5m" path="res://Scene/Main_Scene/main.gd" id="1_7wq48"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="1_sx5wa"]
+[ext_resource type="Shader" uid="uid://dbq7u58o2pkkt" path="res://Scene/VisualTest_MAP/scripts/test_map_crisp.gdshader" id="3_7wq48"]
 [ext_resource type="PackedScene" uid="uid://dcwlpndhrutbe" path="res://Scene/UI/main_menu.tscn" id="4_r781s"]
 
 [sub_resource type="Environment" id="Environment_7wq48"]
@@ -14,50 +14,51 @@ volumetric_fog_density = 0.0853
 volumetric_fog_albedo = Color(0.56, 0.56, 0.56, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0wouf"]
-shader = ExtResource("1_sx5wa")
-shader_parameter/color_depth = 32.0
+shader = ExtResource("3_7wq48")
+shader_parameter/color_depth = 12.0
 shader_parameter/contrast = 1.1
 shader_parameter/brightness = 1.0
 shader_parameter/dither_strength = 0.05
 shader_parameter/dither_scale = 1.0
-shader_parameter/chromatic_aberration = 0.001
+shader_parameter/chromatic_aberration_px = 0.0
+shader_parameter/aberration_edge_start = 0.3
 shader_parameter/scanline_intensity = 0.15
 shader_parameter/vignette_intensity = 0.8
+shader_parameter/bright_detail_protection = 0.0
+shader_parameter/bright_detail_threshold = 0.0
 
-[node name="MAIN" type="Node" node_paths=PackedStringArray("world_viewport", "ui_layer")]
+[node name="MAIN" type="Node" node_paths=PackedStringArray("active_system_holder")]
 script = ExtResource("1_7wq48")
-world_viewport = NodePath("WorldContainer/WorldViewport/SceneHolder")
-ui_layer = NodePath("UILayer")
-initial_ui_scene = ExtResource("4_r781s")
+active_system_holder = NodePath("GameViewportContainer/GameViewport/ActiveSystemHolder")
+initial_system_scene = ExtResource("4_r781s")
 
-[node name="WorldContainer" type="SubViewportContainer" parent="."]
+[node name="GameViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(4, 4)
+stretch = true
 
-[node name="WorldViewport" type="SubViewport" parent="WorldContainer"]
+[node name="GameViewport" type="SubViewport" parent="GameViewportContainer"]
 handle_input_locally = false
-size = Vector2i(480, 270)
+size = Vector2i(640, 360)
 render_target_update_mode = 4
 
-[node name="SceneHolder" type="Node" parent="WorldContainer/WorldViewport"]
+[node name="ActiveSystemHolder" type="Node" parent="GameViewportContainer/GameViewport"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GameViewportContainer/GameViewport/ActiveSystemHolder"]
 environment = SubResource("Environment_7wq48")
 
-[node name="CRT_Layer" type="CanvasLayer" parent="WorldContainer/WorldViewport"]
+[node name="CRT_Layer" type="CanvasLayer" parent="GameViewportContainer/GameViewport"]
 layer = 100
 
-[node name="ColorRect" type="ColorRect" parent="WorldContainer/WorldViewport/CRT_Layer"]
+[node name="ColorRect" type="ColorRect" parent="GameViewportContainer/GameViewport/CRT_Layer"]
 material = SubResource("ShaderMaterial_0wouf")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="UILayer" type="CanvasLayer" parent="."]
-layer = 10
+mouse_filter = 2

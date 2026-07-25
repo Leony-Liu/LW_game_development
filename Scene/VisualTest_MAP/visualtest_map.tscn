@@ -30,7 +30,7 @@
 [ext_resource type="PackedScene" uid="uid://dkwplx5oyrc41" path="res://Scene/VisualTest_MAP/Art/plackard_closed_full_2.tscn" id="27_orcwo"]
 [ext_resource type="PackedScene" uid="uid://da3etmhw5ih7a" path="res://Scene/VisualTest_MAP/Art/enemytest_map.tscn" id="29_qvn0v"]
 [ext_resource type="Script" uid="uid://b8xqr1j2341xg" path="res://Scene/VisualTest_MAP/scripts/camera_3dmove.gd" id="30_8imgb"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="31_k3jp6"]
+[ext_resource type="Shader" uid="uid://dbq7u58o2pkkt" path="res://Scene/VisualTest_MAP/scripts/test_map_crisp.gdshader" id="31_k3jp6"]
 
 [sub_resource type="Environment" id="Environment_l54w6"]
 background_mode = 1
@@ -43,14 +43,17 @@ volumetric_fog_albedo = Color(0.56, 0.56, 0.56, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wl4up"]
 shader = ExtResource("31_k3jp6")
-shader_parameter/color_depth = 32.0
-shader_parameter/contrast = 1.1
+shader_parameter/color_depth = 12.0
+shader_parameter/contrast = 1.15
 shader_parameter/brightness = 1.0
-shader_parameter/dither_strength = 0.05
+shader_parameter/dither_strength = 0.02
 shader_parameter/dither_scale = 1.0
-shader_parameter/chromatic_aberration = 0.001
-shader_parameter/scanline_intensity = 0.15
+shader_parameter/chromatic_aberration_px = 0.5
+shader_parameter/aberration_edge_start = 0.3
+shader_parameter/scanline_intensity = 0.08
 shader_parameter/vignette_intensity = 0.8
+shader_parameter/bright_detail_protection = 0.55
+shader_parameter/bright_detail_threshold = 0.78
 
 [node name="TestMap" type="Node3D"]
 
@@ -60,11 +63,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(4, 4)
+stretch = true
 
 [node name="WorldViewport" type="SubViewport" parent="WorldContainer"]
 handle_input_locally = false
-size = Vector2i(480, 270)
+size = Vector2i(640, 360)
 render_target_update_mode = 4
 
 [node name="SceneHolder" type="Node" parent="WorldContainer/WorldViewport"]

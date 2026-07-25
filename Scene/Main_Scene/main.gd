@@ -1,57 +1,40 @@
 extends Node
 
-@export var world_viewport : Node
-@export var ui_layer : CanvasLayer
+@export var active_system_holder: Node
+@export var initial_system_scene: PackedScene
 
+var active_system: Node
 
-@export_group("Default Scenes")
-@export var initial_ui_scene: PackedScene
 
 func _ready() -> void:
-	# 启动时加载默认场景
-	if initial_ui_scene:
-		load_ui_scene(initial_ui_scene)
-	else:
-		push_error("MAIN节点严重错误：未在检查器中配置 initial_ui_scene！")
+	# 检查
+	if initial_system_scene == null:
+		push_error("MAIN：未配置 initial_system_scene。")
+		return
 
-# ==========================================
-# 单一场景装载逻辑
-# ==========================================
-# 装载UI场景
-func load_ui_scene(scene_resource: PackedScene) -> void:
-	# 清空现有全部场景
-	_clear_container(ui_layer)
-	_clear_container(world_viewport)
-	# 装载场景
-	var ui_instance = scene_resource.instantiate()
-	ui_layer.add_child(ui_instance)
-# 装载3D场景
-func load_world_scene(scene_resource: PackedScene) -> void:
-	# 清空现有全部场景
-	_clear_container(ui_layer)
-	_clear_container(world_viewport)
-	# 装载场景
-	var world_instance = scene_resource.instantiate()
-	world_viewport.add_child(world_instance)
+	load_system_scene(initial_system_scene)
 
-func _clear_container(container: Node) -> void:
-	for child in container.get_children():
-		child.queue_free()
 
-# ==========================================
-# 复合场景装载逻辑 (战斗专用：同时加载3D与UI)
-# ==========================================
-func load_combat_scene(world_resource: PackedScene, ui_resource: PackedScene) -> void:
-	# 清空旧场景
-	_clear_container(ui_layer)
-	_clear_container(world_viewport)
-	
-	# 实例化并装载 3D 世界
-	if world_resource:
-		var world_instance = world_resource.instantiate()
-		world_viewport.add_child(world_instance)
-		
-	# 实例化并装载UI场景
-	if ui_resource:
-		var ui_instance = ui_resource.instantiate()
-		ui_layer.add_child(ui_instance)
+func load_system_scene(
+	scene_resource: PackedScene,
+	context: Dictionary = {}
+) -> void:
+	# 检查
+	if scene_resource == null:
+		push_error("MAIN：尝试加载空的 PackedScene。")
+		return
+
+	# 立即把旧系统移出场景树，避免它和新系统在同一帧继续接收输入或信号。
+	if is_instance_valid(active_system):
+		if active_system.get_parent() == active_system_holder:
+			active_system_holder.remove_child(active_system)
+
+		active_system.queue_free()
+		active_system = null
+
+	active_system = scene_resource.instantiate()
+	active_system_holder.add_child(active_system)
+
+	# 可选的统一初始化接口。
+	if active_system.has_method("enter_system"):
+		active_system.call_deferred("enter_system", context)

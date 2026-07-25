@@ -36,6 +36,11 @@ cache/0/22/0/descent = 0.0
 cache/0/22/0/underline_position = 0.0
 cache/0/22/0/underline_thickness = 0.0
 cache/0/22/0/scale = 1.0
+cache/0/12/0/ascent = 0.0
+cache/0/12/0/descent = 0.0
+cache/0/12/0/underline_position = 0.0
+cache/0/12/0/underline_thickness = 0.0
+cache/0/12/0/scale = 1.0
 
 [sub_resource type="Theme" id="Theme_3dl66"]
 Label/font_sizes/font_size = 50
@@ -67,39 +72,39 @@ theme = SubResource("Theme_3dl66")
 [node name="HP" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0, 0, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
 [node name="Stanima" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1064, 0.56, 0.11396, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
 [node name="Mana" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0132, 0.4444, 0.66, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
 [node name="Defence" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
 [node name="Shield" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
 [node name="Stamina_RS" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
 [node name="Mana_RS" type="Label" parent="MarginContainer/MainVBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/MainVBoxContainer"]
@@ -113,7 +118,7 @@ theme = SubResource("Theme_3dl66")
 [node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/PlayerBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.98, 0.98, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "PlayerBuff:"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/MainVBoxContainer"]
@@ -127,5 +132,5 @@ theme = SubResource("Theme_3dl66")
 [node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/EnemyBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.91, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
 text = "EnemyBuff:"

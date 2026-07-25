@@ -78,7 +78,7 @@ func update_player_buffs(buffs: Dictionary):
 		
 		# --- 样式调整部分 ---
 		lbl.add_theme_color_override("font_color", Color.GREEN_YELLOW)
-		lbl.add_theme_font_size_override("font_size", 16)
+		lbl.add_theme_font_size_override("font_size", 12)
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		lbl.custom_minimum_size = Vector2(0, 20) 
 		
@@ -97,7 +97,7 @@ func update_enemy_buffs(buffs: Dictionary):
 		
 		# --- 样式调整部分 ---
 		lbl.add_theme_color_override("font_color", Color.GREEN_YELLOW)
-		lbl.add_theme_font_size_override("font_size", 16)
+		lbl.add_theme_font_size_override("font_size", 12)
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		lbl.custom_minimum_size = Vector2(0, 20) 
 		

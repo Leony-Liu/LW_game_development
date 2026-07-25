@@ -1,33 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5bqwwplbqjgj"]
+[gd_scene load_steps=3 format=3 uid="uid://b5bqwwplbqjgj"]
 
 [ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
-[ext_resource type="Texture2D" uid="uid://bi1datfuhsmjk" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcard3 1.png" id="2_f1ty3"]
-[ext_resource type="Texture2D" uid="uid://cv6g2ulymp20c" path="res://Scene/Battle_Scene/Card_Scene/Arts/CardIllustration/Group 54.png" id="3_k3fp1"]
+[ext_resource type="Texture2D" uid="uid://smoqip68cmas" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png" id="2_i0dxh"]
 
 [node name="Card" type="Control"]
-custom_minimum_size = Vector2(170, 250)
 layout_mode = 3
 anchors_preset = 0
-offset_left = -82.0
-offset_top = -250.0
-offset_right = 88.0
-pivot_offset = Vector2(85, 250)
+offset_left = -32.0
+offset_top = -90.0
+offset_right = 32.0
 script = ExtResource("1_avhnj")
-attack_cost_color = Color(0.116667, 1, 0, 1)
+attack_cost_color = Color(0.135, 0.75, 0.217, 1)
+skill_cost_color = Color(0, 0.6075, 0.81, 1)
 
 [node name="Visuals" type="Control" parent="."]
-custom_minimum_size = Vector2(170, 250)
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="Visuals"]
@@ -37,59 +30,40 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -64.0
-offset_top = -180.0
-offset_right = 64.0
+offset_left = -32.0
+offset_top = -90.0
+offset_right = 32.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-texture = ExtResource("2_f1ty3")
+texture = ExtResource("2_i0dxh")
+expand_mode = 1
 
-[node name="Illustration" type="TextureRect" parent="Visuals/Background"]
+[node name="NameLable" type="Label" parent="Visuals/Background"]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -114.0
-offset_right = 100.0
-offset_bottom = 86.0
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_top = -14.0
+offset_right = 39.0
+offset_bottom = -2.0
 grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.65, 0.65)
-pivot_offset = Vector2(100, 100)
-mouse_filter = 2
-texture = ExtResource("3_k3fp1")
-
-[node name="CostContainer" type="HBoxContainer" parent="Visuals/Background"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -308.0
-offset_bottom = 64.0
-grow_horizontal = 0
-scale = Vector2(1.00338, 1)
-mouse_filter = 2
-alignment = 2
-
-[node name="CostLable" type="Label" parent="Visuals/Background/CostContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.87, 0.3625, 1)
-theme_override_font_sizes/font_size = 64
-text = "THIS IS A BUG"
-
-[node name="NameContainer" type="HBoxContainer" parent="Visuals/Background"]
-layout_mode = 1
-offset_right = 107.0
-offset_bottom = 40.0
-mouse_filter = 2
-alignment = 1
-
-[node name="NameLable" type="Label" parent="Visuals/Background/NameContainer"]
-layout_mode = 2
+grow_vertical = 0
 theme_override_colors/font_color = Color(0.06, 0.012, 0.012, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 12
+text = "THIS IS A BUG"
+horizontal_alignment = 1
+
+[node name="CostLable" type="Label" parent="Visuals/Background"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 3.0
+offset_right = 81.0
+offset_bottom = 12.0
+theme_override_colors/font_color = Color(0, 0.79, 0.329167, 1)
+theme_override_font_sizes/font_size = 12
 text = "THIS IS A BUG"

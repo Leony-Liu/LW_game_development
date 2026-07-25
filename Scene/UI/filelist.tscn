@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://cju7wln8x7rim"]
+[gd_scene load_steps=17 format=3 uid="uid://cju7wln8x7rim"]
 
 [ext_resource type="Script" uid="uid://du231n4g8qwjk" path="res://Scene/UI/Scripts/filelist_menu.gd" id="1_04a8g"]
-[ext_resource type="Texture2D" uid="uid://djv77ajv08axo" path="res://Scene/UI/Arts/File List.png" id="1_osgac"]
 [ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_syg7e"]
 
 [sub_resource type="GDScript" id="GDScript_cq4sl"]
@@ -719,16 +718,6 @@ delete_confirm_panel = NodePath("DeleteConfirmPanel")
 confirm_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/ConfirmDeleteBtn")
 cancel_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/CancelDeleteBtn")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_osgac")
-
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -740,18 +729,11 @@ color = Color(0.07, 0.07, 0.07, 0.592157)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -392.0
-offset_top = -178.5
-offset_right = 408.0
-offset_bottom = 421.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(400, 0)
 
 [node name="SaveListContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
@@ -792,15 +774,18 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "Confrim"
 
 [node name="CancelButton" type="Button" parent="NameInputPanel/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "Cancel"
 
 [node name="DeleteConfirmPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -832,7 +817,9 @@ horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="DeleteConfirmPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = " This cannot be undone. Are you sure you want to delete this file?"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DeleteConfirmPanel/VBoxContainer"]
 layout_mode = 2

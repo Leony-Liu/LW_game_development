@@ -89,6 +89,6 @@ func _return_to_main_menu() -> void:
 	var load_main_logic = func():
 		# 关键点：用 load() 在按下 ESC 的瞬间去读取场景，彻底告别循环依赖报错！
 		var main_menu = load("res://Scene/UI/main_menu.tscn")
-		main_root.load_ui_scene(main_menu) 
+		main_root.load_system_scene(main_menu) 
 		
 	SceneManager.transition_to(load_main_logic, 0.5)

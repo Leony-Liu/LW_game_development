@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcwlpndhrutbe"]
+[gd_scene load_steps=6 format=3 uid="uid://dcwlpndhrutbe"]
 
-[ext_resource type="Script" uid="uid://d1e8q2cd5rlh0" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
+[ext_resource type="Script" uid="uid://d4fbaphgs66ij" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
+[ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battle_Scene_Main/Battlescene.tscn" id="2_6i1m0"]
 [ext_resource type="PackedScene" uid="uid://cju7wln8x7rim" path="res://Scene/UI/filelist.tscn" id="3_6i1m0"]
 [ext_resource type="PackedScene" uid="uid://dq13sgkxdyni6" path="res://Scene/UI/options.tscn" id="4_68aio"]
 
 [sub_resource type="FontVariation" id="FontVariation_6i1m0"]
-spacing_glyph = 90
+spacing_glyph = 30
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -15,8 +16,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3125x")
-filelist_scene = ExtResource("3_6i1m0")
-options_scene = ExtResource("4_68aio")
+battle_system_scene = ExtResource("2_6i1m0")
+filelist_system_scene = ExtResource("3_6i1m0")
+options_system_scene = ExtResource("4_68aio")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0696115, 0.0696115, 0.0696115, 1)
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -25,12 +36,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_bottom = 200
+theme_override_constants/margin_bottom = 150
 
-[node name="Label" type="Label" parent="MarginContainer2"]
+[node name="Title" type="Label" parent="MarginContainer2"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_6i1m0")
-theme_override_font_sizes/font_size = 128
+theme_override_font_sizes/font_size = 44
 text = "ERGATOXIN"
 horizontal_alignment = 1
 
@@ -41,34 +52,34 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 600
+theme_override_constants/margin_top = 150
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-custom_minimum_size = Vector2(400, 100)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 45
+theme_override_constants/separation = 5
 
 [node name="StartGame" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "START GAME"
 
 [node name="FileList" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "FILE LIST"
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "OPTIONS"
 
 [node name="QuitGame" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "QUIT GAME"

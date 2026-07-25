@@ -70,13 +70,10 @@ mouse_filter = 2
 [node name="PlayerInfromation" parent="UIManager/UIRoot" instance=ExtResource("7_tsycl")]
 layout_mode = 1
 
-[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_deck_node", "card_factory")]
+[node name="CardManager" type="Node" parent="UIManager/UIRoot" node_paths=PackedStringArray("hand_deck_node", "card_factory", "player")]
 script = ExtResource("1_ygjx7")
 hand_deck_node = NodePath("PlayerHandDeck")
 card_factory = NodePath("../../../CardFactory")
+player = NodePath("../../../Player")
 
 [node name="PlayerHandDeck" parent="UIManager/UIRoot/CardManager" instance=ExtResource("7_3b3d8")]
-offset_left = -360.0
-offset_top = -208.0
-offset_right = 360.0
-offset_bottom = -28.0
