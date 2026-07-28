@@ -2,25 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfrijf1mq6q8x"
-<<<<<<< HEAD:Scene/Card_scene/Arts/CardBackground.png.import
-path="res://.godot/imported/CardBackground.png-849e232d4661ad23c67b52e23770edca.ctex"
-=======
+uid="uid://d3rsew7ux24tl"
 path="res://.godot/imported/CardBackground.png-265194904d1ab8dcc09c8f26aa7cd28d.ctex"
->>>>>>> Merge_version:Scene/Battle_Scene/Card_Scene/Arts/CardBackground.png.import
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-<<<<<<< HEAD:Scene/Card_scene/Arts/CardBackground.png.import
-source_file="res://Scene/Card_scene/Arts/CardBackground.png"
-dest_files=["res://.godot/imported/CardBackground.png-849e232d4661ad23c67b52e23770edca.ctex"]
-=======
 source_file="res://Scene/Battle_Scene/Card_Scene/Arts/CardBackground.png"
 dest_files=["res://.godot/imported/CardBackground.png-265194904d1ab8dcc09c8f26aa7cd28d.ctex"]
->>>>>>> Merge_version:Scene/Battle_Scene/Card_Scene/Arts/CardBackground.png.import
 
 [params]
 

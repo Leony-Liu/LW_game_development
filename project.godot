@@ -28,6 +28,9 @@ SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 InventoryManager="*res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd"
+UIManager="*res://Scene/Search_system/Script/Manager/ui_manager.gd"
+InteractionManager="*res://Scene/Search_system/Script/Manager/interaction_manager.gd"
+SearchManager="*res://Scene/Search_system/Script/Manager/search_manager.gd"
 
 [debug]
 

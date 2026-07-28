@@ -2,25 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cv6g2ulymp20c"
-<<<<<<< HEAD:Scene/Card_scene/Arts/CardIllustration/Group 54.png.import
-path="res://.godot/imported/Group 54.png-fab794d60f631d8aa3365c5d54bbfeb9.ctex"
-=======
+uid="uid://5u08clxc2x74"
 path="res://.godot/imported/Group 54.png-5b5c83159181a4da5366e76d9c7cbcb4.ctex"
->>>>>>> Merge_version:Scene/Battle_Scene/Card_Scene/Arts/CardIllustration/Group 54.png.import
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-<<<<<<< HEAD:Scene/Card_scene/Arts/CardIllustration/Group 54.png.import
-source_file="res://Scene/Card_scene/Arts/CardIllustration/Group 54.png"
-dest_files=["res://.godot/imported/Group 54.png-fab794d60f631d8aa3365c5d54bbfeb9.ctex"]
-=======
 source_file="res://Scene/Battle_Scene/Card_Scene/Arts/CardIllustration/Group 54.png"
 dest_files=["res://.godot/imported/Group 54.png-5b5c83159181a4da5366e76d9c7cbcb4.ctex"]
->>>>>>> Merge_version:Scene/Battle_Scene/Card_Scene/Arts/CardIllustration/Group 54.png.import
 
 [params]
 
