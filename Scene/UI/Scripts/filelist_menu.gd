@@ -50,7 +50,9 @@ func _return_to_main_menu() -> void:
 		
 	var load_main_logic = func(): 
 		var main_menu = load("res://Scene/UI/main_menu.tscn") 
-		main_root.load_ui_scene(main_menu) 
+		main_root.load_system_scene(main_menu, {
+		
+})
 		
 	SceneManager.transition_to(load_main_logic, 0.5) 
 

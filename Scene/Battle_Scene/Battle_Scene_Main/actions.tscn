@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://mafouu7ggl86"]
+
+[ext_resource type="Texture2D" uid="uid://6n0mf5jdr4fv" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Actions/CIRCLE.png" id="1_yc7xv"]
+[ext_resource type="Texture2D" uid="uid://btl3rfd4sqw76" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Actions/TRIANGLE.png" id="2_nmd5b"]
+[ext_resource type="Texture2D" uid="uid://cx6lqdvh83pkp" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Actions/RECTANGLE.png" id="3_n2th4"]
+
+[sub_resource type="Environment" id="Environment_kxbv4"]
+background_mode = 3
+glow_enabled = true
+
+[node name="Actions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Circle" type="TextureRect" parent="."]
+modulate = Color(2, 2, 2, 1)
+layout_mode = 0
+offset_left = -11.0
+offset_top = -22.0
+offset_right = 11.0
+pivot_offset = Vector2(11, 22)
+texture = ExtResource("1_yc7xv")
+
+[node name="Triangle" type="TextureRect" parent="."]
+modulate = Color(2, 2, 2, 1)
+layout_mode = 0
+offset_left = -11.0
+offset_top = -22.0
+offset_right = 11.0
+pivot_offset = Vector2(11, 22)
+texture = ExtResource("2_nmd5b")
+
+[node name="Rectangle" type="TextureRect" parent="."]
+modulate = Color(2, 2, 2, 1)
+layout_mode = 0
+offset_left = -11.0
+offset_top = -22.0
+offset_right = 11.0
+pivot_offset = Vector2(11, 22)
+texture = ExtResource("3_n2th4")
+
+[node name="2D_Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kxbv4")

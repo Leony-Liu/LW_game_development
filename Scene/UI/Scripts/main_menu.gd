@@ -1,91 +1,101 @@
 extends Control
 
-@onready var start_button = $MarginContainer/VBoxContainer/startgame
-@onready var file_button = $MarginContainer/VBoxContainer/filelist
-@onready var options_button = $MarginContainer/VBoxContainer/options # 确保路径对应你的场景树
-@onready var quit_button = $MarginContainer/VBoxContainer/quitegame
+@onready var start_button: Button = %StartGame
+@onready var file_button: Button = %FileList
+@onready var options_button: Button = %Options
+@onready var quit_button: Button = %QuitGame
 
-# 【专业做法】：暴露出目标关卡的挂载点
 @export_category("Navigation")
-@export var startgame_scene: PackedScene
-@export var filelist_scene: PackedScene
-@export var options_scene: PackedScene
+@export var battle_system_scene: PackedScene
+@export var filelist_system_scene: PackedScene
+@export var options_system_scene: PackedScene
+
+@export_category("Transition")
+@export_range(0.0, 2.0, 0.05) var transition_duration: float = 0.25
+
 
 func _ready() -> void:
 	start_button.pressed.connect(_on_start_game_pressed)
-	file_button.pressed.connect(_filelist_open_pressed)
-	options_button.pressed.connect(_options_open_pressed)
+	file_button.pressed.connect(_on_filelist_open_pressed)
+	options_button.pressed.connect(_on_options_open_pressed)
 	quit_button.pressed.connect(_on_quit_game_pressed)
-	
+
 # ==========================================
-# 开始游戏按钮回调逻辑
+# 点击按钮后触发
 # ==========================================
-# ==========================================
-# 开始游戏按钮回调逻辑 (继续上次游戏)
-# ==========================================
+# 开始游戏按钮
 func _on_start_game_pressed() -> void:
-	if not startgame_scene:
-		push_error("主菜单错误：未配置 START GAME 的目标场景！")
-		return
-		
-	var saves = SaveManager.get_all_saves()
-	
-	if saves.size() > 0:
-		var latest_save_id = saves[0]["id"]
-		if SaveManager.load_save(latest_save_id):
-			var main_root = get_tree().root.get_node_or_null("MAIN")
-			if main_root:
-				var load_base_logic = func():
-					# 【修复这里】从 load_world_scene 改为 load_ui_scene
-					main_root.load_ui_scene(startgame_scene) 
-				SceneManager.transition_to(load_base_logic, 0.5)
-	else:
-		print("未检测到本地存档，自动为您跳转至存档列表界面...")
-		_filelist_open_pressed()
+	_open_system(
+		battle_system_scene,
+		"battle_system_scene",
+		{
+			"entry_source": "main_menu",
+			"mode": "battle_test",
+			"debug_mode": true,
+		}
+	)
 
-# ==========================================
-# 存档列表按钮回调逻辑
-# ==========================================
-func _filelist_open_pressed() -> void:
-	# 1. 安全校验：检查是否在右侧检查器挂载了场景
-	if not filelist_scene:
-		push_error("主菜单错误：未配置 File List (存档列表) 的目标场景！")
-		return
-		
-	# 2. 获取 MAIN 根节点
-	var main_root = get_tree().root.get_node_or_null("MAIN")
-	if not main_root:
-		push_error("找不到 MAIN 根节点，请确保游戏从 MAIN.tscn 启动")
-		return
-	
-	# 3. 定义跳转逻辑 (闭包)
-	var load_filelist_logic = func():
-		# 【关键区别】：因为存档列表是 UI，所以这里调用 load_ui_scene
-		main_root.load_ui_scene(filelist_scene) 
-		
-	# 4. 调用全局转场管理器，0.5秒黑屏过渡
-	SceneManager.transition_to(load_filelist_logic, 0.1)
+# 存档列表按钮
+func _on_filelist_open_pressed() -> void:
+	_open_system(
+		filelist_system_scene,
+		"filelist_system_scene",
+		{"entry_source": "main_menu"}
+	)
 
-func _options_open_pressed() -> void:
-	if not options_scene:
-		push_error("主菜单错误：未配置 Options (设置) 的目标场景！")
-		return
-		
-	var main_root = get_tree().root.get_node_or_null("MAIN")
-	if not main_root:
-		push_error("找不到 MAIN 根节点，请确保游戏从 MAIN.tscn 启动")
-		return
-	
-	var load_options_logic = func():
-		# 设置界面同样是 UI，调用 load_ui_scene
-		main_root.load_ui_scene(options_scene) 
-		
-	SceneManager.transition_to(load_options_logic, 0.1)
+# 设置按钮
+func _on_options_open_pressed() -> void:
+	_open_system(
+		options_system_scene,
+		"options_system_scene",
+		{"entry_source": "main_menu"}
+	)
 
-
-# ==========================================
-# 退出游戏回调逻辑
-# ==========================================
+# 退出游戏按钮
 func _on_quit_game_pressed() -> void:
-	# 干净利落地关闭整个游戏程序，退回桌面
 	get_tree().quit()
+
+
+# ==========================================
+# 外部暴露方法
+# ==========================================
+func _open_system(
+	target_scene: PackedScene,
+	export_name: String,
+	context: Dictionary = {}
+) -> void:
+	# 防呆检查
+	if target_scene == null:
+		push_error("主菜单错误：未配置 %s。" % export_name)
+		return
+
+	var main_root := _get_main_root()
+	if main_root == null:
+		push_error("主菜单错误：找不到 MAIN 根节点。请确认项目从 MAIN.tscn 启动。")
+		return
+
+	if not main_root.has_method("load_system_scene"):
+		push_error("主菜单错误：MAIN 没有 load_system_scene() 方法。")
+		return
+
+	# Callable 持有的是 MAIN，而不是当前菜单节点。
+	# 菜单在回调中被移除后，调用仍然有效。
+	var load_callback := Callable(
+		main_root,
+		"load_system_scene"
+	).bind(
+		target_scene,
+		context
+	)
+
+	SceneManager.transition_to(load_callback, transition_duration)
+
+
+func _get_main_root() -> Node:
+	# 在当前架构中 current_scene 应当始终是 MAIN。
+	var current_scene := get_tree().current_scene
+	if current_scene != null and current_scene.has_method("load_system_scene"):
+		return current_scene
+
+	# 兼容节点名称固定为 MAIN 的情况。
+	return get_tree().root.get_node_or_null("MAIN")

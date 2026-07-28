@@ -10,7 +10,7 @@ uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_n
 uniform float color_depth : hint_range(2.0, 256.0, 1.0) = 32.0;
 
 // @description 整体对比度：增强画面明暗反差。复古游戏通常对比度较高，显得更硬朗。
-uniform float contrast : hint_range(0.5, 2.0, 0.05) = 1.1;
+uniform float contrast : hint_range(0.5, 2.0, 0.05) = 0.95;
 
 // @description 亮度补偿：色彩量化有时会让画面变暗，用此参数微调整体亮度。
 uniform float brightness : hint_range(0.5, 2.0, 0.05) = 1.0;
@@ -32,13 +32,13 @@ uniform float dither_scale : hint_range(1.0, 4.0, 1.0) = 1.0;
 // ==========================================
 
 // @description 色差强度(RGB分离)：模拟老电视电子束未对齐，在物体边缘产生的红蓝重影。对恐怖氛围加成极大。
-uniform float chromatic_aberration : hint_range(0.0, 0.01, 0.0001) = 0.001;
+uniform float chromatic_aberration : hint_range(0.0, 0.01, 0.0001) = 0.0;
 
 // @description 扫描线强度：横向暗线的深度。建议不要调太高，以免影响画面阅读。
 uniform float scanline_intensity : hint_range(0.0, 1.0, 0.01) = 0.15;
 
 // @description 暗角强度：压暗屏幕四周，聚焦中心。配合手电筒光源使用效果最佳。
-uniform float vignette_intensity : hint_range(0.0, 2.0, 0.05) = 0.8;
+uniform float vignette_intensity : hint_range(0.0, 2.0) = 0.8;
 
 
 // 经典的 4x4 Bayer 抖动矩阵

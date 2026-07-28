@@ -1,8 +1,705 @@
-[gd_scene load_steps=4 format=3 uid="uid://cju7wln8x7rim"]
+[gd_scene load_steps=17 format=3 uid="uid://cju7wln8x7rim"]
 
 [ext_resource type="Script" uid="uid://du231n4g8qwjk" path="res://Scene/UI/Scripts/filelist_menu.gd" id="1_04a8g"]
-[ext_resource type="Texture2D" uid="uid://djv77ajv08axo" path="res://Scene/UI/Arts/File List.png" id="1_osgac"]
-[ext_resource type="PackedScene" uid="uid://77xlfdn6pd75" path="res://Scene/UI/Base_Main.tscn" id="2_syg7e"]
+[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_syg7e"]
+
+[sub_resource type="GDScript" id="GDScript_cq4sl"]
+script/source = "extends Control
+# base_main.gd
+
+# 1. 声明要动态加载的场景资源 (需在检查器中拖入对应的 .tscn)
+@export_category(\"UI Panels\")
+@export var panel_character_scene: PackedScene
+@export var panel_warehouse_scene: PackedScene
+@export var panel_shop_scene: PackedScene
+@export var panel_upgrade_scene: PackedScene
+@export var panel_craft_scene: PackedScene
+
+# 2. 绑定顶部导航按钮
+@onready var btn_character = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Character
+@onready var btn_warehouse = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Warehouse
+@onready var btn_shop = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Shop
+@onready var btn_upgrade = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Upgrade
+@onready var btn_craft = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Craft
+
+# 3. 绑定内容展示区
+@onready var content_area = $ContentArea
+
+# 记录当前正在显示的面板节点
+var current_panel_node: Control = null
+
+func _ready() -> void:
+	# 保险措施：清空 ContentArea 中可能存在的占位节点
+	for child in content_area.get_children():
+		child.queue_free()
+
+	# 绑定按钮信号，通过 bind() 将对应的场景传递给切换函数
+	btn_character.pressed.connect(_switch_to_panel.bind(panel_character_scene))
+	btn_warehouse.pressed.connect(_switch_to_panel.bind(panel_warehouse_scene))
+	btn_shop.pressed.connect(_switch_to_panel.bind(panel_shop_scene))
+	btn_upgrade.pressed.connect(_switch_to_panel.bind(panel_upgrade_scene))
+	btn_craft.pressed.connect(_switch_to_panel.bind(panel_craft_scene))
+
+	# 游戏刚进入基地时，默认打开“角色”面板
+	# 使用 call_deferred 确保所有自动加载单例都在第一帧初始化完毕
+	call_deferred(\"_switch_to_panel\", panel_character_scene)
+
+# 核心切换逻辑：销毁旧的，实例化新的，并触发自动保存
+func _switch_to_panel(target_scene: PackedScene) -> void:
+	if target_scene == null:
+		push_error(\"BaseMain: 目标面板的 PackedScene 未挂载，请检查右侧检查器！\")
+		return
+
+	# 1. 如果当前已经有面板在显示
+	if current_panel_node != null:
+		# 【核心】：玩家离开上一个面板时，触发无感自动保存
+		SaveManager.save_current_state()
+		
+		# 销毁旧面板，释放内存
+		current_panel_node.queue_free()
+		current_panel_node = null
+
+	# 2. 实例化新面板并挂载到界面上
+	var new_panel = target_scene.instantiate()
+	content_area.add_child(new_panel)
+	
+	# 3. 将新面板记录为当前面板
+	current_panel_node = new_panel
+
+	# 切换音效 (取消注释即可启用)
+	# BattleBus.play_sfx.emit(\"ui_system\", \"tab_switch\", Vector3.ZERO)
+"
+
+[sub_resource type="GDScript" id="GDScript_x0m3w"]
+script/source = "extends Control
+# base_character_panel.gd
+
+@export_category(\"Level Navigation\")
+@export var target_map_world: PackedScene
+@export var target_map_ui: PackedScene
+
+@onready var enter_map_btn = $MarginContainer/Button
+@onready var category_tabs = $MarginContainer2/HBoxContainer/Right_BackpackPanelMargin/Right_BackpackPanel/CategoryTabs
+
+var current_selected_uid: String = \"\"
+var current_category: String = \"weapon\"
+
+const BACKPACK_MAX_SLOTS: int = 20 # 角色界面的背包网格容量（可根据你的行列数修改）
+
+func _ready() -> void:
+	if enter_map_btn:
+		enter_map_btn.pressed.connect(_on_enter_map_pressed)
+	
+	# 1. 绑定分类 Tab
+	if category_tabs:
+		for tab in category_tabs.get_children():
+			if tab is Button:
+				tab.pressed.connect(_on_tab_pressed.bind(tab.name.to_lower()))
+	
+	# 2. 动态绑定槽位并注入 (允许装配的分类, 专属Location标签)
+	if get_node_or_null(\"%ArmorSlots\"):
+		for slot in %ArmorSlots.get_children():
+			if slot is Button:
+				var loc_name = \"equipped_\" + slot.name.to_lower()
+				slot.pressed.connect(_on_equip_slot_pressed.bind(\"armor\", loc_name, slot))
+	
+	if get_node_or_null(\"%WeaponSlots\"):
+		for slot in %WeaponSlots.get_children():
+			if slot is Button:
+				var loc_name = \"equipped_\" + slot.name.to_lower()
+				slot.pressed.connect(_on_equip_slot_pressed.bind(\"weapon\", loc_name, slot))
+	
+	if get_node_or_null(\"%itemSlots\"):
+		for slot in %itemSlots.get_children():
+			if slot is Button:
+				var loc_name = \"equipped_\" + slot.name.to_lower()
+				slot.pressed.connect(_on_equip_slot_pressed.bind(\"item\", loc_name, slot))
+	
+	_clear_detail()
+	_refresh_all()
+
+# --- 渲染刷新逻辑 ---
+func _refresh_all() -> void:
+	_render_inventory(current_category)
+	_render_equipped_slots()
+
+func _on_tab_pressed(category_type: String) -> void:
+	current_category = category_type
+	_render_inventory(category_type)
+	_clear_detail()
+
+# 【核心修复】：安全清空节点引擎
+func _clear_grid_safely(grid: Container) -> void:
+	for child in grid.get_children():
+		grid.remove_child(child) 
+		child.queue_free()
+
+func _render_inventory(category_type: String) -> void:
+	var grid = get_node_or_null(\"%InventoryGrid\")
+	if not grid: return
+	
+	_clear_grid_safely(grid)
+	
+	# 向管家索要对应分类的背包物品
+	var backpack_items = InventoryManager.get_items(\"backpack\", category_type)
+	
+	# 使用全新的 Figma 浅灰质感填充
+	for i in range(BACKPACK_MAX_SLOTS):
+		var btn = Button.new()
+		btn.custom_minimum_size = Vector2(150, 140) # 统一150x140规格
+		btn.focus_mode = Control.FOCUS_NONE
+		
+		# --- 创建完全匹配 Figma 草稿的浅灰色实体背景 ---
+		var style_box = StyleBoxFlat.new()
+		style_box.bg_color = Color(\"d9d9d9\") # 浅灰占位色
+		style_box.border_color = Color(\"aaaaaa\")
+		style_box.border_width_bottom = 2
+		style_box.border_width_right = 2
+		
+		btn.add_theme_stylebox_override(\"normal\", style_box)
+		btn.add_theme_stylebox_override(\"hover\", style_box)
+		btn.add_theme_stylebox_override(\"disabled\", style_box)
+		
+		if i < backpack_items.size():
+			var item = backpack_items[i]
+			var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
+			if static_data.is_empty(): continue
+			
+			var display_name = tr(static_data.get(\"name_key\", \"未知物品\"))
+			if item.has(\"count\") and item[\"count\"] > 1:
+				display_name += \"\\nx\" + str(item[\"count\"])
+			
+			if item.get(\"is_broken\", false):
+				btn.add_theme_color_override(\"font_color\", Color.RED)
+				display_name += \"\\n(破损)\"
+			else:
+				btn.add_theme_color_override(\"font_color\", Color(\"1a1a1a\")) # 浅灰底配深色字
+			
+			btn.text = display_name
+			btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
+			btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			
+			# 绑定角色面板专属的装备替换信号
+			btn.pressed.connect(_on_inventory_item_pressed.bind(item[\"uid\"], static_data, item))
+		else:
+			# 空槽位
+			btn.text = \"\"
+			btn.disabled = true
+			btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			btn.modulate = Color.WHITE
+			
+		grid.add_child(btn)
+
+func _render_equipped_slots() -> void:
+	var all_slot_containers = []
+	if get_node_or_null(\"%ArmorSlots\"): all_slot_containers.append(%ArmorSlots)
+	if get_node_or_null(\"%WeaponSlots\"): all_slot_containers.append(%WeaponSlots)
+	if get_node_or_null(\"%itemSlots\"): all_slot_containers.append(%itemSlots)
+	
+	for container in all_slot_containers:
+		for slot in container.get_children():
+			if slot is Button:
+				var loc_name = \"equipped_\" + slot.name.to_lower()
+				var items_in_slot = InventoryManager.get_items(loc_name)
+				
+				if items_in_slot.size() > 0:
+					var item = items_in_slot[0]
+					var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
+					var d_name = tr(static_data.get(\"name_key\", \"未知\"))
+					
+					if item.has(\"count\") and item[\"count\"] > 1:
+						d_name += \" x\" + str(item[\"count\"])
+					
+					slot.text = d_name
+					slot.set_meta(\"equipped_uid\", item[\"uid\"])
+					
+					if item.get(\"is_broken\", false):
+						slot.add_theme_color_override(\"font_color\", Color.RED)
+					else:
+						slot.remove_theme_color_override(\"font_color\")
+				else:
+					slot.text = slot.name
+					slot.set_meta(\"equipped_uid\", \"\")
+					slot.remove_theme_color_override(\"font_color\")
+
+# --- 交互逻辑 ---
+func _on_inventory_item_pressed(uid: String, static_data: Dictionary, dynamic_data: Dictionary) -> void:
+	current_selected_uid = uid
+	if get_node_or_null(\"%DetailName\"):
+		%DetailName.text = tr(static_data.get(\"name_key\", \"未知名称\"))
+		
+	if get_node_or_null(\"%DetailType\"):
+		var specific_type = static_data.get(\"equip_type\", static_data.get(\"wep_type\", \"通用\"))
+		%DetailType.text = \"类型: \" + specific_type
+		
+	if get_node_or_null(\"%DetailDesc\"):
+		var desc = tr(static_data.get(\"desc\", \"无描述\"))
+		if dynamic_data.has(\"current_durability\"):
+			desc += \"\\n耐久度: %d / %d\" % [dynamic_data[\"current_durability\"], static_data.get(\"max_durability\", 100)]
+		%DetailDesc.text = desc
+
+func _clear_detail() -> void:
+	current_selected_uid = \"\"
+	if get_node_or_null(\"%DetailName\"): %DetailName.text = \"未选择物品\"
+	if get_node_or_null(\"%DetailType\"): %DetailType.text = \"\"
+	if get_node_or_null(\"%DetailDesc\"): %DetailDesc.text = \"请在右侧选择物品查看详情。\\n(点击已装备槽位可卸下)\"
+
+func _on_equip_slot_pressed(required_category: String, target_location: String, slot_node: Button) -> void:
+	var current_equipped_uid = slot_node.get_meta(\"equipped_uid\", \"\")
+	
+	# 情况 A：手里没拿东西 -> 卸下当前槽位的装备到背包
+	if current_selected_uid == \"\":
+		if current_equipped_uid != \"\":
+			InventoryManager.move_item(current_equipped_uid, \"backpack\")
+			_refresh_all()
+		return
+		
+	# 情况 B：手里拿着东西 -> 尝试穿戴/替换
+	var selected_item = InventoryManager.get_item_by_uid(current_selected_uid)
+	var static_data = ItemDatabaseManager.get_item_data(selected_item[\"template_id\"])
+	var item_category = static_data.get(\"category\", \"\")
+	
+	if item_category != required_category:
+		print(\"❌ 穿戴失败：物品类型不符。\")
+		return
+		
+	if selected_item.get(\"is_broken\", false):
+		print(\"❌ 穿戴失败：装备已彻底破损，需先维修！\")
+		return
+		
+	if required_category == \"armor\":
+		var specific_type = static_data.get(\"equip_type\", \"\")
+		var slot_suffix = target_location.split(\"_\")[1]
+		if specific_type != slot_suffix:
+			print(\"❌ 穿戴失败：部位不匹配 (%s 不能放在 %s)\" % [specific_type, slot_suffix])
+			return
+			
+	InventoryManager.move_item(current_selected_uid, target_location)
+	_clear_detail()
+	_refresh_all()
+
+func _on_enter_map_pressed() -> void:
+	if not target_map_world or not target_map_ui: return
+	var main_root = get_tree().root.get_node_or_null(\"MAIN\")
+	if main_root:
+		SceneManager.transition_to(func(): main_root.load_combat_scene(target_map_world, target_map_ui), 0.5)
+"
+
+[sub_resource type="FontVariation" id="FontVariation_xqupy"]
+spacing_glyph = 5
+
+[sub_resource type="FontVariation" id="FontVariation_yvw4x"]
+spacing_glyph = 5
+
+[sub_resource type="PackedScene" id="PackedScene_l2dkb"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("base_character_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "script", "MarginContainer", "MarginContainer", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "theme_override_constants/margin_left", "theme_override_constants/margin_top", "theme_override_constants/margin_right", "theme_override_constants/margin_bottom", "VBoxContainer", "VBoxContainer", "layout_mode", "threebtnVContainer", "VBoxContainer", "layout_mode", "MarginContainer", "MarginContainer", "layout_mode", "theme_override_constants/margin_bottom", "threebtnHContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "weapon", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "armor", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "item", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "HBoxContainer", "HBoxContainer", "layout_mode", "HSeparator", "HSeparator", "custom_minimum_size", "layout_mode", "HBoxContainer", "HBoxContainer", "layout_mode", "Line1", "MarginContainer", "custom_minimum_size", "layout_mode", "theme_override_constants/margin_top", "VBoxContainer", "VBoxContainer", "layout_mode", "Label", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "itemlist", "VBoxContainer", "layout_mode", "Line2", "MarginContainer", "layout_mode", "size_flags_horizontal", "Line3", "MarginContainer", "custom_minimum_size", "layout_mode", "size_flags_horizontal", "VBoxContainer", "VBoxContainer", "layout_mode", "Equipment", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "equipmentlist", "VBoxContainer", "layout_mode", "StartgameMargin", "MarginContainer", "layout_mode", "anchors_preset", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "grow_horizontal", "grow_vertical", "theme_override_constants/margin_right", "theme_override_constants/margin_bottom", "START GAME", "Button", "layout_mode", "text"),
+"node_count": 23,
+"node_paths": [NodePath("."), NodePath("./MarginContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer"), NodePath("."), NodePath("./StartgameMargin")],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 7, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 0, 1073741824, 0, 10, 9, -1, 10, 11, 7, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 0, 1073741825, 0, 22, 21, -1, 1, 23, 17, 0, 1073741826, 0, 25, 24, -1, 1, 26, 18, 0, 1073741827, 0, 28, 27, -1, 2, 29, 19, 30, 20, 0, 1073741828, 0, 32, 31, -1, 2, 33, 21, 34, 22, 0, 1073741829, 0, 36, 35, -1, 5, 37, 23, 38, 24, 39, 25, 40, 26, 41, 27, 0, 1073741830, 0, 43, 42, -1, 5, 44, 28, 45, 29, 46, 30, 47, 31, 48, 32, 0, 1073741831, 0, 50, 49, -1, 5, 51, 33, 52, 34, 53, 35, 54, 36, 55, 37, 0, 1073741832, 0, 57, 56, -1, 1, 58, 38, 0, 1073741833, 0, 60, 59, -1, 2, 61, 39, 62, 40, 0, 1073741834, 0, 64, 63, -1, 1, 65, 41, 0, 1073741835, 0, 67, 66, -1, 3, 68, 42, 69, 43, 70, 44, 0, 1073741836, 0, 72, 71, -1, 1, 73, 45, 0, 1073741837, 0, 75, 74, -1, 6, 76, 46, 77, 47, 78, 48, 79, 49, 80, 50, 81, 51, 0, 1073741838, 0, 83, 82, -1, 1, 84, 52, 0, 1073741839, 0, 86, 85, -1, 2, 87, 53, 88, 54, 0, 1073741840, 0, 90, 89, -1, 3, 91, 55, 92, 56, 93, 57, 0, 1073741841, 0, 95, 94, -1, 1, 96, 58, 0, 1073741842, 0, 98, 97, -1, 6, 99, 59, 100, 60, 101, 61, 102, 62, 103, 63, 104, 64, 0, 1073741843, 0, 106, 105, -1, 1, 107, 65, 0, 1073741844, 0, 109, 108, -1, 12, 110, 66, 111, 67, 112, 68, 113, 69, 114, 70, 115, 71, 116, 72, 117, 73, 118, 74, 119, 75, 120, 76, 121, 77, 0, 1073741845, 0, 123, 122, -1, 2, 124, 78, 125, 79, 0),
+"variants": [3, 15, 1.0, 1.0, 2, 2, SubResource("GDScript_x0m3w"), 1, 15, 1.0, 1.0, 2, 2, 80, 180, 80, 120, 2, 2, 2, 5, 2, 0, Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "weapon", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "armor", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "item", 2, Vector2(600, 0), 2, 2, Vector2(600, 0), 2, 5, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_xqupy"), 48, "BAG", 1, 2, 2, 3, Vector2(600, 0), 2, 8, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_yvw4x"), 48, "EQUIPMENT", 1, 2, 1, 3, 1.0, 1.0, 1.0, 1.0, -238.0, -94.0, 0, 0, 50, 30, 2, "START GAME"],
+"version": 3
+}
+
+[sub_resource type="GDScript" id="GDScript_ejo1j"]
+script/source = "extends Control
+# base_warehouse_panel.gd
+
+# --- 节点绑定 ---
+@onready var category_tabs = %CategoryTabs
+@onready var warehouse_grid = %WarehouseGrid
+@onready var backpack_grid = %BackpackGrid
+
+# 中心详情区
+@onready var detail_name = %DetailName
+@onready var detail_type = %DetailType
+@onready var detail_desc = %DetailDesc
+
+# --- 状态数据 ---
+var current_warehouse_category: String = \"weapon\"
+var current_selected_uid: String = \"\"
+
+# --- 固定网格容量配置 (严格匹配 Figma 草稿) ---
+const WAREHOUSE_MAX_SLOTS: int = 16 # 仓库: 4列 x 4行 = 16格
+const BACKPACK_MAX_SLOTS: int = 12  # 背包: 3列 x 4行 = 12格
+
+func _ready() -> void:
+	if category_tabs:
+		for tab in category_tabs.get_children():
+			if tab is Button:
+				tab.pressed.connect(_on_tab_pressed.bind(tab.name.to_lower()))
+	
+	_clear_detail()
+	_refresh_both_sides()
+
+func _on_tab_pressed(category: String) -> void:
+	current_warehouse_category = category
+	_refresh_both_sides()
+	_clear_detail()
+
+func _refresh_both_sides() -> void:
+	_render_warehouse()
+	_render_backpack()
+
+# --- 渲染逻辑 ---
+func _render_warehouse() -> void:
+	if not warehouse_grid: return
+	_clear_grid_safely(warehouse_grid)
+	var items = InventoryManager.get_items(\"warehouse\", current_warehouse_category)
+	_fill_grid_with_slots(warehouse_grid, items, WAREHOUSE_MAX_SLOTS, \"backpack\")
+
+func _render_backpack() -> void:
+	if not backpack_grid: return
+	_clear_grid_safely(backpack_grid)
+	var items = InventoryManager.get_items(\"backpack\", current_warehouse_category)
+	_fill_grid_with_slots(backpack_grid, items, BACKPACK_MAX_SLOTS, \"warehouse\")
+
+# 【核心修复】：安全清空节点引擎
+func _clear_grid_safely(grid: Container) -> void:
+	for child in grid.get_children():
+		grid.remove_child(child) 
+		child.queue_free()       
+
+# 核心渲染引擎：完美还原 Figma 的 150x140 浅灰质感
+func _fill_grid_with_slots(grid: GridContainer, items: Array, max_slots: int, target_location: String) -> void:
+	for i in range(max_slots):
+		var btn = Button.new()
+		btn.custom_minimum_size = Vector2(150, 140) # 严格遵守要求的尺寸
+		btn.focus_mode = Control.FOCUS_NONE
+		
+		# --- 创建完全匹配 Figma 草稿的浅灰色实体背景 ---
+		var style_box = StyleBoxFlat.new()
+		style_box.bg_color = Color(\"d9d9d9\") # Figma 常见的浅灰占位色
+		style_box.border_color = Color(\"aaaaaa\")
+		style_box.border_width_bottom = 2
+		style_box.border_width_right = 2
+		
+		# 统一应用基础样式 (无论有没有物品，底色都是这个灰块)
+		btn.add_theme_stylebox_override(\"normal\", style_box)
+		btn.add_theme_stylebox_override(\"hover\", style_box)
+		btn.add_theme_stylebox_override(\"disabled\", style_box)
+		
+		if i < items.size():
+			var item = items[i]
+			var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
+			var display_name = tr(static_data.get(\"name_key\", \"未知物品\"))
+			
+			if item.has(\"count\") and item[\"count\"] > 1:
+				display_name += \"\\nx\" + str(item[\"count\"])
+			
+			if item.get(\"is_broken\", false):
+				btn.add_theme_color_override(\"font_color\", Color.RED)
+				display_name += \"\\n(破损)\"
+			else:
+				# 浅色背景配深色字更清晰
+				btn.add_theme_color_override(\"font_color\", Color(\"1a1a1a\")) 
+				
+			btn.text = display_name
+			btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
+			btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			btn.gui_input.connect(_on_item_gui_input.bind(item, target_location))
+		else:
+			btn.text = \"\"
+			btn.disabled = true
+			btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			# 确保没有任何半透明遮挡，纯粹展示纯灰底色
+			btn.modulate = Color.WHITE 
+			
+		grid.add_child(btn)
+
+# --- 核心交互 ---
+func _on_item_gui_input(event: InputEvent, item: Dictionary, target_location: String) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
+		
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			current_selected_uid = item[\"uid\"]
+			detail_name.text = tr(static_data.get(\"name_key\", \"未知名称\"))
+			var specific_type = static_data.get(\"equip_type\", static_data.get(\"wep_type\", \"通用\"))
+			detail_type.text = \"类型: \" + specific_type
+			
+			var desc = tr(static_data.get(\"desc\", \"无描述\"))
+			if item.has(\"current_durability\"):
+				desc += \"\\n\\n耐久度: %d / %d\" % [item[\"current_durability\"], static_data.get(\"max_durability\", 100)]
+			detail_desc.text = desc
+			
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			# 调用大管家转移数据，然后强制双端重绘
+			InventoryManager.move_item(item[\"uid\"], target_location)
+			_clear_detail()
+			_refresh_both_sides()
+
+func _clear_detail() -> void:
+	current_selected_uid = \"\"
+	if detail_name: detail_name.text = \"未选择物品\"
+	if detail_type: detail_type.text = \"\"
+	if detail_desc: detail_desc.text = \"左键点击物品查看详情\\n右键点击物品快捷转移\"
+"
+
+[sub_resource type="FontVariation" id="FontVariation_xe2la"]
+spacing_glyph = 5
+
+[sub_resource type="FontVariation" id="FontVariation_r7hbb"]
+spacing_glyph = 5
+
+[sub_resource type="PackedScene" id="PackedScene_kms7s"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("base_warehouse_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "mouse_filter", "script", "MarginContainer", "MarginContainer", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "theme_override_constants/margin_left", "theme_override_constants/margin_top", "theme_override_constants/margin_right", "theme_override_constants/margin_bottom", "VBoxContainer", "VBoxContainer", "layout_mode", "threebtnVContainer", "VBoxContainer", "layout_mode", "MarginContainer", "MarginContainer", "layout_mode", "theme_override_constants/margin_bottom", "VBoxContainer", "VBoxContainer", "layout_mode", "threebtnHContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "alignment", "weapon", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "armor", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "item", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "materials", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "others", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "HSeparator", "HSeparator", "layout_mode", "HBoxContainer", "HBoxContainer", "layout_mode", "Line1", "MarginContainer", "custom_minimum_size", "layout_mode", "theme_override_constants/margin_top", "VBoxContainer", "VBoxContainer", "layout_mode", "Label", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "itemlist", "VBoxContainer", "layout_mode", "Line2", "MarginContainer", "layout_mode", "size_flags_horizontal", "Line3", "MarginContainer", "custom_minimum_size", "layout_mode", "size_flags_horizontal", "VBoxContainer", "VBoxContainer", "layout_mode", "Equipment", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "equipmentlist", "VBoxContainer", "visible", "layout_mode"),
+"node_count": 23,
+"node_paths": [NodePath("."), NodePath("./MarginContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer")],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 8, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 0, 1073741824, 0, 11, 10, -1, 10, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 0, 1073741825, 0, 23, 22, -1, 1, 24, 18, 0, 1073741826, 0, 26, 25, -1, 1, 27, 19, 0, 1073741827, 0, 29, 28, -1, 2, 30, 20, 31, 21, 0, 1073741828, 0, 33, 32, -1, 1, 34, 22, 0, 1073741829, 0, 36, 35, -1, 3, 37, 23, 38, 24, 39, 25, 0, 1073741830, 0, 41, 40, -1, 5, 42, 26, 43, 27, 44, 28, 45, 29, 46, 30, 0, 1073741831, 0, 48, 47, -1, 5, 49, 31, 50, 32, 51, 33, 52, 34, 53, 35, 0, 1073741832, 0, 55, 54, -1, 5, 56, 36, 57, 37, 58, 38, 59, 39, 60, 40, 0, 1073741833, 0, 62, 61, -1, 5, 63, 41, 64, 42, 65, 43, 66, 44, 67, 45, 0, 1073741834, 0, 69, 68, -1, 5, 70, 46, 71, 47, 72, 48, 73, 49, 74, 50, 0, 1073741835, 0, 76, 75, -1, 1, 77, 51, 0, 1073741836, 0, 79, 78, -1, 1, 80, 52, 0, 1073741837, 0, 82, 81, -1, 3, 83, 53, 84, 54, 85, 55, 0, 1073741838, 0, 87, 86, -1, 1, 88, 56, 0, 1073741839, 0, 90, 89, -1, 6, 91, 57, 92, 58, 93, 59, 94, 60, 95, 61, 96, 62, 0, 1073741840, 0, 98, 97, -1, 1, 99, 63, 0, 1073741841, 0, 101, 100, -1, 2, 102, 64, 103, 65, 0, 1073741842, 0, 105, 104, -1, 3, 106, 66, 107, 67, 108, 68, 0, 1073741843, 0, 110, 109, -1, 1, 111, 69, 0, 1073741844, 0, 113, 112, -1, 6, 114, 70, 115, 71, 116, 72, 117, 73, 118, 74, 119, 75, 0, 1073741845, 0, 121, 120, -1, 2, 122, 76, 123, 77, 0),
+"variants": [3, 15, 1.0, 1.0, 2, 2, 2, SubResource("GDScript_ejo1j"), 1, 15, 1.0, 1.0, 2, 2, 80, 180, 80, 120, 2, 2, 2, 10, 2, 2, 0, 1, Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "weapon", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "armor", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "item", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "materials", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "others", 2, 2, Vector2(600, 0), 2, 5, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_xe2la"), 48, "BAG", 1, 2, 2, 3, Vector2(600, 0), 2, 8, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_r7hbb"), 48, "EQUIPMENT", 1, false, 2],
+"version": 3
+}
+
+[sub_resource type="PackedScene" id="PackedScene_5rgwe"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("base_shop_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "Label", "Label", "layout_mode", "anchors_preset", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "text"),
+"node_count": 2,
+"node_paths": [NodePath(".")],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 6, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 0, 1073741824, 0, 9, 8, -1, 13, 10, 6, 11, 7, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 22, 18, 0),
+"variants": [3, 15, 1.0, 1.0, 2, 2, 1, 8, 0.5, 0.5, 0.5, 0.5, -20.0, -11.5, 20.0, 11.5, 2, 2, "base_shop_panel"],
+"version": 3
+}
+
+[sub_resource type="GDScript" id="GDScript_f26c2"]
+script/source = "extends Control
+
+# --- View 1 节点 ---
+@onready var view1_weapon = %View1_WeaponSelect
+@onready var view2_refine = %View2_CardRefine
+
+@onready var v1_card_grid = %V1_CardGrid
+@onready var v1_weapon_desc = %V1_WeaponDesc
+@onready var btn_refine = %Btn_Refine
+@onready var v1_weapon_grid = %V1_WeaponGrid
+
+# --- View 2 节点 ---
+@onready var v2_equipped_grid = %V2_EquippedGrid
+@onready var v2_pool_grid = %V2_PoolGrid
+@onready var v2_card_desc = %V2_CardDesc
+
+@onready var btn_confirm = %Btn_ConfirmRefine
+@onready var btn_cancel = %Btn_CancelRefine
+
+var base_card_scene = preload(\"res://Scene/UI/base_card_item.tscn\")
+
+# 满足你的需求：只保留锈蚀砍刀，清空初始携带，每种牌配 4 张备用
+var real_weapons: Array = []
+
+var current_weapon_data: Dictionary = {}
+var temp_equipped_cards: Array = [] # 暂存数组，用于在确认前保存玩家的修改
+var max_deck_size: int = 15
+
+func _ready() -> void:
+	view1_weapon.show()
+	view2_refine.hide()
+	
+	# 【新增】：开局隐藏确认和取消按钮
+	btn_confirm.hide() 
+	btn_cancel.hide()  
+	
+	btn_refine.pressed.connect(_on_btn_refine_pressed)
+	btn_confirm.pressed.connect(_on_btn_confirm_pressed)
+	btn_cancel.pressed.connect(_on_btn_cancel_pressed)
+	
+	if SaveManager.current_save.has(\"weapons\"):
+		real_weapons = SaveManager.current_save[\"weapons\"]
+	else:
+		print(\"警告：该存档中未检测到 weapons 数据，可能是老存档。\")
+		
+	_render_weapon_list()
+
+# ==========================================
+# 视图 1：武器选择
+# ==========================================
+func _render_weapon_list():
+	for child in v1_weapon_grid.get_children(): child.queue_free()
+	
+	# 【修改】：遍历 real_weapons
+	for weapon in real_weapons:
+		var btn = Button.new()
+		btn.text = weapon[\"name\"]
+		btn.custom_minimum_size = Vector2(80, 80)
+		btn.pressed.connect(_on_weapon_selected.bind(weapon))
+		v1_weapon_grid.add_child(btn)
+
+func _on_weapon_selected(weapon_data: Dictionary):
+	current_weapon_data = weapon_data
+	v1_weapon_desc.text = weapon_data[\"desc\"]
+	
+	for child in v1_card_grid.get_children(): child.queue_free()
+		
+	for card_id in weapon_data[\"equipped_cards\"]:
+		var card_ui = base_card_scene.instantiate()
+		v1_card_grid.add_child(card_ui)
+		card_ui.setup(card_id, true)
+
+func _on_btn_refine_pressed():
+	if current_weapon_data.is_empty(): return
+	
+	# 进入精炼时，克隆当前武器的牌组数据到暂存区
+	temp_equipped_cards = current_weapon_data[\"equipped_cards\"].duplicate()
+	
+	view1_weapon.hide()
+	view2_refine.show()
+	
+	btn_confirm.show() 
+	btn_cancel.show() 
+	
+	_refresh_refine_grids()
+
+# ==========================================
+# 视图 2：卡牌精炼 (物理转移重构版)
+# ==========================================
+
+func _refresh_refine_grids():
+	# 1. 进场时只做一次彻底清空
+	for child in v2_equipped_grid.get_children(): child.queue_free()
+	for child in v2_pool_grid.get_children(): child.queue_free()
+	
+	# 2. 计算备用池：总池子 减去 已装备的牌
+	var unequipped_pool = current_weapon_data[\"card_pool\"].duplicate()
+	
+	# 3. 渲染左侧 (携带区)
+	for card_id in temp_equipped_cards:
+		if unequipped_pool.has(card_id):
+			unequipped_pool.erase(card_id) # 从备用池中划掉这张已装备的牌
+			
+		var card_ui = base_card_scene.instantiate()
+		v2_equipped_grid.add_child(card_ui)
+		card_ui.setup(card_id, true)
+		# 🌟【核心改变】：使用 bind 把卡牌节点自己 (card_ui) 传给交互函数
+		card_ui.card_interacted.connect(_on_card_interacted.bind(card_ui))
+		
+	# 4. 渲染右侧 (备用区)
+	for card_id in unequipped_pool:
+		var card_ui = base_card_scene.instantiate()
+		v2_pool_grid.add_child(card_ui)
+		card_ui.setup(card_id, false)
+		# 🌟同样绑定节点自身
+		card_ui.card_interacted.connect(_on_card_interacted.bind(card_ui))
+
+# 注意这里的参数多了一个 card_node: Control
+func _on_card_interacted(card_id: int, click_type: String, is_equipped: bool, card_node: Control):
+	if click_type == \"left_click\":
+		# 左键：查看详情
+		var card_info = CardDataBase.get_card(card_id)
+		var damage = card_info.get(\"damage\", 0)
+		var hits = card_info.get(\"hit_count\", 1)
+		v2_card_desc.text = \"卡名: %s\\n类型: %s\\n单发伤害: %d\\n攻击段数: %d\" % [tr(card_info.get(\"name_key\", \"未知\")), card_info.get(\"categories\", \"通用\"), damage, hits]
+		
+	elif click_type == \"right_click\":
+		# 右键：🌟【真实物理转移节点】绝对体现“每张牌的唯一性”
+		if card_node.get_parent() == v2_equipped_grid:
+			# 如果它现在在左边 -> 从携带区卸下，物理移动到右边(备用区)
+			card_node.reparent(v2_pool_grid)
+			card_node.is_in_equipped_zone = false
+			
+		elif card_node.get_parent() == v2_pool_grid:
+			# 如果它现在在右边 -> 从备用区装备，物理移动到左边(携带区)
+			if v2_equipped_grid.get_child_count() < max_deck_size:
+				card_node.reparent(v2_equipped_grid)
+				card_node.is_in_equipped_zone = true
+			else:
+				print(\"携带区已满，无法装备更多卡牌！\")
+
+func _on_btn_confirm_pressed() -> void:
+	# 🌟【全新保存逻辑】：直接读取左侧容器里真实存在的卡牌节点！
+	# 所见即所得，界面里摆了什么，我们就存什么。
+	temp_equipped_cards.clear()
+	for card_node in v2_equipped_grid.get_children():
+		temp_equipped_cards.append(card_node.card_id)
+		
+	# 覆盖正式数据
+	current_weapon_data[\"equipped_cards\"] = temp_equipped_cards.duplicate()
+	
+	# 同步给战斗大管家并写入硬盘存档
+	_save_deck_to_manager()
+	SaveManager.save_current_state()
+	
+	# 退回武器选择界面并隐藏底部按钮
+	view2_refine.hide()
+	view1_weapon.show()
+	btn_confirm.hide()
+	btn_cancel.hide()
+	
+	_on_weapon_selected(current_weapon_data)
+
+# ==========================================
+# 确认与取消逻辑
+# ==========================================
+
+
+func _on_btn_cancel_pressed() -> void:
+	view2_refine.hide()
+	view1_weapon.show()
+	
+	# 【新增】：取消并退回界面1时，隐藏这两个按钮
+	btn_confirm.hide()
+	btn_cancel.hide()
+
+# 同步字典数据到出牌管家
+func _save_deck_to_manager() -> void:
+	var new_deck_config = {}
+	for card_id in current_weapon_data[\"equipped_cards\"]:
+		if new_deck_config.has(card_id):
+			new_deck_config[card_id] += 1
+		else:
+			new_deck_config[card_id] = 1
+			
+	PlayerDeckManager.starter_deck_config = new_deck_config
+	PlayerDeckManager.generate_deck() 
+	print(\"已同步牌组到战斗系统：\", new_deck_config)
+"
+
+[sub_resource type="PackedScene" id="PackedScene_hys58"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("base_upgrade_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "script"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 7, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 0),
+"variants": [3, 15, 1.0, 1.0, 2, 2, SubResource("GDScript_f26c2")],
+"version": 3
+}
+
+[sub_resource type="PackedScene" id="PackedScene_nj2xh"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("base_craft_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "Label", "Label", "layout_mode", "anchors_preset", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "text"),
+"node_count": 2,
+"node_paths": [NodePath(".")],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 6, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 0, 1073741824, 0, 9, 8, -1, 13, 10, 6, 11, 7, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 22, 18, 0),
+"variants": [3, 15, 1.0, 1.0, 2, 2, 1, 8, 0.5, 0.5, 0.5, 0.5, -20.0, -11.5, 20.0, 11.5, 2, 2, "base_craft_panel"],
+"version": 3
+}
+
+[sub_resource type="PackedScene" id="PackedScene_cjejc"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [NodePath("ContentArea/base_character_panel")],
+"names": PackedStringArray("BaseMain", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "script", "panel_character_scene", "panel_warehouse_scene", "panel_shop_scene", "panel_upgrade_scene", "panel_craft_scene", "Background", "ColorRect", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "color", "ContentArea", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "mouse_filter", "base_character_panel", "layout_mode", "MarginContainer", "theme_override_constants/margin_top", "VBoxContainer", "VBoxContainer", "layout_mode", "anchors_preset", "anchor_left", "anchor_right", "offset_left", "offset_right", "offset_bottom", "grow_horizontal", "topinfromation", "MarginContainer", "layout_mode", "theme_override_constants/margin_top", "theme_override_constants/margin_bottom", "HBoxContainer", "HBoxContainer", "layout_mode", "LeveShow", "MarginContainer", "layout_mode", "theme_override_constants/margin_left", "HBoxContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "Label", "Label", "layout_mode", "theme_override_font_sizes/font_size", "text", "level", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_font_sizes/font_size", "text", "VBoxContainer", "VBoxContainer", "layout_mode", "theme_override_constants/separation", "alignment", "Label", "Label", "layout_mode", "theme_override_colors/font_color", "text", "ProgressBar", "ProgressBar", "custom_minimum_size", "layout_mode", "theme", "show_percentage", "MarginContainer", "MarginContainer", "layout_mode", "size_flags_horizontal", "theme_override_constants/margin_right", "HBoxContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "Label2", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_font_sizes/font_size", "text", "Label", "Label", "layout_mode", "theme_override_font_sizes/font_size", "text", "NavigationMargin", "MarginContainer", "layout_mode", "TopNavigationBar", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "alignment", "Btn_Character", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Warehouse", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Shop", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Upgrade", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Craft", "Button", "custom_minimum_size", "layout_mode", "theme", "text"),
+"node_count": 26,
+"node_paths": [NodePath("."), NodePath("."), NodePath("./ContentArea"), NodePath("./ContentArea/base_character_panel/MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("."), NodePath("./VBoxContainer"), NodePath("./VBoxContainer/topinfromation"), NodePath("./VBoxContainer/topinfromation/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer/VBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer/VBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/MarginContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/MarginContainer/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/MarginContainer/HBoxContainer"), NodePath("./VBoxContainer"), NodePath("./VBoxContainer/NavigationMargin"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar")],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 12, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 10, 8, 11, 9, 12, 10, 13, 11, 0, 1073741824, 0, 15, 14, -1, 7, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 22, 18, 0, 1073741825, 0, 24, 23, -1, 7, 25, 19, 26, 20, 27, 21, 28, 22, 29, 23, 30, 24, 31, 25, 0, 1073741826, 0, 2147483647, 32, 26, 1, 33, 27, 0, 1073741827, -1, 2147483647, 262178, -1, 1, 35, 28, 0, 1073741828, 0, 37, 36, -1, 8, 38, 29, 39, 30, 40, 31, 41, 32, 42, 33, 43, 34, 44, 35, 45, 36, 0, 1073741829, 0, 47, 46, -1, 3, 48, 37, 49, 38, 50, 39, 0, 1073741830, 0, 52, 51, -1, 1, 53, 40, 0, 1073741831, 0, 55, 54, -1, 2, 56, 41, 57, 42, 0, 1073741832, 0, 59, 58, -1, 2, 60, 43, 61, 44, 0, 1073741833, 0, 63, 62, -1, 3, 64, 45, 65, 46, 66, 47, 0, 1073741834, 0, 68, 67, -1, 4, 69, 48, 70, 49, 71, 50, 72, 51, 0, 1073741835, 0, 74, 73, -1, 3, 75, 52, 76, 53, 77, 54, 0, 1073741836, 0, 79, 78, -1, 3, 80, 55, 81, 56, 82, 57, 0, 1073741837, 0, 84, 83, -1, 4, 85, 58, 86, 59, 87, 60, 88, 61, 0, 1073741838, 0, 90, 89, -1, 3, 91, 62, 92, 63, 93, 64, 0, 1073741839, 0, 95, 94, -1, 2, 96, 65, 97, 66, 0, 1073741840, 0, 99, 98, -1, 4, 100, 67, 101, 68, 102, 69, 103, 70, 0, 1073741841, 0, 105, 104, -1, 3, 106, 71, 107, 72, 108, 73, 0, 1073741842, 0, 110, 109, -1, 1, 111, 74, 0, 1073741843, 0, 113, 112, -1, 3, 114, 75, 115, 76, 116, 77, 0, 1073741844, 0, 118, 117, -1, 4, 119, 78, 120, 79, 121, 80, 122, 81, 0, 1073741845, 0, 124, 123, -1, 4, 125, 82, 126, 83, 127, 84, 128, 85, 0, 1073741846, 0, 130, 129, -1, 4, 131, 86, 132, 87, 133, 88, 134, 89, 0, 1073741847, 0, 136, 135, -1, 4, 137, 90, 138, 91, 139, 92, 140, 93, 0, 1073741848, 0, 142, 141, -1, 4, 143, 94, 144, 95, 145, 96, 146, 97, 0),
+"variants": [3, 15, 1.0, 1.0, 2, 2, SubResource("GDScript_cq4sl"), SubResource("PackedScene_l2dkb"), SubResource("PackedScene_kms7s"), SubResource("PackedScene_5rgwe"), SubResource("PackedScene_hys58"), SubResource("PackedScene_nj2xh"), 1, 15, 1.0, 1.0, 2, 2, Color(0.0196078, 0.0431373, 0.0627451, 1), 1, 15, 1.0, 1.0, 2, 2, 2, SubResource("PackedScene_l2dkb"), 1, 15, 1, 5, 0.5, 0.5, -960.0, 960.0, 60.0, 2, 2, 20, 20, 2, 2, 80, 2, 10, 2, 64, "LV", 2, Color(1, 0.619608, 0.290196, 1), 64, "99", 2, 10, 1, 2, Color(1, 0.619608, 0.290196, 1), "151651/1561", Vector2(150, 10), 2, ExtResource("2_syg7e"), false, 2, 10, 80, 2, 10, 2, Color(1, 0.619608, 0.290196, 1), 64, "151516156", 2, 64, "CR", 2, 2, 40, 1, Vector2(250, 60), 2, ExtResource("2_syg7e"), "Character", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Warehouse", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Shop", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Upgrade", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Craft"],
+"version": 3
+}
 
 [node name="filelist" type="Control" node_paths=PackedStringArray("name_input_panel", "line_edit", "confirm_button", "cancel_button", "delete_confirm_panel", "confirm_delete_btn", "cancel_delete_btn")]
 layout_mode = 3
@@ -12,7 +709,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_04a8g")
-base_scene = ExtResource("2_syg7e")
+base_scene = SubResource("PackedScene_cjejc")
 name_input_panel = NodePath("NameInputPanel")
 line_edit = NodePath("NameInputPanel/VBoxContainer/LineEdit")
 confirm_button = NodePath("NameInputPanel/VBoxContainer/HBoxContainer/ConfirmButton")
@@ -20,16 +717,6 @@ cancel_button = NodePath("NameInputPanel/VBoxContainer/HBoxContainer/CancelButto
 delete_confirm_panel = NodePath("DeleteConfirmPanel")
 confirm_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/ConfirmDeleteBtn")
 cancel_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/CancelDeleteBtn")
-
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_osgac")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -42,18 +729,11 @@ color = Color(0.07, 0.07, 0.07, 0.592157)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -392.0
-offset_top = -178.5
-offset_right = 408.0
-offset_bottom = 421.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(400, 0)
 
 [node name="SaveListContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
@@ -94,15 +774,18 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "Confrim"
 
 [node name="CancelButton" type="Button" parent="NameInputPanel/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "Cancel"
 
 [node name="DeleteConfirmPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -134,7 +817,9 @@ horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="DeleteConfirmPanel/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = " This cannot be undone. Are you sure you want to delete this file?"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="DeleteConfirmPanel/VBoxContainer"]
 layout_mode = 2

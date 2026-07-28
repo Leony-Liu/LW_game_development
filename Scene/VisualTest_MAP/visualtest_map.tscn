@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cbdfq4kxjejmi"]
+[gd_scene load_steps=37 format=3 uid="uid://cbdfq4kxjejmi"]
 
 [ext_resource type="PackedScene" uid="uid://ccqqpgj7mkefg" path="res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn" id="1_nnmss"]
 [ext_resource type="PackedScene" uid="uid://2i0qgflg5sr2" path="res://Scene/VisualTest_MAP/Art/glass_2.tscn" id="2_1r00c"]
@@ -30,7 +30,9 @@
 [ext_resource type="PackedScene" uid="uid://dkwplx5oyrc41" path="res://Scene/VisualTest_MAP/Art/plackard_closed_full_2.tscn" id="27_orcwo"]
 [ext_resource type="PackedScene" uid="uid://da3etmhw5ih7a" path="res://Scene/VisualTest_MAP/Art/enemytest_map.tscn" id="29_qvn0v"]
 [ext_resource type="Script" uid="uid://b8xqr1j2341xg" path="res://Scene/VisualTest_MAP/scripts/camera_3dmove.gd" id="30_8imgb"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="31_k3jp6"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="31_l54w6"]
+[ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.tscn" id="31_wl4up"]
+[ext_resource type="Shader" uid="uid://fx2eb0e1yb6" path="res://Arts/Shader/main_overlay.gdshader" id="32_l54w6"]
 
 [sub_resource type="Environment" id="Environment_l54w6"]
 background_mode = 1
@@ -41,440 +43,490 @@ volumetric_fog_enabled = true
 volumetric_fog_density = 0.0853
 volumetric_fog_albedo = Color(0.56, 0.56, 0.56, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wl4up"]
-shader = ExtResource("31_k3jp6")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l54w6"]
+shader = ExtResource("31_l54w6")
 shader_parameter/color_depth = 32.0
-shader_parameter/contrast = 1.1
+shader_parameter/contrast = 0.95
 shader_parameter/brightness = 1.0
 shader_parameter/dither_strength = 0.05
 shader_parameter/dither_scale = 1.0
-shader_parameter/chromatic_aberration = 0.001
+shader_parameter/chromatic_aberration = 0.0
 shader_parameter/scanline_intensity = 0.15
 shader_parameter/vignette_intensity = 0.8
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wl4up"]
+shader = ExtResource("32_l54w6")
+shader_parameter/brightness = 0.9
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 0.8
+shader_parameter/screen_tint = Color(0.92, 1, 0.94, 1)
+shader_parameter/screen_tint_strength = 0.035
+shader_parameter/scanline_spacing_px = 3.0
+shader_parameter/scanline_intensity = 0.0
+shader_parameter/scanline_sharpness = 2.2
+shader_parameter/grain_intensity = 0.0
+shader_parameter/grain_speed = 18.0
+shader_parameter/grain_shadow_bias = 0.65
+shader_parameter/bright_protection = 0.55
+shader_parameter/bright_protection_start = 0.72
+shader_parameter/vignette_intensity = 0.12
+shader_parameter/vignette_start = 0.58
+shader_parameter/vignette_power = 2.0
+shader_parameter/rolling_band_intensity = 0.012
+shader_parameter/rolling_band_speed = 0.2
+shader_parameter/rolling_band_width = 0.16
+shader_parameter/barrel_distortion = 0.01
+shader_parameter/chromatic_aberration_px = 0.0
+shader_parameter/horizontal_warble_px = 0.0
+shader_parameter/horizontal_warble_speed = 0.5
+shader_parameter/border_color = Color(0, 0, 0, 1)
+
 [node name="TestMap" type="Node3D"]
 
-[node name="WorldContainer" type="SubViewportContainer" parent="."]
+[node name="GameViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(4, 4)
+stretch = true
+stretch_shrink = 3
 
-[node name="WorldViewport" type="SubViewport" parent="WorldContainer"]
+[node name="GameViewport" type="SubViewport" parent="GameViewportContainer"]
 handle_input_locally = false
-size = Vector2i(480, 270)
+size = Vector2i(640, 360)
 render_target_update_mode = 4
 
-[node name="SceneHolder" type="Node" parent="WorldContainer/WorldViewport"]
+[node name="SceneHolder" type="Node" parent="GameViewportContainer/GameViewport"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GameViewportContainer/GameViewport/SceneHolder"]
 environment = SubResource("Environment_l54w6")
 
-[node name="floor" type="Node3D" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="floor" type="Node3D" parent="GameViewportContainer/GameViewport/SceneHolder"]
 
-[node name="floor_2x22" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x22" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 
-[node name="floor_2x23" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x23" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="floor_2x24" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x24" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 
-[node name="floor_2x25" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x25" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
-[node name="floor_2x26" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x26" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
-[node name="floor_2x27" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x27" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
 
-[node name="floor_2x38" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x38" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
 
-[node name="floor_2x28" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x28" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="floor_2x29" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x29" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
-[node name="floor_2x30" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x30" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
 
-[node name="floor_2x31" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x31" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
 
-[node name="floor_2x32" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x32" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="floor_2x33" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x33" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
 
-[node name="floor_2x34" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x34" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
 
-[node name="floor_2x35" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x35" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4)
 
-[node name="floor_2x36" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x36" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 
-[node name="floor_2x37" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x37" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
 
-[node name="floor_2x39" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x39" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="floor_2x40" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x40" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
 
-[node name="floor_2x41" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x41" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
 
-[node name="floor_2x42" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x42" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 
-[node name="floor_2x43" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x43" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 2)
 
-[node name="floor_2x44" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x44" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 2)
 
-[node name="floor_2x45" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x45" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
 
-[node name="floor_2x46" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x46" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -2)
 
-[node name="floor_2x47" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x47" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -2)
 
-[node name="floor_2x48" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x48" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -2)
 
-[node name="floor_2x49" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x49" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
 
-[node name="floor_2x50" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x50" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 2)
 
-[node name="floor_2x51" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x51" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -2)
 
-[node name="floor_2x52" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x52" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 2)
 
-[node name="floor_2x53" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x53" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
 
-[node name="floor_2x54" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x54" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2)
 
-[node name="floor_2x55" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x55" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 4)
 
-[node name="floor_2x56" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x56" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 4)
 
-[node name="floor_2x57" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x57" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 4)
 
-[node name="floor_2x58" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x58" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 4)
 
-[node name="floor_2x59" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x59" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
 
-[node name="floor_2x60" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x60" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 2)
 
-[node name="floor_2x61" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x61" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 4)
 
-[node name="floor_2x62" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x62" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
 
-[node name="floor_2x63" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x63" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
-[node name="floor_2x64" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x64" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 10)
 
-[node name="floor_2x65" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x65" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 8)
 
-[node name="floor_2x66" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x66" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
 
-[node name="floor_2x67" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x67" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6)
 
-[node name="floor_2x68" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x68" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 6)
 
-[node name="floor_2x69" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x69" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8)
 
-[node name="floor_2x70" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x70" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 10)
 
-[node name="floor_2x71" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x71" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 6)
 
-[node name="floor_2x72" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x72" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 10)
 
-[node name="floor_2x73" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x73" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 8)
 
-[node name="floor_2x74" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x74" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 6)
 
-[node name="floor_2x75" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x75" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 12)
 
-[node name="floor_2x76" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x76" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 12)
 
-[node name="floor_2x77" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x77" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
 
-[node name="floor_2x78" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x78" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 12)
 
-[node name="floor_2x79" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x79" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 8)
 
-[node name="floor_2x80" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x80" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 10)
 
-[node name="floor_2x81" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x81" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 12)
 
-[node name="floor_2x82" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x82" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8)
 
-[node name="floor_2x83" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x83" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
 
-[node name="floor_2x84" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x84" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 10)
 
-[node name="floor_2x85" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x85" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8)
 
-[node name="floor_2x86" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x86" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 6)
 
-[node name="floor_2x87" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x87" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 6)
 
-[node name="floor_2x88" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x88" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 6)
 
-[node name="floor_2x89" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x89" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 8)
 
-[node name="floor_2x90" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x90" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 10)
 
-[node name="floor_2x91" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x91" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 6)
 
-[node name="floor_2x92" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x92" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 10)
 
-[node name="floor_2x93" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x93" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 8)
 
-[node name="floor_2x94" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x94" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
 
-[node name="floor_2x95" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x95" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 12)
 
-[node name="floor_2x96" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x96" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 12)
 
-[node name="floor_2x97" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x97" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 12)
 
-[node name="floor_2x98" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x98" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12)
 
-[node name="floor_2x99" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x99" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 8)
 
-[node name="floor_2x100" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x100" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 10)
 
-[node name="floor_2x101" parent="WorldContainer/WorldViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
+[node name="floor_2x101" parent="GameViewportContainer/GameViewport/SceneHolder/floor" instance=ExtResource("1_nnmss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 12)
 
-[node name="sceneobject" type="Node3D" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="sceneobject" type="Node3D" parent="GameViewportContainer/GameViewport/SceneHolder"]
 
-[node name="office_chair_alt2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("2_56l5n")]
+[node name="office_chair_alt2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("2_56l5n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.319388, 0, 1.33182)
 
-[node name="office_chair_black_alt2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("3_1r00c")]
+[node name="office_chair_black_alt2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("3_1r00c")]
 transform = Transform3D(-0.668884, 0, -0.743367, 0, 1, 0, 0.743367, 0, -0.668884, -2.00892, 0, -2.84604)
 
-[node name="armchair_blue2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("4_r54q8")]
+[node name="armchair_blue2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("4_r54q8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.43875, 1.19209e-07, -3.27261)
 
-[node name="desk12" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("5_loer7")]
+[node name="desk12" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("5_loer7")]
 transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -1.08759, 0, -2.0989)
 
-[node name="divider_black_blue_half2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("6_0i180")]
+[node name="divider_black_blue_half2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("6_0i180")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.5314, 0, -1.63733)
 
-[node name="coffee_machine2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("7_8bymq")]
+[node name="coffee_machine2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("7_8bymq")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.36705, 0, 3.2168)
 
-[node name="desk_phone2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("8_kmuj4")]
+[node name="desk_phone2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("8_kmuj4")]
 transform = Transform3D(-0.425432, 0, -0.90499, 0, 1, 0, 0.90499, 0, -0.425432, -0.544542, 0.888552, -2.64087)
 
-[node name="computer_monitor2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("14_8bymq")]
+[node name="computer_monitor2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("14_8bymq")]
 transform = Transform3D(-0.725723, 0, -0.687987, 0, 1, 0, 0.687987, 0, -0.725723, -0.960876, 0.873655, -1.86291)
 
-[node name="computer_mouse2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("15_kmuj4")]
+[node name="computer_mouse2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("15_kmuj4")]
 transform = Transform3D(0.867479, 0, 0.497474, 0, 1, 0, -0.497474, 0, 0.867479, -1.56778, 0.88487, -1.93389)
 
-[node name="horizontal_desktop2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("11_ni55a")]
+[node name="horizontal_desktop2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("11_ni55a")]
 transform = Transform3D(-4.37114e-08, 0.557789, -0.829983, 1, 2.43817e-08, -3.62797e-08, 0, -0.829983, -0.557789, -1.18742, 0.35432, -2.35734)
 
-[node name="glass2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("2_1r00c")]
+[node name="glass2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("2_1r00c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73112, 0.960854, -1.7535)
 
-[node name="mug2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("3_r54q8")]
+[node name="mug2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("3_r54q8")]
 transform = Transform3D(-0.686263, 0, 0.727354, 0, 1, 0, -0.727354, 0, -0.686263, -1.4573, 0.888046, -1.66417)
 
-[node name="water_cooler2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("4_loer7")]
+[node name="water_cooler2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("4_loer7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.78457)
 
-[node name="water_cooler_bottle2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("5_0i180")]
+[node name="water_cooler_bottle2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("5_0i180")]
 transform = Transform3D(-1, 2.98023e-08, 0, -2.98023e-08, -1, 0, 0, 0, 1, 0.000407457, 1.83319, -3.78537)
 
-[node name="computer_keyboard2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("6_8bymq")]
+[node name="computer_keyboard2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("6_8bymq")]
 transform = Transform3D(-0.531975, 0, -0.84676, 0, 1, 0, 0.84676, 0, -0.531975, -1.07811, 0.893179, -2.52237)
 
-[node name="file_binder_alt42" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("17_n5wrn")]
+[node name="file_binder_alt42" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("17_n5wrn")]
 transform = Transform3D(-0.0080808, 0, 0.999967, 0, 1, 0, -0.999967, 0, -0.0080808, -3.84374, 1.59256, 2.4406)
 
-[node name="file_binder_alt43" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("17_n5wrn")]
+[node name="file_binder_alt43" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("17_n5wrn")]
 transform = Transform3D(-0.195107, 0, 0.980782, 0, 1, 0, -0.980782, 0, -0.195107, -3.84374, 1.59256, 2.33927)
 
-[node name="file_binder_alt44" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("17_n5wrn")]
+[node name="file_binder_alt44" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("17_n5wrn")]
 transform = Transform3D(-0.0080808, 0, 0.999967, 0, 1, 0, -0.999967, 0, -0.0080808, -3.84374, 1.59256, 2.53978)
 
-[node name="file_cabinet_smaller_with_shelfs2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("18_ftxl3")]
+[node name="file_cabinet_smaller_with_shelfs2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("18_ftxl3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.71135, 0, -3.73328)
 
-[node name="file_cabinet_smaller_with_shelfs3" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("18_ftxl3")]
+[node name="file_cabinet_smaller_with_shelfs3" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("18_ftxl3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.17953, 0, -3.74067)
 
-[node name="file_cabinet_smaller_with_shelfs4" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("18_ftxl3")]
+[node name="file_cabinet_smaller_with_shelfs4" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("18_ftxl3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.66986, 0, -3.74067)
 
-[node name="file_cabinet_smallest2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("19_df8uw")]
+[node name="file_cabinet_smallest2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("19_df8uw")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.66812, 0.898515, 2.34035)
 
-[node name="TV2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("20_8eouo")]
+[node name="TV2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("20_8eouo")]
 transform = Transform3D(-0.480958, 0, 0.876744, 0, 1, 0, -0.876744, 0, -0.480958, -3.47889, 0.850311, 1.67842)
 
-[node name="desk1_alt22" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("17_4eq2p")]
+[node name="desk1_alt22" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("17_4eq2p")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.45321, 0, 1.47867)
 
-[node name="elastic_ball2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("18_n5wrn")]
+[node name="elastic_ball2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("18_n5wrn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.0609501, 0)
 
-[node name="paper_single_sheet2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("19_8rwkd")]
+[node name="paper_single_sheet2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("19_8rwkd")]
 transform = Transform3D(0.769578, -0.638553, 0, 0.638553, 0.769578, 0, 0, 0, 1, -1.49912, 0.89694, -1.33684)
 
-[node name="book_case2" parent="WorldContainer/WorldViewport/SceneHolder/sceneobject" instance=ExtResource("21_8rwkd")]
+[node name="book_case2" parent="GameViewportContainer/GameViewport/SceneHolder/sceneobject" instance=ExtResource("21_8rwkd")]
 transform = Transform3D(0.721097, 0, 0, 0, 0.721097, 0, 0, 0, 0.721097, 2.94382, 0, -3.81861)
 
-[node name="Wall" type="Node3D" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="Wall" type="Node3D" parent="GameViewportContainer/GameViewport/SceneHolder"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.01569, 0, -4.01372)
 
-[node name="brick_wall3" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
+[node name="brick_wall3" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="brick_wall2" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
+[node name="brick_wall2" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
 
-[node name="plackard_closed_full2" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full2" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137162, 0, -3.01569)
 
-[node name="plackard_closed_full3" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full3" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137165, 0, -6.01569)
 
-[node name="plackard_closed_full4" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full4" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137165, 0, -9.01569)
 
-[node name="brick_wall4" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
+[node name="brick_wall4" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.04229, 0)
 
-[node name="brick_wall6" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
+[node name="brick_wall6" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
 
-[node name="brick_wall7" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
+[node name="brick_wall7" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2.04229, 0)
 
-[node name="brick_wall5" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
+[node name="brick_wall5" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("26_8eouo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.04229, 0)
 
-[node name="plackard_closed_full5" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full5" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137162, 2.479, -3.01569)
 
-[node name="plackard_closed_full6" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full6" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137177, 2.479, -6.01569)
 
-[node name="plackard_closed_full7" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full7" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137177, 2.479, -9.01569)
 
-[node name="plackard_closed_full8" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full8" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137162, 0, -12.0157)
 
-[node name="plackard_closed_full9" parent="WorldContainer/WorldViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
+[node name="plackard_closed_full9" parent="GameViewportContainer/GameViewport/SceneHolder/Wall" instance=ExtResource("27_orcwo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0137172, 2.479, -12.0157)
 
-[node name="light" type="Node3D" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="light" type="Node3D" parent="GameViewportContainer/GameViewport/SceneHolder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.383812, 4.10964, -3.24154)
 
-[node name="shoplight" parent="WorldContainer/WorldViewport/SceneHolder/light" instance=ExtResource("27_gk4bi")]
+[node name="shoplight" parent="GameViewportContainer/GameViewport/SceneHolder/light" instance=ExtResource("27_gk4bi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00812244, 0, -0.0124598)
 
-[node name="路灯" parent="WorldContainer/WorldViewport/SceneHolder/light" instance=ExtResource("21_orcwo")]
+[node name="路灯" parent="GameViewportContainer/GameViewport/SceneHolder/light" instance=ExtResource("21_orcwo")]
 transform = Transform3D(0.00540699, 0, -0.241612, 0, 0.241673, 0, 0.241612, 0, 0.00540699, -1.68509, -4.10964, 6.02746)
 
-[node name="enemy" type="Node3D" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="enemy" type="Node3D" parent="GameViewportContainer/GameViewport/SceneHolder"]
 
-[node name="enemytest_map" parent="WorldContainer/WorldViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
+[node name="enemytest_map" parent="GameViewportContainer/GameViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
 transform = Transform3D(0.661102, 0, 0.750296, 0, 1, 0, -0.750296, 0, 0.661102, -2.24304, 0, -0.114958)
 
-[node name="enemytest_map4" parent="WorldContainer/WorldViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
+[node name="enemytest_map4" parent="GameViewportContainer/GameViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
 transform = Transform3D(-0.669027, 0, 0.743238, 0, 1, 0, -0.743238, 0, -0.669027, 0.807546, 0, 1.71539)
 
-[node name="enemytest_map2" parent="WorldContainer/WorldViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
+[node name="enemytest_map2" parent="GameViewportContainer/GameViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
 transform = Transform3D(0.999988, 0, -0.00497416, 0, 1, 0, 0.00497416, 0, 0.999988, 2.58296, 0, -2.34922)
 
-[node name="enemytest_map3" parent="WorldContainer/WorldViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
+[node name="enemytest_map3" parent="GameViewportContainer/GameViewport/SceneHolder/enemy" instance=ExtResource("29_qvn0v")]
 transform = Transform3D(0.999988, 0, -0.00497416, 0, 1, 0, 0.00497416, 0, 0.999988, -0.99153, 0, -3.43322)
 
-[node name="Camera3D" type="Camera3D" parent="WorldContainer/WorldViewport/SceneHolder"]
+[node name="Camera3D" type="Camera3D" parent="GameViewportContainer/GameViewport/SceneHolder"]
 transform = Transform3D(0.642493, -0.425995, 0.63697, 6.47024e-09, 0.831237, 0.555918, -0.766291, -0.357174, 0.534064, 2.67396, 3.28506, 1.97701)
 fov = 80.0
 script = ExtResource("30_8imgb")
 
-[node name="CRT_Layer" type="CanvasLayer" parent="WorldContainer/WorldViewport"]
+[node name="uitest" type="Node" parent="GameViewportContainer/GameViewport"]
+
+[node name="PlayerInfromation" parent="GameViewportContainer/GameViewport/uitest" instance=ExtResource("31_wl4up")]
+
+[node name="CRT_Layer" type="CanvasLayer" parent="GameViewportContainer/GameViewport"]
 layer = 100
 
-[node name="ColorRect" type="ColorRect" parent="WorldContainer/WorldViewport/CRT_Layer"]
+[node name="ColorRect" type="ColorRect" parent="GameViewportContainer/GameViewport/CRT_Layer"]
+material = SubResource("ShaderMaterial_l54w6")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.666667
+offset_top = -0.666667
+offset_right = 0.666687
+offset_bottom = -0.666656
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CRT_Layer1" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="ColorRect1" type="ColorRect" parent="CRT_Layer1"]
 material = SubResource("ShaderMaterial_wl4up")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2

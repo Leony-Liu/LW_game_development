@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://da3etmhw5ih7a"]
 
-[ext_resource type="PackedScene" uid="uid://bs6srhc7jr2sx" path="res://Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/enemytest.glb" id="1_6i7bd"]
+[ext_resource type="PackedScene" uid="uid://bs6srhc7jr2sx" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/enemytest.glb" id="1_6i7bd"]
 [ext_resource type="AnimationLibrary" uid="uid://b2hnqxi0ep1bv" path="res://Arts/AnimationLibrary/Ual2_test.res" id="2_q6el1"]
 
 [node name="enemytest_map" instance=ExtResource("1_6i7bd")]
