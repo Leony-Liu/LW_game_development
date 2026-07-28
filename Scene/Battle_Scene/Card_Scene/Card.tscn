@@ -6,9 +6,9 @@
 [node name="Card" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -32.0
-offset_top = -90.0
-offset_right = 32.0
+offset_left = -100.0
+offset_top = -280.0
+offset_right = 100.0
 script = ExtResource("1_avhnj")
 attack_cost_color = Color(0.135, 0.75, 0.217, 1)
 skill_cost_color = Color(0, 0.6075, 0.81, 1)
@@ -25,16 +25,11 @@ mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="Visuals"]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = -90.0
-offset_right = 32.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_i0dxh")
 expand_mode = 1
@@ -42,28 +37,25 @@ expand_mode = 1
 [node name="NameLable" type="Label" parent="Visuals/Background"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -39.0
-offset_top = -14.0
-offset_right = 39.0
-offset_bottom = -2.0
+offset_left = -78.0
+offset_top = 42.0
+offset_right = 78.0
+offset_bottom = 66.0
 grow_horizontal = 2
-grow_vertical = 0
 theme_override_colors/font_color = Color(0.06, 0.012, 0.012, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 24
 text = "THIS IS A BUG"
 horizontal_alignment = 1
 
 [node name="CostLable" type="Label" parent="Visuals/Background"]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 3.0
-offset_right = 81.0
-offset_bottom = 12.0
+offset_left = 10.0
+offset_right = 322.0
+offset_bottom = 48.0
 theme_override_colors/font_color = Color(0, 0.79, 0.329167, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 48
 text = "THIS IS A BUG"

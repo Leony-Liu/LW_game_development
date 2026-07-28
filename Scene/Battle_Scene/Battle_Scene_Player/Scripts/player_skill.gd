@@ -3,6 +3,8 @@ extends State
 
 var card_data: Dictionary
 
+@export var effect_mgr : Node
+
 func enter(msg: Dictionary = {}) -> void:
 	print("玩家进入状态：Skill")
 	if msg.has("card"):
@@ -11,8 +13,7 @@ func enter(msg: Dictionary = {}) -> void:
 	# 1. 提取并执行技能牌的效果
 	var effect_string = card_data.get("effects", "")
 	if effect_string != "" and effect_string != "0":
-		# 【修复Bug】：路径从 "../../EffectManager" 改为 "../EffectManager"
-		var effect_mgr = host.get_node_or_null("../EffectManager")
+		
 		if effect_mgr:
 			# 技能牌通常作用于自身，所以 source 和 target 都填 host
 			effect_mgr.execute_effects(effect_string, host, host)

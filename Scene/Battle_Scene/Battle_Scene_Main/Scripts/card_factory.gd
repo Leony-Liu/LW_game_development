@@ -6,7 +6,7 @@ extends Node
 
 
 # 修改为你的 2D 卡牌场景路径
-var basic_card_scene = preload("res://Scene/Battle_Scene/Card_Scene/Card.tscn")
+@export var basic_card_scene : PackedScene 
 
 func create_card(id: int) -> Node:
 	var new_card = basic_card_scene.instantiate()

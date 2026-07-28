@@ -1,10 +1,3 @@
-# battle_game_manager
-#
-# 登记当前敌人
-# 出牌许可判定
-# 双方伤害中转站
-
-
 extends Node
 class_name BattleGameManager
 

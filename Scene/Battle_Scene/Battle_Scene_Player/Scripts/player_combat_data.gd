@@ -7,9 +7,9 @@ extends Node
 class_name PlayerCombatData
 
 #绑定同级节点
-@onready var calculator:PlayerCalculator = $"../Calculator"
-@onready var inventory:PlayerInventory = $"../Inventory"
-@onready var visuals = $"../../PlayerVisuals/Visuals/player_3Dvisuals"
+@onready var calculator:PlayerCalculator = %Calculator
+@onready var inventory:PlayerInventory = %Inventory
+@onready var visuals = %player_3Dvisuals
 
 # ==========================================
 # 参数部分

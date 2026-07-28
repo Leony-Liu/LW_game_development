@@ -13,6 +13,7 @@
 script = ExtResource("1_b5lmm")
 
 [node name="EnemyAIBrain" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("4_rkcga")
 
 [node name="Visuals" type="Node3D" parent="."]
@@ -22,12 +23,15 @@ script = ExtResource("4_rkcga")
 [node name="Data" type="Node" parent="."]
 
 [node name="CombatData" type="Node" parent="Data"]
+unique_name_in_owner = true
 script = ExtResource("2_1ul8j")
 
 [node name="Calculator" type="Node" parent="Data"]
+unique_name_in_owner = true
 script = ExtResource("3_jrf23")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+unique_name_in_owner = true
 script = ExtResource("5_8yahm")
 initial_state = NodePath("Idle")
 

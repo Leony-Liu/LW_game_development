@@ -2,9 +2,9 @@
 
 extends Control
 
-@onready var current_hp_bar = $current_hp
-@onready var different_hp_bar = $different_hp
-@onready var show_hp = $MarginContainer/currentHP
+@onready var current_hp_bar = %current_hp
+@onready var different_hp_bar = %different_hp
+@onready var show_hp = %currentHP
 
 
 # 声明一个变量来存储动画，防止连续被砍时动画冲突

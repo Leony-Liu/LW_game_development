@@ -1,48 +1,90 @@
 [gd_scene load_steps=7 format=3 uid="uid://d4lo5ywjrle2p"]
 
 [ext_resource type="Script" uid="uid://2lxesc776017" path="res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd" id="1_5soxg"]
-[ext_resource type="FontFile" uid="uid://bxuqmpw4ej4a" path="res://Arts/Fort/Born2bSportyV2.ttf" id="5_kvywy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82qon"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvywy"]
-bg_color = Color(0.937078, 0.432192, 1.92523e-07, 1)
+bg_color = Color(0.7, 0.326667, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5n6un"]
-bg_color = Color(0.82, 0, 0, 1)
+bg_color = Color(2, 2, 2, 1)
 
 [sub_resource type="Theme" id="Theme_5soxg"]
 Label/font_sizes/font_size = 60
 
+[sub_resource type="Environment" id="Environment_s8sey"]
+background_mode = 3
+glow_enabled = true
+
 [node name="EnemyHPBarRoot" type="Control"]
 layout_mode = 3
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-grow_horizontal = 2
-scale = Vector2(0.308504, 0.211081)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -105.0
+offset_top = -235.0
+offset_right = -105.0
+offset_bottom = -235.0
+grow_horizontal = 0
+grow_vertical = 0
 script = ExtResource("1_5soxg")
 
-[node name="different_hp" type="ProgressBar" parent="."]
-layout_mode = 0
-offset_left = -673.684
-offset_top = 107.692
-offset_right = 674.316
-offset_bottom = 153.692
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="different_hp" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -25.0
+offset_right = 48.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_82qon")
 theme_override_styles/fill = SubResource("StyleBoxFlat_kvywy")
+fill_mode = 1
 show_percentage = false
 
-[node name="current_hp" type="ProgressBar" parent="."]
-layout_mode = 0
-offset_left = -673.684
-offset_top = 107.692
-offset_right = 674.316
-offset_bottom = 153.692
+[node name="current_hp" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(2, 2, 2, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -25.0
+offset_right = 48.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_82qon")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5n6un")
 value = 100.0
+fill_mode = 1
 show_percentage = false
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -50,18 +92,22 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
-offset_right = 204.0
-offset_bottom = 179.0
+offset_left = -106.0
+offset_top = -12.0
+offset_right = 50.0
+offset_bottom = 12.0
 grow_horizontal = 2
-theme_override_constants/margin_top = 92
 
 [node name="currentHP" type="Label" parent="MarginContainer"]
-visible = false
+unique_name_in_owner = true
+modulate = Color(2, 2, 2, 1)
 layout_mode = 2
 theme = SubResource("Theme_5soxg")
-theme_override_fonts/font = ExtResource("5_kvywy")
-theme_override_font_sizes/font_size = 64
+theme_override_colors/font_color = Color(2, 2, 2, 1)
+theme_override_font_sizes/font_size = 24
 text = "this is a bug"
-horizontal_alignment = 1
+horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="2D_Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_s8sey")

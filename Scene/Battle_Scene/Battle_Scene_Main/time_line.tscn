@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmeflymhpukrk"]
+
+[ext_resource type="Script" uid="uid://cyltjp27kqyf0" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/time_line.gd" id="1_807tv"]
+
+[sub_resource type="Environment" id="Environment_807tv"]
+background_mode = 3
+glow_enabled = true
+
+[node name="TimeLine" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.000821941
+script = ExtResource("1_807tv")
+
+[node name="ActionSlot" type="Node" parent="."]
+
+[node name="line" type="ColorRect" parent="."]
+modulate = Color(2, 2, 2, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -499.951
+offset_top = 59.6219
+offset_right = 500.049
+offset_bottom = 62.6219
+grow_horizontal = 2
+pivot_offset = Vector2(500, 0)
+color = Color(2, 2, 2, 1)
+
+[node name="2D_Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_807tv")

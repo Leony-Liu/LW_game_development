@@ -12,10 +12,10 @@ class_name EnemyManager
 @export var mechanic_count: int = 2 # 机制数量
 
 
-@onready var combat_data: EnemyCombatData = $Data/CombatData
-@onready var calculator: EnemyCalculator = $Data/Calculator
-@onready var state_machine = $StateMachine
-@onready var ai_brain = $EnemyAIBrain
+@onready var combat_data: EnemyCombatData = %CombatData
+@onready var calculator: EnemyCalculator = %Calculator
+@onready var state_machine = %StateMachine
+@onready var ai_brain = %EnemyAIBrain
 
 # ==========================================
 # 敌人初始化

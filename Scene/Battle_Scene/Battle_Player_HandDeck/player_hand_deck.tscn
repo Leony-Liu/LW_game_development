@@ -13,30 +13,30 @@ offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Slot_1" type="Control" parent="."]
-custom_minimum_size = Vector2(64, 90)
+custom_minimum_size = Vector2(200, 280)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_2" type="Control" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(200, 280)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_3" type="Control" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(200, 280)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_4" type="Control" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(200, 280)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Slot_5" type="Control" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(200, 280)
 layout_mode = 2
 mouse_filter = 2

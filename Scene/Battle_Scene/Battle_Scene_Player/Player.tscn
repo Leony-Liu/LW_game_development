@@ -17,6 +17,7 @@ script = ExtResource("1_oh5ij")
 [node name="Data" type="Node" parent="."]
 
 [node name="CombatData" type="Node" parent="Data"]
+unique_name_in_owner = true
 script = ExtResource("5_hp4bs")
 current_hp = 100.0
 max_hp = 100.0
@@ -28,12 +29,15 @@ current_stamina_recover_speed = 1.0
 current_mana_recover_speed = 4.0
 
 [node name="Calculator" type="Node" parent="Data"]
+unique_name_in_owner = true
 script = ExtResource("6_6ltmb")
 
 [node name="Inventory" type="Node" parent="Data"]
+unique_name_in_owner = true
 script = ExtResource("7_2ji22")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+unique_name_in_owner = true
 script = ExtResource("6_g2vtq")
 initial_state = NodePath("Idle")
 
@@ -60,4 +64,5 @@ fov = 60.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.373764, -0.688858)
 
 [node name="player_3Dvisuals" parent="PlayerVisuals/Visuals" instance=ExtResource("10_jpghs")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.18342)

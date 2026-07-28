@@ -6,7 +6,7 @@ extends Node
 
 # 绑定玩家数据与状态系统
 @onready var combat_data = $Data/CombatData
-@onready var state_machine = $StateMachine
+@onready var state_machine = %StateMachine
 
 
 # 玩家系统卡牌入口：出牌状态反馈
