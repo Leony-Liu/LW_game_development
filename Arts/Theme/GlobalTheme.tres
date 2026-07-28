@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://wupdljc1nnfi"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://wupdljc1nnfi"]
 
 [ext_resource type="FontFile" uid="uid://jdg6h0onc3a1" path="res://Arts/Fort/ark-pixel-12px-monospaced-zh_cn.ttf" id="1_xvh6t"]
 
@@ -14,6 +14,8 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66j2i"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xvh6t"]
+
 [resource]
 default_font = ExtResource("1_xvh6t")
 default_font_size = 22
@@ -25,3 +27,13 @@ Button/styles/focus = SubResource("StyleBoxFlat_xvh6t")
 Button/styles/hover = SubResource("StyleBoxFlat_d78h3")
 Button/styles/normal = SubResource("StyleBoxFlat_cp232")
 Button/styles/pressed = SubResource("StyleBoxFlat_66j2i")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 24
+Label/styles/normal = SubResource("StyleBoxEmpty_xvh6t")

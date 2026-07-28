@@ -1,12 +1,6 @@
-// PSX 风格后处理 Shader：包含胶片颗粒、CRT 扫描线、暗角、像素化、色差与画面扭动效果。
-// 使用方式通常是把它挂在覆盖整个屏幕的 ColorRect 上。
-
 shader_type canvas_item;
 
 // 当前屏幕画面的纹理。
-// hint_screen_texture：让 Godot 自动提供屏幕内容。
-// filter_linear_mipmap：使用线性过滤与 mipmap；在像素化后采样时仍可能略微柔和。
-// repeat_enable：允许纹理坐标重复，不过本 Shader 最终会把坐标限制在 0~1。
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap, repeat_enable;
 
 // -------------------- 胶片颗粒参数 --------------------
@@ -65,11 +59,11 @@ uniform float crt_vignette_power : hint_range(0.0, 5.0) = 2.0;
 
 // 模拟画面的横向逻辑分辨率。
 // 值越小，横向像素块越大；值越大，画面越细腻。
-uniform int pixel_resolution_x : hint_range(32, 1280) = 320;
+uniform int pixel_resolution_x : hint_range(32, 3840) = 320;
 
 // 模拟画面的纵向逻辑分辨率。
 // 值越小，纵向像素块越大；值越大，画面越细腻。
-uniform int pixel_resolution_y : hint_range(24, 960) = 240;
+uniform int pixel_resolution_y : hint_range(24, 2880) = 240;
 
 // 是否启用颜色量化。
 // true：减少可用颜色层级，产生复古色带；false：保留原始颜色渐变。

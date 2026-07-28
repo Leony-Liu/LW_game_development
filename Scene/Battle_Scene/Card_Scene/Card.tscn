@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5bqwwplbqjgj"]
+[gd_scene load_steps=5 format=3 uid="uid://b5bqwwplbqjgj"]
 
 [ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
 [ext_resource type="Texture2D" uid="uid://smoqip68cmas" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png" id="2_i0dxh"]
+[ext_resource type="FontFile" uid="uid://bo0ngvdd2ivvx" path="res://Arts/Fort/OldWizard.ttf" id="3_i0dxh"]
+
+[sub_resource type="Environment" id="Environment_i0dxh"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.3
+glow_strength = 0.5
 
 [node name="Card" type="Control"]
 layout_mode = 3
@@ -10,8 +17,8 @@ offset_left = -100.0
 offset_top = -280.0
 offset_right = 100.0
 script = ExtResource("1_avhnj")
-attack_cost_color = Color(0.135, 0.75, 0.217, 1)
-skill_cost_color = Color(0, 0.6075, 0.81, 1)
+attack_cost_color = Color(0.078, 0.78, 0, 1)
+skill_cost_color = Color(0, 0.484167, 0.83, 1)
 
 [node name="Visuals" type="Control" parent="."]
 unique_name_in_owner = true
@@ -34,28 +41,57 @@ mouse_filter = 2
 texture = ExtResource("2_i0dxh")
 expand_mode = 1
 
-[node name="NameLable" type="Label" parent="Visuals/Background"]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="Visuals/Background"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -78.0
-offset_top = 42.0
-offset_right = 78.0
-offset_bottom = 66.0
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 304.0
 grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Visuals/Background/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = -10
+
+[node name="CostLable" type="Label" parent="Visuals/Background/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(2, 2, 2, 1)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_i0dxh")
+theme_override_font_sizes/font_size = 48
+text = "A"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Visuals/Background/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="NameLable" type="Label" parent="Visuals/Background/VBoxContainer/MarginContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 48)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.06, 0.012, 0.012, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 24
 text = "THIS IS A BUG"
-horizontal_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 2
 
-[node name="CostLable" type="Label" parent="Visuals/Background"]
+[node name="MarginContainer3" type="MarginContainer" parent="Visuals/Background/VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="Visuals/Background/VBoxContainer/MarginContainer3"]
 unique_name_in_owner = true
-layout_mode = 1
-offset_left = 10.0
-offset_right = 322.0
-offset_bottom = 48.0
-theme_override_colors/font_color = Color(0, 0.79, 0.329167, 1)
-theme_override_font_sizes/font_size = 48
-text = "THIS IS A BUG"
+custom_minimum_size = Vector2(200, 180)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "THIS IS DESCRIPTION"
+horizontal_alignment = 1
+autowrap_mode = 3
+clip_text = true
+
+[node name="2D_Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_i0dxh")

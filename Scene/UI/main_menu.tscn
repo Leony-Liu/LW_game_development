@@ -1,9 +1,49 @@
-[gd_scene load_steps=6 format=3 uid="uid://dcwlpndhrutbe"]
+[gd_scene load_steps=10 format=3 uid="uid://dcwlpndhrutbe"]
 
 [ext_resource type="Script" uid="uid://d4fbaphgs66ij" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
 [ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="2_6i1m0"]
 [ext_resource type="PackedScene" uid="uid://cju7wln8x7rim" path="res://Scene/UI/filelist.tscn" id="3_6i1m0"]
 [ext_resource type="PackedScene" uid="uid://dq13sgkxdyni6" path="res://Scene/UI/options.tscn" id="4_68aio"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="5_68aio"]
+[ext_resource type="Shader" uid="uid://fx2eb0e1yb6" path="res://Arts/Shader/main_overlay.gdshader" id="6_6aje7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6aje7"]
+shader = ExtResource("5_68aio")
+shader_parameter/color_depth = 32.0
+shader_parameter/contrast = 0.95
+shader_parameter/brightness = 1.0
+shader_parameter/dither_strength = 0.05
+shader_parameter/dither_scale = 1.0
+shader_parameter/chromatic_aberration = 0.0005
+shader_parameter/scanline_intensity = 0.15
+shader_parameter/vignette_intensity = 1.344
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m8m1u"]
+shader = ExtResource("6_6aje7")
+shader_parameter/brightness = 0.9
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 0.8
+shader_parameter/screen_tint = Color(0.92, 1, 0.94, 1)
+shader_parameter/screen_tint_strength = 0.035
+shader_parameter/scanline_spacing_px = 3.0
+shader_parameter/scanline_intensity = 0.1
+shader_parameter/scanline_sharpness = 2.2
+shader_parameter/grain_intensity = 0.01
+shader_parameter/grain_speed = 18.0
+shader_parameter/grain_shadow_bias = 0.65
+shader_parameter/bright_protection = 0.55
+shader_parameter/bright_protection_start = 0.72
+shader_parameter/vignette_intensity = 0.12
+shader_parameter/vignette_start = 0.58
+shader_parameter/vignette_power = 2.0
+shader_parameter/rolling_band_intensity = 0.0475
+shader_parameter/rolling_band_speed = 0.2
+shader_parameter/rolling_band_width = 0.3
+shader_parameter/barrel_distortion = 0.01
+shader_parameter/chromatic_aberration_px = 0.0
+shader_parameter/horizontal_warble_px = 0.0
+shader_parameter/horizontal_warble_speed = 0.5
+shader_parameter/border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Environment" id="Environment_68aio"]
 background_mode = 3
@@ -88,6 +128,35 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "QUIT GAME"
+
+[node name="CRT_Layer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="CRT_Layer"]
+material = SubResource("ShaderMaterial_6aje7")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.666667
+offset_top = -0.666667
+offset_right = 0.666687
+offset_bottom = -0.666656
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.00095, 1)
+mouse_filter = 2
+
+[node name="CRT_Layer" type="CanvasLayer" parent="CRT_Layer"]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="CRT_Layer/CRT_Layer"]
+material = SubResource("ShaderMaterial_m8m1u")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="2D_Glow" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_68aio")

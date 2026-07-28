@@ -6,27 +6,27 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wq48"]
 shader = ExtResource("3_7wq48")
-shader_parameter/brightness = 1.0
+shader_parameter/brightness = 0.9
 shader_parameter/contrast = 1.0
-shader_parameter/saturation = 0.8
+shader_parameter/saturation = 1.0
 shader_parameter/screen_tint = Color(0.92, 1, 0.94, 1)
 shader_parameter/screen_tint_strength = 0.035
 shader_parameter/scanline_spacing_px = 3.0
-shader_parameter/scanline_intensity = 0.075
+shader_parameter/scanline_intensity = 0.1
 shader_parameter/scanline_sharpness = 2.2
-shader_parameter/grain_intensity = 0.005
-shader_parameter/grain_speed = 7.5
+shader_parameter/grain_intensity = 0.01
+shader_parameter/grain_speed = 18.0
 shader_parameter/grain_shadow_bias = 0.65
 shader_parameter/bright_protection = 0.55
 shader_parameter/bright_protection_start = 0.72
 shader_parameter/vignette_intensity = 0.12
 shader_parameter/vignette_start = 0.58
 shader_parameter/vignette_power = 2.0
-shader_parameter/rolling_band_intensity = 0.0125
-shader_parameter/rolling_band_speed = 0.18
+shader_parameter/rolling_band_intensity = 0.012
+shader_parameter/rolling_band_speed = 0.2
 shader_parameter/rolling_band_width = 0.16
 shader_parameter/barrel_distortion = 0.01
-shader_parameter/chromatic_aberration_px = 0.2
+shader_parameter/chromatic_aberration_px = 0.0
 shader_parameter/horizontal_warble_px = 0.0
 shader_parameter/horizontal_warble_speed = 0.5
 shader_parameter/border_color = Color(0, 0, 0, 1)
