@@ -31,7 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://da3etmhw5ih7a" path="res://Scene/VisualTest_MAP/Art/enemytest_map.tscn" id="29_qvn0v"]
 [ext_resource type="Script" uid="uid://b8xqr1j2341xg" path="res://Scene/VisualTest_MAP/scripts/camera_3dmove.gd" id="30_8imgb"]
 [ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="31_l54w6"]
-[ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.tscn" id="31_wl4up"]
+[ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn" id="31_wl4up"]
 [ext_resource type="Shader" uid="uid://fx2eb0e1yb6" path="res://Arts/Shader/main_overlay.gdshader" id="32_l54w6"]
 
 [sub_resource type="Environment" id="Environment_l54w6"]

@@ -8,6 +8,20 @@ class_name BattleGameManager
 
 var current_enemy: Node = null # 当前敌人
 
+enum BattleState{
+	INITIALIZING,
+	RUNNING,
+	RESOLVING,
+	ENDED
+}
+
+enum BattleResult {
+	PLAYER_WON,
+	PLAYER_DIED,
+}
+
+var battle_state := BattleState.INITIALIZING
+
 # 接收外部信号：出牌
 # 接收系统内信号：玩家、敌人伤害
 func _ready() -> void:
@@ -93,3 +107,28 @@ func _on_enemy_dealt_damage(payload: Dictionary) -> void:
 		var p_combat_data = player.get_node("Data/CombatData")
 		# 执行玩家数据脚本内的受伤方法
 		p_combat_data.get_hit(payload["damage"], payload["source"].name)
+
+
+# ==========================================
+# 战斗状态处理
+# ==========================================
+func is_battle_active() -> bool:
+	return battle_state != BattleState.ENDED
+
+func end_battle(result: BattleResult) -> void:
+	if battle_state == BattleState.ENDED:
+		return
+
+	battle_state = BattleState.ENDED
+
+	# 这些功能等对应模块完成后再接入：
+	# timeline_manager.cancel_all()
+	# disable_card_input()
+	# begin_battle_settlement(result)
+
+	match result:
+		BattleResult.PLAYER_WON:
+			print("战斗结束：玩家胜利")
+
+		BattleResult.PLAYER_DIED:
+			print("战斗结束：玩家失败")

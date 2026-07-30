@@ -1,11 +1,10 @@
 extends Node
 
+var current_time: int = 0
+var enemy_action_time: int = -1
+var enemy_intent: Dictionary = {}
+var is_advancing: bool = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func schedule_enemy_action(delay: int, intent: Dictionary) -> void:
 	pass

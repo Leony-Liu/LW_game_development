@@ -1,8 +1,3 @@
-# enemy_ai_brain
-#
-# 基础数值，供机制更改
-# 根据抽取的机制生成机制节点
-
 extends Node
 class_name EnemyAIBrain
 
