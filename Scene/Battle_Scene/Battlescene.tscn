@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dendpgv3l41yl"]
+[gd_scene load_steps=20 format=3 uid="uid://dendpgv3l41yl"]
 
 [ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd" id="1_qr5oa"]
 [ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd" id="2_56mea"]
@@ -7,13 +7,14 @@
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="4_bqxj8"]
 [ext_resource type="Script" uid="uid://bx74wyqxi8seb" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd" id="5_lgq4a"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn" id="6_hmd7w"]
+[ext_resource type="Script" uid="uid://bma3ou62jyws5" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd" id="7_lgq4a"]
 [ext_resource type="Texture2D" uid="uid://k7v3ck5y0d80" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/texture/Horror_Floor_12-128x128.png" id="7_n70pr"]
 [ext_resource type="PackedScene" uid="uid://cgmk8os2mw0of" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/sceneobject/brick_wall.glb" id="8_awypu"]
 [ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn" id="9_fpxjr"]
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn" id="10_2fb2n"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_bqxj8"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn" id="11_lrknh"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="12_bqxj8"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="12_bqxj8"]
 [ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="12_xwslp"]
 [ext_resource type="PackedScene" uid="uid://cmeflymhpukrk" path="res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn" id="13_fxnc5"]
 
@@ -55,6 +56,9 @@ player = NodePath("../../GameViewportContainer/GameViewport/World/Player")
 
 [node name="ActionTimelineManager" type="Node" parent="Logic"]
 script = ExtResource("5_lgq4a")
+
+[node name="battle_bus" type="Node" parent="Logic"]
+script = ExtResource("7_lgq4a")
 
 [node name="GameViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1

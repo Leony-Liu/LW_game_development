@@ -4,8 +4,8 @@
 
 ## Snapshot
 
-- Approximate context size: **711,253 characters / ~177,813 tokens**
-- Generated: `2026-07-29T21:59:35+08:00`
+- Approximate context size: **711,438 characters / ~177,859 tokens**
+- Generated: `2026-07-30T15:34:28+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
@@ -25,33 +25,30 @@
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `b51abbe | 2026-07-28T23:47:39+08:00 | 新增（搜索系统）：背包UI控制脚本`
+- Last commit: `8ba9923 | 2026-07-30T11:14:39+08:00 | 修改（战斗）：整理数据，铺垫离散时间轴战斗机制`
 - Working tree changes:
-  - `M Scene/Battle_Scene/Battle_Scene_Main/Battle_UI.tscn`
-  - ` D Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.tscn`
-  - ` M Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_combat_data.gd`
-  - ` M Scene/Battle_Scene/Battlescene.tscn`
-  - ` M Scene/Battle_Scene/Card_Scene/Card.tscn`
-  - ` M Scene/UI/main_menu.tscn`
-  - ` M Scene/VisualTest_MAP/visualtest_map.tscn`
-  - ` M export_context.py`
-  - `?? Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`
+  - `M _ai_context/PROJECT_CONTEXT.md`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-07-29 21:59` `res://export_context.py`
-  - `2026-07-29 21:55` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-07-29 21:55` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-07-29 21:55` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-07-29 21:55` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_combat_data.gd`
-  - `2026-07-29 21:55` `res://Scene/Battle_Scene/Battlescene.tscn`
-  - `2026-07-29 21:52` `res://project.godot`
-  - `2026-07-29 21:52` `res://Scene/VisualTest_MAP/visualtest_map.tscn`
-  - `2026-07-29 21:52` `res://Scene/Battle_Scene/Battle_Scene_Main/Battle_UI.tscn`
-  - `2026-07-29 21:40` `res://Scene/Battle_Scene/Battle_Scene_Main/actions.tscn`
+  - `2026-07-30 11:14` `res://export_context.py`
+  - `2026-07-30 11:14` `res://Scene/VisualTest_MAP/visualtest_map.tscn`
+  - `2026-07-30 11:14` `res://Scene/UI/main_menu.tscn`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battlescene.tscn`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_combat_data.gd`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Main/Battle_UI.tscn`
+  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd`
+  - `2026-07-30 11:14` `res://Game_Design_Brief.md`
+  - `2026-07-30 11:14` `res://project.godot`
+  - `2026-07-29 23:52` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-07-29 23:52` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-07-29 23:52` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-07-29 22:43` `res://Scene/Battle_Scene/Battle_Scene_Main/actions.tscn`
   - `2026-07-29 21:40` `res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn`
   - `2026-07-29 21:40` `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn`
-  - `2026-07-29 21:40` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
   - `2026-07-29 21:40` `res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn`
-  - `2026-07-29 21:40` `res://Scene/UI/main_menu.tscn`
   - `2026-07-29 21:40` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
   - `2026-07-29 21:40` `res://Arts/Theme/GlobalTheme.tres`
   - `2026-07-29 21:40` `res://Scene/Main_Scene/MAIN.tscn`
@@ -93,7 +90,6 @@
   - `2026-07-28 18:33` `res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Actions/CIRCLE.png.import`
   - `2026-07-28 18:33` `res://Arts/Fort/OldWizard.ttf`
   - `2026-07-28 18:33` `res://Arts/Fort/OldWizard.ttf.import`
-  - `2026-07-28 17:14` `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`
   - `2026-07-28 16:49` `res://Arts/Fort/SirClive.ttf`
   - `2026-07-28 16:49` `res://Arts/Fort/Born2bSportyV2.ttf`
   - `2026-07-28 15:53` `res://Scene/VisualTest_MAP/scripts/test_map_crisp.gdshader`
@@ -106,8 +102,6 @@
   - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`
   - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/time_action.gd`
   - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd`
-  - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
-  - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
   - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd.uid`
   - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd`
   - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`
@@ -115,8 +109,6 @@
   - `2026-07-28 14:25` `res://Arts/Theme/environment.tres`
   - `2026-07-28 14:25` `res://Arts/Shader/main_overlay.gdshader.uid`
   - `2026-07-28 14:25` `res://Arts/Shader/3d_world.gdshader.uid`
-  - `2026-07-26 00:12` `res://Scene/VisualTest_MAP/scripts/test_map_crisp.gdshader.uid`
-  - `2026-07-26 00:12` `res://Scene/UI/filelist.tscn`
   - `... 194 more recent files omitted ...`
 
 ## Script Architecture Index
@@ -137,9 +129,9 @@
 | `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd` | `Control` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.gd` | `Control` | `-` | 0 | 0 | 11 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd` | `Control` | `-` | 0 | 0 | 11 | 0 |
-| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd` | `Node` | `-` | 0 | 0 | 1 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd` | `Node` | `-` | 18 | 0 | 0 | 0 |
-| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd` | `Node` | `BattleGameManager` | 0 | 2 | 6 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd` | `Node` | `BattleGameManager` | 0 | 2 | 8 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd` | `Node` | `-` | 0 | 1 | 1 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd` | `Node` | `-` | 0 | 7 | 16 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
@@ -241,9 +233,9 @@
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd`** — methods: `_ready()`, `_on_enemy_hp_changed()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.gd`** — methods: `_ready()`, `_unhandled_input()`, `update_hp()`, `update_stamina()`, `update_staminars()`, `update_mana()`, `update_manars()`, `update_defence()`, `update_shield()`, `update_player_buffs()`, `update_enemy_buffs()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd`** — methods: `_ready()`, `_notification()`, `_process()`, `toggle_backpack()`, `_get_center_pos()`, `_get_corner_pos()`, `_snap_to_corner()`, `_snap_to_center()`, `_set_buttons_interactable()`, `_on_btn_top_pressed()`, `_on_btn_bottom_pressed()`; signals: (none); exports: (none)
-- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`** — methods: `_ready()`, `_process()`; signals: (none); exports: (none)
+- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`** — methods: `schedule_enemy_action()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`** — methods: (none detected); signals: `card_played`, `card_successfully_played`, `card_rejected`, `card_discard_requested`, `player_dealt_damage`, `enemy_dealt_damage`, `enemy_died`, `enemy_hp_changed`, `player_hp_changed`, `player_stamina_changed`, `player_staminars_changed`, `player_mana_changed`; exports: (none)
-- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`** — methods: `_ready()`, `_register_current_enemy()`, `can_play_card()`, `_on_card_played()`, `_on_player_dealt_damage()`, `_on_enemy_dealt_damage()`; signals: (none); exports: `player`, `current_enemy`
+- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`** — methods: `_ready()`, `_register_current_enemy()`, `can_play_card()`, `_on_card_played()`, `_on_player_dealt_damage()`, `_on_enemy_dealt_damage()`, `is_battle_active()`, `end_battle()`; signals: (none); exports: `player`, `current_enemy`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd`** — methods: `create_card()`; signals: (none); exports: `basic_card_scene`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`** — methods: `_ready()`, `_connect_signals()`, `_resolve_dependencies()`, `_process()`, `_request_refill_hand()`, `_get_player_card_deck()`, `_draw_initial_hand_card()`, `draw_cards()`, `_find_empty_slot()`, `_shuffle_discard_to_draw()`, `_on_card_successfully_played()`, `_on_card_discard_requested()`, `_reject_card()`, `_remove_card_from_hand()`, `_add_card_to_discard_pile()`, `_cleanup_hand_references()`; signals: (none); exports: `hand_deck_node`, `card_factory`, `player`, `max_hand_size`, `draw_action`, `draw_stamina_cost`, `discard_stamina_cost`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd`** — methods: `execute_effects()`, `_effect_vulnerable()`, `_effect_add_buff()`, `_effect_buff_hand()`; signals: (none); exports: (none)
@@ -1092,7 +1084,7 @@ player_pos={
 
 ### `res://Game_Design_Brief.md`
 
-- Category: `config_or_doc`; bytes: `574`; sha256/16: `75a809c538f4868d`
+- Category: `config_or_doc`; bytes: `852`; sha256/16: `ae2d3b92c21b3693`
 
 
 ```markdown
@@ -1117,6 +1109,13 @@ player_pos={
 8.完成地图任务
 9.成功撤离
 10.返回基地并保存成长
+
+##重要游戏机制
+
+·玩家和敌人共享一条逻辑时间轴。
+敌人的行动预先标记在时间轴上的特定时间点；
+玩家打出卡牌时，卡牌效果会在某一个时间点瞬间结算，
+同时根据卡牌的行动值推进相应数量的世界时间。
 ```
 
 
@@ -1157,15 +1156,10 @@ func hit() -> void:
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd`
 
-- Category: `script`; bytes: `1715`; sha256/16: `4425f2e9119b9f68`
+- Category: `script`; bytes: `1620`; sha256/16: `e6fd375375d7e1d7`
 
 
 ```gdscript
-# enemy_ai_brain
-#
-# 基础数值，供机制更改
-# 根据抽取的机制生成机制节点
-
 extends Node
 class_name EnemyAIBrain
 
@@ -1984,18 +1978,18 @@ func _on_btn_bottom_pressed() -> void:
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
 
-- Category: `script`; bytes: `260`; sha256/16: `63cbf485c8ff1d37`
+- Category: `script`; bytes: `213`; sha256/16: `b03e0e00d7104dc6`
 
 
 ```gdscript
 extends Node
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+var current_time: int = 0
+var enemy_action_time: int = -1
+var enemy_intent: Dictionary = {}
+var is_advancing: bool = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func schedule_enemy_action(delay: int, intent: Dictionary) -> void:
 	pass
 ```
 
@@ -2044,7 +2038,7 @@ signal play_sfx(category: String, sound_name: String, global_pos: Vector3)
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
 
-- Category: `script`; bytes: `3316`; sha256/16: `60df086846815b8e`
+- Category: `script`; bytes: `4093`; sha256/16: `a9bbf63ea35ded13`
 
 
 ```gdscript
@@ -2056,6 +2050,20 @@ class_name BattleGameManager
 @export var enemy_slot :Node
 
 var current_enemy: Node = null # 当前敌人
+
+enum BattleState{
+	INITIALIZING,
+	RUNNING,
+	RESOLVING,
+	ENDED
+}
+
+enum BattleResult {
+	PLAYER_WON,
+	PLAYER_DIED,
+}
+
+var battle_state := BattleState.INITIALIZING
 
 # 接收外部信号：出牌
 # 接收系统内信号：玩家、敌人伤害
@@ -2135,6 +2143,28 @@ func _on_enemy_dealt_damage(payload: Dictionary) -> void:
 		var p_combat_data = player.get_node("Data/CombatData")
 		# 执行玩家数据脚本内的受伤方法
 		p_combat_data.get_hit(payload["damage"], payload["source"].name)
+
+# 战斗状态处理
+func is_battle_active() -> bool:
+	return battle_state != BattleState.ENDED
+
+func end_battle(result: BattleResult) -> void:
+	if battle_state == BattleState.ENDED:
+		return
+
+	battle_state = BattleState.ENDED
+
+	# 这些功能等对应模块完成后再接入：
+	# timeline_manager.cancel_all()
+	# disable_card_input()
+	# begin_battle_settlement(result)
+
+	match result:
+		BattleResult.PLAYER_WON:
+			print("战斗结束：玩家胜利")
+
+		BattleResult.PLAYER_DIED:
+			print("战斗结束：玩家失败")
 ```
 
 

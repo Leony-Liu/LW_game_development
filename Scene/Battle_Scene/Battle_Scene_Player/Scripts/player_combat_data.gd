@@ -1,8 +1,3 @@
-# player_combat_data
-# 
-# 体力能量恢复和消耗
-# 玩家受伤与格挡判定
-
 extends Node
 class_name PlayerCombatData
 

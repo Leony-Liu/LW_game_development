@@ -1,10 +1,7 @@
 extends Node
 
-var current_time: int = 0
-var enemy_action_time: int = -1
-var enemy_intent: Dictionary = {}
-var is_advancing: bool = false
+var current_action : RefCounted
+var battle_time : int = 0
 
 
-func schedule_enemy_action(delay: int, intent: Dictionary) -> void:
-	pass
+var actionline : Array = []

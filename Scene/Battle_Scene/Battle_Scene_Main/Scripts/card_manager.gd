@@ -10,7 +10,6 @@ extends Node
 ## 指向 CardFactory 节点
 @export var card_factory: Node
 ## 直接绑定战斗场景中的 Player 根节点。
-## 不再依赖节点是否被手动加入 Player 分组。
 @export var player: Node
 
 # ==========================================
@@ -35,9 +34,9 @@ extends Node
 # 运行数据
 # ==========================================
 
-var draw_pile: Array = []
-var hand: Array[Control] = []
-var discard_pile: Array = []
+var draw_pile: Array = [] # 抽牌堆
+var hand: Array[Control] = [] # 手牌
+var discard_pile: Array = [] # 弃牌堆
 
 var card_count: int = 0
 var combat_data: Node
@@ -70,7 +69,7 @@ func _connect_signals() -> void:
 			_on_card_discard_requested
 		)
 
-
+# 检查绑定的节点是否连接成功
 func _resolve_dependencies() -> bool:
 	var valid := true
 
@@ -122,35 +121,34 @@ func _resolve_dependencies() -> bool:
 # ==========================================
 
 func _process(_delta: float) -> void:
-	# 使用 Input 单例轮询，而不是 _unhandled_input。
-	# 这样不会因为 Control、SubViewport 或焦点吞掉事件而失效。
+	
 	if Input.is_action_just_pressed(draw_action):
 		_request_refill_hand()
 
-
+# 检查抽牌条件
 func _request_refill_hand() -> void:
 	_cleanup_hand_references()
 
 	var needed_cards := max_hand_size - hand.size()
 
 	if needed_cards <= 0:
-		print("卡牌管理器：手牌已满，不需要抽牌。")
+		print("card_manager：手牌已满，不需要抽牌。")
 		return
 
 	if combat_data == null:
 		push_error(
-			"卡牌管理器：CombatData 无效，无法消耗体力抽牌。"
+			"card_manager：CombatData 无效，无法消耗体力抽牌。"
 		)
 		return
 
 	if not combat_data.has_method("consume_stamina"):
 		push_error(
-			"卡牌管理器：CombatData 缺少 consume_stamina()。"
+			"card_manager：CombatData 缺少 consume_stamina()。"
 		)
 		return
 
 	if not combat_data.consume_stamina(draw_stamina_cost):
-		print("卡牌管理器：体力不足，无法抽牌。")
+		print("card_manager：体力不足，无法抽牌。")
 
 		if combat_data.has_signal("not_enough_stamina"):
 			combat_data.not_enough_stamina.emit()
@@ -158,7 +156,7 @@ func _request_refill_hand() -> void:
 		return
 
 	print(
-		"卡牌管理器：消耗 %d 点体力，准备抽取 %d 张牌。"
+		"card_manager：消耗 %d 点体力，准备抽取 %d 张牌。"
 		% [draw_stamina_cost, needed_cards]
 	)
 
@@ -169,6 +167,7 @@ func _request_refill_hand() -> void:
 # 牌堆初始化
 # ==========================================
 
+# 从player_deck_manager.gd中读取玩家牌组
 func _get_player_card_deck() -> void:
 	var player_deck: Array = PlayerDeckManager.get_deck().duplicate()
 
@@ -176,13 +175,13 @@ func _get_player_card_deck() -> void:
 	draw_pile.shuffle()
 
 	print(
-		"卡牌管理器：抽牌堆初始化完成，当前张数：%d"
+		"card_manager：抽牌堆初始化完成，当前张数：%d"
 		% draw_pile.size()
 	)
 
-
+# 抽初始手牌
 func _draw_initial_hand_card() -> void:
-	print("卡牌管理器：开始抽取初始手牌。")
+	print("card_manager：开始抽取初始手牌。")
 	draw_cards(max_hand_size)
 
 
@@ -199,14 +198,14 @@ func draw_cards(amount: int) -> void:
 			_shuffle_discard_to_draw()
 
 		if draw_pile.is_empty():
-			print("卡牌管理器：抽牌堆和弃牌堆都为空。")
+			print("card_manager：抽牌堆和弃牌堆都为空。")
 			break
 
 		var empty_slot := _find_empty_slot()
 
 		if empty_slot == null:
 			print(
-				"卡牌管理器：没有空闲卡槽，停止抽牌。"
+				"card_manager：没有空闲卡槽，停止抽牌。"
 			)
 			break
 
@@ -216,7 +215,7 @@ func draw_cards(amount: int) -> void:
 
 		if new_card == null:
 			push_error(
-				"卡牌管理器：CardFactory 创建的节点不是 Control。"
+				"card_manager：CardFactory 创建的节点不是 Control。"
 			)
 			continue
 
@@ -231,11 +230,11 @@ func draw_cards(amount: int) -> void:
 			new_card.play_draw_animation()
 
 	print(
-		"卡牌管理器：抽牌结束，当前手牌数量：%d"
+		"card_manager：抽牌结束，当前手牌数量：%d"
 		% hand.size()
 	)
 
-
+# 寻找空闲槽位
 func _find_empty_slot() -> Control:
 	if hand_deck_node == null:
 		return null
@@ -251,7 +250,7 @@ func _find_empty_slot() -> Control:
 
 	return null
 
-
+# 弃牌堆洗牌并放入抽牌堆
 func _shuffle_discard_to_draw() -> void:
 	if discard_pile.is_empty():
 		return
@@ -261,7 +260,7 @@ func _shuffle_discard_to_draw() -> void:
 	discard_pile.clear()
 
 	print(
-		"卡牌管理器：弃牌堆已洗回抽牌堆，当前张数：%d"
+		"card_manager：弃牌堆已洗回抽牌堆，当前张数：%d"
 		% draw_pile.size()
 	)
 
@@ -270,6 +269,7 @@ func _shuffle_discard_to_draw() -> void:
 # 出牌和弃牌
 # ==========================================
 
+# 若成功出牌
 func _on_card_successfully_played(card_node: Control) -> void:
 	if card_node == null or not is_instance_valid(card_node):
 		return
@@ -282,7 +282,7 @@ func _on_card_successfully_played(card_node: Control) -> void:
 	else:
 		card_node.queue_free()
 
-
+# 若出牌失败
 func _on_card_discard_requested(card_node: Control) -> void:
 	if card_node == null or not is_instance_valid(card_node):
 		return
@@ -315,18 +315,18 @@ func _on_card_discard_requested(card_node: Control) -> void:
 		return
 
 	print(
-		"卡牌管理器：消耗 %d 点体力，主动弃牌成功。"
+		"card_manager：消耗 %d 点体力，主动弃牌成功。"
 		% discard_stamina_cost
 	)
 
 	_on_card_successfully_played(card_node)
 
-
+# 拒绝出牌
 func _reject_card(card_node: Control, reason: String) -> void:
-	print("卡牌管理器：%s" % reason)
+	print("card_manager：%s" % reason)
 	BattleBus.card_rejected.emit(card_node)
 
-
+# 将卡牌从手牌处移除
 func _remove_card_from_hand(card_node: Control) -> void:
 	if hand.has(card_node):
 		hand.erase(card_node)
@@ -335,7 +335,7 @@ func _remove_card_from_hand(card_node: Control) -> void:
 func _add_card_to_discard_pile(card_node: Control) -> void:
 	if "card_id" not in card_node:
 		push_warning(
-			"卡牌管理器：卡牌节点没有 card_id，"
+			"card_manager：卡牌节点没有 card_id，"
 			+ "无法记录到弃牌堆。"
 		)
 		return
@@ -344,7 +344,7 @@ func _add_card_to_discard_pile(card_node: Control) -> void:
 
 	print(
 		(
-			"卡牌管理器：卡牌 ID %d 进入弃牌堆，"
+			"card_manager：卡牌 ID %d 进入弃牌堆，"
 			+ "弃牌堆当前数量：%d"
 		)
 		% [card_node.card_id, discard_pile.size()]
@@ -385,7 +385,7 @@ func apply_buff_to_hand(
 			buffed_count += 1
 
 	print(
-		"卡牌管理器：强化了 %d 张 %s 卡牌的 %s，增加 %f。"
+		"card_manager：强化了 %d 张 %s 卡牌的 %s，增加 %f。"
 		% [
 			buffed_count,
 			target_category,
