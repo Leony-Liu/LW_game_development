@@ -34,7 +34,7 @@ func _register_current_enemy():
 # 玩家出牌许可判定
 # ==========================================
 
-# 1. 出牌许可环境判断：没有敌人/敌人无敌
+# 出牌许可环境判断
 func can_play_card(card_data: Dictionary) -> bool:
 	
 	if card_data.has("categories") and card_data["categories"] == "attack":
@@ -54,23 +54,66 @@ func can_play_card(card_data: Dictionary) -> bool:
 				#
 	return true
 
-# 2. 判定与退回执行
-func _on_card_played(card_data: Dictionary, card_node: Control) -> void:
-	# 环境许可失败
+# 出牌执行
+func _on_card_played(
+	card_data: Dictionary,
+	card_node: Control
+) -> void:
 	if not can_play_card(card_data):
-		print("battle_game_manager：出牌失败！目标无效或处于特殊状态。")
-		BattleBus.card_rejected.emit(card_node)
+		BattleBus.card_rejected.emit(
+			card_node,
+			&"invalid_target"
+		)
 		return
-	# 内部状态判定
-	if player.execute_card(card_data):
-		print("battle_game_manager：出牌成功")
-		BattleBus.card_successfully_played.emit(card_node)
-		
-		
-	else:
-		print("battle_game_manager：卡牌被拦截，出牌失败")
-		BattleBus.card_rejected.emit(card_node)
 
+	var action := _create_player_timeline_action(card_data)
+
+	if action == null:
+		BattleBus.card_rejected.emit(
+			card_node,
+			&"invalid_action_data"
+		)
+		return
+
+	BattleBus.action_require.emit(action)
+
+	BattleBus.card_successfully_played.emit(
+		card_data,
+		card_node
+	)
+
+# 卡牌数据转换
+func _create_player_timeline_action(
+	card_data: Dictionary
+) -> TimelineAction:
+	var action := TimelineAction.new()
+
+	action.action_name = StringName(
+		str(card_data.get("id", ""))
+	)
+
+	action.action_name = str(
+		card_data.get("name_key", "")
+	)
+
+	action.actor = player
+	action.actor_side = TimelineAction.ActorSide.PLAYER
+
+	action.time_cost = int(
+		card_data.get("time_cost", 0)
+	)
+
+	action.action_speed = int(
+		card_data.get("action_speed", 1)
+	)
+
+	action.advances_time = true
+	action.can_be_cancelled = true
+
+	# 保存出牌这一刻的卡牌数据副本
+	action.payload = card_data.duplicate(true)
+
+	return action
 
 # ==========================================
 # 双方伤害中转站

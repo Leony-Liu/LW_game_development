@@ -1,77 +1,123 @@
-#定义：卡牌数据库读取工具（单例）
-
-# 作用：
-# A.读取存储所有卡牌数据的csv文件，并制作成一个个字典
-# B.提供了一个方法可供全局调用
-
+# 定义：卡牌数据库读取工具（单例）
+#
+# 职责：
+# 1. 读取CSV
+# 2. 将每一行整理成Dictionary
+# 3. 根据卡牌ID提供安全的数据副本
 
 extends Node
 
-# 用于存放所有卡牌数据的字典。键(Key)是卡牌ID，值(Value)是卡牌具体信息的字典
-var database : Dictionary = {}
+
+const CARD_DATABASE_PATH := "res://DataBase/AllCardData.csv"
+
+# 这些字段读取后应该是整数
+const INT_FIELDS := [
+	"id",
+	"time_cost",
+	"action_speed",
+	"stamina_cost",
+	"mana_cost",
+	"damage",
+	"poise_damage"
+]
 
 
-func _ready():
-	load_csv_data("res://DataBase/AllCardData.csv")#调用方法并传入csv数据库地址
+# 键：卡牌ID
+# 值：卡牌基础模板
+var database: Dictionary = {}
 
 
-# A.加载csv数据库的数据并打包
-func load_csv_data(file_path: String):
-	# 1. 打开文件
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	
-	# 查错反馈
-	if not file:
-		push_error("数据库读取：找不到卡牌数据文件: " + file_path)
+func _ready() -> void:
+	load_csv_data(CARD_DATABASE_PATH)
+
+
+func load_csv_data(file_path: String) -> void:
+	var file := FileAccess.open(file_path, FileAccess.READ)
+
+	if file == null:
+		push_error("card_database_manager：找不到卡牌数据文件：" + file_path)
 		return
 
-	# --- 关键修改：读取第一行直接作为表头 (Headers) ---
-	# 之前这里有两行读取，现在只需要一行
-	var headers = file.get_csv_line()
-	
-	# 2. 循环读取剩下的每一行数据
+	# 防止重复加载时保留旧数据
+	database.clear()
+
+	var headers := file.get_csv_line()
+
+	# 清理表头两侧可能存在的空格
+	for i in range(headers.size()):
+		headers[i] = headers[i].strip_edges()
+
 	while not file.eof_reached():
-		var data_row = file.get_csv_line()
-		
-		# 如果是空行则跳过 (或者列数少于表头也跳过)
-		if data_row.size() < headers.size():
+		var data_row := file.get_csv_line()
+
+		# 跳过空行
+		if data_row.size() == 1 and data_row[0].strip_edges() == "":
 			continue
-			
-		var card_info = {}
-		
-		# 将数据与表头对应起来
+
+		if data_row.size() < headers.size():
+			push_warning(
+				"card_database_manager：某一行的列数不足，已跳过：%s"
+				% str(data_row)
+			)
+			continue
+
+		var card_info: Dictionary = {}
+
 		for i in range(headers.size()):
-			# 容错：防止行数据列数不够
-			if i < data_row.size():
-				var header_name = headers[i]
-				var cell_value = data_row[i]
-				
-				# --- 防止空数据 ---
-				# 1. 拦截空字符串，默认为整数 0
-				if cell_value == "":
-					card_info[header_name] = 0
-				# 2. 正常的纯数字字符串，转换为整数
-				elif cell_value.is_valid_int():
-					card_info[header_name] = cell_value.to_int()
-				 # 3. 其他的（比如纯文字或字母组合），保留为字符串
-				else:
-					card_info[header_name] = cell_value
-					
-					
-				
-		
-		# 3. 使用卡牌的 "id" 作为主键存入 database 字典
-		if card_info.has("id"):
-			var card_id = card_info["id"]
-			database[card_id] = card_info
-		
-	print("数据库读取：卡牌数据库加载完成，共加载了 %d 张卡牌。" % database.size())
+			var header_name: String = headers[i]
+			var cell_value: String = data_row[i].strip_edges()
+
+			card_info[header_name] = _parse_cell(
+				header_name,
+				cell_value
+			)
+
+		if not card_info.has("id"):
+			push_warning("card_database_manager：发现没有ID的卡牌数据。")
+			continue
+
+		var card_id: int = card_info["id"]
+
+		if database.has(card_id):
+			push_warning(
+				"card_database_manager：发现重复的卡牌ID：%d" % card_id
+			)
+			continue
+
+		database[card_id] = card_info
+
+	print(
+		"card_database_manager：卡牌数据库加载完成，共加载了%d张卡牌。"
+		% database.size()
+	)
 
 
-# B.提供一个读取卡牌的方式
+# 责将CSV文字转换成正确的基础类型
+func _parse_cell(
+	header_name: String,
+	cell_value: String
+) -> Variant:
+	if header_name in INT_FIELDS:
+		if cell_value == "":
+			return 0
+
+		if not cell_value.is_valid_int():
+			push_warning(
+				"card_database_manager：字段%s应当是整数，但读取到：%s"
+				% [header_name, cell_value]
+			)
+			return 0
+
+		return cell_value.to_int()
+
+	# 字符串字段为空时保持为空字符串
+	return cell_value
+
+
+# 返回卡牌模板的独立副本
 func get_card(id: int) -> Dictionary:
 	if database.has(id):
-		return database[id]
-	else:
-		push_error("数据库读取：找不到ID为 %d 的卡牌!" % id)
-		return {}
+		return database[id].duplicate(true)
+
+	push_error("card_database_manager：找不到ID为%d的卡牌！" % id)
+	return {}
