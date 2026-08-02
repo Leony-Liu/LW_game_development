@@ -4,9 +4,11 @@
 class_name InventoryUI
 extends Node
 
+
 ##重新生成整个列表
 func refresh(items):
 	pass
+
 
 ##更新某一个条目
 func update_list():
