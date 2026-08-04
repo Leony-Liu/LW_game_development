@@ -1,8 +1,3 @@
-# player_combat_data
-# 
-# 体力能量恢复和消耗
-# 玩家受伤与格挡判定
-
 extends Node
 class_name PlayerCombatData
 
@@ -46,6 +41,7 @@ var buff_triggers: Dictionary = {
 	"on_turn_end": ["vulnerable"]        
 }
 
+
 func consume_buffs_by_trigger(trigger_type: String) -> void:
 	if not buff_triggers.has(trigger_type): return
 	var is_changed = false
@@ -58,6 +54,7 @@ func consume_buffs_by_trigger(trigger_type: String) -> void:
 	if is_changed:
 		BattleBus.player_buffs_changed.emit(active_buffs)
 
+
 func apply_buff(buff_id: String, value: float, duration: float) -> void:
 	if active_buffs.has(buff_id):
 		active_buffs[buff_id]["duration"] = max(active_buffs[buff_id]["duration"], duration)
@@ -65,12 +62,14 @@ func apply_buff(buff_id: String, value: float, duration: float) -> void:
 	else:
 		active_buffs[buff_id] = {"value": value, "duration": duration}
 	BattleBus.player_buffs_changed.emit(active_buffs)
-	
+
+
 func remove_buff(buff_id: String) -> void:
 	if active_buffs.has(buff_id):
 		active_buffs.erase(buff_id)
 		BattleBus.player_buffs_changed.emit(active_buffs)
 		print("🗑️ 已主动消耗/移除 Buff [%s]！" % buff_id)
+
 
 func _process(delta: float) -> void:
 	if active_buffs.is_empty(): return
@@ -107,7 +106,7 @@ func _sync_initial_stats() -> void:
 	BattleBus.player_shield_changed.emit(current_shield)
 
 # ==========================================
-# 体力、能量恢复与消耗 (保持原样)
+# 体力、能量恢复与消耗
 # ==========================================
 func stamina_recovery(delta:float)->void:
 	if current_stamina < max_stamina:

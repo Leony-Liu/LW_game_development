@@ -33,3 +33,6 @@ signal enemy_buffs_changed(active_buffs: Dictionary)  # 敌人 Buff 变化
 # —————— 音频系统信号 ——————
 # 参数：大分类(决定去哪个文件夹找)、文件名字、3D坐标(传 Vector3.ZERO 就是 2D 播放)
 signal play_sfx(category: String, sound_name: String, global_pos: Vector3)
+
+# —————— 时间轴相关 ——————
+signal action_committed(action: TimelineAction) # 被确认加入时间轴的行动

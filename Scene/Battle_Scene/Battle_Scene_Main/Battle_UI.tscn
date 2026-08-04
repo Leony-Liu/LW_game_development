@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b8j0l0tukq36" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Group 39-b.png" id="7_axmqt"]
 [ext_resource type="Script" uid="uid://coet4u787fvad" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd" id="7_vdcw3"]
 [ext_resource type="Texture2D" uid="uid://csjf0fa2kcipv" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Group 39.png" id="8_4mc5c"]
-[ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.tscn" id="10_yddny"]
+[ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn" id="10_yddny"]
 [ext_resource type="Texture2D" uid="uid://b3kucp358w4ba" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Group 40.png" id="11_2ih3d"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="11_d2lmi"]
 [ext_resource type="FontFile" uid="uid://cxvcfs37fakec" path="res://Arts/Fort/SirClive.ttf" id="11_lxtdy"]

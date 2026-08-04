@@ -11,9 +11,6 @@ extends Control
 ## 抽牌动画持续时间
 @export var draw_duration: float = 0.20
 
-# ==========================================
-# 整张卡牌的悬停反馈
-# ==========================================
 @export_category("悬停设置")
 ## 鼠标移动到卡牌左右边缘时，卡牌的最大旋转角度
 @export var max_rotation: float = 5.0
@@ -67,7 +64,7 @@ var is_transform_initialized: bool = false
 
 
 # ==========================================
-# 初始状态记录
+# 初始状态记录（动画方面）
 # ==========================================
 var original_minimum_size: Vector2
 var original_rotation: float
@@ -134,6 +131,7 @@ func _initialize_transform() -> void:
 # 数据初始化
 # ==========================================
 
+# 直接从database读取卡牌数据并打包
 func _fetch_data_from_database() -> void:
 	if card_id == 0:
 		push_warning("卡牌没有配置 card_id，跳过数据库读取。")
@@ -149,18 +147,15 @@ func _fetch_data_from_database() -> void:
 	_update_card_cost()
 	
 
+# 加载名字到UI
 func _update_card_name() -> void:
-	var name_key: String = str(
-		card_data.get("name_key", "CARD_NAME_UNKNOWN")
-	)
+	var name_key: String = str(card_data.get("name_key", "CARD_NAME_UNKNOWN"))
 
 	name_label.text = tr(name_key)
 
-
+# 加载消耗资源到UI
 func _update_card_cost() -> void:
-	var category: String = str(
-		card_data.get("categories", "attack")
-	)
+	var category: String = str(card_data.get("categories", "attack"))
 
 	var cost: int = 0
 
@@ -322,6 +317,7 @@ func _kill_reset_rotation_tween() -> void:
 # 输入与出牌
 # ==========================================
 
+# 检查交互方式是否为鼠标输入
 func _on_gui_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton:
 		return
@@ -333,26 +329,30 @@ func _on_gui_input(event: InputEvent) -> void:
 	if is_locked:
 		return
 	match mouse_event.button_index:
-		MOUSE_BUTTON_LEFT:
+		MOUSE_BUTTON_LEFT:  # 左键触发出牌请求
 			_request_play_card()
 			accept_event()
-		MOUSE_BUTTON_RIGHT:
+		MOUSE_BUTTON_RIGHT:  # 右键触发弃牌请求
 			_request_discard_card()
 			accept_event()
 
+
+# 出牌
 func _request_play_card() -> void:
 	print("2D 卡牌发起出牌请求。")
 	is_locked = true
-	BattleBus.card_played.emit(
-		card_data,
-		self
-	)
+	BattleBus.card_played.emit(card_data,self)
 
+
+
+#弃牌
 func _request_discard_card() -> void:
 	print("2D 卡牌发起弃牌请求。")
 	is_locked = true
 	BattleBus.card_discard_requested.emit(self)
 
+
+# 出牌失败
 func _on_card_rejected(target_node: Control) -> void:
 	if target_node != self:
 		return
