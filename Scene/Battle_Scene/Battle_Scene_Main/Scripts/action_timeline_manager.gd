@@ -35,7 +35,6 @@ var next_sequence_id: int = 1
 # 防止同一个时间点意外生成无限行动
 const MAX_ACTIONS_PER_TIME: int = 100
 
-
 # 程序入口
 func _ready() -> void:
 	BattleBus.action_committed.connect(_on_action_required)
@@ -46,13 +45,13 @@ func _ready() -> void:
 # 处理行动申请
 func _on_action_required(action: TimelineAction) -> void:
 	if action == null:
-		push_error("时间轴：收到的行动为空。")
+		push_error("action_timeline_manager：收到的行动为空。")
 		return
 
 	# 时间推进期间，禁止再提交另一个会推进时间的玩家行动
 	# 但允许AI补充不推进时间的未来行动
 	if is_advancing and action.advances_time:
-		push_warning("时间轴：正在推进时间，不能提交新的推进时间行动。")
+		push_warning("action_timeline_manager：正在推进时间，不能提交新的推进时间行动。")
 		return
 
 	_assign_sequence_id(action)
@@ -60,6 +59,7 @@ func _on_action_required(action: TimelineAction) -> void:
 	# 先手行动：
 	# 现在立刻结算，然后推进它的time_cost
 	if action.has_initiative and action.advances_time:
+		
 		action.execute_time = current_time
 		_resolve_single_action(action)
 		advance_time(action.time_cost)
@@ -121,11 +121,11 @@ func _is_action_before(
 
 func advance_time(amount: int) -> void:
 	if amount < 0:
-		push_error("时间轴：不能倒退时间。")
+		push_error("action_timeline_manager：不能倒退时间。")
 		return
 
 	if is_advancing:
-		push_warning("时间轴：已经在推进时间。")
+		push_warning("action_timeline_manager：已经在推进时间。")
 		return
 
 	var target_time := current_time + amount
@@ -207,7 +207,7 @@ func _resolve_actions_at_current_time() -> void:
 
 			if resolved_count >= MAX_ACTIONS_PER_TIME:
 				push_error(
-					"时间轴：同一时间触发的行动过多，"
+					"action_timeline_manager：同一时间触发的行动过多，"
 					+ "可能存在无限生成行动的问题。"
 				)
 				return

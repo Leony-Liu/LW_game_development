@@ -7,7 +7,8 @@ enum ActorSide{
 	UNKOWN
 }
 
-
+# 行动序号ID
+var sequence_id : int = 0
 # 行动名称
 var action_name : String = ""
 # 行动发起者
@@ -35,7 +36,6 @@ var cancel_reason : String = ""
 # 先手属性
 var has_initiative : bool = false
 
-
 var payload : Dictionary = {}
 
 # 方便创建行动时一次完成设置
@@ -44,7 +44,7 @@ func setup(
 	new_actor: Node,
 	new_actor_side: int,
 	new_time_cost: int,
-	new_action_speed: int = 1,
+	new_execute_priority: int = 1,
 	new_has_initiative: bool = false,
 	new_advances_time: bool = false,
 	new_payload: Dictionary = {}
@@ -53,8 +53,8 @@ func setup(
 	actor = new_actor
 	actor_side = new_actor_side
 	time_cost = max(new_time_cost, 0)
-	execute_priority = clampi(new_action_speed, 1, 3)
-	has_initiative = new_has_initiative
+	execute_priority = clampi(new_execute_priority, 0, 3)
+	has_initiative = execute_priority == 0
 	advances_time = new_advances_time
 	payload = new_payload.duplicate(true)
 

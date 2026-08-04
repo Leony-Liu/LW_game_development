@@ -9,7 +9,6 @@ class_name BattleGameManager
 var current_enemy: Node = null # 当前敌人
 
 
-
 # 接收外部信号：出牌
 # 接收系统内信号：玩家、敌人伤害
 func _ready() -> void:
@@ -34,82 +33,57 @@ func _register_current_enemy():
 # 玩家出牌许可判定
 # ==========================================
 
-# 出牌许可环境判断
+# 判定能不能出牌
 func can_play_card(card_data: Dictionary) -> bool:
-	
+	# 条件1：该牌为攻击牌
 	if card_data.has("categories") and card_data["categories"] == "attack":
-		# 若无当前敌人无法出牌
+		# 条件2:当前有敌人
 		if current_enemy == null:
 			return false
-			
-		# 获取状态机
-		var sm = current_enemy.get_node_or_null("StateMachine")
-		
-		## 安全判定：状态机节点存在 -> 状态机脚本上有 current_state 属性 -> 且该属性不为空
-		#if sm and "current_state" in sm and sm.current_state != null:
-			#var enemy_state = sm.current_state.name
-			## 判定敌人是否在无敌状态
-			#if enemy_state in ["Burrowed", "Invincible"]: 
-				#return false
-				#
+
 	return true
 
 # 出牌执行
-func _on_card_played(
-	card_data: Dictionary,
-	card_node: Control
-) -> void:
+func _on_card_played(card_data: Dictionary,card_node: Control) -> void:
+	# 如果判定能否出牌的方法返回false
 	if not can_play_card(card_data):
-		BattleBus.card_rejected.emit(
-			card_node,
-			&"invalid_target"
-		)
+		BattleBus.card_rejected.emit(card_node)
 		return
 
 	var action := _create_player_timeline_action(card_data)
 
 	if action == null:
-		BattleBus.card_rejected.emit(
-			card_node,
-			&"invalid_action_data"
-		)
+		BattleBus.card_rejected.emit(card_node)
+		push_error("battle_game_manger:卡牌行动数据录入为空")
 		return
 
-	BattleBus.action_require.emit(action)
+# 动作提交至action_timeline_manager
+	BattleBus.action_committed.emit(action)
 
-	BattleBus.card_successfully_played.emit(
-		card_data,
-		card_node
-	)
+	BattleBus.card_successfully_played.emit(card_node)
 
-# 卡牌数据转换
-func _create_player_timeline_action(
-	card_data: Dictionary
-) -> TimelineAction:
+# 生成一个行动，并将卡牌的数据填入对应的变量当中
+func _create_player_timeline_action(card_data: Dictionary) -> TimelineAction:
 	var action := TimelineAction.new()
 
-	action.action_name = StringName(
-		str(card_data.get("id", ""))
-	)
-
-	action.action_name = str(
-		card_data.get("name_key", "")
-	)
-
+	action.sequence_id = int(card_data.get("id", 0))
+	
+	action.action_name = str(card_data.get("name_key", ""))
+	
 	action.actor = player
+	
 	action.actor_side = TimelineAction.ActorSide.PLAYER
 
-	action.time_cost = int(
-		card_data.get("time_cost", 0)
-	)
+	action.time_cost = int(card_data.get("time_cost", 0))
 
-	action.action_speed = int(
-		card_data.get("action_speed", 1)
-	)
+	action.execute_priority = int(card_data.get("execute_priority", 1))
+	
+	action.has_initiative = action.execute_priority == 0
 
 	action.advances_time = true
+	
 	action.can_be_cancelled = true
-
+	
 	# 保存出牌这一刻的卡牌数据副本
 	action.payload = card_data.duplicate(true)
 

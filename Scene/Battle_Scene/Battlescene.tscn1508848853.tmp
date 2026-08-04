@@ -1,0 +1,154 @@
+[gd_scene load_steps=20 format=3 uid="uid://dendpgv3l41yl"]
+
+[ext_resource type="Script" uid="uid://2fhw3cnsqx6o" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd" id="1_qr5oa"]
+[ext_resource type="Script" uid="uid://csd1vyt5deyh4" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd" id="2_56mea"]
+[ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd" id="3_yjeh4"]
+[ext_resource type="PackedScene" uid="uid://b5bqwwplbqjgj" path="res://Scene/Battle_Scene/Card_Scene/Card.tscn" id="4_56mea"]
+[ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="4_bqxj8"]
+[ext_resource type="Script" uid="uid://bx74wyqxi8seb" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd" id="5_lgq4a"]
+[ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn" id="6_hmd7w"]
+[ext_resource type="Script" uid="uid://bma3ou62jyws5" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd" id="7_lgq4a"]
+[ext_resource type="Texture2D" uid="uid://k7v3ck5y0d80" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/texture/Horror_Floor_12-128x128.png" id="7_n70pr"]
+[ext_resource type="PackedScene" uid="uid://cgmk8os2mw0of" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/sceneobject/brick_wall.glb" id="8_awypu"]
+[ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn" id="9_fpxjr"]
+[ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn" id="10_2fb2n"]
+[ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_bqxj8"]
+[ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn" id="11_lrknh"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="12_bqxj8"]
+[ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="12_xwslp"]
+[ext_resource type="PackedScene" uid="uid://cmeflymhpukrk" path="res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn" id="13_fxnc5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8kpu"]
+albedo_texture = ExtResource("7_n70pr")
+uv1_scale = Vector3(20, 20, 20)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n70pr"]
+shader = ExtResource("12_bqxj8")
+shader_parameter/color_depth = 32.0
+shader_parameter/contrast = 0.95
+shader_parameter/brightness = 1.0
+shader_parameter/dither_strength = 0.05
+shader_parameter/dither_scale = 1.0
+shader_parameter/chromatic_aberration = 0.0
+shader_parameter/scanline_intensity = 0.15
+shader_parameter/vignette_intensity = 0.8
+
+[node name="BattleScene" type="Node3D" node_paths=PackedStringArray("player", "enemy_slot")]
+script = ExtResource("1_qr5oa")
+player = NodePath("GameViewportContainer/GameViewport/World/Player")
+enemy_slot = NodePath("GameViewportContainer/GameViewport/World/EnemySlot")
+
+[node name="Logic" type="Node" parent="."]
+
+[node name="EffectManager" type="Node" parent="Logic"]
+unique_name_in_owner = true
+script = ExtResource("2_56mea")
+
+[node name="CardFactory" type="Node" parent="Logic"]
+script = ExtResource("3_yjeh4")
+basic_card_scene = ExtResource("4_56mea")
+
+[node name="CardManager" type="Node" parent="Logic" node_paths=PackedStringArray("hand_deck_node", "card_factory", "player")]
+script = ExtResource("4_bqxj8")
+hand_deck_node = NodePath("../../UI/UIManager/UIRoot/PlayerHandDeck")
+card_factory = NodePath("../CardFactory")
+player = NodePath("../../GameViewportContainer/GameViewport/World/Player")
+
+[node name="ActionTimelineManager" type="Node" parent="Logic"]
+script = ExtResource("5_lgq4a")
+
+[node name="battle_bus" type="Node" parent="Logic"]
+script = ExtResource("7_lgq4a")
+
+[node name="GameViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 3
+
+[node name="GameViewport" type="SubViewport" parent="GameViewportContainer"]
+handle_input_locally = false
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="World" type="Node" parent="GameViewportContainer/GameViewport"]
+
+[node name="EnemySlot" type="Node" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="Enemy" parent="GameViewportContainer/GameViewport/World/EnemySlot" instance=ExtResource("6_hmd7w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115089, -1.14)
+
+[node name="Environment" type="Node" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="Light" type="Node" parent="GameViewportContainer/GameViewport/World/Environment"]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment/Light"]
+transform = Transform3D(0.953691, -0.271043, 0.130421, -3.72529e-09, 0.433596, 0.901107, -0.300789, -0.859378, 0.413517, 0.512177, 3.44428, 0)
+spot_attenuation = -0.6
+spot_angle = 23.98
+
+[node name="Ground" type="CSGBox3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00495684, -0.0114741, 0.00205199)
+size = Vector3(20, 0.2, 20)
+material = SubResource("StandardMaterial3D_q8kpu")
+
+[node name="brick_wall2" parent="GameViewportContainer/GameViewport/World/Environment" instance=ExtResource("8_awypu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16686, 0.00637555, -1.84506)
+
+[node name="Player" parent="GameViewportContainer/GameViewport/World" instance=ExtResource("9_fpxjr")]
+transform = Transform3D(1, 0, 0, 0, 0.971862, 0.235549, 0, -0.235549, 0.971862, 0, 1.46117, -0.00474618)
+
+[node name="Skill" parent="GameViewportContainer/GameViewport/World/Player/StateMachine" index="5" node_paths=PackedStringArray("effect_mgr")]
+effect_mgr = NodePath("../../../../../../Logic/EffectManager")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GameViewportContainer/GameViewport/World"]
+environment = ExtResource("11_bqxj8")
+
+[node name="CRT_Layer" type="CanvasLayer" parent="GameViewportContainer/GameViewport"]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="GameViewportContainer/GameViewport/CRT_Layer"]
+material = SubResource("ShaderMaterial_n70pr")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.666667
+offset_top = -0.666667
+offset_right = 0.666687
+offset_bottom = -0.666656
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UI" type="Node" parent="."]
+
+[node name="UIManager" type="CanvasLayer" parent="UI"]
+
+[node name="UIRoot" type="Control" parent="UI/UIManager"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerInfromation" parent="UI/UIManager/UIRoot" instance=ExtResource("11_lrknh")]
+layout_mode = 1
+
+[node name="EnemyHPBarRoot" parent="UI/UIManager/UIRoot" instance=ExtResource("10_2fb2n")]
+layout_mode = 1
+
+[node name="PlayerHandDeck" parent="UI/UIManager/UIRoot" instance=ExtResource("12_xwslp")]
+layout_mode = 1
+
+[node name="TimeLine" parent="UI/UIManager/UIRoot" instance=ExtResource("13_fxnc5")]
+layout_mode = 1
+rotation = 0.00194887
+mouse_filter = 2
+
+[editable path="GameViewportContainer/GameViewport/World/Player"]
