@@ -3,16 +3,16 @@ extends Control
 # ==========================================
 # 节点绑定 (指向整理后的 MainVBoxContainer)
 # ==========================================
-@onready var hp_label = $MarginContainer/MainVBoxContainer/HP
-@onready var stamina_label = $MarginContainer/MainVBoxContainer/Stanima
-@onready var mana_label = $MarginContainer/MainVBoxContainer/Mana
-@onready var defence_label = $MarginContainer/MainVBoxContainer/Defence
-@onready var shield_label = $MarginContainer/MainVBoxContainer/Shield
-@onready var staminars_label = $MarginContainer/MainVBoxContainer/Stamina_RS
-@onready var manars_label = $MarginContainer/MainVBoxContainer/Mana_RS
+@onready var hp_label = %HP
+@onready var stamina_label = %Stanima
+@onready var mana_label = %Mana
+@onready var defence_label = %Defence
+@onready var shield_label = %Shield
+@onready var staminars_label = %Stamina_RS
+@onready var manars_label = %Mana_RS
 
-@onready var player_buff_container = $MarginContainer/MainVBoxContainer/PlayerBuffContainer
-@onready var enemy_buff_container = $MarginContainer/MainVBoxContainer/EnemyBuffContainer
+@onready var player_buff_container = %PlayerBuffContainer
+@onready var enemy_buff_container = %EnemyBuffContainer
 
 func _ready():
 	# 1. 默认隐藏，不干扰极简赛博主 UI

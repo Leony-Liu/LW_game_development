@@ -18,7 +18,8 @@ signal time_passed(amount: int,current_time: int)
 signal time_advance_started(from_time: int,to_time: int)
 # 时间推进结束
 signal time_advance_finished(current_time: int)
-
+# 通知敌人ai布置行动
+signal enemy_plan_requested(required_until_time:int)
 
 # —————— 时间轴状态 ——————
 
@@ -35,10 +36,19 @@ var next_sequence_id: int = 1
 # 防止同一个时间点意外生成无限行动
 const MAX_ACTIONS_PER_TIME: int = 100
 
+# 敌人提前布置行动的范围
+const ENEMY_PLAN_RANGE : int = 100
+
+
 # 程序入口
 func _ready() -> void:
 	BattleBus.action_committed.connect(_on_action_required)
 
+# —————— 主动请求敌人补充未来行动 ——————
+
+func request_enemy_plan() -> void:
+	var required_until_time := current_time + ENEMY_PLAN_RANGE
+	enemy_plan_requested.emit(required_until_time)
 
 # —————— 接收行动 ——————
 
@@ -48,28 +58,42 @@ func _on_action_required(action: TimelineAction) -> void:
 		push_error("action_timeline_manager：收到的行动为空。")
 		return
 
-	# 时间推进期间，禁止再提交另一个会推进时间的玩家行动
-	# 但允许AI补充不推进时间的未来行动
+	# 时间推进期间禁止再次提交推进时间的玩家行动。
+	# 敌人补充未来行动时 advances_time 为 false，因此仍然允许进入。
 	if is_advancing and action.advances_time:
-		push_warning("action_timeline_manager：正在推进时间，不能提交新的推进时间行动。")
+		push_warning(
+			"action_timeline_manager：正在推进时间，"
+			+ "不能提交新的推进时间行动。"
+		)
 		return
 
 	_assign_sequence_id(action)
 
-	# 先手行动：
-	# 现在立刻结算，然后推进它的time_cost
+	# 先手行动不进入未来队列：
+	# 在当前时间立即结算，然后推进对应时间。
 	if action.has_initiative and action.advances_time:
-		
 		action.execute_time = current_time
 		_resolve_single_action(action)
 		advance_time(action.time_cost)
 		return
 
-	# 普通行动在 current_time + time_cost 时执行
-	action.execute_time = current_time + action.time_cost
+	# 玩家普通行动没有预设绝对时间，
+	# 执行时间为当前时间加行动时间。
+	if action.execute_time < 0:
+		action.execute_time = current_time + action.time_cost
+
+	# 拒绝已经过期的敌人行动，避免行动轴卡死。
+	if action.execute_time < current_time:
+		push_warning(
+			"action_timeline_manager：拒绝加入过去时间的行动：%s"
+			% action.action_name
+		)
+		return
+
+	# 玩家和敌人的普通行动都必须先进入 pending_actions。
 	_add_action(action)
 
-	# 玩家卡牌、玩家道具等行动会主动推动时间
+	# 玩家卡牌等主动行动在成功加入后推进时间。
 	if action.advances_time:
 		advance_time(action.time_cost)
 
@@ -103,8 +127,8 @@ func _is_action_before(
 		return action_a.execute_time < action_b.execute_time
 
 	# 第二比较：行动速度，3级排在1级前面
-	if action_a.action_speed != action_b.action_speed:
-		return action_a.action_speed > action_b.action_speed
+	if action_a.execute_priority != action_b.execute_priority:
+		return action_a.execute_priority > action_b.execute_priority
 
 	# 第三比较：同级时玩家优先
 	if action_a.actor_side != action_b.actor_side:
@@ -130,6 +154,11 @@ func advance_time(amount: int) -> void:
 
 	var target_time := current_time + amount
 
+# 发送敌人提前行动布置请求
+	var required_until_time: int = (target_time + ENEMY_PLAN_RANGE)
+	enemy_plan_requested.emit(required_until_time)
+
+# 开始推进时间
 	is_advancing = true
 	time_advance_started.emit(current_time, target_time)
 

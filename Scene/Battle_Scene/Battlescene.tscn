@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="4_bqxj8"]
 [ext_resource type="Script" uid="uid://bx74wyqxi8seb" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd" id="5_lgq4a"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn" id="6_hmd7w"]
-[ext_resource type="Script" uid="uid://bma3ou62jyws5" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd" id="7_lgq4a"]
 [ext_resource type="Texture2D" uid="uid://k7v3ck5y0d80" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/texture/Horror_Floor_12-128x128.png" id="7_n70pr"]
 [ext_resource type="PackedScene" uid="uid://cgmk8os2mw0of" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/sceneobject/brick_wall.glb" id="8_awypu"]
 [ext_resource type="PackedScene" uid="uid://7cdujhisinjp" path="res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn" id="9_fpxjr"]
@@ -17,6 +16,7 @@
 [ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="12_bqxj8"]
 [ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="12_xwslp"]
 [ext_resource type="PackedScene" uid="uid://cmeflymhpukrk" path="res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn" id="13_fxnc5"]
+[ext_resource type="PackedScene" uid="uid://cg4gfu6tl4ke6" path="res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.tscn" id="15_lgq4a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8kpu"]
 albedo_texture = ExtResource("7_n70pr")
@@ -56,9 +56,6 @@ player = NodePath("../../GameViewportContainer/GameViewport/World/Player")
 
 [node name="ActionTimelineManager" type="Node" parent="Logic"]
 script = ExtResource("5_lgq4a")
-
-[node name="battle_bus" type="Node" parent="Logic"]
-script = ExtResource("7_lgq4a")
 
 [node name="GameViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -137,11 +134,15 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PlayerInfromation" parent="UI/UIManager/UIRoot" instance=ExtResource("11_lrknh")]
+[node name="DeveloperData" parent="UI/UIManager/UIRoot" instance=ExtResource("11_lrknh")]
 layout_mode = 1
 
 [node name="EnemyHPBarRoot" parent="UI/UIManager/UIRoot" instance=ExtResource("10_2fb2n")]
 layout_mode = 1
+
+[node name="PlayerUI" parent="UI/UIManager/UIRoot" instance=ExtResource("15_lgq4a")]
+layout_mode = 1
+mouse_filter = 2
 
 [node name="PlayerHandDeck" parent="UI/UIManager/UIRoot" instance=ExtResource("12_xwslp")]
 layout_mode = 1
