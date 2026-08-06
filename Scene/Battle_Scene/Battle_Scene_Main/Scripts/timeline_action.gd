@@ -8,7 +8,7 @@ enum ActorSide{
 }
 
 # 行动序号ID
-var sequence_id : int = 0
+var sequence_id : int = -1
 # 行动名称
 var action_name : String = ""
 # 行动发起者
@@ -54,7 +54,7 @@ func setup(
 	actor_side = new_actor_side
 	time_cost = max(new_time_cost, 0)
 	execute_priority = clampi(new_execute_priority, 0, 3)
-	has_initiative = execute_priority == 0
+	has_initiative = new_has_initiative
 	advances_time = new_advances_time
 	payload = new_payload.duplicate(true)
 

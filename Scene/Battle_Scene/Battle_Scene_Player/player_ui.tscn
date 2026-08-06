@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://cg4gfu6tl4ke6"]
+
+[ext_resource type="Script" uid="uid://cfabr03delfbo" path="res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.gd" id="1_4s2f7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4s2f7"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0becw"]
+bg_color = Color(0.81, 0.3375, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwrvj"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_055o6"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Theme" id="Theme_4s2f7"]
+Label/font_sizes/font_size = 60
+
+[sub_resource type="Environment" id="Environment_4s2f7"]
+background_mode = 3
+glow_enabled = true
+
+[node name="PlayerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4s2f7")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 66.0
+offset_top = -267.0
+offset_right = 106.0
+offset_bottom = -227.0
+grow_vertical = 0
+
+[node name="different_hp" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(2, 2, 2, 1)
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 10.0
+theme_override_styles/background = SubResource("StyleBoxFlat_4s2f7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0becw")
+show_percentage = false
+
+[node name="current_hp" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(2, 2, 2, 1)
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 10.0
+theme_override_styles/background = SubResource("StyleBoxFlat_qwrvj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_055o6")
+value = 100.0
+show_percentage = false
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+offset_top = 3.0
+offset_right = 156.0
+offset_bottom = 43.0
+
+[node name="currentHP" type="Label" parent="Control/MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(2, 2, 2, 1)
+layout_mode = 2
+theme = SubResource("Theme_4s2f7")
+theme_override_colors/font_color = Color(2, 2, 2, 1)
+theme_override_font_sizes/font_size = 24
+text = "this is a bug"
+vertical_alignment = 1
+
+[node name="2D_Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4s2f7")

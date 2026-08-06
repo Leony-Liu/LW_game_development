@@ -46,7 +46,7 @@ cache/0/12/0/scale = 1.0
 Label/font_sizes/font_size = 50
 Label/fonts/font = SubResource("FontFile_on5e8")
 
-[node name="PlayerInfromation" type="Control"]
+[node name="DeveloperData" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,81 +56,117 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_on5e8")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_right = 148.0
-offset_bottom = 357.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerInfromation" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="MainVBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="MainVBoxContainer" type="VBoxContainer" parent="HBoxContainer/PlayerInfromation"]
 layout_mode = 2
 mouse_filter = 2
 theme = SubResource("Theme_3dl66")
 
-[node name="HP" type="Label" parent="MarginContainer/MainVBoxContainer"]
+[node name="HP" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0, 0, 1)
 theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
-[node name="Stanima" type="Label" parent="MarginContainer/MainVBoxContainer"]
+[node name="Stanima" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1064, 0.56, 0.11396, 1)
 theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
-[node name="Mana" type="Label" parent="MarginContainer/MainVBoxContainer"]
+[node name="Mana" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0132, 0.4444, 0.66, 1)
 theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
-[node name="Defence" type="Label" parent="MarginContainer/MainVBoxContainer"]
+[node name="Defence" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
-[node name="Shield" type="Label" parent="MarginContainer/MainVBoxContainer"]
+[node name="Shield" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
-[node name="Stamina_RS" type="Label" parent="MarginContainer/MainVBoxContainer"]
+[node name="Stamina_RS" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
-[node name="Mana_RS" type="Label" parent="MarginContainer/MainVBoxContainer"]
+[node name="Mana_RS" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "this is a bug"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/MainVBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
 layout_mode = 2
 
-[node name="PlayerBuffContainer" type="VBoxContainer" parent="MarginContainer/MainVBoxContainer"]
+[node name="PlayerBuffContainer" type="VBoxContainer" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme = SubResource("Theme_3dl66")
 
-[node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/PlayerBuffContainer"]
+[node name="name" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer/PlayerBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.98, 0.98, 1)
 theme_override_font_sizes/font_size = 12
 text = "PlayerBuff:"
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/MainVBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
 layout_mode = 2
 
-[node name="EnemyBuffContainer" type="VBoxContainer" parent="MarginContainer/MainVBoxContainer"]
+[node name="EnemyBuffContainer" type="VBoxContainer" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme = SubResource("Theme_3dl66")
 
-[node name="name" type="Label" parent="MarginContainer/MainVBoxContainer/EnemyBuffContainer"]
+[node name="name" type="Label" parent="HBoxContainer/PlayerInfromation/MainVBoxContainer/EnemyBuffContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.91, 0.91, 1)
 theme_override_font_sizes/font_size = 12
 text = "EnemyBuff:"
+
+[node name="EnemyInfromation" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="ActionsLine" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionsLine"]
+layout_mode = 2
+
+[node name="CurrentTime" type="Label" parent="ActionsLine/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="ActionsLine/VBoxContainer/CurrentTime"]
+layout_mode = 0
+
+[node name="Actionlist" type="VBoxContainer" parent="ActionsLine/VBoxContainer"]
+layout_mode = 2

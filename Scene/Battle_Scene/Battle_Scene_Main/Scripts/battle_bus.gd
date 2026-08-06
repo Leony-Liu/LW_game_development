@@ -1,5 +1,9 @@
 extends Node
 
+# —————— 战斗阶段信号 ——————
+signal battle_start()# 进入战斗
+signal battle_inprogress()# 战斗开始
+signal battle_finished(winner:String) # 战斗结束
 
 # —————— 卡牌信号 ——————
 signal card_played(card_data: Dictionary, card_node: Control) # 一张牌被打出

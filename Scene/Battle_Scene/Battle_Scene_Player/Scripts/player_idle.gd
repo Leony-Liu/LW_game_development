@@ -15,32 +15,16 @@ func enter(msg:Dictionary = {}) -> void:
 	if visuals and visuals.has_method("play_idle"):
 		visuals.play_idle()
 	
-	# host.get_node("Visuals/AnimationPlayer").play("player_idle")
 
 # ==========================================
 # 待机体力、能量恢复 | 格挡功能的启发点
 # ==========================================
 
 # 在本状态内每帧执行
-func update(delta: float) -> void:
-	# 每帧恢复资源
-	host.get_node("Data/CombatData").stamina_recovery(delta)
-	host.get_node("Data/CombatData").mana_recovery(delta)
-	
-	# 当按下格挡键
-	if Input.is_action_pressed("block_key"):
-		# 连接玩家战斗数据
-		var combat_data = host.get_node("Data/CombatData")
-		# 检查是否有体力
-		if combat_data.current_stamina > 0:
-			# 若有则直接进入格挡
-			get_parent().transition_to("Parry")
-		else:
-			# 体力不足 0 时，拒绝格挡，并发出警告信号
-			if Input.is_action_just_pressed("block_key"):# 注意：为防止每帧都执行，进行按下检测
-				print("待机状态：体力枯竭 (0点)！无法举起武器进行格挡！")
-				# 发送体力不足信号
-				host.get_node("Data/CombatData").not_enough_stamina.emit()
+func update(_delta: float) -> void:
+	# 资源不再按照现实帧恢复。
+
+	pass
 
 # ==========================================
 # 核验出牌资源

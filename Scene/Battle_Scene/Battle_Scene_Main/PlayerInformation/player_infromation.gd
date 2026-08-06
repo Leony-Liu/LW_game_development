@@ -3,16 +3,36 @@ extends Control
 # ==========================================
 # 节点绑定 (指向整理后的 MainVBoxContainer)
 # ==========================================
-@onready var hp_label = $MarginContainer/MainVBoxContainer/HP
-@onready var stamina_label = $MarginContainer/MainVBoxContainer/Stanima
-@onready var mana_label = $MarginContainer/MainVBoxContainer/Mana
-@onready var defence_label = $MarginContainer/MainVBoxContainer/Defence
-@onready var shield_label = $MarginContainer/MainVBoxContainer/Shield
-@onready var staminars_label = $MarginContainer/MainVBoxContainer/Stamina_RS
-@onready var manars_label = $MarginContainer/MainVBoxContainer/Mana_RS
+@onready var hp_label = %HP
+@onready var stamina_label = %Stanima
+@onready var mana_label = %Mana
+@onready var defence_label = %Defence
+@onready var shield_label = %Shield
+@onready var staminars_label = %Stamina_RS
+@onready var manars_label = %Mana_RS
 
-@onready var player_buff_container = $MarginContainer/MainVBoxContainer/PlayerBuffContainer
-@onready var enemy_buff_container = $MarginContainer/MainVBoxContainer/EnemyBuffContainer
+@onready var player_buff_container = %PlayerBuffContainer
+@onready var enemy_buff_container = %EnemyBuffContainer
+
+# 时间轴开发者信息。
+# 使用 find_child，避免界面容器层级调整后路径失效。
+@onready var current_time_label: Label = (
+	find_child(
+		"CurrentTime",
+		true,
+		false
+	) as Label
+)
+
+@onready var action_list: VBoxContainer = (
+	find_child(
+		"Actionlist",
+		true,
+		false
+	) as VBoxContainer
+)
+
+var timeline_manager: ActionTimelineManager = null
 
 func _ready():
 	# 1. 默认隐藏，不干扰极简赛博主 UI
@@ -29,6 +49,10 @@ func _ready():
 	
 	BattleBus.player_buffs_changed.connect(update_player_buffs)
 	BattleBus.enemy_buffs_changed.connect(update_enemy_buffs)
+
+	call_deferred(
+		"_connect_timeline_debug_ui"
+	)
 
 # ==========================================
 # F3 快捷键显隐切换 (硬核数据终端面板)
@@ -53,7 +77,7 @@ func update_mana(current_mana: int, max_mana: int):
 	mana_label.text = "MP: %d / %d" % [current_mana, max_mana]
 
 func update_manars(current_mana_recover_speed: float):
-	mana_label.text = "MP_RS: %d" % [current_mana_recover_speed]
+	manars_label.text = "MP_RS: %d" % [current_mana_recover_speed]
 
 func update_defence(current_defence: float):
 	defence_label.text = "DEF: %d" % [current_defence]
@@ -102,3 +126,132 @@ func update_enemy_buffs(buffs: Dictionary):
 		lbl.custom_minimum_size = Vector2(0, 20) 
 		
 		enemy_buff_container.add_child(lbl)
+
+
+func _connect_timeline_debug_ui() -> void:
+	# 从当前场景树中寻找行动轴。
+	timeline_manager = (
+		get_tree().root.find_child(
+			"ActionTimelineManager",
+			true,
+			false
+		) as ActionTimelineManager
+	)
+
+	if timeline_manager == null:
+		push_error(
+			"DeveloperData："
+			+ "找不到 ActionTimelineManager。"
+		)
+		return
+
+	if current_time_label == null:
+		push_error(
+			"DeveloperData："
+			+ "找不到 CurrentTime Label。"
+		)
+		return
+
+	if action_list == null:
+		push_error(
+			"DeveloperData："
+			+ "找不到 Actionlist VBoxContainer。"
+		)
+		return
+
+	if not timeline_manager.timeline_changed.is_connected(
+		_on_timeline_changed
+	):
+		timeline_manager.timeline_changed.connect(
+			_on_timeline_changed
+		)
+
+	# 主动执行一次，避免等待下一次变化才显示。
+	var initial_actions := (
+		timeline_manager.get_visible_actions(
+			100000
+		)
+	)
+
+	_on_timeline_changed(
+		initial_actions,
+		timeline_manager.current_time
+	)
+
+
+func _on_timeline_changed(
+	actions: Array[TimelineAction],
+	current_time: int
+) -> void:
+	if current_time_label == null:
+		return
+
+	if action_list == null:
+		return
+
+	current_time_label.text = (
+		"Current Time: %d"
+		% current_time
+	)
+
+	# 删除上一轮动态创建的 Label。
+	for child in action_list.get_children():
+		action_list.remove_child(child)
+		child.queue_free()
+
+	# ActionTimelineManager 中的行动已经按结算顺序排列。
+	for action: TimelineAction in actions:
+		if action == null:
+			continue
+
+		if action.is_cancelled:
+			continue
+
+		var actor_text := "?"
+
+		match action.actor_side:
+			TimelineAction.ActorSide.PLAYER:
+				actor_text = "P"
+
+			TimelineAction.ActorSide.ENEMY:
+				actor_text = "E"
+
+			_:
+				actor_text = "?"
+
+		var display_name := tr(
+			action.action_name
+		)
+
+		var remaining_time := (
+			action.get_remaining_time(
+				current_time
+			)
+		)
+
+		var action_label := Label.new()
+
+		action_label.text = (
+			"%s | %s | %d"
+			% [
+				actor_text,
+				display_name,
+				remaining_time
+			]
+		)
+
+		action_label.horizontal_alignment = (
+			HORIZONTAL_ALIGNMENT_LEFT
+		)
+
+		action_label.add_theme_font_size_override(
+			"font_size",
+			12
+		)
+
+		action_label.custom_minimum_size = Vector2(
+			260,
+			20
+		)
+
+		action_list.add_child(action_label)

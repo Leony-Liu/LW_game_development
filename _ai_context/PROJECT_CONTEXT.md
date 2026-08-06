@@ -4,14 +4,14 @@
 
 ## Snapshot
 
-- Approximate context size: **721,285 characters / ~180,321 tokens**
-- Generated: `2026-08-03T18:12:58+08:00`
+- Approximate context size: **736,424 characters / ~184,106 tokens**
+- Generated: `2026-08-05T20:25:52+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
-- Files scanned: **639**; readable text files: **195**
-- Scripts: **102**; scenes: **72**; resources: **8**; shaders: **6**
-- Non-text assets: **438** (29.8 MiB)
+- Files scanned: **643**; readable text files: **197**
+- Scripts: **104**; scenes: **72**; resources: **8**; shaders: **6**
+- Non-text assets: **440** (29.8 MiB)
 - Total scanned size: **34.8 MiB**
 - TODO/FIXME/HACK markers: **20**
 
@@ -25,47 +25,58 @@
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `a1e821f | 2026-08-01T10:10:03+08:00 | 修改（数据）：调整卡牌csv数据库结构`
+- Last commit: `dfa94ce | 2026-08-04T09:13:51+08:00 | 新增（战斗）：时间轴战斗系统逻辑框架完善`
 - Working tree changes:
-  - `M DataBase/AllCardData.csv`
-  - ` M Game_Design_Brief.md`
-  - ` M Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
+  - `MM Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`
+  - `AM Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`
+  - `A  Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd.uid`
+  - ` M Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`
+  - `AM Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`
+  - `A  Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd.uid`
+  - `MM Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
+  - `M  Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`
+  - `MM Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
   - ` M Scene/Battle_Scene/Battle_Scene_Main/Scripts/timeline_action.gd`
-  - ` M _ai_context/PROJECT_CONTEXT.md`
-  - `?? Scene/Battle_Scene/Battlescene.tscn1508848853.tmp`
+  - `MM _ai_context/PROJECT_CONTEXT.md`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-03 18:11` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-03 18:11` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-03 18:11` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battlescene.tscn`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Scene_Main/actions.tscn`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn`
+  - `2026-08-05 20:25` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-05 20:25` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-05 20:25` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-05 20:25` `res://Scene/Battle_Scene/Battlescene.tscn`
+  - `2026-08-05 20:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/timeline_action.gd`
+  - `2026-08-05 20:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
+  - `2026-08-05 20:20` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Main/actions.tscn`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn`
+  - `2026-08-05 20:13` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-05 20:13` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`
+  - `2026-08-05 20:11` `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`
+  - `2026-08-05 20:10` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`
+  - `2026-08-05 19:10` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-05 19:10` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-05 18:57` `res://project.godot`
+  - `2026-08-04 18:37` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`
+  - `2026-08-04 12:56` `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd.uid`
+  - `2026-08-04 10:52` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd.uid`
+  - `2026-08-04 09:14` `res://Scene/Battle_Scene/Battlescene.tscn1508848853.tmp`
+  - `2026-08-04 09:14` `res://Game_Design_Brief.md`
+  - `2026-08-04 09:14` `res://DataBase/AllCardData.csv`
   - `2026-08-03 18:11` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
   - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn`
   - `2026-08-03 18:11` `res://Scene/UI/main_menu.tscn`
-  - `2026-08-03 18:11` `res://Scene/Main_Scene/MAIN.tscn`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
-  - `2026-08-03 18:06` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-03 18:06` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-03 17:57` `res://project.godot`
-  - `2026-08-03 16:45` `res://Game_Design_Brief.md`
-  - `2026-08-02 18:06` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/timeline_action.gd`
-  - `2026-08-02 18:04` `res://Scene/Battle_Scene/Battlescene.tscn1508848853.tmp`
-  - `2026-08-02 17:48` `res://DataBase/AllCardData.csv`
   - `2026-08-01 10:41` `res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd`
-  - `2026-08-01 10:41` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
   - `2026-07-30 20:24` `res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd`
   - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_combat_data.gd`
   - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/timeline_action.gd.uid`
   - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd`
   - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`
-  - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`
   - `2026-07-30 11:14` `res://export_context.py`
   - `2026-07-30 11:14` `res://Scene/VisualTest_MAP/visualtest_map.tscn`
-  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`
   - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Main/Battle_UI.tscn`
   - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd`
   - `2026-07-29 21:39` `res://Scene/Battle_Scene/Card_Scene/Arts/CardBackground.png.import`
@@ -108,19 +119,15 @@
   - `2026-07-28 18:33` `res://Arts/Fort/OldWizard.ttf.import`
   - `2026-07-28 16:49` `res://Arts/Fort/SirClive.ttf`
   - `2026-07-28 16:49` `res://Arts/Fort/Born2bSportyV2.ttf`
-  - `2026-07-28 15:53` `res://Scene/VisualTest_MAP/scripts/test_map_crisp.gdshader`
-  - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_skill.gd`
-  - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_manager.gd`
-  - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/time_line.gd`
-  - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/time_line.gd.uid`
-  - `2026-07-28 14:25` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd`
-  - `... 197 more recent files omitted ...`
+  - `... 201 more recent files omitted ...`
 
 ## Script Architecture Index
 
 | Script | Extends | class_name | Signals | Exported vars | Methods | TODOs |
 |---|---|---|---:|---:|---:|---:|
 | `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/enemy_visuals_manager.gd` | `Node3D` | `-` | 1 | 0 | 4 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd` | `Node` | `-` | 0 | 0 | 1 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd` | `Node` | `EnemyAI` | 0 | 0 | 12 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd` | `Node` | `EnemyAIBrain` | 0 | 0 | 1 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd` | `State` | `-` | 0 | 0 | 4 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd` | `Node` | `EnemyCalculator` | 0 | 0 | 2 | 0 |
@@ -134,9 +141,9 @@
 | `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd` | `Control` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.gd` | `Control` | `-` | 0 | 0 | 11 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd` | `Control` | `-` | 0 | 0 | 11 | 0 |
-| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd` | `Node` | `ActionTimelineManager` | 7 | 0 | 14 | 0 |
-| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd` | `Node` | `-` | 19 | 0 | 0 | 0 |
-| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd` | `Node` | `BattleGameManager` | 0 | 2 | 5 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd` | `Node` | `ActionTimelineManager` | 8 | 0 | 14 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd` | `Node` | `-` | 22 | 0 | 0 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd` | `Node` | `BattleGameManager` | 0 | 2 | 11 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd` | `Node` | `-` | 0 | 1 | 1 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd` | `Node` | `-` | 0 | 7 | 16 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
@@ -225,6 +232,8 @@
 ### Script APIs (condensed)
 
 - **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/enemy_visuals_manager.gd`** — methods: `_ready()`, `play_idle()`, `play_attack()`, `hit()`; signals: `enemy_hit_frame_reached`; exports: (none)
+- **`res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`** — methods: `get_ai_config()`; signals: (none); exports: (none)
+- **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`** — methods: `_ready()`, `_load_data_from_child()`, `set_enemy_data()`, `_read_action_database()`, `_read_category_weights()`, `_read_opening_patterns()`, `on_plan_requested()`, `_generate_actions_until()`, `_choose_next_action()`, `_choose_opening_pattern()`, `_choose_weighted_action()`, `_choose_weighted_action_without_repeat_rule()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd`** — methods: `initialize()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd`** — methods: `enter()`, `exit()`, `_deal_damage()`, `_execute_attack()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd`** — methods: `calculate_incoming_damage()`, `calculate_outgoing_damage()`; signals: (none); exports: (none)
@@ -238,9 +247,9 @@
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd`** — methods: `_ready()`, `_on_enemy_hp_changed()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.gd`** — methods: `_ready()`, `_unhandled_input()`, `update_hp()`, `update_stamina()`, `update_staminars()`, `update_mana()`, `update_manars()`, `update_defence()`, `update_shield()`, `update_player_buffs()`, `update_enemy_buffs()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd`** — methods: `_ready()`, `_notification()`, `_process()`, `toggle_backpack()`, `_get_center_pos()`, `_get_corner_pos()`, `_snap_to_corner()`, `_snap_to_center()`, `_set_buttons_interactable()`, `_on_btn_top_pressed()`, `_on_btn_bottom_pressed()`; signals: (none); exports: (none)
-- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`** — methods: `_ready()`, `_on_action_required()`, `_assign_sequence_id()`, `_add_action()`, `_sort_pending_actions()`, `advance_time()`, `_find_next_event_time()`, `_move_time_to()`, `_resolve_actions_at_current_time()`, `_resolve_single_action()`, `_is_action_valid()`, `_cancel_action()`, `get_visible_actions()`, `_emit_timeline_changed()`; signals: `timeline_changed`, `action_resolution_requested`, `action_resolved`, `action_cancelled`, `time_passed`, `time_advance_started`, `time_advance_finished`; exports: (none)
-- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`** — methods: (none detected); signals: `card_played`, `card_successfully_played`, `card_rejected`, `card_discard_requested`, `player_dealt_damage`, `enemy_dealt_damage`, `enemy_died`, `enemy_hp_changed`, `player_hp_changed`, `player_stamina_changed`, `player_staminars_changed`, `player_mana_changed`; exports: (none)
-- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`** — methods: `_ready()`, `_register_current_enemy()`, `can_play_card()`, `_on_player_dealt_damage()`, `_on_enemy_dealt_damage()`; signals: (none); exports: `player`, `current_enemy`
+- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`** — methods: `_ready()`, `_on_action_required()`, `_assign_sequence_id()`, `_add_action()`, `_sort_pending_actions()`, `advance_time()`, `_find_next_event_time()`, `_move_time_to()`, `_resolve_actions_at_current_time()`, `_resolve_single_action()`, `_is_action_valid()`, `_cancel_action()`, `get_visible_actions()`, `_emit_timeline_changed()`; signals: `timeline_changed`, `action_resolution_requested`, `action_resolved`, `action_cancelled`, `time_passed`, `time_advance_started`, `time_advance_finished`, `enemy_plan_requested`; exports: (none)
+- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`** — methods: (none detected); signals: `battle_start`, `battle_inprogress`, `battle_finished`, `card_played`, `card_successfully_played`, `card_rejected`, `card_discard_requested`, `player_dealt_damage`, `enemy_dealt_damage`, `enemy_died`, `enemy_hp_changed`, `player_hp_changed`; exports: (none)
+- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`** — methods: `_ready()`, `_register_current_enemy()`, `change_battle_state()`, `can_play_card()`, `_on_card_played()`, `_create_player_timeline_action()`, `_on_player_dealt_damage()`, `_on_enemy_dealt_damage()`, `_prepare_battle()`, `_start_battle_logic()`, `_finish_battle_logic()`; signals: (none); exports: `player`, `current_enemy`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd`** — methods: `create_card()`; signals: (none); exports: `basic_card_scene`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`** — methods: `_ready()`, `_connect_signals()`, `_resolve_dependencies()`, `_process()`, `_request_refill_hand()`, `_get_player_card_deck()`, `_draw_initial_hand_card()`, `draw_cards()`, `_find_empty_slot()`, `_shuffle_discard_to_draw()`, `_on_card_successfully_played()`, `_on_card_discard_requested()`, `_reject_card()`, `_remove_card_from_hand()`, `_add_card_to_discard_pile()`, `_cleanup_hand_references()`; signals: (none); exports: `hand_deck_node`, `card_factory`, `player`, `max_hand_size`, `draw_action`, `draw_stamina_cost`, `discard_stamina_cost`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd`** — methods: `execute_effects()`, `_effect_vulnerable()`, `_effect_add_buff()`, `_effect_buff_hand()`; signals: (none); exports: (none)
@@ -331,7 +340,7 @@
 | Scene | Root | Nodes | Connections | Script refs | Instanced scene refs |
 |---|---|---:|---:|---:|---:|
 | `res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn` | `PlayerHandDeck/HBoxContainer` | 6 | 0 | 0 | 0 |
-| `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn` | `Enemy/Node3D` | 13 | 0 | 7 | 1 |
+| `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn` | `Enemy/Node3D` | 14 | 0 | 8 | 1 |
 | `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/enemymodle.tscn` | `Enemymodle` | 1 | 0 | 0 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn` | `enemy_3dvisuals/Node3D` | 5 | 0 | 1 | 1 |
 | `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/ual_1_standard.tscn` | `UAL1_Standard` | 2 | 0 | 0 | 0 |
@@ -403,7 +412,7 @@
 | `res://Scene/VisualTest_MAP/Art/路灯.tscn` | `路灯` | 4 | 0 | 0 | 0 |
 | `res://Scene/VisualTest_MAP/visualtest_map.tscn` | `TestMap/Node3D` | 144 | 0 | 1 | 28 |
 
-- **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`** → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_combat_data.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_state_machine.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`
+- **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`** → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_combat_data.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_state_machine.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`
 - **`res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`** → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/enemy_visuals_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/enemymodle.tscn`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Battle_UI.tscn`** → `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/battle_ui.gd`, `res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Battle_world.tscn`** → `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn`
@@ -441,7 +450,7 @@
 
 - `res://Arts/Theme/GlobalTheme.tres` → `res://Arts/Fort/ark-pixel-12px-monospaced-zh_cn.ttf`
 - `res://project.godot` → `res://Arts/`, `res://Arts/Fort/`, `res://Arts/Theme/`, `res://Audio/`, `res://DataBase/`, `res://Localization/`, `res://Localization/loc_card.en.translation`, `res://Localization/loc_card.zh.translation`, `res://Localization/loc_ui.en.translation`, `res://Localization/loc_ui.zh.translation`, `res://Scene/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/`, `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Player/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player-visuals/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/`, `res://Scene/Battle_Scene/Card_Scene/`, `res://Scene/Battle_Scene/Card_Scene/Arts/` (+27 more)
-- `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn` → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_combat_data.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_state_machine.gd`
+- `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn` → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_combat_data.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_state_machine.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`
 - `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/enemymodle.tscn` → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/enemytest.glb`
 - `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn` → `res://Arts/AnimationLibrary/Ual1_test.res`, `res://Arts/AnimationLibrary/Ual2_test.res`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/enemymodle.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/enemy_visuals_manager.gd`
 - `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/ual_1_standard.tscn` → `res://Arts/AnimationLibrary/UAL1_Standard.glb`
@@ -647,6 +656,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   ├── Scripts
 │   │   │   │   ├── EnemyMechanics
 │   │   │   │   │   └── buff_defence.gd
+│   │   │   │   ├── enemy_ai.gd
 │   │   │   │   ├── enemy_ai_brain.gd
 │   │   │   │   ├── enemy_attack.gd
 │   │   │   │   ├── enemy_calculator.gd
@@ -655,7 +665,8 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   │   ├── enemy_idle.gd
 │   │   │   │   ├── enemy_manager.gd
 │   │   │   │   └── enemy_state_machine.gd
-│   │   │   └── Enemy.tscn
+│   │   │   ├── Enemy.tscn
+│   │   │   └── enemy_test_data.gd
 │   │   ├── Battle_Scene_Main
 │   │   │   ├── EnemyHPBar
 │   │   │   │   ├── enemy_hp_bar_root.gd
@@ -883,7 +894,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 
 ### By extension
 
-`.import`: 147, `.uid`: 108, `.png`: 47, `.glb`: 42, `.jpg`: 40, `.tmp`: 21, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `.translation`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
+`.import`: 147, `.uid`: 110, `.png`: 47, `.glb`: 42, `.jpg`: 40, `.tmp`: 21, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `.translation`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
 
 ### By top-level folder
 
@@ -891,7 +902,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `Audio`: .wav=4, .import=4
 - `DataBase`: .import=6
 - `Localization`: .translation=4, .import=2
-- `Scene`: .import=128, .uid=106, .png=47, .glb=40, .jpg=40, .tmp=21, .aseprite=9, .gif=6, .fbx=1
+- `Scene`: .import=128, .uid=108, .png=47, .glb=40, .jpg=40, .tmp=21, .aseprite=9, .gif=6, .fbx=1
 - `export_context.py`: .py=1
 - `gitattributes`: [no extension]=1
 - `gitignore`: [no extension]=1
@@ -1161,6 +1172,719 @@ func play_attack() -> void:
 # ⚠️ 注意：这个方法必须在僵尸的 attack 动画的“调用方法轨道”中被打上关键帧！
 func hit() -> void:
 	enemy_hit_frame_reached.emit()
+```
+
+
+### `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`
+
+- Category: `script`; bytes: `1946`; sha256/16: `0acda13756f72186`
+
+
+```gdscript
+extends Node
+
+func get_ai_config() -> Dictionary:
+	return {
+		"category_weights": {
+			"attack": 0.6,
+			"defence": 0.2,
+			"skill": 0.2
+		},
+
+		"opening_patterns": [
+			[
+				"normal_attack",
+				"dodge",
+				"multi_attack"
+			],
+			[
+				"guard",
+				"normal_attack",
+				"heavy_attack"
+			]
+		],
+
+		"actions": {
+			"normal_attack": {
+				"id": "normal_attack",
+				"name": "普通攻击",
+				"category": "attack",
+				"weight": 0.5,
+				"time_cost": 10,
+				"execute_priority": 1,
+				"effect_type": "damage",
+				"target_type": "player",
+				"damage": 10
+			},
+
+			"multi_attack": {
+				"id": "multi_attack",
+				"name": "连续攻击",
+				"category": "attack",
+				"weight": 0.3,
+				"time_cost": 14,
+				"execute_priority": 1,
+				"effect_type": "multi_damage",
+				"target_type": "player",
+				"hit_count": 3,
+				"damage_per_hit": 4
+			},
+
+			"heavy_attack": {
+				"id": "heavy_attack",
+				"name": "重击",
+				"category": "attack",
+				"weight": 0.2,
+				"time_cost": 24,
+				"execute_priority": 1,
+				"effect_type": "damage",
+				"target_type": "player",
+				"damage": 25
+			},
+
+			"dodge": {
+				"id": "dodge",
+				"name": "闪避",
+				"category": "defence",
+				"weight": 0.55,
+				"time_cost": 8,
+				"execute_priority": 2,
+				"effect_type": "dodge_buff",
+				"target_type": "self",
+				"dodge_bonus": 0.35,
+				"duration": 20,
+				"cannot_repeat": true
+			},
+
+			"guard": {
+				"id": "guard",
+				"name": "防御",
+				"category": "defence",
+				"weight": 0.45,
+				"time_cost": 8,
+				"execute_priority": 2,
+				"effect_type": "block_next_attack",
+				"target_type": "self",
+				"charges": 1,
+				"duration": 25,
+				"cannot_repeat": true
+			},
+
+			"rebirth": {
+				"id": "rebirth",
+				"name": "重生",
+				"category": "skill",
+				"weight": 1.0,
+				"time_cost": 18,
+				"execute_priority": 1,
+				"effect_type": "rebirth_charge",
+				"target_type": "self",
+				"charge_amount": 1,
+				"cannot_repeat": true
+			}
+		}
+	}
+```
+
+
+### `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`
+
+- Category: `script`; bytes: `12784`; sha256/16: `356f32be619f7d73`
+
+
+```gdscript
+extends Node
+class_name EnemyAI
+
+@onready var data_source: Node = get_node_or_null("EnemyTestData")
+
+var action_database: Dictionary = {}
+
+var category_weights: Dictionary = {}
+
+var opening_patterns: Array = []
+# 当前战斗随机选择的开局序列
+var opening_queue: Array[String] = []
+
+# AI 运行数据
+# 已规划时间
+var planned_until_time: int = 0
+# 上一次生成的行动 ID
+var last_action_id: String = ""
+# 数据是否已经成功加载
+var data_loaded: bool = false
+# 当前是否正在生成行动
+var is_generating: bool = false
+
+# 每次规划请求最多生成多少个行动
+const MAX_ACTIONS_PER_REQUEST: int = 100
+# 随机数生成器
+var random_generator := RandomNumberGenerator.new()
+
+# 生命周期
+
+func _ready() -> void:
+	random_generator.randomize()
+
+	_load_data_from_child()
+
+# 输入一：读取敌人数据
+# 读取敌人数据内置方法
+func _load_data_from_child() -> void:
+	if data_source == null:
+		push_error("EnemyAI：找不到子节点 EnemyTestData")
+		return
+
+	if not data_source.has_method("get_ai_config"):
+		push_error("EnemyAI：EnemyTestData 缺少 " + "get_ai_config() 方法")
+		return
+
+	var raw_config = data_source.call("get_ai_config")
+
+	if typeof(raw_config) != TYPE_DICTIONARY:
+		push_error("EnemyAI：get_ai_config() " + "必须返回 Dictionary")
+		return
+
+	set_enemy_data(raw_config)
+
+#  EnemyAI 正式数据输入接口
+func set_enemy_data(enemy_config: Dictionary) -> bool:
+	data_loaded = false
+
+	action_database.clear()
+	category_weights.clear()
+	opening_patterns.clear()
+	opening_queue.clear()
+
+	last_action_id = ""
+
+	# 默认认为战斗时间从 0 开始。
+	planned_until_time = int(enemy_config.get("plan_start_time",0))
+
+	_read_action_database(enemy_config.get("actions",{}))
+
+	_read_category_weights(enemy_config.get("category_weights",{}))
+
+	_read_opening_patterns(enemy_config.get("opening_patterns",[]))
+
+	if action_database.is_empty():
+		push_error("EnemyAI：敌人数据中没有有效的 actions")
+		return false
+
+	if category_weights.is_empty():
+		push_error("EnemyAI：敌人数据中没有 " + "category_weights")
+		return false
+
+	_choose_opening_pattern()
+
+	data_loaded = true
+
+	print("EnemyAI：数据加载完成，行动数量：",action_database.size())
+
+	return true
+
+# 读取并整理行动数据库。
+func _read_action_database(raw_actions) -> void:
+	if typeof(raw_actions) != TYPE_DICTIONARY:
+		return
+
+	var actions: Dictionary = raw_actions
+
+	for raw_action_id in actions.keys():
+		var raw_action_data = actions.get(raw_action_id,{})
+
+		if typeof(raw_action_data) != TYPE_DICTIONARY:
+			continue
+
+		var action_id: String = str(raw_action_id)
+
+		var action_data: Dictionary = (raw_action_data.duplicate(true))
+		# 数据内部没有 id 时，
+		# 自动使用外层字典的键。
+		action_data["id"] = str(action_data.get("id",action_id))
+
+		action_data["category"] = str(action_data.get("category",""))
+
+		action_database[action_id] = action_data
+
+# 读取类别权重。
+func _read_category_weights(raw_weights) -> void:
+	if typeof(raw_weights) != TYPE_DICTIONARY:
+		return
+
+	var weights: Dictionary = raw_weights
+
+	for raw_category in weights.keys():
+		var category: String = str(raw_category)
+
+		var weight: float = float(weights.get(raw_category,0.0))
+
+		category_weights[category] = maxf(weight,0.0)
+
+# 读取开局行动序列。
+func _read_opening_patterns(raw_patterns) -> void:
+	if typeof(raw_patterns) != TYPE_ARRAY:
+		return
+
+	for raw_pattern in raw_patterns:
+		if typeof(raw_pattern) != TYPE_ARRAY:
+			continue
+
+		var pattern: Array[String] = []
+
+		for raw_action_id in raw_pattern:
+			pattern.append(str(raw_action_id))
+
+		if not pattern.is_empty():
+			opening_patterns.append(pattern)
+
+# 输入二：接收 ATM 的规划请求
+
+#
+func on_plan_requested(required_until_time: int) -> void:
+	if not data_loaded:
+		push_warning("EnemyAI：收到规划请求，"+ "但敌人数据尚未加载")
+		return
+
+	if required_until_time <= planned_until_time:
+		return
+
+	if is_generating:
+		return
+
+	_generate_actions_until(required_until_time)
+
+# 生成未来行动
+
+func _generate_actions_until(required_until_time: int) -> void:
+	is_generating = true
+
+	var generated_count: int = 0
+
+	while planned_until_time < required_until_time:
+		if (generated_count>= MAX_ACTIONS_PER_REQUEST):
+			push_error("EnemyAI：一次规划生成了过多行动，" + "请检查行动 time_cost")
+			break
+
+		var action_id: String = (_choose_next_action())
+
+		if action_id.is_empty():
+			push_warning("EnemyAI：没有可以生成的行动")
+			break
+
+		var action_data: Dictionary = (action_database.get(action_id,{}))
+
+		if action_data.is_empty():
+			push_error("EnemyAI：找不到行动数据：" + action_id)
+			break
+
+		var time_cost: int = int(action_data.get("time_cost",0))
+
+		if time_cost <= 0:
+			push_error("EnemyAI：行动 "+ action_id+ " 的 time_cost 必须大于 0")
+			break
+
+		# 新行动接在上一个行动后面。
+		var execute_time: int = (planned_until_time + time_cost)
+
+		var timeline_action := (_create_timeline_action(action_id,action_data,execute_time))
+
+		if timeline_action == null:
+			break
+
+		# 唯一输出：
+		# 将生成的行动提交给战斗总线。
+		BattleBus.action_committed.emit(timeline_action)
+
+		planned_until_time = execute_time
+		last_action_id = action_id
+		generated_count += 1
+
+	is_generating = false
+
+	print("EnemyAI：本次生成 ",generated_count," 个行动，规划到时间 ",planned_until_time)
+
+# 选择行动
+
+func _choose_next_action() -> String:
+	# 开局队列还没有用完时，
+	# 优先使用开局行动。
+	while not opening_queue.is_empty():
+		var opening_action_id: String = (opening_queue.pop_front())
+
+		if _is_action_valid(opening_action_id,false):
+			return opening_action_id
+
+	# 开局行动结束后，
+	# 使用权重随机。
+	return _choose_weighted_action()
+
+# 随机选择一套开局行动。
+func _choose_opening_pattern() -> void:
+	opening_queue.clear()
+
+	if opening_patterns.is_empty():
+		return
+
+	var selected_index: int = (
+		random_generator.randi_range(0,opening_patterns.size() - 1))
+
+	var selected_pattern: Array = (opening_patterns[selected_index])
+
+	for action_id in selected_pattern:
+		opening_queue.append(str(action_id))
+
+	print("EnemyAI：本场开局行动：",opening_queue)
+
+# 根据最终权重随机选择行动。
+func _choose_weighted_action() -> String:
+	var candidates: Array[Dictionary] = []
+	var total_weight: float = 0.0
+
+	for raw_action_id in action_database.keys():
+		var action_id: String = str(raw_action_id)
+
+		if not _is_action_valid(action_id,true):
+			continue
+
+		var action_data: Dictionary = (action_database.get(action_id,{}))
+
+		var action_weight: float = (_get_action_weight(action_data))
+
+		if action_weight <= 0.0:
+			continue
+
+		candidates.append({
+			"id": action_id,
+			"weight": action_weight
+		})
+
+		total_weight += action_weight
+
+	# 有可能所有行动都因为
+	# cannot_repeat 被过滤掉。
+	#
+	# 这种情况下再选择一次，
+	# 但忽略“不能连续使用”的限制。
+	if candidates.is_empty():
+		return _choose_weighted_action_without_repeat_rule()
+
+	if total_weight <= 0.0:
+		return ""
+
+	var roll: float = (
+		random_generator.randf()
+		* total_weight
+	)
+
+	for candidate: Dictionary in candidates:
+		roll -= float(
+			candidate.get(
+				"weight",
+				0.0
+			)
+		)
+
+		if roll <= 0.0:
+			return str(
+				candidate.get(
+					"id",
+					""
+				)
+			)
+
+	return str(
+		candidates.back().get(
+			"id",
+			""
+		)
+	)
+
+# 当“禁止连续行动”导致没有候选项时，
+# 使用这个兜底选择。
+func _choose_weighted_action_without_repeat_rule() -> String:
+	var candidates: Array[Dictionary] = []
+	var total_weight: float = 0.0
+
+	for raw_action_id in action_database.keys():
+		var action_id: String = str(
+			raw_action_id
+		)
+
+		if not _is_action_valid(
+			action_id,
+			false
+		):
+			continue
+
+		var action_data: Dictionary = (
+			action_database.get(
+				action_id,
+				{}
+			)
+		)
+
+		var action_weight: float = (
+			_get_action_weight(
+				action_data
+			)
+		)
+
+		if action_weight <= 0.0:
+			continue
+
+		candidates.append({
+			"id": action_id,
+			"weight": action_weight
+		})
+
+		total_weight += action_weight
+
+	if candidates.is_empty():
+		return ""
+
+	if total_weight <= 0.0:
+		return ""
+
+	var roll: float = (
+		random_generator.randf()
+		* total_weight
+	)
+
+	for candidate: Dictionary in candidates:
+		roll -= float(
+			candidate.get(
+				"weight",
+				0.0
+			)
+		)
+
+		if roll <= 0.0:
+			return str(
+				candidate.get(
+					"id",
+					""
+				)
+			)
+
+	return str(
+		candidates.back().get(
+			"id",
+			""
+		)
+	)
+
+# 行动权重
+
+# 最终行动权重：
+#
+# 类别权重 × 类别内部行动权重
+#
+# 例如：
+#
+# 攻击类别权重 = 0.6
+# 普通攻击内部权重 = 0.5
+#
+# 普通攻击最终权重：
+# 0.6 × 0.5 = 0.3
+func _get_action_weight(
+	action_data: Dictionary
+) -> float:
+	var category: String = str(
+		action_data.get(
+			"category",
+			""
+		)
+	)
+
+	var category_weight: float = float(
+		category_weights.get(
+			category,
+			0.0
+		)
+	)
+
+	var internal_weight: float = float(
+		action_data.get(
+			"weight",
+			0.0
+		)
+	)
+
+	return maxf(
+		category_weight
+		* internal_weight,
+		0.0
+	)
+
+# 行动有效性
+
+func _is_action_valid(
+	action_id: String,
+	check_repeat_rule: bool
+) -> bool:
+	var action_data: Dictionary = (
+		action_database.get(
+			action_id,
+			{}
+		)
+	)
+
+	if action_data.is_empty():
+		return false
+
+	# enabled = false 时，
+	# 这个行动不会被生成。
+	if not bool(
+		action_data.get(
+			"enabled",
+			true
+		)
+	):
+		return false
+
+	if int(
+		action_data.get(
+			"time_cost",
+			0
+		)
+	) <= 0:
+		return false
+
+	# 数据中可以加入：
+	#
+	# "cannot_repeat": true
+	#
+	# 表示不能连续使用该行动。
+	if check_repeat_rule:
+		var cannot_repeat: bool = bool(
+			action_data.get(
+				"cannot_repeat",
+				false
+			)
+		)
+
+		if (
+			cannot_repeat
+			and action_id == last_action_id
+		):
+			return false
+
+	return true
+
+# 创建 TimelineAction
+
+func _create_timeline_action(
+	action_id: String,
+	action_data: Dictionary,
+	execute_time: int
+) -> TimelineAction:
+	var enemy_actor: Node = get_parent()
+
+	if enemy_actor == null:
+		push_error(
+			"EnemyAI：找不到敌人根节点"
+		)
+		return null
+
+	var action := TimelineAction.new()
+
+	# 不在这里设置 sequence_id。
+	# sequence_id 应由 ATM 分配。
+	action.action_name = str(
+		action_data.get(
+			"name",
+			action_id
+		)
+	)
+
+	action.actor = enemy_actor
+
+	action.actor_side = (
+		TimelineAction.ActorSide.ENEMY
+	)
+
+	action.time_cost = int(
+		action_data.get(
+			"time_cost",
+			0
+		)
+	)
+
+	# EnemyAI 已经提前计算出的绝对执行时间。
+	action.execute_time = execute_time
+
+	action.execute_priority = clampi(
+		int(
+			action_data.get(
+				"execute_priority",
+				1
+			)
+		),
+		0,
+		3
+	)
+
+	# 敌人行动只进入未来时间轴，
+	# 不主动推进整个战斗时间。
+	action.advances_time = false
+
+	action.can_be_cancelled = bool(
+		action_data.get(
+			"can_be_cancelled",
+			true
+		)
+	)
+
+	action.has_initiative = bool(
+		action_data.get(
+			"has_initiative",
+			false
+		)
+	)
+
+	# EnemyAI 不解释具体技能效果。
+	#
+	# 它只把行动数据放入 payload，
+	# 等行动到期后由结算器读取。
+	action.payload = {
+		"action_id": action_id,
+
+		"category": str(
+			action_data.get(
+				"category",
+				""
+			)
+		),
+
+		"effect_type": str(
+			action_data.get(
+				"effect_type",
+				""
+			)
+		),
+
+		# 例如：
+		# "player"
+		# "self"
+		# "all_enemies"
+		"target_type": str(
+			action_data.get(
+				"target_type",
+				"player"
+			)
+		),
+
+		# 保存完整数据副本。
+		#
+		# 伤害、持续时间、层数等参数，
+		# 由后续行动结算器读取。
+		"action_data": (
+			action_data.duplicate(true)
+		)
+	}
+
+	return action
 ```
 
 
@@ -1455,7 +2179,7 @@ func update(delta: float) -> void:
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`
 
-- Category: `script`; bytes: `1487`; sha256/16: `5e7fcb64d80b6aa4`
+- Category: `script`; bytes: `1109`; sha256/16: `1391b4beee996cea`
 
 
 ```gdscript
@@ -1474,24 +2198,13 @@ class_name EnemyManager
 @onready var combat_data: EnemyCombatData = %CombatData
 @onready var calculator: EnemyCalculator = %Calculator
 @onready var state_machine = %StateMachine
-@onready var ai_brain = %EnemyAIBrain
+@onready var ai_brain = %EnemyAI
 
 # 敌人初始化
 
 func _ready() -> void:
 	print("====== 敌人装配开始 ======")
 	print("当前敌人阶级: Tier ", enemy_tier)
-
-	# 输入怪物等级和机制数量并调用抽取方法
-	var rolled_mechanics = MechanicDatabaseManager.roll_mechanics_for_tier(enemy_tier, mechanic_count)
-
-	# 拿到的机制传输到AI大脑
-	if rolled_mechanics.size() > 0:
-		ai_brain.initialize(rolled_mechanics)
-	else:
-		print("注意：该敌人没有抽到任何机制。")
-
-	print("==========================")
 
 # 玩家伤害处理
 # 接收玩家的伤害
@@ -1988,7 +2701,7 @@ func _on_btn_bottom_pressed() -> void:
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
 
-- Category: `script`; bytes: `8269`; sha256/16: `df2ee07de5a78fae`
+- Category: `script`; bytes: `8696`; sha256/16: `402d1fbdd4f70f6d`
 
 
 ```gdscript
@@ -2011,6 +2724,8 @@ signal time_passed(amount: int,current_time: int)
 signal time_advance_started(from_time: int,to_time: int)
 # 时间推进结束
 signal time_advance_finished(current_time: int)
+# 通知敌人ai布置行动
+signal enemy_plan_requested(required_until_time:int)
 
 # —————— 时间轴状态 ——————
 
@@ -2027,6 +2742,9 @@ var next_sequence_id: int = 1
 # 防止同一个时间点意外生成无限行动
 const MAX_ACTIONS_PER_TIME: int = 100
 
+# 敌人提前布置行动的范围
+const ENEMY_PLAN_RANGE : int = 100
+
 # 程序入口
 func _ready() -> void:
 	BattleBus.action_committed.connect(_on_action_required)
@@ -2036,13 +2754,13 @@ func _ready() -> void:
 # 处理行动申请
 func _on_action_required(action: TimelineAction) -> void:
 	if action == null:
-		push_error("时间轴：收到的行动为空。")
+		push_error("action_timeline_manager：收到的行动为空。")
 		return
 
 	# 时间推进期间，禁止再提交另一个会推进时间的玩家行动
 	# 但允许AI补充不推进时间的未来行动
 	if is_advancing and action.advances_time:
-		push_warning("时间轴：正在推进时间，不能提交新的推进时间行动。")
+		push_warning("action_timeline_manager：正在推进时间，不能提交新的推进时间行动。")
 		return
 
 	_assign_sequence_id(action)
@@ -2050,14 +2768,15 @@ func _on_action_required(action: TimelineAction) -> void:
 	# 先手行动：
 	# 现在立刻结算，然后推进它的time_cost
 	if action.has_initiative and action.advances_time:
+
 		action.execute_time = current_time
 		_resolve_single_action(action)
 		advance_time(action.time_cost)
 		return
 
 	# 普通行动在 current_time + time_cost 时执行
-	action.execute_time = current_time + action.time_cost
-	_add_action(action)
+	if action.execute_time < 0:
+		action.execute_time = (current_time + action.time_cost)
 
 	# 玩家卡牌、玩家道具等行动会主动推动时间
 	if action.advances_time:
@@ -2089,8 +2808,8 @@ func _is_action_before(
 		return action_a.execute_time < action_b.execute_time
 
 	# 第二比较：行动速度，3级排在1级前面
-	if action_a.action_speed != action_b.action_speed:
-		return action_a.action_speed > action_b.action_speed
+	if action_a.execute_priority != action_b.execute_priority:
+		return action_a.execute_priority > action_b.execute_priority
 
 	# 第三比较：同级时玩家优先
 	if action_a.actor_side != action_b.actor_side:
@@ -2106,15 +2825,20 @@ func _is_action_before(
 
 func advance_time(amount: int) -> void:
 	if amount < 0:
-		push_error("时间轴：不能倒退时间。")
+		push_error("action_timeline_manager：不能倒退时间。")
 		return
 
 	if is_advancing:
-		push_warning("时间轴：已经在推进时间。")
+		push_warning("action_timeline_manager：已经在推进时间。")
 		return
 
 	var target_time := current_time + amount
 
+# 发送敌人提前行动布置请求
+	var required_until_time: int = (target_time + ENEMY_PLAN_RANGE)
+	enemy_plan_requested.emit(required_until_time)
+
+# 开始推进时间
 	is_advancing = true
 	time_advance_started.emit(current_time, target_time)
 
@@ -2189,7 +2913,7 @@ func _resolve_actions_at_current_time() -> void:
 
 			if resolved_count >= MAX_ACTIONS_PER_TIME:
 				push_error(
-					"时间轴：同一时间触发的行动过多，"
+					"action_timeline_manager：同一时间触发的行动过多，"
 					+ "可能存在无限生成行动的问题。"
 				)
 				return
@@ -2311,11 +3035,16 @@ func _emit_timeline_changed() -> void:
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`
 
-- Category: `script`; bytes: `1979`; sha256/16: `74bb12a3410ca75f`
+- Category: `script`; bytes: `2168`; sha256/16: `c5ea6cde83640876`
 
 
 ```gdscript
 extends Node
+
+# —————— 战斗阶段信号 ——————
+signal battle_start()# 进入战斗
+signal battle_inprogress()# 战斗开始
+signal battle_finished(winner:String) # 战斗结束
 
 # —————— 卡牌信号 ——————
 signal card_played(card_data: Dictionary, card_node: Control) # 一张牌被打出
@@ -2356,7 +3085,7 @@ signal action_committed(action: TimelineAction) # 被确认加入时间轴的行
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
 
-- Category: `script`; bytes: `3801`; sha256/16: `5aa1e6444dea6787`
+- Category: `script`; bytes: `4643`; sha256/16: `cba1986ff9f1f551`
 
 
 ```gdscript
@@ -2368,6 +3097,14 @@ class_name BattleGameManager
 @export var enemy_slot :Node
 
 var current_enemy: Node = null # 当前敌人
+
+enum GameState{
+	START,
+	READY,
+	INPROGRESS,
+	FINISHED
+}
+var battle_current_state: GameState = GameState.START
 
 # 接收外部信号：出牌
 # 接收系统内信号：玩家、敌人伤害
@@ -2387,80 +3124,76 @@ func _register_current_enemy():
 	else:
 		current_enemy = null
 
+# 战斗阶段切换
+
+func change_battle_state(new_state: GameState,context: Dictionary = {}) -> void:
+	if battle_current_state == new_state:
+		return
+
+	battle_current_state = new_state
+
+	match battle_current_state:
+		GameState.START:
+			BattleBus.battle_start.emit()
+
+		GameState.READY:
+			_prepare_battle()
+
+		GameState.INPROGRESS:
+			BattleBus.battle_inprogress.emit()
+			_start_battle_logic()
+
+		GameState.FINISHED:
+			var winner: String = str(context.get("winner", ""))
+			BattleBus.battle_finished.emit(winner)
+			_finish_battle_logic()
+
 # 玩家出牌许可判定
 
-# 出牌许可环境判断
+# 判定能不能出牌
 func can_play_card(card_data: Dictionary) -> bool:
-
+	# 条件：现状为战斗阶段
+	if battle_current_state != GameState.INPROGRESS:
+		return false
+	# 条件：该牌为攻击牌
 	if card_data.has("categories") and card_data["categories"] == "attack":
-		# 若无当前敌人无法出牌
+		# 条件:当前有敌人
 		if current_enemy == null:
 			return false
 
-		# 获取状态机
-		var sm = current_enemy.get_node_or_null("StateMachine")
-
-		## 安全判定：状态机节点存在 -> 状态机脚本上有 current_state 属性 -> 且该属性不为空
-		#if sm and "current_state" in sm and sm.current_state != null:
-			#var enemy_state = sm.current_state.name
-			## 判定敌人是否在无敌状态
-			#if enemy_state in ["Burrowed", "Invincible"]:
-				#return false
-				#
 	return true
 
 # 出牌执行
-func _on_card_played(
-	card_data: Dictionary,
-	card_node: Control
-) -> void:
+func _on_card_played(card_data: Dictionary,card_node: Control) -> void:
+	# 如果判定能否出牌的方法返回false
 	if not can_play_card(card_data):
-		BattleBus.card_rejected.emit(
-			card_node
-		)
+		BattleBus.card_rejected.emit(card_node)
 		return
 
 	var action := _create_player_timeline_action(card_data)
 
 	if action == null:
-		BattleBus.card_rejected.emit(
-			card_node
-		)
+		BattleBus.card_rejected.emit(card_node)
+		push_error("battle_game_manger:卡牌行动数据录入为空")
 		return
 
+# 动作提交至action_timeline_manager
 	BattleBus.action_committed.emit(action)
+# 若卡牌动作成功触发
+	BattleBus.card_successfully_played.emit(card_node)
 
-	BattleBus.card_successfully_played.emit(
-		card_node
-	)
-
-# 卡牌数据转换
-func _create_player_timeline_action(
-	card_data: Dictionary
-) -> TimelineAction:
+# 生成一个玩家行动，并将卡牌的数据填入对应的变量当中
+func _create_player_timeline_action(card_data: Dictionary) -> TimelineAction:
 	var action := TimelineAction.new()
-
 	action.sequence_id = int(card_data.get("id", 0))
-
-	action.action_name = str(
-		card_data.get("name_key", "")
-	)
-
+	action.action_name = str(card_data.get("name_key", ""))
 	action.actor = player
 	action.actor_side = TimelineAction.ActorSide.PLAYER
-
-	action.time_cost = int(
-		card_data.get("time_cost", 0)
-	)
-
-	action.execute_priority = int(
-		card_data.get("execute_priority", 1)
-	)
+	action.time_cost = int(card_data.get("time_cost", 0))
+	action.execute_priority = int(card_data.get("execute_priority", 1))
 	action.has_initiative = action.execute_priority == 0
-
 	action.advances_time = true
 	action.can_be_cancelled = true
-
 	# 保存出牌这一刻的卡牌数据副本
 	action.payload = card_data.duplicate(true)
 
@@ -2488,6 +3221,16 @@ func _on_enemy_dealt_damage(payload: Dictionary) -> void:
 		var p_combat_data = player.get_node("Data/CombatData")
 		# 执行玩家数据脚本内的受伤方法
 		p_combat_data.get_hit(payload["damage"], payload["source"].name)
+
+# 战斗阶段处理
+func _prepare_battle():
+	pass
+
+func _start_battle_logic():
+	pass
+
+func _finish_battle_logic():
+	pass
 ```
 
 
@@ -3027,7 +3770,7 @@ func _process(delta: float) -> void:
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/timeline_action.gd`
 
-- Category: `script`; bytes: `1884`; sha256/16: `57a5e5a6a5430f9c`
+- Category: `script`; bytes: `1884`; sha256/16: `1b81448a70bdcdcb`
 
 
 ```gdscript
@@ -3041,7 +3784,7 @@ enum ActorSide{
 }
 
 # 行动序号ID
-var sequence_id : int = 0
+var sequence_id : int = -1
 # 行动名称
 var action_name : String = ""
 # 行动发起者
@@ -8044,17 +8787,18 @@ mouse_filter = 2
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`
 
-- Category: `scene`; bytes: `2343`; sha256/16: `69747ea0b9698f6d`
+- Category: `scene`; bytes: `2561`; sha256/16: `f9fba0462b1450c8`
 
 
 ```ini
-[gd_scene load_steps=9 format=3 uid="uid://ci2n0jrhben06"]
+[gd_scene load_steps=10 format=3 uid="uid://ci2n0jrhben06"]
 
 [ext_resource type="Script" uid="uid://doi0ub4lh28op" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd" id="1_b5lmm"]
 [ext_resource type="Script" uid="uid://bj0xedtqwge5m" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_combat_data.gd" id="2_1ul8j"]
+[ext_resource type="Script" uid="uid://c7lukevmf3gha" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd" id="2_eavr2"]
+[ext_resource type="Script" uid="uid://cpqdflmwxckc0" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd" id="3_eavr2"]
 [ext_resource type="Script" uid="uid://d2yvk53x3vhs1" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd" id="3_jrf23"]
 [ext_resource type="PackedScene" uid="uid://xxjxhutvlefn" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn" id="3_spqwk"]
-[ext_resource type="Script" uid="uid://bxc1q8qsd0vsp" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd" id="4_rkcga"]
 [ext_resource type="Script" uid="uid://c6qiwbln4sxom" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_state_machine.gd" id="5_8yahm"]
 [ext_resource type="Script" uid="uid://cjx74meur6pb8" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd" id="6_42ml3"]
 [ext_resource type="Script" uid="uid://byjsvmcjitw6q" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd" id="7_spqwk"]
@@ -8062,9 +8806,12 @@ mouse_filter = 2
 [node name="Enemy" type="Node3D"]
 script = ExtResource("1_b5lmm")
 
-[node name="EnemyAIBrain" type="Node" parent="."]
+[node name="EnemyAI" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("4_rkcga")
+script = ExtResource("2_eavr2")
+
+[node name="EnemyTestData" type="Node" parent="EnemyAI"]
+script = ExtResource("3_eavr2")
 
 [node name="Visuals" type="Node3D" parent="."]
 
@@ -17896,7 +18643,7 @@ void fragment() {
 
 ### `res://DataBase/AllCardData.csv`
 
-- Category: `data`; bytes: `699`; sha256/16: `7fd73b809756934f`
+- Category: `data`; bytes: `691`; sha256/16: `d3542ebb95af526c`
 
 
 ```csv

@@ -1,26 +1,53 @@
 # player_skill.gd
+
 extends State
 
 var card_data: Dictionary
 
-@export var effect_mgr : Node
+@export var effect_mgr: Node
+
 
 func enter(msg: Dictionary = {}) -> void:
 	print("玩家进入状态：Skill")
+
+	card_data = {}
+
 	if msg.has("card"):
 		card_data = msg["card"]
-	
-	# 1. 提取并执行技能牌的效果
-	var effect_string = card_data.get("effects", "")
-	if effect_string != "" and effect_string != "0":
-		
+
+	var effect_string := str(
+		card_data.get(
+			"effects",
+			""
+		)
+	)
+
+	if (
+		effect_string != ""
+		and effect_string != "0"
+	):
 		if effect_mgr:
-			# 技能牌通常作用于自身，所以 source 和 target 都填 host
-			effect_mgr.execute_effects(effect_string, host, host)
-			print("技能状态：已触发技能效果 -> ", effect_string)
+			effect_mgr.execute_effects(
+				effect_string,
+				host,
+				host
+			)
+
+			print(
+				"技能状态：已触发技能效果 -> ",
+				effect_string
+			)
 		else:
-			push_error("致命错误：技能状态找不到 EffectManager 节点！")
-			
-	# 2. 效果执行完毕，立刻切回待机状态
+			push_error(
+				"PlayerSkill："
+				+ "找不到 EffectManager 节点。"
+			)
+
 	if get_parent().current_state == self:
 		get_parent().transition_to("Idle")
+
+	# 当前技能没有单独动画，因此效果结束后立即完成。
+	if host.has_method(
+		"finish_timeline_action"
+	):
+		host.finish_timeline_action()

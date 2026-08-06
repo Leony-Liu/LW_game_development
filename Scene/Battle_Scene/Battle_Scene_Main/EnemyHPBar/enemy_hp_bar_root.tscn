@@ -6,7 +6,7 @@
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvywy"]
-bg_color = Color(0.7, 0.326667, 0, 1)
+bg_color = Color(0.84, 0.3794, 0.0504, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5n6un"]
 bg_color = Color(2, 2, 2, 1)
