@@ -10,9 +10,13 @@ func show_inventory():
 
 
 ##显示搜索栏
-func show_search():
+func show_search(items):
 	pass
 
+
+##刷新UI
+func refresh_search(item):
+	pass
 
 ##关闭UI
 func hide_all():
