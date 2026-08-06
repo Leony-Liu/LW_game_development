@@ -159,10 +159,14 @@ offset_left = -40.0
 offset_bottom = 40.0
 grow_horizontal = 0
 
-[node name="CurrentTime" type="Label" parent="ActionsLine"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionsLine"]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="ActionsLine/CurrentTime"]
+[node name="CurrentTime" type="Label" parent="ActionsLine/VBoxContainer"]
+layout_mode = 2
 
-[node name="Actionlist" type="VBoxContainer" parent="ActionsLine"]
+[node name="HSeparator" type="HSeparator" parent="ActionsLine/VBoxContainer/CurrentTime"]
+layout_mode = 0
+
+[node name="Actionlist" type="VBoxContainer" parent="ActionsLine/VBoxContainer"]
 layout_mode = 2

@@ -12,7 +12,6 @@ class_name BattleGameManager
 var current_enemy: Node = null
 var current_enemy_ai: Node = null
 
-
 enum GameState {
 	NONE,
 	START,
@@ -23,6 +22,8 @@ enum GameState {
 
 var battle_current_state: GameState = GameState.NONE
 
+# 按下原格挡键时，玩家什么也不做并推进的时间。
+const WAIT_TIME_AMOUNT: int = 10
 
 func _ready() -> void:
 	if not BattleBus.card_played.is_connected(
@@ -53,9 +54,50 @@ func _ready() -> void:
 			_on_action_resolution_requested
 		)
 
+	if not timeline_manager.time_passed.is_connected(
+		_on_timeline_time_passed
+	):
+		timeline_manager.time_passed.connect(
+			_on_timeline_time_passed
+		)
+
 	# 延迟启动，保证玩家状态机和 EnemyAI 已完成 _ready。
 	call_deferred("_bootstrap_battle")
 
+# 原 block_key 当前绑定为空格。
+# 现在按下后不生成玩家行动，只推进 10 点逻辑时间。
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("block_key"):
+		return
+
+	if event is InputEventKey and event.echo:
+		return
+
+	get_viewport().set_input_as_handled()
+
+	if battle_current_state != GameState.INPROGRESS:
+		return
+
+	if timeline_manager == null:
+		return
+
+	# 时间推进或动作播放期间不能重复等待。
+	if (
+		timeline_manager.is_advancing
+		or timeline_manager.current_action != null
+	):
+		print(
+			"BattleGameManager："
+			+ "当前行动尚未结束，不能再次推进时间。"
+		)
+		return
+
+	print(
+		"BattleGameManager：玩家等待，推进 %d 时间。"
+		% WAIT_TIME_AMOUNT
+	)
+
+	timeline_manager.advance_time(WAIT_TIME_AMOUNT)
 
 # 自动依次进入战斗的三个准备阶段。
 func _bootstrap_battle() -> void:
@@ -377,6 +419,9 @@ func _on_action_resolution_requested(
 		push_warning(
 			"BattleGameManager：行动发起者已经失效。"
 		)
+
+		# 防止行动轴永久等待。
+		timeline_manager.finish_action_execution(action)
 		return
 
 	if not action.actor.has_method(
@@ -387,13 +432,72 @@ func _on_action_resolution_requested(
 			+ "缺少 resolve_timeline_action()。"
 			% action.actor.name
 		)
+
+		timeline_manager.finish_action_execution(action)
 		return
 
+	# 这里只负责启动动作。
+	# 动作结束后，角色自己发出 timeline_action_finished。
 	action.actor.call(
 		"resolve_timeline_action",
 		action
 	)
 
+func _on_timeline_time_passed(
+	amount: int,
+	_current_time: int
+) -> void:
+	if player == null or not is_instance_valid(player):
+		return
+
+	var combat_data := player.get_node_or_null(
+		"Data/CombatData"
+	)
+
+	if combat_data == null:
+		return
+
+	if combat_data.has_method(
+		"recover_resources_by_time"
+	):
+		combat_data.recover_resources_by_time(amount)
+
+# 玩家和敌人都使用相同的完成信号。
+func _bind_timeline_actor_completion(
+	actor: Node
+) -> void:
+	if actor == null:
+		return
+
+	if not actor.has_signal(
+		&"timeline_action_finished"
+	):
+		push_error(
+			"BattleGameManager：角色 %s "
+			+ "缺少 timeline_action_finished 信号。"
+			% actor.name
+		)
+		return
+
+	var callback := Callable(
+		self,
+		"_on_actor_timeline_action_finished"
+	)
+
+	if not actor.is_connected(
+		&"timeline_action_finished",
+		callback
+	):
+		actor.connect(
+			&"timeline_action_finished",
+			callback
+		)
+
+
+func _on_actor_timeline_action_finished(
+	action: TimelineAction
+) -> void:
+	timeline_manager.finish_action_execution(action)
 
 # 接收玩家伤害并路由给当前敌人。
 func _on_player_dealt_damage(
@@ -451,6 +555,12 @@ func _on_enemy_dealt_damage(
 func _prepare_battle() -> void:
 	_register_current_enemy()
 	_bind_current_enemy_ai()
+
+	# 连接玩家动作完成信号。
+	_bind_timeline_actor_completion(player)
+
+	# 连接当前敌人动作完成信号。
+	_bind_timeline_actor_completion(current_enemy)
 
 
 func _start_battle_logic() -> void:

@@ -15,23 +15,56 @@ var card_data: Dictionary
 # 1. 接收后攻击流程启动
 func enter(msg: Dictionary = {}) -> void:
 	print("玩家进入状态：Attack")
+
+	card_data = {}
+
 	if msg.has("card"):
 		card_data = msg["card"]
-	
-	if visuals and visuals.has_method("play_attack"):
+
+	if visuals == null:
+		push_error(
+			"PlayerAttack：找不到玩家视觉节点。"
+		)
+
+		if host.has_method(
+			"finish_timeline_action"
+		):
+			host.finish_timeline_action()
+
+		return
+
+	# 先连接命中帧，再播放动画。
+	if not visuals.hit_frame_reached.is_connected(
+		_execute_damage
+	):
+		visuals.hit_frame_reached.connect(
+			_execute_damage
+		)
+
+	if visuals.has_method("play_attack"):
 		visuals.play_attack()
-	
-	# 通过信号连接攻击方法
-	if not visuals.hit_frame_reached.is_connected(_execute_damage):
-		visuals.hit_frame_reached.connect(_execute_damage)
-	
-	# 【核心】等待攻击动画彻底播放完毕
-	if visuals:
-		await visuals.anim_player.animation_finished
-	
-	# 【安全判定】确保等待期间状态没有被强制改变（比如突然被敌人打出硬直死亡）
+
+	await visuals.anim_player.animation_finished
+
+	# 先切回 Idle，再通知行动轴继续。
 	if get_parent().current_state == self:
-		get_parent().transition_to("Idle") # 动画播完了，才切回待机状态
+		get_parent().transition_to("Idle")
+
+	if host.has_method(
+		"finish_timeline_action"
+	):
+		host.finish_timeline_action()
+
+func exit() -> void:
+	if (
+		visuals
+		and visuals.hit_frame_reached.is_connected(
+			_execute_damage
+		)
+	):
+		visuals.hit_frame_reached.disconnect(
+			_execute_damage
+		)
 
 # 2. 打包伤害与全新效果结算流程
 func _execute_damage() -> void:

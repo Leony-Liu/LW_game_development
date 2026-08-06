@@ -41,7 +41,6 @@ var buff_triggers: Dictionary = {
 	"on_turn_end": ["vulnerable"]        
 }
 
-
 func consume_buffs_by_trigger(trigger_type: String) -> void:
 	if not buff_triggers.has(trigger_type): return
 	var is_changed = false
@@ -54,7 +53,6 @@ func consume_buffs_by_trigger(trigger_type: String) -> void:
 	if is_changed:
 		BattleBus.player_buffs_changed.emit(active_buffs)
 
-
 func apply_buff(buff_id: String, value: float, duration: float) -> void:
 	if active_buffs.has(buff_id):
 		active_buffs[buff_id]["duration"] = max(active_buffs[buff_id]["duration"], duration)
@@ -63,13 +61,11 @@ func apply_buff(buff_id: String, value: float, duration: float) -> void:
 		active_buffs[buff_id] = {"value": value, "duration": duration}
 	BattleBus.player_buffs_changed.emit(active_buffs)
 
-
 func remove_buff(buff_id: String) -> void:
 	if active_buffs.has(buff_id):
 		active_buffs.erase(buff_id)
 		BattleBus.player_buffs_changed.emit(active_buffs)
 		print("🗑️ 已主动消耗/移除 Buff [%s]！" % buff_id)
-
 
 func _process(delta: float) -> void:
 	if active_buffs.is_empty(): return
@@ -108,21 +104,93 @@ func _sync_initial_stats() -> void:
 # ==========================================
 # 体力、能量恢复与消耗
 # ==========================================
-func stamina_recovery(delta:float)->void:
-	if current_stamina < max_stamina:
-		_stamina_recovery_timer += delta
-		if _stamina_recovery_timer >= current_stamina_recover_speed:
-			current_stamina += 1
-			_stamina_recovery_timer -= current_stamina_recover_speed 
-			BattleBus.player_stamina_changed.emit(current_stamina, max_stamina) 
+# 根据行动轴经过的逻辑时间恢复资源。
+func recover_resources_by_time(
+	amount: int
+) -> void:
+	if amount <= 0:
+		return
 
-func mana_recovery(delta:float):
-	if current_mana < max_mana:
-		_mana_recovery_timer += delta
-		if _mana_recovery_timer >= current_mana_recover_speed:
-			current_mana += 1
-			_mana_recovery_timer -= current_mana_recover_speed 
-			BattleBus.player_mana_changed.emit(current_mana, max_mana) 
+	_recover_stamina_by_time(amount)
+	_recover_mana_by_time(amount)
+
+
+func _recover_stamina_by_time(
+	amount: int
+) -> void:
+	if current_stamina >= max_stamina:
+		_stamina_recovery_timer = 0.0
+		return
+
+	var interval := maxf(
+		current_stamina_recover_speed,
+		1.0
+	)
+
+	_stamina_recovery_timer += float(amount)
+
+	var old_stamina := current_stamina
+
+	while (
+		_stamina_recovery_timer >= interval
+		and current_stamina < max_stamina
+	):
+		current_stamina += 1
+		_stamina_recovery_timer -= interval
+
+	if current_stamina >= max_stamina:
+		current_stamina = max_stamina
+		_stamina_recovery_timer = 0.0
+
+	if current_stamina != old_stamina:
+		stamina_changed.emit(
+			current_stamina,
+			max_stamina
+		)
+
+		BattleBus.player_stamina_changed.emit(
+			current_stamina,
+			max_stamina
+		)
+
+
+func _recover_mana_by_time(
+	amount: int
+) -> void:
+	if current_mana >= max_mana:
+		_mana_recovery_timer = 0.0
+		return
+
+	var interval := maxf(
+		current_mana_recover_speed,
+		1.0
+	)
+
+	_mana_recovery_timer += float(amount)
+
+	var old_mana := current_mana
+
+	while (
+		_mana_recovery_timer >= interval
+		and current_mana < max_mana
+	):
+		current_mana += 1
+		_mana_recovery_timer -= interval
+
+	if current_mana >= max_mana:
+		current_mana = max_mana
+		_mana_recovery_timer = 0.0
+
+	if current_mana != old_mana:
+		mana_changed.emit(
+			current_mana,
+			max_mana
+		)
+
+		BattleBus.player_mana_changed.emit(
+			current_mana,
+			max_mana
+		)
 
 func consume_stamina(cost: int) -> bool:
 	if current_stamina >= cost:

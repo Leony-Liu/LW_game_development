@@ -1,9 +1,3 @@
-# enemy_manager
-#
-# 敌人初始化
-# 玩家伤害处理
-# 敌人时间轴行动结算入口
-
 extends Node
 class_name EnemyManager
 
@@ -14,6 +8,11 @@ class_name EnemyManager
 @onready var calculator: EnemyCalculator = %Calculator
 @onready var state_machine: EnemyStateMachine = %StateMachine
 
+signal timeline_action_finished(
+	action: TimelineAction
+)
+
+var _resolving_timeline_action: TimelineAction = null
 
 func _ready() -> void:
 	print("====== 敌人装配开始 ======")
@@ -40,9 +39,13 @@ func take_damage(payload: Dictionary) -> void:
 
 
 # 行动轴中的敌人行动到期时调用。
-func resolve_timeline_action(action: TimelineAction) -> void:
+func resolve_timeline_action(
+	action: TimelineAction
+) -> void:
 	if action == null:
 		return
+
+	_resolving_timeline_action = action
 
 	var payload := action.payload
 
@@ -52,13 +55,22 @@ func resolve_timeline_action(action: TimelineAction) -> void:
 	)
 
 	if typeof(action_data_variant) != TYPE_DICTIONARY:
-		push_error("EnemyManager：敌人行动数据不是 Dictionary。")
+		push_error(
+			"EnemyManager："
+			+ "敌人行动数据不是 Dictionary。"
+		)
+
+		finish_timeline_action()
 		return
 
 	var action_data: Dictionary = action_data_variant
 
 	if action_data.is_empty():
-		push_error("EnemyManager：敌人行动数据为空。")
+		push_error(
+			"EnemyManager：敌人行动数据为空。"
+		)
+
+		finish_timeline_action()
 		return
 
 	var category := str(
@@ -73,6 +85,7 @@ func resolve_timeline_action(action: TimelineAction) -> void:
 
 	match category:
 		"attack":
+			# 攻击行动需要等待动画结束。
 			state_machine.transition_to(
 				"Attack",
 				{
@@ -83,15 +96,34 @@ func resolve_timeline_action(action: TimelineAction) -> void:
 		"defence":
 			_resolve_defence_action(action_data)
 
+			# 当前防御行动没有动画，立即完成。
+			finish_timeline_action()
+
 		"skill":
 			_resolve_skill_action(action_data)
 
+			# 当前技能行动没有动画，立即完成。
+			finish_timeline_action()
+
 		_:
 			push_warning(
-				"EnemyManager：未知敌人行动类别：%s"
+				"EnemyManager："
+				+ "未知敌人行动类别：%s"
 				% category
 			)
 
+			finish_timeline_action()
+
+func finish_timeline_action() -> void:
+	if _resolving_timeline_action == null:
+		return
+
+	var finished_action := _resolving_timeline_action
+	_resolving_timeline_action = null
+
+	timeline_action_finished.emit(
+		finished_action
+	)
 
 # 当前测试数据中的闪避和防御先记录到 Buff 数据。
 # 具体闪避判定和格挡伤害可以在后续继续实现。

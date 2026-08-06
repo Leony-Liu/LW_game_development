@@ -117,10 +117,28 @@ func _deal_damage() -> void:
 
 
 func _execute_attack() -> void:
+	if enemy_visual == null:
+		push_error(
+			"EnemyAttack：找不到敌人视觉节点。"
+		)
+
+		if host.has_method(
+			"finish_timeline_action"
+		):
+			host.finish_timeline_action()
+
+		return
+
 	if enemy_visual.has_method("play_attack"):
 		enemy_visual.play_attack()
 
 	await enemy_visual.anim_player.animation_finished
 
+	# 先恢复 Idle，避免下一个行动开始时仍处于 Attack。
 	if get_parent().current_state == self:
 		get_parent().transition_to("Idle")
+
+	if host.has_method(
+		"finish_timeline_action"
+	):
+		host.finish_timeline_action()
