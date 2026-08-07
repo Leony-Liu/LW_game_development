@@ -192,6 +192,92 @@ func _recover_mana_by_time(
 			max_mana
 		)
 
+# 提供未来一段逻辑时间内的资源恢复点。
+
+func get_resource_recovery_preview(
+	visible_range: int = 100
+) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+
+	if visible_range <= 0:
+		return result
+
+	_append_resource_recovery_preview(
+		result,
+		"stamina",
+		current_stamina,
+		max_stamina,
+		current_stamina_recover_speed,
+		_stamina_recovery_timer,
+		visible_range
+	)
+
+	_append_resource_recovery_preview(
+		result,
+		"mana",
+		current_mana,
+		max_mana,
+		current_mana_recover_speed,
+		_mana_recovery_timer,
+		visible_range
+	)
+
+	return result
+
+
+func _append_resource_recovery_preview(
+	result: Array[Dictionary],
+	resource_type: String,
+	current_value: int,
+	max_value: int,
+	recovery_interval: float,
+	recovery_timer: float,
+	visible_range: int
+) -> void:
+	var missing_amount := maxi(
+		max_value - current_value,
+		0
+	)
+
+	# 资源已经满时，不显示恢复点。
+	if missing_amount <= 0:
+		return
+
+	var safe_interval := maxf(
+		recovery_interval,
+		1.0
+	)
+
+	var safe_timer := clampf(
+		recovery_timer,
+		0.0,
+		safe_interval
+	)
+
+	var first_remaining_time := (
+		safe_interval - safe_timer
+	)
+
+	if first_remaining_time <= 0.001:
+		first_remaining_time = safe_interval
+
+	for recovery_index in range(missing_amount):
+		var remaining_time := (
+			first_remaining_time
+			+ safe_interval * float(recovery_index)
+		)
+
+		if (
+			remaining_time
+			> float(visible_range) + 0.001
+		):
+			break
+
+		result.append({
+			"resource_type": resource_type,
+			"remaining_time": remaining_time
+		})
+
 func consume_stamina(cost: int) -> bool:
 	if current_stamina >= cost:
 		current_stamina -= cost
