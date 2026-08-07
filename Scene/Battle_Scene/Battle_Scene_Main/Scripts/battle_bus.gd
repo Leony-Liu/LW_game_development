@@ -11,6 +11,16 @@ signal card_successfully_played(card_node: Control) # 卡牌成功打出
 signal card_rejected(card_node: Control) # 卡牌不能打出
 signal card_discard_requested(card_node: Control) # 请求主动弃牌
 
+# —————— 行动轴相关 ——————
+# 鼠标悬停卡牌时，请求时间轴显示时间推进预览。
+signal card_timeline_preview_requested(card_node: Control,time_cost: int)
+# 鼠标离开卡牌或卡牌被使用时，关闭对应预览。
+signal card_timeline_preview_cleared(card_node: Control)
+# 卡牌已经确认打出。
+# 时间轴将悬停预览转换为实际推进动画。
+signal card_timeline_preview_committed(time_cost: int)
+
+
 # —————— 过程性信号 ——————
 signal player_dealt_damage(payload: Dictionary) # 传递玩家造成的伤害
 signal enemy_dealt_damage(payload: Dictionary)  # 传递敌人造成的伤害

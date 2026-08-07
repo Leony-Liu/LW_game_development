@@ -20,8 +20,14 @@ signal time_passed(amount: int,current_time: int)
 signal time_advance_started(from_time: int,to_time: int)
 # 时间推进结束
 signal time_advance_finished(current_time: int)
+# 请求时间轴 UI 将所有图标从旧时间移动到新时间。
+signal time_visual_move_requested(from_time: int,to_time: int)
+# UI 的移动动画已经结束。
+signal time_visual_move_finished()
 # 通知敌人ai布置行动
 signal enemy_plan_requested(required_until_time:int)
+# UI 在收到后让对应图标停留并放大。
+signal action_resolution_started(action: TimelineAction)
 
 # —————— 时间轴状态 ——————
 
@@ -43,6 +49,12 @@ const MAX_ACTIONS_PER_TIME: int = 100
 # 敌人提前布置行动的范围
 const ENEMY_PLAN_RANGE : int = 100
 
+# TimeLine UI 最长允许等待两秒。
+# 即使 UI 动画发生错误，也不能永久锁死战斗逻辑。
+const VISUAL_MOVE_TIMEOUT_MSEC: int = 2000
+
+# 是否正在等待时间轴 UI 完成横向移动。
+var _waiting_for_time_visual_move: bool = false
 
 # 程序入口
 func _ready() -> void:
@@ -145,21 +157,34 @@ func _is_action_before(
 
 func advance_time(amount: int) -> void:
 	if amount < 0:
-		push_error("ActionTimelineManager：不能倒退时间。")
+		push_error(
+			"ActionTimelineManager：不能倒退时间。"
+		)
 		return
 
 	if is_advancing:
-		push_warning("ActionTimelineManager：已经在推进时间。")
+		push_warning(
+			"ActionTimelineManager：已经在推进时间。"
+		)
 		return
 
 	var target_time := current_time + amount
 
 	# 每次推进前，让敌人补充到目标时间后 100 点。
-	var required_until_time := target_time + ENEMY_PLAN_RANGE
-	enemy_plan_requested.emit(required_until_time)
+	var required_until_time := (
+		target_time + ENEMY_PLAN_RANGE
+	)
+
+	enemy_plan_requested.emit(
+		required_until_time
+	)
 
 	is_advancing = true
-	time_advance_started.emit(current_time, target_time)
+
+	time_advance_started.emit(
+		current_time,
+		target_time
+	)
 
 	while true:
 		_sort_pending_actions()
@@ -171,18 +196,23 @@ func advance_time(amount: int) -> void:
 		if next_event_time == -1:
 			break
 
-		_move_time_to(next_event_time)
+		# 先等待所有 UI 图标移动到新位置。
+		await _move_time_to(next_event_time)
 
-		# 等当前时间点的所有行动依次播放完。
+		# 图标移动完成后，才开始依次播放动作。
 		await _resolve_actions_at_current_time()
 
-	_move_time_to(target_time)
+	# 所有中途行动结束后，移动到玩家最终推进时间。
+	await _move_time_to(target_time)
 
 	current_action = null
 	is_advancing = false
 
 	_emit_timeline_changed()
-	time_advance_finished.emit(current_time)
+
+	time_advance_finished.emit(
+		current_time
+	)
 
 
 # 找出目标时间以内最近的一次行动
@@ -202,26 +232,65 @@ func _move_time_to(new_time: int) -> void:
 	if new_time <= current_time:
 		return
 
-	var elapsed_time := new_time - current_time
+	var old_time := current_time
+	var elapsed_time := new_time - old_time
+
+	var visual_connections := (
+		get_signal_connection_list(
+			&"time_visual_move_requested"
+		)
+	)
+
+	if not visual_connections.is_empty():
+		_waiting_for_time_visual_move = true
+
+		time_visual_move_requested.emit(
+			old_time,
+			new_time
+		)
+
+		var timeout_at := (
+			Time.get_ticks_msec()
+			+ VISUAL_MOVE_TIMEOUT_MSEC
+		)
+
+		while _waiting_for_time_visual_move:
+			if Time.get_ticks_msec() >= timeout_at:
+				push_error(
+					"ActionTimelineManager："
+					+ "等待 TimeLine 移动动画超时。"
+					+ "将跳过视觉等待并继续战斗。"
+				)
+
+				_waiting_for_time_visual_move = false
+				break
+
+			await get_tree().process_frame
+
+	# UI 动画完成或等待超时后，
+	# 正式更新逻辑时间。
 	current_time = new_time
 
-	# 资源恢复、Buff、道具冷却等监听该信号。
 	time_passed.emit(
 		elapsed_time,
 		current_time
 	)
 
-	# 当前时间改变后立即刷新开发者界面。
 	_emit_timeline_changed()
 
+# 由 TimeLine UI 在横向移动动画结束后调用。
+func finish_time_visual_move() -> void:
+	if not _waiting_for_time_visual_move:
+		return
+
+	_waiting_for_time_visual_move = false
+	time_visual_move_finished.emit()
 
 # —————— 处理同一时间的行动 ——————
 
 func _resolve_actions_at_current_time() -> void:
 	var resolved_count := 0
 
-	# 使用 while，允许一个行动在结算期间
-	# 添加同一时间点的新行动。
 	while true:
 		var actions_now := _get_actions_at_time(
 			current_time
@@ -230,19 +299,17 @@ func _resolve_actions_at_current_time() -> void:
 		if actions_now.is_empty():
 			break
 
-		actions_now.sort_custom(_is_action_before)
+		actions_now.sort_custom(
+			_is_action_before
+		)
 
-		for action in actions_now:
+		for action: TimelineAction in actions_now:
 			if action.is_cancelled:
 				pending_actions.erase(action)
 				continue
 
-			pending_actions.erase(action)
-
-			# 从待结算列表移除后立即刷新 UI。
-			_emit_timeline_changed()
-
-			# 关键：必须等待该行动的动画或表现完成。
+			# _resolve_single_action() 内部会先通知 UI，
+			# 再将行动从 pending_actions 中移除。
 			await _resolve_single_action(action)
 
 			resolved_count += 1
@@ -287,14 +354,22 @@ func _resolve_single_action(
 		current_action = null
 		return
 
-	# BattleGameManager 收到后会让对应角色执行动作。
+	# 先通知 UI：
+	# 对应图标现在应固定在左端并保持放大。
+	action_resolution_started.emit(action)
+
+	# UI 已经记住这个行动后，
+	# 再从待执行列表移除。
+	pending_actions.erase(action)
+	_emit_timeline_changed()
+
+	# 启动角色动画和实际效果结算。
 	action_resolution_requested.emit(action)
 
-	# 技能、Buff 等无动画行动可能在 emit 期间同步完成。
-	# 只有尚未完成时才进入等待。
 	while not _current_action_execution_finished:
 		await action_execution_finished
 
+	# 动作全部结束。
 	action_resolved.emit(action)
 
 	_current_action_execution_finished = false

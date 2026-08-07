@@ -92,6 +92,11 @@ func _ready() -> void:
 	_connect_signals()
 	call_deferred("_initialize_transform")
 
+func _exit_tree() -> void:
+	BattleBus.card_timeline_preview_cleared.emit(
+		self
+	)
+
 func _connect_signals() -> void:
 
 	if not BattleBus.card_rejected.is_connected(_on_card_rejected):
@@ -196,6 +201,21 @@ func _on_mouse_entered() -> void:
 
 	is_hovered = true
 
+	var preview_time := maxi(
+		int(
+			card_data.get(
+				"time_cost",
+				0
+			)
+		),
+		0
+	)
+
+	BattleBus.card_timeline_preview_requested.emit(
+		self,
+		preview_time
+	)
+
 	# 记录进入悬停前的层级。
 	# 如果外部手牌管理器动态修改了卡牌层级，
 	# 鼠标离开时仍然可以恢复到最新值。
@@ -231,6 +251,9 @@ func _on_mouse_exited() -> void:
 		return
 
 	is_hovered = false
+	
+	BattleBus.card_timeline_preview_cleared.emit(self)
+	
 	z_index = original_z_index
 
 	_kill_hover_tween()
@@ -340,24 +363,62 @@ func _on_gui_input(event: InputEvent) -> void:
 # 出牌
 func _request_play_card() -> void:
 	print("2D 卡牌发起出牌请求。")
+
+	BattleBus.card_timeline_preview_cleared.emit(
+		self
+	)
+
 	is_locked = true
-	BattleBus.card_played.emit(card_data,self)
+
+	BattleBus.card_played.emit(
+		card_data,
+		self
+	)
 
 
 
 #弃牌
 func _request_discard_card() -> void:
 	print("2D 卡牌发起弃牌请求。")
+
+	BattleBus.card_timeline_preview_cleared.emit(
+		self
+	)
+
 	is_locked = true
-	BattleBus.card_discard_requested.emit(self)
+
+	BattleBus.card_discard_requested.emit(
+		self
+	)
 
 
 # 出牌失败
-func _on_card_rejected(target_node: Control) -> void:
+func _on_card_rejected(
+	target_node: Control
+) -> void:
 	if target_node != self:
 		return
+
 	is_locked = false
 	play_error_shake()
+
+	# 鼠标仍停留在卡牌上时，
+	# 被拒绝后重新恢复时间推进预览。
+	if is_hovered:
+		var preview_time := maxi(
+			int(
+				card_data.get(
+					"time_cost",
+					0
+				)
+			),
+			0
+		)
+
+		BattleBus.card_timeline_preview_requested.emit(
+			self,
+			preview_time
+		)
 
 # ==========================================
 # 动画效果
@@ -400,6 +461,10 @@ func play_error_shake() -> void:
 
 
 func play_discard_animation() -> void:
+	BattleBus.card_timeline_preview_cleared.emit(
+		self
+	)
+	
 	is_locked = true
 	is_hovered = false
 

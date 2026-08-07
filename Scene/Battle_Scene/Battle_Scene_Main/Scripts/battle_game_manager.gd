@@ -307,7 +307,14 @@ func _on_card_played(
 		BattleBus.card_rejected.emit(card_node)
 		return
 
-	# 发送后由 ActionTimelineManager 同步接收。
+		# 必须先把悬停预览转换为正式推进条。
+	# action_committed 会同步进入 ActionTimelineManager，
+	# 并可能立刻发出 time_visual_move_requested。
+	BattleBus.card_timeline_preview_committed.emit(
+		action.time_cost
+	)
+
+	# 预览状态准备完成后，再提交行动并开始推进时间。
 	BattleBus.action_committed.emit(action)
 
 	# 行动已提交后，卡牌才能离开手牌进入弃牌堆。

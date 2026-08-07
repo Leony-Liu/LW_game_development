@@ -84,7 +84,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115089, -1.14)
 [node name="Light" type="Node" parent="GameViewportContainer/GameViewport/World/Environment"]
 
 [node name="SpotLight3D" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment/Light"]
-transform = Transform3D(0.953691, -0.271043, 0.130421, -3.72529e-09, 0.433596, 0.901107, -0.300789, -0.859378, 0.413517, 0.512177, 3.44428, 0)
+transform = Transform3D(1, 0, 0, 0, 0.429345, 0.90314, 0, -0.903141, 0.429345, 0, 3.444, 0)
 spot_attenuation = -0.6
 spot_angle = 23.98
 
@@ -149,7 +149,5 @@ layout_mode = 1
 
 [node name="TimeLine" parent="UI/UIManager/UIRoot" instance=ExtResource("13_fxnc5")]
 layout_mode = 1
-rotation = 0.00194887
-mouse_filter = 2
 
 [editable path="GameViewportContainer/GameViewport/World/Player"]
