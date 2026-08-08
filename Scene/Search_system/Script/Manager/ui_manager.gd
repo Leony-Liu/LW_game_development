@@ -10,7 +10,7 @@ func show_inventory():
 
 
 ##显示搜索栏
-func show_search(items):
+func show_search():
 	pass
 
 
