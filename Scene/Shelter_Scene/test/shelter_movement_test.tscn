@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://c4fcx8ge64bbp"]
+
+[ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_pcuys"]
+[ext_resource type="Script" uid="uid://fdjn7x2q2up6" path="res://Scene/Shelter_Scene/Scripts/shelter_camera.gd" id="2_lg76n"]
+[ext_resource type="Script" uid="uid://kw0i2a13eqqs" path="res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd" id="3_clh6c"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_clh6c"]
+size = Vector3(12, 0.2, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lg76n"]
+size = Vector3(12, 0.2, 12)
+
+[node name="ShelterMovementTest" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("BoxMesh_clh6c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_lg76n")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -2.98023e-08, 1, 0, -1, -2.98023e-08, 0, 5.73792, -4.76837e-07)
+light_energy = 9.386
+light_size = 1.0
+spot_range = 185.566
+spot_attenuation = 1.04
+spot_angle = 58.66
+
+[node name="ShelterPlayer" parent="." node_paths=PackedStringArray("movement_reference") instance=ExtResource("1_pcuys")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+movement_reference = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.558, 3.23035)
+fov = 60.0
+script = ExtResource("2_lg76n")
+target = NodePath("../ShelterPlayer")
+camera_offset = Vector3(6, 7, 7)
+
+[node name="CameraDebugSwitcher" type="Node" parent="." node_paths=PackedStringArray("gameplay_camera", "debug_camera")]
+script = ExtResource("3_clh6c")
+gameplay_camera = NodePath("../Camera3D")
+debug_camera = NodePath("../DebugCamera3D")
+
+[node name="DebugCamera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.656744, -0.632611, 0.410477, 2.0411e-08, 0.544317, 0.83888, -0.754114, -0.550929, 0.357477, 4.80237, 6.51555, 4.33435)
+fov = 59.8

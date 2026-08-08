@@ -85,6 +85,8 @@ folder_colors={
 "res://Scene/Dungeon_Enemy_Scene/Art/": "purple",
 "res://Scene/Dungeon_Player_Scene(3D)/Scripts/": "yellow",
 "res://Scene/Main_Scene/Scripts/": "yellow",
+"res://Scene/Shelter_Scene/Art/": "purple",
+"res://Scene/Shelter_Scene/Scripts/": "yellow",
 "res://Scene/UI/Arts/": "purple",
 "res://Scene/UI/Scripts/": "yellow",
 "res://Scene/VisualTest_MAP/Art/": "purple"
