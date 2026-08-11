@@ -4,8 +4,8 @@
 
 ## Snapshot
 
-- Approximate context size: **812,156 characters / ~203,039 tokens**
-- Generated: `2026-08-08T17:40:56+08:00`
+- Approximate context size: **814,069 characters / ~203,517 tokens**
+- Generated: `2026-08-11T10:39:25+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
@@ -25,57 +25,42 @@
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `3d7c577 | 2026-08-08T13:25:25+08:00 | UIManager临时修改`
+- Last commit: `5a61da9 | 2026-08-08T21:14:27+08:00 | 新增（基地）：玩家操作框架搭建，摄像头仍有问题`
 - Working tree changes:
-  - `M  Game_Design_Brief.md`
-  - ` M Scene/Search_system/Script/Manager/interaction_manager.gd`
-  - ` M Scene/Search_system/Script/Manager/search_manager.gd`
-  - `A  Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-  - `A  Scene/Shelter_Scene/Art/UAL1_Standard.glb.import`
-  - `A  Scene/Shelter_Scene/Art/UAL2_Standard.glb`
-  - `A  Scene/Shelter_Scene/Art/UAL2_Standard.glb.import`
-  - `AD Scene/Shelter_Scene/player/shelter_player.gd`
-  - `AD Scene/Shelter_Scene/player/shelter_player.gd.uid`
-  - `AM Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `AM Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-  - `AD Scene/Shelter_Scene/test/camera_3d.gd`
-  - `AD Scene/Shelter_Scene/test/camera_3d.gd.uid`
-  - `AM Scene/Shelter_Scene/test/shelter_movement_test.tscn`
-  - ` M Scene/UI/filelist.tscn`
-  - `M  _ai_context/PROJECT_CONTEXT.md`
-  - `MM project.godot`
-  - `?? Scene/Shelter_Scene/Scripts/`
-  - `?? Scene/UI/filelist.tscn25142638062.tmp`
+  - `M Scene/Shelter_Scene/Scripts/shelter_camera.gd`
+  - ` M Scene/Shelter_Scene/shelter.tscn`
+  - ` M Scene/Shelter_Scene/test/shelter_movement_test.tscn`
+  - ` M _ai_context/PROJECT_CONTEXT.md`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-08 17:39` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-08 17:39` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-08 17:39` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-08 17:39` `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
-  - `2026-08-08 17:39` `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-  - `2026-08-08 17:39` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-08 17:39` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-08 17:39` `res://Scene/UI/main_menu.tscn`
-  - `2026-08-08 17:39` `res://Scene/Main_Scene/MAIN.tscn`
-  - `2026-08-08 17:39` `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`
-  - `2026-08-08 17:35` `res://project.godot`
-  - `2026-08-08 17:34` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`
-  - `2026-08-08 17:28` `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd.uid`
-  - `2026-08-08 15:20` `res://Scene/UI/filelist.tscn`
-  - `2026-08-08 15:20` `res://Scene/UI/filelist.tscn25142638062.tmp`
-  - `2026-08-08 13:49` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`
-  - `2026-08-08 13:29` `res://Scene/Search_system/Script/Manager/search_manager.gd`
-  - `2026-08-08 13:28` `res://Scene/Search_system/Script/Manager/interaction_manager.gd`
+  - `2026-08-11 10:38` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-11 10:38` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-11 10:38` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
+  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
+  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-11 10:38` `res://Scene/UI/main_menu.tscn`
+  - `2026-08-11 10:38` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-11 10:37` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`
+  - `2026-08-11 10:31` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-11 10:31` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-11 10:31` `res://project.godot`
+  - `2026-08-08 21:14` `res://Scene/UI/filelist.tscn25142638062.tmp`
+  - `2026-08-08 21:14` `res://Scene/UI/filelist.tscn`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd.uid`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd.uid`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd.uid`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL2_Standard.glb.import`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL2_Standard.glb`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb.import`
+  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
+  - `2026-08-08 21:14` `res://Scene/Search_system/Script/Manager/search_manager.gd`
+  - `2026-08-08 21:14` `res://Scene/Search_system/Script/Manager/interaction_manager.gd`
+  - `2026-08-08 21:14` `res://Game_Design_Brief.md`
   - `2026-08-08 13:27` `res://Scene/Search_system/Script/Manager/ui_manager.gd`
-  - `2026-08-08 13:15` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd.uid`
-  - `2026-08-08 13:05` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd.uid`
-  - `2026-08-08 12:38` `res://Scene/Shelter_Scene/Art/UAL2_Standard.glb.import`
-  - `2026-08-08 12:38` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb.import`
-  - `2026-08-08 12:38` `res://Scene/Shelter_Scene/Art/UAL2_Standard.glb`
-  - `2026-08-08 12:37` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
   - `2026-08-08 08:22` `res://export_context.py`
-  - `2026-08-08 08:21` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-08 08:21` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-07 11:25` `res://Game_Design_Brief.md`
   - `2026-08-07 11:24` `res://Scene/Search_system/Script/search_UI.gd.uid`
   - `2026-08-07 11:24` `res://Scene/Search_system/Script/search_UI.gd`
   - `2026-08-07 11:24` `res://Scene/Search_system/Script/inventory_ui.gd`
@@ -235,8 +220,8 @@
 | `res://Scene/Search_system/Script/Manager/search_manager.gd` | `-` | `-` | 0 | 0 | 0 | 0 |
 | `res://Scene/Search_system/Script/Manager/ui_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
 | `res://Scene/Search_system/Script/search_UI.gd` | `Node` | `SearchUI` | 0 | 0 | 3 | 0 |
-| `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd` | `Node` | `CameraDebugSwitcher` | 0 | 3 | 4 | 0 |
-| `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd` | `Camera3D` | `ShelterCamera` | 0 | 5 | 5 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd` | `Node` | `CameraDebugSwitcher` | 0 | 3 | 3 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd` | `Camera3D` | `ShelterCamera` | 0 | 3 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/shelter_player.gd` | `CharacterBody3D` | `ShelterPlayer` | 0 | 13 | 7 | 0 |
 | `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 8 | 9 | 1 |
 | `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 4 | 6 | 0 |
@@ -348,8 +333,8 @@
 - **`res://Scene/Search_system/Script/Manager/search_manager.gd`** — methods: (none detected); signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Manager/ui_manager.gd`** — methods: `show_inventory()`, `show_search()`, `refresh_search()`, `hide_all()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/search_UI.gd`** — methods: `refresh()`, `remove_item()`, `close()`; signals: (none); exports: (none)
-- **`res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`** — methods: `_ready()`, `_process()`, `_toggle_camera()`, `_validate_setup()`; signals: (none); exports: `gameplay_camera`, `debug_camera`, `using_debug_camera`
-- **`res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`** — methods: `_ready()`, `_process()`, `_resolve_target()`, `_get_desired_position()`, `_update_rotation()`; signals: (none); exports: `target`, `camera_offset`, `look_height`, `follow_speed`, `smooth_follow`
+- **`res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`** — methods: `_ready()`, `_input()`, `_toggle_camera()`; signals: (none); exports: `gameplay_camera`, `debug_camera`, `using_debug_camera`
+- **`res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`** — methods: `_ready()`, `_physics_process()`, `_update_camera_transform()`; signals: (none); exports: `target`, `camera_offset`, `look_height`
 - **`res://Scene/Shelter_Scene/Scripts/shelter_player.gd`** — methods: `_ready()`, `_physics_process()`, `_calculate_move_direction()`, `_apply_gravity()`, `_update_animation()`, `_play_animation()`, `_validate_setup()`; signals: (none); exports: `walk_speed`, `run_speed`, `acceleration`, `deceleration`, `rotation_speed`, `visual_root`, `movement_reference`, `animation_player`, `model_yaw_offset_degrees`, `idle_animation`, `walk_animation`, `run_animation`
 - **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_unhandled_input()`, `_return_to_main_menu()`, `_refresh_save_list()`, `_on_delete_requested()`, `_on_confirm_delete_save()`, `_on_exist_save_clicked()`, `_on_new_save_slot_clicked()`, `_on_confirm_create_save()`; signals: (none); exports: `base_scene`, `name_input_panel`, `line_edit`, `confirm_button`, `cancel_button`, `delete_confirm_panel`, `confirm_delete_btn`, `pending_delete_id`
 - **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `battle_system_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
@@ -398,8 +383,8 @@
 | `res://Scene/Main_Scene/MAIN.tscn` | `MAIN/Node` | 4 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/player/shelter_player.tscn` | `ShelterPlayer/CharacterBody3D` | 4 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` | `UAL1_Standard` | 2 | 0 | 0 | 0 |
-| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 1 | 0 | 0 | 0 |
-| `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` | `ShelterMovementTest/Node3D` | 9 | 0 | 2 | 1 |
+| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 29 | 0 | 1 | 1 |
+| `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` | `ShelterMovementTest/Node3D` | 7 | 0 | 1 | 1 |
 | `res://Scene/UI/context_action_menu.tscn` | `ContextActionMenu/CanvasLayer` | 5 | 0 | 1 | 0 |
 | `res://Scene/UI/filelist.tscn` | `filelist/Control` | 17 | 0 | 1 | 0 |
 | `res://Scene/UI/main_menu.tscn` | `MainMenu/Control` | 15 | 0 | 1 | 3 |
@@ -467,7 +452,8 @@
 - **`res://Scene/DungeonScenes(3D)/TestScene.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - **`res://Scene/Main_Scene/MAIN.tscn`** → `res://Scene/Main_Scene/main.gd`, `res://Scene/UI/main_menu.tscn`
 - **`res://Scene/Shelter_Scene/player/shelter_player.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-- **`res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`** → `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- **`res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - **`res://Scene/UI/context_action_menu.tscn`** → `res://Scene/UI/Scripts/context_action_menu.gd`
 - **`res://Scene/UI/filelist.tscn`** → `res://Scene/UI/Scripts/filelist_menu.gd`
 - **`res://Scene/UI/main_menu.tscn`** → `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`
@@ -528,7 +514,8 @@
 - `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Armors.csv`, `res://DataBase/Items/Materials.csv`, `res://DataBase/Items/Weapons.csv`
 - `res://Scene/Shelter_Scene/player/shelter_player.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` → `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-- `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` → `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
 - `res://Scene/UI/filelist.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Battle_Scene/Card_Scene/Card.tscn\`, `res://Scene/UI/Scripts/filelist_menu.gd`
 - `res://Scene/UI/main_menu.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
@@ -11537,20 +11524,12 @@ func close():
 
 ### `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`
 
-- Category: `script`; bytes: `2066`; sha256/16: `7c384db62b92ce47`
+- Category: `script`; bytes: `1243`; sha256/16: `8bf888fe7c0264ff`
 
 
 ```gdscript
 extends Node
 class_name CameraDebugSwitcher
-
-# Camera Debug Switcher
-#
-# 开发专用：
-# 在正式跟随 Camera 和 Debug Camera 之间切换。
-#
-# 不使用 InputMap，
-# 因此不会修改 project.godot。
 
 @export_category("Cameras")
 
@@ -11559,242 +11538,127 @@ class_name CameraDebugSwitcher
 
 @export_category("Debug")
 
-## F1 在 Godot 编辑器里容易与快捷键冲突，
-## 所以默认使用 F2。
+## 调试镜头切换键。
+## 不使用 InputMap，不修改 project.godot。
 @export var switch_key: Key = KEY_L
 
 var using_debug_camera: bool = false
 
-## 用来检测“刚刚按下”，避免按住一个键每帧切换。
-var _switch_key_was_pressed: bool = false
-
 func _ready() -> void:
-	_validate_setup()
-
-	if gameplay_camera != null:
-		gameplay_camera.make_current()
-
-	using_debug_camera = false
-
-	print(
-		"[CameraDebugSwitcher] Ready. Current camera: Gameplay"
-	)
-
-func _process(_delta: float) -> void:
-	var key_is_pressed: bool = (
-		Input.is_physical_key_pressed(switch_key)
-	)
-	print("已经按下L")
-	# 只在：
-	#
-	# 当前按下
-	# +
-	# 上一帧没有按
-	#
-	# 时触发一次。
-	if (
-		key_is_pressed
-		and not _switch_key_was_pressed
-	):
-		_toggle_camera()
-
-	_switch_key_was_pressed = key_is_pressed
-
-func _toggle_camera() -> void:
 	if gameplay_camera == null:
 		push_error(
-			"CameraDebugSwitcher: Gameplay Camera 没有设置。"
+			"CameraDebugSwitcher: Gameplay Camera 未设置。"
 		)
 		return
 
 	if debug_camera == null:
 		push_error(
-			"CameraDebugSwitcher: Debug Camera 没有设置。"
+			"CameraDebugSwitcher: Debug Camera 未设置。"
 		)
 		return
 
+	gameplay_camera.make_current()
+
+	using_debug_camera = false
+
+	print(
+		"[CameraDebugSwitcher] Ready"
+	)
+
+func _input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+
+	var key_event: InputEventKey = (
+		event as InputEventKey
+	)
+
+	if not key_event.pressed:
+		return
+
+	if key_event.echo:
+		return
+
+	if key_event.keycode != switch_key:
+		return
+
+	_toggle_camera()
+
+func _toggle_camera() -> void:
 	using_debug_camera = not using_debug_camera
 
 	if using_debug_camera:
 		debug_camera.make_current()
 
 		print(
-			"[CameraDebugSwitcher] Switched -> DEBUG CAMERA"
+			"[CameraDebugSwitcher] DEBUG CAMERA"
 		)
 
 	else:
 		gameplay_camera.make_current()
 
 		print(
-			"[CameraDebugSwitcher] Switched -> GAMEPLAY CAMERA"
-		)
-
-func _validate_setup() -> void:
-	if gameplay_camera == null:
-		push_error(
-			"CameraDebugSwitcher: Gameplay Camera 未设置。"
-		)
-
-	if debug_camera == null:
-		push_error(
-			"CameraDebugSwitcher: Debug Camera 未设置。"
+			"[CameraDebugSwitcher] GAMEPLAY CAMERA"
 		)
 ```
 
 
 ### `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`
 
-- Category: `script`; bytes: `3460`; sha256/16: `6911ab42d01058d8`
+- Category: `script`; bytes: `867`; sha256/16: `be5ec9bed1a97dc1`
 
 
 ```gdscript
 extends Camera3D
 class_name ShelterCamera
 
-# Shelter Camera
-#
-# 固定方向 + 跟随玩家平移
-#
-# Camera 与 Player 是兄弟节点：
-#
-# Shelter
-# ├── Camera3D
-# └── ShelterPlayer
-#
-# Camera 不继承 Player 的旋转，
-# 因此玩家转身不会带着镜头旋转。
-
 @export_category("Target")
 
-## 正式场景中建议手动拖入 ShelterPlayer。
-## 如果忘记设置，会自动寻找同级名为 ShelterPlayer 的节点。
 @export var target: Node3D
 
-@export_category("Follow")
+@export_category("Camera")
 
-## 摄像机相对玩家的位置
 @export var camera_offset: Vector3 = Vector3(
-	6.0,
-	6.0,
-	6.0
+	4.0,
+	7.0,
+	7.0
 )
 
-## 摄像机看向玩家身体的高度
 @export var look_height: float = 1.0
 
-## 跟随速度
-@export_range(0.1, 30.0, 0.1)
-var follow_speed: float = 12.0
-
-## 是否使用平滑跟随
-@export var smooth_follow: bool = true
-
 func _ready() -> void:
-	# 非常重要：
-	# 先确保当前 Camera 可用。
-	#
-	# 即使 Target 配置有问题，也不能因为提前 return
-	# 导致整个游戏没有活动摄像机。
-	current = true
-
-	_resolve_target()
+	# 无论 Target 是否正确，先保证场景有活动 Camera。
+	make_current()
 
 	if target == null:
 		push_error(
-			"ShelterCamera: 找不到 ShelterPlayer。"
-			+ "请检查 Camera3D 的 Target。"
+			"ShelterCamera: Target 未设置。"
 		)
 		return
 
-	# 出生第一帧直接移动到正确位置。
-	global_position = _get_desired_position()
+	_update_camera_transform()
 
-	_update_rotation()
-
-func _process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if target == null:
 		return
 
-	var desired_position: Vector3 = (
-		_get_desired_position()
-	)
+	_update_camera_transform()
 
-	if smooth_follow:
-		var follow_weight: float = (
-			1.0
-			- exp(-follow_speed * delta)
-		)
-
-		global_position = global_position.lerp(
-			desired_position,
-			follow_weight
-		)
-
-	else:
-		global_position = desired_position
-
-# Target
-
-func _resolve_target() -> void:
-	# Inspector 已经设置就直接使用。
-	if target != null:
-		return
-
-	# Camera 和 Player 当前都是 Shelter 的直接子节点，
-	# 因此可以自动寻找同级 ShelterPlayer。
-	var parent_node: Node = get_parent()
-
-	if parent_node == null:
-		return
-
-	var found_player: Node = (
-		parent_node.get_node_or_null(
-			"ShelterPlayer"
-		)
-	)
-
-	if found_player is Node3D:
-		target = found_player as Node3D
-
-# Position / Rotation
-
-func _get_desired_position() -> Vector3:
-	return (
+func _update_camera_transform() -> void:
+	# Camera 始终保持在 Player 的固定世界空间偏移。
+	global_position = (
 		target.global_position
 		+ camera_offset
 	)
-
-func _update_rotation() -> void:
-	if target == null:
-		return
 
 	var look_target: Vector3 = (
 		target.global_position
 		+ Vector3.UP * look_height
 	)
 
-	var look_direction: Vector3 = (
-		look_target - global_position
-	)
-
-	# Camera 与目标位置完全重合时无法计算朝向
-	if look_direction.length_squared() < 0.000001:
-		return
-
-	look_direction = look_direction.normalized()
-
-	var up_vector: Vector3 = Vector3.UP
-
-	# 如果观察方向与世界 UP 几乎平行，
-	# Vector3.UP 无法作为稳定的上方向。
-	#
-	# 这种情况通常发生在 Camera 位于 Player 正上方时。
-	if absf(look_direction.dot(Vector3.UP)) > 0.999:
-		up_vector = Vector3.FORWARD
-
 	look_at(
 		look_target,
-		up_vector
+		Vector3.UP
 	)
 ```
 
@@ -19158,27 +19022,160 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 
 ### `res://Scene/Shelter_Scene/shelter.tscn`
 
-- Category: `scene`; bytes: `83`; sha256/16: `3ecaba39526bcfc2`
+- Category: `scene`; bytes: `5342`; sha256/16: `513bf6350b3f6ec3`
 
 
 ```ini
-[gd_scene format=3 uid="uid://bvvhcw3cmlmkh"]
+[gd_scene load_steps=16 format=3 uid="uid://bvvhcw3cmlmkh"]
+
+[ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_syccu"]
+[ext_resource type="Script" uid="uid://fdjn7x2q2up6" path="res://Scene/Shelter_Scene/Scripts/shelter_camera.gd" id="2_11o6b"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_syccu"]
+size = Vector3(12, 0.2, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_11o6b"]
+size = Vector3(12, 0.2, 12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6qk3u"]
+size = Vector3(12, 2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vfmdr"]
+size = Vector3(12, 2, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jhweh"]
+size = Vector3(12, 2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xegb6"]
+size = Vector3(12, 2, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cyvyl"]
+size = Vector3(0.2, 2, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s55ae"]
+size = Vector3(0.2, 2, 12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_twju8"]
+size = Vector3(30, 0.2, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dtnd1"]
+size = Vector3(30, 0.2, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6667d"]
+size = Vector3(4, 2, 4)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yp273"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gk2uj"]
 
 [node name="Shelter" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="BuildArea" type="Node3D" parent="."]
+
+[node name="Room_Initial" type="Node3D" parent="BuildArea"]
+
+[node name="Floor" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("BoxMesh_syccu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_11o6b")
+
+[node name="Wall_North" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Wall_North"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6)
+mesh = SubResource("BoxMesh_6qk3u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Wall_North"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6)
+shape = SubResource("BoxShape3D_vfmdr")
+
+[node name="Wall_South" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Wall_South"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+mesh = SubResource("BoxMesh_jhweh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Wall_South"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+shape = SubResource("BoxShape3D_xegb6")
+
+[node name="Wall_West" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Wall_West"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+mesh = SubResource("BoxMesh_cyvyl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Wall_West"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+shape = SubResource("BoxShape3D_s55ae")
+
+[node name="Road" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -0.1, 0)
+mesh = SubResource("BoxMesh_twju8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -0.1, 0)
+shape = SubResource("BoxShape3D_dtnd1")
+
+[node name="Check_Area" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Check_Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 1, 0)
+shape = SubResource("BoxShape3D_6667d")
+
+[node name="NPC" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/NPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
+mesh = SubResource("CapsuleMesh_yp273")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/NPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
+shape = SubResource("CapsuleShape3D_gk2uj")
+
+[node name="StagingArea" type="Node3D" parent="."]
+
+[node name="Gameplay" type="Node3D" parent="."]
+
+[node name="ShelterPlayer" parent="Gameplay" node_paths=PackedStringArray("visual_root", "movement_reference") instance=ExtResource("1_syccu")]
+visual_root = NodePath("..")
+movement_reference = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="Gameplay" node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 0.642253, 0.766493, 0, -0.766493, 0.642253, 0, 4.558, 3.23035)
+current = true
+fov = 45.0
+script = ExtResource("2_11o6b")
+target = NodePath("../ShelterPlayer")
+camera_offset = Vector3(5, 5, 7)
+look_height = 1.2
+
+[node name="Markers" type="Node3D" parent="."]
 ```
 
 
 ### `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
 
-- Category: `scene`; bytes: `2211`; sha256/16: `02f7fe8d650dc6a6`
+- Category: `scene`; bytes: `1644`; sha256/16: `8a4b50ce7eb0b894`
 
 
 ```ini
-[gd_scene load_steps=6 format=3 uid="uid://c4fcx8ge64bbp"]
+[gd_scene load_steps=5 format=3 uid="uid://c4fcx8ge64bbp"]
 
 [ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_pcuys"]
 [ext_resource type="Script" uid="uid://fdjn7x2q2up6" path="res://Scene/Shelter_Scene/Scripts/shelter_camera.gd" id="2_lg76n"]
-[ext_resource type="Script" uid="uid://kw0i2a13eqqs" path="res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd" id="3_clh6c"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_clh6c"]
 size = Vector3(12, 0.2, 12)
@@ -19206,24 +19203,16 @@ spot_range = 185.566
 spot_attenuation = 1.04
 spot_angle = 58.66
 
+[node name="ShelterPlayer" parent="." node_paths=PackedStringArray("movement_reference") instance=ExtResource("1_pcuys")]
+movement_reference = NodePath("../Camera3D")
+
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
-fov = 60.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.558, 3.23035)
+fov = 45.0
 script = ExtResource("2_lg76n")
-target = NodePath("ShelterPlayer")
-camera_offset = Vector3(6, 7, 7)
-
-[node name="ShelterPlayer" parent="Camera3D" node_paths=PackedStringArray("movement_reference") instance=ExtResource("1_pcuys")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-movement_reference = NodePath("..")
-
-[node name="CameraDebugSwitcher" type="Node" parent="." node_paths=PackedStringArray("gameplay_camera", "debug_camera")]
-script = ExtResource("3_clh6c")
-gameplay_camera = NodePath("../Camera3D")
-debug_camera = NodePath("DebugCamera3D")
-
-[node name="DebugCamera3D" type="Camera3D" parent="CameraDebugSwitcher"]
-transform = Transform3D(0.656744, -0.632611, 0.410477, 2.0411e-08, 0.544317, 0.83888, -0.754114, -0.550929, 0.357477, 4.80237, 6.51555, 4.33435)
-fov = 59.8
+target = NodePath("../ShelterPlayer")
+camera_offset = Vector3(5, 5, 7)
+look_height = 1.2
 ```
 
 
