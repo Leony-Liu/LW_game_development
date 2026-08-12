@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwljaaods183o"]
+[gd_scene load_steps=7 format=3 uid="uid://bwljaaods183o"]
 
 [ext_resource type="Script" uid="uid://c3n5srm1pr6k0" path="res://Scene/DungeonScenes(3D)/Manager/map_manager.gd" id="1_83hb5"]
 [ext_resource type="PackedScene" uid="uid://bsdjs57ymg03n" path="res://Scene/DungeonScenes(3D)/TestScence2.tscn" id="2_5ndfk"]
 [ext_resource type="PackedScene" uid="uid://88hhvx6dcosd" path="res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn" id="2_jx3bg"]
 [ext_resource type="PackedScene" uid="uid://dwf7eo5717q2s" path="res://Scene/UI/world_interactionUI.tscn" id="2_qyo7k"]
+[ext_resource type="PackedScene" uid="uid://eirjqi3byf6r" path="res://Scene/Search_system/Script/UI/search_ui.tscn" id="5_na8fq"]
+[ext_resource type="Script" uid="uid://dw6akaho7j05b" path="res://Scene/Search_system/Script/search_UI.gd" id="6_h6bmn"]
 
 [node name="World" type="Node3D"]
 
@@ -17,3 +19,8 @@ room_scene = ExtResource("2_5ndfk")
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Control" parent="UILayer" instance=ExtResource("2_qyo7k")]
+
+[node name="SearchUI" parent="UILayer" instance=ExtResource("5_na8fq")]
+script = ExtResource("6_h6bmn")
+
+[editable path="UILayer/SearchUI"]

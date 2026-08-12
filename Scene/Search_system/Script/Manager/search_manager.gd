@@ -4,35 +4,34 @@
 extends Node
 
 var current_items: Array[ItemData] = []#保存当前搜索界面的物品数据
-var current_container: InteractableObject = null#当前正在搜索的物体
+
 @export var default_item_count: int = 5#默认一次搜索生成的物品数量
 
 var rng:= RandomNumberGenerator.new()
 
 
 ##初始化搜索
-func open_search(container: InteractableObject):
-	current_container = container
+func open_search(object: InteractableObject):
+	if not object.searched:
+		generate_items(object)
 	
-	generate_items()
-	
-	UIManager.show_search(current_items)
+	UIManager.refresh_search(current_items)
 	pass
 
 
 ##调用ItemDatabase随机生成物品
-func generate_items():
+func generate_items(object: InteractableObject):
 	current_items.clear()
 	
-	current_items = ItemDataBase.get_random_items(default_item_count)
+	current_items = object.generate_loot()
 	pass
 
 
 ##玩家点击拿取物品
-func take_item(item):
+func take_item(item: ItemData):
 	
 	#判断交互物品是否存在搜索列表
-	if item not in current_items:
+	if item == null:
 		return
 	
 	#添加物品到玩家背包
@@ -54,5 +53,4 @@ func get_items()-> Array[ItemData]:
 ##关闭搜索时清空当前搜索结果
 func clear():
 	current_items.clear()
-	current_container = null
 	pass

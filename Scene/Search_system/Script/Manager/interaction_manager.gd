@@ -25,17 +25,25 @@ func try_interact() -> void:
 		return
 	# 调用交互对象
 	current_object.interact()
-	# 打开搜索UI
-	open_search()
+
 
 
 ## 打开搜索界面
-func open_search() -> void:
+func open_search(object: InteractableObject) -> void:
+	current_object = object
+	#显示背包
+	UIManager.show_inventory()
+	#显示搜索界面
 	UIManager.show_search()
+	
+	#生成搜索结果
+	SearchManager.open_search(object)
+	
+	
 	# UI音效可以写在这里
 
 
 ## 关闭搜索界面
 func close_search() -> void:
-	UIManager.hide_search()
+	UIManager.hide_all()
 	current_object = null
