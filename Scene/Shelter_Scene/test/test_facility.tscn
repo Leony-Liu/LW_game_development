@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhgbwopfm0mso"]
+
+[ext_resource type="Script" uid="uid://bb353240l6jdw" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd" id="1_fabkn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8ys4g"]
+size = Vector3(1.8, 1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_35j5q"]
+size = Vector3(1.8, 1, 0.5)
+
+[node name="TestFacility" type="StaticBody3D"]
+script = ExtResource("1_fabkn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_8ys4g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_35j5q")

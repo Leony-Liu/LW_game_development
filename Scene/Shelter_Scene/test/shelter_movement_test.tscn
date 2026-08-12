@@ -37,5 +37,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.558, 3.23035)
 fov = 45.0
 script = ExtResource("2_lg76n")
 target = NodePath("../ShelterPlayer")
-camera_offset = Vector3(5, 5, 7)
-look_height = 1.2
