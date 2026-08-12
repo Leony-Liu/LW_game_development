@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4fcx8ge64bbp"]
+
+[ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_pcuys"]
+[ext_resource type="Script" uid="uid://fdjn7x2q2up6" path="res://Scene/Shelter_Scene/Scripts/shelter_camera.gd" id="2_lg76n"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_clh6c"]
+size = Vector3(12, 0.2, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lg76n"]
+size = Vector3(12, 0.2, 12)
+
+[node name="ShelterMovementTest" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("BoxMesh_clh6c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_lg76n")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -2.98023e-08, 1, 0, -1, -2.98023e-08, 0, 5.73792, -4.76837e-07)
+light_energy = 9.386
+light_size = 1.0
+spot_range = 185.566
+spot_attenuation = 1.04
+spot_angle = 58.66
+
+[node name="ShelterPlayer" parent="." node_paths=PackedStringArray("movement_reference") instance=ExtResource("1_pcuys")]
+movement_reference = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.558, 3.23035)
+fov = 45.0
+script = ExtResource("2_lg76n")
+target = NodePath("../ShelterPlayer")
