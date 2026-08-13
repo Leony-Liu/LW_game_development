@@ -29,10 +29,10 @@ PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_de
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 InventoryManager="*res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd"
 UIManager="*res://Scene/Search_system/Script/Manager/ui_manager.gd"
-InteractionManager="*res://Scene/Search_system/Script/Manager/interaction_manager.gd"
-SearchManager="*res://Scene/Search_system/Script/Manager/search_manager.gd"
 ItemDataBase="*res://Scene/Search_system/Script/Data/item_data_base.gd"
 MAPInventoryManager="*res://Scene/Search_system/Script/Manager/inventory_manager.gd"
+SearchManager="*res://Scene/Search_system/Script/Manager/search_manager.gd"
+InteractionManager="*res://Scene/Search_system/Script/Manager/interaction_manager.gd"
 
 [debug]
 

@@ -1,113 +1,756 @@
 extends Node
-# save_manager.gd
 
-const SAVE_DIR = "user://saves/"
+
+# ============================================================
+# Save Manager
+# ============================================================
+#
+# 一个 save_xxx.json = 一个完整游戏进度。
+#
+# 当前包含：
+#
+# - 基础存档信息
+# - Inventory
+# - Raid 状态
+# - Shelter
+#
+# 未来：
+# - Quest
+# - Character Progression
+# - Map Progress
+# - Settings bound to save
+# ...
+#
+#
+# save_meta.cfg 不是游戏存档。
+# 它只记录：
+#
+# last_save_id
+#
+# 用于主菜单“开始游戏”快速进入上一次存档。
+# ============================================================
+
+
+const SAVE_DIR: String = "user://saves/"
+const META_PATH: String = "user://save_meta.cfg"
+
+const SAVE_VERSION: int = 2
+const SHELTER_SAVE_VERSION: int = 1
+
+
 var current_save: Dictionary = {}
 
-func _ready() -> void:
-	var dir = DirAccess.open("user://")
-	if not dir.dir_exists("saves"):
-		dir.make_dir("saves")
+var _meta: ConfigFile = ConfigFile.new()
 
-# 1. 创建全新扁平化存档
-func create_new_save(player_name: String) -> String:
-	var save_id = str(Time.get_unix_time_from_system())
-	
-	var default_inventory = [
+
+func _ready() -> void:
+	_ensure_save_directory()
+	_load_meta()
+
+
+# ============================================================
+# Public - Create
+# ============================================================
+
+
+func create_new_save(
+	player_name: String
+) -> String:
+	var clean_name: String = (
+		player_name.strip_edges()
+	)
+
+	if clean_name.is_empty():
+		push_warning(
+			"SaveManager: 存档名称不能为空。"
+		)
+		return ""
+
+	var save_id: String = _generate_save_id()
+
+	var now: int = int(
+		Time.get_unix_time_from_system()
+	)
+
+	var default_inventory: Array = [
 		{
-			"uid": "uid_" + str(Time.get_unix_time_from_system()) + "_1",
-			"template_id": "w_001", # 对应图鉴里的锈蚀砍刀
-			"location": "equipped_weapon_1", # 出生直接装备在主武器槽
+			"uid": "uid_%s_1" % save_id,
+			"template_id": "w_001",
+			"location": "equipped_weapon_1",
 			"current_durability": 100,
 			"is_broken": false,
-			"equipped_cards": [10001, 10001, 10002] # 玩家精炼后保存的牌组
+			"equipped_cards": [
+				10001,
+				10001,
+				10002
+			]
 		},
 		{
-			"uid": "uid_" + str(Time.get_unix_time_from_system()) + "_2",
-			"template_id": "i_001", # 对应治疗药水
-			"location": "warehouse", # 出生放在仓库里
+			"uid": "uid_%s_2" % save_id,
+			"template_id": "i_001",
+			"location": "warehouse",
 			"count": 3
 		}
 	]
-	
-	var save_data = {
+
+	current_save = {
+		"save_version": SAVE_VERSION,
+
 		"id": save_id,
-		"name": player_name,
-		"in_raid": false, # 局内死神标记：如果在 true 的状态下读取存档，说明非正常断开或战死
-		"inventory": default_inventory 
+		"name": clean_name,
+
+		"created_at_unix": now,
+		"last_played_at_unix": now,
+
+		"in_raid": false,
+
+		"inventory": default_inventory,
+
+		"shelter": _create_default_shelter_data()
 	}
-	
-	current_save = save_data
-	save_current_state()
-	print("💾 存档创建成功！特工: %s, 唯一ID: %s" % [player_name, save_id])
+
+	if not save_current_state():
+		current_save.clear()
+		return ""
+
+	_set_last_save_id(
+		save_id
+	)
+
+	print(
+		"SaveManager: 创建存档 %s (%s)"
+		% [
+			clean_name,
+			save_id
+		]
+	)
+
 	return save_id
 
-# 2. 方案A：安全双缓冲保存机制 (防崩溃/断电坏档)
-func save_current_state() -> void:
+
+# ============================================================
+# Public - Save
+# ============================================================
+
+
+func save_current_state() -> bool:
 	if current_save.is_empty():
-		push_error("SaveManager: 当前没有加载存档，无法保存！")
-		return
-		
-	var save_id = current_save["id"]
-	var tmp_file_name = "save_" + save_id + ".tmp"
-	var json_file_name = "save_" + save_id + ".json"
-	
-	# 第一步：写入临时文件 .tmp
-	var file = FileAccess.open(SAVE_DIR + tmp_file_name, FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(current_save, "\t"))
-		file.close()
-	else:
-		push_error("SaveManager: 临时文件写入失败！")
-		return
-		
-	# 第二步：写入成功后，安全的替换原有 .json 文件
-	var dir = DirAccess.open(SAVE_DIR)
-	if dir:
-		# 如果原文件存在，先删掉旧的
-		if dir.file_exists(json_file_name):
-			var err = dir.remove(json_file_name)
-			if err != OK:
-				push_error("SaveManager: 无法删除旧存档文件！")
-				return
-		
-		# 将 .tmp 重命名为 .json，完成无缝偷天换日
-		var rename_err = dir.rename(tmp_file_name, json_file_name)
-		if rename_err == OK:
-			print("✅ 游戏进度已安全保存！(双缓冲机制执行完毕)")
-		else:
-			push_error("SaveManager: 临时文件转正失败！")
+		push_warning(
+			"SaveManager: 当前没有加载存档，跳过保存。"
+		)
+		return false
 
-# 3. 读取存档与扫描功能 (保持不变，略作优化)
+	current_save = _normalize_save_data(
+		current_save
+	)
+
+	current_save["save_version"] = SAVE_VERSION
+
+	current_save["last_played_at_unix"] = int(
+		Time.get_unix_time_from_system()
+	)
+
+	var save_id: String = str(
+		current_save.get(
+			"id",
+			""
+		)
+	)
+
+	if save_id.is_empty():
+		push_error(
+			"SaveManager: current_save 缺少 id。"
+		)
+		return false
+
+	var tmp_name: String = (
+		"save_%s.tmp" % save_id
+	)
+
+	var json_name: String = (
+		"save_%s.json" % save_id
+	)
+
+	var tmp_path: String = (
+		SAVE_DIR + tmp_name
+	)
+
+	var file: FileAccess = FileAccess.open(
+		tmp_path,
+		FileAccess.WRITE
+	)
+
+	if file == null:
+		push_error(
+			"SaveManager: 无法创建临时存档文件。"
+		)
+		return false
+
+	file.store_string(
+		JSON.stringify(
+			current_save,
+			"\t"
+		)
+	)
+
+	file.close()
+
+	var dir: DirAccess = DirAccess.open(
+		SAVE_DIR
+	)
+
+	if dir == null:
+		push_error(
+			"SaveManager: 无法打开存档目录。"
+		)
+		return false
+
+	if dir.file_exists(
+		json_name
+	):
+		var remove_error: Error = dir.remove(
+			json_name
+		)
+
+		if remove_error != OK:
+			push_error(
+				"SaveManager: 无法删除旧存档。"
+			)
+			return false
+
+	var rename_error: Error = dir.rename(
+		tmp_name,
+		json_name
+	)
+
+	if rename_error != OK:
+		push_error(
+			"SaveManager: 临时存档转正失败。"
+		)
+		return false
+
+	return true
+
+
+# ============================================================
+# Public - Load
+# ============================================================
+
+
+func load_save(
+	save_id: String
+) -> bool:
+	var data: Dictionary = _read_save_file(
+		save_id
+	)
+
+	if data.is_empty():
+		push_error(
+			"SaveManager: 无法读取存档 %s"
+			% save_id
+		)
+		return false
+
+	current_save = _normalize_save_data(
+		data
+	)
+
+	current_save["last_played_at_unix"] = int(
+		Time.get_unix_time_from_system()
+	)
+
+	_set_last_save_id(
+		save_id
+	)
+
+	# 同时完成旧版本存档迁移。
+	save_current_state()
+
+	print(
+		"SaveManager: 已载入 %s"
+		% current_save.get(
+			"name",
+			"Unknown"
+		)
+	)
+
+	return true
+
+
+# ============================================================
+# Public - List
+# ============================================================
+
+
 func get_all_saves() -> Array:
-	var saves = []
-	var dir = DirAccess.open(SAVE_DIR)
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if not dir.current_is_dir() and file_name.ends_with(".json"):
-				var file = FileAccess.open(SAVE_DIR + file_name, FileAccess.READ)
-				if file:
-					var data = JSON.parse_string(file.get_as_text())
-					if typeof(data) == TYPE_DICTIONARY:
-						saves.append(data)
-			file_name = dir.get_next()
-	saves.sort_custom(func(a, b): return a["id"].to_int() > b["id"].to_int())
-	return saves
+	var result: Array = []
 
-func load_save(save_id: String) -> bool:
-	var file_path = SAVE_DIR + "save_" + save_id + ".json"
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	if file:
-		current_save = JSON.parse_string(file.get_as_text())
-		print("📂 成功载入存档！当前特工: ", current_save.get("name", "未知"))
-		return true
-	push_error("读取失败，找不到文件: ", file_path)
-	return false
+	var dir: DirAccess = DirAccess.open(
+		SAVE_DIR
+	)
 
-func delete_save(save_id: String) -> void:
-	var dir = DirAccess.open(SAVE_DIR)
-	if dir and dir.file_exists("save_" + save_id + ".json"):
-		dir.remove("save_" + save_id + ".json")
-		print("🗑️ 存档已物理删除。")
+	if dir == null:
+		return result
+
+	dir.list_dir_begin()
+
+	var file_name: String = dir.get_next()
+
+	while not file_name.is_empty():
+		if (
+			not dir.current_is_dir()
+			and file_name.begins_with("save_")
+			and file_name.ends_with(".json")
+		):
+			var file: FileAccess = FileAccess.open(
+				SAVE_DIR + file_name,
+				FileAccess.READ
+			)
+
+			if file != null:
+				var parsed: Variant = JSON.parse_string(
+					file.get_as_text()
+				)
+
+				file.close()
+
+				if typeof(parsed) == TYPE_DICTIONARY:
+					var data: Dictionary = parsed
+
+					result.append(
+						_normalize_save_data(
+							data
+						)
+					)
+
+		file_name = dir.get_next()
+
+	dir.list_dir_end()
+
+	result.sort_custom(
+		_sort_saves_newest_first
+	)
+
+	return result
+
+
+func has_any_save() -> bool:
+	return not get_all_saves().is_empty()
+
+
+# ============================================================
+# Public - Last Save
+# ============================================================
+
+
+func get_last_save_id() -> String:
+	var saved_id: String = str(
+		_meta.get_value(
+			"General",
+			"last_save_id",
+			""
+		)
+	)
+
+	if (
+		not saved_id.is_empty()
+		and FileAccess.file_exists(
+			_get_save_path(saved_id)
+		)
+	):
+		return saved_id
+
+	# 上一次存档被删除 / meta 不存在：
+	# 自动选择最近游玩的存档。
+	var saves: Array = get_all_saves()
+
+	if saves.is_empty():
+		_set_last_save_id("")
+		return ""
+
+	var first_save: Dictionary = saves[0]
+
+	var fallback_id: String = str(
+		first_save.get(
+			"id",
+			""
+		)
+	)
+
+	_set_last_save_id(
+		fallback_id
+	)
+
+	return fallback_id
+
+
+# ============================================================
+# Public - Delete
+# ============================================================
+
+
+func delete_save(
+	save_id: String
+) -> bool:
+	if save_id.is_empty():
+		return false
+
+	var dir: DirAccess = DirAccess.open(
+		SAVE_DIR
+	)
+
+	if dir == null:
+		return false
+
+	var json_name: String = (
+		"save_%s.json" % save_id
+	)
+
+	var tmp_name: String = (
+		"save_%s.tmp" % save_id
+	)
+
+	if dir.file_exists(
+		json_name
+	):
+		var error: Error = dir.remove(
+			json_name
+		)
+
+		if error != OK:
+			push_error(
+				"SaveManager: 删除存档失败。"
+			)
+			return false
+
+	if dir.file_exists(
+		tmp_name
+	):
+		dir.remove(
+			tmp_name
+		)
+
+	if (
+		not current_save.is_empty()
+		and str(
+			current_save.get(
+				"id",
+				""
+			)
+		) == save_id
+	):
+		current_save.clear()
+
+	var last_id: String = str(
+		_meta.get_value(
+			"General",
+			"last_save_id",
+			""
+		)
+	)
+
+	if last_id == save_id:
+		_set_last_save_id("")
+		get_last_save_id()
+
+	print(
+		"SaveManager: 已删除存档 %s"
+		% save_id
+	)
+
+	return true
+
+
+# ============================================================
+# Public - Shelter
+# ============================================================
+
+
+func get_shelter_data() -> Dictionary:
+	if current_save.is_empty():
+		return _create_default_shelter_data()
+
+	var shelter_value: Variant = current_save.get(
+		"shelter",
+		_create_default_shelter_data()
+	)
+
+	if typeof(shelter_value) != TYPE_DICTIONARY:
+		return _create_default_shelter_data()
+
+	var result: Dictionary = shelter_value
+
+	return result.duplicate(
+		true
+	)
+
+
+func set_shelter_data(
+	data: Dictionary,
+	save_immediately: bool = true
+) -> void:
+	if current_save.is_empty():
+		push_warning(
+			"SaveManager: 没有加载存档，无法写入 Shelter 数据。"
+		)
+		return
+
+	current_save["shelter"] = data.duplicate(
+		true
+	)
+
+	if save_immediately:
+		save_current_state()
+
+
+# ============================================================
+# Internal - Read
+# ============================================================
+
+
+func _read_save_file(
+	save_id: String
+) -> Dictionary:
+	var path: String = _get_save_path(
+		save_id
+	)
+
+	if not FileAccess.file_exists(
+		path
+	):
+		return {}
+
+	var file: FileAccess = FileAccess.open(
+		path,
+		FileAccess.READ
+	)
+
+	if file == null:
+		return {}
+
+	var parsed: Variant = JSON.parse_string(
+		file.get_as_text()
+	)
+
+	file.close()
+
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {}
+
+	var result: Dictionary = parsed
+
+	return result
+
+
+# ============================================================
+# Internal - Migration / Defaults
+# ============================================================
+
+
+func _normalize_save_data(
+	data: Dictionary
+) -> Dictionary:
+	var result: Dictionary = data.duplicate(
+		true
+	)
+
+	var save_id: String = str(
+		result.get(
+			"id",
+			""
+		)
+	)
+
+	var inferred_time: int = _infer_time_from_id(
+		save_id
+	)
+
+	if not result.has(
+		"save_version"
+	):
+		result["save_version"] = SAVE_VERSION
+
+	if not result.has(
+		"name"
+	):
+		result["name"] = "Unnamed Save"
+
+	if not result.has(
+		"created_at_unix"
+	):
+		result["created_at_unix"] = inferred_time
+
+	if not result.has(
+		"last_played_at_unix"
+	):
+		result["last_played_at_unix"] = int(
+			result.get(
+				"created_at_unix",
+				inferred_time
+			)
+		)
+
+	if not result.has(
+		"in_raid"
+	):
+		result["in_raid"] = false
+
+	if not result.has(
+		"inventory"
+	):
+		result["inventory"] = []
+
+	if (
+		not result.has("shelter")
+		or typeof(
+			result["shelter"]
+		) != TYPE_DICTIONARY
+	):
+		result["shelter"] = (
+			_create_default_shelter_data()
+		)
+
+	return result
+
+
+func _create_default_shelter_data() -> Dictionary:
+	return {
+		"version": SHELTER_SAVE_VERSION,
+
+		# 每一个 Room 内部还会包含它自己的设施。
+		"rooms": [],
+
+		# 删除房间后暂时进入 Shelter Storage 的设施。
+		"facility_storage": []
+	}
+
+
+# ============================================================
+# Internal - Meta
+# ============================================================
+
+
+func _load_meta() -> void:
+	var error: Error = _meta.load(
+		META_PATH
+	)
+
+	if (
+		error != OK
+		and error != ERR_FILE_NOT_FOUND
+	):
+		push_warning(
+			"SaveManager: save_meta.cfg 读取失败。"
+		)
+
+
+func _set_last_save_id(
+	save_id: String
+) -> void:
+	_meta.set_value(
+		"General",
+		"last_save_id",
+		save_id
+	)
+
+	var error: Error = _meta.save(
+		META_PATH
+	)
+
+	if error != OK:
+		push_warning(
+			"SaveManager: 无法保存 last_save_id。"
+		)
+
+
+# ============================================================
+# Internal - Utility
+# ============================================================
+
+
+func _ensure_save_directory() -> void:
+	var dir: DirAccess = DirAccess.open(
+		"user://"
+	)
+
+	if dir == null:
+		push_error(
+			"SaveManager: 无法打开 user://"
+		)
+		return
+
+	if not dir.dir_exists(
+		"saves"
+	):
+		var error: Error = dir.make_dir(
+			"saves"
+		)
+
+		if error != OK:
+			push_error(
+				"SaveManager: 无法创建 saves 文件夹。"
+			)
+
+
+func _generate_save_id() -> String:
+	var unix: int = int(
+		Time.get_unix_time_from_system()
+	)
+
+	var suffix: int = (
+		Time.get_ticks_msec()
+		% 1000000
+	)
+
+	return "%d_%06d" % [
+		unix,
+		suffix
+	]
+
+
+func _get_save_path(
+	save_id: String
+) -> String:
+	return (
+		SAVE_DIR
+		+ "save_"
+		+ save_id
+		+ ".json"
+	)
+
+
+func _infer_time_from_id(
+	save_id: String
+) -> int:
+	if save_id.is_empty():
+		return 0
+
+	var first_part: String = (
+		save_id.get_slice(
+			"_",
+			0
+		)
+	)
+
+	return first_part.to_int()
+
+
+func _sort_saves_newest_first(
+	a: Dictionary,
+	b: Dictionary
+) -> bool:
+	var a_time: int = int(
+		a.get(
+			"last_played_at_unix",
+			0
+		)
+	)
+
+	var b_time: int = int(
+		b.get(
+			"last_played_at_unix",
+			0
+		)
+	)
+
+	return a_time > b_time

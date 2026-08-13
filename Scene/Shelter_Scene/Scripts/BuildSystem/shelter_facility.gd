@@ -49,3 +49,27 @@ func set_room_id(
 	new_room_id: int
 ) -> void:
 	room_id = new_room_id
+
+# ============================================================
+# Persistent State
+# ============================================================
+#
+# 普通设施默认没有额外状态。
+#
+# 未来特殊设施脚本可以 override：
+#
+# get_save_state()
+# apply_save_state()
+#
+# ShelterSaveBridge 无需知道设施内部细节。
+# ============================================================
+
+
+func get_save_state() -> Dictionary:
+	return {}
+
+
+func apply_save_state(
+	_data: Dictionary
+) -> void:
+	pass

@@ -1,46 +1,7 @@
 extends Node
 class_name ShelterFacilityBuildController
 
-
-# ============================================================
-# Shelter Facility Build Controller
-# ============================================================
-#
-# Left Ctrl
-#     由 ShelterEditModeController
-#     进入 / 退出 FACILITY_BUILD
-#
-#
-# Translation
-#
-# Red X Arrow
-#     左键拖动，只修改世界 X
-#
-# Blue Z Arrow
-#     左键拖动，只修改世界 Z
-#
-# Center Handle
-#     左键拖动，自由修改 XZ
-#
-#
-# Rotation
-#
-# Hold Shift
-#     隐藏 Translation Gizmo
-#     显示 Green Y Rotation Ring
-#
-# Shift + Left Mouse Drag Ring
-#     无级绕 Y 轴旋转
-#
-#
-# Enter
-#     确认建造
-#
-#
-# 当前测试阶段：
-# 每次建造后继续生成同一个 Test Facility。
-# ============================================================
-
+signal facility_changed
 
 enum DragMode {
 	NONE,
@@ -73,6 +34,20 @@ var collision_floor_epsilon: float = 0.01
 @export_range(0.0, 0.1, 0.001)
 var boundary_epsilon: float = 0.01
 
+@export_category("Rotation")
+
+## 设施模型自身的“正面”方向补偿。
+##
+## 0：
+## 模型本地 +Z 朝向鼠标。
+##
+## 180：
+## 如果模型本地 -Z 才是正面。
+##
+## 90 / -90：
+## 如果模型正面位于本地 X 轴方向。
+@export_range(-180.0, 180.0, 1.0)
+var rotation_facing_offset_degrees: float = 0.0
 
 var facility_build_enabled: bool = false
 
@@ -94,8 +69,6 @@ var _drag_mode: int = DragMode.NONE
 var _drag_start_point: Vector3 = Vector3.ZERO
 
 var _drag_start_position: Vector3 = Vector3.ZERO
-
-var _rotation_previous_angle: float = 0.0
 
 
 var _valid_material: StandardMaterial3D
@@ -514,6 +487,9 @@ func _begin_translation_drag(
 func _begin_rotation_drag(
 	world_point: Vector3
 ) -> void:
+	if _ghost == null:
+		return
+
 	var center := (
 		_ghost.global_position
 	)
@@ -530,9 +506,9 @@ func _begin_rotation_drag(
 		DragMode.Y_ROTATION
 	)
 
-	_rotation_previous_angle = atan2(
-		direction.y,
-		direction.x
+	# 点击旋转环后立即同步一次朝向。
+	_set_ghost_facing_mouse_point(
+		world_point
 	)
 
 
@@ -654,43 +630,70 @@ func _update_rotation_drag() -> void:
 		plane_point as Vector3
 	)
 
+	_set_ghost_facing_mouse_point(
+		current
+	)
+
+func _set_ghost_facing_mouse_point(
+	world_point: Vector3
+) -> void:
+	if _ghost == null:
+		return
+
 	var center := (
 		_ghost.global_position
 	)
 
 	var direction := Vector2(
-		current.x - center.x,
-		current.z - center.z
+		world_point.x - center.x,
+		world_point.z - center.z
 	)
 
 	if direction.length_squared() < 0.0001:
 		return
 
-	var current_angle := atan2(
-		direction.y,
-		direction.x
-	)
-
-	# 使用上一帧角度计算增量，
-	# 而不是永远使用起始角度。
+	# --------------------------------------------------------
+	# Mouse Facing Rotation
+	# --------------------------------------------------------
 	#
-	# 这样可以连续旋转超过 180 / 360 度，
-	# 不会在 -PI / PI 边界突然反跳。
-	var angle_delta := wrapf(
-		current_angle
-		- _rotation_previous_angle,
-		-PI,
-		PI
+	# XZ 平面：
+	#
+	#           -Z
+	#            ↑
+	#
+	#     -X ← Ghost → +X
+	#
+	#            ↓
+	#           +Z
+	#
+	#
+	# atan2(
+	#     direction.x,
+	#     direction.y
+	# )
+	#
+	# 会让设施的本地 +Z
+	# 朝向鼠标所在方向。
+	# --------------------------------------------------------
+
+	var target_yaw := atan2(
+		direction.x,
+		direction.y
 	)
 
-	_ghost.rotate_y(
-		angle_delta
+	target_yaw += deg_to_rad(
+		rotation_facing_offset_degrees
 	)
 
-	_rotation_previous_angle = (
-		current_angle
+	var current_rotation := (
+		_ghost.global_rotation
 	)
 
+	current_rotation.y = target_yaw
+
+	_ghost.global_rotation = (
+		current_rotation
+	)
 
 # ============================================================
 # Mouse Ray
@@ -978,6 +981,8 @@ func _confirm_placement() -> void:
 	facility.set_room_id(
 		current_room_id
 	)
+	
+	facility_changed.emit()
 
 	print(
 		"[ShelterFacilityBuild] "

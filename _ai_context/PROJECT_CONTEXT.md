@@ -4,49 +4,96 @@
 
 ## Snapshot
 
-- Approximate context size: **814,069 characters / ~203,517 tokens**
-- Generated: `2026-08-11T10:39:25+08:00`
+- Approximate context size: **888,402 characters / ~222,100 tokens**
+- Generated: `2026-08-13T17:49:38+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
-- Files scanned: **666**; readable text files: **208**
-- Scripts: **111**; scenes: **76**; resources: **8**; shaders: **6**
-- Non-text assets: **452** (45.3 MiB)
+- Files scanned: **689**; readable text files: **221**
+- Scripts: **121**; scenes: **79**; resources: **8**; shaders: **6**
+- Non-text assets: **462** (45.3 MiB)
 - Total scanned size: **50.4 MiB**
-- TODO/FIXME/HACK markers: **17**
+- TODO/FIXME/HACK markers: **16**
 
 ## Project Configuration Summary
 
 - Godot feature flags: `PackedStringArray("4.4", "Forward Plus")`
-- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `SceneManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `InventoryManager`, `UIManager`, `InteractionManager`, `SearchManager`, `ItemDataBase`, `MAPInventoryManager`
+- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `SceneManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `InventoryManager`, `UIManager`, `ItemDataBase`, `MAPInventoryManager`, `SearchManager`, `InteractionManager`
 - Input actions: `draw_card`, `Left`, `Right`, `Down`, `Up`, `Attack`, `block_key`, `open_backpack`, `interact`
 - Settings sections: `application`, `autoload`, `debug`, `display`, `file_customization`, `gui`, `input`, `internationalization`, `layer_names`, `rendering`, `shader_globals`
 
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `5a61da9 | 2026-08-08T21:14:27+08:00 | 新增（基地）：玩家操作框架搭建，摄像头仍有问题`
+- Last commit: `1707fa0 | 2026-08-13T00:43:35+08:00 | Merge branch 'Merge_version' into map_development`
 - Working tree changes:
-  - `M Scene/Shelter_Scene/Scripts/shelter_camera.gd`
+  - `M Scene/Main_Scene/Scripts/Manager/save_manager.gd`
+  - ` M Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
+  - ` M Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`
   - ` M Scene/Shelter_Scene/shelter.tscn`
-  - ` M Scene/Shelter_Scene/test/shelter_movement_test.tscn`
-  - ` M _ai_context/PROJECT_CONTEXT.md`
+  - ` M Scene/UI/Scripts/filelist_menu.gd`
+  - ` M Scene/UI/Scripts/main_menu.gd`
+  - ` M Scene/UI/filelist.tscn`
+  - ` M Scene/UI/main_menu.tscn`
+  - ` M project.godot`
+  - `?? Scene/Shelter_Scene/Scripts/Interaction/`
+  - `?? Scene/Shelter_Scene/Scripts/Save/`
+  - `?? Scene/UI/Scripts/save_slot_card.gd`
+  - `?? Scene/UI/Scripts/save_slot_card.gd.uid`
+  - `?? Scene/UI/save_slot_card.tscn`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-11 10:38` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-11 10:38` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-11 10:38` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
-  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-11 10:38` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-11 10:38` `res://Scene/UI/main_menu.tscn`
-  - `2026-08-11 10:38` `res://Scene/Main_Scene/MAIN.tscn`
-  - `2026-08-11 10:37` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`
-  - `2026-08-11 10:31` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-11 10:31` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-11 10:31` `res://project.godot`
+  - `2026-08-13 17:49` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-13 17:49` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-13 17:49` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-13 17:49` `res://Scene/UI/filelist.tscn`
+  - `2026-08-13 17:49` `res://Scene/UI/save_slot_card.tscn`
+  - `2026-08-13 17:49` `res://Scene/Battle_Scene/Battlescene.tscn`
+  - `2026-08-13 17:49` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+  - `2026-08-13 17:49` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-13 17:33` `res://Scene/UI/Scripts/filelist_menu.gd`
+  - `2026-08-13 17:26` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-13 17:26` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-13 17:25` `res://project.godot`
+  - `2026-08-13 17:24` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`
+  - `2026-08-13 17:24` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd.uid`
+  - `2026-08-13 17:23` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`
+  - `2026-08-13 17:23` `res://Scene/UI/main_menu.tscn`
+  - `2026-08-13 17:22` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
+  - `2026-08-13 17:21` `res://Scene/UI/Scripts/main_menu.gd`
+  - `2026-08-13 16:44` `res://Scene/UI/Scripts/save_slot_card.gd`
+  - `2026-08-13 16:44` `res://Scene/UI/Scripts/save_slot_card.gd.uid`
+  - `2026-08-13 16:39` `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`
+  - `2026-08-13 11:56` `res://Scene/Shelter_Scene/test/test_facility.tscn`
+  - `2026-08-13 11:56` `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
+  - `2026-08-13 11:56` `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
+  - `2026-08-13 11:56` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-13 11:42` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`
+  - `2026-08-13 11:42` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd.uid`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/search_UI.gd`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/UI/search_ui.tscn`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/ui_manager.gd`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/inventory_manager.gd`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/search_manager.gd`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/interaction_manager.gd`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Data/item_data_base.gd`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Data/interaction_object.gd`
+  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Data/item_data.gd`
+  - `2026-08-13 11:27` `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`
+  - `2026-08-13 11:27` `res://Scene/DungeonScene/world.tscn`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd.uid`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_gizmo.gd.uid`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_gizmo.gd`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd.uid`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd.uid`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd.uid`
+  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`
+  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`
+  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd.uid`
+  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room.gd.uid`
+  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room.gd`
   - `2026-08-08 21:14` `res://Scene/UI/filelist.tscn25142638062.tmp`
-  - `2026-08-08 21:14` `res://Scene/UI/filelist.tscn`
   - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd.uid`
   - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`
   - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd.uid`
@@ -56,22 +103,14 @@
   - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL2_Standard.glb`
   - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb.import`
   - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-  - `2026-08-08 21:14` `res://Scene/Search_system/Script/Manager/search_manager.gd`
-  - `2026-08-08 21:14` `res://Scene/Search_system/Script/Manager/interaction_manager.gd`
   - `2026-08-08 21:14` `res://Game_Design_Brief.md`
-  - `2026-08-08 13:27` `res://Scene/Search_system/Script/Manager/ui_manager.gd`
   - `2026-08-08 08:22` `res://export_context.py`
   - `2026-08-07 11:24` `res://Scene/Search_system/Script/search_UI.gd.uid`
-  - `2026-08-07 11:24` `res://Scene/Search_system/Script/search_UI.gd`
   - `2026-08-07 11:24` `res://Scene/Search_system/Script/inventory_ui.gd`
   - `2026-08-07 11:24` `res://Scene/Search_system/Script/Manager/inventory_manager.gd.uid`
   - `2026-08-07 11:24` `res://Scene/Search_system/Script/Data/item_data_base.gd.uid`
-  - `2026-08-07 11:24` `res://Scene/Search_system/Script/Manager/inventory_manager.gd`
-  - `2026-08-07 11:24` `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`
-  - `2026-08-07 11:24` `res://Scene/Search_system/Script/Data/item_data_base.gd`
   - `2026-08-07 11:23` `res://Scene/UI/options.tscn`
   - `2026-08-07 11:23` `res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battlescene.tscn`
   - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_combat_data.gd`
   - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn`
   - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/actions.tscn`
@@ -83,36 +122,7 @@
   - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.tscn`
   - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn`
   - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`
-  - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`
-  - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`
-  - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn`
-  - `2026-08-06 12:09` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_skill.gd`
-  - `2026-08-06 12:09` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_manager.gd`
-  - `2026-08-06 12:09` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_idle.gd`
-  - `2026-08-06 12:09` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_attack.gd`
-  - `2026-08-06 12:09` `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/player_infromation.gd`
-  - `2026-08-06 12:09` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`
-  - `2026-08-06 12:09` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.gd.uid`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.gd`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/timeline_action.gd`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.gd`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd.uid`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd.uid`
-  - `2026-08-05 22:01` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`
-  - `2026-08-04 09:14` `res://Scene/Battle_Scene/Battlescene.tscn1508848853.tmp`
-  - `2026-08-04 09:14` `res://DataBase/AllCardData.csv`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
-  - `2026-08-03 18:11` `res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn`
-  - `2026-08-01 10:41` `res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd`
-  - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/timeline_action.gd.uid`
-  - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd`
-  - `2026-07-30 20:24` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`
-  - `2026-07-30 11:14` `res://Scene/VisualTest_MAP/visualtest_map.tscn`
-  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Main/Battle_UI.tscn`
-  - `2026-07-30 11:14` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd`
-  - `... 225 more recent files omitted ...`
+  - `... 249 more recent files omitted ...`
 
 ## Script Architecture Index
 
@@ -208,24 +218,34 @@
 | `res://Scene/Main_Scene/Scripts/Manager/game_manager.gd` | `Node` | `-` | 0 | 2 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd` | `Node` | `-` | 0 | 0 | 7 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
-| `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd` | `Node` | `-` | 0 | 0 | 6 | 0 |
+| `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd` | `Node` | `-` | 0 | 0 | 10 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd` | `Node` | `-` | 0 | 0 | 7 | 0 |
 | `res://Scene/Search_system/Script/Data/interaction_object.gd` | `Node` | `InteractableObject` | 0 | 0 | 2 | 0 |
 | `res://Scene/Search_system/Script/Data/item_data.gd` | `-` | `ItemData` | 0 | 0 | 0 | 0 |
 | `res://Scene/Search_system/Script/Data/item_data_base.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
 | `res://Scene/Search_system/Script/inventory_ui.gd` | `Node` | `InventoryUI` | 0 | 0 | 2 | 0 |
-| `res://Scene/Search_system/Script/Manager/interaction_manager.gd` | `-` | `-` | 0 | 0 | 0 | 0 |
-| `res://Scene/Search_system/Script/Manager/inventory_manager.gd` | `Node` | `-` | 0 | 0 | 1 | 0 |
-| `res://Scene/Search_system/Script/Manager/search_manager.gd` | `-` | `-` | 0 | 0 | 0 | 0 |
-| `res://Scene/Search_system/Script/Manager/ui_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
-| `res://Scene/Search_system/Script/search_UI.gd` | `Node` | `SearchUI` | 0 | 0 | 3 | 0 |
+| `res://Scene/Search_system/Script/Manager/interaction_manager.gd` | `Node` | `-` | 0 | 0 | 5 | 0 |
+| `res://Scene/Search_system/Script/Manager/inventory_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
+| `res://Scene/Search_system/Script/Manager/search_manager.gd` | `Node` | `-` | 0 | 1 | 5 | 0 |
+| `res://Scene/Search_system/Script/Manager/ui_manager.gd` | `Node` | `-` | 0 | 0 | 5 | 0 |
+| `res://Scene/Search_system/Script/search_UI.gd` | `Control` | `SearchUI` | 0 | 0 | 3 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd` | `Node` | `ShelterEditModeController` | 1 | 5 | 7 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd` | `StaticBody3D` | `ShelterFacility` | 0 | 3 | 1 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd` | `Node` | `ShelterFacilityBuildController` | 1 | 7 | 23 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_gizmo.gd` | `Node3D` | `ShelterFacilityGizmo` | 0 | 10 | 8 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room.gd` | `Node3D` | `ShelterRoom` | 0 | 0 | 5 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd` | `Node` | `ShelterRoomBuildController` | 0 | 5 | 19 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd` | `Node3D` | `ShelterRoomManager` | 4 | 6 | 9 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd` | `Node` | `CameraDebugSwitcher` | 0 | 3 | 3 | 0 |
-| `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd` | `Camera3D` | `ShelterCamera` | 0 | 3 | 3 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd` | `Node` | `ShelterNPCRaidInteraction` | 0 | 8 | 10 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd` | `Node` | `ShelterSaveBridge` | 0 | 2 | 11 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd` | `Camera3D` | `ShelterCamera` | 0 | 13 | 10 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/shelter_player.gd` | `CharacterBody3D` | `ShelterPlayer` | 0 | 13 | 7 | 0 |
-| `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 8 | 9 | 1 |
+| `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 3 | 10 | 0 |
 | `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 4 | 6 | 0 |
 | `res://Scene/UI/Scripts/options_menu.gd` | `Control` | `-` | 0 | 0 | 7 | 1 |
+| `res://Scene/UI/Scripts/save_slot_card.gd` | `PanelContainer` | `SaveSlotCard` | 2 | 0 | 3 | 0 |
 | `res://Scene/UI/Scripts/world_interaction_HUD.gd` | `Control` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/VisualTest_MAP/scripts/camera_3dmove.gd` | `Camera3D` | `-` | 0 | 3 | 3 | 0 |
 
@@ -321,24 +341,34 @@
 - **`res://Scene/Main_Scene/Scripts/Manager/game_manager.gd`** — methods: `_ready()`, `_on_event_bus_enter_battle_scene()`; signals: (none); exports: `scene_holder`, `current_scene`
 - **`res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd`** — methods: `_get_inv()`, `get_items()`, `get_item_by_uid()`, `move_item()`, `enter_raid()`, `settle_death_penalty()`, `_reduce_durability()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`** — methods: `_ready()`, `load_csv_data()`, `get_item_data()`; signals: (none); exports: (none)
-- **`res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`** — methods: `_ready()`, `create_new_save()`, `save_current_state()`, `get_all_saves()`, `load_save()`, `delete_save()`; signals: (none); exports: (none)
+- **`res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`** — methods: `_ready()`, `save_current_state()`, `get_all_saves()`, `has_any_save()`, `get_last_save_id()`, `get_shelter_data()`, `_create_default_shelter_data()`, `_load_meta()`, `_ensure_save_directory()`, `_generate_save_id()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd`** — methods: `_ready()`, `transition_to()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd`** — methods: `_ready()`, `set_master_volume()`, `get_master_volume()`, `set_resolution()`, `set_fullscreen()`, `save_settings()`, `load_settings()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Data/interaction_object.gd`** — methods: `interact()`, `generate_loot()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Data/item_data.gd`** — methods: (none detected); signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Data/item_data_base.gd`** — methods: `load_csv()`, `get_random_items()`, `find_item()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/inventory_ui.gd`** — methods: `refresh()`, `update_list()`; signals: (none); exports: (none)
-- **`res://Scene/Search_system/Script/Manager/interaction_manager.gd`** — methods: (none detected); signals: (none); exports: (none)
-- **`res://Scene/Search_system/Script/Manager/inventory_manager.gd`** — methods: `add_item()`; signals: (none); exports: (none)
-- **`res://Scene/Search_system/Script/Manager/search_manager.gd`** — methods: (none detected); signals: (none); exports: (none)
-- **`res://Scene/Search_system/Script/Manager/ui_manager.gd`** — methods: `show_inventory()`, `show_search()`, `refresh_search()`, `hide_all()`; signals: (none); exports: (none)
+- **`res://Scene/Search_system/Script/Manager/interaction_manager.gd`** — methods: `set_current_object()`, `clear_current_object()`, `try_interact()`, `open_search()`, `close_search()`; signals: (none); exports: (none)
+- **`res://Scene/Search_system/Script/Manager/inventory_manager.gd`** — methods: `add_item()`, `remove_item()`, `has_item()`, `get_items()`; signals: (none); exports: (none)
+- **`res://Scene/Search_system/Script/Manager/search_manager.gd`** — methods: `open_search()`, `generate_items()`, `take_item()`, `get_items()`, `clear()`; signals: (none); exports: `rng`
+- **`res://Scene/Search_system/Script/Manager/ui_manager.gd`** — methods: `show_inventory()`, `show_search()`, `refresh_search()`, `refresh_inventory()`, `hide_all()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/search_UI.gd`** — methods: `refresh()`, `remove_item()`, `close()`; signals: (none); exports: (none)
+- **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`** — methods: `_ready()`, `get_mode()`, `is_facility_build_mode()`, `is_room_layout_mode()`, `_enter_gameplay_mode()`, `_enter_facility_build_mode()`, `_enter_room_layout_mode()`; signals: `edit_mode_changed`; exports: `player`, `gameplay_camera`, `room_build_controller`, `facility_build_controller`, `current_mode`
+- **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`** — methods: `get_save_state()`; signals: (none); exports: `facility_id`, `display_name`, `placement_size`
+- **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`** — methods: `_ready()`, `_process()`, `_enter_facility_build()`, `_exit_facility_build()`, `_find_player_room()`, `_spawn_test_ghost()`, `_clear_ghost()`, `_create_gizmo()`, `_update_gizmo_transform()`, `_update_gizmo_mode()`, `_begin_gizmo_drag()`, `_end_gizmo_drag()`, `_update_active_drag()`, `_update_translation_drag_x()`, `_update_translation_drag_z()`, `_update_translation_drag_xz()`, `_update_rotation_drag()`, `_get_mouse_gizmo_plane_point()`, `_update_ghost_validity()`, `_is_inside_current_room()`, `_is_overlapping_obstacle()`, `_confirm_placement()`, `_create_preview_materials()`; signals: `facility_changed`; exports: `room_manager`, `gameplay_camera`, `player`, `test_facility_scene`, `collision_floor_epsilon`, `boundary_epsilon`, `rotation_facing_offset_degrees`
+- **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_gizmo.gd`** — methods: `_ready()`, `get_gizmo_plane_height()`, `_create_visuals()`, `_create_center_handle()`, `_create_x_axis()`, `_create_z_axis()`, `_create_rotation_ring()`, `_create_materials()`; signals: (none); exports: `center_size`, `axis_length`, `axis_thickness`, `arrow_head_length`, `arrow_head_radius`, `axis_pick_half_width`, `rotation_inner_radius`, `rotation_outer_radius`, `rotation_pick_margin`, `rotation_mode_enabled`
+- **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room.gd`** — methods: `get_occupied_cells()`, `_ensure_facilities_root()`, `_update_world_position()`, `_rebuild_floor()`, `_rotate_facilities()`; signals: (none); exports: (none)
+- **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`** — methods: `_ready()`, `_process()`, `_toggle_build_mode()`, `_enter_build_mode()`, `_exit_build_mode()`, `_select_room_under_mouse()`, `_clear_selection()`, `_start_moving_selected_room()`, `_delete_selected_room()`, `_rotate_pending_room()`, `_update_placement_preview()`, `_refresh_ghost_shape()`, `_confirm_placement()`, `_cancel_placement()`, `_get_mouse_ground_point()`, `_refresh_selection_marker()`, `_create_preview_nodes()`, `_create_materials()`, `_validate_setup()`; signals: (none); exports: `room_manager`, `gameplay_camera`, `restrict_building_to_initial_left_side`, `ghost_height`, `ghost_alpha`
+- **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`** — methods: `_ready()`, `can_remove_room()`, `remove_room()`, `get_room()`, `_create_initial_room()`, `_rebuild_all_walls()`, `_create_runtime_roots()`, `_create_wall_material()`, `_create_debug_layout()`; signals: `room_added`, `room_moved`, `room_removed`, `facility_storage_requested`; exports: `cell_size`, `wall_height`, `wall_thickness`, `door_width`, `initial_room_origin`, `rooms`
 - **`res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`** — methods: `_ready()`, `_input()`, `_toggle_camera()`; signals: (none); exports: `gameplay_camera`, `debug_camera`, `using_debug_camera`
-- **`res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`** — methods: `_ready()`, `_physics_process()`, `_update_camera_transform()`; signals: (none); exports: `target`, `camera_offset`, `look_height`
+- **`res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`** — methods: `_ready()`, `_connect_detection_areas()`, `_create_ui()`, `_update_interaction_prompt()`, `_hide_interaction_prompt()`, `_open_confirmation_dialog()`, `_on_confirmation_yes()`, `_on_confirmation_no()`, `_enter_battle()`, `_validate_setup()`; signals: (none); exports: `player`, `npc_interaction_area`, `raid_entry_area`, `battle_scene`, `interaction_text`, `authorized_text`, `dialog_title`, `dialog_text`
+- **`res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`** — methods: `_ready()`, `_connect_change_signals()`, `_on_facility_changed()`, `_queue_save()`, `_save_queued_changes()`, `save_shelter_now()`, `_serialize_rooms()`, `_serialize_storage()`, `_restore_from_current_save()`, `_sanitize_storage_collisions()`, `_validate_setup()`; signals: (none); exports: `room_manager`, `_restoring`
+- **`res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`** — methods: `_ready()`, `_physics_process()`, `_unhandled_input()`, `get_camera_mode()`, `_enter_gameplay_camera()`, `_update_gameplay_transform()`, `_enter_facility_camera()`, `_update_facility_transform()`, `_enter_room_camera()`, `_update_room_transform()`; signals: (none); exports: `target`, `camera_offset`, `look_height`, `facility_pan_speed`, `facility_zoom_min`, `facility_zoom_max`, `facility_zoom_step`, `room_pan_speed`, `room_camera_height`, `room_zoom_min`, `room_zoom_max`, `room_zoom_default`
 - **`res://Scene/Shelter_Scene/Scripts/shelter_player.gd`** — methods: `_ready()`, `_physics_process()`, `_calculate_move_direction()`, `_apply_gravity()`, `_update_animation()`, `_play_animation()`, `_validate_setup()`; signals: (none); exports: `walk_speed`, `run_speed`, `acceleration`, `deceleration`, `rotation_speed`, `visual_root`, `movement_reference`, `animation_player`, `model_yaw_offset_degrees`, `idle_animation`, `walk_animation`, `run_animation`
-- **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_unhandled_input()`, `_return_to_main_menu()`, `_refresh_save_list()`, `_on_delete_requested()`, `_on_confirm_delete_save()`, `_on_exist_save_clicked()`, `_on_new_save_slot_clicked()`, `_on_confirm_create_save()`; signals: (none); exports: `base_scene`, `name_input_panel`, `line_edit`, `confirm_button`, `cancel_button`, `delete_confirm_panel`, `confirm_delete_btn`, `pending_delete_id`
-- **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `battle_system_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
+- **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_refresh_save_list()`, `_clear_save_cards()`, `_open_create_dialog()`, `_close_create_dialog()`, `_confirm_create_save()`, `_close_delete_dialog()`, `_confirm_delete_save()`, `_return_to_main_menu()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `save_slot_card_scene`, `transition_duration`
+- **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/options_menu.gd`** — methods: `_ready()`, `_on_volume_changed()`, `_on_resolution_selected()`, `_on_fullscreen_toggled()`, `_update_volume_label()`, `_unhandled_input()`, `_return_to_main_menu()`; signals: (none); exports: (none)
+- **`res://Scene/UI/Scripts/save_slot_card.gd`** — methods: `_ready()`, `_on_play_pressed()`, `_on_delete_pressed()`; signals: `play_requested`, `delete_requested`; exports: (none)
 - **`res://Scene/UI/Scripts/world_interaction_HUD.gd`** — methods: `_ready()`, `_on_interaction_prompt_requested()`; signals: (none); exports: (none)
 - **`res://Scene/VisualTest_MAP/scripts/camera_3dmove.gd`** — methods: `_ready()`, `_input()`, `_process()`; signals: (none); exports: `mouse_sensitivity`, `move_speed`, `pitch`
 
@@ -374,21 +404,24 @@
 | `res://Scene/DungeonScene/Scenes/PrefabScenes/test_obstatic2.tscn` | `testobstacle2/Node2D` | 4 | 2 | 1 | 0 |
 | `res://Scene/DungeonScene/Scenes/PrefabScenes/testobstacle1.tscn` | `testobstacle1/Node2D` | 5 | 2 | 1 | 0 |
 | `res://Scene/DungeonScene/Scenes/PrefabScenes/wall.tscn` | `Wall/Node2D` | 4 | 2 | 1 | 0 |
-| `res://Scene/DungeonScene/world.tscn` | `World/Node3D` | 5 | 0 | 1 | 3 |
+| `res://Scene/DungeonScene/world.tscn` | `World/Node3D` | 6 | 0 | 2 | 4 |
 | `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn` | `Box/StaticBody3D` | 6 | 2 | 1 | 1 |
 | `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn` | `file_cabinet_smallest2` | 1 | 0 | 0 | 0 |
 | `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn` | `Door/StaticBody3D` | 7 | 2 | 1 | 0 |
 | `res://Scene/DungeonScenes(3D)/TestScence2.tscn` | `Room/Node3D` | 67 | 0 | 1 | 5 |
 | `res://Scene/DungeonScenes(3D)/TestScene.tscn` | `Node3D/Node3D` | 66 | 0 | 0 | 7 |
 | `res://Scene/Main_Scene/MAIN.tscn` | `MAIN/Node` | 4 | 0 | 1 | 1 |
+| `res://Scene/Search_system/Script/UI/search_ui.tscn` | `SearchUI/Control` | 2 | 0 | 0 | 0 |
 | `res://Scene/Shelter_Scene/player/shelter_player.tscn` | `ShelterPlayer/CharacterBody3D` | 4 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` | `UAL1_Standard` | 2 | 0 | 0 | 0 |
-| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 29 | 0 | 1 | 1 |
+| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 39 | 0 | 7 | 3 |
 | `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` | `ShelterMovementTest/Node3D` | 7 | 0 | 1 | 1 |
+| `res://Scene/Shelter_Scene/test/test_facility.tscn` | `TestFacility/StaticBody3D` | 3 | 0 | 1 | 0 |
 | `res://Scene/UI/context_action_menu.tscn` | `ContextActionMenu/CanvasLayer` | 5 | 0 | 1 | 0 |
-| `res://Scene/UI/filelist.tscn` | `filelist/Control` | 17 | 0 | 1 | 0 |
+| `res://Scene/UI/filelist.tscn` | `filelist/Control` | 41 | 0 | 1 | 2 |
 | `res://Scene/UI/main_menu.tscn` | `MainMenu/Control` | 15 | 0 | 1 | 3 |
 | `res://Scene/UI/options.tscn` | `options/Control` | 17 | 0 | 1 | 0 |
+| `res://Scene/UI/save_slot_card.tscn` | `SaveSlotCard/PanelContainer` | 11 | 0 | 1 | 0 |
 | `res://Scene/UI/world_interactionUI.tscn` | `Control/Control` | 3 | 0 | 1 | 0 |
 | `res://Scene/VisualTest_MAP/Art/armchair_blue_2.tscn` | `armchair_blue2` | 1 | 0 | 0 | 0 |
 | `res://Scene/VisualTest_MAP/Art/book_case_2.tscn` | `book_case2` | 1 | 0 | 0 | 0 |
@@ -445,19 +478,21 @@
 - **`res://Scene/DungeonScene/Scenes/PrefabScenes/test_obstatic2.tscn`** → `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - **`res://Scene/DungeonScene/Scenes/PrefabScenes/testobstacle1.tscn`** → `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - **`res://Scene/DungeonScene/Scenes/PrefabScenes/wall.tscn`** → `res://Scene/DungeonScene/Script/Wall_shelter.gd`
-- **`res://Scene/DungeonScene/world.tscn`** → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`
+- **`res://Scene/DungeonScene/world.tscn`** → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/Search_system/Script/search_UI.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/Search_system/Script/UI/search_ui.tscn`, `res://Scene/UI/world_interactionUI.tscn`
 - **`res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn`
 - **`res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`
 - **`res://Scene/DungeonScenes(3D)/TestScence2.tscn`** → `res://Scene/DungeonScenes(3D)/Scripts/room.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - **`res://Scene/DungeonScenes(3D)/TestScene.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - **`res://Scene/Main_Scene/MAIN.tscn`** → `res://Scene/Main_Scene/main.gd`, `res://Scene/UI/main_menu.tscn`
 - **`res://Scene/Shelter_Scene/player/shelter_player.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-- **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
 - **`res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- **`res://Scene/Shelter_Scene/test/test_facility.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - **`res://Scene/UI/context_action_menu.tscn`** → `res://Scene/UI/Scripts/context_action_menu.gd`
-- **`res://Scene/UI/filelist.tscn`** → `res://Scene/UI/Scripts/filelist_menu.gd`
-- **`res://Scene/UI/main_menu.tscn`** → `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`
+- **`res://Scene/UI/filelist.tscn`** → `res://Scene/UI/Scripts/filelist_menu.gd`, `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/save_slot_card.tscn`
+- **`res://Scene/UI/main_menu.tscn`** → `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`
 - **`res://Scene/UI/options.tscn`** → `res://Scene/UI/Scripts/options_menu.gd`
+- **`res://Scene/UI/save_slot_card.tscn`** → `res://Scene/UI/Scripts/save_slot_card.gd`
 - **`res://Scene/UI/world_interactionUI.tscn`** → `res://Scene/UI/Scripts/world_interaction_HUD.gd`
 - **`res://Scene/VisualTest_MAP/visualtest_map.tscn`** → `res://Scene/VisualTest_MAP/scripts/camera_3dmove.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`, `res://Scene/VisualTest_MAP/Art/armchair_blue_2.tscn`, `res://Scene/VisualTest_MAP/Art/book_case_2.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/coffee_machine_2.tscn`, `res://Scene/VisualTest_MAP/Art/computer_keyboard_2.tscn`, `res://Scene/VisualTest_MAP/Art/computer_monitor_2.tscn`, `res://Scene/VisualTest_MAP/Art/computer_mouse_2.tscn`, `res://Scene/VisualTest_MAP/Art/desk_12.tscn`, `res://Scene/VisualTest_MAP/Art/desk_1_alt_22.tscn`, `res://Scene/VisualTest_MAP/Art/divider_black_blue_half_2.tscn`, `res://Scene/VisualTest_MAP/Art/elastic_ball_2.tscn`, `res://Scene/VisualTest_MAP/Art/enemytest_map.tscn`, `res://Scene/VisualTest_MAP/Art/file_binder_alt_42.tscn`, `res://Scene/VisualTest_MAP/Art/file_cabinet_smaller_with_shelfs_2.tscn`, `res://Scene/VisualTest_MAP/Art/file_cabinet_smallest_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`, `res://Scene/VisualTest_MAP/Art/glass_2.tscn`, `res://Scene/VisualTest_MAP/Art/mug_2.tscn`
 
@@ -501,7 +536,7 @@
 - `res://Scene/DungeonScene/Scenes/PrefabScenes/testobstacle1.tscn` → `res://Scene/DungeonScene/Arts/Dungeon_Tiles.png`, `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - `res://Scene/DungeonScene/Scenes/PrefabScenes/wall.tscn` → `res://Scene/DungeonScene/Arts/Dungeon_Tiles.png`, `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - `res://Scene/DungeonScene/Script/Manager/RoomDataManager.gd` → `res://DataBase/DungeonDataBase/RoomType_and_Weight data.csv`
-- `res://Scene/DungeonScene/world.tscn` → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`
+- `res://Scene/DungeonScene/world.tscn` → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/Search_system/Script/UI/search_ui.tscn`, `res://Scene/Search_system/Script/search_UI.gd`, `res://Scene/UI/world_interactionUI.tscn`
 - `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn`
 - `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn` → `res://Scene/VisualTest_MAP/Art/file_cabinet_smallest.glb`
 - `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`
@@ -514,13 +549,14 @@
 - `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Armors.csv`, `res://DataBase/Items/Materials.csv`, `res://DataBase/Items/Weapons.csv`
 - `res://Scene/Shelter_Scene/player/shelter_player.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` → `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
 - `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+- `res://Scene/Shelter_Scene/test/test_facility.tscn` → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
-- `res://Scene/UI/filelist.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Battle_Scene/Card_Scene/Card.tscn\`, `res://Scene/UI/Scripts/filelist_menu.gd`
-- `res://Scene/UI/main_menu.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+- `res://Scene/UI/filelist.tscn` → `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/Scripts/filelist_menu.gd`, `res://Scene/UI/save_slot_card.tscn`
+- `res://Scene/UI/main_menu.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
 - `res://Scene/UI/options.tscn` → `res://Scene/UI/Arts/Options.png`, `res://Scene/UI/Scripts/options_menu.gd`
-- `res://Scene/UI/Scripts/filelist_menu.gd` → `res://Scene/UI/main_menu.tscn`
+- `res://Scene/UI/save_slot_card.tscn` → `res://Scene/UI/Scripts/save_slot_card.gd`
 - `res://Scene/UI/Scripts/options_menu.gd` → `res://Scene/UI/main_menu.tscn`
 - `res://Scene/UI/world_interactionUI.tscn` → `res://Scene/UI/Scripts/world_interaction_HUD.gd`
 - `res://Scene/VisualTest_MAP/Art/armchair_blue_2.tscn` → `res://Scene/VisualTest_MAP/Art/armchair_blue.glb`
@@ -613,7 +649,6 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Materials.csv`
 - `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Weapons.csv`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
-- `res://Scene/UI/filelist.tscn` → `res://Scene/Battle_Scene/Card_Scene/Card.tscn\`
 
 ## TODO / FIXME / HACK Markers
 
@@ -632,7 +667,6 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_inventory.gd:100` — `# TODO 鞋子（韧性增加）！！！ 韧性系统未制作`
 - `res://Scene/Battle_Scene/Card_Scene/Card.tscn:79` — `text = "THIS IS A BUG"`
 - `res://Scene/UI/options.tscn:68` — `text = "THIS IS A BUG"`
-- `res://Scene/UI/Scripts/filelist_menu.gd:7` — `@export var base_scene: PackedScene # 修复之前未声明 base_scene 的 Bug！`
 - `res://Scene/UI/Scripts/options_menu.gd:5` — `@onready var volume_percent_label = $VBoxContainer/MarginContainer/HBoxContainer/Label2 # 原 "THIS IS A BUG" 节点`
 
 ## Text / Scene / Code Tree
@@ -859,6 +893,8 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │       │   ├── inventory_manager.gd
 │   │       │   ├── search_manager.gd
 │   │       │   └── ui_manager.gd
+│   │       ├── UI
+│   │       │   └── search_ui.tscn
 │   │       ├── inventory_ui.gd
 │   │       └── search_UI.gd
 │   ├── Shelter_Scene
@@ -866,22 +902,37 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   ├── shelter_player.tscn
 │   │   │   └── shelter_player_visual.tscn
 │   │   ├── Scripts
+│   │   │   ├── BuildSystem
+│   │   │   │   ├── shelter_edit_mode_controller.gd
+│   │   │   │   ├── shelter_facility.gd
+│   │   │   │   ├── shelter_facility_build_controller.gd
+│   │   │   │   ├── shelter_facility_gizmo.gd
+│   │   │   │   ├── shelter_room.gd
+│   │   │   │   ├── shelter_room_build_controller.gd
+│   │   │   │   └── shelter_room_manager.gd
+│   │   │   ├── Interaction
+│   │   │   │   └── shelter_npc_raid_interaction.gd
+│   │   │   ├── Save
+│   │   │   │   └── shelter_save_bridge.gd
 │   │   │   ├── camera_debug_switcher.gd
 │   │   │   ├── shelter_camera.gd
 │   │   │   └── shelter_player.gd
 │   │   ├── test
-│   │   │   └── shelter_movement_test.tscn
+│   │   │   ├── shelter_movement_test.tscn
+│   │   │   └── test_facility.tscn
 │   │   └── shelter.tscn
 │   ├── UI
 │   │   ├── Scripts
 │   │   │   ├── filelist_menu.gd
 │   │   │   ├── main_menu.gd
 │   │   │   ├── options_menu.gd
+│   │   │   ├── save_slot_card.gd
 │   │   │   └── world_interaction_HUD.gd
 │   │   ├── context_action_menu.tscn
 │   │   ├── filelist.tscn
 │   │   ├── main_menu.tscn
 │   │   ├── options.tscn
+│   │   ├── save_slot_card.tscn
 │   │   └── world_interactionUI.tscn
 │   └── VisualTest_MAP
 │       ├── Art
@@ -929,7 +980,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 
 ### By extension
 
-`.import`: 149, `.uid`: 117, `.png`: 47, `.glb`: 44, `.jpg`: 40, `.tmp`: 22, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `.translation`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
+`.import`: 149, `.uid`: 127, `.png`: 47, `.glb`: 44, `.jpg`: 40, `.tmp`: 22, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `.translation`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
 
 ### By top-level folder
 
@@ -937,7 +988,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `Audio`: .wav=4, .import=4
 - `DataBase`: .import=6
 - `Localization`: .translation=4, .import=2
-- `Scene`: .import=130, .uid=115, .png=47, .glb=42, .jpg=40, .tmp=22, .aseprite=9, .gif=6, .fbx=1
+- `Scene`: .import=130, .uid=125, .png=47, .glb=42, .jpg=40, .tmp=22, .aseprite=9, .gif=6, .fbx=1
 - `export_context.py`: .py=1
 - `gitattributes`: [no extension]=1
 - `gitignore`: [no extension]=1
@@ -961,7 +1012,7 @@ Core project files are embedded below in priority order. Large files may be trun
 
 ### `res://project.godot`
 
-- Category: `project`; bytes: `7813`; sha256/16: `be5e6f96478ca634`
+- Category: `project`; bytes: `7813`; sha256/16: `1dfefda6fd2a24b7`
 
 
 ```ini
@@ -996,10 +1047,10 @@ PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_de
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 InventoryManager="*res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd"
 UIManager="*res://Scene/Search_system/Script/Manager/ui_manager.gd"
-InteractionManager="*res://Scene/Search_system/Script/Manager/interaction_manager.gd"
-SearchManager="*res://Scene/Search_system/Script/Manager/search_manager.gd"
 ItemDataBase="*res://Scene/Search_system/Script/Data/item_data_base.gd"
 MAPInventoryManager="*res://Scene/Search_system/Script/Manager/inventory_manager.gd"
+SearchManager="*res://Scene/Search_system/Script/Manager/search_manager.gd"
+InteractionManager="*res://Scene/Search_system/Script/Manager/interaction_manager.gd"
 
 [debug]
 
@@ -10981,123 +11032,707 @@ func get_item_data(template_id: String) -> Dictionary:
 
 ### `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`
 
-- Category: `script`; bytes: `3751`; sha256/16: `04953e242eee64f6`
+- Category: `script`; bytes: `12021`; sha256/16: `42caa5ae8b464f46`
 
 
 ```gdscript
 extends Node
-# save_manager.gd
 
-const SAVE_DIR = "user://saves/"
+# Save Manager
+#
+# 一个 save_xxx.json = 一个完整游戏进度。
+#
+# 当前包含：
+#
+# - 基础存档信息
+# - Inventory
+# - Raid 状态
+# - Shelter
+#
+# 未来：
+# - Quest
+# - Character Progression
+# - Map Progress
+# - Settings bound to save
+# ...
+#
+#
+# save_meta.cfg 不是游戏存档。
+# 它只记录：
+#
+# last_save_id
+#
+# 用于主菜单“开始游戏”快速进入上一次存档。
+
+const SAVE_DIR: String = "user://saves/"
+const META_PATH: String = "user://save_meta.cfg"
+
+const SAVE_VERSION: int = 2
+const SHELTER_SAVE_VERSION: int = 1
+
 var current_save: Dictionary = {}
 
+var _meta: ConfigFile = ConfigFile.new()
+
 func _ready() -> void:
-	var dir = DirAccess.open("user://")
-	if not dir.dir_exists("saves"):
-		dir.make_dir("saves")
+	_ensure_save_directory()
+	_load_meta()
 
-# 1. 创建全新扁平化存档
-func create_new_save(player_name: String) -> String:
-	var save_id = str(Time.get_unix_time_from_system())
+# Public - Create
 
-	var default_inventory = [
+func create_new_save(
+	player_name: String
+) -> String:
+	var clean_name: String = (
+		player_name.strip_edges()
+	)
+
+	if clean_name.is_empty():
+		push_warning(
+			"SaveManager: 存档名称不能为空。"
+		)
+		return ""
+
+	var save_id: String = _generate_save_id()
+
+	var now: int = int(
+		Time.get_unix_time_from_system()
+	)
+
+	var default_inventory: Array = [
 		{
-			"uid": "uid_" + str(Time.get_unix_time_from_system()) + "_1",
-			"template_id": "w_001", # 对应图鉴里的锈蚀砍刀
-			"location": "equipped_weapon_1", # 出生直接装备在主武器槽
+			"uid": "uid_%s_1" % save_id,
+			"template_id": "w_001",
+			"location": "equipped_weapon_1",
 			"current_durability": 100,
 			"is_broken": false,
-			"equipped_cards": [10001, 10001, 10002] # 玩家精炼后保存的牌组
+			"equipped_cards": [
+				10001,
+				10001,
+				10002
+			]
 		},
 		{
-			"uid": "uid_" + str(Time.get_unix_time_from_system()) + "_2",
-			"template_id": "i_001", # 对应治疗药水
-			"location": "warehouse", # 出生放在仓库里
+			"uid": "uid_%s_2" % save_id,
+			"template_id": "i_001",
+			"location": "warehouse",
 			"count": 3
 		}
 	]
 
-	var save_data = {
+	current_save = {
+		"save_version": SAVE_VERSION,
+
 		"id": save_id,
-		"name": player_name,
-		"in_raid": false, # 局内死神标记：如果在 true 的状态下读取存档，说明非正常断开或战死
-		"inventory": default_inventory
+		"name": clean_name,
+
+		"created_at_unix": now,
+		"last_played_at_unix": now,
+
+		"in_raid": false,
+
+		"inventory": default_inventory,
+
+		"shelter": _create_default_shelter_data()
 	}
 
-	current_save = save_data
-	save_current_state()
-	print("💾 存档创建成功！特工: %s, 唯一ID: %s" % [player_name, save_id])
+	if not save_current_state():
+		current_save.clear()
+		return ""
+
+	_set_last_save_id(
+		save_id
+	)
+
+	print(
+		"SaveManager: 创建存档 %s (%s)"
+		% [
+			clean_name,
+			save_id
+		]
+	)
+
 	return save_id
 
-# 2. 方案A：安全双缓冲保存机制 (防崩溃/断电坏档)
-func save_current_state() -> void:
+# Public - Save
+
+func save_current_state() -> bool:
 	if current_save.is_empty():
-		push_error("SaveManager: 当前没有加载存档，无法保存！")
-		return
+		push_warning(
+			"SaveManager: 当前没有加载存档，跳过保存。"
+		)
+		return false
 
-	var save_id = current_save["id"]
-	var tmp_file_name = "save_" + save_id + ".tmp"
-	var json_file_name = "save_" + save_id + ".json"
+	current_save = _normalize_save_data(
+		current_save
+	)
 
-	# 第一步：写入临时文件 .tmp
-	var file = FileAccess.open(SAVE_DIR + tmp_file_name, FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(current_save, "\t"))
-		file.close()
-	else:
-		push_error("SaveManager: 临时文件写入失败！")
-		return
+	current_save["save_version"] = SAVE_VERSION
 
-	# 第二步：写入成功后，安全的替换原有 .json 文件
-	var dir = DirAccess.open(SAVE_DIR)
-	if dir:
-		# 如果原文件存在，先删掉旧的
-		if dir.file_exists(json_file_name):
-			var err = dir.remove(json_file_name)
-			if err != OK:
-				push_error("SaveManager: 无法删除旧存档文件！")
-				return
+	current_save["last_played_at_unix"] = int(
+		Time.get_unix_time_from_system()
+	)
 
-		# 将 .tmp 重命名为 .json，完成无缝偷天换日
-		var rename_err = dir.rename(tmp_file_name, json_file_name)
-		if rename_err == OK:
-			print("✅ 游戏进度已安全保存！(双缓冲机制执行完毕)")
-		else:
-			push_error("SaveManager: 临时文件转正失败！")
+	var save_id: String = str(
+		current_save.get(
+			"id",
+			""
+		)
+	)
 
-# 3. 读取存档与扫描功能 (保持不变，略作优化)
+	if save_id.is_empty():
+		push_error(
+			"SaveManager: current_save 缺少 id。"
+		)
+		return false
+
+	var tmp_name: String = (
+		"save_%s.tmp" % save_id
+	)
+
+	var json_name: String = (
+		"save_%s.json" % save_id
+	)
+
+	var tmp_path: String = (
+		SAVE_DIR + tmp_name
+	)
+
+	var file: FileAccess = FileAccess.open(
+		tmp_path,
+		FileAccess.WRITE
+	)
+
+	if file == null:
+		push_error(
+			"SaveManager: 无法创建临时存档文件。"
+		)
+		return false
+
+	file.store_string(
+		JSON.stringify(
+			current_save,
+			"\t"
+		)
+	)
+
+	file.close()
+
+	var dir: DirAccess = DirAccess.open(
+		SAVE_DIR
+	)
+
+	if dir == null:
+		push_error(
+			"SaveManager: 无法打开存档目录。"
+		)
+		return false
+
+	if dir.file_exists(
+		json_name
+	):
+		var remove_error: Error = dir.remove(
+			json_name
+		)
+
+		if remove_error != OK:
+			push_error(
+				"SaveManager: 无法删除旧存档。"
+			)
+			return false
+
+	var rename_error: Error = dir.rename(
+		tmp_name,
+		json_name
+	)
+
+	if rename_error != OK:
+		push_error(
+			"SaveManager: 临时存档转正失败。"
+		)
+		return false
+
+	return true
+
+# Public - Load
+
+func load_save(
+	save_id: String
+) -> bool:
+	var data: Dictionary = _read_save_file(
+		save_id
+	)
+
+	if data.is_empty():
+		push_error(
+			"SaveManager: 无法读取存档 %s"
+			% save_id
+		)
+		return false
+
+	current_save = _normalize_save_data(
+		data
+	)
+
+	current_save["last_played_at_unix"] = int(
+		Time.get_unix_time_from_system()
+	)
+
+	_set_last_save_id(
+		save_id
+	)
+
+	# 同时完成旧版本存档迁移。
+	save_current_state()
+
+	print(
+		"SaveManager: 已载入 %s"
+		% current_save.get(
+			"name",
+			"Unknown"
+		)
+	)
+
+	return true
+
+# Public - List
+
 func get_all_saves() -> Array:
-	var saves = []
-	var dir = DirAccess.open(SAVE_DIR)
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if not dir.current_is_dir() and file_name.ends_with(".json"):
-				var file = FileAccess.open(SAVE_DIR + file_name, FileAccess.READ)
-				if file:
-					var data = JSON.parse_string(file.get_as_text())
-					if typeof(data) == TYPE_DICTIONARY:
-						saves.append(data)
-			file_name = dir.get_next()
-	saves.sort_custom(func(a, b): return a["id"].to_int() > b["id"].to_int())
-	return saves
+	var result: Array = []
 
-func load_save(save_id: String) -> bool:
-	var file_path = SAVE_DIR + "save_" + save_id + ".json"
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	if file:
-		current_save = JSON.parse_string(file.get_as_text())
-		print("📂 成功载入存档！当前特工: ", current_save.get("name", "未知"))
-		return true
-	push_error("读取失败，找不到文件: ", file_path)
-	return false
+	var dir: DirAccess = DirAccess.open(
+		SAVE_DIR
+	)
 
-func delete_save(save_id: String) -> void:
-	var dir = DirAccess.open(SAVE_DIR)
-	if dir and dir.file_exists("save_" + save_id + ".json"):
-		dir.remove("save_" + save_id + ".json")
-		print("🗑️ 存档已物理删除。")
+	if dir == null:
+		return result
+
+	dir.list_dir_begin()
+
+	var file_name: String = dir.get_next()
+
+	while not file_name.is_empty():
+		if (
+			not dir.current_is_dir()
+			and file_name.begins_with("save_")
+			and file_name.ends_with(".json")
+		):
+			var file: FileAccess = FileAccess.open(
+				SAVE_DIR + file_name,
+				FileAccess.READ
+			)
+
+			if file != null:
+				var parsed: Variant = JSON.parse_string(
+					file.get_as_text()
+				)
+
+				file.close()
+
+				if typeof(parsed) == TYPE_DICTIONARY:
+					var data: Dictionary = parsed
+
+					result.append(
+						_normalize_save_data(
+							data
+						)
+					)
+
+		file_name = dir.get_next()
+
+	dir.list_dir_end()
+
+	result.sort_custom(
+		_sort_saves_newest_first
+	)
+
+	return result
+
+func has_any_save() -> bool:
+	return not get_all_saves().is_empty()
+
+# Public - Last Save
+
+func get_last_save_id() -> String:
+	var saved_id: String = str(
+		_meta.get_value(
+			"General",
+			"last_save_id",
+			""
+		)
+	)
+
+	if (
+		not saved_id.is_empty()
+		and FileAccess.file_exists(
+			_get_save_path(saved_id)
+		)
+	):
+		return saved_id
+
+	# 上一次存档被删除 / meta 不存在：
+	# 自动选择最近游玩的存档。
+	var saves: Array = get_all_saves()
+
+	if saves.is_empty():
+		_set_last_save_id("")
+		return ""
+
+	var first_save: Dictionary = saves[0]
+
+	var fallback_id: String = str(
+		first_save.get(
+			"id",
+			""
+		)
+	)
+
+	_set_last_save_id(
+		fallback_id
+	)
+
+	return fallback_id
+
+# Public - Delete
+
+func delete_save(
+	save_id: String
+) -> bool:
+	if save_id.is_empty():
+		return false
+
+	var dir: DirAccess = DirAccess.open(
+		SAVE_DIR
+	)
+
+	if dir == null:
+		return false
+
+	var json_name: String = (
+		"save_%s.json" % save_id
+	)
+
+	var tmp_name: String = (
+		"save_%s.tmp" % save_id
+	)
+
+	if dir.file_exists(
+		json_name
+	):
+		var error: Error = dir.remove(
+			json_name
+		)
+
+		if error != OK:
+			push_error(
+				"SaveManager: 删除存档失败。"
+			)
+			return false
+
+	if dir.file_exists(
+		tmp_name
+	):
+		dir.remove(
+			tmp_name
+		)
+
+	if (
+		not current_save.is_empty()
+		and str(
+			current_save.get(
+				"id",
+				""
+			)
+		) == save_id
+	):
+		current_save.clear()
+
+	var last_id: String = str(
+		_meta.get_value(
+			"General",
+			"last_save_id",
+			""
+		)
+	)
+
+	if last_id == save_id:
+		_set_last_save_id("")
+		get_last_save_id()
+
+	print(
+		"SaveManager: 已删除存档 %s"
+		% save_id
+	)
+
+	return true
+
+# Public - Shelter
+
+func get_shelter_data() -> Dictionary:
+	if current_save.is_empty():
+		return _create_default_shelter_data()
+
+	var shelter_value: Variant = current_save.get(
+		"shelter",
+		_create_default_shelter_data()
+	)
+
+	if typeof(shelter_value) != TYPE_DICTIONARY:
+		return _create_default_shelter_data()
+
+	var result: Dictionary = shelter_value
+
+	return result.duplicate(
+		true
+	)
+
+func set_shelter_data(
+	data: Dictionary,
+	save_immediately: bool = true
+) -> void:
+	if current_save.is_empty():
+		push_warning(
+			"SaveManager: 没有加载存档，无法写入 Shelter 数据。"
+		)
+		return
+
+	current_save["shelter"] = data.duplicate(
+		true
+	)
+
+	if save_immediately:
+		save_current_state()
+
+# Internal - Read
+
+func _read_save_file(
+	save_id: String
+) -> Dictionary:
+	var path: String = _get_save_path(
+		save_id
+	)
+
+	if not FileAccess.file_exists(
+		path
+	):
+		return {}
+
+	var file: FileAccess = FileAccess.open(
+		path,
+		FileAccess.READ
+	)
+
+	if file == null:
+		return {}
+
+	var parsed: Variant = JSON.parse_string(
+		file.get_as_text()
+	)
+
+	file.close()
+
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {}
+
+	var result: Dictionary = parsed
+
+	return result
+
+# Internal - Migration / Defaults
+
+func _normalize_save_data(
+	data: Dictionary
+) -> Dictionary:
+	var result: Dictionary = data.duplicate(
+		true
+	)
+
+	var save_id: String = str(
+		result.get(
+			"id",
+			""
+		)
+	)
+
+	var inferred_time: int = _infer_time_from_id(
+		save_id
+	)
+
+	if not result.has(
+		"save_version"
+	):
+		result["save_version"] = SAVE_VERSION
+
+	if not result.has(
+		"name"
+	):
+		result["name"] = "Unnamed Save"
+
+	if not result.has(
+		"created_at_unix"
+	):
+		result["created_at_unix"] = inferred_time
+
+	if not result.has(
+		"last_played_at_unix"
+	):
+		result["last_played_at_unix"] = int(
+			result.get(
+				"created_at_unix",
+				inferred_time
+			)
+		)
+
+	if not result.has(
+		"in_raid"
+	):
+		result["in_raid"] = false
+
+	if not result.has(
+		"inventory"
+	):
+		result["inventory"] = []
+
+	if (
+		not result.has("shelter")
+		or typeof(
+			result["shelter"]
+		) != TYPE_DICTIONARY
+	):
+		result["shelter"] = (
+			_create_default_shelter_data()
+		)
+
+	return result
+
+func _create_default_shelter_data() -> Dictionary:
+	return {
+		"version": SHELTER_SAVE_VERSION,
+
+		# 每一个 Room 内部还会包含它自己的设施。
+		"rooms": [],
+
+		# 删除房间后暂时进入 Shelter Storage 的设施。
+		"facility_storage": []
+	}
+
+# Internal - Meta
+
+func _load_meta() -> void:
+	var error: Error = _meta.load(
+		META_PATH
+	)
+
+	if (
+		error != OK
+		and error != ERR_FILE_NOT_FOUND
+	):
+		push_warning(
+			"SaveManager: save_meta.cfg 读取失败。"
+		)
+
+func _set_last_save_id(
+	save_id: String
+) -> void:
+	_meta.set_value(
+		"General",
+		"last_save_id",
+		save_id
+	)
+
+	var error: Error = _meta.save(
+		META_PATH
+	)
+
+	if error != OK:
+		push_warning(
+			"SaveManager: 无法保存 last_save_id。"
+		)
+
+# Internal - Utility
+
+func _ensure_save_directory() -> void:
+	var dir: DirAccess = DirAccess.open(
+		"user://"
+	)
+
+	if dir == null:
+		push_error(
+			"SaveManager: 无法打开 user://"
+		)
+		return
+
+	if not dir.dir_exists(
+		"saves"
+	):
+		var error: Error = dir.make_dir(
+			"saves"
+		)
+
+		if error != OK:
+			push_error(
+				"SaveManager: 无法创建 saves 文件夹。"
+			)
+
+func _generate_save_id() -> String:
+	var unix: int = int(
+		Time.get_unix_time_from_system()
+	)
+
+	var suffix: int = (
+		Time.get_ticks_msec()
+		% 1000000
+	)
+
+	return "%d_%06d" % [
+		unix,
+		suffix
+	]
+
+func _get_save_path(
+	save_id: String
+) -> String:
+	return (
+		SAVE_DIR
+		+ "save_"
+		+ save_id
+		+ ".json"
+	)
+
+func _infer_time_from_id(
+	save_id: String
+) -> int:
+	if save_id.is_empty():
+		return 0
+
+	var first_part: String = (
+		save_id.get_slice(
+			"_",
+			0
+		)
+	)
+
+	return first_part.to_int()
+
+func _sort_saves_newest_first(
+	a: Dictionary,
+	b: Dictionary
+) -> bool:
+	var a_time: int = int(
+		a.get(
+			"last_played_at_unix",
+			0
+		)
+	)
+
+	var b_time: int = int(
+		b.get(
+			"last_played_at_unix",
+			0
+		)
+	)
+
+	return a_time > b_time
 ```
 
 
@@ -11240,7 +11875,7 @@ func load_settings() -> void:
 
 ### `res://Scene/Search_system/Script/Data/interaction_object.gd`
 
-- Category: `script`; bytes: `411`; sha256/16: `e92fb459a8a6856a`
+- Category: `script`; bytes: `778`; sha256/16: `db2d4a24958d24b8`
 
 
 ```gdscript
@@ -11251,22 +11886,37 @@ extends Node
 class_name InteractableObject
 
 var object_name: String#交互场景物体名字
-var searched: bool#是否已被搜索
-var loot_table: Array#当前物体使用的掉落表
+var searched: bool = false#是否已被搜索
+var loot_table: Array = []#当前物体使用的掉落表
 
 ##开始交互
 func interact():
+	InteractionManager.open_search(self)
 	pass
 
 ##生成随机物品
-func generate_loot():
+func generate_loot() -> Array:
+	if searched:
+		return []
+
+	searched = true
+
+	var result: Array = []
+	if loot_table.is_empty():
+		return ItemDataBase.get_random_items(5)#后续添加随机数量
+
+	for item_id in loot_table:
+		var item: ItemData = ItemDataBase.find_item(item_id)
+		if item != null:
+			result.append(item)
+	return result
 	pass
 ```
 
 
 ### `res://Scene/Search_system/Script/Data/item_data.gd`
 
-- Category: `script`; bytes: `326`; sha256/16: `a77e76727a147177`
+- Category: `script`; bytes: `592`; sha256/16: `8930f1976e1affa4`
 
 
 ```gdscript
@@ -11282,12 +11932,29 @@ var rarity : int#稀有度，决定UI颜色
 var weight : int#权重
 var icon : Texture2D#图片
 var description : String#物品描述
+
+func _init
+(p_id: int,
+p_name: String,
+p_type: String,
+p_rarity: int,
+p_weight: int,
+p_icon: Texture2D,
+p_description: String) -> void:
+	id = p_id
+	name = p_name
+	type = p_type
+	rarity = p_rarity
+	weight = p_weight
+	icon = p_icon
+	description = p_description
+	pass
 ```
 
 
 ### `res://Scene/Search_system/Script/Data/item_data_base.gd`
 
-- Category: `script`; bytes: `315`; sha256/16: `f2d8da4d0a6ba33a`
+- Category: `script`; bytes: `1868`; sha256/16: `b124e25af5a62d4d`
 
 
 ```gdscript
@@ -11299,15 +11966,91 @@ extends Node
 var item_list: Array[ItemData]
 
 ##读取CSV
-func load_csv(path):
+func load_csv(path: String):
+	item_list.clear()
+
+	var file := FileAccess.open(path, FileAccess.READ)
+
+	if file == null:
+		push_error("ItemDataBase：无法打开CSV数据包：" + path)
+		return
+
+	#读取表头
+	var headers := file.get_csv_line()
+
+	while  not file.eof_reached():
+		var row := file.get_csv_line()
+
+		if row.is_empty():
+			continue
+
+		if row.size() < headers.size():
+			continue
+
+		var id := int(row[0])
+		var item_name := row[1]
+		var item_type := row[2]
+		var rarity := int(row[3])
+		var weight := int(row[4])
+		var icon_path := row[5]
+		var description := row[6]
+
+		var icon: Texture2D = null
+		if icon_path != "":
+			icon = load(icon_path) as Texture2D
+
+		var item := ItemData.new(id,item_name,item_type,rarity,weight,icon,description)
+		item_list.append(item)
+
+		file.close()
 	pass
 
 ##随机返回count件物品
-func get_random_items(count):
+func get_random_items(count: int) -> Array:
+	#创建结果列表
+	var result: Array = []
+
+	if item_list.is_empty():
+		return result
+
+	# 创建候选列表
+	var candidates := item_list.duplicate()
+
+	#随机确定物品数量（后续需可控）
+	for i in range(count):
+		if candidates.is_empty():
+			break
+		#加权随机添加物品
+		var total_weight := 0
+
+		for item in candidates:
+			total_weight += item.weight
+
+		if total_weight <= 0:
+			break
+
+		var random_value := randi_range(1, total_weight)
+
+		var current_weight := 0
+
+		for item in candidates:
+			current_weight += item.weight
+
+			if random_value <= current_weight:
+				result.append(item)
+				candidates.erase(item)
+				break
+
+	return result
 	pass
 
 ##根据ID查找物品
 func find_item(id):
+	for item in item_list:
+		if item.id == id:
+			return item
+
+	return null
 	pass
 ```
 
@@ -11336,57 +12079,58 @@ func update_list():
 
 ### `res://Scene/Search_system/Script/Manager/interaction_manager.gd`
 
-- Category: `script`; bytes: `978`; sha256/16: `538746dd498627d2`
+- Category: `script`; bytes: `1079`; sha256/16: `3ee6fb7a7ebf0ffc`
 
 
 ```gdscript
-###交互管理器
-###挂载：全局
-###作用：整个交互系统的入口,判断是否存在可交互物体、调用物体交互、打开搜索界面、关闭搜索界面
-#extends Node
-#
-### 当前可以交互的对象
-#var current_object: InteractableObject = null
-#
-#
-### 设置当前交互对象
-#func set_current_object(object: InteractableObject) -> void:
-	#current_object = object
-#
-#
-### 离开交互范围
-#func clear_current_object(object: InteractableObject) -> void:
-	#if current_object == object:
-		#current_object = null
-#
-#
-### 玩家按下交互按键时调用
-#func try_interact() -> void:
-	## 没有交互目标
-	#if current_object == null:
-		#return
-	## 调用交互对象
-	#current_object.interact()
-	## 打开搜索UI
-	#open_search()
-#
-#
-### 打开搜索界面
-#func open_search() -> void:
-	#UIManager.show_search()
-	## UI音效可以写在这里
-#
-#
-### 关闭搜索界面
-#func close_search() -> void:
-	#UIManager.hide_search()
-	#current_object = null
+##交互管理器
+##挂载：全局
+##作用：整个交互系统的入口,判断是否存在可交互物体、调用物体交互、打开搜索界面、关闭搜索界面
+extends Node
+
+## 当前可以交互的对象
+var current_object: InteractableObject = null
+
+## 设置当前交互对象
+func set_current_object(object: InteractableObject) -> void:
+	current_object = object
+
+## 离开交互范围
+func clear_current_object(object: InteractableObject) -> void:
+	if current_object == object:
+		current_object = null
+
+## 玩家按下交互按键时调用
+func try_interact() -> void:
+	# 没有交互目标
+	if current_object == null:
+		return
+	# 调用交互对象
+	current_object.interact()
+
+## 打开搜索界面
+func open_search(object: InteractableObject) -> void:
+	current_object = object
+	#显示背包
+	UIManager.show_inventory()
+	#显示搜索界面
+	UIManager.show_search()
+
+	#生成搜索结果
+	SearchManager.open_search(object)
+
+	# UI音效可以写在这里
+
+## 关闭搜索界面
+func close_search() -> void:
+	UIManager.hide_all()
+	current_object = null
 ```
 
 
 ### `res://Scene/Search_system/Script/Manager/inventory_manager.gd`
 
-- Category: `script`; bytes: `126`; sha256/16: `eea4b8ae8fd75373`
+- Category: `script`; bytes: `603`; sha256/16: `dd0b3cfa6abbc4b2`
 
 
 ```gdscript
@@ -11395,81 +12139,99 @@ func update_list():
 ##作用：处理玩家搜索时的交互操作
 extends Node
 
-func add_item(item):
+var inventoryt_items: Array = []
+
+func add_item(item: ItemData):
+	if item == null:
+		return
+
+	inventoryt_items.append(item)
+
+	UIManager.refresh_inventory(inventoryt_items)
 	pass
+
+##删除物品
+func remove_item(item: ItemData):
+	if item == null:
+		return
+
+	if item in inventoryt_items:
+		inventoryt_items.erase(item)
+
+	UIManager.refresh_inventory(inventoryt_items)
+	pass
+
+func has_item(item: ItemData) -> bool:
+	return item in inventoryt_items
+
+func get_items() -> Array:
+	return inventoryt_items
 ```
 
 
 ### `res://Scene/Search_system/Script/Manager/search_manager.gd`
 
-- Category: `script`; bytes: `1347`; sha256/16: `78f545886ae7830f`
+- Category: `script`; bytes: `1182`; sha256/16: `f9c3723bd8f61149`
 
 
 ```gdscript
-###搜索管理器
-###挂载：全局
-###作用：生成搜索列表、保存当前搜索物品、拿取物品、删除物品、刷新UI
-#extends Node
-#
-#var current_items: Array[ItemData] = []#保存当前搜索界面的物品数据
-#var current_container: InteractableObject = null#当前正在搜索的物体
-#@export var default_item_count: int = 5#默认一次搜索生成的物品数量
-#
-#var rng:= RandomNumberGenerator.new()
-#
-#
-###初始化搜索
-#func open_search(container: InteractableObject):
-	#current_container = container
-	#
-	#generate_items()
-	#
-	#UIManager.show_search(current_items)
-	#pass
-#
-#
-###调用ItemDatabase随机生成物品
-#func generate_items():
-	#current_items.clear()
-	#
-	#current_items = ItemDataBase.get_random_items(default_item_count)
-	#pass
-#
-#
-###玩家点击拿取物品
-#func take_item(item):
-	#
-	##判断交互物品是否存在搜索列表
-	#if item not in current_items:
-		#return
-	#
-	##添加物品到玩家背包
-	#MAPInventoryManager.add_item(item)
-	#
-	##物品从搜索列表移除
-	#current_items.erase(item)
-	#
-	##刷新搜索UI
-	#UIManager.refresh_search(current_items)
-	#pass
-#
-#
-###获取当前物体搜索列表
-#func get_items()-> Array[ItemData]:
-	#return current_items
-#
-#
-###关闭搜索时清空当前搜索结果
-#func clear():
-	#current_items.clear()
-	#current_container = null
-	#pass
+##搜索管理器
+##挂载：全局
+##作用：生成搜索列表、保存当前搜索物品、拿取物品、删除物品、刷新UI
+extends Node
+
+var current_items: Array[ItemData] = []#保存当前搜索界面的物品数据
+
+@export var default_item_count: int = 5#默认一次搜索生成的物品数量
+
+var rng:= RandomNumberGenerator.new()
+
+##初始化搜索
+func open_search(object: InteractableObject):
+	if not object.searched:
+		generate_items(object)
+
+	UIManager.refresh_search(current_items)
+	pass
+
+##调用ItemDatabase随机生成物品
+func generate_items(object: InteractableObject):
+	current_items.clear()
+
+	current_items = object.generate_loot()
+	pass
+
+##玩家点击拿取物品
+func take_item(item: ItemData):
+
+	#判断交互物品是否存在搜索列表
+	if item == null:
+		return
+
+	#添加物品到玩家背包
+	MAPInventoryManager.add_item(item)
+
+	#物品从搜索列表移除
+	current_items.erase(item)
+
+	#刷新搜索UI
+	UIManager.refresh_search(current_items)
+	pass
+
+##获取当前物体搜索列表
+func get_items()-> Array[ItemData]:
+	return current_items
+
+##关闭搜索时清空当前搜索结果
+func clear():
+	current_items.clear()
+	pass
 ```
 
 
 ### `res://Scene/Search_system/Script/Manager/ui_manager.gd`
 
-- Category: `script`; bytes: `249`; sha256/16: `d99eb30479853cf3`
+- Category: `script`; bytes: `758`; sha256/16: `d0f771b41daeddb9`
 
 
 ```gdscript
@@ -11484,41 +12246,3917 @@ func show_inventory():
 
 ##显示搜索栏
 func show_search():
+	var search_ui := get_tree().current_scene.get_node("UILayer/SearchUI") as Control
+
+	search_ui.show()
 	pass
 
-##刷新UI
-func refresh_search(item):
+##刷新搜索
+func refresh_search(items: Array):
+	var search_ui := get_tree().current_scene.get_node("UILayer/SearchUI") as SearchUI
+	search_ui.refresh(items)
+	pass
+
+##刷新背包
+func refresh_inventory(items: Array):
+	var inventory_ui := get_tree().current_scene.get_node("UILayer/InventoryUI") as InventoryUI
+	inventory_ui.refresh(items)
 	pass
 
 ##关闭UI
 func hide_all():
+	var search_ui := get_tree().current_scene.get_node("UILayer/SearchUI") as Control
+	search_ui.hide()
 	pass
 ```
 
 
 ### `res://Scene/Search_system/Script/search_UI.gd`
 
-- Category: `script`; bytes: `378`; sha256/16: `c566bbf931635671`
+- Category: `script`; bytes: `665`; sha256/16: `97b1452fb839587a`
 
 
 ```gdscript
 ##搜索UI控制器
 ##挂载：搜索UI节点
 ##作用：显示搜索到的物品列表
-extends Node
 class_name SearchUI
+extends Control
 
 ##根据传入的物品列表重新生成搜索列表界面
-func refresh(items):
+func refresh(items: Array):
+	var item_list := $ItemList as ItemList
+
+	item_list.clear()
+
+	for item in items:
+		if item == null:
+			continue
+
+		item_list.add_item(item.name, item.icon)
 	pass
 
 ##从当前搜索列表移除物品并刷新显示
 func remove_item(item):
+	SearchManager.current_items.erase(item)
+	refresh(SearchManager.current_items)
 	pass
 
 ##关闭搜索界面通知InteractionManager结束本次交互
 func close():
+	hide()
+	InteractionManager.close_search()
 	pass
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`
+
+- Category: `script`; bytes: `5487`; sha256/16: `4f001b187194427b`
+
+
+```gdscript
+extends Node
+class_name ShelterEditModeController
+
+# Shelter Edit Mode Controller
+#
+# NONE
+#     正常玩家控制
+#
+# FACILITY_BUILD
+#     Left Ctrl
+#     编辑单个房间内部设施
+#
+# ROOM_LAYOUT
+#     F2（开发期）
+#     编辑整个基地的房间布局
+#
+#
+# 正式 UI 完成以后，
+# UI 可以直接调用：
+#
+# set_mode(EditMode.FACILITY_BUILD)
+# set_mode(EditMode.ROOM_LAYOUT)
+# set_mode(EditMode.NONE)
+#
+# 不需要继续依赖快捷键。
+
+signal edit_mode_changed(
+	mode: int
+)
+
+enum EditMode {
+	NONE,
+	FACILITY_BUILD,
+	ROOM_LAYOUT
+}
+
+@export_category("References")
+
+@export var player: ShelterPlayer
+
+@export var gameplay_camera: ShelterCamera
+
+@export var room_build_controller: ShelterRoomBuildController
+
+@export var facility_build_controller: ShelterFacilityBuildController
+
+@export_category("Temporary Input")
+
+## 房间布局模式的开发期入口。
+##
+## 后续正式 UI 完成后可以不再使用。
+@export var room_layout_key: Key = KEY_F2
+
+var current_mode: int = EditMode.NONE
+
+func _ready() -> void:
+	set_mode(
+		EditMode.NONE
+	)
+
+func _unhandled_input(
+	event: InputEvent
+) -> void:
+	if not event is InputEventKey:
+		return
+
+	var key_event := (
+		event as InputEventKey
+	)
+
+	if not key_event.pressed:
+		return
+
+	if key_event.echo:
+		return
+
+	# Left Ctrl
+	# Facility Build
+
+	if _is_left_ctrl(key_event):
+		_toggle_mode(
+			EditMode.FACILITY_BUILD
+		)
+
+		get_viewport().set_input_as_handled()
+		return
+
+	# Room Layout
+
+	if (
+		key_event.keycode
+		== room_layout_key
+	):
+		_toggle_mode(
+			EditMode.ROOM_LAYOUT
+		)
+
+		get_viewport().set_input_as_handled()
+		return
+
+# Public API
+
+func set_mode(
+	new_mode: int
+) -> void:
+	if current_mode == new_mode:
+		return
+
+	# 先关闭所有编辑子系统。
+
+	if room_build_controller != null:
+		room_build_controller.set_room_layout_enabled(
+			false
+		)
+
+	if facility_build_controller != null:
+		facility_build_controller.set_facility_build_enabled(
+			false
+		)
+
+	current_mode = new_mode
+
+	match current_mode:
+		EditMode.NONE:
+			_enter_gameplay_mode()
+
+		EditMode.FACILITY_BUILD:
+			_enter_facility_build_mode()
+
+		EditMode.ROOM_LAYOUT:
+			_enter_room_layout_mode()
+
+	edit_mode_changed.emit(
+		current_mode
+	)
+
+func get_mode() -> int:
+	return current_mode
+
+func is_facility_build_mode() -> bool:
+	return (
+		current_mode
+		== EditMode.FACILITY_BUILD
+	)
+
+func is_room_layout_mode() -> bool:
+	return (
+		current_mode
+		== EditMode.ROOM_LAYOUT
+	)
+
+# Mode Switching
+
+func _toggle_mode(
+	requested_mode: int
+) -> void:
+	if current_mode == requested_mode:
+		set_mode(
+			EditMode.NONE
+		)
+	else:
+		set_mode(
+			requested_mode
+		)
+
+func _enter_gameplay_mode() -> void:
+	_set_player_frozen(
+		false
+	)
+
+	if gameplay_camera != null:
+		gameplay_camera.set_camera_mode(
+			ShelterCamera.CameraMode.GAMEPLAY
+		)
+
+	print(
+		"[ShelterEditMode] GAMEPLAY"
+	)
+
+func _enter_facility_build_mode() -> void:
+	_set_player_frozen(
+		true
+	)
+
+	if gameplay_camera != null:
+		gameplay_camera.set_camera_mode(
+			ShelterCamera.CameraMode.FACILITY_BUILD
+		)
+
+	if facility_build_controller != null:
+		facility_build_controller.set_facility_build_enabled(
+			true
+		)
+
+	print(
+		"[ShelterEditMode] FACILITY BUILD"
+	)
+
+	if gameplay_camera != null:
+		gameplay_camera.set_camera_mode(
+			ShelterCamera.CameraMode.FACILITY_BUILD
+		)
+
+	print(
+		"[ShelterEditMode] FACILITY BUILD"
+	)
+
+func _enter_room_layout_mode() -> void:
+	_set_player_frozen(
+		true
+	)
+
+	if gameplay_camera != null:
+		gameplay_camera.set_camera_mode(
+			ShelterCamera.CameraMode.ROOM_LAYOUT
+		)
+
+	if room_build_controller != null:
+		room_build_controller.set_room_layout_enabled(
+			true
+		)
+
+	print(
+		"[ShelterEditMode] ROOM LAYOUT"
+	)
+
+# Player
+
+func _set_player_frozen(
+	frozen: bool
+) -> void:
+	if player == null:
+		return
+
+	if frozen:
+		player.velocity = Vector3.ZERO
+
+		player.set_physics_process(
+			false
+		)
+
+		if (
+			player.animation_player != null
+			and player.animation_player.has_animation(
+				player.idle_animation
+			)
+		):
+			player.animation_player.play(
+				player.idle_animation,
+				player.animation_blend_time
+			)
+
+	else:
+		player.set_physics_process(
+			true
+		)
+
+# Input Utility
+
+func _is_left_ctrl(
+	event: InputEventKey
+) -> bool:
+	if event.keycode != KEY_CTRL:
+		return false
+
+	# 明确是右 Ctrl 时拒绝。
+	if (
+		event.location
+		== KEY_LOCATION_RIGHT
+	):
+		return false
+
+	# LEFT 或某些平台返回的 UNSPECIFIED
+	# 都按左 Ctrl 处理。
+	return true
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
+
+- Category: `script`; bytes: `1459`; sha256/16: `63c84758a8b015cc`
+
+
+```gdscript
+extends StaticBody3D
+class_name ShelterFacility
+
+# Shelter Facility
+#
+# 基地设施基础节点。
+#
+# 当前负责：
+# - 设施 ID
+# - 建造碰撞尺寸
+# - 所属房间 ID
+#
+# 后续可以继续加入：
+# - Storage Item ID
+# - 建造成本
+# - 设施等级
+# - 功能状态
+# - 存档数据
+
+@export_category("Facility")
+
+@export var facility_id: StringName = &"test_facility"
+
+@export var display_name: String = "Test Facility"
+
+@export_category("Placement")
+
+## 用于建造合法性检测的实际尺寸。
+##
+## 必须与设施真正占用空间大致一致。
+@export var placement_size: Vector3 = Vector3(
+	1.8,
+	1.0,
+	0.5
+)
+
+## 当前所属房间。
+var room_id: int = -1
+
+func set_room_id(
+	new_room_id: int
+) -> void:
+	room_id = new_room_id
+
+# Persistent State
+#
+# 普通设施默认没有额外状态。
+#
+# 未来特殊设施脚本可以 override：
+#
+# get_save_state()
+# apply_save_state()
+#
+# ShelterSaveBridge 无需知道设施内部细节。
+
+func get_save_state() -> Dictionary:
+	return {}
+
+func apply_save_state(
+	_data: Dictionary
+) -> void:
+	pass
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`
+
+- Category: `script`; bytes: `16941`; sha256/16: `9135e4ecdb4e5393`
+
+
+```gdscript
+extends Node
+class_name ShelterFacilityBuildController
+
+signal facility_changed
+
+enum DragMode {
+	NONE,
+	X_AXIS,
+	Z_AXIS,
+	XZ_PLANE,
+	Y_ROTATION
+}
+
+@export_category("References")
+
+@export var room_manager: ShelterRoomManager
+
+@export var gameplay_camera: ShelterCamera
+
+@export var player: ShelterPlayer
+
+@export_category("Debug Facility")
+
+@export var test_facility_scene: PackedScene
+
+@export_category("Placement")
+
+@export_range(0.001, 0.05, 0.001)
+var collision_floor_epsilon: float = 0.01
+
+@export_range(0.0, 0.1, 0.001)
+var boundary_epsilon: float = 0.01
+
+@export_category("Rotation")
+
+## 设施模型自身的“正面”方向补偿。
+##
+## 0：
+## 模型本地 +Z 朝向鼠标。
+##
+## 180：
+## 如果模型本地 -Z 才是正面。
+##
+## 90 / -90：
+## 如果模型正面位于本地 X 轴方向。
+@export_range(-180.0, 180.0, 1.0)
+var rotation_facing_offset_degrees: float = 0.0
+
+var facility_build_enabled: bool = false
+
+var current_room: ShelterRoom
+
+var current_room_id: int = -1
+
+var _ghost: ShelterFacility
+
+var _ghost_valid: bool = false
+
+var _gizmo: ShelterFacilityGizmo
+
+var _drag_mode: int = DragMode.NONE
+
+var _drag_start_point: Vector3 = Vector3.ZERO
+
+var _drag_start_position: Vector3 = Vector3.ZERO
+
+var _valid_material: StandardMaterial3D
+
+var _invalid_material: StandardMaterial3D
+
+func _ready() -> void:
+	_create_preview_materials()
+	_create_gizmo()
+
+func _process(_delta: float) -> void:
+	if not facility_build_enabled:
+		return
+
+	if _ghost == null:
+		return
+
+	_update_gizmo_mode()
+	_update_gizmo_transform()
+
+	if _drag_mode != DragMode.NONE:
+		_update_active_drag()
+
+	_update_ghost_validity()
+
+func _unhandled_input(
+	event: InputEvent
+) -> void:
+	if not facility_build_enabled:
+		return
+
+	# Enter
+
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+
+		if not key_event.pressed:
+			return
+
+		if key_event.echo:
+			return
+
+		if key_event.keycode == KEY_ENTER:
+			_confirm_placement()
+
+			get_viewport().set_input_as_handled()
+			return
+
+	# Mouse
+
+	if not event is InputEventMouseButton:
+		return
+
+	var mouse_event := (
+		event as InputEventMouseButton
+	)
+
+	if (
+		mouse_event.button_index
+		!= MOUSE_BUTTON_LEFT
+	):
+		return
+
+	if mouse_event.pressed:
+		_begin_gizmo_drag()
+	else:
+		_end_gizmo_drag()
+
+	get_viewport().set_input_as_handled()
+
+# Public API
+
+func set_facility_build_enabled(
+	enabled: bool
+) -> void:
+	if facility_build_enabled == enabled:
+		return
+
+	facility_build_enabled = enabled
+
+	if facility_build_enabled:
+		_enter_facility_build()
+	else:
+		_exit_facility_build()
+
+# Mode
+
+func _enter_facility_build() -> void:
+	current_room = _find_player_room()
+
+	if current_room == null:
+		current_room_id = -1
+
+		push_warning(
+			"ShelterFacilityBuild: "
+			+ "玩家当前不在任何可建造房间内。"
+		)
+
+		return
+
+	current_room_id = current_room.room_id
+
+	print(
+		"[ShelterFacilityBuild] Current Room: %d"
+		% current_room_id
+	)
+
+	_spawn_test_ghost()
+
+func _exit_facility_build() -> void:
+	_end_gizmo_drag()
+
+	_clear_ghost()
+
+	current_room = null
+	current_room_id = -1
+
+	if _gizmo != null:
+		_gizmo.visible = false
+
+	print(
+		"[ShelterFacilityBuild] DISABLED"
+	)
+
+# Current Room
+
+func _find_player_room() -> ShelterRoom:
+	if room_manager == null:
+		push_error(
+			"ShelterFacilityBuild: "
+			+ "RoomManager 未设置。"
+		)
+
+		return null
+
+	if player == null:
+		push_error(
+			"ShelterFacilityBuild: "
+			+ "Player 未设置。"
+		)
+
+		return null
+
+	var local_position := (
+		room_manager.to_local(
+			player.global_position
+		)
+	)
+
+	var cell := Vector2i(
+		int(
+			round(
+				local_position.x
+				/ room_manager.cell_size
+			)
+		),
+		int(
+			round(
+				local_position.z
+				/ room_manager.cell_size
+			)
+		)
+	)
+
+	var room_id := (
+		room_manager.get_room_id_at_cell(
+			cell
+		)
+	)
+
+	if room_id < 0:
+		return null
+
+	return room_manager.get_room(
+		room_id
+	)
+
+# Ghost
+
+func _spawn_test_ghost() -> void:
+	_clear_ghost()
+
+	if current_room == null:
+		return
+
+	if test_facility_scene == null:
+		push_error(
+			"ShelterFacilityBuild: "
+			+ "Test Facility Scene 未设置。"
+		)
+
+		return
+
+	var instance := (
+		test_facility_scene.instantiate()
+	)
+
+	if not instance is ShelterFacility:
+		push_error(
+			"ShelterFacilityBuild: "
+			+ "测试设施根节点必须使用 "
+			+ "ShelterFacility 脚本。"
+		)
+
+		instance.queue_free()
+		return
+
+	_ghost = instance as ShelterFacility
+	_ghost.name = "FacilityGhost"
+
+	add_child(
+		_ghost
+	)
+
+	_disable_ghost_collision(
+		_ghost
+	)
+
+	var room_center := (
+		current_room.global_position
+	)
+
+	_ghost.global_position = Vector3(
+		room_center.x,
+		room_center.y,
+		room_center.z
+	)
+
+	_ghost.global_rotation = Vector3.ZERO
+
+	_drag_mode = DragMode.NONE
+
+	if _gizmo != null:
+		_gizmo.visible = true
+
+		_gizmo.set_rotation_mode(
+			false
+		)
+
+		_gizmo.sync_to_facility(
+			_ghost
+		)
+
+	_update_ghost_validity()
+
+func _clear_ghost() -> void:
+	if is_instance_valid(_ghost):
+		_ghost.queue_free()
+
+	_ghost = null
+	_ghost_valid = false
+
+	if _gizmo != null:
+		_gizmo.visible = false
+
+func _disable_ghost_collision(
+	node: Node
+) -> void:
+	if node is CollisionShape3D:
+		var collision := (
+			node as CollisionShape3D
+		)
+
+		collision.disabled = true
+
+	for child in node.get_children():
+		_disable_ghost_collision(
+			child
+		)
+
+# Gizmo Setup
+
+func _create_gizmo() -> void:
+	_gizmo = ShelterFacilityGizmo.new()
+
+	_gizmo.name = "FacilityGizmo"
+
+	add_child(
+		_gizmo
+	)
+
+	_gizmo.visible = false
+
+func _update_gizmo_transform() -> void:
+	if _gizmo == null:
+		return
+
+	if _ghost == null:
+		_gizmo.visible = false
+		return
+
+	_gizmo.sync_to_facility(
+		_ghost
+	)
+
+func _update_gizmo_mode() -> void:
+	if _gizmo == null:
+		return
+
+	# 拖动已经开始后，
+	# 不允许中途通过 Shift 改变 Drag 类型。
+	if _drag_mode != DragMode.NONE:
+		return
+
+	var rotation_requested := (
+		Input.is_physical_key_pressed(
+			KEY_SHIFT
+		)
+	)
+
+	_gizmo.set_rotation_mode(
+		rotation_requested
+	)
+
+# Gizmo Drag Begin
+
+func _begin_gizmo_drag() -> void:
+	if _ghost == null:
+		return
+
+	if _gizmo == null:
+		return
+
+	var plane_point = (
+		_get_mouse_gizmo_plane_point()
+	)
+
+	if plane_point == null:
+		return
+
+	var world_point := (
+		plane_point as Vector3
+	)
+
+	var handle := _gizmo.pick_handle(
+		world_point
+	)
+
+	match handle:
+		ShelterFacilityGizmo.Handle.X_AXIS:
+			_begin_translation_drag(
+				DragMode.X_AXIS,
+				world_point
+			)
+
+		ShelterFacilityGizmo.Handle.Z_AXIS:
+			_begin_translation_drag(
+				DragMode.Z_AXIS,
+				world_point
+			)
+
+		ShelterFacilityGizmo.Handle.XZ_PLANE:
+			_begin_translation_drag(
+				DragMode.XZ_PLANE,
+				world_point
+			)
+
+		ShelterFacilityGizmo.Handle.Y_ROTATION:
+			_begin_rotation_drag(
+				world_point
+			)
+
+		_:
+			return
+
+func _begin_translation_drag(
+	mode: int,
+	world_point: Vector3
+) -> void:
+	_drag_mode = mode
+
+	_drag_start_point = world_point
+
+	_drag_start_position = (
+		_ghost.global_position
+	)
+
+func _begin_rotation_drag(
+	world_point: Vector3
+) -> void:
+	if _ghost == null:
+		return
+
+	var center := (
+		_ghost.global_position
+	)
+
+	var direction := Vector2(
+		world_point.x - center.x,
+		world_point.z - center.z
+	)
+
+	if direction.length_squared() < 0.0001:
+		return
+
+	_drag_mode = (
+		DragMode.Y_ROTATION
+	)
+
+	# 点击旋转环后立即同步一次朝向。
+	_set_ghost_facing_mouse_point(
+		world_point
+	)
+
+func _end_gizmo_drag() -> void:
+	_drag_mode = DragMode.NONE
+
+# Active Drag
+
+func _update_active_drag() -> void:
+	match _drag_mode:
+		DragMode.X_AXIS:
+			_update_translation_drag_x()
+
+		DragMode.Z_AXIS:
+			_update_translation_drag_z()
+
+		DragMode.XZ_PLANE:
+			_update_translation_drag_xz()
+
+		DragMode.Y_ROTATION:
+			_update_rotation_drag()
+
+# Translation
+
+func _update_translation_drag_x() -> void:
+	var plane_point = (
+		_get_mouse_gizmo_plane_point()
+	)
+
+	if plane_point == null:
+		return
+
+	var current := (
+		plane_point as Vector3
+	)
+
+	var delta_x := (
+		current.x
+		- _drag_start_point.x
+	)
+
+	_ghost.global_position = Vector3(
+		_drag_start_position.x + delta_x,
+		current_room.global_position.y,
+		_drag_start_position.z
+	)
+
+func _update_translation_drag_z() -> void:
+	var plane_point = (
+		_get_mouse_gizmo_plane_point()
+	)
+
+	if plane_point == null:
+		return
+
+	var current := (
+		plane_point as Vector3
+	)
+
+	var delta_z := (
+		current.z
+		- _drag_start_point.z
+	)
+
+	_ghost.global_position = Vector3(
+		_drag_start_position.x,
+		current_room.global_position.y,
+		_drag_start_position.z + delta_z
+	)
+
+func _update_translation_drag_xz() -> void:
+	var plane_point = (
+		_get_mouse_gizmo_plane_point()
+	)
+
+	if plane_point == null:
+		return
+
+	var current := (
+		plane_point as Vector3
+	)
+
+	var delta := (
+		current
+		- _drag_start_point
+	)
+
+	_ghost.global_position = Vector3(
+		_drag_start_position.x + delta.x,
+		current_room.global_position.y,
+		_drag_start_position.z + delta.z
+	)
+
+# Rotation
+
+func _update_rotation_drag() -> void:
+	var plane_point = (
+		_get_mouse_gizmo_plane_point()
+	)
+
+	if plane_point == null:
+		return
+
+	var current := (
+		plane_point as Vector3
+	)
+
+	_set_ghost_facing_mouse_point(
+		current
+	)
+
+func _set_ghost_facing_mouse_point(
+	world_point: Vector3
+) -> void:
+	if _ghost == null:
+		return
+
+	var center := (
+		_ghost.global_position
+	)
+
+	var direction := Vector2(
+		world_point.x - center.x,
+		world_point.z - center.z
+	)
+
+	if direction.length_squared() < 0.0001:
+		return
+
+	# Mouse Facing Rotation
+	#
+	# XZ 平面：
+	#
+	#           -Z
+	#            ↑
+	#
+	#     -X ← Ghost → +X
+	#
+	#            ↓
+	#           +Z
+	#
+	#
+	# atan2(
+	#     direction.x,
+	#     direction.y
+	# )
+	#
+	# 会让设施的本地 +Z
+	# 朝向鼠标所在方向。
+
+	var target_yaw := atan2(
+		direction.x,
+		direction.y
+	)
+
+	target_yaw += deg_to_rad(
+		rotation_facing_offset_degrees
+	)
+
+	var current_rotation := (
+		_ghost.global_rotation
+	)
+
+	current_rotation.y = target_yaw
+
+	_ghost.global_rotation = (
+		current_rotation
+	)
+
+# Mouse Ray
+
+func _get_mouse_gizmo_plane_point() -> Variant:
+	if gameplay_camera == null:
+		return null
+
+	if _gizmo == null:
+		return null
+
+	var mouse_position := (
+		get_viewport().get_mouse_position()
+	)
+
+	var ray_origin := (
+		gameplay_camera.project_ray_origin(
+			mouse_position
+		)
+	)
+
+	var ray_direction := (
+		gameplay_camera.project_ray_normal(
+			mouse_position
+		)
+	)
+
+	var gizmo_plane := Plane(
+		Vector3.UP,
+		_gizmo.get_gizmo_plane_height()
+	)
+
+	return gizmo_plane.intersects_ray(
+		ray_origin,
+		ray_direction
+	)
+
+# Placement Validation
+
+func _update_ghost_validity() -> void:
+	if _ghost == null:
+		_ghost_valid = false
+		return
+
+	_ghost_valid = (
+		_is_inside_current_room()
+		and not _is_overlapping_obstacle()
+	)
+
+	if _ghost_valid:
+		_apply_ghost_material(
+			_valid_material
+		)
+	else:
+		_apply_ghost_material(
+			_invalid_material
+		)
+
+func _is_inside_current_room() -> bool:
+	if current_room == null:
+		return false
+
+	if _ghost == null:
+		return false
+
+	var facility_size := (
+		_ghost.placement_size
+	)
+
+	var half_x := (
+		facility_size.x * 0.5
+	)
+
+	var half_z := (
+		facility_size.z * 0.5
+	)
+
+	var room_half_x := (
+		float(current_room.footprint.x)
+		* current_room.cell_size
+		* 0.5
+	)
+
+	var room_half_z := (
+		float(current_room.footprint.y)
+		* current_room.cell_size
+		* 0.5
+	)
+
+	var room_center := (
+		current_room.global_position
+	)
+
+	var rotation_basis := Basis(
+		Vector3.UP,
+		_ghost.global_rotation.y
+	)
+
+	var corners: Array[Vector3] = [
+		Vector3(
+			-half_x,
+			0.0,
+			-half_z
+		),
+		Vector3(
+			half_x,
+			0.0,
+			-half_z
+		),
+		Vector3(
+			half_x,
+			0.0,
+			half_z
+		),
+		Vector3(
+			-half_x,
+			0.0,
+			half_z
+		)
+	]
+
+	for corner in corners:
+		var rotated_corner := (
+			rotation_basis * corner
+		)
+
+		var world_corner := (
+			_ghost.global_position
+			+ rotated_corner
+		)
+
+		var relative_x := (
+			world_corner.x
+			- room_center.x
+		)
+
+		var relative_z := (
+			world_corner.z
+			- room_center.z
+		)
+
+		if (
+			absf(relative_x)
+			> room_half_x
+			- boundary_epsilon
+		):
+			return false
+
+		if (
+			absf(relative_z)
+			> room_half_z
+			- boundary_epsilon
+		):
+			return false
+
+	return true
+
+func _is_overlapping_obstacle() -> bool:
+	if _ghost == null:
+		return true
+
+	var world := (
+		get_viewport().world_3d
+	)
+
+	if world == null:
+		return true
+
+	var space_state := (
+		world.direct_space_state
+	)
+
+	var query_shape := BoxShape3D.new()
+
+	query_shape.size = Vector3(
+		maxf(
+			_ghost.placement_size.x
+			- 0.01,
+			0.01
+		),
+		maxf(
+			_ghost.placement_size.y
+			- 0.01,
+			0.01
+		),
+		maxf(
+			_ghost.placement_size.z
+			- 0.01,
+			0.01
+		)
+	)
+
+	var query := (
+		PhysicsShapeQueryParameters3D.new()
+	)
+
+	query.shape = query_shape
+
+	query.collide_with_bodies = true
+	query.collide_with_areas = true
+
+	query.collision_mask = 1
+
+	var query_transform := (
+		_ghost.global_transform
+	)
+
+	query_transform.origin.y += (
+		_ghost.placement_size.y * 0.5
+		+ collision_floor_epsilon
+	)
+
+	query.transform = query_transform
+
+	# 玩家不阻挡设施建造。
+	if player is CollisionObject3D:
+		query.exclude = [
+			(player as CollisionObject3D).get_rid()
+		]
+
+	var hits := (
+		space_state.intersect_shape(
+			query,
+			32
+		)
+	)
+
+	return not hits.is_empty()
+
+# Confirm
+
+func _confirm_placement() -> void:
+	if _ghost == null:
+		return
+
+	if current_room == null:
+		return
+
+	if _drag_mode != DragMode.NONE:
+		return
+
+	if not _ghost_valid:
+		push_warning(
+			"ShelterFacilityBuild: "
+			+ "当前位置不能建造。"
+		)
+
+		return
+
+	if test_facility_scene == null:
+		return
+
+	var instance := (
+		test_facility_scene.instantiate()
+	)
+
+	if not instance is ShelterFacility:
+		instance.queue_free()
+		return
+
+	var facility := (
+		instance as ShelterFacility
+	)
+
+	current_room.facilities_root.add_child(
+		facility
+	)
+
+	facility.global_transform = (
+		_ghost.global_transform
+	)
+
+	facility.set_room_id(
+		current_room_id
+	)
+
+	facility_changed.emit()
+
+	print(
+		"[ShelterFacilityBuild] "
+		+ "Placed '%s' in Room %d"
+		% [
+			facility.facility_id,
+			current_room_id
+		]
+	)
+
+	_spawn_test_ghost()
+
+# Ghost Materials
+
+func _create_preview_materials() -> void:
+	_valid_material = (
+		_create_preview_material(
+			Color(
+				0.15,
+				1.0,
+				0.3,
+				0.45
+			)
+		)
+	)
+
+	_invalid_material = (
+		_create_preview_material(
+			Color(
+				1.0,
+				0.15,
+				0.15,
+				0.45
+			)
+		)
+	)
+
+func _create_preview_material(
+	color: Color
+) -> StandardMaterial3D:
+	var material := (
+		StandardMaterial3D.new()
+	)
+
+	material.transparency = (
+		BaseMaterial3D.TRANSPARENCY_ALPHA
+	)
+
+	material.shading_mode = (
+		BaseMaterial3D.SHADING_MODE_UNSHADED
+	)
+
+	material.albedo_color = color
+
+	return material
+
+func _apply_ghost_material(
+	material: Material
+) -> void:
+	if _ghost == null:
+		return
+
+	_apply_material_recursive(
+		_ghost,
+		material
+	)
+
+func _apply_material_recursive(
+	node: Node,
+	material: Material
+) -> void:
+	if node is MeshInstance3D:
+		var mesh_instance := (
+			node as MeshInstance3D
+		)
+
+		mesh_instance.material_override = (
+			material
+		)
+
+	for child in node.get_children():
+		_apply_material_recursive(
+			child,
+			material
+		)
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_gizmo.gd`
+
+- Category: `script`; bytes: `9572`; sha256/16: `5d09b04109388b93`
+
+
+```gdscript
+extends Node3D
+class_name ShelterFacilityGizmo
+
+# Shelter Facility Gizmo
+#
+# Translation Mode
+#
+#      Z
+#      ↑
+#      │
+#      ■────→ X
+#
+# ■ = XZ Plane Handle
+#
+#
+# Rotation Mode
+#
+# 按住 Shift：
+#
+# Translation Gizmo 隐藏
+# Green Y Rotation Ring 显示
+#
+#
+# Gizmo 本身没有 Physics Collision。
+# 鼠标命中完全由平面坐标计算完成。
+
+enum Handle {
+	NONE,
+	X_AXIS,
+	Z_AXIS,
+	XZ_PLANE,
+	Y_ROTATION
+}
+
+@export_category("Translation")
+
+## 中央 XZ 平面拖拽块边长。
+@export var center_size: float = 0.5
+
+## 箭头杆长度。
+@export var axis_length: float = 1.0
+
+## 箭头杆粗细。
+@export var axis_thickness: float = 0.065
+
+## 箭头锥体长度。
+@export var arrow_head_length: float = 0.28
+
+## 箭头锥体半径。
+@export var arrow_head_radius: float = 0.13
+
+## 鼠标命中轴时允许的宽度。
+##
+## 稍微比视觉模型宽一点，
+## 操作会更容易。
+@export var axis_pick_half_width: float = 0.14
+
+@export_category("Rotation")
+
+## Y 轴旋转环内半径。
+@export var rotation_inner_radius: float = 1.05
+
+## Y 轴旋转环外半径。
+@export var rotation_outer_radius: float = 1.22
+
+## 鼠标命中旋转环的额外容错。
+@export var rotation_pick_margin: float = 0.12
+
+@export_category("Position")
+
+## Gizmo 放在设施顶部再向上多少。
+@export var vertical_offset: float = 0.12
+
+var rotation_mode_enabled: bool = false
+
+var _translation_root: Node3D
+var _rotation_root: Node3D
+
+var _x_material: StandardMaterial3D
+var _z_material: StandardMaterial3D
+var _center_material: StandardMaterial3D
+var _rotation_material: StandardMaterial3D
+
+func _ready() -> void:
+	_create_materials()
+	_create_visuals()
+
+	set_rotation_mode(false)
+
+# Public API
+
+func sync_to_facility(
+	facility: ShelterFacility
+) -> void:
+	if facility == null:
+		visible = false
+		return
+
+	visible = true
+
+	# Gizmo 使用世界 X / Z 轴。
+	#
+	# 即使设施本身发生旋转，
+	# 平移轴也不会跟着设施旋转。
+	global_rotation = Vector3.ZERO
+
+	global_position = (
+		facility.global_position
+		+ Vector3.UP
+		* (
+			facility.placement_size.y
+			+ vertical_offset
+		)
+	)
+
+func set_rotation_mode(
+	enabled: bool
+) -> void:
+	rotation_mode_enabled = enabled
+
+	if _translation_root != null:
+		_translation_root.visible = not enabled
+
+	if _rotation_root != null:
+		_rotation_root.visible = enabled
+
+func pick_handle(
+	world_point: Vector3
+) -> int:
+	var local_point := to_local(
+		world_point
+	)
+
+	if rotation_mode_enabled:
+		return _pick_rotation_handle(
+			local_point
+		)
+
+	return _pick_translation_handle(
+		local_point
+	)
+
+func get_gizmo_plane_height() -> float:
+	return global_position.y
+
+# Picking
+
+func _pick_translation_handle(
+	local_point: Vector3
+) -> int:
+	var half_center := center_size * 0.5
+
+	# Center XZ Plane
+
+	if (
+		absf(local_point.x) <= half_center
+		and absf(local_point.z) <= half_center
+	):
+		return Handle.XZ_PLANE
+
+	# X Axis
+
+	var axis_start := half_center
+
+	var axis_end := (
+		half_center
+		+ axis_length
+		+ arrow_head_length
+	)
+
+	if (
+		local_point.x >= axis_start
+		and local_point.x <= axis_end
+		and absf(local_point.z)
+		<= axis_pick_half_width
+	):
+		return Handle.X_AXIS
+
+	# Z Axis
+
+	if (
+		local_point.z >= axis_start
+		and local_point.z <= axis_end
+		and absf(local_point.x)
+		<= axis_pick_half_width
+	):
+		return Handle.Z_AXIS
+
+	return Handle.NONE
+
+func _pick_rotation_handle(
+	local_point: Vector3
+) -> int:
+	var radius := Vector2(
+		local_point.x,
+		local_point.z
+	).length()
+
+	var min_radius := (
+		rotation_inner_radius
+		- rotation_pick_margin
+	)
+
+	var max_radius := (
+		rotation_outer_radius
+		+ rotation_pick_margin
+	)
+
+	if (
+		radius >= min_radius
+		and radius <= max_radius
+	):
+		return Handle.Y_ROTATION
+
+	return Handle.NONE
+
+# Visual Creation
+
+func _create_visuals() -> void:
+	_translation_root = Node3D.new()
+	_translation_root.name = "Translation"
+
+	add_child(
+		_translation_root
+	)
+
+	_rotation_root = Node3D.new()
+	_rotation_root.name = "Rotation"
+
+	add_child(
+		_rotation_root
+	)
+
+	_create_center_handle()
+
+	_create_x_axis()
+	_create_z_axis()
+
+	_create_rotation_ring()
+
+func _create_center_handle() -> void:
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.name = "XZPlaneHandle"
+
+	var mesh := BoxMesh.new()
+
+	mesh.size = Vector3(
+		center_size,
+		0.035,
+		center_size
+	)
+
+	mesh_instance.mesh = mesh
+
+	mesh_instance.material_override = (
+		_center_material
+	)
+
+	_translation_root.add_child(
+		mesh_instance
+	)
+
+# X Axis
+
+func _create_x_axis() -> void:
+	var half_center := center_size * 0.5
+
+	# Shaft
+
+	var shaft := MeshInstance3D.new()
+	shaft.name = "XAxisShaft"
+
+	var shaft_mesh := BoxMesh.new()
+
+	shaft_mesh.size = Vector3(
+		axis_length,
+		axis_thickness,
+		axis_thickness
+	)
+
+	shaft.mesh = shaft_mesh
+
+	shaft.position.x = (
+		half_center
+		+ axis_length * 0.5
+	)
+
+	shaft.material_override = (
+		_x_material
+	)
+
+	_translation_root.add_child(
+		shaft
+	)
+
+	# Arrow Head
+
+	var head := MeshInstance3D.new()
+	head.name = "XAxisArrow"
+
+	var head_mesh := CylinderMesh.new()
+
+	# CylinderMesh 默认沿 Y 轴。
+	# top_radius = 0 形成圆锥。
+	head_mesh.top_radius = 0.0
+	head_mesh.bottom_radius = (
+		arrow_head_radius
+	)
+	head_mesh.height = (
+		arrow_head_length
+	)
+	head_mesh.radial_segments = 16
+
+	head.mesh = head_mesh
+
+	head.position.x = (
+		half_center
+		+ axis_length
+		+ arrow_head_length * 0.5
+	)
+
+	# +Y → +X
+	head.rotation.z = (
+		-deg_to_rad(90.0)
+	)
+
+	head.material_override = (
+		_x_material
+	)
+
+	_translation_root.add_child(
+		head
+	)
+
+# Z Axis
+
+func _create_z_axis() -> void:
+	var half_center := center_size * 0.5
+
+	# Shaft
+
+	var shaft := MeshInstance3D.new()
+	shaft.name = "ZAxisShaft"
+
+	var shaft_mesh := BoxMesh.new()
+
+	shaft_mesh.size = Vector3(
+		axis_thickness,
+		axis_thickness,
+		axis_length
+	)
+
+	shaft.mesh = shaft_mesh
+
+	shaft.position.z = (
+		half_center
+		+ axis_length * 0.5
+	)
+
+	shaft.material_override = (
+		_z_material
+	)
+
+	_translation_root.add_child(
+		shaft
+	)
+
+	# Arrow Head
+
+	var head := MeshInstance3D.new()
+	head.name = "ZAxisArrow"
+
+	var head_mesh := CylinderMesh.new()
+
+	head_mesh.top_radius = 0.0
+	head_mesh.bottom_radius = (
+		arrow_head_radius
+	)
+	head_mesh.height = (
+		arrow_head_length
+	)
+	head_mesh.radial_segments = 16
+
+	head.mesh = head_mesh
+
+	head.position.z = (
+		half_center
+		+ axis_length
+		+ arrow_head_length * 0.5
+	)
+
+	# +Y → +Z
+	head.rotation.x = (
+		deg_to_rad(90.0)
+	)
+
+	head.material_override = (
+		_z_material
+	)
+
+	_translation_root.add_child(
+		head
+	)
+
+# Rotation Ring
+
+func _create_rotation_ring() -> void:
+	var ring := MeshInstance3D.new()
+	ring.name = "YRotationRing"
+
+	var ring_mesh := TorusMesh.new()
+
+	ring_mesh.inner_radius = (
+		rotation_inner_radius
+	)
+
+	ring_mesh.outer_radius = (
+		rotation_outer_radius
+	)
+
+	ring_mesh.rings = 48
+	ring_mesh.ring_segments = 12
+
+	ring.mesh = ring_mesh
+
+	ring.material_override = (
+		_rotation_material
+	)
+
+	_rotation_root.add_child(
+		ring
+	)
+
+# Materials
+
+func _create_materials() -> void:
+	_x_material = _create_material(
+		Color(
+			1.0,
+			0.15,
+			0.15,
+			1.0
+		),
+		false
+	)
+
+	_z_material = _create_material(
+		Color(
+			0.15,
+			0.45,
+			1.0,
+			1.0
+		),
+		false
+	)
+
+	_center_material = _create_material(
+		Color(
+			0.95,
+			0.85,
+			0.2,
+			0.72
+		),
+		true
+	)
+
+	_rotation_material = _create_material(
+		Color(
+			0.15,
+			1.0,
+			0.3,
+			0.92
+		),
+		true
+	)
+
+func _create_material(
+	color: Color,
+	transparent: bool
+) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+
+	material.shading_mode = (
+		BaseMaterial3D.SHADING_MODE_UNSHADED
+	)
+
+	material.albedo_color = color
+
+	if transparent:
+		material.transparency = (
+			BaseMaterial3D.TRANSPARENCY_ALPHA
+		)
+
+	return material
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room.gd`
+
+- Category: `script`; bytes: `4452`; sha256/16: `7a8af5ba547230e6`
+
+
+```gdscript
+extends Node3D
+class_name ShelterRoom
+
+# Shelter Room
+#
+# 一个基地房间的逻辑节点。
+#
+# 房间本身只负责：
+# - 房间尺寸
+# - 网格位置
+# - 地板
+# - 房间内部设施
+#
+# 墙壁和门统一由 ShelterRoomManager 生成，
+# 防止两个相邻房间各自生成一堵墙造成重叠。
+
+var room_id: int = -1
+
+## 0 = Small
+## 1 = Medium
+## 2 = Large
+var room_type: int = 0
+
+## 房间占据区域左上/起始格。
+var origin_cell: Vector2i = Vector2i.ZERO
+
+## 房间占据多少基础格。
+##
+## Small  = 1 x 1
+## Medium = 2 x 1 / 1 x 2
+## Large  = 2 x 2
+var footprint: Vector2i = Vector2i.ONE
+
+## Medium 是否旋转为 1 x 2。
+var rotated: bool = false
+
+## 初始房间锁定，不允许移动和删除。
+var locked: bool = false
+
+## 一个基础格的尺寸。
+var cell_size: float = 8.0
+
+var facilities_root: Node3D
+
+var _floor_body: StaticBody3D
+
+const FLOOR_THICKNESS: float = 0.2
+
+func configure(
+	new_room_id: int,
+	new_room_type: int,
+	new_origin_cell: Vector2i,
+	new_footprint: Vector2i,
+	new_rotated: bool,
+	new_locked: bool,
+	new_cell_size: float
+) -> void:
+	room_id = new_room_id
+	room_type = new_room_type
+	origin_cell = new_origin_cell
+	footprint = new_footprint
+	rotated = new_rotated
+	locked = new_locked
+	cell_size = new_cell_size
+
+	name = "Room_%03d" % room_id
+
+	_ensure_facilities_root()
+	_update_world_position()
+	_rebuild_floor()
+
+func set_layout(
+	new_origin_cell: Vector2i,
+	new_footprint: Vector2i,
+	new_rotated: bool,
+	rotate_contents: bool = false
+) -> void:
+	if (
+		rotate_contents
+		and rotated != new_rotated
+	):
+		var rotation_delta: float
+
+		if new_rotated:
+			rotation_delta = PI * 0.5
+		else:
+			rotation_delta = -PI * 0.5
+
+		_rotate_facilities(rotation_delta)
+
+	origin_cell = new_origin_cell
+	footprint = new_footprint
+	rotated = new_rotated
+
+	_update_world_position()
+	_rebuild_floor()
+
+func get_occupied_cells() -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+
+	for x in range(footprint.x):
+		for z in range(footprint.y):
+			result.append(
+				origin_cell + Vector2i(x, z)
+			)
+
+	return result
+
+func _ensure_facilities_root() -> void:
+	if facilities_root != null:
+		return
+
+	facilities_root = Node3D.new()
+	facilities_root.name = "Facilities"
+
+	add_child(facilities_root)
+
+func _update_world_position() -> void:
+	# Grid 中：
+	#
+	# Cell (0, 0) 中心位于世界坐标 (0, 0, 0)
+	#
+	# 2x1 房间：
+	# 两格中心分别位于 0 和 8，
+	# 所以整个房间中心位于 4。
+	var center_x: float = (
+		float(origin_cell.x)
+		+ float(footprint.x - 1) * 0.5
+	) * cell_size
+
+	var center_z: float = (
+		float(origin_cell.y)
+		+ float(footprint.y - 1) * 0.5
+	) * cell_size
+
+	position = Vector3(
+		center_x,
+		0.0,
+		center_z
+	)
+
+func _rebuild_floor() -> void:
+	if is_instance_valid(_floor_body):
+		_floor_body.free()
+
+	_floor_body = StaticBody3D.new()
+	_floor_body.name = "Floor"
+
+	add_child(_floor_body)
+
+	var floor_size := Vector3(
+		float(footprint.x) * cell_size,
+		FLOOR_THICKNESS,
+		float(footprint.y) * cell_size
+	)
+
+	# Visual
+
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.name = "Mesh"
+
+	var box_mesh := BoxMesh.new()
+	box_mesh.size = floor_size
+
+	mesh_instance.mesh = box_mesh
+	mesh_instance.position.y = -FLOOR_THICKNESS * 0.5
+
+	var floor_material := StandardMaterial3D.new()
+	floor_material.albedo_color = Color(
+		0.42,
+		0.44,
+		0.48,
+		1.0
+	)
+
+	mesh_instance.material_override = floor_material
+
+	_floor_body.add_child(mesh_instance)
+
+	# Collision
+
+	var collision := CollisionShape3D.new()
+	collision.name = "Collision"
+
+	var box_shape := BoxShape3D.new()
+	box_shape.size = floor_size
+
+	collision.shape = box_shape
+	collision.position.y = -FLOOR_THICKNESS * 0.5
+
+	_floor_body.add_child(collision)
+
+func _rotate_facilities(angle: float) -> void:
+	if facilities_root == null:
+		return
+
+	var rotation_basis := Basis(
+		Vector3.UP,
+		angle
+	)
+
+	for child in facilities_root.get_children():
+		if not child is Node3D:
+			continue
+
+		var facility := child as Node3D
+
+		# 绕房间中心旋转设施的位置。
+		facility.position = (
+			rotation_basis
+			* facility.position
+		)
+
+		# 同时旋转设施自己的朝向。
+		facility.rotate_y(angle)
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`
+
+- Category: `script`; bytes: `16908`; sha256/16: `ea2339d528508f9c`
+
+
+```gdscript
+extends Node
+class_name ShelterRoomBuildController
+
+# Shelter Room Build Controller
+#
+# 当前阶段：
+#
+# Left Ctrl
+#     进入 / 退出基地建造模式
+#
+# 1
+#     Small 1x1
+#
+# 2
+#     Medium 2x1
+#
+# 3
+#     Large 2x2
+#
+# R
+#     Medium 旋转
+#
+# Left Mouse
+#     放置 Ghost
+#     或选择已有房间
+#
+# Right Mouse
+#     取消当前 Ghost
+#     或取消房间选择
+#
+# G
+#     移动当前选中的已有房间
+#
+# Delete
+#     删除当前选中的已有房间
+#
+# Escape
+#     取消当前操作
+#
+#
+# 这些数字键/G/Delete 都是开发阶段临时操作。
+# 后续会被正式 Shelter Build UI 替换。
+
+enum PlacementMode {
+	NONE,
+	NEW_ROOM,
+	MOVE_ROOM
+}
+
+const ROOM_SMALL: int = 0
+const ROOM_MEDIUM: int = 1
+const ROOM_LARGE: int = 2
+
+@export_category("References")
+
+@export var room_manager: ShelterRoomManager
+
+@export var gameplay_camera: ShelterCamera
+
+@export_category("Build Zone")
+
+## 初始房东侧就是 Road。
+##
+## 默认 Initial Room 位于 X Cell = 0，
+## 因此任何新房间都不能占据 X > 0 的格子。
+@export var restrict_building_to_initial_left_side: bool = true
+
+@export_category("Ghost")
+
+@export_range(0.01, 0.3, 0.01)
+var ghost_height: float = 0.08
+
+@export_range(0.0, 1.0, 0.05)
+var ghost_alpha: float = 0.4
+
+var build_mode_enabled: bool = false
+
+var placement_mode: int = PlacementMode.NONE
+
+var selected_room_id: int = -1
+
+var moving_room_id: int = -1
+
+var pending_room_type: int = ROOM_SMALL
+
+var pending_rotated: bool = false
+
+var pending_origin: Vector2i = Vector2i.ZERO
+
+var _ghost_valid: bool = false
+
+var _ghost: MeshInstance3D
+
+var _selection_marker: MeshInstance3D
+
+var _valid_material: StandardMaterial3D
+
+var _invalid_material: StandardMaterial3D
+
+var _selection_material: StandardMaterial3D
+
+func _ready() -> void:
+	_create_materials()
+	_create_preview_nodes()
+
+	_validate_setup()
+
+func _process(_delta: float) -> void:
+	if not build_mode_enabled:
+		return
+
+	if placement_mode == PlacementMode.NONE:
+		return
+
+	_update_placement_preview()
+
+func _unhandled_input(
+	event: InputEvent
+) -> void:
+	# RoomBuildController 本身不再负责进入模式。
+	#
+	# 只有 ShelterEditModeController
+	# 开启 ROOM_LAYOUT 后，
+	# 这里才接受房间编辑输入。
+
+	if not build_mode_enabled:
+		return
+
+	# Keyboard
+
+	if event is InputEventKey:
+		var key_event := (
+			event as InputEventKey
+		)
+
+		if not key_event.pressed:
+			return
+
+		if key_event.echo:
+			return
+
+		match key_event.keycode:
+			KEY_1:
+				_start_new_room(
+					ROOM_SMALL
+				)
+
+			KEY_2:
+				_start_new_room(
+					ROOM_MEDIUM
+				)
+
+			KEY_3:
+				_start_new_room(
+					ROOM_LARGE
+				)
+
+			KEY_R:
+				_rotate_pending_room()
+
+			KEY_G:
+				_start_moving_selected_room()
+
+			KEY_DELETE:
+				_delete_selected_room()
+
+			KEY_ESCAPE:
+				if (
+					placement_mode
+					!= PlacementMode.NONE
+				):
+					_cancel_placement()
+				else:
+					_clear_selection()
+
+			_:
+				return
+
+		get_viewport().set_input_as_handled()
+		return
+
+	# Mouse
+
+	if not event is InputEventMouseButton:
+		return
+
+	var mouse_event := (
+		event as InputEventMouseButton
+	)
+
+	if not mouse_event.pressed:
+		return
+
+	match mouse_event.button_index:
+		MOUSE_BUTTON_LEFT:
+			if (
+				placement_mode
+				!= PlacementMode.NONE
+			):
+				_confirm_placement()
+			else:
+				_select_room_under_mouse()
+
+			get_viewport().set_input_as_handled()
+
+		MOUSE_BUTTON_RIGHT:
+			if (
+				placement_mode
+				!= PlacementMode.NONE
+			):
+				_cancel_placement()
+			else:
+				_clear_selection()
+
+			get_viewport().set_input_as_handled()
+
+	# Mouse
+
+	if not build_mode_enabled:
+		return
+
+	if not event is InputEventMouseButton:
+		return
+
+	if not mouse_event.pressed:
+		return
+
+	match mouse_event.button_index:
+		MOUSE_BUTTON_LEFT:
+			if (
+				placement_mode
+				!= PlacementMode.NONE
+			):
+				_confirm_placement()
+			else:
+				_select_room_under_mouse()
+
+			get_viewport().set_input_as_handled()
+
+		MOUSE_BUTTON_RIGHT:
+			if (
+				placement_mode
+				!= PlacementMode.NONE
+			):
+				_cancel_placement()
+			else:
+				_clear_selection()
+
+			get_viewport().set_input_as_handled()
+
+# Build Mode
+
+func _toggle_build_mode() -> void:
+	set_build_mode(
+		not build_mode_enabled
+	)
+
+func set_room_layout_enabled(
+	enabled: bool
+) -> void:
+	set_build_mode(
+		enabled
+	)
+
+func set_build_mode(
+	enabled: bool
+) -> void:
+	if build_mode_enabled == enabled:
+		return
+
+	build_mode_enabled = enabled
+
+	if build_mode_enabled:
+		_enter_build_mode()
+	else:
+		_exit_build_mode()
+
+func _enter_build_mode() -> void:
+	print(
+		"[ShelterRoomBuild] ROOM EDIT ENABLED"
+	)
+
+	print(
+		"1 Small | 2 Medium | 3 Large"
+	)
+
+	print(
+		"R Rotate | G Move | Delete Remove"
+	)
+
+func _exit_build_mode() -> void:
+	_cancel_placement()
+	_clear_selection()
+
+	print(
+		"[ShelterRoomBuild] ROOM EDIT DISABLED"
+	)
+
+# New Room
+
+func _start_new_room(
+	room_type: int
+) -> void:
+	_cancel_placement()
+	_clear_selection()
+
+	pending_room_type = room_type
+	pending_rotated = false
+
+	placement_mode = (
+		PlacementMode.NEW_ROOM
+	)
+
+	_ghost.visible = true
+
+	_refresh_ghost_shape()
+
+	print(
+		"[ShelterBuild] New Room: %s"
+		% _get_room_type_name(
+			room_type
+		)
+	)
+
+# Existing Room Selection
+
+func _select_room_under_mouse() -> void:
+	var ground_point = (
+		_get_mouse_ground_point()
+	)
+
+	if ground_point == null:
+		_clear_selection()
+		return
+
+	var world_point: Vector3 = (
+		ground_point
+	)
+
+	var cell := _world_to_cell(
+		world_point
+	)
+
+	var room_id := (
+		room_manager.get_room_id_at_cell(
+			cell
+		)
+	)
+
+	if room_id < 0:
+		_clear_selection()
+		return
+
+	selected_room_id = room_id
+
+	_refresh_selection_marker()
+
+	print(
+		"[ShelterBuild] Selected Room: %d"
+		% selected_room_id
+	)
+
+func _clear_selection() -> void:
+	selected_room_id = -1
+
+	if _selection_marker != null:
+		_selection_marker.visible = false
+
+# Move Existing Room
+
+func _start_moving_selected_room() -> void:
+	if selected_room_id < 0:
+		return
+
+	var room := room_manager.get_room(
+		selected_room_id
+	)
+
+	if room == null:
+		return
+
+	if room.locked:
+		push_warning(
+			"ShelterBuild: 初始房间不能移动。"
+		)
+		return
+
+	_cancel_placement()
+
+	moving_room_id = selected_room_id
+
+	pending_room_type = room.room_type
+
+	pending_rotated = room.rotated
+
+	placement_mode = (
+		PlacementMode.MOVE_ROOM
+	)
+
+	# 移动时隐藏原房间。
+	#
+	# GeneratedWalls 会暂时保留原状态，
+	# 确认后 RoomManager 会统一重建。
+	room.visible = false
+
+	_selection_marker.visible = false
+	_ghost.visible = true
+
+	_refresh_ghost_shape()
+
+	print(
+		"[ShelterBuild] Moving Room: %d"
+		% moving_room_id
+	)
+
+# Delete
+
+func _delete_selected_room() -> void:
+	if selected_room_id < 0:
+		return
+
+	var room := room_manager.get_room(
+		selected_room_id
+	)
+
+	if room == null:
+		_clear_selection()
+		return
+
+	if room.locked:
+		push_warning(
+			"ShelterBuild: 初始房间不能删除。"
+		)
+		return
+
+	var removed := (
+		room_manager.remove_room(
+			selected_room_id
+		)
+	)
+
+	if not removed:
+		push_warning(
+			"ShelterBuild: 无法删除该房间。"
+			+ " 删除后会导致基地断开。"
+		)
+		return
+
+	print(
+		"[ShelterBuild] Removed Room: %d"
+		% selected_room_id
+	)
+
+	_clear_selection()
+
+# Rotation
+
+func _rotate_pending_room() -> void:
+	if (
+		placement_mode
+		== PlacementMode.NONE
+	):
+		return
+
+	# 只有 Medium 可以旋转。
+	if pending_room_type != ROOM_MEDIUM:
+		return
+
+	pending_rotated = (
+		not pending_rotated
+	)
+
+	_refresh_ghost_shape()
+
+	print(
+		"[ShelterBuild] Medium Rotation: %s"
+		% (
+			"1x2"
+			if pending_rotated
+			else "2x1"
+		)
+	)
+
+# Preview
+
+func _update_placement_preview() -> void:
+	var ground_point = (
+		_get_mouse_ground_point()
+	)
+
+	if ground_point == null:
+		_ghost.visible = false
+		_ghost_valid = false
+		return
+
+	_ghost.visible = true
+
+	var world_point: Vector3 = (
+		ground_point
+	)
+
+	pending_origin = _world_to_cell(
+		world_point
+	)
+
+	var footprint := (
+		room_manager.get_room_footprint(
+			pending_room_type,
+			pending_rotated
+		)
+	)
+
+	_update_ghost_transform(
+		pending_origin,
+		footprint
+	)
+
+	var ignore_room_id := -1
+
+	if (
+		placement_mode
+		== PlacementMode.MOVE_ROOM
+	):
+		ignore_room_id = moving_room_id
+
+	_ghost_valid = (
+		_is_inside_build_zone(
+			pending_origin,
+			footprint
+		)
+		and room_manager.can_place_room(
+			pending_origin,
+			footprint,
+			ignore_room_id
+		)
+	)
+
+	if _ghost_valid:
+		_ghost.material_override = (
+			_valid_material
+		)
+	else:
+		_ghost.material_override = (
+			_invalid_material
+		)
+
+func _refresh_ghost_shape() -> void:
+	var footprint = (
+		room_manager.get_room_footprint(
+			pending_room_type,
+			pending_rotated
+		)
+	)
+
+	var mesh := BoxMesh.new()
+
+	mesh.size = Vector3(
+		float(footprint.x)
+		* room_manager.cell_size
+		- 0.12,
+		ghost_height,
+		float(footprint.y)
+		* room_manager.cell_size
+		- 0.12
+	)
+
+	_ghost.mesh = mesh
+
+func _update_ghost_transform(
+	origin: Vector2i,
+	footprint: Vector2i
+) -> void:
+	var local_center := (
+		_get_room_local_center(
+			origin,
+			footprint
+		)
+	)
+
+	var world_center := (
+		room_manager.to_global(
+			local_center
+		)
+	)
+
+	world_center.y += (
+		ghost_height * 0.5
+		+ 0.01
+	)
+
+	_ghost.global_position = (
+		world_center
+	)
+
+# Confirm / Cancel
+
+func _confirm_placement() -> void:
+	if not _ghost_valid:
+		push_warning(
+			"ShelterBuild: 当前房间位置非法。"
+		)
+		return
+
+	match placement_mode:
+		PlacementMode.NEW_ROOM:
+			var new_room_id := (
+				room_manager.add_room(
+					pending_room_type,
+					pending_origin,
+					pending_rotated
+				)
+			)
+
+			if new_room_id < 0:
+				push_warning(
+					"ShelterBuild: 房间创建失败。"
+				)
+				return
+
+			print(
+				"[ShelterBuild] Room Created: %d"
+				% new_room_id
+			)
+
+			_cancel_placement()
+
+			selected_room_id = new_room_id
+			_refresh_selection_marker()
+
+		PlacementMode.MOVE_ROOM:
+			var room := room_manager.get_room(
+				moving_room_id
+			)
+
+			if room == null:
+				_cancel_placement()
+				return
+
+			# 先恢复可见。
+			room.visible = true
+
+			var moved := (
+				room_manager.move_room(
+					moving_room_id,
+					pending_origin,
+					pending_rotated
+				)
+			)
+
+			if not moved:
+				room.visible = false
+
+				push_warning(
+					"ShelterBuild: 房间移动失败。"
+				)
+				return
+
+			var moved_id := moving_room_id
+
+			_cancel_placement()
+
+			selected_room_id = moved_id
+
+			_refresh_selection_marker()
+
+			print(
+				"[ShelterBuild] Room Moved: %d"
+				% moved_id
+			)
+
+func _cancel_placement() -> void:
+	# 如果正在移动旧房间，
+	# 取消时恢复原房间。
+	if (
+		placement_mode
+		== PlacementMode.MOVE_ROOM
+		and moving_room_id >= 0
+	):
+		var room := room_manager.get_room(
+			moving_room_id
+		)
+
+		if room != null:
+			room.visible = true
+
+	placement_mode = (
+		PlacementMode.NONE
+	)
+
+	moving_room_id = -1
+
+	_ghost_valid = false
+
+	if _ghost != null:
+		_ghost.visible = false
+
+# Build Zone
+
+func _is_inside_build_zone(
+	origin: Vector2i,
+	footprint: Vector2i
+) -> bool:
+	if not restrict_building_to_initial_left_side:
+		return true
+
+	# 初始房的 X Cell 是基地最东边合法列。
+	#
+	# 初始房东侧完全留给：
+	# Road / NPC / Raid Entrance
+	var max_build_x := (
+		room_manager.initial_room_origin.x
+	)
+
+	for x in range(footprint.x):
+		for z in range(footprint.y):
+			var cell := (
+				origin
+				+ Vector2i(x, z)
+			)
+
+			if cell.x > max_build_x:
+				return false
+
+	return true
+
+# Mouse -> Ground -> Grid
+
+func _get_mouse_ground_point() -> Variant:
+	if gameplay_camera == null:
+		return null
+
+	var mouse_position := (
+		get_viewport().get_mouse_position()
+	)
+
+	var ray_origin := (
+		gameplay_camera.project_ray_origin(
+			mouse_position
+		)
+	)
+
+	var ray_direction := (
+		gameplay_camera.project_ray_normal(
+			mouse_position
+		)
+	)
+
+	# 所有房间当前都位于 Y = 0。
+	var ground_plane := Plane(
+		Vector3.UP,
+		0.0
+	)
+
+	return ground_plane.intersects_ray(
+		ray_origin,
+		ray_direction
+	)
+
+func _world_to_cell(
+	world_position: Vector3
+) -> Vector2i:
+	var local_position := (
+		room_manager.to_local(
+			world_position
+		)
+	)
+
+	return Vector2i(
+		int(
+			round(
+				local_position.x
+				/ room_manager.cell_size
+			)
+		),
+		int(
+			round(
+				local_position.z
+				/ room_manager.cell_size
+			)
+		)
+	)
+
+func _get_room_local_center(
+	origin: Vector2i,
+	footprint: Vector2i
+) -> Vector3:
+	var center_x := (
+		float(origin.x)
+		+ float(
+			footprint.x - 1
+		) * 0.5
+	) * room_manager.cell_size
+
+	var center_z := (
+		float(origin.y)
+		+ float(
+			footprint.y - 1
+		) * 0.5
+	) * room_manager.cell_size
+
+	return Vector3(
+		center_x,
+		0.0,
+		center_z
+	)
+
+# Selection Visual
+
+func _refresh_selection_marker() -> void:
+	if selected_room_id < 0:
+		_selection_marker.visible = false
+		return
+
+	var room := room_manager.get_room(
+		selected_room_id
+	)
+
+	if room == null:
+		_selection_marker.visible = false
+		return
+
+	var mesh := BoxMesh.new()
+
+	mesh.size = Vector3(
+		float(room.footprint.x)
+		* room_manager.cell_size
+		- 0.25,
+		0.05,
+		float(room.footprint.y)
+		* room_manager.cell_size
+		- 0.25
+	)
+
+	_selection_marker.mesh = mesh
+
+	var local_center := (
+		_get_room_local_center(
+			room.origin_cell,
+			room.footprint
+		)
+	)
+
+	var world_center := (
+		room_manager.to_global(
+			local_center
+		)
+	)
+
+	world_center.y += 0.035
+
+	_selection_marker.global_position = (
+		world_center
+	)
+
+	_selection_marker.visible = true
+
+# Visual Setup
+
+func _create_preview_nodes() -> void:
+	_ghost = MeshInstance3D.new()
+	_ghost.name = "RoomGhost"
+	_ghost.visible = false
+
+	add_child(_ghost)
+
+	_selection_marker = (
+		MeshInstance3D.new()
+	)
+
+	_selection_marker.name = (
+		"RoomSelectionMarker"
+	)
+
+	_selection_marker.material_override = (
+		_selection_material
+	)
+
+	_selection_marker.visible = false
+
+	add_child(_selection_marker)
+
+func _create_materials() -> void:
+	_valid_material = (
+		_create_transparent_material(
+			Color(
+				0.15,
+				0.95,
+				0.35,
+				ghost_alpha
+			)
+		)
+	)
+
+	_invalid_material = (
+		_create_transparent_material(
+			Color(
+				1.0,
+				0.15,
+				0.15,
+				ghost_alpha
+			)
+		)
+	)
+
+	_selection_material = (
+		_create_transparent_material(
+			Color(
+				0.15,
+				0.65,
+				1.0,
+				0.25
+			)
+		)
+	)
+
+func _create_transparent_material(
+	color: Color
+) -> StandardMaterial3D:
+	var material := (
+		StandardMaterial3D.new()
+	)
+
+	material.transparency = (
+		BaseMaterial3D.TRANSPARENCY_ALPHA
+	)
+
+	material.shading_mode = (
+		BaseMaterial3D.SHADING_MODE_UNSHADED
+	)
+
+	material.albedo_color = color
+
+	return material
+
+# Utility
+
+func _get_room_type_name(
+	room_type: int
+) -> String:
+	match room_type:
+		ROOM_SMALL:
+			return "SMALL 1x1"
+
+		ROOM_MEDIUM:
+			return "MEDIUM"
+
+		ROOM_LARGE:
+			return "LARGE 2x2"
+
+	return "UNKNOWN"
+
+func _validate_setup() -> void:
+	if room_manager == null:
+		push_error(
+			"ShelterBuild: RoomManager 未设置。"
+		)
+
+	if gameplay_camera == null:
+		push_error(
+			"ShelterBuild: Gameplay Camera 未设置。"
+		)
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`
+
+- Category: `script`; bytes: `13615`; sha256/16: `90d62bdc2b602586`
+
+
+```gdscript
+extends Node3D
+class_name ShelterRoomManager
+
+# Shelter Room Manager
+#
+# 基础网格：
+# 1 Cell = 8m x 8m
+#
+# Small:
+# 1 x 1
+#
+# Medium:
+# 2 x 1
+# 或
+# 1 x 2
+#
+# Large:
+# 2 x 2
+#
+#
+# 重要：
+#
+# 房间只生成地板。
+#
+# 所有墙和门统一在这里根据全局占用情况生成，
+# 从根本上避免两个房间之间生成两套墙的问题。
+
+signal room_added(room_id: int)
+signal room_moved(room_id: int)
+signal room_removed(room_id: int)
+
+## 后期 Storage 系统接入点。
+signal facility_storage_requested(facility: Node)
+
+enum RoomType {
+	SMALL,
+	MEDIUM,
+	LARGE
+}
+
+enum WallSide {
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST
+}
+
+const DIRECTIONS := [
+	Vector2i(0, -1),
+	Vector2i(1, 0),
+	Vector2i(0, 1),
+	Vector2i(-1, 0)
+]
+
+@export_category("Grid")
+
+## 最小房间单元：
+## 8m x 8m
+@export var cell_size: float = 8.0
+
+@export_category("Wall")
+
+@export var wall_height: float = 2.8
+
+@export var wall_thickness: float = 0.2
+
+## 门固定宽度。
+@export var door_width: float = 2.0
+
+@export_category("Initial Room")
+
+## 初始房间中心格。
+@export var initial_room_origin: Vector2i = Vector2i.ZERO
+
+## 初始房间通往 Road 的永久出口。
+##
+## North / East / South / West
+@export_enum(
+	"North",
+	"East",
+	"South",
+	"West"
+)
+var initial_exit_side: int = WallSide.EAST
+
+@export_category("Debug")
+
+## 开启后会自动生成一组测试房间。
+##
+## 只用于验证：
+## - 1x1
+## - 2x1
+## - 2x2
+## - 多段接触生成多扇门
+##
+## 正式使用时关闭。
+@export var debug_generate_sample_layout: bool = false
+
+var rooms: Dictionary = {}
+
+## Vector2i -> room_id
+var occupied_cells: Dictionary = {}
+
+var initial_room_id: int = 0
+
+var _next_room_id: int = 1
+
+var _rooms_root: Node3D
+var _walls_root: Node3D
+var _storage_placeholder: Node3D
+
+var _wall_material: StandardMaterial3D
+
+func _ready() -> void:
+	_create_runtime_roots()
+	_create_wall_material()
+
+	_create_initial_room()
+
+	if debug_generate_sample_layout:
+		_create_debug_layout()
+
+	_rebuild_all_walls()
+
+# Public API
+
+func add_room(
+	room_type: int,
+	origin: Vector2i,
+	rotated: bool = false
+) -> int:
+	var footprint := get_room_footprint(
+		room_type,
+		rotated
+	)
+
+	if not can_place_room(
+		origin,
+		footprint
+	):
+		return -1
+
+	var room_id := _next_room_id
+	_next_room_id += 1
+
+	var room := ShelterRoom.new()
+
+	room.configure(
+		room_id,
+		room_type,
+		origin,
+		footprint,
+		rotated,
+		false,
+		cell_size
+	)
+
+	_rooms_root.add_child(room)
+
+	rooms[room_id] = room
+
+	_register_room_cells(room)
+
+	_rebuild_all_walls()
+
+	room_added.emit(room_id)
+
+	return room_id
+
+func move_room(
+	room_id: int,
+	new_origin: Vector2i,
+	new_rotated: bool
+) -> bool:
+	var room := get_room(room_id)
+
+	if room == null:
+		return false
+
+	if room.locked:
+		return false
+
+	var new_footprint := get_room_footprint(
+		room.room_type,
+		new_rotated
+	)
+
+	if not can_place_room(
+		new_origin,
+		new_footprint,
+		room_id
+	):
+		return false
+
+	_unregister_room_cells(room)
+
+	var should_rotate_contents := (
+		room.room_type == RoomType.MEDIUM
+		and room.rotated != new_rotated
+	)
+
+	room.set_layout(
+		new_origin,
+		new_footprint,
+		new_rotated,
+		should_rotate_contents
+	)
+
+	_register_room_cells(room)
+
+	_rebuild_all_walls()
+
+	room_moved.emit(room_id)
+
+	return true
+
+func can_remove_room(room_id: int) -> bool:
+	var room := get_room(room_id)
+
+	if room == null:
+		return false
+
+	if room.locked:
+		return false
+
+	var test_occupancy := _make_occupancy_without_room(
+		room_id
+	)
+
+	return _all_cells_connected(
+		test_occupancy
+	)
+
+func remove_room(room_id: int) -> bool:
+	if not can_remove_room(room_id):
+		return false
+
+	var room := get_room(room_id)
+
+	if room == null:
+		return false
+
+	_return_facilities_to_storage(room)
+
+	_unregister_room_cells(room)
+
+	rooms.erase(room_id)
+
+	room.queue_free()
+
+	_rebuild_all_walls()
+
+	room_removed.emit(room_id)
+
+	return true
+
+func can_place_room(
+	origin: Vector2i,
+	footprint: Vector2i,
+	ignore_room_id: int = -1
+) -> bool:
+	var test_occupancy := _make_occupancy_without_room(
+		ignore_room_id
+	)
+
+	var candidate_cells: Array[Vector2i] = []
+
+	for x in range(footprint.x):
+		for z in range(footprint.y):
+			var cell := (
+				origin
+				+ Vector2i(x, z)
+			)
+
+			if test_occupancy.has(cell):
+				return false
+
+			candidate_cells.append(cell)
+
+	# 用负值作为临时候选房间 ID。
+	for cell in candidate_cells:
+		test_occupancy[cell] = -999
+
+	# 初始房存在以后，
+	# 所有新增 / 移动后的房间必须与整个基地保持连通。
+	return _all_cells_connected(
+		test_occupancy
+	)
+
+func get_room(room_id: int) -> ShelterRoom:
+	if not rooms.has(room_id):
+		return null
+
+	return rooms[room_id] as ShelterRoom
+
+func get_room_id_at_cell(
+	cell: Vector2i
+) -> int:
+	if not occupied_cells.has(cell):
+		return -1
+
+	return int(
+		occupied_cells[cell]
+	)
+
+func get_room_footprint(
+	room_type: int,
+	rotated: bool = false
+) -> Vector2i:
+	match room_type:
+		RoomType.SMALL:
+			return Vector2i(1, 1)
+
+		RoomType.MEDIUM:
+			if rotated:
+				return Vector2i(1, 2)
+
+			return Vector2i(2, 1)
+
+		RoomType.LARGE:
+			return Vector2i(2, 2)
+
+	return Vector2i.ONE
+
+func grid_cell_to_world(
+	cell: Vector2i
+) -> Vector3:
+	return Vector3(
+		float(cell.x) * cell_size,
+		0.0,
+		float(cell.y) * cell_size
+	)
+
+# Initial Room
+
+func _create_initial_room() -> void:
+	var room := ShelterRoom.new()
+
+	room.configure(
+		initial_room_id,
+		RoomType.SMALL,
+		initial_room_origin,
+		Vector2i.ONE,
+		false,
+		true,
+		cell_size
+	)
+
+	_rooms_root.add_child(room)
+
+	rooms[initial_room_id] = room
+
+	_register_room_cells(room)
+
+# Occupancy
+
+func _register_room_cells(
+	room: ShelterRoom
+) -> void:
+	for cell in room.get_occupied_cells():
+		occupied_cells[cell] = room.room_id
+
+func _unregister_room_cells(
+	room: ShelterRoom
+) -> void:
+	for cell in room.get_occupied_cells():
+		if occupied_cells.has(cell):
+			occupied_cells.erase(cell)
+
+func _make_occupancy_without_room(
+	ignored_room_id: int
+) -> Dictionary:
+	var result: Dictionary = {}
+
+	for cell_variant in occupied_cells.keys():
+		var cell := cell_variant as Vector2i
+		var room_id := int(
+			occupied_cells[cell]
+		)
+
+		if room_id == ignored_room_id:
+			continue
+
+		result[cell] = room_id
+
+	return result
+
+# Connectivity
+
+func _all_cells_connected(
+	test_occupancy: Dictionary
+) -> bool:
+	if test_occupancy.is_empty():
+		return false
+
+	if not test_occupancy.has(
+		initial_room_origin
+	):
+		return false
+
+	var visited: Dictionary = {}
+
+	var queue: Array[Vector2i] = [
+		initial_room_origin
+	]
+
+	var queue_index := 0
+
+	while queue_index < queue.size():
+		var current := queue[queue_index]
+		queue_index += 1
+
+		if visited.has(current):
+			continue
+
+		visited[current] = true
+
+		for direction in DIRECTIONS:
+			var neighbor: Vector2i = (
+				current + direction
+			)
+
+			if not test_occupancy.has(
+				neighbor
+			):
+				continue
+
+			if visited.has(neighbor):
+				continue
+
+			queue.append(neighbor)
+
+	return (
+		visited.size()
+		== test_occupancy.size()
+	)
+
+# Wall Generation
+
+func _rebuild_all_walls() -> void:
+	for child in _walls_root.get_children():
+		child.free()
+
+	for cell_variant in occupied_cells.keys():
+		var cell := cell_variant as Vector2i
+
+		var current_room_id := int(
+			occupied_cells[cell]
+		)
+
+		for side in range(4):
+			var direction: Vector2i = (
+				DIRECTIONS[side]
+			)
+
+			var neighbor := (
+				cell + direction
+			)
+
+			# 外墙
+
+			if not occupied_cells.has(
+				neighbor
+			):
+				var external_door := (
+					_is_initial_external_door(
+						cell,
+						side,
+						current_room_id
+					)
+				)
+
+				_create_wall_segment(
+					cell,
+					side,
+					external_door
+				)
+
+				continue
+
+			# 与另一个 Cell 相邻
+
+			var neighbor_room_id := int(
+				occupied_cells[neighbor]
+			)
+
+			# 同一个房间内部：
+			# 不生成墙。
+			if (
+				neighbor_room_id
+				== current_room_id
+			):
+				continue
+
+			# 不同房间共享边：
+			#
+			# 只允许其中一侧负责生成墙，
+			# 防止生成两套重叠墙体。
+			if not _should_generate_shared_wall(
+				cell,
+				neighbor
+			):
+				continue
+
+			# 不同房间接触：
+			# 当前这个 8m 边段一定生成门。
+			_create_wall_segment(
+				cell,
+				side,
+				true
+			)
+
+func _should_generate_shared_wall(
+	cell: Vector2i,
+	neighbor: Vector2i
+) -> bool:
+	if cell.x < neighbor.x:
+		return true
+
+	if cell.x > neighbor.x:
+		return false
+
+	return cell.y < neighbor.y
+
+func _is_initial_external_door(
+	cell: Vector2i,
+	side: int,
+	room_id: int
+) -> bool:
+	if room_id != initial_room_id:
+		return false
+
+	if cell != initial_room_origin:
+		return false
+
+	return side == initial_exit_side
+
+func _create_wall_segment(
+	cell: Vector2i,
+	side: int,
+	has_door: bool
+) -> void:
+	var center := grid_cell_to_world(
+		cell
+	)
+
+	center.y = wall_height * 0.5
+
+	match side:
+		WallSide.NORTH:
+			center.z -= cell_size * 0.5
+
+		WallSide.EAST:
+			center.x += cell_size * 0.5
+
+		WallSide.SOUTH:
+			center.z += cell_size * 0.5
+
+		WallSide.WEST:
+			center.x -= cell_size * 0.5
+
+	if has_door:
+		_create_door_wall(
+			center,
+			side
+		)
+	else:
+		_create_full_wall(
+			center,
+			side
+		)
+
+func _create_full_wall(
+	center: Vector3,
+	side: int
+) -> void:
+	var wall_size: Vector3
+
+	if (
+		side == WallSide.NORTH
+		or side == WallSide.SOUTH
+	):
+		wall_size = Vector3(
+			cell_size,
+			wall_height,
+			wall_thickness
+		)
+	else:
+		wall_size = Vector3(
+			wall_thickness,
+			wall_height,
+			cell_size
+		)
+
+	_create_wall_piece(
+		center,
+		wall_size
+	)
+
+func _create_door_wall(
+	center: Vector3,
+	side: int
+) -> void:
+	var side_length := (
+		cell_size - door_width
+	) * 0.5
+
+	if side_length <= 0.0:
+		return
+
+	var offset := (
+		door_width * 0.5
+		+ side_length * 0.5
+	)
+
+	if (
+		side == WallSide.NORTH
+		or side == WallSide.SOUTH
+	):
+		var piece_size := Vector3(
+			side_length,
+			wall_height,
+			wall_thickness
+		)
+
+		_create_wall_piece(
+			center + Vector3(
+				-offset,
+				0.0,
+				0.0
+			),
+			piece_size
+		)
+
+		_create_wall_piece(
+			center + Vector3(
+				offset,
+				0.0,
+				0.0
+			),
+			piece_size
+		)
+
+	else:
+		var piece_size := Vector3(
+			wall_thickness,
+			wall_height,
+			side_length
+		)
+
+		_create_wall_piece(
+			center + Vector3(
+				0.0,
+				0.0,
+				-offset
+			),
+			piece_size
+		)
+
+		_create_wall_piece(
+			center + Vector3(
+				0.0,
+				0.0,
+				offset
+			),
+			piece_size
+		)
+
+func _create_wall_piece(
+	center: Vector3,
+	size: Vector3
+) -> void:
+	var body := StaticBody3D.new()
+	body.name = "Wall"
+
+	body.position = center
+
+	_walls_root.add_child(body)
+
+	# Visual
+
+	var mesh_instance := MeshInstance3D.new()
+
+	var mesh := BoxMesh.new()
+	mesh.size = size
+
+	mesh_instance.mesh = mesh
+	mesh_instance.material_override = (
+		_wall_material
+	)
+
+	body.add_child(mesh_instance)
+
+	# Collision
+
+	var collision := CollisionShape3D.new()
+
+	var shape := BoxShape3D.new()
+	shape.size = size
+
+	collision.shape = shape
+
+	body.add_child(collision)
+
+# Facilities / Future Storage
+
+func _return_facilities_to_storage(
+	room: ShelterRoom
+) -> void:
+	if room.facilities_root == null:
+		return
+
+	for child in room.facilities_root.get_children():
+		child.reparent(
+			_storage_placeholder,
+			false
+		)
+
+		if child is Node3D:
+			var facility := child as Node3D
+			facility.visible = false
+
+		facility_storage_requested.emit(
+			child
+		)
+
+# Runtime Roots
+
+func _create_runtime_roots() -> void:
+	_rooms_root = Node3D.new()
+	_rooms_root.name = "Rooms"
+	add_child(_rooms_root)
+
+	_walls_root = Node3D.new()
+	_walls_root.name = "GeneratedWalls"
+	add_child(_walls_root)
+
+	_storage_placeholder = Node3D.new()
+	_storage_placeholder.name = (
+		"FacilityStoragePlaceholder"
+	)
+	add_child(_storage_placeholder)
+
+func _create_wall_material() -> void:
+	_wall_material = StandardMaterial3D.new()
+
+	_wall_material.albedo_color = Color(
+		0.32,
+		0.33,
+		0.36,
+		1.0
+	)
+
+# Debug
+
+func _create_debug_layout() -> void:
+	# Initial:
+	#
+	#         x = 0
+	#           ■
+	#
+	# 向左扩张测试。
+	#
+	# Large  Medium  Small Initial
+	#
+	# ■■      ■      ■      ■
+	# ■■      ■
+	#
+	# Large 和 Medium 共享两个 8m 边，
+	# 因此这里应该自动出现两扇门。
+
+	add_room(
+		RoomType.SMALL,
+		Vector2i(-1, 0)
+	)
+
+	add_room(
+		RoomType.MEDIUM,
+		Vector2i(-2, 0),
+		true
+	)
+
+	add_room(
+		RoomType.LARGE,
+		Vector2i(-4, 0)
+	)
 ```
 
 
@@ -11603,31 +16241,1273 @@ func _toggle_camera() -> void:
 ```
 
 
+### `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`
+
+- Category: `script`; bytes: `8529`; sha256/16: `014022150782e02d`
+
+
+```gdscript
+extends Node
+class_name ShelterNPCRaidInteraction
+
+# Shelter NPC / Raid Interaction
+#
+# 完全属于 Shelter 系统。
+#
+# 不依赖：
+# - EventBus
+# - InteractionManager
+# - SearchManager
+# - world_interactionUI
+#
+#
+# Flow:
+#
+# Enter NPC Area
+#     ↓
+# Show "[E] 与NPC交互"
+#
+# Press E
+#     ↓
+# Confirmation Dialog
+#
+# YES
+#     ↓
+# raid_authorized = true
+#
+# NO
+#     ↓
+# raid_authorized = false
+#
+#
+# Enter Raid Entry Area:
+#
+# authorized
+#     → Battlescene
+#
+# unauthorized
+#     → nothing
+
+@export_category("References")
+
+@export var player: ShelterPlayer
+
+@export var npc_interaction_area: Area3D
+
+@export var raid_entry_area: Area3D
+
+@export_category("Battle")
+
+@export var battle_scene: PackedScene
+
+@export_category("Interaction")
+
+@export var interaction_text: String = "[E] 与 NPC 交互"
+
+@export var authorized_text: String = "已确认出战，前往道路尽头"
+
+@export_category("Dialog")
+
+@export var dialog_title: String = "出战确认"
+
+@export_multiline var dialog_text: String = (
+	"是否进入战斗？\n\n"
+	+ "选择“是”后，前往道路尽头即可进入战斗。"
+)
+
+var raid_authorized: bool = false
+
+var _player_in_npc_range: bool = false
+
+var _dialog_open: bool = false
+
+var _transitioning: bool = false
+
+var _ui_layer: CanvasLayer
+
+var _prompt_panel: PanelContainer
+
+var _prompt_label: Label
+
+var _confirmation_dialog: ConfirmationDialog
+
+func _ready() -> void:
+	if not _validate_setup():
+		set_process_unhandled_input(false)
+		return
+
+	_create_ui()
+
+	_connect_detection_areas()
+
+func _unhandled_input(
+	event: InputEvent
+) -> void:
+	if not _player_in_npc_range:
+		return
+
+	if _dialog_open:
+		return
+
+	if _transitioning:
+		return
+
+	if event.is_action_pressed(
+		"interact"
+	):
+		_open_confirmation_dialog()
+
+		get_viewport().set_input_as_handled()
+
+# Setup
+
+func _connect_detection_areas() -> void:
+	if not npc_interaction_area.body_entered.is_connected(
+		_on_npc_body_entered
+	):
+		npc_interaction_area.body_entered.connect(
+			_on_npc_body_entered
+		)
+
+	if not npc_interaction_area.body_exited.is_connected(
+		_on_npc_body_exited
+	):
+		npc_interaction_area.body_exited.connect(
+			_on_npc_body_exited
+		)
+
+	if not raid_entry_area.body_entered.is_connected(
+		_on_raid_entry_body_entered
+	):
+		raid_entry_area.body_entered.connect(
+			_on_raid_entry_body_entered
+		)
+
+# UI
+
+func _create_ui() -> void:
+	# Canvas Layer
+
+	_ui_layer = CanvasLayer.new()
+	_ui_layer.name = "ShelterInteractionUI"
+	_ui_layer.layer = 20
+
+	add_child(
+		_ui_layer
+	)
+
+	# Interaction Prompt
+
+	_prompt_panel = PanelContainer.new()
+	_prompt_panel.name = "InteractionPrompt"
+
+	_prompt_panel.anchor_left = 0.5
+	_prompt_panel.anchor_right = 0.5
+
+	_prompt_panel.anchor_top = 1.0
+	_prompt_panel.anchor_bottom = 1.0
+
+	_prompt_panel.offset_left = -190.0
+	_prompt_panel.offset_right = 190.0
+
+	_prompt_panel.offset_top = -115.0
+	_prompt_panel.offset_bottom = -60.0
+
+	_prompt_panel.visible = false
+
+	_ui_layer.add_child(
+		_prompt_panel
+	)
+
+	_prompt_label = Label.new()
+	_prompt_label.name = "Label"
+
+	_prompt_label.horizontal_alignment = (
+		HORIZONTAL_ALIGNMENT_CENTER
+	)
+
+	_prompt_label.vertical_alignment = (
+		VERTICAL_ALIGNMENT_CENTER
+	)
+
+	_prompt_label.text = interaction_text
+
+	_prompt_panel.add_child(
+		_prompt_label
+	)
+
+	# Confirmation Dialog
+
+	_confirmation_dialog = (
+		ConfirmationDialog.new()
+	)
+
+	_confirmation_dialog.name = (
+		"RaidConfirmationDialog"
+	)
+
+	_confirmation_dialog.title = (
+		dialog_title
+	)
+
+	_confirmation_dialog.dialog_text = (
+		dialog_text
+	)
+
+	_confirmation_dialog.ok_button_text = (
+		"是"
+	)
+
+	_confirmation_dialog.cancel_button_text = (
+		"否"
+	)
+
+	_ui_layer.add_child(
+		_confirmation_dialog
+	)
+
+	_confirmation_dialog.confirmed.connect(
+		_on_confirmation_yes
+	)
+
+	_confirmation_dialog.canceled.connect(
+		_on_confirmation_no
+	)
+
+# NPC Area
+
+func _on_npc_body_entered(
+	body: Node3D
+) -> void:
+	if body != player:
+		return
+
+	_player_in_npc_range = true
+
+	_update_interaction_prompt()
+
+func _on_npc_body_exited(
+	body: Node3D
+) -> void:
+	if body != player:
+		return
+
+	_player_in_npc_range = false
+
+	_hide_interaction_prompt()
+
+# Prompt
+
+func _update_interaction_prompt() -> void:
+	if _prompt_panel == null:
+		return
+
+	if raid_authorized:
+		_prompt_label.text = (
+			authorized_text
+		)
+	else:
+		_prompt_label.text = (
+			interaction_text
+		)
+
+	_prompt_panel.visible = true
+
+func _hide_interaction_prompt() -> void:
+	if _prompt_panel != null:
+		_prompt_panel.visible = false
+
+# Dialog
+
+func _open_confirmation_dialog() -> void:
+	if _confirmation_dialog == null:
+		return
+
+	_dialog_open = true
+
+	_hide_interaction_prompt()
+
+	_set_player_frozen(
+		true
+	)
+
+	_confirmation_dialog.popup_centered(
+		Vector2i(
+			460,
+			240
+		)
+	)
+
+func _on_confirmation_yes() -> void:
+	_dialog_open = false
+
+	raid_authorized = true
+
+	_set_player_frozen(
+		false
+	)
+
+	print(
+		"[ShelterNPC] Raid authorized."
+	)
+
+	if _player_in_npc_range:
+		_update_interaction_prompt()
+
+func _on_confirmation_no() -> void:
+	_dialog_open = false
+
+	raid_authorized = false
+
+	_set_player_frozen(
+		false
+	)
+
+	print(
+		"[ShelterNPC] Raid canceled."
+	)
+
+	if _player_in_npc_range:
+		_update_interaction_prompt()
+
+# Raid Entry
+
+func _on_raid_entry_body_entered(
+	body: Node3D
+) -> void:
+	if body != player:
+		return
+
+	if _transitioning:
+		return
+
+	# 没有经过 NPC 确认：
+	#
+	# 什么都不发生。
+
+	if not raid_authorized:
+		return
+
+	if battle_scene == null:
+		push_error(
+			"ShelterNPC: Battle Scene 未设置。"
+		)
+
+		return
+
+	_enter_battle()
+
+func _enter_battle() -> void:
+	_transitioning = true
+
+	_set_player_frozen(
+		true
+	)
+
+	_hide_interaction_prompt()
+
+	print(
+		"[ShelterNPC] Entering BattleScene."
+	)
+
+	var error := (
+		get_tree().change_scene_to_packed(
+			battle_scene
+		)
+	)
+
+	if error != OK:
+		push_error(
+			"ShelterNPC: 战斗场景切换失败。"
+		)
+
+		_transitioning = false
+
+		_set_player_frozen(
+			false
+		)
+
+# Player
+
+func _set_player_frozen(
+	frozen: bool
+) -> void:
+	if player == null:
+		return
+
+	if frozen:
+		player.velocity = Vector3.ZERO
+
+		player.set_physics_process(
+			false
+		)
+
+		if (
+			player.animation_player != null
+			and player.animation_player.has_animation(
+				player.idle_animation
+			)
+		):
+			player.animation_player.play(
+				player.idle_animation,
+				player.animation_blend_time
+			)
+
+	else:
+		player.set_physics_process(
+			true
+		)
+
+# Validation
+
+func _validate_setup() -> bool:
+	var valid := true
+
+	if player == null:
+		push_error(
+			"ShelterNPC: Player 未绑定。"
+		)
+
+		valid = false
+
+	if npc_interaction_area == null:
+		push_error(
+			"ShelterNPC: NPC InteractionArea 未绑定。"
+		)
+
+		valid = false
+
+	if raid_entry_area == null:
+		push_error(
+			"ShelterNPC: Raid Entry Area 未绑定。"
+		)
+
+		valid = false
+
+	if battle_scene == null:
+		push_error(
+			"ShelterNPC: Battle Scene 未绑定。"
+		)
+
+		valid = false
+
+	return valid
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`
+
+- Category: `script`; bytes: `11741`; sha256/16: `226cf277aec4201e`
+
+
+```gdscript
+extends Node
+class_name ShelterSaveBridge
+
+@export_category("References")
+
+@export var room_manager: ShelterRoomManager
+
+@export var facility_build_controller: ShelterFacilityBuildController
+
+var _restoring: bool = false
+var _save_queued: bool = false
+
+func _ready() -> void:
+	if not _validate_setup():
+		return
+
+	_connect_change_signals()
+
+	# 等待 RoomManager 完成自己的 _ready：
+	# Initial Room / Runtime Roots 都生成完毕后再读档。
+	call_deferred(
+		"_restore_from_current_save"
+	)
+
+# Signals
+
+func _connect_change_signals() -> void:
+	if not room_manager.room_added.is_connected(
+		_on_shelter_changed
+	):
+		room_manager.room_added.connect(
+			_on_shelter_changed
+		)
+
+	if not room_manager.room_moved.is_connected(
+		_on_shelter_changed
+	):
+		room_manager.room_moved.connect(
+			_on_shelter_changed
+		)
+
+	if not room_manager.room_removed.is_connected(
+		_on_shelter_changed
+	):
+		room_manager.room_removed.connect(
+			_on_shelter_changed
+		)
+
+	if (
+		facility_build_controller != null
+		and not facility_build_controller.facility_changed.is_connected(
+			_on_facility_changed
+		)
+	):
+		facility_build_controller.facility_changed.connect(
+			_on_facility_changed
+		)
+
+func _on_shelter_changed(
+	_room_id: int
+) -> void:
+	_queue_save()
+
+func _on_facility_changed() -> void:
+	_queue_save()
+
+func _queue_save() -> void:
+	if _restoring:
+		return
+
+	if _save_queued:
+		return
+
+	_save_queued = true
+
+	call_deferred(
+		"_save_queued_changes"
+	)
+
+func _save_queued_changes() -> void:
+	_save_queued = false
+
+	if _restoring:
+		return
+
+	save_shelter_now()
+
+# Save
+
+func save_shelter_now() -> void:
+	if SaveManager.current_save.is_empty():
+		push_warning(
+			"ShelterSaveBridge: 当前没有加载存档。"
+		)
+		return
+
+	_sanitize_storage_collisions()
+
+	var shelter_data: Dictionary = {
+		"version": 1,
+		"rooms": _serialize_rooms(),
+		"facility_storage": _serialize_storage()
+	}
+
+	SaveManager.set_shelter_data(
+		shelter_data,
+		true
+	)
+
+func _serialize_rooms() -> Array:
+	var result: Array = []
+
+	var room_ids: Array = (
+		room_manager.rooms.keys()
+	)
+
+	room_ids.sort()
+
+	for id_value in room_ids:
+		var room_id: int = int(
+			id_value
+		)
+
+		var room: ShelterRoom = (
+			room_manager.get_room(
+				room_id
+			)
+		)
+
+		if room == null:
+			continue
+
+		var room_data: Dictionary = {
+			"is_initial": (
+				room_id
+				== room_manager.initial_room_id
+			),
+
+			"room_type": room.room_type,
+
+			"origin_cell": [
+				room.origin_cell.x,
+				room.origin_cell.y
+			],
+
+			"rotated": room.rotated,
+
+			"facilities": (
+				_serialize_facility_container(
+					room.facilities_root
+				)
+			)
+		}
+
+		result.append(
+			room_data
+		)
+
+	return result
+
+func _serialize_storage() -> Array:
+	var storage_root: Node = (
+		room_manager.get_node_or_null(
+			"FacilityStoragePlaceholder"
+		)
+	)
+
+	if storage_root == null:
+		return []
+
+	return _serialize_facility_container(
+		storage_root
+	)
+
+func _serialize_facility_container(
+	container: Node
+) -> Array:
+	var result: Array = []
+
+	if container == null:
+		return result
+
+	for child in container.get_children():
+		if not child is ShelterFacility:
+			continue
+
+		var facility: ShelterFacility = (
+			child as ShelterFacility
+		)
+
+		var scene_path: String = (
+			facility.scene_file_path
+		)
+
+		if scene_path.is_empty():
+			push_warning(
+				"ShelterSaveBridge: "
+				+ "设施没有 scene_file_path，跳过："
+				+ facility.name
+			)
+
+			continue
+
+		var state: Dictionary = {}
+
+		if facility.has_method(
+			"get_save_state"
+		):
+			var state_value: Variant = (
+				facility.call(
+					"get_save_state"
+				)
+			)
+
+			if typeof(state_value) == TYPE_DICTIONARY:
+				state = state_value
+
+		result.append(
+			{
+				"scene_path": scene_path,
+
+				"facility_id": str(
+					facility.facility_id
+				),
+
+				"position": [
+					facility.position.x,
+					facility.position.y,
+					facility.position.z
+				],
+
+				"rotation_y": (
+					facility.rotation.y
+				),
+
+				"state": state
+			}
+		)
+
+	return result
+
+# Restore
+
+func _restore_from_current_save() -> void:
+	if SaveManager.current_save.is_empty():
+		push_warning(
+			"ShelterSaveBridge: "
+			+ "进入 Shelter 时没有加载存档。"
+		)
+		return
+
+	_restoring = true
+
+	var shelter_data: Dictionary = (
+		SaveManager.get_shelter_data()
+	)
+
+	_restore_rooms(
+		shelter_data.get(
+			"rooms",
+			[]
+		)
+	)
+
+	_restore_storage(
+		shelter_data.get(
+			"facility_storage",
+			[]
+		)
+	)
+
+	_restoring = false
+
+	# 旧存档第一次进入 Shelter 时，
+	# 会在这里升级成完整的 Shelter 数据结构。
+	save_shelter_now()
+
+func _restore_rooms(
+	room_list_value: Variant
+) -> void:
+	if typeof(room_list_value) != TYPE_ARRAY:
+		return
+
+	var room_list: Array = room_list_value
+
+	# Initial Room
+	#
+	# Initial Room 本身由场景系统生成，
+	# 不重新创建。
+	#
+	# 这里只恢复 Initial Room 内的玩家设施。
+
+	for entry_value in room_list:
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+
+		var entry: Dictionary = entry_value
+
+		if not bool(
+			entry.get(
+				"is_initial",
+				false
+			)
+		):
+			continue
+
+		var initial_room: ShelterRoom = (
+			room_manager.get_room(
+				room_manager.initial_room_id
+			)
+		)
+
+		if initial_room != null:
+			_restore_facilities(
+				entry.get(
+					"facilities",
+					[]
+				),
+				initial_room.facilities_root,
+				initial_room.room_id,
+				true
+			)
+
+	# Player-created Rooms
+	#
+	# 不使用旧 room_id 恢复。
+	#
+	# 因为玩家删除房间后 ID 可能存在空洞。
+	#
+	# 使用迭代方式：
+	# 每一轮恢复当前能够连接到基地的房间，
+	# 直到完整连通布局被恢复。
+
+	var pending: Array = []
+
+	for entry_value in room_list:
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+
+		var entry: Dictionary = entry_value
+
+		if bool(
+			entry.get(
+				"is_initial",
+				false
+			)
+		):
+			continue
+
+		pending.append(
+			entry.duplicate(
+				true
+			)
+		)
+
+	var safety: int = 0
+
+	while (
+		not pending.is_empty()
+		and safety < 10000
+	):
+		safety += 1
+
+		var placed_any: bool = false
+
+		for index in range(
+			pending.size() - 1,
+			-1,
+			-1
+		):
+			var entry: Dictionary = pending[
+				index
+			]
+
+			var origin: Vector2i = (
+				_read_origin_cell(
+					entry
+				)
+			)
+
+			var room_type: int = int(
+				entry.get(
+					"room_type",
+					0
+				)
+			)
+
+			var rotated: bool = bool(
+				entry.get(
+					"rotated",
+					false
+				)
+			)
+
+			var footprint: Vector2i = (
+				room_manager.get_room_footprint(
+					room_type,
+					rotated
+				)
+			)
+
+			if not room_manager.can_place_room(
+				origin,
+				footprint
+			):
+				continue
+
+			var new_room_id: int = (
+				room_manager.add_room(
+					room_type,
+					origin,
+					rotated
+				)
+			)
+
+			if new_room_id < 0:
+				continue
+
+			var room: ShelterRoom = (
+				room_manager.get_room(
+					new_room_id
+				)
+			)
+
+			if room != null:
+				_restore_facilities(
+					entry.get(
+						"facilities",
+						[]
+					),
+					room.facilities_root,
+					new_room_id,
+					true
+				)
+
+			pending.remove_at(
+				index
+			)
+
+			placed_any = true
+
+		if not placed_any:
+			push_error(
+				"ShelterSaveBridge: "
+				+ "存在无法恢复的断开房间布局。"
+			)
+
+			break
+
+func _restore_storage(
+	storage_value: Variant
+) -> void:
+	if typeof(storage_value) != TYPE_ARRAY:
+		return
+
+	var storage_root: Node = (
+		room_manager.get_node_or_null(
+			"FacilityStoragePlaceholder"
+		)
+	)
+
+	if storage_root == null:
+		push_warning(
+			"ShelterSaveBridge: "
+			+ "找不到 FacilityStoragePlaceholder。"
+		)
+		return
+
+	_restore_facilities(
+		storage_value,
+		storage_root,
+		-1,
+		false
+	)
+
+	_sanitize_storage_collisions()
+
+func _restore_facilities(
+	facility_value: Variant,
+	parent: Node,
+	room_id: int,
+	visible: bool
+) -> void:
+	if typeof(facility_value) != TYPE_ARRAY:
+		return
+
+	var facility_list: Array = facility_value
+
+	for data_value in facility_list:
+		if typeof(data_value) != TYPE_DICTIONARY:
+			continue
+
+		var data: Dictionary = data_value
+
+		var scene_path: String = str(
+			data.get(
+				"scene_path",
+				""
+			)
+		)
+
+		if scene_path.is_empty():
+			continue
+
+		if not ResourceLoader.exists(
+			scene_path
+		):
+			push_warning(
+				"ShelterSaveBridge: "
+				+ "设施场景不存在："
+				+ scene_path
+			)
+
+			continue
+
+		var resource: Resource = load(
+			scene_path
+		)
+
+		if not resource is PackedScene:
+			continue
+
+		var packed_scene: PackedScene = (
+			resource as PackedScene
+		)
+
+		var instance: Node = (
+			packed_scene.instantiate()
+		)
+
+		if not instance is ShelterFacility:
+			instance.queue_free()
+			continue
+
+		var facility: ShelterFacility = (
+			instance as ShelterFacility
+		)
+
+		parent.add_child(
+			facility
+		)
+
+		var position_array: Array = (
+			data.get(
+				"position",
+				[
+					0.0,
+					0.0,
+					0.0
+				]
+			)
+		)
+
+		facility.position = Vector3(
+			_get_array_float(
+				position_array,
+				0
+			),
+			_get_array_float(
+				position_array,
+				1
+			),
+			_get_array_float(
+				position_array,
+				2
+			)
+		)
+
+		facility.rotation = Vector3(
+			0.0,
+			float(
+				data.get(
+					"rotation_y",
+					0.0
+				)
+			),
+			0.0
+		)
+
+		facility.set_room_id(
+			room_id
+		)
+
+		facility.visible = visible
+
+		var state_value: Variant = data.get(
+			"state",
+			{}
+		)
+
+		if (
+			typeof(state_value) == TYPE_DICTIONARY
+			and facility.has_method(
+				"apply_save_state"
+			)
+		):
+			facility.call(
+				"apply_save_state",
+				state_value
+			)
+
+# Storage Collision Safety
+
+func _sanitize_storage_collisions() -> void:
+	var storage_root: Node = (
+		room_manager.get_node_or_null(
+			"FacilityStoragePlaceholder"
+		)
+	)
+
+	if storage_root == null:
+		return
+
+	for child in storage_root.get_children():
+		if child is Node3D:
+			(child as Node3D).visible = false
+
+		_set_collision_enabled_recursive(
+			child,
+			false
+		)
+
+func _set_collision_enabled_recursive(
+	node: Node,
+	enabled: bool
+) -> void:
+	if node is CollisionShape3D:
+		var shape: CollisionShape3D = (
+			node as CollisionShape3D
+		)
+
+		shape.set_deferred(
+			"disabled",
+			not enabled
+		)
+
+	for child in node.get_children():
+		_set_collision_enabled_recursive(
+			child,
+			enabled
+		)
+
+# Utility
+
+func _read_origin_cell(
+	data: Dictionary
+) -> Vector2i:
+	var array_value: Variant = data.get(
+		"origin_cell",
+		[
+			0,
+			0
+		]
+	)
+
+	if typeof(array_value) != TYPE_ARRAY:
+		return Vector2i.ZERO
+
+	var values: Array = array_value
+
+	return Vector2i(
+		int(
+			_get_array_float(
+				values,
+				0
+			)
+		),
+		int(
+			_get_array_float(
+				values,
+				1
+			)
+		)
+	)
+
+func _get_array_float(
+	array: Array,
+	index: int
+) -> float:
+	if index < 0:
+		return 0.0
+
+	if index >= array.size():
+		return 0.0
+
+	return float(
+		array[index]
+	)
+
+func _validate_setup() -> bool:
+	var valid: bool = true
+
+	if room_manager == null:
+		push_error(
+			"ShelterSaveBridge: RoomManager 未绑定。"
+		)
+
+		valid = false
+
+	if facility_build_controller == null:
+		push_error(
+			"ShelterSaveBridge: FacilityBuildController 未绑定。"
+		)
+
+		valid = false
+
+	return valid
+```
+
+
 ### `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`
 
-- Category: `script`; bytes: `867`; sha256/16: `be5ec9bed1a97dc1`
+- Category: `script`; bytes: `8164`; sha256/16: `0863b29dcfa3b4aa`
 
 
 ```gdscript
 extends Camera3D
 class_name ShelterCamera
 
+# Shelter Camera
+#
+# GAMEPLAY
+#     正常跟随玩家
+#
+# FACILITY_BUILD
+#     单个房间内部的设施建造模式
+#     斜俯视透视相机
+#
+# ROOM_LAYOUT
+#     整个基地的房间布局模式
+#     Y轴正上方垂直俯视
+#     正交相机
+
+enum CameraMode {
+	GAMEPLAY,
+	FACILITY_BUILD,
+	ROOM_LAYOUT
+}
+
 @export_category("Target")
 
 @export var target: Node3D
 
-@export_category("Camera")
+@export_category("Gameplay Camera")
 
 @export var camera_offset: Vector3 = Vector3(
-	4.0,
-	7.0,
+	5.0,
+	5.0,
 	7.0
 )
 
-@export var look_height: float = 1.0
+@export var look_height: float = 1.2
+
+@export_category("Facility Build Camera")
+
+## 设施建造模式平移速度。
+@export var facility_pan_speed: float = 8.0
+
+## 1.0 = 当前 Gameplay 镜头距离。
+@export_range(1.0, 3.0, 0.05)
+var facility_zoom_min: float = 1.0
+
+@export_range(1.0, 4.0, 0.05)
+var facility_zoom_max: float = 2.4
+
+@export_range(0.05, 0.5, 0.05)
+var facility_zoom_step: float = 0.15
+
+@export_category("Room Layout Camera")
+
+## 房间布局模式的 WASD 平移速度。
+@export var room_pan_speed: float = 12.0
+
+## 正交 Camera 离基地平面的高度。
+##
+## 正交模式中高度不控制缩放，
+## 这里只需要保证 Camera 在基地上方。
+@export var room_camera_height: float = 30.0
+
+## 最近：
+## 大约观察一个 8x8 小房间。
+@export_range(4.0, 30.0, 0.5)
+var room_zoom_min: float = 8.0
+
+## 最远：
+## 完整观察一个 16x16 的 2x2 大房间，
+## 并留一些屏幕边距。
+@export_range(8.0, 50.0, 0.5)
+var room_zoom_max: float = 20.0
+
+## 进入房间布局模式时的默认范围。
+@export_range(4.0, 50.0, 0.5)
+var room_zoom_default: float = 18.0
+
+## 每格鼠标滚轮改变多少正交 Size。
+@export_range(0.25, 4.0, 0.25)
+var room_zoom_step: float = 1.0
+
+var camera_mode: int = CameraMode.GAMEPLAY
+
+var _facility_focus: Vector3 = Vector3.ZERO
+var _facility_zoom: float = 1.0
+
+var _room_focus: Vector3 = Vector3.ZERO
+var _room_zoom: float = 18.0
 
 func _ready() -> void:
-	# 无论 Target 是否正确，先保证场景有活动 Camera。
 	make_current()
 
 	if target == null:
@@ -11636,22 +17516,103 @@ func _ready() -> void:
 		)
 		return
 
-	_update_camera_transform()
+	set_camera_mode(
+		CameraMode.GAMEPLAY
+	)
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if target == null:
 		return
 
-	_update_camera_transform()
+	match camera_mode:
+		CameraMode.GAMEPLAY:
+			_update_gameplay_transform()
 
-func _update_camera_transform() -> void:
-	# Camera 始终保持在 Player 的固定世界空间偏移。
+		CameraMode.FACILITY_BUILD:
+			_update_facility_pan(delta)
+			_update_facility_transform()
+
+		CameraMode.ROOM_LAYOUT:
+			_update_room_pan(delta)
+			_update_room_transform()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not event is InputEventMouseButton:
+		return
+
+	var mouse_event := (
+		event as InputEventMouseButton
+	)
+
+	if not mouse_event.pressed:
+		return
+
+	match camera_mode:
+		CameraMode.FACILITY_BUILD:
+			_handle_facility_zoom(
+				mouse_event
+			)
+
+		CameraMode.ROOM_LAYOUT:
+			_handle_room_zoom(
+				mouse_event
+			)
+
+# Public API
+
+func set_camera_mode(
+	new_mode: int
+) -> void:
+	if target == null:
+		camera_mode = new_mode
+		return
+
+	camera_mode = new_mode
+
+	match camera_mode:
+		CameraMode.GAMEPLAY:
+			_enter_gameplay_camera()
+
+		CameraMode.FACILITY_BUILD:
+			_enter_facility_camera()
+
+		CameraMode.ROOM_LAYOUT:
+			_enter_room_camera()
+
+func get_camera_mode() -> int:
+	return camera_mode
+
+## 兼容上一阶段代码。
+##
+## 以后 set_build_mode() 代表设施建造视角。
+func set_build_mode(
+	enabled: bool
+) -> void:
+	if enabled:
+		set_camera_mode(
+			CameraMode.FACILITY_BUILD
+		)
+	else:
+		set_camera_mode(
+			CameraMode.GAMEPLAY
+		)
+
+# Gameplay
+
+func _enter_gameplay_camera() -> void:
+	projection = (
+		Camera3D.PROJECTION_PERSPECTIVE
+	)
+
+	_update_gameplay_transform()
+
+func _update_gameplay_transform() -> void:
 	global_position = (
 		target.global_position
 		+ camera_offset
 	)
 
-	var look_target: Vector3 = (
+	var look_target := (
 		target.global_position
 		+ Vector3.UP * look_height
 	)
@@ -11660,6 +17621,244 @@ func _update_camera_transform() -> void:
 		look_target,
 		Vector3.UP
 	)
+
+# Facility Build Camera
+
+func _enter_facility_camera() -> void:
+	projection = (
+		Camera3D.PROJECTION_PERSPECTIVE
+	)
+
+	_facility_focus = (
+		target.global_position
+		+ Vector3.UP * look_height
+	)
+
+	_facility_zoom = (
+		facility_zoom_min
+	)
+
+	_update_facility_transform()
+
+func _update_facility_pan(
+	delta: float
+) -> void:
+	var input_vector := Input.get_vector(
+		"Left",
+		"Right",
+		"Up",
+		"Down"
+	)
+
+	if input_vector.is_zero_approx():
+		return
+
+	var forward := -global_basis.z
+	var right := global_basis.x
+
+	forward.y = 0.0
+	right.y = 0.0
+
+	if not forward.is_zero_approx():
+		forward = forward.normalized()
+
+	if not right.is_zero_approx():
+		right = right.normalized()
+
+	var move_direction := (
+		right * input_vector.x
+		+ forward * -input_vector.y
+	)
+
+	if move_direction.length_squared() > 1.0:
+		move_direction = (
+			move_direction.normalized()
+		)
+
+	var effective_speed := (
+		facility_pan_speed
+		* _facility_zoom
+	)
+
+	_facility_focus += (
+		move_direction
+		* effective_speed
+		* delta
+	)
+
+	_facility_focus.y = (
+		target.global_position.y
+		+ look_height
+	)
+
+func _update_facility_transform() -> void:
+	global_position = (
+		_facility_focus
+		+ camera_offset * _facility_zoom
+	)
+
+	look_at(
+		_facility_focus,
+		Vector3.UP
+	)
+
+func _handle_facility_zoom(
+	mouse_event: InputEventMouseButton
+) -> void:
+	if (
+		mouse_event.button_index
+		== MOUSE_BUTTON_WHEEL_UP
+	):
+		_facility_zoom -= (
+			facility_zoom_step
+		)
+
+	elif (
+		mouse_event.button_index
+		== MOUSE_BUTTON_WHEEL_DOWN
+	):
+		_facility_zoom += (
+			facility_zoom_step
+		)
+
+	else:
+		return
+
+	_facility_zoom = clampf(
+		_facility_zoom,
+		facility_zoom_min,
+		facility_zoom_max
+	)
+
+	get_viewport().set_input_as_handled()
+
+# Room Layout Camera
+
+func _enter_room_camera() -> void:
+	# 正交投影。
+	projection = (
+		Camera3D.PROJECTION_ORTHOGONAL
+	)
+
+	# 一开始以玩家所在位置为观察中心。
+	_room_focus = Vector3(
+		target.global_position.x,
+		0.0,
+		target.global_position.z
+	)
+
+	_room_zoom = clampf(
+		room_zoom_default,
+		room_zoom_min,
+		room_zoom_max
+	)
+
+	size = _room_zoom
+
+	_update_room_transform()
+
+func _update_room_pan(
+	delta: float
+) -> void:
+	var input_vector := Input.get_vector(
+		"Left",
+		"Right",
+		"Up",
+		"Down"
+	)
+
+	if input_vector.is_zero_approx():
+		return
+
+	# 房间布局模式完全按照世界坐标移动。
+	#
+	# A = -X
+	# D = +X
+	# W = -Z
+	# S = +Z
+	var move_direction := Vector3(
+		input_vector.x,
+		0.0,
+		input_vector.y
+	)
+
+	if move_direction.length_squared() > 1.0:
+		move_direction = (
+			move_direction.normalized()
+		)
+
+	# 镜头拉得越远，
+	# WASD 平移稍微加快。
+	var zoom_ratio := (
+		_room_zoom
+		/ room_zoom_min
+	)
+
+	var effective_speed := (
+		room_pan_speed
+		* zoom_ratio
+	)
+
+	_room_focus += (
+		move_direction
+		* effective_speed
+		* delta
+	)
+
+	_room_focus.y = 0.0
+
+func _update_room_transform() -> void:
+	global_position = Vector3(
+		_room_focus.x,
+		room_camera_height,
+		_room_focus.z
+	)
+
+	# Camera 此时视线和世界 Y 轴平行。
+	#
+	# 因此不能使用 Vector3.UP 作为 look_at 的 up，
+	# 否则观察方向和 up 会平行。
+	#
+	# 使用 -Z 作为画面顶部，
+	# 所以 W 对应屏幕向上。
+	look_at(
+		_room_focus,
+		Vector3.FORWARD
+	)
+
+	size = _room_zoom
+
+func _handle_room_zoom(
+	mouse_event: InputEventMouseButton
+) -> void:
+	if (
+		mouse_event.button_index
+		== MOUSE_BUTTON_WHEEL_UP
+	):
+		_room_zoom -= (
+			room_zoom_step
+		)
+
+	elif (
+		mouse_event.button_index
+		== MOUSE_BUTTON_WHEEL_DOWN
+	):
+		_room_zoom += (
+			room_zoom_step
+		)
+
+	else:
+		return
+
+	_room_zoom = clampf(
+		_room_zoom,
+		room_zoom_min,
+		room_zoom_max
+	)
+
+	size = _room_zoom
+
+	get_viewport().set_input_as_handled()
 ```
 
 
@@ -11989,172 +18188,440 @@ func _validate_setup() -> void:
 
 ### `res://Scene/UI/Scripts/filelist_menu.gd`
 
-- Category: `script`; bytes: `6151`; sha256/16: `0b833b73eb7acdcc`
+- Category: `script`; bytes: `7475`; sha256/16: `e6aa50fd1ea5cb4d`
 
 
 ```gdscript
 extends Control
 
-# 1. 变量声明与节点绑定
-@onready var save_list_container = $ScrollContainer/SaveListContainer
-
 @export_category("Navigation")
-@export var base_scene: PackedScene # 修复之前未声明 base_scene 的 Bug！
 
-@export_category("UI Sub-Panels")
-@export var name_input_panel: Control # 用于打字输入名字的弹窗面板
-@export var line_edit: LineEdit       # 名字输入框
-@export var confirm_button: Button   # 确认新建按钮
-@export var cancel_button: Button    # 取消新建按钮
+@export var shelter_scene: PackedScene
 
-@export_category("Delete Save UI")
-@export var delete_confirm_panel: Control
-@export var confirm_delete_btn: Button
-@export var cancel_delete_btn: Button
+@export var save_slot_card_scene: PackedScene
+
+@export_category("Transition")
+
+@export_range(0.0, 2.0, 0.05)
+var transition_duration: float = 0.3
+
+@onready var save_list_container: VBoxContainer = (
+	%SaveListContainer
+)
+
+@onready var empty_state: Label = (
+	%EmptyState
+)
+
+@onready var back_button: Button = (
+	%BackButton
+)
+
+@onready var new_save_button: Button = (
+	%NewSaveButton
+)
+
+@onready var name_input_modal: Control = (
+	%NameInputModal
+)
+
+@onready var save_name_input: LineEdit = (
+	%SaveNameInput
+)
+
+@onready var name_input_error: Label = (
+	%NameInputError
+)
+
+@onready var create_cancel_button: Button = (
+	%CreateCancelButton
+)
+
+@onready var create_confirm_button: Button = (
+	%CreateConfirmButton
+)
+
+@onready var delete_confirm_modal: Control = (
+	%DeleteConfirmModal
+)
+
+@onready var delete_target_label: Label = (
+	%DeleteTargetLabel
+)
+
+@onready var delete_cancel_button: Button = (
+	%DeleteCancelButton
+)
+
+@onready var delete_confirm_button: Button = (
+	%DeleteConfirmButton
+)
 
 var pending_delete_id: String = ""
+var pending_delete_name: String = ""
 
 func _ready() -> void:
-	if name_input_panel: name_input_panel.hide()
-	if delete_confirm_panel: delete_confirm_panel.hide() # 【新增】默认隐藏删除弹窗
+	name_input_modal.hide()
+	delete_confirm_modal.hide()
 
-	# 新建存档相关信号
-	if confirm_button: confirm_button.pressed.connect(_on_confirm_create_save)
-	if cancel_button: cancel_button.pressed.connect(func(): name_input_panel.hide())
+	back_button.pressed.connect(
+		_return_to_main_menu
+	)
 
-	# 【新增】删除存档确认弹窗信号
-	if confirm_delete_btn: confirm_delete_btn.pressed.connect(_on_confirm_delete_save)
-	if cancel_delete_btn: cancel_delete_btn.pressed.connect(func(): delete_confirm_panel.hide())
+	new_save_button.pressed.connect(
+		_open_create_dialog
+	)
+
+	create_cancel_button.pressed.connect(
+		_close_create_dialog
+	)
+
+	create_confirm_button.pressed.connect(
+		_confirm_create_save
+	)
+
+	save_name_input.text_submitted.connect(
+		_on_name_submitted
+	)
+
+	delete_cancel_button.pressed.connect(
+		_close_delete_dialog
+	)
+
+	delete_confirm_button.pressed.connect(
+		_confirm_delete_save
+	)
 
 	_refresh_save_list()
 
-# 2. 监听返回键 (ESC)
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		_return_to_main_menu()
-
-func _return_to_main_menu() -> void:
-	var main_root = get_tree().root.get_node_or_null("MAIN")
-	if not main_root: return
-
-	var load_main_logic = func():
-		var main_menu = load("res://Scene/UI/main_menu.tscn")
-		main_root.load_system_scene(main_menu, {
-
-})
-
-	SceneManager.transition_to(load_main_logic, 0.5)
-
-# 3. 核心：动态渲染整个列表（含已有存档与+号）
-# 【修改】动态渲染列表（引入横向排版与删除按钮）
-func _refresh_save_list() -> void:
-	for child in save_list_container.get_children():
-		child.queue_free()
-
-	var saves = SaveManager.get_all_saves()
-	for save_data in saves:
-		var char_name = save_data.get("name", "未知特工")
-		var save_id = save_data["id"]
-
-		# 1. 创建横向容器 (HBoxContainer) 作为每一行的底座
-		var row = HBoxContainer.new()
-		row.custom_minimum_size = Vector2(500, 100)
-		# 让横向容器里的元素间距大一点
-		row.add_theme_constant_override("separation", 10)
-
-		# 2. 创建原本的“读取存档”按钮
-		var save_btn = Button.new()
-		save_btn.text = " EMPLOYEE: " + char_name
-		# 【关键】让读取按钮占据横向容器的绝大部分空间
-		save_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		save_btn.add_theme_color_override("font_color", Color("00bfff"))
-		save_btn.add_theme_font_size_override("font_size", 22)
-		save_btn.pressed.connect(_on_exist_save_clicked.bind(save_id))
-
-		# 3. 【新增】创建“删除”小按钮
-		var del_btn = Button.new()
-		del_btn.text = "×"
-		# 【关键】固定删除按钮的宽度
-		del_btn.custom_minimum_size = Vector2(100, 0)
-		del_btn.add_theme_color_override("font_color", Color("ff4444")) # 红色警示
-		del_btn.add_theme_font_size_override("font_size", 20)
-		del_btn.pressed.connect(_on_delete_requested.bind(save_id))
-
-		# 4. 把两个按钮都塞进这一行的横向容器里
-		row.add_child(save_btn)
-		row.add_child(del_btn)
-
-		# 5. 把整行塞进大列表里
-		save_list_container.add_child(row)
-
-	# 渲染底部的“+ 新建”按钮 (保持不变)[cite: 1]
-	var new_save_btn = Button.new()
-	new_save_btn.text = " + "
-	new_save_btn.custom_minimum_size = Vector2(500, 100)
-	new_save_btn.add_theme_color_override("font_color", Color("ff7700"))
-	new_save_btn.add_theme_font_size_override("font_size", 32)
-	new_save_btn.pressed.connect(_on_new_save_slot_clicked)
-	save_list_container.add_child(new_save_btn)
-
-# 【新增】删除相关的交互回调
-func _on_delete_requested(save_id: String) -> void:
-	# 玩家点下该条目的删除键时，记录下 ID，并弹出警告框
-	pending_delete_id = save_id
-	if delete_confirm_panel:
-		delete_confirm_panel.show()
-
-func _on_confirm_delete_save() -> void:
-	if pending_delete_id == "": return
-
-	# 调用大管家物理删除文件
-	SaveManager.delete_save(pending_delete_id)
-
-	# 隐藏弹窗，清空记录
-	delete_confirm_panel.hide()
-	pending_delete_id = ""
-
-	# 重新刷新列表（被删除的条目就会消失）
-	_refresh_save_list()
-
-# 4. 交互响应回调
-func _on_exist_save_clicked(save_id: String) -> void:
-	print("UI操作：玩家点击了存档 -> ", save_id)
-	if SaveManager.load_save(save_id):
-		var main_root = get_tree().root.get_node_or_null("MAIN")
-		if main_root and base_scene:
-			var load_base_logic = func():
-				# 【修复这里】从 load_world_scene 改为 load_ui_scene
-				main_root.load_ui_scene(base_scene)
-			SceneManager.transition_to(load_base_logic, 0.5)
-
-func _on_new_save_slot_clicked() -> void:
-	if name_input_panel and line_edit:
-		line_edit.text = ""
-		name_input_panel.show()
-		line_edit.grab_focus() # 自动失焦到打字框
-
-func _on_confirm_create_save() -> void:
-	var new_name = line_edit.text.strip_edges()
-	if new_name == "":
-		print("警告：名字不能为空！")
+func _unhandled_input(
+	event: InputEvent
+) -> void:
+	if not event.is_action_pressed(
+		"ui_cancel"
+	):
 		return
 
-	# 【修改】接收大管家返回的新 ID
-	var new_id = SaveManager.create_new_save(new_name)
-	name_input_panel.hide()
+	if delete_confirm_modal.visible:
+		_close_delete_dialog()
+		get_viewport().set_input_as_handled()
+		return
 
-	if new_id != "":
-		# 【新增】如果有返回ID，直接复用已有的读取逻辑，直达基地！
-		_on_exist_save_clicked(new_id)
-	else:
-		# 如果失败了，至少刷新一下列表
-		_refresh_save_list()
+	if name_input_modal.visible:
+		_close_create_dialog()
+		get_viewport().set_input_as_handled()
+		return
+
+	_return_to_main_menu()
+
+# Save List
+
+func _refresh_save_list() -> void:
+	_clear_save_cards()
+
+	var saves: Array = SaveManager.get_all_saves()
+
+	empty_state.visible = saves.is_empty()
+
+	var last_save_id: String = (
+		SaveManager.get_last_save_id()
+	)
+
+	for save_value in saves:
+		if typeof(save_value) != TYPE_DICTIONARY:
+			continue
+
+		var save_data: Dictionary = save_value
+
+		_create_save_card(
+			save_data,
+			str(
+				save_data.get(
+					"id",
+					""
+				)
+			) == last_save_id
+		)
+
+func _clear_save_cards() -> void:
+	for child in save_list_container.get_children():
+		save_list_container.remove_child(
+			child
+		)
+
+		child.queue_free()
+
+func _create_save_card(
+	save_data: Dictionary,
+	is_last_save: bool
+) -> void:
+	if save_slot_card_scene == null:
+		push_error(
+			"FileList: Save Slot Card Scene 未绑定。"
+		)
+		return
+
+	var card_node: Node = (
+		save_slot_card_scene.instantiate()
+	)
+
+	if not card_node is SaveSlotCard:
+		push_error(
+			"FileList: SaveSlotCard 场景脚本错误。"
+		)
+
+		card_node.queue_free()
+		return
+
+	var card: SaveSlotCard = (
+		card_node as SaveSlotCard
+	)
+
+	save_list_container.add_child(
+		card
+	)
+
+	card.setup(
+		save_data,
+		is_last_save
+	)
+
+	card.play_requested.connect(
+		_on_save_play_requested
+	)
+
+	card.delete_requested.connect(
+		_on_save_delete_requested
+	)
+
+# Load
+
+func _on_save_play_requested(
+	save_id: String
+) -> void:
+	_load_save_and_enter_shelter(
+		save_id
+	)
+
+func _load_save_and_enter_shelter(
+	save_id: String
+) -> void:
+	if shelter_scene == null:
+		push_error(
+			"FileList: Shelter Scene 未绑定。"
+		)
+		return
+
+	if not SaveManager.load_save(
+		save_id
+	):
+		return
+
+	var main_root: Node = _get_main_root()
+
+	if main_root == null:
+		push_error(
+			"FileList: 找不到 MAIN。"
+		)
+		return
+
+	var callback: Callable = Callable(
+		main_root,
+		"load_system_scene"
+	).bind(
+		shelter_scene,
+		{
+			"entry_source": "save_list",
+			"save_id": save_id
+		}
+	)
+
+	SceneManager.transition_to(
+		callback,
+		transition_duration
+	)
+
+# Create
+
+func _open_create_dialog() -> void:
+	save_name_input.text = ""
+
+	name_input_error.text = ""
+	name_input_error.hide()
+
+	name_input_modal.show()
+
+	save_name_input.grab_focus()
+
+func _close_create_dialog() -> void:
+	name_input_modal.hide()
+
+func _on_name_submitted(
+	_submitted_text: String
+) -> void:
+	_confirm_create_save()
+
+func _confirm_create_save() -> void:
+	var save_name: String = (
+		save_name_input.text.strip_edges()
+	)
+
+	if save_name.is_empty():
+		name_input_error.text = (
+			"请输入存档名称。"
+		)
+
+		name_input_error.show()
+
+		save_name_input.grab_focus()
+		return
+
+	var new_save_id: String = (
+		SaveManager.create_new_save(
+			save_name
+		)
+	)
+
+	if new_save_id.is_empty():
+		name_input_error.text = (
+			"创建存档失败。"
+		)
+
+		name_input_error.show()
+		return
+
+	name_input_modal.hide()
+
+	_load_save_and_enter_shelter(
+		new_save_id
+	)
+
+# Delete
+
+func _on_save_delete_requested(
+	save_id: String
+) -> void:
+	var save_name: String = (
+		_find_save_name(
+			save_id
+		)
+	)
+
+	pending_delete_id = save_id
+	pending_delete_name = save_name
+
+	delete_target_label.text = (
+		"确定永久删除存档“%s”吗？\n"
+		+ "该操作无法撤销。"
+	) % save_name
+
+	delete_confirm_modal.show()
+
+func _close_delete_dialog() -> void:
+	pending_delete_id = ""
+	pending_delete_name = ""
+
+	delete_confirm_modal.hide()
+
+func _confirm_delete_save() -> void:
+	if pending_delete_id.is_empty():
+		_close_delete_dialog()
+		return
+
+	SaveManager.delete_save(
+		pending_delete_id
+	)
+
+	_close_delete_dialog()
+
+	_refresh_save_list()
+
+func _find_save_name(
+	save_id: String
+) -> String:
+	var saves: Array = SaveManager.get_all_saves()
+
+	for save_value in saves:
+		if typeof(save_value) != TYPE_DICTIONARY:
+			continue
+
+		var data: Dictionary = save_value
+
+		if str(
+			data.get(
+				"id",
+				""
+			)
+		) == save_id:
+			return str(
+				data.get(
+					"name",
+					"未命名存档"
+				)
+			)
+
+	return "未命名存档"
+
+# Back
+
+func _return_to_main_menu() -> void:
+	var main_root: Node = _get_main_root()
+
+	if main_root == null:
+		push_error(
+			"FileList: 找不到 MAIN。"
+		)
+		return
+
+	var target_scene: PackedScene = (
+		main_root.get(
+			"initial_system_scene"
+		) as PackedScene
+	)
+
+	if target_scene == null:
+		push_error(
+			"FileList: MAIN 的 initial_system_scene 未配置。"
+		)
+		return
+
+	var callback: Callable = Callable(
+		main_root,
+		"load_system_scene"
+	).bind(
+		target_scene,
+		{
+			"entry_source": "file_list"
+		}
+	)
+
+	SceneManager.transition_to(
+		callback,
+		transition_duration
+	)
+
+func _get_main_root() -> Node:
+	var current_scene: Node = (
+		get_tree().current_scene
+	)
+
+	if (
+		current_scene != null
+		and current_scene.has_method(
+			"load_system_scene"
+		)
+	):
+		return current_scene
+
+	return get_tree().root.get_node_or_null(
+		"MAIN"
+	)
 ```
 
 
 ### `res://Scene/UI/Scripts/main_menu.gd`
 
-- Category: `script`; bytes: `2718`; sha256/16: `f65fba1399cefa8d`
+- Category: `script`; bytes: `3693`; sha256/16: `049780af5bc78889`
 
 
 ```gdscript
@@ -12166,75 +18633,141 @@ extends Control
 @onready var quit_button: Button = %QuitGame
 
 @export_category("Navigation")
-@export var battle_system_scene: PackedScene
+
+@export var shelter_scene: PackedScene
+
 @export var filelist_system_scene: PackedScene
+
 @export var options_system_scene: PackedScene
 
 @export_category("Transition")
-@export_range(0.0, 2.0, 0.05) var transition_duration: float = 0.25
+
+@export_range(0.0, 2.0, 0.05)
+var transition_duration: float = 0.25
 
 func _ready() -> void:
-	start_button.pressed.connect(_on_start_game_pressed)
-	file_button.pressed.connect(_on_filelist_open_pressed)
-	options_button.pressed.connect(_on_options_open_pressed)
-	quit_button.pressed.connect(_on_quit_game_pressed)
+	start_button.pressed.connect(
+		_on_start_game_pressed
+	)
 
-# 点击按钮后触发
-# 开始游戏按钮
+	file_button.pressed.connect(
+		_on_filelist_open_pressed
+	)
+
+	options_button.pressed.connect(
+		_on_options_open_pressed
+	)
+
+	quit_button.pressed.connect(
+		_on_quit_game_pressed
+	)
+
+# Start
+
 func _on_start_game_pressed() -> void:
+	var last_save_id: String = (
+		SaveManager.get_last_save_id()
+	)
+
+	# 没有任何存档
+
+	if last_save_id.is_empty():
+		_open_system(
+			filelist_system_scene,
+			"filelist_system_scene",
+			{
+				"entry_source": "main_menu",
+				"reason": "no_save"
+			}
+		)
+
+		return
+
+	# 有最近使用存档
+
+	if not SaveManager.load_save(
+		last_save_id
+	):
+		# 文件异常时退回存档列表，
+		# 不让开始游戏按钮直接失效。
+		_open_system(
+			filelist_system_scene,
+			"filelist_system_scene",
+			{
+				"entry_source": "main_menu",
+				"reason": "load_failed"
+			}
+		)
+
+		return
+
 	_open_system(
-		battle_system_scene,
-		"battle_system_scene",
+		shelter_scene,
+		"shelter_scene",
 		{
-			"entry_source": "main_menu",
-			"mode": "battle_test",
-			"debug_mode": true,
+			"entry_source": "continue",
+			"save_id": last_save_id
 		}
 	)
 
-# 存档列表按钮
+# File List
+
 func _on_filelist_open_pressed() -> void:
 	_open_system(
 		filelist_system_scene,
 		"filelist_system_scene",
-		{"entry_source": "main_menu"}
+		{
+			"entry_source": "main_menu"
+		}
 	)
 
-# 设置按钮
+# Options
+
 func _on_options_open_pressed() -> void:
 	_open_system(
 		options_system_scene,
 		"options_system_scene",
-		{"entry_source": "main_menu"}
+		{
+			"entry_source": "main_menu"
+		}
 	)
 
-# 退出游戏按钮
+# Quit
+
 func _on_quit_game_pressed() -> void:
 	get_tree().quit()
 
-# 外部暴露方法
+# Navigation
+
 func _open_system(
 	target_scene: PackedScene,
 	export_name: String,
 	context: Dictionary = {}
 ) -> void:
-	# 防呆检查
 	if target_scene == null:
-		push_error("主菜单错误：未配置 %s。" % export_name)
+		push_error(
+			"MainMenu: 未配置 %s。"
+			% export_name
+		)
 		return
 
-	var main_root := _get_main_root()
+	var main_root: Node = _get_main_root()
+
 	if main_root == null:
-		push_error("主菜单错误：找不到 MAIN 根节点。请确认项目从 MAIN.tscn 启动。")
+		push_error(
+			"MainMenu: 找不到 MAIN。"
+		)
 		return
 
-	if not main_root.has_method("load_system_scene"):
-		push_error("主菜单错误：MAIN 没有 load_system_scene() 方法。")
+	if not main_root.has_method(
+		"load_system_scene"
+	):
+		push_error(
+			"MainMenu: MAIN 不支持 load_system_scene()。"
+		)
 		return
 
-	# Callable 持有的是 MAIN，而不是当前菜单节点。
-	# 菜单在回调中被移除后，调用仍然有效。
-	var load_callback := Callable(
+	var callback: Callable = Callable(
 		main_root,
 		"load_system_scene"
 	).bind(
@@ -12242,16 +18775,27 @@ func _open_system(
 		context
 	)
 
-	SceneManager.transition_to(load_callback, transition_duration)
+	SceneManager.transition_to(
+		callback,
+		transition_duration
+	)
 
 func _get_main_root() -> Node:
-	# 在当前架构中 current_scene 应当始终是 MAIN。
-	var current_scene := get_tree().current_scene
-	if current_scene != null and current_scene.has_method("load_system_scene"):
+	var current_scene: Node = (
+		get_tree().current_scene
+	)
+
+	if (
+		current_scene != null
+		and current_scene.has_method(
+			"load_system_scene"
+		)
+	):
 		return current_scene
 
-	# 兼容节点名称固定为 MAIN 的情况。
-	return get_tree().root.get_node_or_null("MAIN")
+	return get_tree().root.get_node_or_null(
+		"MAIN"
+	)
 ```
 
 
@@ -12337,6 +18881,108 @@ func _return_to_main_menu() -> void:
 		main_root.load_system_scene(main_menu)
 
 	SceneManager.transition_to(load_main_logic, 0.5)
+```
+
+
+### `res://Scene/UI/Scripts/save_slot_card.gd`
+
+- Category: `script`; bytes: `1537`; sha256/16: `9e2eb8a8ce7c6996`
+
+
+```gdscript
+extends PanelContainer
+class_name SaveSlotCard
+
+signal play_requested(save_id: String)
+signal delete_requested(save_id: String)
+
+@onready var save_name_label: Label = %SaveNameLabel
+@onready var last_played_label: Label = %LastPlayedLabel
+@onready var last_marker: Label = %LastMarker
+
+@onready var play_button: Button = %PlayButton
+@onready var delete_button: Button = %DeleteButton
+
+var save_id: String = ""
+
+func _ready() -> void:
+	play_button.pressed.connect(
+		_on_play_pressed
+	)
+
+	delete_button.pressed.connect(
+		_on_delete_pressed
+	)
+
+func setup(
+	save_data: Dictionary,
+	is_last_save: bool
+) -> void:
+	save_id = str(
+		save_data.get(
+			"id",
+			""
+		)
+	)
+
+	save_name_label.text = str(
+		save_data.get(
+			"name",
+			"未命名存档"
+		)
+	)
+
+	var unix_time: int = int(
+		save_data.get(
+			"last_played_at_unix",
+			0
+		)
+	)
+
+	last_played_label.text = (
+		"最近游玩："
+		+ _format_time(
+			unix_time
+		)
+	)
+
+	last_marker.visible = is_last_save
+
+func _on_play_pressed() -> void:
+	if save_id.is_empty():
+		return
+
+	play_requested.emit(
+		save_id
+	)
+
+func _on_delete_pressed() -> void:
+	if save_id.is_empty():
+		return
+
+	delete_requested.emit(
+		save_id
+	)
+
+func _format_time(
+	unix_time: int
+) -> String:
+	if unix_time <= 0:
+		return "未知"
+
+	var data: Dictionary = (
+		Time.get_datetime_dict_from_unix_time(
+			unix_time
+		)
+	)
+
+	return "%04d-%02d-%02d  %02d:%02d" % [
+		int(data.get("year", 0)),
+		int(data.get("month", 0)),
+		int(data.get("day", 0)),
+		int(data.get("hour", 0)),
+		int(data.get("minute", 0))
+	]
 ```
 
 
@@ -15055,7 +21701,7 @@ environment = SubResource("Environment_i0dxh")
 
 ### `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`
 
-- Category: `scene`; bytes: `3791`; sha256/16: `d17a7f4ef19440b8`
+- Category: `scene`; bytes: `3502`; sha256/16: `2b3791bf39ffa385`
 
 
 ```ini
@@ -15103,19 +21749,15 @@ bones/5/rotation = Quaternion(-0.00657823, 0.0642388, -0.00330261, 0.997908)
 bones/7/rotation = Quaternion(0.513238, 0.523063, 0.540798, -0.412952)
 bones/8/rotation = Quaternion(0.375631, 0.892274, -0.250458, 0.00429005)
 bones/9/rotation = Quaternion(0.0126655, -0.977164, 0.184742, 0.104211)
-bones/10/rotation = Quaternion(0.0321733, 0.852114, -0.243598, 0.46209)
 bones/11/rotation = Quaternion(0.513131, -0.523267, -0.541063, -0.412479)
 bones/12/rotation = Quaternion(-0.381212, 0.856726, -0.347366, -0.0059498)
 bones/13/rotation = Quaternion(0.251386, 0.730859, -0.350493, 0.528965)
-bones/14/rotation = Quaternion(0.00830451, -0.679, 0.112365, 0.725441)
 bones/19/rotation = Quaternion(0.00012395, 0.424978, 0.90503, 0.0177218)
 bones/20/rotation = Quaternion(-0.0531878, 0.888277, -0.443067, -0.108757)
 bones/21/rotation = Quaternion(0.0331647, 0.691742, -0.70693, 0.143677)
-bones/22/rotation = Quaternion(1.87171e-08, 1, 5.96046e-08, 1.97255e-08)
 bones/24/rotation = Quaternion(0.00126831, 0.187312, 0.965418, 0.18133)
 bones/25/rotation = Quaternion(-0.100622, 0.835156, -0.514584, -0.166115)
 bones/26/rotation = Quaternion(0.0586196, 0.471368, -0.875577, -0.087979)
-bones/27/rotation = Quaternion(4.47656e-08, 1, 5.96046e-08, 1.54295e-08)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../EnemyPoint/testenemymodle")
@@ -18306,16 +24948,18 @@ shape = SubResource("RectangleShape2D_pn33w")
 
 ### `res://Scene/DungeonScene/world.tscn`
 
-- Category: `scene`; bytes: `963`; sha256/16: `1116c00734f36a0e`
+- Category: `scene`; bytes: `1355`; sha256/16: `31ab5369b2ef3851`
 
 
 ```ini
-[gd_scene load_steps=5 format=3 uid="uid://bwljaaods183o"]
+[gd_scene load_steps=7 format=3 uid="uid://bwljaaods183o"]
 
 [ext_resource type="Script" uid="uid://c3n5srm1pr6k0" path="res://Scene/DungeonScenes(3D)/Manager/map_manager.gd" id="1_83hb5"]
 [ext_resource type="PackedScene" uid="uid://bsdjs57ymg03n" path="res://Scene/DungeonScenes(3D)/TestScence2.tscn" id="2_5ndfk"]
 [ext_resource type="PackedScene" uid="uid://88hhvx6dcosd" path="res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn" id="2_jx3bg"]
 [ext_resource type="PackedScene" uid="uid://dwf7eo5717q2s" path="res://Scene/UI/world_interactionUI.tscn" id="2_qyo7k"]
+[ext_resource type="PackedScene" uid="uid://eirjqi3byf6r" path="res://Scene/Search_system/Script/UI/search_ui.tscn" id="5_na8fq"]
+[ext_resource type="Script" uid="uid://dw6akaho7j05b" path="res://Scene/Search_system/Script/search_UI.gd" id="6_h6bmn"]
 
 [node name="World" type="Node3D"]
 
@@ -18329,6 +24973,11 @@ room_scene = ExtResource("2_5ndfk")
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Control" parent="UILayer" instance=ExtResource("2_qyo7k")]
+
+[node name="SearchUI" parent="UILayer" instance=ExtResource("5_na8fq")]
+script = ExtResource("6_h6bmn")
+
+[editable path="UILayer/SearchUI"]
 ```
 
 
@@ -18916,6 +25565,29 @@ mouse_filter = 2
 ```
 
 
+### `res://Scene/Search_system/Script/UI/search_ui.tscn`
+
+- Category: `scene`; bytes: `305`; sha256/16: `5a81be53b63b5218`
+
+
+```ini
+[gd_scene format=3 uid="uid://eirjqi3byf6r"]
+
+[node name="SearchUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+```
+
+
 ### `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 
 - Category: `scene`; bytes: `1042`; sha256/16: `45a5eb886aba4f1a`
@@ -19022,44 +25694,30 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 
 ### `res://Scene/Shelter_Scene/shelter.tscn`
 
-- Category: `scene`; bytes: `5342`; sha256/16: `513bf6350b3f6ec3`
+- Category: `scene`; bytes: `10877`; sha256/16: `5b299aae2e773ebf`
 
 
 ```ini
-[gd_scene load_steps=16 format=3 uid="uid://bvvhcw3cmlmkh"]
+[gd_scene load_steps=20 format=3 uid="uid://bvvhcw3cmlmkh"]
 
+[ext_resource type="Script" uid="uid://bj2gdgqfb3c2s" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd" id="1_11o6b"]
 [ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_syccu"]
+[ext_resource type="Script" uid="uid://s0u546u4qtpx" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd" id="2_6qk3u"]
 [ext_resource type="Script" uid="uid://fdjn7x2q2up6" path="res://Scene/Shelter_Scene/Scripts/shelter_camera.gd" id="2_11o6b"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_syccu"]
-size = Vector3(12, 0.2, 12)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_11o6b"]
-size = Vector3(12, 0.2, 12)
-
-[sub_resource type="BoxMesh" id="BoxMesh_6qk3u"]
-size = Vector3(12, 2, 0.2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_vfmdr"]
-size = Vector3(12, 2, 0.2)
-
-[sub_resource type="BoxMesh" id="BoxMesh_jhweh"]
-size = Vector3(12, 2, 0.2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_xegb6"]
-size = Vector3(12, 2, 0.2)
-
-[sub_resource type="BoxMesh" id="BoxMesh_cyvyl"]
-size = Vector3(0.2, 2, 12)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_s55ae"]
-size = Vector3(0.2, 2, 12)
+[ext_resource type="Script" uid="uid://ctiugurhq0wg1" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd" id="3_jhweh"]
+[ext_resource type="PackedScene" uid="uid://bhgbwopfm0mso" path="res://Scene/Shelter_Scene/test/test_facility.tscn" id="4_xegb6"]
+[ext_resource type="Script" uid="uid://opry873w7gra" path="res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd" id="5_cyvyl"]
+[ext_resource type="Script" uid="uid://vdy7skwj7d8e" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd" id="5_vfmdr"]
+[ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="6_s55ae"]
+[ext_resource type="Script" uid="uid://xp5gm38wnas" path="res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd" id="10_twju8"]
+[ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_6667d"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="11_dtnd1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_twju8"]
-size = Vector3(30, 0.2, 4)
+size = Vector3(32, 0.2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dtnd1"]
-size = Vector3(30, 0.2, 4)
+size = Vector3(32, 0.2, 4)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6667d"]
 size = Vector3(4, 2, 4)
@@ -19068,107 +25726,198 @@ size = Vector3(4, 2, 4)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gk2uj"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xegb6"]
+radius = 1.4
+height = 2.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6667d"]
+shader = ExtResource("11_dtnd1")
+shader_parameter/color_depth = 32.0
+shader_parameter/contrast = 0.95
+shader_parameter/brightness = 1.0
+shader_parameter/dither_strength = 0.05
+shader_parameter/dither_scale = 1.0
+shader_parameter/chromatic_aberration = 0.0
+shader_parameter/scanline_intensity = 0.15
+shader_parameter/vignette_intensity = 0.8
+
 [node name="Shelter" type="Node3D"]
 
-[node name="Environment" type="Node3D" parent="."]
+[node name="GameViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 3
 
-[node name="BuildArea" type="Node3D" parent="."]
+[node name="GameViewport" type="SubViewport" parent="GameViewportContainer"]
+handle_input_locally = false
+size = Vector2i(640, 360)
+render_target_update_mode = 4
 
-[node name="Room_Initial" type="Node3D" parent="BuildArea"]
+[node name="World" type="Node" parent="GameViewportContainer/GameViewport"]
 
-[node name="Floor" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+[node name="Environment" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-mesh = SubResource("BoxMesh_syccu")
+[node name="SpotLight3D" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 11.3985, 0)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-shape = SubResource("BoxShape3D_11o6b")
+[node name="SpotLight3D3" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.4608, 11.3985, 0)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="Wall_North" type="StaticBody3D" parent="BuildArea/Room_Initial"]
-visible = false
+[node name="SpotLight3D4" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -20.635, 11.3985, 0)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Wall_North"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6)
-mesh = SubResource("BoxMesh_6qk3u")
+[node name="SpotLight3D5" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.4608, 11.3985, 17.1707)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Wall_North"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6)
-shape = SubResource("BoxShape3D_vfmdr")
+[node name="SpotLight3D7" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -54.959, 11.3985, 0)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="Wall_South" type="StaticBody3D" parent="BuildArea/Room_Initial"]
-visible = false
+[node name="SpotLight3D8" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -54.959, 11.3985, 17.1707)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Wall_South"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
-mesh = SubResource("BoxMesh_jhweh")
+[node name="SpotLight3D6" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -20.635, 11.3985, 17.1707)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Wall_South"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
-shape = SubResource("BoxShape3D_xegb6")
+[node name="SpotLight3D2" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 21.7372, 11.3985, 0)
+light_energy = 11.593
+spot_range = 18.705
 
-[node name="Wall_West" type="StaticBody3D" parent="BuildArea/Room_Initial"]
-visible = false
+[node name="BuildArea" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Wall_West"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
-mesh = SubResource("BoxMesh_cyvyl")
+[node name="RoomManager" type="Node3D" parent="GameViewportContainer/GameViewport/World/BuildArea"]
+script = ExtResource("1_11o6b")
+wall_height = 2.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Wall_West"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
-shape = SubResource("BoxShape3D_s55ae")
+[node name="RoomBuildController" type="Node" parent="GameViewportContainer/GameViewport/World/BuildArea" node_paths=PackedStringArray("room_manager", "gameplay_camera")]
+script = ExtResource("2_6qk3u")
+room_manager = NodePath("../RoomManager")
+gameplay_camera = NodePath("../../Gameplay/Camera3D")
 
-[node name="Road" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+[node name="FacilityBuildController" type="Node" parent="GameViewportContainer/GameViewport/World/BuildArea" node_paths=PackedStringArray("room_manager", "gameplay_camera", "player")]
+script = ExtResource("3_jhweh")
+room_manager = NodePath("../RoomManager")
+gameplay_camera = NodePath("../../Gameplay/Camera3D")
+player = NodePath("../../Gameplay/ShelterPlayer")
+test_facility_scene = ExtResource("4_xegb6")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/Road"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -0.1, 0)
+[node name="DepartureArea" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="Road" type="StaticBody3D" parent="GameViewportContainer/GameViewport/World/DepartureArea"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/Road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -0.1, 0)
 mesh = SubResource("BoxMesh_twju8")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Road"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -0.1, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/Road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -0.1, 0)
 shape = SubResource("BoxShape3D_dtnd1")
 
-[node name="Check_Area" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+[node name="Check_Area" type="Area3D" parent="GameViewportContainer/GameViewport/World/DepartureArea"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/Check_Area"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/Check_Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 1, 0)
 shape = SubResource("BoxShape3D_6667d")
 
-[node name="NPC" type="StaticBody3D" parent="BuildArea/Room_Initial"]
+[node name="NPC" type="StaticBody3D" parent="GameViewportContainer/GameViewport/World/DepartureArea"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BuildArea/Room_Initial/NPC"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
 mesh = SubResource("CapsuleMesh_yp273")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BuildArea/Room_Initial/NPC"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
 shape = SubResource("CapsuleShape3D_gk2uj")
 
-[node name="StagingArea" type="Node3D" parent="."]
+[node name="InteractionArea" type="Area3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
 
-[node name="Gameplay" type="Node3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC/InteractionArea"]
+shape = SubResource("CapsuleShape3D_xegb6")
 
-[node name="ShelterPlayer" parent="Gameplay" node_paths=PackedStringArray("visual_root", "movement_reference") instance=ExtResource("1_syccu")]
-visual_root = NodePath("..")
+[node name="NPCInteractionController" type="Node" parent="GameViewportContainer/GameViewport/World/DepartureArea" node_paths=PackedStringArray("player", "npc_interaction_area", "raid_entry_area")]
+script = ExtResource("5_cyvyl")
+player = NodePath("../../Gameplay/ShelterPlayer")
+npc_interaction_area = NodePath("../NPC/InteractionArea")
+raid_entry_area = NodePath("../Check_Area")
+battle_scene = ExtResource("6_s55ae")
+
+[node name="StagingArea" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="Gameplay" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="ShelterPlayer" parent="GameViewportContainer/GameViewport/World/Gameplay" node_paths=PackedStringArray("movement_reference") instance=ExtResource("1_syccu")]
 movement_reference = NodePath("../Camera3D")
 
-[node name="Camera3D" type="Camera3D" parent="Gameplay" node_paths=PackedStringArray("target")]
+[node name="Camera3D" type="Camera3D" parent="GameViewportContainer/GameViewport/World/Gameplay" node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 0.642253, 0.766493, 0, -0.766493, 0.642253, 0, 4.558, 3.23035)
 current = true
 fov = 45.0
 script = ExtResource("2_11o6b")
 target = NodePath("../ShelterPlayer")
-camera_offset = Vector3(5, 5, 7)
-look_height = 1.2
+camera_offset = Vector3(0, 5, 7)
 
-[node name="Markers" type="Node3D" parent="."]
+[node name="EditModeController" type="Node" parent="GameViewportContainer/GameViewport/World" node_paths=PackedStringArray("player", "gameplay_camera", "room_build_controller", "facility_build_controller")]
+script = ExtResource("5_vfmdr")
+player = NodePath("../Gameplay/ShelterPlayer")
+gameplay_camera = NodePath("../Gameplay/Camera3D")
+room_build_controller = NodePath("../BuildArea/RoomBuildController")
+facility_build_controller = NodePath("../BuildArea/FacilityBuildController")
+room_layout_key = 66
+
+[node name="Markers" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="SaveBridge" type="Node" parent="GameViewportContainer/GameViewport/World" node_paths=PackedStringArray("room_manager", "facility_build_controller")]
+script = ExtResource("10_twju8")
+room_manager = NodePath("../BuildArea/RoomManager")
+facility_build_controller = NodePath("../BuildArea/FacilityBuildController")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GameViewportContainer/GameViewport/World"]
+environment = ExtResource("11_6667d")
+
+[node name="CRT_Layer" type="CanvasLayer" parent="GameViewportContainer/GameViewport"]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="GameViewportContainer/GameViewport/CRT_Layer"]
+material = SubResource("ShaderMaterial_6667d")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.666667
+offset_top = -0.666667
+offset_right = 0.666687
+offset_bottom = -0.666656
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer"]
+[editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer/VisualRoot/ShelterPlayerVisual"]
 ```
 
 
 ### `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
 
-- Category: `scene`; bytes: `1644`; sha256/16: `8a4b50ce7eb0b894`
+- Category: `scene`; bytes: `1593`; sha256/16: `a1e431aaf29c8429`
 
 
 ```ini
@@ -19211,8 +25960,35 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.558, 3.23035)
 fov = 45.0
 script = ExtResource("2_lg76n")
 target = NodePath("../ShelterPlayer")
-camera_offset = Vector3(5, 5, 7)
-look_height = 1.2
+```
+
+
+### `res://Scene/Shelter_Scene/test/test_facility.tscn`
+
+- Category: `scene`; bytes: `773`; sha256/16: `1207817c31cfd18d`
+
+
+```ini
+[gd_scene load_steps=4 format=3 uid="uid://bhgbwopfm0mso"]
+
+[ext_resource type="Script" uid="uid://bb353240l6jdw" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd" id="1_fabkn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8ys4g"]
+size = Vector3(1.8, 1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_35j5q"]
+size = Vector3(1.8, 1, 0.5)
+
+[node name="TestFacility" type="StaticBody3D"]
+script = ExtResource("1_fabkn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_8ys4g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_35j5q")
 ```
 
 
@@ -19252,722 +26028,27 @@ layout_mode = 2
 
 ### `res://Scene/UI/filelist.tscn`
 
-- Category: `scene`; bytes: `48881`; sha256/16: `734180acfee2a187`
+- Category: `scene`; bytes: `7518`; sha256/16: `3119f8c550dfcdb5`
 
 
 ```ini
-[gd_scene load_steps=17 format=3 uid="uid://cju7wln8x7rim"]
+[gd_scene load_steps=4 format=3 uid="uid://cju7wln8x7rim"]
 
 [ext_resource type="Script" uid="uid://du231n4g8qwjk" path="res://Scene/UI/Scripts/filelist_menu.gd" id="1_04a8g"]
-[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_syg7e"]
+[ext_resource type="PackedScene" uid="uid://bvvhcw3cmlmkh" path="res://Scene/Shelter_Scene/shelter.tscn" id="2_cq4sl"]
+[ext_resource type="PackedScene" uid="uid://bvyxbeuu2jqwl" path="res://Scene/UI/save_slot_card.tscn" id="4_l2dkb"]
 
-[sub_resource type="GDScript" id="GDScript_cq4sl"]
-script/source = "extends Control
-# base_main.gd
-
-# 1. 声明要动态加载的场景资源 (需在检查器中拖入对应的 .tscn)
-@export_category(\"UI Panels\")
-@export var panel_character_scene: PackedScene
-@export var panel_warehouse_scene: PackedScene
-@export var panel_shop_scene: PackedScene
-@export var panel_upgrade_scene: PackedScene
-@export var panel_craft_scene: PackedScene
-
-# 2. 绑定顶部导航按钮
-@onready var btn_character = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Character
-@onready var btn_warehouse = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Warehouse
-@onready var btn_shop = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Shop
-@onready var btn_upgrade = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Upgrade
-@onready var btn_craft = $VBoxContainer/NavigationMargin/TopNavigationBar/Btn_Craft
-
-# 3. 绑定内容展示区
-@onready var content_area = $ContentArea
-
-# 记录当前正在显示的面板节点
-var current_panel_node: Control = null
-
-func _ready() -> void:
-	# 保险措施：清空 ContentArea 中可能存在的占位节点
-	for child in content_area.get_children():
-		child.queue_free()
-
-	# 绑定按钮信号，通过 bind() 将对应的场景传递给切换函数
-	btn_character.pressed.connect(_switch_to_panel.bind(panel_character_scene))
-	btn_warehouse.pressed.connect(_switch_to_panel.bind(panel_warehouse_scene))
-	btn_shop.pressed.connect(_switch_to_panel.bind(panel_shop_scene))
-	btn_upgrade.pressed.connect(_switch_to_panel.bind(panel_upgrade_scene))
-	btn_craft.pressed.connect(_switch_to_panel.bind(panel_craft_scene))
-
-	# 游戏刚进入基地时，默认打开“角色”面板
-	# 使用 call_deferred 确保所有自动加载单例都在第一帧初始化完毕
-	call_deferred(\"_switch_to_panel\", panel_character_scene)
-
-# 核心切换逻辑：销毁旧的，实例化新的，并触发自动保存
-func _switch_to_panel(target_scene: PackedScene) -> void:
-	if target_scene == null:
-		push_error(\"BaseMain: 目标面板的 PackedScene 未挂载，请检查右侧检查器！\")
-		return
-
-	# 1. 如果当前已经有面板在显示
-	if current_panel_node != null:
-		# 【核心】：玩家离开上一个面板时，触发无感自动保存
-		SaveManager.save_current_state()
-
-		# 销毁旧面板，释放内存
-		current_panel_node.queue_free()
-		current_panel_node = null
-
-	# 2. 实例化新面板并挂载到界面上
-	var new_panel = target_scene.instantiate()
-	content_area.add_child(new_panel)
-
-	# 3. 将新面板记录为当前面板
-	current_panel_node = new_panel
-
-	# 切换音效 (取消注释即可启用)
-	# BattleBus.play_sfx.emit(\"ui_system\", \"tab_switch\", Vector3.ZERO)
-"
-
-[sub_resource type="GDScript" id="GDScript_x0m3w"]
-script/source = "extends Control
-# base_character_panel.gd
-
-@export_category(\"Level Navigation\")
-@export var target_map_world: PackedScene
-@export var target_map_ui: PackedScene
-
-@onready var enter_map_btn = $MarginContainer/Button
-@onready var category_tabs = $MarginContainer2/HBoxContainer/Right_BackpackPanelMargin/Right_BackpackPanel/CategoryTabs
-
-var current_selected_uid: String = \"\"
-var current_category: String = \"weapon\"
-
-const BACKPACK_MAX_SLOTS: int = 20 # 角色界面的背包网格容量（可根据你的行列数修改）
-
-func _ready() -> void:
-	if enter_map_btn:
-		enter_map_btn.pressed.connect(_on_enter_map_pressed)
-
-	# 1. 绑定分类 Tab
-	if category_tabs:
-		for tab in category_tabs.get_children():
-			if tab is Button:
-				tab.pressed.connect(_on_tab_pressed.bind(tab.name.to_lower()))
-
-	# 2. 动态绑定槽位并注入 (允许装配的分类, 专属Location标签)
-	if get_node_or_null(\"%ArmorSlots\"):
-		for slot in %ArmorSlots.get_children():
-			if slot is Button:
-				var loc_name = \"equipped_\" + slot.name.to_lower()
-				slot.pressed.connect(_on_equip_slot_pressed.bind(\"armor\", loc_name, slot))
-
-	if get_node_or_null(\"%WeaponSlots\"):
-		for slot in %WeaponSlots.get_children():
-			if slot is Button:
-				var loc_name = \"equipped_\" + slot.name.to_lower()
-				slot.pressed.connect(_on_equip_slot_pressed.bind(\"weapon\", loc_name, slot))
-
-	if get_node_or_null(\"%itemSlots\"):
-		for slot in %itemSlots.get_children():
-			if slot is Button:
-				var loc_name = \"equipped_\" + slot.name.to_lower()
-				slot.pressed.connect(_on_equip_slot_pressed.bind(\"item\", loc_name, slot))
-
-	_clear_detail()
-	_refresh_all()
-
-# --- 渲染刷新逻辑 ---
-func _refresh_all() -> void:
-	_render_inventory(current_category)
-	_render_equipped_slots()
-
-func _on_tab_pressed(category_type: String) -> void:
-	current_category = category_type
-	_render_inventory(category_type)
-	_clear_detail()
-
-# 【核心修复】：安全清空节点引擎
-func _clear_grid_safely(grid: Container) -> void:
-	for child in grid.get_children():
-		grid.remove_child(child)
-		child.queue_free()
-
-func _render_inventory(category_type: String) -> void:
-	var grid = get_node_or_null(\"%InventoryGrid\")
-	if not grid: return
-
-	_clear_grid_safely(grid)
-
-	# 向管家索要对应分类的背包物品
-	var backpack_items = InventoryManager.get_items(\"backpack\", category_type)
-
-	# 使用全新的 Figma 浅灰质感填充
-	for i in range(BACKPACK_MAX_SLOTS):
-		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(150, 140) # 统一150x140规格
-		btn.focus_mode = Control.FOCUS_NONE
-
-		# --- 创建完全匹配 Figma 草稿的浅灰色实体背景 ---
-		var style_box = StyleBoxFlat.new()
-		style_box.bg_color = Color(\"d9d9d9\") # 浅灰占位色
-		style_box.border_color = Color(\"aaaaaa\")
-		style_box.border_width_bottom = 2
-		style_box.border_width_right = 2
-
-		btn.add_theme_stylebox_override(\"normal\", style_box)
-		btn.add_theme_stylebox_override(\"hover\", style_box)
-		btn.add_theme_stylebox_override(\"disabled\", style_box)
-
-		if i < backpack_items.size():
-			var item = backpack_items[i]
-			var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
-			if static_data.is_empty(): continue
-
-			var display_name = tr(static_data.get(\"name_key\", \"未知物品\"))
-			if item.has(\"count\") and item[\"count\"] > 1:
-				display_name += \"\\nx\" + str(item[\"count\"])
-
-			if item.get(\"is_broken\", false):
-				btn.add_theme_color_override(\"font_color\", Color.RED)
-				display_name += \"\\n(破损)\"
-			else:
-				btn.add_theme_color_override(\"font_color\", Color(\"1a1a1a\")) # 浅灰底配深色字
-
-			btn.text = display_name
-			btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
-			btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-
-			# 绑定角色面板专属的装备替换信号
-			btn.pressed.connect(_on_inventory_item_pressed.bind(item[\"uid\"], static_data, item))
-		else:
-			# 空槽位
-			btn.text = \"\"
-			btn.disabled = true
-			btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			btn.modulate = Color.WHITE
-
-		grid.add_child(btn)
-
-func _render_equipped_slots() -> void:
-	var all_slot_containers = []
-	if get_node_or_null(\"%ArmorSlots\"): all_slot_containers.append(%ArmorSlots)
-	if get_node_or_null(\"%WeaponSlots\"): all_slot_containers.append(%WeaponSlots)
-	if get_node_or_null(\"%itemSlots\"): all_slot_containers.append(%itemSlots)
-
-	for container in all_slot_containers:
-		for slot in container.get_children():
-			if slot is Button:
-				var loc_name = \"equipped_\" + slot.name.to_lower()
-				var items_in_slot = InventoryManager.get_items(loc_name)
-
-				if items_in_slot.size() > 0:
-					var item = items_in_slot[0]
-					var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
-					var d_name = tr(static_data.get(\"name_key\", \"未知\"))
-
-					if item.has(\"count\") and item[\"count\"] > 1:
-						d_name += \" x\" + str(item[\"count\"])
-
-					slot.text = d_name
-					slot.set_meta(\"equipped_uid\", item[\"uid\"])
-
-					if item.get(\"is_broken\", false):
-						slot.add_theme_color_override(\"font_color\", Color.RED)
-					else:
-						slot.remove_theme_color_override(\"font_color\")
-				else:
-					slot.text = slot.name
-					slot.set_meta(\"equipped_uid\", \"\")
-					slot.remove_theme_color_override(\"font_color\")
-
-# --- 交互逻辑 ---
-func _on_inventory_item_pressed(uid: String, static_data: Dictionary, dynamic_data: Dictionary) -> void:
-	current_selected_uid = uid
-	if get_node_or_null(\"%DetailName\"):
-		%DetailName.text = tr(static_data.get(\"name_key\", \"未知名称\"))
-
-	if get_node_or_null(\"%DetailType\"):
-		var specific_type = static_data.get(\"equip_type\", static_data.get(\"wep_type\", \"通用\"))
-		%DetailType.text = \"类型: \" + specific_type
-
-	if get_node_or_null(\"%DetailDesc\"):
-		var desc = tr(static_data.get(\"desc\", \"无描述\"))
-		if dynamic_data.has(\"current_durability\"):
-			desc += \"\\n耐久度: %d / %d\" % [dynamic_data[\"current_durability\"], static_data.get(\"max_durability\", 100)]
-		%DetailDesc.text = desc
-
-func _clear_detail() -> void:
-	current_selected_uid = \"\"
-	if get_node_or_null(\"%DetailName\"): %DetailName.text = \"未选择物品\"
-	if get_node_or_null(\"%DetailType\"): %DetailType.text = \"\"
-	if get_node_or_null(\"%DetailDesc\"): %DetailDesc.text = \"请在右侧选择物品查看详情。\\n(点击已装备槽位可卸下)\"
-
-func _on_equip_slot_pressed(required_category: String, target_location: String, slot_node: Button) -> void:
-	var current_equipped_uid = slot_node.get_meta(\"equipped_uid\", \"\")
-
-	# 情况 A：手里没拿东西 -> 卸下当前槽位的装备到背包
-	if current_selected_uid == \"\":
-		if current_equipped_uid != \"\":
-			InventoryManager.move_item(current_equipped_uid, \"backpack\")
-			_refresh_all()
-		return
-
-	# 情况 B：手里拿着东西 -> 尝试穿戴/替换
-	var selected_item = InventoryManager.get_item_by_uid(current_selected_uid)
-	var static_data = ItemDatabaseManager.get_item_data(selected_item[\"template_id\"])
-	var item_category = static_data.get(\"category\", \"\")
-
-	if item_category != required_category:
-		print(\"❌ 穿戴失败：物品类型不符。\")
-		return
-
-	if selected_item.get(\"is_broken\", false):
-		print(\"❌ 穿戴失败：装备已彻底破损，需先维修！\")
-		return
-
-	if required_category == \"armor\":
-		var specific_type = static_data.get(\"equip_type\", \"\")
-		var slot_suffix = target_location.split(\"_\")[1]
-		if specific_type != slot_suffix:
-			print(\"❌ 穿戴失败：部位不匹配 (%s 不能放在 %s)\" % [specific_type, slot_suffix])
-			return
-
-	InventoryManager.move_item(current_selected_uid, target_location)
-	_clear_detail()
-	_refresh_all()
-
-func _on_enter_map_pressed() -> void:
-	if not target_map_world or not target_map_ui: return
-	var main_root = get_tree().root.get_node_or_null(\"MAIN\")
-	if main_root:
-		SceneManager.transition_to(func(): main_root.load_combat_scene(target_map_world, target_map_ui), 0.5)
-"
-
-[sub_resource type="FontVariation" id="FontVariation_xqupy"]
-spacing_glyph = 5
-
-[sub_resource type="FontVariation" id="FontVariation_yvw4x"]
-spacing_glyph = 5
-
-[sub_resource type="PackedScene" id="PackedScene_l2dkb"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("base_character_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "script", "MarginContainer", "MarginContainer", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "theme_override_constants/margin_left", "theme_override_constants/margin_top", "theme_override_constants/margin_right", "theme_override_constants/margin_bottom", "VBoxContainer", "VBoxContainer", "layout_mode", "threebtnVContainer", "VBoxContainer", "layout_mode", "MarginContainer", "MarginContainer", "layout_mode", "theme_override_constants/margin_bottom", "threebtnHContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "weapon", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "armor", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "item", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "HBoxContainer", "HBoxContainer", "layout_mode", "HSeparator", "HSeparator", "custom_minimum_size", "layout_mode", "HBoxContainer", "HBoxContainer", "layout_mode", "Line1", "MarginContainer", "custom_minimum_size", "layout_mode", "theme_override_constants/margin_top", "VBoxContainer", "VBoxContainer", "layout_mode", "Label", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "itemlist", "VBoxContainer", "layout_mode", "Line2", "MarginContainer", "layout_mode", "size_flags_horizontal", "Line3", "MarginContainer", "custom_minimum_size", "layout_mode", "size_flags_horizontal", "VBoxContainer", "VBoxContainer", "layout_mode", "Equipment", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "equipmentlist", "VBoxContainer", "layout_mode", "StartgameMargin", "MarginContainer", "layout_mode", "anchors_preset", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "grow_horizontal", "grow_vertical", "theme_override_constants/margin_right", "theme_override_constants/margin_bottom", "START GAME", "Button", "layout_mode", "text"),
-"node_count": 23,
-"node_paths": [NodePath("."), NodePath("./MarginContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer"), NodePath("."), NodePath("./StartgameMargin")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 7, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 0, 1073741824, 0, 10, 9, -1, 10, 11, 7, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 0, 1073741825, 0, 22, 21, -1, 1, 23, 17, 0, 1073741826, 0, 25, 24, -1, 1, 26, 18, 0, 1073741827, 0, 28, 27, -1, 2, 29, 19, 30, 20, 0, 1073741828, 0, 32, 31, -1, 2, 33, 21, 34, 22, 0, 1073741829, 0, 36, 35, -1, 5, 37, 23, 38, 24, 39, 25, 40, 26, 41, 27, 0, 1073741830, 0, 43, 42, -1, 5, 44, 28, 45, 29, 46, 30, 47, 31, 48, 32, 0, 1073741831, 0, 50, 49, -1, 5, 51, 33, 52, 34, 53, 35, 54, 36, 55, 37, 0, 1073741832, 0, 57, 56, -1, 1, 58, 38, 0, 1073741833, 0, 60, 59, -1, 2, 61, 39, 62, 40, 0, 1073741834, 0, 64, 63, -1, 1, 65, 41, 0, 1073741835, 0, 67, 66, -1, 3, 68, 42, 69, 43, 70, 44, 0, 1073741836, 0, 72, 71, -1, 1, 73, 45, 0, 1073741837, 0, 75, 74, -1, 6, 76, 46, 77, 47, 78, 48, 79, 49, 80, 50, 81, 51, 0, 1073741838, 0, 83, 82, -1, 1, 84, 52, 0, 1073741839, 0, 86, 85, -1, 2, 87, 53, 88, 54, 0, 1073741840, 0, 90, 89, -1, 3, 91, 55, 92, 56, 93, 57, 0, 1073741841, 0, 95, 94, -1, 1, 96, 58, 0, 1073741842, 0, 98, 97, -1, 6, 99, 59, 100, 60, 101, 61, 102, 62, 103, 63, 104, 64, 0, 1073741843, 0, 106, 105, -1, 1, 107, 65, 0, 1073741844, 0, 109, 108, -1, 12, 110, 66, 111, 67, 112, 68, 113, 69, 114, 70, 115, 71, 116, 72, 117, 73, 118, 74, 119, 75, 120, 76, 121, 77, 0, 1073741845, 0, 123, 122, -1, 2, 124, 78, 125, 79, 0),
-"variants": [3, 15, 1.0, 1.0, 2, 2, SubResource("GDScript_x0m3w"), 1, 15, 1.0, 1.0, 2, 2, 80, 180, 80, 120, 2, 2, 2, 5, 2, 0, Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "weapon", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "armor", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "item", 2, Vector2(600, 0), 2, 2, Vector2(600, 0), 2, 5, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_xqupy"), 48, "BAG", 1, 2, 2, 3, Vector2(600, 0), 2, 8, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_yvw4x"), 48, "EQUIPMENT", 1, 2, 1, 3, 1.0, 1.0, 1.0, 1.0, -238.0, -94.0, 0, 0, 50, 30, 2, "START GAME"],
-"version": 3
-}
-
-[sub_resource type="GDScript" id="GDScript_ejo1j"]
-script/source = "extends Control
-# base_warehouse_panel.gd
-
-# --- 节点绑定 ---
-@onready var category_tabs = %CategoryTabs
-@onready var warehouse_grid = %WarehouseGrid
-@onready var backpack_grid = %BackpackGrid
-
-# 中心详情区
-@onready var detail_name = %DetailName
-@onready var detail_type = %DetailType
-@onready var detail_desc = %DetailDesc
-
-# --- 状态数据 ---
-var current_warehouse_category: String = \"weapon\"
-var current_selected_uid: String = \"\"
-
-# --- 固定网格容量配置 (严格匹配 Figma 草稿) ---
-const WAREHOUSE_MAX_SLOTS: int = 16 # 仓库: 4列 x 4行 = 16格
-const BACKPACK_MAX_SLOTS: int = 12  # 背包: 3列 x 4行 = 12格
-
-func _ready() -> void:
-	if category_tabs:
-		for tab in category_tabs.get_children():
-			if tab is Button:
-				tab.pressed.connect(_on_tab_pressed.bind(tab.name.to_lower()))
-
-	_clear_detail()
-	_refresh_both_sides()
-
-func _on_tab_pressed(category: String) -> void:
-	current_warehouse_category = category
-	_refresh_both_sides()
-	_clear_detail()
-
-func _refresh_both_sides() -> void:
-	_render_warehouse()
-	_render_backpack()
-
-# --- 渲染逻辑 ---
-func _render_warehouse() -> void:
-	if not warehouse_grid: return
-	_clear_grid_safely(warehouse_grid)
-	var items = InventoryManager.get_items(\"warehouse\", current_warehouse_category)
-	_fill_grid_with_slots(warehouse_grid, items, WAREHOUSE_MAX_SLOTS, \"backpack\")
-
-func _render_backpack() -> void:
-	if not backpack_grid: return
-	_clear_grid_safely(backpack_grid)
-	var items = InventoryManager.get_items(\"backpack\", current_warehouse_category)
-	_fill_grid_with_slots(backpack_grid, items, BACKPACK_MAX_SLOTS, \"warehouse\")
-
-# 【核心修复】：安全清空节点引擎
-func _clear_grid_safely(grid: Container) -> void:
-	for child in grid.get_children():
-		grid.remove_child(child)
-		child.queue_free()
-
-# 核心渲染引擎：完美还原 Figma 的 150x140 浅灰质感
-func _fill_grid_with_slots(grid: GridContainer, items: Array, max_slots: int, target_location: String) -> void:
-	for i in range(max_slots):
-		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(150, 140) # 严格遵守要求的尺寸
-		btn.focus_mode = Control.FOCUS_NONE
-
-		# --- 创建完全匹配 Figma 草稿的浅灰色实体背景 ---
-		var style_box = StyleBoxFlat.new()
-		style_box.bg_color = Color(\"d9d9d9\") # Figma 常见的浅灰占位色
-		style_box.border_color = Color(\"aaaaaa\")
-		style_box.border_width_bottom = 2
-		style_box.border_width_right = 2
-
-		# 统一应用基础样式 (无论有没有物品，底色都是这个灰块)
-		btn.add_theme_stylebox_override(\"normal\", style_box)
-		btn.add_theme_stylebox_override(\"hover\", style_box)
-		btn.add_theme_stylebox_override(\"disabled\", style_box)
-
-		if i < items.size():
-			var item = items[i]
-			var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
-			var display_name = tr(static_data.get(\"name_key\", \"未知物品\"))
-
-			if item.has(\"count\") and item[\"count\"] > 1:
-				display_name += \"\\nx\" + str(item[\"count\"])
-
-			if item.get(\"is_broken\", false):
-				btn.add_theme_color_override(\"font_color\", Color.RED)
-				display_name += \"\\n(破损)\"
-			else:
-				# 浅色背景配深色字更清晰
-				btn.add_theme_color_override(\"font_color\", Color(\"1a1a1a\"))
-
-			btn.text = display_name
-			btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
-			btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			btn.gui_input.connect(_on_item_gui_input.bind(item, target_location))
-		else:
-			btn.text = \"\"
-			btn.disabled = true
-			btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			# 确保没有任何半透明遮挡，纯粹展示纯灰底色
-			btn.modulate = Color.WHITE
-
-		grid.add_child(btn)
-
-# --- 核心交互 ---
-func _on_item_gui_input(event: InputEvent, item: Dictionary, target_location: String) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		var static_data = ItemDatabaseManager.get_item_data(item[\"template_id\"])
-
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			current_selected_uid = item[\"uid\"]
-			detail_name.text = tr(static_data.get(\"name_key\", \"未知名称\"))
-			var specific_type = static_data.get(\"equip_type\", static_data.get(\"wep_type\", \"通用\"))
-			detail_type.text = \"类型: \" + specific_type
-
-			var desc = tr(static_data.get(\"desc\", \"无描述\"))
-			if item.has(\"current_durability\"):
-				desc += \"\\n\\n耐久度: %d / %d\" % [item[\"current_durability\"], static_data.get(\"max_durability\", 100)]
-			detail_desc.text = desc
-
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			# 调用大管家转移数据，然后强制双端重绘
-			InventoryManager.move_item(item[\"uid\"], target_location)
-			_clear_detail()
-			_refresh_both_sides()
-
-func _clear_detail() -> void:
-	current_selected_uid = \"\"
-	if detail_name: detail_name.text = \"未选择物品\"
-	if detail_type: detail_type.text = \"\"
-	if detail_desc: detail_desc.text = \"左键点击物品查看详情\\n右键点击物品快捷转移\"
-"
-
-[sub_resource type="FontVariation" id="FontVariation_xe2la"]
-spacing_glyph = 5
-
-[sub_resource type="FontVariation" id="FontVariation_r7hbb"]
-spacing_glyph = 5
-
-[sub_resource type="PackedScene" id="PackedScene_kms7s"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("base_warehouse_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "mouse_filter", "script", "MarginContainer", "MarginContainer", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "theme_override_constants/margin_left", "theme_override_constants/margin_top", "theme_override_constants/margin_right", "theme_override_constants/margin_bottom", "VBoxContainer", "VBoxContainer", "layout_mode", "threebtnVContainer", "VBoxContainer", "layout_mode", "MarginContainer", "MarginContainer", "layout_mode", "theme_override_constants/margin_bottom", "VBoxContainer", "VBoxContainer", "layout_mode", "threebtnHContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "alignment", "weapon", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "armor", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "item", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "materials", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "others", "Button", "custom_minimum_size", "layout_mode", "theme", "theme_type_variation", "text", "HSeparator", "HSeparator", "layout_mode", "HBoxContainer", "HBoxContainer", "layout_mode", "Line1", "MarginContainer", "custom_minimum_size", "layout_mode", "theme_override_constants/margin_top", "VBoxContainer", "VBoxContainer", "layout_mode", "Label", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "itemlist", "VBoxContainer", "layout_mode", "Line2", "MarginContainer", "layout_mode", "size_flags_horizontal", "Line3", "MarginContainer", "custom_minimum_size", "layout_mode", "size_flags_horizontal", "VBoxContainer", "VBoxContainer", "layout_mode", "Equipment", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_fonts/font", "theme_override_font_sizes/font_size", "text", "horizontal_alignment", "equipmentlist", "VBoxContainer", "visible", "layout_mode"),
-"node_count": 23,
-"node_paths": [NodePath("."), NodePath("./MarginContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer/threebtnHContainer"), NodePath("./MarginContainer/VBoxContainer/threebtnVContainer/MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line1/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer"), NodePath("./MarginContainer/VBoxContainer/HBoxContainer/Line3/VBoxContainer")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 8, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 0, 1073741824, 0, 11, 10, -1, 10, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 0, 1073741825, 0, 23, 22, -1, 1, 24, 18, 0, 1073741826, 0, 26, 25, -1, 1, 27, 19, 0, 1073741827, 0, 29, 28, -1, 2, 30, 20, 31, 21, 0, 1073741828, 0, 33, 32, -1, 1, 34, 22, 0, 1073741829, 0, 36, 35, -1, 3, 37, 23, 38, 24, 39, 25, 0, 1073741830, 0, 41, 40, -1, 5, 42, 26, 43, 27, 44, 28, 45, 29, 46, 30, 0, 1073741831, 0, 48, 47, -1, 5, 49, 31, 50, 32, 51, 33, 52, 34, 53, 35, 0, 1073741832, 0, 55, 54, -1, 5, 56, 36, 57, 37, 58, 38, 59, 39, 60, 40, 0, 1073741833, 0, 62, 61, -1, 5, 63, 41, 64, 42, 65, 43, 66, 44, 67, 45, 0, 1073741834, 0, 69, 68, -1, 5, 70, 46, 71, 47, 72, 48, 73, 49, 74, 50, 0, 1073741835, 0, 76, 75, -1, 1, 77, 51, 0, 1073741836, 0, 79, 78, -1, 1, 80, 52, 0, 1073741837, 0, 82, 81, -1, 3, 83, 53, 84, 54, 85, 55, 0, 1073741838, 0, 87, 86, -1, 1, 88, 56, 0, 1073741839, 0, 90, 89, -1, 6, 91, 57, 92, 58, 93, 59, 94, 60, 95, 61, 96, 62, 0, 1073741840, 0, 98, 97, -1, 1, 99, 63, 0, 1073741841, 0, 101, 100, -1, 2, 102, 64, 103, 65, 0, 1073741842, 0, 105, 104, -1, 3, 106, 66, 107, 67, 108, 68, 0, 1073741843, 0, 110, 109, -1, 1, 111, 69, 0, 1073741844, 0, 113, 112, -1, 6, 114, 70, 115, 71, 116, 72, 117, 73, 118, 74, 119, 75, 0, 1073741845, 0, 121, 120, -1, 2, 122, 76, 123, 77, 0),
-"variants": [3, 15, 1.0, 1.0, 2, 2, 2, SubResource("GDScript_ejo1j"), 1, 15, 1.0, 1.0, 2, 2, 80, 180, 80, 120, 2, 2, 2, 10, 2, 2, 0, 1, Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "weapon", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "armor", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "item", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "materials", Vector2(180, 0), 2, ExtResource("2_syg7e"), &"ListButton", "others", 2, 2, Vector2(600, 0), 2, 5, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_xe2la"), 48, "BAG", 1, 2, 2, 3, Vector2(600, 0), 2, 8, 2, 2, Color(0.254902, 1, 0.831373, 1), SubResource("FontVariation_r7hbb"), 48, "EQUIPMENT", 1, false, 2],
-"version": 3
-}
-
-[sub_resource type="PackedScene" id="PackedScene_5rgwe"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("base_shop_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "Label", "Label", "layout_mode", "anchors_preset", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "text"),
-"node_count": 2,
-"node_paths": [NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 6, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 0, 1073741824, 0, 9, 8, -1, 13, 10, 6, 11, 7, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 22, 18, 0),
-"variants": [3, 15, 1.0, 1.0, 2, 2, 1, 8, 0.5, 0.5, 0.5, 0.5, -20.0, -11.5, 20.0, 11.5, 2, 2, "base_shop_panel"],
-"version": 3
-}
-
-[sub_resource type="GDScript" id="GDScript_f26c2"]
-script/source = "extends Control
-
-# --- View 1 节点 ---
-@onready var view1_weapon = %View1_WeaponSelect
-@onready var view2_refine = %View2_CardRefine
-
-@onready var v1_card_grid = %V1_CardGrid
-@onready var v1_weapon_desc = %V1_WeaponDesc
-@onready var btn_refine = %Btn_Refine
-@onready var v1_weapon_grid = %V1_WeaponGrid
-
-# --- View 2 节点 ---
-@onready var v2_equipped_grid = %V2_EquippedGrid
-@onready var v2_pool_grid = %V2_PoolGrid
-@onready var v2_card_desc = %V2_CardDesc
-
-@onready var btn_confirm = %Btn_ConfirmRefine
-@onready var btn_cancel = %Btn_CancelRefine
-
-var base_card_scene = preload(\"res://Scene/Battle_Scene/Card_Scene/Card.tscn\")
-
-# 满足你的需求：只保留锈蚀砍刀，清空初始携带，每种牌配 4 张备用
-var real_weapons: Array = []
-
-var current_weapon_data: Dictionary = {}
-var temp_equipped_cards: Array = [] # 暂存数组，用于在确认前保存玩家的修改
-var max_deck_size: int = 15
-
-func _ready() -> void:
-	view1_weapon.show()
-	view2_refine.hide()
-
-	# 【新增】：开局隐藏确认和取消按钮
-	btn_confirm.hide()
-	btn_cancel.hide()
-
-	btn_refine.pressed.connect(_on_btn_refine_pressed)
-	btn_confirm.pressed.connect(_on_btn_confirm_pressed)
-	btn_cancel.pressed.connect(_on_btn_cancel_pressed)
-
-	if SaveManager.current_save.has(\"weapons\"):
-		real_weapons = SaveManager.current_save[\"weapons\"]
-	else:
-		print(\"警告：该存档中未检测到 weapons 数据，可能是老存档。\")
-
-	_render_weapon_list()
-
-# 视图 1：武器选择
-func _render_weapon_list():
-	for child in v1_weapon_grid.get_children(): child.queue_free()
-
-	# 【修改】：遍历 real_weapons
-	for weapon in real_weapons:
-		var btn = Button.new()
-		btn.text = weapon[\"name\"]
-		btn.custom_minimum_size = Vector2(80, 80)
-		btn.pressed.connect(_on_weapon_selected.bind(weapon))
-		v1_weapon_grid.add_child(btn)
-
-func _on_weapon_selected(weapon_data: Dictionary):
-	current_weapon_data = weapon_data
-	v1_weapon_desc.text = weapon_data[\"desc\"]
-
-	for child in v1_card_grid.get_children(): child.queue_free()
-
-	for card_id in weapon_data[\"equipped_cards\"]:
-		var card_ui = base_card_scene.instantiate()
-		v1_card_grid.add_child(card_ui)
-		card_ui.setup(card_id, true)
-
-func _on_btn_refine_pressed():
-	if current_weapon_data.is_empty(): return
-
-	# 进入精炼时，克隆当前武器的牌组数据到暂存区
-	temp_equipped_cards = current_weapon_data[\"equipped_cards\"].duplicate()
-
-	view1_weapon.hide()
-	view2_refine.show()
-
-	btn_confirm.show()
-	btn_cancel.show()
-
-	_refresh_refine_grids()
-
-# 视图 2：卡牌精炼 (物理转移重构版)
-
-func _refresh_refine_grids():
-	# 1. 进场时只做一次彻底清空
-	for child in v2_equipped_grid.get_children(): child.queue_free()
-	for child in v2_pool_grid.get_children(): child.queue_free()
-
-	# 2. 计算备用池：总池子 减去 已装备的牌
-	var unequipped_pool = current_weapon_data[\"card_pool\"].duplicate()
-
-	# 3. 渲染左侧 (携带区)
-	for card_id in temp_equipped_cards:
-		if unequipped_pool.has(card_id):
-			unequipped_pool.erase(card_id) # 从备用池中划掉这张已装备的牌
-
-		var card_ui = base_card_scene.instantiate()
-		v2_equipped_grid.add_child(card_ui)
-		card_ui.setup(card_id, true)
-		# 🌟【核心改变】：使用 bind 把卡牌节点自己 (card_ui) 传给交互函数
-		card_ui.card_interacted.connect(_on_card_interacted.bind(card_ui))
-
-	# 4. 渲染右侧 (备用区)
-	for card_id in unequipped_pool:
-		var card_ui = base_card_scene.instantiate()
-		v2_pool_grid.add_child(card_ui)
-		card_ui.setup(card_id, false)
-		# 🌟同样绑定节点自身
-		card_ui.card_interacted.connect(_on_card_interacted.bind(card_ui))
-
-# 注意这里的参数多了一个 card_node: Control
-func _on_card_interacted(card_id: int, click_type: String, is_equipped: bool, card_node: Control):
-	if click_type == \"left_click\":
-		# 左键：查看详情
-		var card_info = CardDataBase.get_card(card_id)
-		var damage = card_info.get(\"damage\", 0)
-		var hits = card_info.get(\"hit_count\", 1)
-		v2_card_desc.text = \"卡名: %s\\n类型: %s\\n单发伤害: %d\\n攻击段数: %d\" % [tr(card_info.get(\"name_key\", \"未知\")), card_info.get(\"categories\", \"通用\"), damage, hits]
-
-	elif click_type == \"right_click\":
-		# 右键：🌟【真实物理转移节点】绝对体现“每张牌的唯一性”
-		if card_node.get_parent() == v2_equipped_grid:
-			# 如果它现在在左边 -> 从携带区卸下，物理移动到右边(备用区)
-			card_node.reparent(v2_pool_grid)
-			card_node.is_in_equipped_zone = false
-
-		elif card_node.get_parent() == v2_pool_grid:
-			# 如果它现在在右边 -> 从备用区装备，物理移动到左边(携带区)
-			if v2_equipped_grid.get_child_count() < max_deck_size:
-				card_node.reparent(v2_equipped_grid)
-				card_node.is_in_equipped_zone = true
-			else:
-				print(\"携带区已满，无法装备更多卡牌！\")
-
-func _on_btn_confirm_pressed() -> void:
-	# 🌟【全新保存逻辑】：直接读取左侧容器里真实存在的卡牌节点！
-	# 所见即所得，界面里摆了什么，我们就存什么。
-	temp_equipped_cards.clear()
-	for card_node in v2_equipped_grid.get_children():
-		temp_equipped_cards.append(card_node.card_id)
-
-	# 覆盖正式数据
-	current_weapon_data[\"equipped_cards\"] = temp_equipped_cards.duplicate()
-
-	# 同步给战斗大管家并写入硬盘存档
-	_save_deck_to_manager()
-	SaveManager.save_current_state()
-
-	# 退回武器选择界面并隐藏底部按钮
-	view2_refine.hide()
-	view1_weapon.show()
-	btn_confirm.hide()
-	btn_cancel.hide()
-
-	_on_weapon_selected(current_weapon_data)
-
-# 确认与取消逻辑
-
-func _on_btn_cancel_pressed() -> void:
-	view2_refine.hide()
-	view1_weapon.show()
-
-	# 【新增】：取消并退回界面1时，隐藏这两个按钮
-	btn_confirm.hide()
-	btn_cancel.hide()
-
-# 同步字典数据到出牌管家
-func _save_deck_to_manager() -> void:
-	var new_deck_config = {}
-	for card_id in current_weapon_data[\"equipped_cards\"]:
-		if new_deck_config.has(card_id):
-			new_deck_config[card_id] += 1
-		else:
-			new_deck_config[card_id] = 1
-
-	PlayerDeckManager.starter_deck_config = new_deck_config
-	PlayerDeckManager.generate_deck()
-	print(\"已同步牌组到战斗系统：\", new_deck_config)
-"
-
-[sub_resource type="PackedScene" id="PackedScene_hys58"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("base_upgrade_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "script"),
-"node_count": 1,
-"node_paths": [],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 7, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 0),
-"variants": [3, 15, 1.0, 1.0, 2, 2, SubResource("GDScript_f26c2")],
-"version": 3
-}
-
-[sub_resource type="PackedScene" id="PackedScene_nj2xh"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("base_craft_panel", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "Label", "Label", "layout_mode", "anchors_preset", "anchor_left", "anchor_top", "anchor_right", "anchor_bottom", "offset_left", "offset_top", "offset_right", "offset_bottom", "grow_horizontal", "grow_vertical", "text"),
-"node_count": 2,
-"node_paths": [NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 6, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 0, 1073741824, 0, 9, 8, -1, 13, 10, 6, 11, 7, 12, 8, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 22, 18, 0),
-"variants": [3, 15, 1.0, 1.0, 2, 2, 1, 8, 0.5, 0.5, 0.5, 0.5, -20.0, -11.5, 20.0, 11.5, 2, 2, "base_craft_panel"],
-"version": 3
-}
-
-[sub_resource type="PackedScene" id="PackedScene_cjejc"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [NodePath("ContentArea/base_character_panel")],
-"names": PackedStringArray("BaseMain", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "script", "panel_character_scene", "panel_warehouse_scene", "panel_shop_scene", "panel_upgrade_scene", "panel_craft_scene", "Background", "ColorRect", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "color", "ContentArea", "Control", "layout_mode", "anchors_preset", "anchor_right", "anchor_bottom", "grow_horizontal", "grow_vertical", "mouse_filter", "base_character_panel", "layout_mode", "MarginContainer", "theme_override_constants/margin_top", "VBoxContainer", "VBoxContainer", "layout_mode", "anchors_preset", "anchor_left", "anchor_right", "offset_left", "offset_right", "offset_bottom", "grow_horizontal", "topinfromation", "MarginContainer", "layout_mode", "theme_override_constants/margin_top", "theme_override_constants/margin_bottom", "HBoxContainer", "HBoxContainer", "layout_mode", "LeveShow", "MarginContainer", "layout_mode", "theme_override_constants/margin_left", "HBoxContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "Label", "Label", "layout_mode", "theme_override_font_sizes/font_size", "text", "level", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_font_sizes/font_size", "text", "VBoxContainer", "VBoxContainer", "layout_mode", "theme_override_constants/separation", "alignment", "Label", "Label", "layout_mode", "theme_override_colors/font_color", "text", "ProgressBar", "ProgressBar", "custom_minimum_size", "layout_mode", "theme", "show_percentage", "MarginContainer", "MarginContainer", "layout_mode", "size_flags_horizontal", "theme_override_constants/margin_right", "HBoxContainer", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "Label2", "Label", "layout_mode", "theme_override_colors/font_color", "theme_override_font_sizes/font_size", "text", "Label", "Label", "layout_mode", "theme_override_font_sizes/font_size", "text", "NavigationMargin", "MarginContainer", "layout_mode", "TopNavigationBar", "HBoxContainer", "layout_mode", "theme_override_constants/separation", "alignment", "Btn_Character", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Warehouse", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Shop", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Upgrade", "Button", "custom_minimum_size", "layout_mode", "theme", "text", "Btn_Craft", "Button", "custom_minimum_size", "layout_mode", "theme", "text"),
-"node_count": 26,
-"node_paths": [NodePath("."), NodePath("."), NodePath("./ContentArea"), NodePath("./ContentArea/base_character_panel/MarginContainer/VBoxContainer/threebtnVContainer"), NodePath("."), NodePath("./VBoxContainer"), NodePath("./VBoxContainer/topinfromation"), NodePath("./VBoxContainer/topinfromation/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer/VBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/LeveShow/HBoxContainer/VBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/MarginContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/MarginContainer/HBoxContainer"), NodePath("./VBoxContainer/topinfromation/HBoxContainer/MarginContainer/HBoxContainer"), NodePath("./VBoxContainer"), NodePath("./VBoxContainer/NavigationMargin"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar"), NodePath("./VBoxContainer/NavigationMargin/TopNavigationBar")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 12, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 10, 8, 11, 9, 12, 10, 13, 11, 0, 1073741824, 0, 15, 14, -1, 7, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 22, 18, 0, 1073741825, 0, 24, 23, -1, 7, 25, 19, 26, 20, 27, 21, 28, 22, 29, 23, 30, 24, 31, 25, 0, 1073741826, 0, 2147483647, 32, 26, 1, 33, 27, 0, 1073741827, -1, 2147483647, 262178, -1, 1, 35, 28, 0, 1073741828, 0, 37, 36, -1, 8, 38, 29, 39, 30, 40, 31, 41, 32, 42, 33, 43, 34, 44, 35, 45, 36, 0, 1073741829, 0, 47, 46, -1, 3, 48, 37, 49, 38, 50, 39, 0, 1073741830, 0, 52, 51, -1, 1, 53, 40, 0, 1073741831, 0, 55, 54, -1, 2, 56, 41, 57, 42, 0, 1073741832, 0, 59, 58, -1, 2, 60, 43, 61, 44, 0, 1073741833, 0, 63, 62, -1, 3, 64, 45, 65, 46, 66, 47, 0, 1073741834, 0, 68, 67, -1, 4, 69, 48, 70, 49, 71, 50, 72, 51, 0, 1073741835, 0, 74, 73, -1, 3, 75, 52, 76, 53, 77, 54, 0, 1073741836, 0, 79, 78, -1, 3, 80, 55, 81, 56, 82, 57, 0, 1073741837, 0, 84, 83, -1, 4, 85, 58, 86, 59, 87, 60, 88, 61, 0, 1073741838, 0, 90, 89, -1, 3, 91, 62, 92, 63, 93, 64, 0, 1073741839, 0, 95, 94, -1, 2, 96, 65, 97, 66, 0, 1073741840, 0, 99, 98, -1, 4, 100, 67, 101, 68, 102, 69, 103, 70, 0, 1073741841, 0, 105, 104, -1, 3, 106, 71, 107, 72, 108, 73, 0, 1073741842, 0, 110, 109, -1, 1, 111, 74, 0, 1073741843, 0, 113, 112, -1, 3, 114, 75, 115, 76, 116, 77, 0, 1073741844, 0, 118, 117, -1, 4, 119, 78, 120, 79, 121, 80, 122, 81, 0, 1073741845, 0, 124, 123, -1, 4, 125, 82, 126, 83, 127, 84, 128, 85, 0, 1073741846, 0, 130, 129, -1, 4, 131, 86, 132, 87, 133, 88, 134, 89, 0, 1073741847, 0, 136, 135, -1, 4, 137, 90, 138, 91, 139, 92, 140, 93, 0, 1073741848, 0, 142, 141, -1, 4, 143, 94, 144, 95, 145, 96, 146, 97, 0),
-"variants": [3, 15, 1.0, 1.0, 2, 2, SubResource("GDScript_cq4sl"), SubResource("PackedScene_l2dkb"), SubResource("PackedScene_kms7s"), SubResource("PackedScene_5rgwe"), SubResource("PackedScene_hys58"), SubResource("PackedScene_nj2xh"), 1, 15, 1.0, 1.0, 2, 2, Color(0.0196078, 0.0431373, 0.0627451, 1), 1, 15, 1.0, 1.0, 2, 2, 2, SubResource("PackedScene_l2dkb"), 1, 15, 1, 5, 0.5, 0.5, -960.0, 960.0, 60.0, 2, 2, 20, 20, 2, 2, 80, 2, 10, 2, 64, "LV", 2, Color(1, 0.619608, 0.290196, 1), 64, "99", 2, 10, 1, 2, Color(1, 0.619608, 0.290196, 1), "151651/1561", Vector2(150, 10), 2, ExtResource("2_syg7e"), false, 2, 10, 80, 2, 10, 2, Color(1, 0.619608, 0.290196, 1), 64, "151516156", 2, 64, "CR", 2, 2, 40, 1, Vector2(250, 60), 2, ExtResource("2_syg7e"), "Character", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Warehouse", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Shop", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Upgrade", Vector2(250, 60), 2, ExtResource("2_syg7e"), "Craft"],
-"version": 3
-}
-
-[node name="filelist" type="Control" node_paths=PackedStringArray("name_input_panel", "line_edit", "confirm_button", "cancel_button", "delete_confirm_panel", "confirm_delete_btn", "cancel_delete_btn")]
+[node name="filelist" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_04a8g")
-base_scene = SubResource("PackedScene_cjejc")
-name_input_panel = NodePath("NameInputPanel")
-line_edit = NodePath("NameInputPanel/VBoxContainer/LineEdit")
-confirm_button = NodePath("NameInputPanel/VBoxContainer/HBoxContainer/ConfirmButton")
-cancel_button = NodePath("NameInputPanel/VBoxContainer/HBoxContainer/CancelButton")
-delete_confirm_panel = NodePath("DeleteConfirmPanel")
-confirm_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/ConfirmDeleteBtn")
-cancel_delete_btn = NodePath("DeleteConfirmPanel/VBoxContainer/HBoxContainer/CancelDeleteBtn")
+shelter_scene = ExtResource("2_cq4sl")
+save_slot_card_scene = ExtResource("4_l2dkb")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -19978,80 +26059,102 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.07, 0.07, 0.07, 0.592157)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="MainMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 70
 
-[node name="SaveListContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="MainVBox" type="VBoxContainer" parent="MainMargin"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMargin/MainVBox"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMargin/MainVBox/MarginContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="MainMargin/MainVBox/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "返回"
+
+[node name="Header" type="HBoxContainer" parent="MainMargin/MainVBox"]
+layout_mode = 2
+
+[node name="TitleArea" type="VBoxContainer" parent="MainMargin/MainVBox/Header"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MainMargin/MainVBox/Header/TitleArea"]
+layout_mode = 2
+text = "存档"
+
+[node name="Subtitle" type="Label" parent="MainMargin/MainVBox/Header/TitleArea"]
+layout_mode = 2
+text = "选择一个存档继续游戏"
+
+[node name="Spacer" type="Control" parent="MainMargin/MainVBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
-alignment = 1
 
-[node name="NameInputPanel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -62.5075
-offset_right = 250.0
-offset_bottom = 62.5075
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(250, 0)
+[node name="NewSaveButton" type="Button" parent="MainMargin/MainVBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+text = "创建新存档"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="NameInputPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MarginContainer2" type="MarginContainer" parent="MainMargin/MainVBox"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="LineEdit" type="LineEdit" parent="NameInputPanel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+[node name="HSeparator" type="HSeparator" parent="MainMargin/MainVBox/MarginContainer2"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NameInputPanel/VBoxContainer"]
+[node name="EmptyState" type="Label" parent="MainMargin/MainVBox"]
+unique_name_in_owner = true
 layout_mode = 2
+text = "还没有存档。
+创建一个新存档开始游戏。"
 
-[node name="ConfirmButton" type="Button" parent="NameInputPanel/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="ScrollContainer" type="ScrollContainer" parent="MainMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SaveListContainer" type="VBoxContainer" parent="MainMargin/MainVBox/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
-text = "Confrim"
+theme_override_constants/separation = 16
 
-[node name="CancelButton" type="Button" parent="NameInputPanel/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
-text = "Cancel"
-
-[node name="DeleteConfirmPanel" type="Panel" parent="."]
+[node name="NameInputModal" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -62.5075
-offset_right = 250.0
-offset_bottom = 62.5075
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(250, 0)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DeleteConfirmPanel"]
+[node name="Dim" type="ColorRect" parent="NameInputModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11, 0.11, 0.11, 0.882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="NameInputModal"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20059,46 +26162,116 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="DeleteConfirmPanel/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
-text = "WARNING"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="DeleteConfirmPanel/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = " This cannot be undone. Are you sure you want to delete this file?"
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="DeleteConfirmPanel/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="NameInputModal/CenterContainer"]
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="ConfirmDeleteBtn" type="Button" parent="DeleteConfirmPanel/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="MarginContainer" type="MarginContainer" parent="NameInputModal/CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NameInputModal/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NameInputModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveNameInput" type="LineEdit" parent="NameInputModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "输入存档名称"
+max_length = 24
+
+[node name="NameInputError" type="Label" parent="NameInputModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NameInputModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CreateCancelButton" type="Button" parent="NameInputModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Confrim"
+text = "取消"
 
-[node name="CancelDeleteBtn" type="Button" parent="DeleteConfirmPanel/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="CreateConfirmButton" type="Button" parent="NameInputModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Cancel"
+text = "创建"
+
+[node name="DeleteConfirmModal" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="DeleteConfirmModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11, 0.11, 0.11, 0.882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="DeleteConfirmModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="DeleteConfirmModal/CenterContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="DeleteConfirmModal/CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeleteConfirmModal/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="DeleteConfirmModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DeleteTargetLabel" type="Label" parent="DeleteConfirmModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DeleteConfirmModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DeleteCancelButton" type="Button" parent="DeleteConfirmModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "取消"
+
+[node name="DeleteConfirmButton" type="Button" parent="DeleteConfirmModal/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "删除"
 ```
 
 
 ### `res://Scene/UI/main_menu.tscn`
 
-- Category: `scene`; bytes: `5441`; sha256/16: `891169d3383fcff1`
+- Category: `scene`; bytes: `5432`; sha256/16: `d5d9e4e1b98c06c6`
 
 
 ```ini
 [gd_scene load_steps=10 format=3 uid="uid://dcwlpndhrutbe"]
 
 [ext_resource type="Script" uid="uid://d4fbaphgs66ij" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
-[ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="2_6i1m0"]
+[ext_resource type="PackedScene" uid="uid://bvvhcw3cmlmkh" path="res://Scene/Shelter_Scene/shelter.tscn" id="2_6aje7"]
 [ext_resource type="PackedScene" uid="uid://cju7wln8x7rim" path="res://Scene/UI/filelist.tscn" id="3_6i1m0"]
 [ext_resource type="PackedScene" uid="uid://dq13sgkxdyni6" path="res://Scene/UI/options.tscn" id="4_68aio"]
 [ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="5_68aio"]
@@ -20154,7 +26327,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3125x")
-battle_system_scene = ExtResource("2_6i1m0")
+shelter_scene = ExtResource("2_6aje7")
 filelist_system_scene = ExtResource("3_6i1m0")
 options_system_scene = ExtResource("4_68aio")
 
@@ -20364,6 +26537,70 @@ text = "全屏"
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/MarginContainer3/HBoxContainer"]
 layout_mode = 2
+```
+
+
+### `res://Scene/UI/save_slot_card.tscn`
+
+- Category: `scene`; bytes: `1726`; sha256/16: `81c76a3ed0366b1b`
+
+
+```ini
+[gd_scene load_steps=2 format=3 uid="uid://bvyxbeuu2jqwl"]
+
+[ext_resource type="Script" uid="uid://bsupdnnsfhgov" path="res://Scene/UI/Scripts/save_slot_card.gd" id="1_hlp71"]
+
+[node name="SaveSlotCard" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hlp71")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Info" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameRow" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Info"]
+layout_mode = 2
+
+[node name="SaveNameLabel" type="Label" parent="MarginContainer/HBoxContainer/Info/NameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SAVE NAME"
+
+[node name="LastMarker" type="Label" parent="MarginContainer/HBoxContainer/Info/NameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "最近"
+
+[node name="LastPlayedLabel" type="Label" parent="MarginContainer/HBoxContainer/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "最近游玩"
+
+[node name="Actions" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="MarginContainer/HBoxContainer/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "进入"
+
+[node name="DeleteButton" type="Button" parent="MarginContainer/HBoxContainer/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "删除"
 ```
 
 

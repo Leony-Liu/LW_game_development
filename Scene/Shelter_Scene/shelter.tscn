@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bvvhcw3cmlmkh"]
+[gd_scene load_steps=20 format=3 uid="uid://bvvhcw3cmlmkh"]
 
 [ext_resource type="Script" uid="uid://bj2gdgqfb3c2s" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd" id="1_11o6b"]
 [ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_syccu"]
@@ -6,7 +6,12 @@
 [ext_resource type="Script" uid="uid://fdjn7x2q2up6" path="res://Scene/Shelter_Scene/Scripts/shelter_camera.gd" id="2_11o6b"]
 [ext_resource type="Script" uid="uid://ctiugurhq0wg1" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd" id="3_jhweh"]
 [ext_resource type="PackedScene" uid="uid://bhgbwopfm0mso" path="res://Scene/Shelter_Scene/test/test_facility.tscn" id="4_xegb6"]
+[ext_resource type="Script" uid="uid://opry873w7gra" path="res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd" id="5_cyvyl"]
 [ext_resource type="Script" uid="uid://vdy7skwj7d8e" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd" id="5_vfmdr"]
+[ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="6_s55ae"]
+[ext_resource type="Script" uid="uid://xp5gm38wnas" path="res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd" id="10_twju8"]
+[ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_6667d"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="11_dtnd1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_twju8"]
 size = Vector3(32, 0.2, 2)
@@ -21,104 +26,149 @@ size = Vector3(4, 2, 4)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gk2uj"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xegb6"]
+radius = 1.4
+height = 2.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6667d"]
+shader = ExtResource("11_dtnd1")
+shader_parameter/color_depth = 32.0
+shader_parameter/contrast = 0.95
+shader_parameter/brightness = 1.0
+shader_parameter/dither_strength = 0.05
+shader_parameter/dither_scale = 1.0
+shader_parameter/chromatic_aberration = 0.0
+shader_parameter/scanline_intensity = 0.15
+shader_parameter/vignette_intensity = 0.8
+
 [node name="Shelter" type="Node3D"]
 
-[node name="Environment" type="Node3D" parent="."]
+[node name="GameViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 3
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Environment"]
+[node name="GameViewport" type="SubViewport" parent="GameViewportContainer"]
+handle_input_locally = false
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="World" type="Node" parent="GameViewportContainer/GameViewport"]
+
+[node name="Environment" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 11.3985, 0)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="SpotLight3D3" type="SpotLight3D" parent="Environment"]
+[node name="SpotLight3D3" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.4608, 11.3985, 0)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="SpotLight3D4" type="SpotLight3D" parent="Environment"]
+[node name="SpotLight3D4" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -20.635, 11.3985, 0)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="SpotLight3D5" type="SpotLight3D" parent="Environment"]
+[node name="SpotLight3D5" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.4608, 11.3985, 17.1707)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="SpotLight3D7" type="SpotLight3D" parent="Environment"]
+[node name="SpotLight3D7" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -54.959, 11.3985, 0)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="SpotLight3D8" type="SpotLight3D" parent="Environment"]
+[node name="SpotLight3D8" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -54.959, 11.3985, 17.1707)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="SpotLight3D6" type="SpotLight3D" parent="Environment"]
+[node name="SpotLight3D6" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -20.635, 11.3985, 17.1707)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="Environment"]
+[node name="SpotLight3D2" type="SpotLight3D" parent="GameViewportContainer/GameViewport/World/Environment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 21.7372, 11.3985, 0)
 light_energy = 11.593
 spot_range = 18.705
 
-[node name="BuildArea" type="Node3D" parent="."]
+[node name="BuildArea" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
 
-[node name="RoomManager" type="Node3D" parent="BuildArea"]
+[node name="RoomManager" type="Node3D" parent="GameViewportContainer/GameViewport/World/BuildArea"]
 script = ExtResource("1_11o6b")
 wall_height = 2.0
 
-[node name="RoomBuildController" type="Node" parent="BuildArea" node_paths=PackedStringArray("room_manager", "gameplay_camera")]
+[node name="RoomBuildController" type="Node" parent="GameViewportContainer/GameViewport/World/BuildArea" node_paths=PackedStringArray("room_manager", "gameplay_camera")]
 script = ExtResource("2_6qk3u")
 room_manager = NodePath("../RoomManager")
 gameplay_camera = NodePath("../../Gameplay/Camera3D")
 
-[node name="FacilityBuildController" type="Node" parent="BuildArea" node_paths=PackedStringArray("room_manager", "gameplay_camera", "player")]
+[node name="FacilityBuildController" type="Node" parent="GameViewportContainer/GameViewport/World/BuildArea" node_paths=PackedStringArray("room_manager", "gameplay_camera", "player")]
 script = ExtResource("3_jhweh")
 room_manager = NodePath("../RoomManager")
 gameplay_camera = NodePath("../../Gameplay/Camera3D")
 player = NodePath("../../Gameplay/ShelterPlayer")
 test_facility_scene = ExtResource("4_xegb6")
 
-[node name="DepartureArea" type="Node3D" parent="."]
+[node name="DepartureArea" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
 
-[node name="Road" type="StaticBody3D" parent="DepartureArea"]
+[node name="Road" type="StaticBody3D" parent="GameViewportContainer/GameViewport/World/DepartureArea"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DepartureArea/Road"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/Road"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -0.1, 0)
 mesh = SubResource("BoxMesh_twju8")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DepartureArea/Road"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/Road"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -0.1, 0)
 shape = SubResource("BoxShape3D_dtnd1")
 
-[node name="Check_Area" type="StaticBody3D" parent="DepartureArea"]
+[node name="Check_Area" type="Area3D" parent="GameViewportContainer/GameViewport/World/DepartureArea"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DepartureArea/Check_Area"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/Check_Area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 1, 0)
 shape = SubResource("BoxShape3D_6667d")
 
-[node name="NPC" type="StaticBody3D" parent="DepartureArea"]
+[node name="NPC" type="StaticBody3D" parent="GameViewportContainer/GameViewport/World/DepartureArea"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DepartureArea/NPC"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
 mesh = SubResource("CapsuleMesh_yp273")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DepartureArea/NPC"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
 shape = SubResource("CapsuleShape3D_gk2uj")
 
-[node name="StagingArea" type="Node3D" parent="."]
+[node name="InteractionArea" type="Area3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 1, -1)
 
-[node name="Gameplay" type="Node3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameViewportContainer/GameViewport/World/DepartureArea/NPC/InteractionArea"]
+shape = SubResource("CapsuleShape3D_xegb6")
 
-[node name="ShelterPlayer" parent="Gameplay" node_paths=PackedStringArray("movement_reference") instance=ExtResource("1_syccu")]
+[node name="NPCInteractionController" type="Node" parent="GameViewportContainer/GameViewport/World/DepartureArea" node_paths=PackedStringArray("player", "npc_interaction_area", "raid_entry_area")]
+script = ExtResource("5_cyvyl")
+player = NodePath("../../Gameplay/ShelterPlayer")
+npc_interaction_area = NodePath("../NPC/InteractionArea")
+raid_entry_area = NodePath("../Check_Area")
+battle_scene = ExtResource("6_s55ae")
+
+[node name="StagingArea" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="Gameplay" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
+
+[node name="ShelterPlayer" parent="GameViewportContainer/GameViewport/World/Gameplay" node_paths=PackedStringArray("movement_reference") instance=ExtResource("1_syccu")]
 movement_reference = NodePath("../Camera3D")
 
-[node name="Camera3D" type="Camera3D" parent="Gameplay" node_paths=PackedStringArray("target")]
+[node name="Camera3D" type="Camera3D" parent="GameViewportContainer/GameViewport/World/Gameplay" node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 0.642253, 0.766493, 0, -0.766493, 0.642253, 0, 4.558, 3.23035)
 current = true
 fov = 45.0
@@ -126,7 +176,7 @@ script = ExtResource("2_11o6b")
 target = NodePath("../ShelterPlayer")
 camera_offset = Vector3(0, 5, 7)
 
-[node name="EditModeController" type="Node" parent="." node_paths=PackedStringArray("player", "gameplay_camera", "room_build_controller", "facility_build_controller")]
+[node name="EditModeController" type="Node" parent="GameViewportContainer/GameViewport/World" node_paths=PackedStringArray("player", "gameplay_camera", "room_build_controller", "facility_build_controller")]
 script = ExtResource("5_vfmdr")
 player = NodePath("../Gameplay/ShelterPlayer")
 gameplay_camera = NodePath("../Gameplay/Camera3D")
@@ -134,7 +184,31 @@ room_build_controller = NodePath("../BuildArea/RoomBuildController")
 facility_build_controller = NodePath("../BuildArea/FacilityBuildController")
 room_layout_key = 66
 
-[node name="Markers" type="Node3D" parent="."]
+[node name="Markers" type="Node3D" parent="GameViewportContainer/GameViewport/World"]
 
-[editable path="Gameplay/ShelterPlayer"]
-[editable path="Gameplay/ShelterPlayer/VisualRoot/ShelterPlayerVisual"]
+[node name="SaveBridge" type="Node" parent="GameViewportContainer/GameViewport/World" node_paths=PackedStringArray("room_manager", "facility_build_controller")]
+script = ExtResource("10_twju8")
+room_manager = NodePath("../BuildArea/RoomManager")
+facility_build_controller = NodePath("../BuildArea/FacilityBuildController")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GameViewportContainer/GameViewport/World"]
+environment = ExtResource("11_6667d")
+
+[node name="CRT_Layer" type="CanvasLayer" parent="GameViewportContainer/GameViewport"]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="GameViewportContainer/GameViewport/CRT_Layer"]
+material = SubResource("ShaderMaterial_6667d")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.666667
+offset_top = -0.666667
+offset_right = 0.666687
+offset_bottom = -0.666656
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer"]
+[editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer/VisualRoot/ShelterPlayerVisual"]
