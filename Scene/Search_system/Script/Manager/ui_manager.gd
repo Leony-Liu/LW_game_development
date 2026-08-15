@@ -6,6 +6,8 @@ extends Node
 
 ##显示背包UI
 func show_inventory():
+	var inventory_ui := get_tree().current_scene.get_node("UILayer/InventoryUI") as Control
+	inventory_ui.show()
 	pass
 
 
@@ -35,4 +37,7 @@ func refresh_inventory(items: Array):
 func hide_all():
 	var search_ui := get_tree().current_scene.get_node("UILayer/SearchUI") as Control
 	search_ui.hide()
+	
+	var inventory_ui := get_tree().current_scene.get_node("UILayer/InventoryUI") as Control
+	inventory_ui.hide()
 	pass

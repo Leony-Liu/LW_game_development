@@ -5,12 +5,18 @@ extends Node
 
 var item_list: Array[ItemData]
 
+func _ready() -> void:
+	load_csv("res://DataBase/AllItemData.csv")
+	print("开始读取数据")
 
 ##读取CSV
 func load_csv(path: String):
+	
+	print("读取：" + path)
 	item_list.clear()
 	
 	var file := FileAccess.open(path, FileAccess.READ)
+	
 	
 	if file == null:
 		push_error("ItemDataBase：无法打开CSV数据包：" + path)
@@ -48,9 +54,12 @@ func load_csv(path: String):
 
 
 ##随机返回count件物品
-func get_random_items(count: int) -> Array:
+func get_random_items(count: int) -> Array[ItemData]:
+	
+	if item_list.is_empty():
+		print("ItemDataBase无数据传入")
 	#创建结果列表
-	var result: Array = []
+	var result: Array[ItemData] = []
 	
 	if item_list.is_empty():
 		return result

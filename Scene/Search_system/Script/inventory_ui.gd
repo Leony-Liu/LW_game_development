@@ -6,10 +6,20 @@ extends Node
 
 
 ##重新生成整个列表
-func refresh(items):
+func refresh(items: Array):
+	var item_list := get_node("ItemList") as ItemList
+	
+	item_list.clear()
+	
+	for item in items:
+		if item == null:
+			continue
+		
+		item_list.add_item(item.name, item.icon)
 	pass
 
 
 ##更新某一个条目
 func update_list():
+	refresh(MAPInventoryManager.get_items())
 	pass
