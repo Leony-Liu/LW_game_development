@@ -1,0 +1,276 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6hifpw14wnnp"]
+
+[ext_resource type="Script" uid="uid://087r6rtep3sb" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleHeader"]
+bg_color = Color(0.15, 0.145, 0.125, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.78, 0.75, 0.64, 0.8)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StylePanel"]
+bg_color = Color(0.075, 0.073, 0.064, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.69, 0.58, 0.7)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="ShelterInventoryUI" type="CanvasLayer"]
+layer = 60
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Background" type="ColorRect" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.025, 0.024, 0.021, 0.92)
+
+[node name="MainMargin" type="MarginContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="Root/MainMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleHeader")
+
+[node name="HeaderMargin" type="MarginContainer" parent="Root/MainMargin/MainVBox/HeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="Title" type="Label" parent="Root/MainMargin/MainVBox/HeaderPanel/HeaderMargin"]
+layout_mode = 2
+text = "物品 - 全部"
+vertical_alignment = 1
+
+[node name="Body" type="HBoxContainer" parent="Root/MainMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="CategoryPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/CategoryPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CategoryTitle" type="Label" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin/VBox"]
+layout_mode = 2
+text = "分类"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="All" type="Label" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin/VBox"]
+layout_mode = 2
+text = "▶ 全部"
+
+[node name="ItemPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(430, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/ItemPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ItemTitle" type="Label" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin/VBox"]
+layout_mode = 2
+text = "武器"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="WeaponList" type="ItemList" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+allow_reselect = true
+
+[node name="CenterVBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="PreviewPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="PreviewMargin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="PreviewHost" type="Control" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel/PreviewMargin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PreviewTexture" type="TextureRect" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel/PreviewMargin/PreviewHost"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PreviewPlaceholder" type="Label" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel/PreviewMargin/PreviewHost"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "武器预览（占位）"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescriptionPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox"]
+custom_minimum_size = Vector2(0, 190)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WeaponName" type="Label" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "—"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "请选择武器。"
+autowrap_mode = 2
+
+[node name="StatsPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/StatsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StatsTitle" type="Label" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin/VBox"]
+layout_mode = 2
+text = "信息"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Stats" type="Label" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "—"
+autowrap_mode = 2
+
+[node name="FooterPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleHeader")
+
+[node name="FooterMargin" type="MarginContainer" parent="Root/MainMargin/MainVBox/FooterPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="OperationGuide" type="Label" parent="Root/MainMargin/MainVBox/FooterPanel/FooterMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "↑ / ↓ 选择    Enter 装备/卸下    I / Esc 关闭"
+vertical_alignment = 1

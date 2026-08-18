@@ -1,4 +1,11 @@
 extends Node
+
+
+signal inventory_changed
+
+const LOCATION_CHARACTER_BACKPACK: String = "character_backpack"
+const EQUIPPED_WEAPON_PREFIX: String = "equipped_weapon_"
+
 # inventory_manager.gd
 
 # 获取对存档库存的引用 (确保 SaveManager 已经读取了存档)
@@ -33,6 +40,234 @@ func get_item_by_uid(uid: String) -> Dictionary:
 		if item["uid"] == uid: return item
 	return {}
 
+
+# --- Character Inventory ---
+#
+# 这里只负责角色永久携带空间。
+#
+# character_backpack
+#     身上携带但未装备
+#
+# equipped_weapon_1
+#     当前装备中的武器
+#
+# warehouse / backpack 等其他位置
+# 不属于 Shelter 角色背包列表。
+
+
+func get_character_weapons() -> Array:
+	var result: Array = []
+
+	for item in _get_inv():
+		var location: String = str(
+			item.get(
+				"location",
+				""
+			)
+		)
+
+		var belongs_to_character: bool = (
+			location == LOCATION_CHARACTER_BACKPACK
+			or location.begins_with(
+				EQUIPPED_WEAPON_PREFIX
+			)
+		)
+
+		if not belongs_to_character:
+			continue
+
+		var template_id: String = str(
+			item.get(
+				"template_id",
+				""
+			)
+		)
+
+		if template_id.is_empty():
+			continue
+
+		var static_data: Dictionary = (
+			ItemDatabaseManager.get_item_data(
+				template_id
+			)
+		)
+
+		if str(
+			static_data.get(
+				"category",
+				""
+			)
+		) != "weapon":
+			continue
+
+		result.append(item)
+
+	return result
+
+
+func is_weapon_equipped(
+	uid: String
+) -> bool:
+	var item: Dictionary = get_item_by_uid(
+		uid
+	)
+
+	if item.is_empty():
+		return false
+
+	var location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	return location.begins_with(
+		EQUIPPED_WEAPON_PREFIX
+	)
+
+
+func equip_weapon(
+	uid: String,
+	slot_index: int = 1
+) -> bool:
+	if slot_index < 1:
+		push_warning(
+			"InventoryManager: 武器槽编号必须 >= 1。"
+		)
+		return false
+
+	var item: Dictionary = get_item_by_uid(
+		uid
+	)
+
+	if item.is_empty():
+		push_warning(
+			"InventoryManager: 找不到物品 -> "
+			+ uid
+		)
+		return false
+
+	var template_id: String = str(
+		item.get(
+			"template_id",
+			""
+		)
+	)
+
+	var static_data: Dictionary = (
+		ItemDatabaseManager.get_item_data(
+			template_id
+		)
+	)
+
+	if str(
+		static_data.get(
+			"category",
+			""
+		)
+	) != "weapon":
+		push_warning(
+			"InventoryManager: 目标物品不是武器 -> "
+			+ uid
+		)
+		return false
+
+	var source_location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	# Shelter 不允许从仓库、箱子或战术背包
+	# 隔空直接装备。
+	if (
+		source_location
+		!= LOCATION_CHARACTER_BACKPACK
+		and not source_location.begins_with(
+			EQUIPPED_WEAPON_PREFIX
+		)
+	):
+		push_warning(
+			"InventoryManager: 武器当前不在角色身上 -> "
+			+ uid
+		)
+		return false
+
+	var target_location: String = (
+		EQUIPPED_WEAPON_PREFIX
+		+ str(slot_index)
+	)
+
+	if source_location == target_location:
+		return true
+
+	# 目前只有一把武器槽。
+	# 新武器装备时，原武器退回角色背包。
+	for existing_item in _get_inv():
+		if str(
+			existing_item.get(
+				"location",
+				""
+			)
+		) != target_location:
+			continue
+
+		existing_item[
+			"location"
+		] = LOCATION_CHARACTER_BACKPACK
+
+	item[
+		"location"
+	] = target_location
+
+	_commit_character_inventory_change()
+
+	return true
+
+
+func unequip_weapon(
+	uid: String
+) -> bool:
+	var item: Dictionary = get_item_by_uid(
+		uid
+	)
+
+	if item.is_empty():
+		return false
+
+	var location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	if not location.begins_with(
+		EQUIPPED_WEAPON_PREFIX
+	):
+		return false
+
+	item[
+		"location"
+	] = LOCATION_CHARACTER_BACKPACK
+
+	_commit_character_inventory_change()
+
+	return true
+
+
+func _commit_character_inventory_change() -> void:
+	inventory_changed.emit()
+
+	if SaveManager.current_save.is_empty():
+		return
+
+	if not SaveManager.save_current_state():
+		push_warning(
+			"InventoryManager: 角色背包状态已改变，但存档写入失败。"
+		)
 # --- B. 物品操作流通 ---
 
 # 核心转移方法：在仓库、背包、装备槽之间流通

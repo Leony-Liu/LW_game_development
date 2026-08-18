@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b5bqwwplbqjgj"]
 
 [ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
-[ext_resource type="Texture2D" uid="uid://bhnoaskhsxfec" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png" id="2_i0dxh"]
+[ext_resource type="Texture2D" uid="uid://vpkeqft8exb8" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png" id="2_i0dxh"]
 [ext_resource type="FontFile" uid="uid://bo0ngvdd2ivvx" path="res://Arts/Fort/OldWizard.ttf" id="3_i0dxh"]
 
 [sub_resource type="Environment" id="Environment_i0dxh"]
@@ -54,6 +54,7 @@ grow_horizontal = 2
 [node name="MarginContainer" type="MarginContainer" parent="Visuals/Background/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_bottom = -10
 
 [node name="CostLable" type="Label" parent="Visuals/Background/VBoxContainer/MarginContainer"]

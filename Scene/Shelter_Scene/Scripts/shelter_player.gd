@@ -70,8 +70,7 @@ var model_yaw_offset_degrees: float = 0.0
 @export var walk_animation: StringName = &"Walk"
 
 ## Shift 奔跑
-## 使用之前的 Jog_Fwd 动画
-@export var run_animation: StringName = &"Jog_Fwd"
+@export var run_animation: StringName = &"Sprint"
 
 ## Idle / Jog 的过渡时间
 @export_range(0.0, 1.0, 0.01)
@@ -83,13 +82,33 @@ var _current_animation: StringName = &""
 ## 当前是否处于奔跑状态
 var is_running: bool = false
 
+## Shelter 外部系统是否允许角色移动。
+var movement_enabled: bool = true
 
 func _ready() -> void:
 	_validate_setup()
 	_play_animation(idle_animation)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(
+	delta: float
+) -> void:
+	# UI / 对话等系统锁定移动时，
+	# 仍然保留重力和 CharacterBody3D 物理更新。
+	if not movement_enabled:
+		velocity.x = 0.0
+		velocity.z = 0.0
+
+		is_running = false
+
+		_apply_gravity(delta)
+
+		move_and_slide()
+
+		_update_animation()
+
+		return
+
 	_apply_gravity(delta)
 
 	var input_vector := Input.get_vector(
@@ -99,20 +118,16 @@ func _physics_process(delta: float) -> void:
 		"Down"
 	)
 
-	var move_direction := _calculate_move_direction(
-		input_vector
+	var move_direction := (
+		_calculate_move_direction(
+			input_vector
+		)
 	)
 
-	# ========================================================
-	# Sprint
-	#
-	# 当前只在 ShelterPlayer 内监听 Shift，
-	# 不创建新的 Project Input Action，
-	# 避免修改公共 project.godot。
-	# ========================================================
-
 	is_running = (
-		Input.is_physical_key_pressed(KEY_SHIFT)
+		Input.is_physical_key_pressed(
+			KEY_SHIFT
+		)
 		and not input_vector.is_zero_approx()
 	)
 
@@ -137,6 +152,27 @@ func _physics_process(delta: float) -> void:
 
 	_update_animation()
 
+# Public Control API
+
+func set_movement_enabled(
+	enabled: bool
+) -> void:
+	if movement_enabled == enabled:
+		return
+
+	movement_enabled = enabled
+
+	if not movement_enabled:
+		velocity.x = 0.0
+		velocity.z = 0.0
+
+		is_running = false
+
+		_update_animation()
+
+
+func is_movement_enabled() -> bool:
+	return movement_enabled
 
 # ============================================================
 # Movement

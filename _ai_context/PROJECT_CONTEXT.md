@@ -4,15 +4,15 @@
 
 ## Snapshot
 
-- Approximate context size: **888,402 characters / ~222,100 tokens**
-- Generated: `2026-08-13T17:49:38+08:00`
+- Approximate context size: **925,797 characters / ~231,449 tokens**
+- Generated: `2026-08-18T17:44:21+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
-- Files scanned: **689**; readable text files: **221**
-- Scripts: **121**; scenes: **79**; resources: **8**; shaders: **6**
-- Non-text assets: **462** (45.3 MiB)
-- Total scanned size: **50.4 MiB**
+- Files scanned: **714**; readable text files: **227**
+- Scripts: **123**; scenes: **81**; resources: **8**; shaders: **6**
+- Non-text assets: **482** (45.3 MiB)
+- Total scanned size: **50.5 MiB**
 - TODO/FIXME/HACK markers: **16**
 
 ## Project Configuration Summary
@@ -25,104 +25,109 @@
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `1707fa0 | 2026-08-13T00:43:35+08:00 | Merge branch 'Merge_version' into map_development`
+- Last commit: `e58410c | 2026-08-15T18:23:44+08:00 | 添加（玩家）：添加交互检测，接入搜索交互 添加（地图场景）：添加可搜索物体 添加（DataBase)：添加物品数据表基础（AllItemData.csv） 修改（全局）：完善ItemDataBase数据读取功能`
 - Working tree changes:
-  - `M Scene/Main_Scene/Scripts/Manager/save_manager.gd`
-  - ` M Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
-  - ` M Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`
+  - `M DataBase/Item/Weapons.csv`
+  - ` M Localization/loc_ui.csv`
+  - ` M Localization/loc_ui.en.translation`
+  - ` M Localization/loc_ui.zh.translation`
+  - ` M Scene/Battle_Scene/Card_Scene/Arts/testcard2.png`
+  - ` M Scene/Battle_Scene/Card_Scene/Card.tscn`
+  - ` M Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`
+  - ` M Scene/Search_system/Script/Manager/inventory_manager.gd`
+  - ` M Scene/Shelter_Scene/Scripts/shelter_player.gd`
+  - ` M Scene/Shelter_Scene/player/shelter_player.tscn`
   - ` M Scene/Shelter_Scene/shelter.tscn`
-  - ` M Scene/UI/Scripts/filelist_menu.gd`
-  - ` M Scene/UI/Scripts/main_menu.gd`
-  - ` M Scene/UI/filelist.tscn`
-  - ` M Scene/UI/main_menu.tscn`
-  - ` M project.godot`
-  - `?? Scene/Shelter_Scene/Scripts/Interaction/`
-  - `?? Scene/Shelter_Scene/Scripts/Save/`
-  - `?? Scene/UI/Scripts/save_slot_card.gd`
-  - `?? Scene/UI/Scripts/save_slot_card.gd.uid`
-  - `?? Scene/UI/save_slot_card.tscn`
+  - ` M _ai_context/PROJECT_CONTEXT.md`
+  - `?? Scene/Battle_Scene/Card_Scene/Arts/testcard3.png.import`
+  - `?? Scene/Battle_Scene/Card_Scene/Arts/testcarda.png`
+  - `?? Scene/Battle_Scene/Card_Scene/Arts/testcarda.png.import`
+  - `?? Scene/Battle_Scene/Card_Scene/card111.png`
+  - `?? Scene/Battle_Scene/Card_Scene/card111.png.import`
+  - `?? Scene/Shelter_Scene/Scripts/UI/`
+  - `?? Scene/Shelter_Scene/shelter_inventory_ui.tscn`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-13 17:49` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-13 17:49` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-13 17:49` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-13 17:49` `res://Scene/UI/filelist.tscn`
-  - `2026-08-13 17:49` `res://Scene/UI/save_slot_card.tscn`
-  - `2026-08-13 17:49` `res://Scene/Battle_Scene/Battlescene.tscn`
-  - `2026-08-13 17:49` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-13 17:49` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-13 17:33` `res://Scene/UI/Scripts/filelist_menu.gd`
-  - `2026-08-13 17:26` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-13 17:26` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-13 17:25` `res://project.godot`
-  - `2026-08-13 17:24` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`
-  - `2026-08-13 17:24` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd.uid`
-  - `2026-08-13 17:23` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`
-  - `2026-08-13 17:23` `res://Scene/UI/main_menu.tscn`
-  - `2026-08-13 17:22` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
-  - `2026-08-13 17:21` `res://Scene/UI/Scripts/main_menu.gd`
-  - `2026-08-13 16:44` `res://Scene/UI/Scripts/save_slot_card.gd`
-  - `2026-08-13 16:44` `res://Scene/UI/Scripts/save_slot_card.gd.uid`
-  - `2026-08-13 16:39` `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`
+  - `2026-08-18 17:44` `res://project.godot`
+  - `2026-08-18 17:43` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-18 17:43` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-18 17:43` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-18 17:27` `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`
+  - `2026-08-18 17:27` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
+  - `2026-08-18 17:27` `res://Scene/UI/filelist.tscn`
+  - `2026-08-18 17:27` `res://Scene/UI/save_slot_card.tscn`
+  - `2026-08-18 17:27` `res://Scene/Battle_Scene/Battlescene.tscn`
+  - `2026-08-18 17:27` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+  - `2026-08-18 17:27` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-18 17:27` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-18 17:27` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+  - `2026-08-18 17:20` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-18 17:20` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-18 17:17` `res://Localization/loc_ui.csv.import`
+  - `2026-08-18 17:17` `res://Localization/loc_ui.en.translation`
+  - `2026-08-18 17:17` `res://Localization/loc_ui.zh.translation`
+  - `2026-08-18 17:17` `res://Localization/loc_ui.csv`
+  - `2026-08-18 17:12` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd.uid`
+  - `2026-08-18 17:11` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`
+  - `2026-08-18 17:09` `res://Scene/Search_system/Script/Manager/inventory_manager.gd`
+  - `2026-08-18 17:09` `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`
+  - `2026-08-18 11:41` `res://DataBase/Item/Weapons.csv`
+  - `2026-08-18 09:29` `res://Scene/UI/world_interactionUI.tscn`
+  - `2026-08-18 09:29` `res://Scene/Search_system/Script/inventory_ui.gd`
+  - `2026-08-18 09:29` `res://Scene/Search_system/Script/UI/inventory_ui.tscn`
+  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Manager/ui_manager.gd`
+  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Data/interactable_object.gd.uid`
+  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Data/item_data_base.gd`
+  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Data/interactable_object.gd`
+  - `2026-08-18 09:29` `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd`
+  - `2026-08-18 09:29` `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`
+  - `2026-08-18 09:29` `res://Scene/DungeonScenes(3D)/Interative Items/Box/interaction_area.gd.uid`
+  - `2026-08-18 09:29` `res://Scene/DungeonScenes(3D)/Interative Items/Box/interaction_area.gd`
+  - `2026-08-18 09:29` `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`
+  - `2026-08-18 09:29` `res://Scene/DungeonScene/world.tscn`
+  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.Weight.translation`
+  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.Rarity.translation`
+  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.ItemName.translation`
+  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.ItemType.translation`
+  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.IconPath.translation`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.csv.import`
+  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.Description.translation`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.csv`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.Weight.translation`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.Rarity.translation`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.ItemType.translation`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.IconPath.translation`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.ItemName.translation`
+  - `2026-08-18 09:29` `res://DataBase/AllItemData.Description.translation`
+  - `2026-08-15 14:42` `res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png.import`
+  - `2026-08-15 14:40` `res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png`
+  - `2026-08-15 14:37` `res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png.import`
+  - `2026-08-15 14:37` `res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png`
+  - `2026-08-15 14:36` `res://Scene/Battle_Scene/Card_Scene/Arts/testcard3.png.import`
+  - `2026-08-15 14:33` `res://Scene/Battle_Scene/Card_Scene/card111.png.import`
+  - `2026-08-15 14:33` `res://Scene/Battle_Scene/Card_Scene/card111.png`
+  - `2026-08-13 23:40` `res://Scene/UI/main_menu.tscn`
+  - `2026-08-13 23:40` `res://Scene/UI/Scripts/save_slot_card.gd.uid`
+  - `2026-08-13 23:40` `res://Scene/UI/Scripts/main_menu.gd`
+  - `2026-08-13 23:40` `res://Scene/UI/Scripts/save_slot_card.gd`
+  - `2026-08-13 23:40` `res://Scene/UI/Scripts/filelist_menu.gd`
+  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd.uid`
+  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`
+  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`
+  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd.uid`
+  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`
+  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
+  - `2026-08-13 23:40` `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`
   - `2026-08-13 11:56` `res://Scene/Shelter_Scene/test/test_facility.tscn`
   - `2026-08-13 11:56` `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
   - `2026-08-13 11:56` `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-  - `2026-08-13 11:56` `res://Scene/Main_Scene/MAIN.tscn`
-  - `2026-08-13 11:42` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`
-  - `2026-08-13 11:42` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd.uid`
   - `2026-08-13 11:27` `res://Scene/Search_system/Script/search_UI.gd`
   - `2026-08-13 11:27` `res://Scene/Search_system/Script/UI/search_ui.tscn`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/ui_manager.gd`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/inventory_manager.gd`
   - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/search_manager.gd`
   - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/interaction_manager.gd`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Data/item_data_base.gd`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Data/interaction_object.gd`
   - `2026-08-13 11:27` `res://Scene/Search_system/Script/Data/item_data.gd`
   - `2026-08-13 11:27` `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`
-  - `2026-08-13 11:27` `res://Scene/DungeonScene/world.tscn`
   - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd.uid`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_gizmo.gd.uid`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_gizmo.gd`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd.uid`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd.uid`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd.uid`
-  - `2026-08-12 11:11` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`
-  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`
-  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd.uid`
-  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room.gd.uid`
-  - `2026-08-11 13:35` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room.gd`
-  - `2026-08-08 21:14` `res://Scene/UI/filelist.tscn25142638062.tmp`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd.uid`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd.uid`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd.uid`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL2_Standard.glb.import`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL2_Standard.glb`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb.import`
-  - `2026-08-08 21:14` `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-  - `2026-08-08 21:14` `res://Game_Design_Brief.md`
-  - `2026-08-08 08:22` `res://export_context.py`
-  - `2026-08-07 11:24` `res://Scene/Search_system/Script/search_UI.gd.uid`
-  - `2026-08-07 11:24` `res://Scene/Search_system/Script/inventory_ui.gd`
-  - `2026-08-07 11:24` `res://Scene/Search_system/Script/Manager/inventory_manager.gd.uid`
-  - `2026-08-07 11:24` `res://Scene/Search_system/Script/Data/item_data_base.gd.uid`
-  - `2026-08-07 11:23` `res://Scene/UI/options.tscn`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_combat_data.gd`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/actions.tscn`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/time_line.gd`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`
-  - `2026-08-07 11:23` `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`
-  - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.tscn`
-  - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn`
-  - `2026-08-07 10:06` `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`
-  - `... 249 more recent files omitted ...`
+  - `... 282 more recent files omitted ...`
 
 ## Script Architecture Index
 
@@ -181,7 +186,7 @@
 | `res://Scene/Dungeon_Enemy_Scene/Script/State/state_machine.gd` | `Node` | `DungeonEnemyStateMachine` | 0 | 0 | 4 | 0 |
 | `res://Scene/Dungeon_Player_Scene(3D)/hook_state.gd` | `DungeonPlayerState` | `-` | 0 | 1 | 3 | 0 |
 | `res://Scene/Dungeon_Player_Scene(3D)/Scripts/camera_pivot.gd` | `Node3D` | `-` | 0 | 1 | 2 | 0 |
-| `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd` | `CharacterBody3D` | `Player` | 0 | 0 | 0 | 0 |
+| `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd` | `CharacterBody3D` | `Player` | 0 | 0 | 5 | 0 |
 | `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_attack_component.gd` | `Node` | `DungeonPlayerAttackComponent` | 0 | 1 | 1 | 0 |
 | `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_idle.gd` | `DungeonPlayerState` | `-` | 0 | 1 | 2 | 0 |
 | `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_state.gd` | `Node` | `DungeonPlayerState` | 0 | 0 | 4 | 0 |
@@ -205,6 +210,7 @@
 | `res://Scene/DungeonScene/Script/Wall_shelter.gd` | `Area2D` | `-` | 0 | 2 | 6 | 0 |
 | `res://Scene/DungeonScene/Script/WallSetLogic.gd` | `Node2D` | `wallSetLogic` | 1 | 2 | 2 | 0 |
 | `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd` | `StaticBody3D` | `-` | 0 | 1 | 5 | 0 |
+| `res://Scene/DungeonScenes(3D)/Interative Items/Box/interaction_area.gd` | `Area3D` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd` | `Node3D` | `Door` | 0 | 3 | 6 | 0 |
 | `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd` | `Node` | `MapManager` | 0 | 2 | 11 | 0 |
 | `res://Scene/DungeonScenes(3D)/Scripts/room.gd` | `Node3D` | `Room` | 0 | 0 | 2 | 0 |
@@ -217,16 +223,16 @@
 | `res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/game_manager.gd` | `Node` | `-` | 0 | 2 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd` | `Node` | `-` | 0 | 0 | 7 | 0 |
-| `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
+| `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd` | `Node` | `-` | 0 | 0 | 10 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd` | `Node` | `-` | 0 | 0 | 7 | 0 |
-| `res://Scene/Search_system/Script/Data/interaction_object.gd` | `Node` | `InteractableObject` | 0 | 0 | 2 | 0 |
+| `res://Scene/Search_system/Script/Data/interactable_object.gd` | `Area3D` | `InteractableObject` | 0 | 0 | 2 | 0 |
 | `res://Scene/Search_system/Script/Data/item_data.gd` | `-` | `ItemData` | 0 | 0 | 0 | 0 |
-| `res://Scene/Search_system/Script/Data/item_data_base.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
+| `res://Scene/Search_system/Script/Data/item_data_base.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
 | `res://Scene/Search_system/Script/inventory_ui.gd` | `Node` | `InventoryUI` | 0 | 0 | 2 | 0 |
 | `res://Scene/Search_system/Script/Manager/interaction_manager.gd` | `Node` | `-` | 0 | 0 | 5 | 0 |
-| `res://Scene/Search_system/Script/Manager/inventory_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
+| `res://Scene/Search_system/Script/Manager/inventory_manager.gd` | `Node` | `-` | 1 | 0 | 4 | 0 |
 | `res://Scene/Search_system/Script/Manager/search_manager.gd` | `Node` | `-` | 0 | 1 | 5 | 0 |
 | `res://Scene/Search_system/Script/Manager/ui_manager.gd` | `Node` | `-` | 0 | 0 | 5 | 0 |
 | `res://Scene/Search_system/Script/search_UI.gd` | `Control` | `SearchUI` | 0 | 0 | 3 | 0 |
@@ -242,6 +248,7 @@
 | `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd` | `Node` | `ShelterSaveBridge` | 0 | 2 | 11 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd` | `Camera3D` | `ShelterCamera` | 0 | 13 | 10 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/shelter_player.gd` | `CharacterBody3D` | `ShelterPlayer` | 0 | 13 | 7 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd` | `CanvasLayer` | `ShelterInventoryUI` | 1 | 3 | 12 | 0 |
 | `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 3 | 10 | 0 |
 | `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 4 | 6 | 0 |
 | `res://Scene/UI/Scripts/options_menu.gd` | `Control` | `-` | 0 | 0 | 7 | 1 |
@@ -304,7 +311,7 @@
 - **`res://Scene/Dungeon_Enemy_Scene/Script/State/state_machine.gd`** — methods: `_ready()`, `change_state()`, `_process()`, `_physics_process()`; signals: (none); exports: (none)
 - **`res://Scene/Dungeon_Player_Scene(3D)/hook_state.gd`** — methods: `enter()`, `update()`, `on_hook_anim_finished()`; signals: (none); exports: `anim_tree`
 - **`res://Scene/Dungeon_Player_Scene(3D)/Scripts/camera_pivot.gd`** — methods: `_ready()`, `_unhandled_input()`; signals: (none); exports: `sensitivity`
-- **`res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd`** — methods: (none detected); signals: (none); exports: (none)
+- **`res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd`** — methods: `_ready()`, `_input()`, `interact()`, `_on_interaction_area_area_entered()`, `_on_interaction_area_area_exited()`; signals: (none); exports: (none)
 - **`res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_attack_component.gd`** — methods: `_physics_process()`; signals: (none); exports: `state_machine`
 - **`res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_idle.gd`** — methods: `enter()`, `physics_update()`; signals: (none); exports: `anim_tree`
 - **`res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_state.gd`** — methods: `enter()`, `exit()`, `update()`, `physics_update()`; signals: (none); exports: (none)
@@ -328,6 +335,7 @@
 - **`res://Scene/DungeonScene/Script/Wall_shelter.gd`** — methods: `_ready()`, `_on_body_entered()`, `_on_body_exited()`, `fade_to()`, `fade_out()`, `fade_in()`; signals: (none); exports: `shelter_alpha`, `target`
 - **`res://Scene/DungeonScene/Script/WallSetLogic.gd`** — methods: `wall_occ()`, `set_wall()`; signals: `WorldWall_change`; exports: `wallLayer`, `basicTerrainLayer`
 - **`res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd`** — methods: `_ready()`, `_on_area_3d_body_entered()`, `_on_area_3d_body_exited()`, `_input()`, `open_chest()`; signals: (none); exports: `is_player_in_range`
+- **`res://Scene/DungeonScenes(3D)/Interative Items/Box/interaction_area.gd`** — methods: `_ready()`, `_process()`; signals: (none); exports: (none)
 - **`res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`** — methods: `get_spawn_position()`, `_ready()`, `_on_area_3d_body_entered()`, `_on_area_3d_body_exited()`, `_input()`, `open_chest()`; signals: (none); exports: `is_player_in_range`, `door_id`, `target_room_id`
 - **`res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`** — methods: `_ready()`, `generate_map()`, `create_room()`, `get_room_by_position()`, `connect_rooms()`, `build_map()`, `set_room_doors()`, `enter_door()`, `change_room()`, `spawn_player()`, `find_room_instance()`; signals: (none); exports: `TARGET_ROOM_COUNT`, `room_scene`
 - **`res://Scene/DungeonScenes(3D)/Scripts/room.gd`** — methods: `get_spawn_position()`, `get_player_spawn()`; signals: (none); exports: (none)
@@ -340,16 +348,16 @@
 - **`res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd`** — methods: `_ready()`, `load_csv_data()`, `roll_mechanics_for_tier()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/game_manager.gd`** — methods: `_ready()`, `_on_event_bus_enter_battle_scene()`; signals: (none); exports: `scene_holder`, `current_scene`
 - **`res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd`** — methods: `_get_inv()`, `get_items()`, `get_item_by_uid()`, `move_item()`, `enter_raid()`, `settle_death_penalty()`, `_reduce_durability()`; signals: (none); exports: (none)
-- **`res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`** — methods: `_ready()`, `load_csv_data()`, `get_item_data()`; signals: (none); exports: (none)
+- **`res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`** — methods: `_ready()`, `reload_database()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`** — methods: `_ready()`, `save_current_state()`, `get_all_saves()`, `has_any_save()`, `get_last_save_id()`, `get_shelter_data()`, `_create_default_shelter_data()`, `_load_meta()`, `_ensure_save_directory()`, `_generate_save_id()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd`** — methods: `_ready()`, `transition_to()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd`** — methods: `_ready()`, `set_master_volume()`, `get_master_volume()`, `set_resolution()`, `set_fullscreen()`, `save_settings()`, `load_settings()`; signals: (none); exports: (none)
-- **`res://Scene/Search_system/Script/Data/interaction_object.gd`** — methods: `interact()`, `generate_loot()`; signals: (none); exports: (none)
+- **`res://Scene/Search_system/Script/Data/interactable_object.gd`** — methods: `interact()`, `generate_loot()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Data/item_data.gd`** — methods: (none detected); signals: (none); exports: (none)
-- **`res://Scene/Search_system/Script/Data/item_data_base.gd`** — methods: `load_csv()`, `get_random_items()`, `find_item()`; signals: (none); exports: (none)
+- **`res://Scene/Search_system/Script/Data/item_data_base.gd`** — methods: `_ready()`, `load_csv()`, `get_random_items()`, `find_item()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/inventory_ui.gd`** — methods: `refresh()`, `update_list()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Manager/interaction_manager.gd`** — methods: `set_current_object()`, `clear_current_object()`, `try_interact()`, `open_search()`, `close_search()`; signals: (none); exports: (none)
-- **`res://Scene/Search_system/Script/Manager/inventory_manager.gd`** — methods: `add_item()`, `remove_item()`, `has_item()`, `get_items()`; signals: (none); exports: (none)
+- **`res://Scene/Search_system/Script/Manager/inventory_manager.gd`** — methods: `_get_inv()`, `get_character_weapons()`, `enter_raid()`, `settle_death_penalty()`; signals: `inventory_changed`; exports: (none)
 - **`res://Scene/Search_system/Script/Manager/search_manager.gd`** — methods: `open_search()`, `generate_items()`, `take_item()`, `get_items()`, `clear()`; signals: (none); exports: `rng`
 - **`res://Scene/Search_system/Script/Manager/ui_manager.gd`** — methods: `show_inventory()`, `show_search()`, `refresh_search()`, `refresh_inventory()`, `hide_all()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/search_UI.gd`** — methods: `refresh()`, `remove_item()`, `close()`; signals: (none); exports: (none)
@@ -364,7 +372,8 @@
 - **`res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`** — methods: `_ready()`, `_connect_detection_areas()`, `_create_ui()`, `_update_interaction_prompt()`, `_hide_interaction_prompt()`, `_open_confirmation_dialog()`, `_on_confirmation_yes()`, `_on_confirmation_no()`, `_enter_battle()`, `_validate_setup()`; signals: (none); exports: `player`, `npc_interaction_area`, `raid_entry_area`, `battle_scene`, `interaction_text`, `authorized_text`, `dialog_title`, `dialog_text`
 - **`res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`** — methods: `_ready()`, `_connect_change_signals()`, `_on_facility_changed()`, `_queue_save()`, `_save_queued_changes()`, `save_shelter_now()`, `_serialize_rooms()`, `_serialize_storage()`, `_restore_from_current_save()`, `_sanitize_storage_collisions()`, `_validate_setup()`; signals: (none); exports: `room_manager`, `_restoring`
 - **`res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`** — methods: `_ready()`, `_physics_process()`, `_unhandled_input()`, `get_camera_mode()`, `_enter_gameplay_camera()`, `_update_gameplay_transform()`, `_enter_facility_camera()`, `_update_facility_transform()`, `_enter_room_camera()`, `_update_room_transform()`; signals: (none); exports: `target`, `camera_offset`, `look_height`, `facility_pan_speed`, `facility_zoom_min`, `facility_zoom_max`, `facility_zoom_step`, `room_pan_speed`, `room_camera_height`, `room_zoom_min`, `room_zoom_max`, `room_zoom_default`
-- **`res://Scene/Shelter_Scene/Scripts/shelter_player.gd`** — methods: `_ready()`, `_physics_process()`, `_calculate_move_direction()`, `_apply_gravity()`, `_update_animation()`, `_play_animation()`, `_validate_setup()`; signals: (none); exports: `walk_speed`, `run_speed`, `acceleration`, `deceleration`, `rotation_speed`, `visual_root`, `movement_reference`, `animation_player`, `model_yaw_offset_degrees`, `idle_animation`, `walk_animation`, `run_animation`
+- **`res://Scene/Shelter_Scene/Scripts/shelter_player.gd`** — methods: `_ready()`, `is_movement_enabled()`, `_calculate_move_direction()`, `_apply_gravity()`, `_update_animation()`, `_play_animation()`, `_validate_setup()`; signals: (none); exports: `walk_speed`, `run_speed`, `acceleration`, `deceleration`, `rotation_speed`, `visual_root`, `movement_reference`, `animation_player`, `model_yaw_offset_degrees`, `idle_animation`, `walk_animation`, `run_animation`
+- **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`** — methods: `_ready()`, `_exit_tree()`, `open_inventory()`, `close_inventory()`, `toggle_inventory()`, `is_inventory_open()`, `refresh()`, `_activate_current_selection()`, `_toggle_selected_weapon()`, `_clear_details()`, `_on_inventory_changed()`, `_validate_references()`; signals: `inventory_opened_changed`; exports: `player_path`, `edit_mode_controller_path`, `open_key`
 - **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_refresh_save_list()`, `_clear_save_cards()`, `_open_create_dialog()`, `_close_create_dialog()`, `_confirm_create_save()`, `_close_delete_dialog()`, `_confirm_delete_save()`, `_return_to_main_menu()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `save_slot_card_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/options_menu.gd`** — methods: `_ready()`, `_on_volume_changed()`, `_on_resolution_selected()`, `_on_fullscreen_toggled()`, `_update_volume_label()`, `_unhandled_input()`, `_return_to_main_menu()`; signals: (none); exports: (none)
@@ -397,24 +406,26 @@
 | `res://Scene/Dungeon_Enemy_Scene(3D)/testenemymodle.tscn` | `testenemymodle` | 3 | 0 | 0 | 0 |
 | `res://Scene/Dungeon_Enemy_Scene/enemy.tscn` | `Enemy/CharacterBody2D` | 16 | 4 | 9 | 0 |
 | `res://Scene/Dungeon_Enemy_Scene/enemy_2.tscn` | `Enemy2/CharacterBody2D` | 16 | 6 | 9 | 0 |
-| `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn` | `Player3d/CharacterBody3D` | 19 | 0 | 9 | 1 |
+| `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn` | `Player3d/CharacterBody3D` | 21 | 2 | 9 | 1 |
 | `res://Scene/Dungeon_Player_Scene(3D)/ual_1_standard.tscn` | `UAL1_Standard` | 1 | 0 | 0 | 0 |
 | `res://Scene/DungeonScene/Scenes/dungeon.tscn` | `Dungeon/Node2D` | 10 | 0 | 7 | 1 |
 | `res://Scene/DungeonScene/Scenes/MapScene.tscn` | `MapScene/Node2D` | 3 | 0 | 1 | 2 |
 | `res://Scene/DungeonScene/Scenes/PrefabScenes/test_obstatic2.tscn` | `testobstacle2/Node2D` | 4 | 2 | 1 | 0 |
 | `res://Scene/DungeonScene/Scenes/PrefabScenes/testobstacle1.tscn` | `testobstacle1/Node2D` | 5 | 2 | 1 | 0 |
 | `res://Scene/DungeonScene/Scenes/PrefabScenes/wall.tscn` | `Wall/Node2D` | 4 | 2 | 1 | 0 |
-| `res://Scene/DungeonScene/world.tscn` | `World/Node3D` | 6 | 0 | 2 | 4 |
-| `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn` | `Box/StaticBody3D` | 6 | 2 | 1 | 1 |
+| `res://Scene/DungeonScene/world.tscn` | `World/Node3D` | 7 | 0 | 3 | 5 |
+| `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn` | `Box/Node3D` | 7 | 0 | 1 | 1 |
 | `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn` | `file_cabinet_smallest2` | 1 | 0 | 0 | 0 |
 | `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn` | `Door/StaticBody3D` | 7 | 2 | 1 | 0 |
 | `res://Scene/DungeonScenes(3D)/TestScence2.tscn` | `Room/Node3D` | 67 | 0 | 1 | 5 |
 | `res://Scene/DungeonScenes(3D)/TestScene.tscn` | `Node3D/Node3D` | 66 | 0 | 0 | 7 |
 | `res://Scene/Main_Scene/MAIN.tscn` | `MAIN/Node` | 4 | 0 | 1 | 1 |
+| `res://Scene/Search_system/Script/UI/inventory_ui.tscn` | `InventoryUI/Control` | 2 | 0 | 0 | 0 |
 | `res://Scene/Search_system/Script/UI/search_ui.tscn` | `SearchUI/Control` | 2 | 0 | 0 | 0 |
-| `res://Scene/Shelter_Scene/player/shelter_player.tscn` | `ShelterPlayer/CharacterBody3D` | 4 | 0 | 1 | 1 |
+| `res://Scene/Shelter_Scene/player/shelter_player.tscn` | `ShelterPlayer/CharacterBody3D` | 5 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` | `UAL1_Standard` | 2 | 0 | 0 | 0 |
-| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 39 | 0 | 7 | 3 |
+| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 40 | 0 | 7 | 4 |
+| `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn` | `ShelterInventoryUI/CanvasLayer` | 42 | 0 | 1 | 0 |
 | `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` | `ShelterMovementTest/Node3D` | 7 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/test/test_facility.tscn` | `TestFacility/StaticBody3D` | 3 | 0 | 1 | 0 |
 | `res://Scene/UI/context_action_menu.tscn` | `ContextActionMenu/CanvasLayer` | 5 | 0 | 1 | 0 |
@@ -422,7 +433,7 @@
 | `res://Scene/UI/main_menu.tscn` | `MainMenu/Control` | 15 | 0 | 1 | 3 |
 | `res://Scene/UI/options.tscn` | `options/Control` | 17 | 0 | 1 | 0 |
 | `res://Scene/UI/save_slot_card.tscn` | `SaveSlotCard/PanelContainer` | 11 | 0 | 1 | 0 |
-| `res://Scene/UI/world_interactionUI.tscn` | `Control/Control` | 3 | 0 | 1 | 0 |
+| `res://Scene/UI/world_interactionUI.tscn` | `Control/Control` | 4 | 0 | 1 | 0 |
 | `res://Scene/VisualTest_MAP/Art/armchair_blue_2.tscn` | `armchair_blue2` | 1 | 0 | 0 | 0 |
 | `res://Scene/VisualTest_MAP/Art/book_case_2.tscn` | `book_case2` | 1 | 0 | 0 | 0 |
 | `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn` | `brick_wall2` | 1 | 0 | 0 | 0 |
@@ -478,14 +489,15 @@
 - **`res://Scene/DungeonScene/Scenes/PrefabScenes/test_obstatic2.tscn`** → `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - **`res://Scene/DungeonScene/Scenes/PrefabScenes/testobstacle1.tscn`** → `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - **`res://Scene/DungeonScene/Scenes/PrefabScenes/wall.tscn`** → `res://Scene/DungeonScene/Script/Wall_shelter.gd`
-- **`res://Scene/DungeonScene/world.tscn`** → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/Search_system/Script/search_UI.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/Search_system/Script/UI/search_ui.tscn`, `res://Scene/UI/world_interactionUI.tscn`
-- **`res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn`
+- **`res://Scene/DungeonScene/world.tscn`** → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/Search_system/Script/inventory_ui.gd`, `res://Scene/Search_system/Script/search_UI.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/Search_system/Script/UI/inventory_ui.tscn`, `res://Scene/Search_system/Script/UI/search_ui.tscn`, `res://Scene/UI/world_interactionUI.tscn`
+- **`res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`** → `res://Scene/Search_system/Script/Data/interactable_object.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn`
 - **`res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`
 - **`res://Scene/DungeonScenes(3D)/TestScence2.tscn`** → `res://Scene/DungeonScenes(3D)/Scripts/room.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - **`res://Scene/DungeonScenes(3D)/TestScene.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - **`res://Scene/Main_Scene/MAIN.tscn`** → `res://Scene/Main_Scene/main.gd`, `res://Scene/UI/main_menu.tscn`
 - **`res://Scene/Shelter_Scene/player/shelter_player.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-- **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
+- **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
+- **`res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
 - **`res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - **`res://Scene/Shelter_Scene/test/test_facility.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - **`res://Scene/UI/context_action_menu.tscn`** → `res://Scene/UI/Scripts/context_action_menu.gd`
@@ -517,7 +529,7 @@
 - `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/player_3Dvisuals.tscn` → `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Arts/Machete_Bolo.glb`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/player_visuals_manager.gd`
 - `res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.tscn` → `res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.gd`
 - `res://Scene/Battle_Scene/Battlescene.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/sceneobject/brick_wall.glb`, `res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/texture/Horror_Floor_12-128x128.png`, `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Player/Player.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.tscn`, `res://Scene/Battle_Scene/Card_Scene/Card.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-- `res://Scene/Battle_Scene/Card_Scene/Card.tscn` → `res://Arts/Fort/OldWizard.ttf`, `res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png`, `res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd`
+- `res://Scene/Battle_Scene/Card_Scene/Card.tscn` → `res://Arts/Fort/OldWizard.ttf`, `res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png`, `res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd`
 - `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn` → `res://Scene/Dungeon_Enemy_Scene(3D)/testenemymodle.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Scripts/PublicScripts/hurt_box.gd`
 - `res://Scene/Dungeon_Enemy_Scene(3D)/testenemymodle.tscn` → `res://Arts/AnimationLibrary/Ual2_test.res`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/testenemymodle.glb`
 - `res://Scene/Dungeon_Enemy_Scene/enemy.tscn` → `res://Scene/Dungeon_Enemy_Scene/Art/Mushroom_spike.png`, `res://Scene/Dungeon_Enemy_Scene/Script/State/attack_state.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/State/chase_state.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/State/idel_state.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/State/patrol_state.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/State/state_machine.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/animation_player.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/dungeon_enemy_movement.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/enemy.gd`, `res://Scene/Dungeon_Enemy_Scene/Script/enemy_dungeo_information.gd`
@@ -536,8 +548,8 @@
 - `res://Scene/DungeonScene/Scenes/PrefabScenes/testobstacle1.tscn` → `res://Scene/DungeonScene/Arts/Dungeon_Tiles.png`, `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - `res://Scene/DungeonScene/Scenes/PrefabScenes/wall.tscn` → `res://Scene/DungeonScene/Arts/Dungeon_Tiles.png`, `res://Scene/DungeonScene/Script/Wall_shelter.gd`
 - `res://Scene/DungeonScene/Script/Manager/RoomDataManager.gd` → `res://DataBase/DungeonDataBase/RoomType_and_Weight data.csv`
-- `res://Scene/DungeonScene/world.tscn` → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/Search_system/Script/UI/search_ui.tscn`, `res://Scene/Search_system/Script/search_UI.gd`, `res://Scene/UI/world_interactionUI.tscn`
-- `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn`
+- `res://Scene/DungeonScene/world.tscn` → `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`, `res://Scene/DungeonScenes(3D)/TestScence2.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/Search_system/Script/UI/inventory_ui.tscn`, `res://Scene/Search_system/Script/UI/search_ui.tscn`, `res://Scene/Search_system/Script/inventory_ui.gd`, `res://Scene/Search_system/Script/search_UI.gd`, `res://Scene/UI/world_interactionUI.tscn`
+- `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn`, `res://Scene/Search_system/Script/Data/interactable_object.gd`
 - `res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn` → `res://Scene/VisualTest_MAP/Art/file_cabinet_smallest.glb`
 - `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`
 - `res://Scene/DungeonScenes(3D)/TestScence2.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/DungeonScenes(3D)/Scripts/room.gd`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
@@ -546,10 +558,12 @@
 - `res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd` → `res://Audio/SFX/Enemies/%s.wav`, `res://Audio/SFX/Impacts/%s.wav`, `res://Audio/SFX/Players/%s.wav`, `res://Audio/SFX/Skills/%s.wav`, `res://Audio/SFX/Weapons/%s.wav`, `res://Audio/UI/Cards/%s.wav`, `res://Audio/UI/System/%s.wav`
 - `res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd` → `res://DataBase/AllCardData.csv`
 - `res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd` → `res://DataBase/EnemyMechanicsData.csv`
-- `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Armors.csv`, `res://DataBase/Items/Materials.csv`, `res://DataBase/Items/Weapons.csv`
+- `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Item/`
+- `res://Scene/Search_system/Script/Data/item_data_base.gd` → `res://DataBase/AllItemData.csv`
 - `res://Scene/Shelter_Scene/player/shelter_player.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` → `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+- `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
 - `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - `res://Scene/Shelter_Scene/test/test_facility.tscn` → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
@@ -645,9 +659,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd` → `res://Audio/SFX/Weapons/%s.wav`
 - `res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd` → `res://Audio/UI/Cards/%s.wav`
 - `res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd` → `res://Audio/UI/System/%s.wav`
-- `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Armors.csv`
-- `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Materials.csv`
-- `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Items/Weapons.csv`
+- `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` → `res://DataBase/Item/`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
 
 ## TODO / FIXME / HACK Markers
@@ -665,7 +677,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_inventory.gd:94` — `# TODO 腿甲（每级增加体力恢复）！！！暂时数值不合理`
 - `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_inventory.gd:97` — `# TODO 头盔（每级增加能力恢复）！！！暂时数值不合理`
 - `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/player_inventory.gd:100` — `# TODO 鞋子（韧性增加）！！！ 韧性系统未制作`
-- `res://Scene/Battle_Scene/Card_Scene/Card.tscn:79` — `text = "THIS IS A BUG"`
+- `res://Scene/Battle_Scene/Card_Scene/Card.tscn:80` — `text = "THIS IS A BUG"`
 - `res://Scene/UI/options.tscn:68` — `text = "THIS IS A BUG"`
 - `res://Scene/UI/Scripts/options_menu.gd:5` — `@onready var volume_percent_label = $VBoxContainer/MarginContainer/HBoxContainer/Label2 # 原 "THIS IS A BUG" 节点`
 
@@ -691,6 +703,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   ├── Materials.csv
 │   │   └── Weapons.csv
 │   ├── AllCardData.csv
+│   ├── AllItemData.csv
 │   └── EnemyMechanicsData.csv
 ├── Localization
 │   ├── loc_card.csv
@@ -854,7 +867,8 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   ├── Box
 │   │   │   │   ├── box.gd
 │   │   │   │   ├── box.tscn
-│   │   │   │   └── file_cabinet_smallest_2.tscn
+│   │   │   │   ├── file_cabinet_smallest_2.tscn
+│   │   │   │   └── interaction_area.gd
 │   │   │   └── Door
 │   │   │       ├── door.gd
 │   │   │       └── door.tscn
@@ -885,7 +899,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   ├── Search_system
 │   │   └── Script
 │   │       ├── Data
-│   │       │   ├── interaction_object.gd
+│   │       │   ├── interactable_object.gd
 │   │       │   ├── item_data.gd
 │   │       │   └── item_data_base.gd
 │   │       ├── Manager
@@ -894,6 +908,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │       │   ├── search_manager.gd
 │   │       │   └── ui_manager.gd
 │   │       ├── UI
+│   │       │   ├── inventory_ui.tscn
 │   │       │   └── search_ui.tscn
 │   │       ├── inventory_ui.gd
 │   │       └── search_UI.gd
@@ -914,13 +929,16 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   │   └── shelter_npc_raid_interaction.gd
 │   │   │   ├── Save
 │   │   │   │   └── shelter_save_bridge.gd
+│   │   │   ├── UI
+│   │   │   │   └── shelter_inventory_ui.gd
 │   │   │   ├── camera_debug_switcher.gd
 │   │   │   ├── shelter_camera.gd
 │   │   │   └── shelter_player.gd
 │   │   ├── test
 │   │   │   ├── shelter_movement_test.tscn
 │   │   │   └── test_facility.tscn
-│   │   └── shelter.tscn
+│   │   ├── shelter.tscn
+│   │   └── shelter_inventory_ui.tscn
 │   ├── UI
 │   │   ├── Scripts
 │   │   │   ├── filelist_menu.gd
@@ -980,15 +998,15 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 
 ### By extension
 
-`.import`: 149, `.uid`: 127, `.png`: 47, `.glb`: 44, `.jpg`: 40, `.tmp`: 22, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `.translation`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
+`.import`: 153, `.uid`: 129, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 22, `.translation`: 16, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
 
 ### By top-level folder
 
 - `Arts`: .import=6, .ttf=4, .glb=2, .uid=2
 - `Audio`: .wav=4, .import=4
-- `DataBase`: .import=6
+- `DataBase`: .translation=12, .import=7
 - `Localization`: .translation=4, .import=2
-- `Scene`: .import=130, .uid=125, .png=47, .glb=42, .jpg=40, .tmp=22, .aseprite=9, .gif=6, .fbx=1
+- `Scene`: .import=133, .uid=127, .png=49, .glb=42, .jpg=40, .tmp=22, .aseprite=9, .gif=6, .fbx=1
 - `export_context.py`: .py=1
 - `gitattributes`: [no extension]=1
 - `gitignore`: [no extension]=1
@@ -1003,7 +1021,6 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `Arts/AnimationLibrary/armanimation.res: binary file`
 - `DataBase/Item/Armors.csv: binary file`
 - `DataBase/Item/Materials.csv: binary file`
-- `DataBase/Item/Weapons.csv: binary file`
 
 ## Embedded Project Files
 
@@ -8892,12 +8909,37 @@ func _unhandled_input(event: InputEvent) -> void:
 
 ### `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd`
 
-- Category: `script`; bytes: `42`; sha256/16: `1aaf638dbfc625c1`
+- Category: `script`; bytes: `836`; sha256/16: `e85beee3735e95fa`
 
 
 ```gdscript
 extends CharacterBody3D
 class_name Player
+
+@onready var interaction_area: Area3D = $InteractionArea
+
+func _ready() -> void:
+	interaction_area.area_entered.connect(_on_interaction_area_area_entered)
+	interaction_area.area_exited.connect(_on_interaction_area_area_exited)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("interact"):
+		interact()
+	pass
+
+func interact():
+	InteractionManager.try_interact()
+
+func _on_interaction_area_area_entered(area: Area3D) -> void:
+	if area is InteractableObject:
+		InteractionManager.current_object = area
+		print("Player:检测到可搜索物体")
+	pass # Replace with function body.
+
+func _on_interaction_area_area_exited(area: Area3D) -> void:
+	if area == InteractionManager.current_object:
+		InteractionManager.current_object = null
+	pass # Replace with function body.
 ```
 
 
@@ -10158,6 +10200,24 @@ func open_chest():
 ```
 
 
+### `res://Scene/DungeonScenes(3D)/Interative Items/Box/interaction_area.gd`
+
+- Category: `script`; bytes: `262`; sha256/16: `84c2fec8f4da5dfe`
+
+
+```gdscript
+extends Area3D
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+```
+
+
 ### `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`
 
 - Category: `script`; bytes: `1478`; sha256/16: `220c058e56aeb5b2`
@@ -10971,62 +11031,189 @@ func _reduce_durability(item: Dictionary, damage_amount: int) -> void:
 
 ### `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`
 
-- Category: `script`; bytes: `1775`; sha256/16: `309047e2eabeebe8`
+- Category: `script`; bytes: `2986`; sha256/16: `2fe69c4b0ea6018d`
 
 
 ```gdscript
 extends Node
-# item_database_manager.gd
+
+# Item Database Manager
+#
+# Main / Shelter / Battle 侧使用的静态物品数据库。
+#
+# 注意：
+# Dungeon 搜索系统当前使用的是它自己的
+# ItemDataBase / MAPInventoryManager，
+# 这里不负责 Dungeon 的搜索物品逻辑。
+
+const ITEM_DATA_DIRECTORY: String = "res://DataBase/Item/"
+
+const DATA_FILES: Array[String] = [
+	"Weapons.csv",
+	"Armors.csv",
+	"Materials.csv"
+]
+
+const INT_ARRAY_FIELDS: Array[String] = [
+	"default_cards",
+	"card_pool"
+]
 
 var database: Dictionary = {}
 
 func _ready() -> void:
-	# 启动时自动加载所有的物品表 (你需要先在项目中建好这些文件)
-	load_csv_data("res://DataBase/Items/Weapons.csv")
-	load_csv_data("res://DataBase/Items/Armors.csv")
-	load_csv_data("res://DataBase/Items/Materials.csv")
+	reload_database()
 
-func load_csv_data(file_path: String) -> void:
-	if not FileAccess.file_exists(file_path):
-		push_warning("ItemDatabaseManager: 暂未找到文件，请稍后配置 -> " + file_path)
-		return
+# Public API
 
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	var headers = file.get_csv_line()
+func reload_database() -> void:
+	database.clear()
 
-	while not file.eof_reached():
-		var row = file.get_csv_line()
-		if row.size() < headers.size(): continue
+	for file_name in DATA_FILES:
+		load_csv_data(
+			ITEM_DATA_DIRECTORY + file_name
+		)
 
-		var item_info = {}
-		for i in range(headers.size()):
-			var key = headers[i]
-			var val = row[i]
-
-			# 核心解析：针对包含多个卡牌ID的特殊列，用分号切割成数组
-			if key in ["default_cards", "card_pool"] and val != "":
-				var str_array = val.split(";")
-				var int_array = []
-				for s in str_array: int_array.append(s.to_int())
-				item_info[key] = int_array
-			elif val.is_valid_int():
-				item_info[key] = val.to_int()
-			elif val.is_valid_float():
-				item_info[key] = val.to_float()
-			else:
-				item_info[key] = val
-
-		if item_info.has("template_id") and item_info["template_id"] != "":
-			database[item_info["template_id"]] = item_info
-
-	print("图鉴数据库: 成功载入 %s，当前总条目数: %d" % [file_path.get_file(), database.size()])
-
-# 全局获取物品基础静态数据的方法
-func get_item_data(template_id: String) -> Dictionary:
+func get_item_data(
+	template_id: String
+) -> Dictionary:
 	if database.has(template_id):
 		return database[template_id]
-	push_error("ItemDatabaseManager: 图鉴中查无此物 -> ", template_id)
+
 	return {}
+
+func has_item_data(
+	template_id: String
+) -> bool:
+	return database.has(template_id)
+
+# CSV
+
+func load_csv_data(
+	file_path: String
+) -> void:
+	if not FileAccess.file_exists(file_path):
+		push_warning(
+			"ItemDatabaseManager: 找不到数据表 -> "
+			+ file_path
+		)
+		return
+
+	var file := FileAccess.open(
+		file_path,
+		FileAccess.READ
+	)
+
+	if file == null:
+		push_warning(
+			"ItemDatabaseManager: 无法打开数据表 -> "
+			+ file_path
+		)
+		return
+
+	var headers: PackedStringArray = (
+		file.get_csv_line()
+	)
+
+	if (
+		headers.is_empty()
+		or headers[0].strip_edges()
+		!= "template_id"
+	):
+		push_warning(
+			"ItemDatabaseManager: 数据表不是有效的纯文本 CSV，已跳过 -> "
+			+ file_path
+		)
+
+		file.close()
+		return
+
+	while not file.eof_reached():
+		var row: PackedStringArray = (
+			file.get_csv_line()
+		)
+
+		# 跳过空行。
+		if (
+			row.size() == 1
+			and row[0].strip_edges().is_empty()
+		):
+			continue
+
+		if row.size() < headers.size():
+			push_warning(
+				"ItemDatabaseManager: CSV 行字段数量不足，已跳过 -> "
+				+ file_path
+			)
+			continue
+
+		var item_info: Dictionary = {}
+
+		for i in range(headers.size()):
+			var key: String = (
+				headers[i].strip_edges()
+			)
+
+			var raw_value: String = (
+				row[i].strip_edges()
+			)
+
+			item_info[key] = _parse_value(
+				key,
+				raw_value
+			)
+
+		var template_id: String = str(
+			item_info.get(
+				"template_id",
+				""
+			)
+		)
+
+		if template_id.is_empty():
+			continue
+
+		database[template_id] = item_info
+
+	file.close()
+
+	print(
+		"ItemDatabaseManager: 已载入 %s，当前静态物品总数：%d"
+		% [
+			file_path.get_file(),
+			database.size()
+		]
+	)
+
+func _parse_value(
+	key: String,
+	value: String
+) -> Variant:
+	if key in INT_ARRAY_FIELDS:
+		var result: Array[int] = []
+
+		if value.is_empty():
+			return result
+
+		for part in value.split(";"):
+			var clean_part: String = (
+				part.strip_edges()
+			)
+
+			if clean_part.is_valid_int():
+				result.append(
+					clean_part.to_int()
+				)
+
+		return result
+
+	if value.is_valid_int():
+		return value.to_int()
+
+	if value.is_valid_float():
+		return value.to_float()
+
+	return value
 ```
 
 
@@ -11873,17 +12060,17 @@ func load_settings() -> void:
 ```
 
 
-### `res://Scene/Search_system/Script/Data/interaction_object.gd`
+### `res://Scene/Search_system/Script/Data/interactable_object.gd`
 
-- Category: `script`; bytes: `778`; sha256/16: `db2d4a24958d24b8`
+- Category: `script`; bytes: `832`; sha256/16: `45b6218772770eab`
 
 
 ```gdscript
 ##可交互物体
 ##挂载：场景中的可交互物体上
 ##作用：判断物体是否可交互；判断物体是否已经被搜索过
-extends Node
 class_name InteractableObject
+extends Area3D
 
 var object_name: String#交互场景物体名字
 var searched: bool = false#是否已被搜索
@@ -11892,10 +12079,11 @@ var loot_table: Array = []#当前物体使用的掉落表
 ##开始交互
 func interact():
 	InteractionManager.open_search(self)
+	print("InteractableObject:开始交互")
 	pass
 
 ##生成随机物品
-func generate_loot() -> Array:
+func generate_loot() -> Array[ItemData]:
 	if searched:
 		return []
 
@@ -11954,7 +12142,7 @@ p_description: String) -> void:
 
 ### `res://Scene/Search_system/Script/Data/item_data_base.gd`
 
-- Category: `script`; bytes: `1868`; sha256/16: `b124e25af5a62d4d`
+- Category: `script`; bytes: `2082`; sha256/16: `24e40d91d339b766`
 
 
 ```gdscript
@@ -11965,8 +12153,14 @@ extends Node
 
 var item_list: Array[ItemData]
 
+func _ready() -> void:
+	load_csv("res://DataBase/AllItemData.csv")
+	print("开始读取数据")
+
 ##读取CSV
 func load_csv(path: String):
+
+	print("读取：" + path)
 	item_list.clear()
 
 	var file := FileAccess.open(path, FileAccess.READ)
@@ -12006,9 +12200,12 @@ func load_csv(path: String):
 	pass
 
 ##随机返回count件物品
-func get_random_items(count: int) -> Array:
+func get_random_items(count: int) -> Array[ItemData]:
+
+	if item_list.is_empty():
+		print("ItemDataBase无数据传入")
 	#创建结果列表
-	var result: Array = []
+	var result: Array[ItemData] = []
 
 	if item_list.is_empty():
 		return result
@@ -12057,7 +12254,7 @@ func find_item(id):
 
 ### `res://Scene/Search_system/Script/inventory_ui.gd`
 
-- Category: `script`; bytes: `211`; sha256/16: `d479d1443a53e62c`
+- Category: `script`; bytes: `431`; sha256/16: `84a5d3135880b754`
 
 
 ```gdscript
@@ -12068,11 +12265,21 @@ class_name InventoryUI
 extends Node
 
 ##重新生成整个列表
-func refresh(items):
+func refresh(items: Array):
+	var item_list := get_node("ItemList") as ItemList
+
+	item_list.clear()
+
+	for item in items:
+		if item == null:
+			continue
+
+		item_list.add_item(item.name, item.icon)
 	pass
 
 ##更新某一个条目
 func update_list():
+	refresh(MAPInventoryManager.get_items())
 	pass
 ```
 
@@ -12130,42 +12337,565 @@ func close_search() -> void:
 
 ### `res://Scene/Search_system/Script/Manager/inventory_manager.gd`
 
-- Category: `script`; bytes: `603`; sha256/16: `dd0b3cfa6abbc4b2`
+- Category: `script`; bytes: `8129`; sha256/16: `2bc50f1c5ae3e2bb`
 
 
 ```gdscript
-##交互管理器
-##挂载：全局
-##作用：处理玩家搜索时的交互操作
 extends Node
 
-var inventoryt_items: Array = []
+# Inventory Manager
+#
+# 负责完整存档中的“物品实例”。
+#
+# 静态数据：
+#     ItemDatabaseManager
+#
+# 动态实例：
+#     SaveManager.current_save["inventory"]
+#
+#
+# Location 约定：
+#
+# warehouse
+#     仓库
+#
+# character_backpack
+#     角色常驻携带空间
+#
+# equipped_weapon_1
+#     第一武器装备槽
+#
+# backpack
+#     旧战术背包
+#     与 character_backpack 不同
+#
 
-func add_item(item: ItemData):
-	if item == null:
+signal inventory_changed
+
+const LOCATION_WAREHOUSE: String = "warehouse"
+
+const LOCATION_CHARACTER_BACKPACK: String = (
+	"character_backpack"
+)
+
+const LOCATION_TACTICAL_BACKPACK: String = (
+	"backpack"
+)
+
+const EQUIPPED_WEAPON_PREFIX: String = (
+	"equipped_weapon_"
+)
+
+# 基础查询
+
+func _get_inv() -> Array:
+	if SaveManager.current_save.has(
+		"inventory"
+	):
+		return SaveManager.current_save[
+			"inventory"
+		]
+
+	return []
+
+func get_items(
+	location_filter: String = "",
+	category_filter: String = ""
+) -> Array:
+	var result: Array = []
+
+	for item in _get_inv():
+		var location: String = str(
+			item.get(
+				"location",
+				""
+			)
+		)
+
+		if (
+			not location_filter.is_empty()
+			and location != location_filter
+		):
+			continue
+
+		if (
+			not category_filter.is_empty()
+			and not _item_matches_category(
+				item,
+				category_filter
+			)
+		):
+			continue
+
+		result.append(item)
+
+	return result
+
+func get_item_by_uid(
+	uid: String
+) -> Dictionary:
+	for item in _get_inv():
+		if str(
+			item.get(
+				"uid",
+				""
+			)
+		) == uid:
+			return item
+
+	return {}
+
+# Character Inventory
+
+func get_character_items(
+	category_filter: String = ""
+) -> Array:
+	var result: Array = []
+
+	for item in _get_inv():
+		var location: String = str(
+			item.get(
+				"location",
+				""
+			)
+		)
+
+		if not _is_character_location(
+			location
+		):
+			continue
+
+		if (
+			not category_filter.is_empty()
+			and not _item_matches_category(
+				item,
+				category_filter
+			)
+		):
+			continue
+
+		result.append(item)
+
+	return result
+
+func get_character_weapons() -> Array:
+	return get_character_items(
+		"weapon"
+	)
+
+func get_equipped_weapon(
+	slot_index: int = 1
+) -> Dictionary:
+	var target_location: String = (
+		EQUIPPED_WEAPON_PREFIX
+		+ str(slot_index)
+	)
+
+	for item in _get_inv():
+		if str(
+			item.get(
+				"location",
+				""
+			)
+		) == target_location:
+			return item
+
+	return {}
+
+func is_weapon_equipped(
+	uid: String
+) -> bool:
+	var item: Dictionary = (
+		get_item_by_uid(uid)
+	)
+
+	if item.is_empty():
+		return false
+
+	var location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	return location.begins_with(
+		EQUIPPED_WEAPON_PREFIX
+	)
+
+# Weapon Equipment
+
+func equip_weapon(
+	uid: String,
+	slot_index: int = 1
+) -> bool:
+	if slot_index < 1:
+		push_warning(
+			"InventoryManager: 武器槽编号必须 >= 1。"
+		)
+		return false
+
+	var item: Dictionary = (
+		get_item_by_uid(uid)
+	)
+
+	if item.is_empty():
+		push_warning(
+			"InventoryManager: 找不到武器实例 -> "
+			+ uid
+		)
+		return false
+
+	if not _item_matches_category(
+		item,
+		"weapon"
+	):
+		push_warning(
+			"InventoryManager: 目标物品不是武器 -> "
+			+ uid
+		)
+		return false
+
+	var source_location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	# Shelter 装备操作不能隔空从仓库、
+	# 箱子、战术背包直接装备。
+	if (
+		source_location
+		!= LOCATION_CHARACTER_BACKPACK
+		and not source_location.begins_with(
+			EQUIPPED_WEAPON_PREFIX
+		)
+	):
+		push_warning(
+			"InventoryManager: 武器不在角色携带空间中 -> "
+			+ uid
+		)
+		return false
+
+	var target_location: String = (
+		EQUIPPED_WEAPON_PREFIX
+		+ str(slot_index)
+	)
+
+	# 本身已经装备在该位置。
+	if source_location == target_location:
+		return true
+
+	# 暂时一个槽。
+	# 如果槽里已经有武器，
+	# 自动退回角色背包。
+	for existing_item in _get_inv():
+		if str(
+			existing_item.get(
+				"location",
+				""
+			)
+		) != target_location:
+			continue
+
+		if str(
+			existing_item.get(
+				"uid",
+				""
+			)
+		) == uid:
+			continue
+
+		existing_item[
+			"location"
+		] = LOCATION_CHARACTER_BACKPACK
+
+	item[
+		"location"
+	] = target_location
+
+	print(
+		"InventoryManager: 装备武器 -> ",
+		uid
+	)
+
+	_commit_inventory_change(
+		true
+	)
+
+	return true
+
+func unequip_weapon(
+	uid: String
+) -> bool:
+	var item: Dictionary = (
+		get_item_by_uid(uid)
+	)
+
+	if item.is_empty():
+		return false
+
+	var location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	if not location.begins_with(
+		EQUIPPED_WEAPON_PREFIX
+	):
+		return false
+
+	item[
+		"location"
+	] = LOCATION_CHARACTER_BACKPACK
+
+	print(
+		"InventoryManager: 卸下武器 -> ",
+		uid
+	)
+
+	_commit_inventory_change(
+		true
+	)
+
+	return true
+
+# Legacy Generic Move
+#
+# 保留旧接口供现有代码兼容。
+#
+# Shelter 武器装备不要调用这个方法，
+# 使用 equip_weapon / unequip_weapon。
+
+func move_item(
+	uid: String,
+	new_location: String
+) -> bool:
+	var item: Dictionary = (
+		get_item_by_uid(uid)
+	)
+
+	if item.is_empty():
+		push_error(
+			"InventoryManager: 转移失败，找不到 UID -> ",
+			uid
+		)
+		return false
+
+	if new_location.begins_with(
+		"equipped_"
+	):
+		var existing_items: Array = (
+			get_items(
+				new_location
+			)
+		)
+
+		if existing_items.size() > 0:
+			# 保留旧系统原有行为。
+			existing_items[0][
+				"location"
+			] = LOCATION_TACTICAL_BACKPACK
+
+	item[
+		"location"
+	] = new_location
+
+	inventory_changed.emit()
+
+	return true
+
+# Raid
+#
+# 当前暂时保留。
+# 本阶段 Shelter Backpack 不调用这些方法。
+
+func enter_raid() -> void:
+	SaveManager.current_save[
+		"in_raid"
+	] = true
+
+	SaveManager.save_current_state()
+
+	print(
+		"💀 战术行动开始：已打上 in_raid 标记，强行落盘。"
+	)
+
+func settle_death_penalty() -> void:
+	if not SaveManager.current_save.get(
+		"in_raid",
+		false
+	):
 		return
 
-	inventoryt_items.append(item)
+	var inv: Array = _get_inv()
 
-	UIManager.refresh_inventory(inventoryt_items)
-	pass
+	print(
+		"⚠️ 正在结算死亡惩罚..."
+	)
 
-##删除物品
-func remove_item(item: ItemData):
-	if item == null:
-		return
+	for i in range(
+		inv.size() - 1,
+		-1,
+		-1
+	):
+		var item: Dictionary = inv[i]
 
-	if item in inventoryt_items:
-		inventoryt_items.erase(item)
+		var location: String = str(
+			item.get(
+				"location",
+				""
+			)
+		)
 
-	UIManager.refresh_inventory(inventoryt_items)
-	pass
+		var static_data: Dictionary = (
+			ItemDatabaseManager.get_item_data(
+				str(
+					item.get(
+						"template_id",
+						""
+					)
+				)
+			)
+		)
 
-func has_item(item: ItemData) -> bool:
-	return item in inventoryt_items
+		var category: String = str(
+			static_data.get(
+				"category",
+				""
+			)
+		)
 
-func get_items() -> Array:
-	return inventoryt_items
+		if (
+			location
+			== LOCATION_TACTICAL_BACKPACK
+			or location.begins_with(
+				"equipped_item_"
+			)
+		):
+			if (
+				category == "item"
+				or category == "material"
+			):
+				inv.remove_at(i)
+
+			elif (
+				category == "weapon"
+				or category == "armor"
+			):
+				_reduce_durability(
+					item,
+					50
+				)
+
+		elif (
+			location.begins_with(
+				EQUIPPED_WEAPON_PREFIX
+			)
+			or location.begins_with(
+				"equipped_"
+			)
+		):
+			_reduce_durability(
+				item,
+				20
+			)
+
+	SaveManager.current_save[
+		"in_raid"
+	] = false
+
+	SaveManager.save_current_state()
+
+func _reduce_durability(
+	item: Dictionary,
+	damage_amount: int
+) -> void:
+	if (
+		item.has("current_durability")
+		and not item.get(
+			"is_broken",
+			false
+		)
+	):
+		item[
+			"current_durability"
+		] -= damage_amount
+
+		if item[
+			"current_durability"
+		] <= 0:
+			item[
+				"current_durability"
+			] = 0
+
+			item[
+				"is_broken"
+			] = true
+
+# Utility
+
+func _is_character_location(
+	location: String
+) -> bool:
+	if (
+		location
+		== LOCATION_CHARACTER_BACKPACK
+	):
+		return true
+
+	# 后面增加头盔、防具、饰品等，
+	# 不需要重写角色物品查询逻辑。
+	if location.begins_with(
+		"equipped_"
+	):
+		return true
+
+	return false
+
+func _item_matches_category(
+	item: Dictionary,
+	category: String
+) -> bool:
+	var template_id: String = str(
+		item.get(
+			"template_id",
+			""
+		)
+	)
+
+	if template_id.is_empty():
+		return false
+
+	var static_data: Dictionary = (
+		ItemDatabaseManager.get_item_data(
+			template_id
+		)
+	)
+
+	return str(
+		static_data.get(
+			"category",
+			""
+		)
+	) == category
+
+func _commit_inventory_change(
+	save_immediately: bool
+) -> void:
+	inventory_changed.emit()
+
+	if (
+		save_immediately
+		and not SaveManager.current_save.is_empty()
+	):
+		if not SaveManager.save_current_state():
+			push_warning(
+				"InventoryManager: 物品状态已修改，但存档写入失败。"
+			)
 ```
 
 
@@ -12231,7 +12961,7 @@ func clear():
 
 ### `res://Scene/Search_system/Script/Manager/ui_manager.gd`
 
-- Category: `script`; bytes: `758`; sha256/16: `d0f771b41daeddb9`
+- Category: `script`; bytes: `980`; sha256/16: `c8c751acf42ec55f`
 
 
 ```gdscript
@@ -12242,6 +12972,8 @@ extends Node
 
 ##显示背包UI
 func show_inventory():
+	var inventory_ui := get_tree().current_scene.get_node("UILayer/InventoryUI") as Control
+	inventory_ui.show()
 	pass
 
 ##显示搜索栏
@@ -12267,6 +12999,9 @@ func refresh_inventory(items: Array):
 func hide_all():
 	var search_ui := get_tree().current_scene.get_node("UILayer/SearchUI") as Control
 	search_ui.hide()
+
+	var inventory_ui := get_tree().current_scene.get_node("UILayer/InventoryUI") as Control
+	inventory_ui.hide()
 	pass
 ```
 
@@ -17864,7 +18599,7 @@ func _handle_room_zoom(
 
 ### `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`
 
-- Category: `script`; bytes: `6748`; sha256/16: `d82d79051360a0d4`
+- Category: `script`; bytes: `7135`; sha256/16: `3c8ed4d7b6f9001a`
 
 
 ```gdscript
@@ -17933,8 +18668,7 @@ var model_yaw_offset_degrees: float = 0.0
 @export var walk_animation: StringName = &"Walk"
 
 ## Shift 奔跑
-## 使用之前的 Jog_Fwd 动画
-@export var run_animation: StringName = &"Jog_Fwd"
+@export var run_animation: StringName = &"Sprint"
 
 ## Idle / Jog 的过渡时间
 @export_range(0.0, 1.0, 0.01)
@@ -17945,11 +18679,32 @@ var _current_animation: StringName = &""
 ## 当前是否处于奔跑状态
 var is_running: bool = false
 
+## Shelter 外部系统是否允许角色移动。
+var movement_enabled: bool = true
+
 func _ready() -> void:
 	_validate_setup()
 	_play_animation(idle_animation)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(
+	delta: float
+) -> void:
+	# UI / 对话等系统锁定移动时，
+	# 仍然保留重力和 CharacterBody3D 物理更新。
+	if not movement_enabled:
+		velocity.x = 0.0
+		velocity.z = 0.0
+
+		is_running = false
+
+		_apply_gravity(delta)
+
+		move_and_slide()
+
+		_update_animation()
+
+		return
+
 	_apply_gravity(delta)
 
 	var input_vector := Input.get_vector(
@@ -17959,18 +18714,16 @@ func _physics_process(delta: float) -> void:
 		"Down"
 	)
 
-	var move_direction := _calculate_move_direction(
-		input_vector
+	var move_direction := (
+		_calculate_move_direction(
+			input_vector
+		)
 	)
 
-	# Sprint
-	#
-	# 当前只在 ShelterPlayer 内监听 Shift，
-	# 不创建新的 Project Input Action，
-	# 避免修改公共 project.godot。
-
 	is_running = (
-		Input.is_physical_key_pressed(KEY_SHIFT)
+		Input.is_physical_key_pressed(
+			KEY_SHIFT
+		)
 		and not input_vector.is_zero_approx()
 	)
 
@@ -17994,6 +18747,27 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	_update_animation()
+
+# Public Control API
+
+func set_movement_enabled(
+	enabled: bool
+) -> void:
+	if movement_enabled == enabled:
+		return
+
+	movement_enabled = enabled
+
+	if not movement_enabled:
+		velocity.x = 0.0
+		velocity.z = 0.0
+
+		is_running = false
+
+		_update_animation()
+
+func is_movement_enabled() -> bool:
+	return movement_enabled
 
 # Movement
 
@@ -18182,6 +18956,701 @@ func _validate_setup() -> void:
 		push_warning(
 			"ShelterPlayer: Animation Player 尚未设置。"
 			+ "角色仍可以移动，但不会播放动画。"
+		)
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+
+- Category: `script`; bytes: `10499`; sha256/16: `0e18d35dc05e1ca3`
+
+
+```gdscript
+extends CanvasLayer
+class_name ShelterInventoryUI
+
+# Shelter Inventory UI
+#
+# 当前阶段：
+#
+# A
+#     角色身上的武器列表
+#
+# B
+#     武器预览
+#     当前支持图片，占位时显示文字
+#
+# C
+#     武器名称 / 描述
+#
+# D
+#     武器基础信息
+#
+# E
+#     分类
+#     当前只有“全部”
+#
+# F
+#     操作提示
+#
+#
+# 本脚本只属于 Shelter。
+#
+# 不访问 Dungeon Scene，
+# 不访问 MAPInventoryManager，
+# 不访问 Battle PlayerDeckManager。
+
+signal inventory_opened_changed(
+	is_open: bool
+)
+
+@export_category("Shelter References")
+
+# 本 UI 场景必须作为 Shelter 根节点的直接子节点。
+@export var player_path: NodePath = (
+	^"../GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer"
+)
+
+@export var edit_mode_controller_path: NodePath = (
+	^"../GameViewportContainer/GameViewport/World/EditModeController"
+)
+
+@export_category("Temporary Input")
+
+## 当前阶段使用 I 打开。
+##
+## 后面正式做按键设置时，
+## 再替换成 InputMap Action。
+@export var open_key: Key = KEY_I
+
+@onready var root_ui: Control = %Root
+
+@onready var weapon_list: ItemList = (
+	%WeaponList
+)
+
+@onready var weapon_name_label: Label = (
+	%WeaponName
+)
+
+@onready var description_label: Label = (
+	%Description
+)
+
+@onready var stats_label: Label = (
+	%Stats
+)
+
+@onready var preview_texture: TextureRect = (
+	%PreviewTexture
+)
+
+@onready var preview_placeholder: Label = (
+	%PreviewPlaceholder
+)
+
+@onready var operation_guide: Label = (
+	%OperationGuide
+)
+
+var _player: ShelterPlayer
+
+# 不在 UI 层强类型依赖 ShelterEditModeController。
+#
+# Shelter Inventory 只关心：
+# “这个节点是否允许当前打开背包”。
+#
+# 这样也避免 UI 与建造系统形成不必要的类型耦合。
+var _edit_mode_controller = null
+
+var _is_open: bool = false
+
+var _selected_uid: String = ""
+
+var _previous_mouse_mode: int = (
+	Input.MOUSE_MODE_VISIBLE
+)
+
+func _ready() -> void:
+	_player = get_node_or_null(
+		player_path
+	) as ShelterPlayer
+
+	_edit_mode_controller = get_node_or_null(
+	edit_mode_controller_path
+)
+
+	root_ui.visible = false
+
+	weapon_list.item_selected.connect(
+		_on_item_selected
+	)
+
+	weapon_list.item_activated.connect(
+		_on_item_activated
+	)
+
+	InventoryManager.inventory_changed.connect(
+		_on_inventory_changed
+	)
+
+	_clear_details()
+
+	_validate_references()
+
+func _exit_tree() -> void:
+	if not _is_open:
+		return
+
+	if is_instance_valid(_player):
+		_player.set_movement_enabled(
+			true
+		)
+
+	Input.mouse_mode = (
+		_previous_mouse_mode
+	)
+
+func _notification(
+	what: int
+) -> void:
+	if not _is_open:
+		return
+
+	if (
+		what
+		== NOTIFICATION_WM_WINDOW_FOCUS_OUT
+		or what
+		== NOTIFICATION_APPLICATION_FOCUS_OUT
+	):
+		close_inventory()
+
+# Input
+#
+# 使用 _unhandled_key_input：
+#
+# 先让 ItemList 处理 ↑↓，
+# 然后再阻断其它 Shelter 世界输入。
+
+func _unhandled_key_input(
+	event: InputEvent
+) -> void:
+	if not event is InputEventKey:
+		return
+
+	var key_event := (
+		event as InputEventKey
+	)
+
+	if not key_event.pressed:
+		return
+
+	if key_event.echo:
+		return
+
+	if _is_open:
+		if (
+			key_event.keycode
+			== open_key
+			or key_event.keycode
+			== KEY_ESCAPE
+		):
+			close_inventory()
+
+		elif (
+			key_event.keycode
+			== KEY_ENTER
+		):
+			_activate_current_selection()
+
+		# 背包开启期间，
+		# 不让 E / Ctrl / F2 等继续进入
+		# Shelter 世界逻辑。
+		get_viewport().set_input_as_handled()
+
+		return
+
+	if key_event.keycode == open_key:
+		if open_inventory():
+			get_viewport().set_input_as_handled()
+
+# Public API
+
+func open_inventory() -> bool:
+	if _is_open:
+		return true
+
+	if SaveManager.current_save.is_empty():
+		push_warning(
+			"ShelterInventoryUI: 当前没有加载存档。"
+		)
+		return false
+
+	# 建造状态下不允许打开角色背包。
+	#
+	# EditModeController 当前约定：
+	# 0 = NONE
+	# 1 = FACILITY_BUILD
+	# 2 = ROOM_LAYOUT
+	#
+	# 这里通过实例公开方法读取状态，
+	# 不让 Inventory UI 静态依赖建造控制器的 class_name。
+	if _edit_mode_controller != null:
+		if _edit_mode_controller.has_method(
+			"get_mode"
+		):
+			var edit_mode: int = int(
+				_edit_mode_controller.call(
+					"get_mode"
+				)
+			)
+
+			if edit_mode != 0:
+				return false
+
+	_is_open = true
+
+	_previous_mouse_mode = (
+		Input.mouse_mode
+	)
+
+	Input.mouse_mode = (
+		Input.MOUSE_MODE_VISIBLE
+	)
+
+	if _player != null:
+		_player.set_movement_enabled(
+			false
+		)
+
+	root_ui.visible = true
+
+	refresh()
+
+	weapon_list.grab_focus()
+
+	inventory_opened_changed.emit(
+		true
+	)
+
+	return true
+
+func close_inventory() -> void:
+	if not _is_open:
+		return
+
+	_is_open = false
+
+	root_ui.visible = false
+
+	weapon_list.release_focus()
+
+	if _player != null:
+		_player.set_movement_enabled(
+			true
+		)
+
+	Input.mouse_mode = (
+		_previous_mouse_mode
+	)
+
+	inventory_opened_changed.emit(
+		false
+	)
+
+func toggle_inventory() -> void:
+	if _is_open:
+		close_inventory()
+	else:
+		open_inventory()
+
+func is_inventory_open() -> bool:
+	return _is_open
+
+func refresh() -> void:
+	_refresh_weapon_list(
+		_selected_uid
+	)
+
+# Weapon List
+
+func _refresh_weapon_list(
+	preferred_uid: String = ""
+) -> void:
+	weapon_list.clear()
+
+	var weapons: Array = (
+		InventoryManager.get_character_weapons()
+	)
+
+	if weapons.is_empty():
+		_selected_uid = ""
+
+		weapon_list.add_item(
+			"（没有携带武器）"
+		)
+
+		weapon_list.set_item_disabled(
+			0,
+			true
+		)
+
+		_clear_details()
+
+		operation_guide.text = (
+			"I / Esc 关闭"
+		)
+
+		return
+
+	var target_index: int = -1
+
+	for item in weapons:
+		var uid: String = str(
+			item.get(
+				"uid",
+				""
+			)
+		)
+
+		var template_id: String = str(
+			item.get(
+				"template_id",
+				""
+			)
+		)
+
+		var static_data: Dictionary = (
+			ItemDatabaseManager.get_item_data(
+				template_id
+			)
+		)
+
+		var display_name: String = (
+			_get_weapon_display_name(
+				static_data,
+				template_id
+			)
+		)
+
+		var equipped: bool = (
+			InventoryManager.is_weapon_equipped(
+				uid
+			)
+		)
+
+		var prefix: String = (
+			"◆ "
+			if equipped
+			else "　"
+		)
+
+		var index: int = (
+			weapon_list.item_count
+		)
+
+		weapon_list.add_item(
+			prefix + display_name
+		)
+
+		weapon_list.set_item_metadata(
+			index,
+			uid
+		)
+
+		if uid == preferred_uid:
+			target_index = index
+
+	if target_index < 0:
+		target_index = 0
+
+	weapon_list.select(
+		target_index
+	)
+
+	weapon_list.ensure_current_is_visible()
+
+	_on_item_selected(
+		target_index
+	)
+
+func _on_item_selected(
+	index: int
+) -> void:
+	if (
+		index < 0
+		or index
+		>= weapon_list.item_count
+	):
+		return
+
+	var metadata: Variant = (
+		weapon_list.get_item_metadata(
+			index
+		)
+	)
+
+	if metadata == null:
+		_clear_details()
+		return
+
+	var uid: String = str(metadata)
+
+	if uid.is_empty():
+		_clear_details()
+		return
+
+	_selected_uid = uid
+
+	_show_weapon(
+		uid
+	)
+
+func _on_item_activated(
+	index: int
+) -> void:
+	_on_item_selected(
+		index
+	)
+
+	_toggle_selected_weapon()
+
+func _activate_current_selection() -> void:
+	var selected_items: PackedInt32Array = (
+		weapon_list.get_selected_items()
+	)
+
+	if selected_items.is_empty():
+		return
+
+	_on_item_selected(
+		selected_items[0]
+	)
+
+	_toggle_selected_weapon()
+
+func _toggle_selected_weapon() -> void:
+	if _selected_uid.is_empty():
+		return
+
+	if InventoryManager.is_weapon_equipped(
+		_selected_uid
+	):
+		InventoryManager.unequip_weapon(
+			_selected_uid
+		)
+
+	else:
+		InventoryManager.equip_weapon(
+			_selected_uid,
+			1
+		)
+
+# Details
+
+func _show_weapon(
+	uid: String
+) -> void:
+	var item: Dictionary = (
+		InventoryManager.get_item_by_uid(
+			uid
+		)
+	)
+
+	if item.is_empty():
+		_clear_details()
+		return
+
+	var template_id: String = str(
+		item.get(
+			"template_id",
+			""
+		)
+	)
+
+	var static_data: Dictionary = (
+		ItemDatabaseManager.get_item_data(
+			template_id
+		)
+	)
+
+	weapon_name_label.text = (
+		_get_weapon_display_name(
+			static_data,
+			template_id
+		)
+	)
+
+	var description_key: String = str(
+		static_data.get(
+			"desc",
+			""
+		)
+	)
+
+	if description_key.is_empty():
+		description_label.text = (
+			"暂无描述"
+		)
+	else:
+		description_label.text = (
+			tr(description_key)
+		)
+
+	var weapon_type: String = str(
+		static_data.get(
+			"wep_type",
+			"—"
+		)
+	)
+
+	var card_count: int = 0
+
+	var cards: Variant = static_data.get(
+		"default_cards",
+		[]
+	)
+
+	if cards is Array:
+		card_count = cards.size()
+
+	var equipped: bool = (
+		InventoryManager.is_weapon_equipped(
+			uid
+		)
+	)
+
+	var status_text: String = (
+		"已装备"
+		if equipped
+		else "角色背包"
+	)
+
+	stats_label.text = (
+		"状态：%s\n"
+		+ "武器类型：%s\n"
+		+ "牌组卡牌数：%d\n"
+		+ "模板 ID：%s"
+	) % [
+		status_text,
+		weapon_type,
+		card_count,
+		template_id
+	]
+
+	_refresh_preview(
+		static_data
+	)
+
+	if equipped:
+		operation_guide.text = (
+			"↑ / ↓ 选择    "
+			+ "Enter 卸下    "
+			+ "I / Esc 关闭"
+		)
+
+	else:
+		operation_guide.text = (
+			"↑ / ↓ 选择    "
+			+ "Enter 装备    "
+			+ "I / Esc 关闭"
+		)
+
+func _refresh_preview(
+	static_data: Dictionary
+) -> void:
+	preview_texture.texture = null
+	preview_texture.visible = false
+
+	preview_placeholder.visible = true
+
+	var preview_path: String = str(
+		static_data.get(
+			"preview_texture",
+			""
+		)
+	).strip_edges()
+
+	if preview_path.is_empty():
+		return
+
+	if not ResourceLoader.exists(
+		preview_path
+	):
+		push_warning(
+			"ShelterInventoryUI: 找不到预览图片 -> "
+			+ preview_path
+		)
+		return
+
+	var resource: Resource = load(
+		preview_path
+	)
+
+	if not resource is Texture2D:
+		push_warning(
+			"ShelterInventoryUI: preview_texture 不是 Texture2D -> "
+			+ preview_path
+		)
+		return
+
+	preview_texture.texture = (
+		resource as Texture2D
+	)
+
+	preview_texture.visible = true
+
+	preview_placeholder.visible = false
+
+func _clear_details() -> void:
+	_selected_uid = ""
+
+	weapon_name_label.text = "—"
+
+	description_label.text = (
+		"请选择武器。"
+	)
+
+	stats_label.text = "—"
+
+	preview_texture.texture = null
+	preview_texture.visible = false
+
+	preview_placeholder.visible = true
+
+func _get_weapon_display_name(
+	static_data: Dictionary,
+	fallback: String
+) -> String:
+	var name_key: String = str(
+		static_data.get(
+			"name_key",
+			""
+		)
+	)
+
+	if name_key.is_empty():
+		return fallback
+
+	return tr(name_key)
+
+func _on_inventory_changed() -> void:
+	if not _is_open:
+		return
+
+	refresh()
+
+# Validation
+
+func _validate_references() -> void:
+	if _player == null:
+		push_warning(
+			"ShelterInventoryUI: 找不到 ShelterPlayer。"
+		)
+
+	if _edit_mode_controller == null:
+		push_warning(
+			"ShelterInventoryUI: 找不到 EditModeController。"
 		)
 ```
 
@@ -21595,14 +23064,14 @@ layout_mode = 1
 
 ### `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
 
-- Category: `scene`; bytes: `3129`; sha256/16: `b640b0de9b1dd755`
+- Category: `scene`; bytes: `3168`; sha256/16: `443f33aea349a4f8`
 
 
 ```ini
 [gd_scene load_steps=5 format=3 uid="uid://b5bqwwplbqjgj"]
 
 [ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/Card_Scene/Scripts/card_base.gd" id="1_avhnj"]
-[ext_resource type="Texture2D" uid="uid://bhnoaskhsxfec" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png" id="2_i0dxh"]
+[ext_resource type="Texture2D" uid="uid://vpkeqft8exb8" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png" id="2_i0dxh"]
 [ext_resource type="FontFile" uid="uid://bo0ngvdd2ivvx" path="res://Arts/Fort/OldWizard.ttf" id="3_i0dxh"]
 
 [sub_resource type="Environment" id="Environment_i0dxh"]
@@ -21655,6 +23124,7 @@ grow_horizontal = 2
 [node name="MarginContainer" type="MarginContainer" parent="Visuals/Background/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_bottom = -10
 
 [node name="CostLable" type="Label" parent="Visuals/Background/VBoxContainer/MarginContainer"]
@@ -22196,11 +23666,11 @@ script = ExtResource("8_twcx6")
 
 ### `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`
 
-- Category: `scene`; bytes: `2993556`; sha256/16: `a948723f1d0770b2`
+- Category: `scene`; bytes: `2994141`; sha256/16: `bac8f70fe08c3fed`
 
 
 ```ini
-[gd_scene load_steps=76 format=3 uid="uid://88hhvx6dcosd"]
+[gd_scene load_steps=77 format=3 uid="uid://88hhvx6dcosd"]
 
 [ext_resource type="Script" uid="uid://c54j4fo1s45o8" path="res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd" id="1_1w3nq"]
 [ext_resource type="PackedScene" uid="uid://dbxostai38qc3" path="res://Scene/Dungeon_Player_Scene(3D)/ual_1_standard.tscn" id="2_1w3nq"]
@@ -23177,9 +24647,9 @@ tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = PackedFloat32Array(0, 1, 0.113875, -0.00529654, -8.04663e-07, 0.993481, 0.133333, 1, 0.114912, -0.00534473, -8.34465e-07, 0.993361, 0.2, 1, 0.116132, -0.00540154, -7.7486e-07, 0.993219, 0.266667, 1, 0.117754, -0.00547695, -7.7486e-07, 0.993028, 0.333333
 
-# ... 2,853,556 characters omitted by exporter ...
+# ... 2,854,141 characters omitted by exporter ...
 
-1, -0.000623067, 0.859079, -0.511841, -0.00128022, 0.266667, 1, 0.000517191, 0.812734, -0.582634, 0.000528617, 0.3, 1, 0.00226789, 0.772135, -0.635449, 0.00260374, 0.333333, 1, 0.00432186, 0.744124, -0.668011, 0.00469913, 0.366667, 1, 0.00616946, 0.733851, -0.67925, 0.00657912, 0.4, 1, 0.00734211, 0.741661, -0.670686, 0.00805136, 0.433333, 1, 0.00758342, 0.765411, -0.643435, 0.00896055, 0.466667, 1, 0.00693262, 0.801196, -0.598291, 0.00922033, 0.5, 1, 0.00564359, 0.844643, -0.535227, 0.00883227, 0.533333, 1, 0.00405414, 0.890895, -0.454124, 0.00786508, 0.566667, 1, 0.00249738, 0.934275, -0.356486, 0.00644288, 0.6, 1, 0.00121833, 0.9695, -0.245044, 0.00470995, 0.633333, 1, 0.000375972, 0.992012, -0.126108, 0.00286013, 0.666667, 1, 7.52129e-05, 0.99895, -0.0457808, 0.00162943, 0.7, 1, 0.000394123, 0.990841, -0.135008, 0.00278107, 0.733333, 1, 0.000602288, 0.983838, -0.179032, 0.003182, 0.766667, 1, 0.000700985, 0.978789, -0.204842, 0.00320924, 0.8, 1, 0.000703459, 0.975664, -0.219248, 0.00297675, 0.833333, 1, 0.000636657, 0.973993, -0.226563, 0.00256792, 0.866667, 1, 0.0005268, 0.973221, -0.229861, 0.00204426, 0.9, 1, 0.000389889, 0.973136, -0.230224, 0.00144302, 0.933333, 1, 0.000241261, 0.973347, -0.229338, 0.000798919, 0.966667, 1, 8.95067e-05, 0.973457, -0.228869, 0.000134874, 1, 1, -6.46558e-05, 0.973082, -0.230459, -0.000539708, 1.03333, 1, -0.000227039, 0.971994, -0.235004, -0.00122596, 1.06667, 1, -0.000399386, 0.970542, -0.240923, -0.00191517, 1.1, 1, -0.000573245, 0.969205, -0.246242, -0.00258012, 1.13333, 1, -0.000728666, 0.968541, -0.248832, -0.00317659, 1.16667, 1, -0.000841222, 0.969037, -0.246889, -0.00365703, 1.2, 1, -0.000882248, 0.971191, -0.23827, -0.00396497, 1.23333, 1, -0.000826176, 0.975393, -0.220433, -0.00403763, 1.26667, 1, -0.000651791, 0.982025, -0.188711, -0.00378738, 1.3, 1, -0.000352304, 0.991168, -0.132575, -0.00305341, 1.33333, 1, 1.50953e-05, 0.999423, 0.0339479, -0.000586055)
+.934275, -0.356486, 0.00644288, 0.6, 1, 0.00121833, 0.9695, -0.245044, 0.00470995, 0.633333, 1, 0.000375972, 0.992012, -0.126108, 0.00286013, 0.666667, 1, 7.52129e-05, 0.99895, -0.0457808, 0.00162943, 0.7, 1, 0.000394123, 0.990841, -0.135008, 0.00278107, 0.733333, 1, 0.000602288, 0.983838, -0.179032, 0.003182, 0.766667, 1, 0.000700985, 0.978789, -0.204842, 0.00320924, 0.8, 1, 0.000703459, 0.975664, -0.219248, 0.00297675, 0.833333, 1, 0.000636657, 0.973993, -0.226563, 0.00256792, 0.866667, 1, 0.0005268, 0.973221, -0.229861, 0.00204426, 0.9, 1, 0.000389889, 0.973136, -0.230224, 0.00144302, 0.933333, 1, 0.000241261, 0.973347, -0.229338, 0.000798919, 0.966667, 1, 8.95067e-05, 0.973457, -0.228869, 0.000134874, 1, 1, -6.46558e-05, 0.973082, -0.230459, -0.000539708, 1.03333, 1, -0.000227039, 0.971994, -0.235004, -0.00122596, 1.06667, 1, -0.000399386, 0.970542, -0.240923, -0.00191517, 1.1, 1, -0.000573245, 0.969205, -0.246242, -0.00258012, 1.13333, 1, -0.000728666, 0.968541, -0.248832, -0.00317659, 1.16667, 1, -0.000841222, 0.969037, -0.246889, -0.00365703, 1.2, 1, -0.000882248, 0.971191, -0.23827, -0.00396497, 1.23333, 1, -0.000826176, 0.975393, -0.220433, -0.00403763, 1.26667, 1, -0.000651791, 0.982025, -0.188711, -0.00378738, 1.3, 1, -0.000352304, 0.991168, -0.132575, -0.00305341, 1.33333, 1, 1.50953e-05, 0.999423, 0.0339479, -0.000586055)
 tracks/57/type = "rotation_3d"
 tracks/57/imported = true
 tracks/57/enabled = true
@@ -23318,6 +24788,9 @@ nodes/Transition/position = Vector2(120, 306.667)
 nodes/output/position = Vector2(653.333, 133.333)
 node_connections = [&"OneShot", 0, &"StateMachine", &"OneShot", 1, &"Transition", &"Transition", 0, &"Hook", &"output", 0, &"OneShot"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_l00oi"]
+size = Vector3(0.762207, 1.78033, 0.953003)
+
 [node name="Player3d" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_1w3nq")
 
@@ -23331,15 +24804,15 @@ transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0, 0, 0)
 [node name="UAL1_Standard" parent="PlayerPoint" instance=ExtResource("2_1w3nq")]
 
 [node name="GeneralSkeleton" parent="PlayerPoint/UAL1_Standard/Armature" index="0"]
-bones/1/position = Vector3(0.00533977, 0.877099, -0.0866043)
-bones/1/rotation = Quaternion(-0.0454628, -0.115893, -0.0053102, 0.992207)
-bones/3/rotation = Quaternion(0.0912412, 0.000112314, 0.000254535, 0.995829)
-bones/4/rotation = Quaternion(0.091242, 0.000319625, 0.000247951, 0.995829)
-bones/5/rotation = Quaternion(-0.0912421, -0.000216261, -0.000260727, 0.995829)
-bones/6/rotation = Quaternion(0.0806473, 0.0957263, 0.00789842, 0.992104)
-bones/7/rotation = Quaternion(0.487641, 0.526561, 0.526432, -0.45586)
-bones/8/rotation = Quaternion(-0.0617382, 0.817755, -0.572162, 0.00980014)
-bones/9/rotation = Quaternion(0.191343, -0.650985, 0.184478, 0.711037)
+bones/1/position = Vector3(0.0038717, 0.871013, -0.0880053)
+bones/1/rotation = Quaternion(-0.0351888, -0.115942, -0.00411018, 0.992624)
+bones/3/rotation = Quaternion(0.100706, 0.000114859, 0.000249445, 0.994916)
+bones/4/rotation = Quaternion(0.100706, 0.00032725, 0.000242697, 0.994916)
+bones/5/rotation = Quaternion(-0.100706, -0.000221373, -0.000256801, 0.994916)
+bones/6/rotation = Quaternion(0.0560151, 0.0956818, 0.00839515, 0.993799)
+bones/7/rotation = Quaternion(0.499208, 0.522556, 0.52999, -0.443664)
+bones/8/rotation = Quaternion(-0.0252799, 0.823599, -0.566526, 0.00970354)
+bones/9/rotation = Quaternion(0.174483, -0.677103, 0.18122, 0.691554)
 bones/10/rotation = Quaternion(0.0991302, 0.706866, 0.0629003, 0.697536)
 bones/11/rotation = Quaternion(0.629597, -4.09782e-08, -4.61936e-06, 0.776922)
 bones/12/rotation = Quaternion(0.623342, 2.98023e-08, -4.26173e-06, 0.781949)
@@ -23357,9 +24830,9 @@ bones/27/rotation = Quaternion(-0.123819, 0.719523, 0.201835, 0.652853)
 bones/28/rotation = Quaternion(0.181807, 0.110124, 0.0600633, 0.975301)
 bones/29/rotation = Quaternion(0.59943, 0.273966, 0.194632, 0.726461)
 bones/30/scale = Vector3(1.00015, 1.00049, 1.00058)
-bones/31/rotation = Quaternion(0.539879, -0.474454, -0.474733, -0.507989)
-bones/32/rotation = Quaternion(0.0907331, 0.82494, -0.557809, -0.00955422)
-bones/33/rotation = Quaternion(0.292423, 0.541877, -0.204537, 0.760936)
+bones/31/rotation = Quaternion(0.551227, -0.471838, -0.476938, -0.496032)
+bones/32/rotation = Quaternion(0.0623605, 0.820209, -0.568572, -0.00973849)
+bones/33/rotation = Quaternion(0.287528, 0.558536, -0.211175, 0.748846)
 bones/34/rotation = Quaternion(0.12025, -0.699031, -0.0568901, 0.702609)
 bones/35/rotation = Quaternion(0.629597, 3.72529e-08, 4.17233e-06, 0.776922)
 bones/36/rotation = Quaternion(0.623342, 1.82539e-07, 4.47035e-06, 0.78195)
@@ -23381,13 +24854,13 @@ bones/51/rotation = Quaternion(-0.123819, -0.719523, -0.201836, 0.652853)
 bones/52/rotation = Quaternion(0.181807, -0.110124, -0.0600633, 0.975301)
 bones/53/rotation = Quaternion(0.59943, -0.273965, -0.194632, 0.726461)
 bones/54/scale = Vector3(1.00015, 1.00049, 1.00058)
-bones/55/rotation = Quaternion(-0.000778701, 0.123436, 0.986088, -0.111329)
-bones/56/rotation = Quaternion(0.0164382, 0.98212, -0.149854, 0.11276)
-bones/57/rotation = Quaternion(-0.094513, 0.728998, -0.677931, 0.00627674)
+bones/55/rotation = Quaternion(-0.000820333, 0.154163, 0.98106, -0.117282)
+bones/56/rotation = Quaternion(0.0205041, 0.975776, -0.187699, 0.1105)
+bones/57/rotation = Quaternion(-0.0952783, 0.717075, -0.690424, 0.00633658)
 bones/58/rotation = Quaternion(4.66486e-08, 1, 5.96046e-08, 2.77669e-08)
-bones/60/rotation = Quaternion(0.000810419, -0.108636, 0.987306, 0.115868)
-bones/61/rotation = Quaternion(-0.0292858, 0.928867, -0.0821714, -0.359995)
-bones/62/rotation = Quaternion(0.171525, 0.646412, -0.743454, -0.0027009)
+bones/60/rotation = Quaternion(0.000946674, -0.076511, 0.987839, 0.135346)
+bones/61/rotation = Quaternion(-0.0493612, 0.92407, -0.135572, -0.353947)
+bones/62/rotation = Quaternion(0.171025, 0.624961, -0.76169, 0.00148226)
 bones/63/rotation = Quaternion(-6.70326e-08, 1, 8.9407e-08, 2.14542e-09)
 
 [node name="AnimationPlayer" parent="PlayerPoint/UAL1_Standard" index="1"]
@@ -23458,6 +24931,16 @@ script = ExtResource("4_8gr0g")
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -4.082)
+
+[node name="InteractionArea" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017334, 0.899017, 0.22646)
+shape = SubResource("BoxShape3D_l00oi")
+
+[connection signal="area_entered" from="InteractionArea" to="." method="_on_interaction_area_area_entered"]
+[connection signal="area_exited" from="InteractionArea" to="." method="_on_interaction_area_area_exited"]
 
 [editable path="PlayerPoint/UAL1_Standard"]
 ```
@@ -24948,11 +26431,11 @@ shape = SubResource("RectangleShape2D_pn33w")
 
 ### `res://Scene/DungeonScene/world.tscn`
 
-- Category: `scene`; bytes: `1355`; sha256/16: `31ab5369b2ef3851`
+- Category: `scene`; bytes: `1758`; sha256/16: `d0ea35f5c4be0d1a`
 
 
 ```ini
-[gd_scene load_steps=7 format=3 uid="uid://bwljaaods183o"]
+[gd_scene load_steps=9 format=3 uid="uid://bwljaaods183o"]
 
 [ext_resource type="Script" uid="uid://c3n5srm1pr6k0" path="res://Scene/DungeonScenes(3D)/Manager/map_manager.gd" id="1_83hb5"]
 [ext_resource type="PackedScene" uid="uid://bsdjs57ymg03n" path="res://Scene/DungeonScenes(3D)/TestScence2.tscn" id="2_5ndfk"]
@@ -24960,6 +26443,8 @@ shape = SubResource("RectangleShape2D_pn33w")
 [ext_resource type="PackedScene" uid="uid://dwf7eo5717q2s" path="res://Scene/UI/world_interactionUI.tscn" id="2_qyo7k"]
 [ext_resource type="PackedScene" uid="uid://eirjqi3byf6r" path="res://Scene/Search_system/Script/UI/search_ui.tscn" id="5_na8fq"]
 [ext_resource type="Script" uid="uid://dw6akaho7j05b" path="res://Scene/Search_system/Script/search_UI.gd" id="6_h6bmn"]
+[ext_resource type="PackedScene" uid="uid://cyi0fqi0624qh" path="res://Scene/Search_system/Script/UI/inventory_ui.tscn" id="7_g7ais"]
+[ext_resource type="Script" uid="uid://fl6legvkghit" path="res://Scene/Search_system/Script/inventory_ui.gd" id="8_4tus6"]
 
 [node name="World" type="Node3D"]
 
@@ -24977,47 +26462,51 @@ room_scene = ExtResource("2_5ndfk")
 [node name="SearchUI" parent="UILayer" instance=ExtResource("5_na8fq")]
 script = ExtResource("6_h6bmn")
 
+[node name="InventoryUI" parent="UILayer" instance=ExtResource("7_g7ais")]
+script = ExtResource("8_4tus6")
+
 [editable path="UILayer/SearchUI"]
+[editable path="UILayer/InventoryUI"]
 ```
 
 
 ### `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`
 
-- Category: `scene`; bytes: `1439`; sha256/16: `6c72dce1e5166e18`
+- Category: `scene`; bytes: `1352`; sha256/16: `210775fe872c58d9`
 
 
 ```ini
 [gd_scene load_steps=5 format=3 uid="uid://diyjv03ndijqc"]
 
 [ext_resource type="PackedScene" uid="uid://fwefggmfu5qi" path="res://Scene/DungeonScenes(3D)/Interative Items/Box/file_cabinet_smallest_2.tscn" id="1_1rxul"]
-[ext_resource type="Script" uid="uid://cfs3d5l0vw2xe" path="res://Scene/DungeonScenes(3D)/Interative Items/Box/box.gd" id="1_ojoop"]
+[ext_resource type="Script" uid="uid://dkuohusdcihfv" path="res://Scene/Search_system/Script/Data/interactable_object.gd" id="1_ojoop"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ojoop"]
-size = Vector3(0.732422, 1.05273, 0.782837)
+size = Vector3(0.75592, 1.04248, 0.804688)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iy2re"]
 size = Vector3(0.733337, 1.05164, 1)
 
-[node name="Box" type="StaticBody3D"]
-script = ExtResource("1_ojoop")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00683594, 0.537681, -0.000183105)
-shape = SubResource("BoxShape3D_ojoop")
+[node name="Box" type="Node3D"]
 
 [node name="ModelPoint" type="Node3D" parent="."]
 
 [node name="file_cabinet_smallest2" parent="ModelPoint" instance=ExtResource("1_1rxul")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00595093, 0.548584, 0)
+shape = SubResource("BoxShape3D_ojoop")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+collision_layer = 2
+script = ExtResource("1_ojoop")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00332642, 0.527178, 0.382287)
 shape = SubResource("BoxShape3D_iy2re")
-
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
 ```
 
 
@@ -25565,6 +27054,29 @@ mouse_filter = 2
 ```
 
 
+### `res://Scene/Search_system/Script/UI/inventory_ui.tscn`
+
+- Category: `scene`; bytes: `309`; sha256/16: `36d65075fb449e5d`
+
+
+```ini
+[gd_scene format=3 uid="uid://cyi0fqi0624qh"]
+
+[node name="InventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+```
+
+
 ### `res://Scene/Search_system/Script/UI/search_ui.tscn`
 
 - Category: `scene`; bytes: `305`; sha256/16: `5a81be53b63b5218`
@@ -25590,7 +27102,7 @@ offset_bottom = 40.0
 
 ### `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 
-- Category: `scene`; bytes: `1042`; sha256/16: `45a5eb886aba4f1a`
+- Category: `scene`; bytes: `4940`; sha256/16: `947620edcb841a32`
 
 
 ```ini
@@ -25615,6 +27127,59 @@ shape = SubResource("CapsuleShape3D_weivt")
 [node name="VisualRoot" type="Node3D" parent="."]
 
 [node name="ShelterPlayerVisual" parent="VisualRoot" instance=ExtResource("1_weivt")]
+
+[node name="Skeleton3D" parent="VisualRoot/ShelterPlayerVisual/Armature" index="0"]
+bones/1/position = Vector3(-0.0164474, 0.0743416, 0.924117)
+bones/1/rotation = Quaternion(0.8947, 0.0318451, -0.027572, 0.444676)
+bones/3/rotation = Quaternion(0.0730027, -0.0588096, 0.0676196, 0.993297)
+bones/4/rotation = Quaternion(0.140142, -0.198847, -0.0140452, 0.969857)
+bones/5/rotation = Quaternion(-0.0361498, 0.131406, -0.00803324, 0.990637)
+bones/6/rotation = Quaternion(-0.241151, 0.131289, -0.00976328, 0.961517)
+bones/7/rotation = Quaternion(-0.604021, -0.345103, -0.356718, 0.623551)
+bones/8/rotation = Quaternion(-0.0125571, 0.673496, -0.508945, 0.53593)
+bones/9/rotation = Quaternion(0.678367, -0.171157, 0.240725, 0.672737)
+bones/10/rotation = Quaternion(0.116709, -0.0029166, -0.0447786, 0.992152)
+bones/11/rotation = Quaternion(0.445191, 0.549369, -0.445194, 0.549365)
+bones/12/rotation = Quaternion(0.623341, -1.05991e-07, 4.63123e-08, 0.78195)
+bones/13/rotation = Quaternion(0.623342, -6.16356e-08, -1.78655e-08, 0.781949)
+bones/16/rotation = Quaternion(0.623341, 0.000943349, 0.00118348, 0.781948)
+bones/17/rotation = Quaternion(0.623341, -0.000704237, -0.000883234, 0.78195)
+bones/19/rotation = Quaternion(0.504057, 0.511541, -0.435152, 0.543042)
+bones/20/rotation = Quaternion(0.623163, -0.0200614, 0.0149256, 0.781692)
+bones/21/rotation = Quaternion(0.623341, 0.000379746, 0.000476578, 0.78195)
+bones/24/rotation = Quaternion(0.623341, 7.59625e-06, 9.6397e-06, 0.78195)
+bones/25/rotation = Quaternion(0.623341, -0.000665256, -0.000834452, 0.781949)
+bones/28/rotation = Quaternion(0.21939, 0.0238026, -0.00530492, 0.975332)
+bones/29/rotation = Quaternion(0.687388, -0.000309244, -0.000444612, 0.726291)
+bones/31/rotation = Quaternion(-0.618719, 0.317998, 0.328736, 0.638745)
+bones/32/rotation = Quaternion(-0.18199, -0.701374, 0.42719, 0.540799)
+bones/33/rotation = Quaternion(0.660109, -0.0239724, 0.082462, 0.746245)
+bones/34/rotation = Quaternion(0.190622, -0.0391292, 0.0456102, 0.979822)
+bones/35/rotation = Quaternion(0.445191, -0.549369, 0.445194, 0.549364)
+bones/36/rotation = Quaternion(0.623341, 3.64014e-07, -2.65981e-07, 0.78195)
+bones/37/rotation = Quaternion(0.623342, 4.31747e-07, 6.52088e-08, 0.781949)
+bones/38/rotation = Quaternion(-1.86265e-09, 1, 6.78718e-15, -3.65643e-06)
+bones/40/rotation = Quaternion(0.623341, -0.000943222, -0.00118367, 0.781949)
+bones/41/rotation = Quaternion(0.623341, 0.000704097, 0.000883691, 0.781949)
+bones/42/rotation = Quaternion(-2.23518e-08, 1, -9.31314e-09, -3.64433e-06)
+bones/44/rotation = Quaternion(0.623163, 0.0200616, -0.0149257, 0.781692)
+bones/45/rotation = Quaternion(0.623342, -0.00037968, -0.000476488, 0.781949)
+bones/46/rotation = Quaternion(-2.09548e-08, 1, -5.58792e-09, -3.65178e-06)
+bones/47/rotation = Quaternion(0.43534, -0.541356, 0.454904, 0.557203)
+bones/48/rotation = Quaternion(0.623341, -7.28623e-06, -9.43995e-06, 0.78195)
+bones/49/rotation = Quaternion(0.623341, 0.000665381, 0.000834147, 0.781949)
+bones/50/rotation = Quaternion(-3.7253e-09, 1, -1.86264e-09, -3.64619e-06)
+bones/51/rotation = Quaternion(-0.290839, 0.949649, 0.114583, -0.0212169)
+bones/52/rotation = Quaternion(0.21939, -0.0238026, 0.00530547, 0.975332)
+bones/53/rotation = Quaternion(0.687388, 0.000308565, 0.000444695, 0.72629)
+bones/55/rotation = Quaternion(0.990635, 0.0456993, -0.00563459, 0.128539)
+bones/56/rotation = Quaternion(0.512494, 0.0120858, -0.00731765, 0.858574)
+bones/57/rotation = Quaternion(-0.413365, -0.00929484, 0.0119577, 0.910439)
+bones/58/rotation = Quaternion(-0.000137137, 0.964307, -0.264787, -0.000499377)
+bones/60/rotation = Quaternion(0.693007, 0.0299414, -0.00369169, 0.720299)
+bones/61/rotation = Quaternion(0.303479, 0.0077056, -0.00267427, 0.952803)
+bones/62/rotation = Quaternion(-0.47112, 0.00712014, 0.0142024, 0.881926)
+bones/63/rotation = Quaternion(-0.000137133, 0.964307, -0.264787, -0.000499395)
 
 [editable path="VisualRoot/ShelterPlayerVisual"]
 ```
@@ -25694,11 +27259,11 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 
 ### `res://Scene/Shelter_Scene/shelter.tscn`
 
-- Category: `scene`; bytes: `10877`; sha256/16: `5b299aae2e773ebf`
+- Category: `scene`; bytes: `11088`; sha256/16: `1ce747bdab2a7386`
 
 
 ```ini
-[gd_scene load_steps=20 format=3 uid="uid://bvvhcw3cmlmkh"]
+[gd_scene load_steps=21 format=3 uid="uid://bvvhcw3cmlmkh"]
 
 [ext_resource type="Script" uid="uid://bj2gdgqfb3c2s" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd" id="1_11o6b"]
 [ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_syccu"]
@@ -25712,6 +27277,7 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 [ext_resource type="Script" uid="uid://xp5gm38wnas" path="res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd" id="10_twju8"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_6667d"]
 [ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="11_dtnd1"]
+[ext_resource type="PackedScene" uid="uid://c6hifpw14wnnp" path="res://Scene/Shelter_Scene/shelter_inventory_ui.tscn" id="13_yp273"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_twju8"]
 size = Vector3(32, 0.2, 2)
@@ -25910,8 +27476,293 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="ShelterInventoryUI" parent="." instance=ExtResource("13_yp273")]
+
 [editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer"]
 [editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer/VisualRoot/ShelterPlayerVisual"]
+```
+
+
+### `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`
+
+- Category: `scene`; bytes: `9482`; sha256/16: `c1eb468b244f3fdb`
+
+
+```ini
+[gd_scene load_steps=5 format=3 uid="uid://c6hifpw14wnnp"]
+
+[ext_resource type="Script" uid="uid://087r6rtep3sb" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleHeader"]
+bg_color = Color(0.15, 0.145, 0.125, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.78, 0.75, 0.64, 0.8)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StylePanel"]
+bg_color = Color(0.075, 0.073, 0.064, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.69, 0.58, 0.7)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="ShelterInventoryUI" type="CanvasLayer"]
+layer = 60
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Background" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.025, 0.024, 0.021, 0.92)
+
+[node name="MainMargin" type="MarginContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="Root/MainMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleHeader")
+
+[node name="HeaderMargin" type="MarginContainer" parent="Root/MainMargin/MainVBox/HeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="Title" type="Label" parent="Root/MainMargin/MainVBox/HeaderPanel/HeaderMargin"]
+layout_mode = 2
+text = "物品 - 全部"
+vertical_alignment = 1
+
+[node name="Body" type="HBoxContainer" parent="Root/MainMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="CategoryPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/CategoryPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CategoryTitle" type="Label" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin/VBox"]
+layout_mode = 2
+text = "分类"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="All" type="Label" parent="Root/MainMargin/MainVBox/Body/CategoryPanel/Margin/VBox"]
+layout_mode = 2
+text = "▶ 全部"
+
+[node name="ItemPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/ItemPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ItemTitle" type="Label" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin/VBox"]
+layout_mode = 2
+text = "武器"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="WeaponList" type="ItemList" parent="Root/MainMargin/MainVBox/Body/ItemPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+allow_reselect = true
+
+[node name="CenterVBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="PreviewPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="PreviewMargin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="PreviewHost" type="Control" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel/PreviewMargin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PreviewTexture" type="TextureRect" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel/PreviewMargin/PreviewHost"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PreviewPlaceholder" type="Label" parent="Root/MainMargin/MainVBox/Body/CenterVBox/PreviewPanel/PreviewMargin/PreviewHost"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "武器预览（占位）"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescriptionPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox"]
+custom_minimum_size = Vector2(0, 190)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WeaponName" type="Label" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "—"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="Root/MainMargin/MainVBox/Body/CenterVBox/DescriptionPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "请选择武器。"
+autowrap_mode = 2
+
+[node name="StatsPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox/Body"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="Root/MainMargin/MainVBox/Body/StatsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StatsTitle" type="Label" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin/VBox"]
+layout_mode = 2
+text = "信息"
+
+[node name="Separator" type="HSeparator" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Stats" type="Label" parent="Root/MainMargin/MainVBox/Body/StatsPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "—"
+autowrap_mode = 2
+
+[node name="FooterPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleHeader")
+
+[node name="FooterMargin" type="MarginContainer" parent="Root/MainMargin/MainVBox/FooterPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="OperationGuide" type="Label" parent="Root/MainMargin/MainVBox/FooterPanel/FooterMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "↑ / ↓ 选择    Enter 装备/卸下    I / Esc 关闭"
+vertical_alignment = 1
 ```
 
 
@@ -26606,7 +28457,7 @@ text = "删除"
 
 ### `res://Scene/UI/world_interactionUI.tscn`
 
-- Category: `scene`; bytes: `732`; sha256/16: `b8973493cb468eae`
+- Category: `scene`; bytes: `840`; sha256/16: `8b5d239fd3a83881`
 
 
 ```ini
@@ -26639,6 +28490,11 @@ offset_bottom = 611.0
 theme_override_font_sizes/font_size = 36
 text = "TEXT"
 vertical_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 ```
 
 
@@ -28932,6 +30788,16 @@ id,name_key,categories,weapon_limit,anim_name,time_cost,execute_priority,stamina
 ```
 
 
+### `res://DataBase/AllItemData.csv`
+
+- Category: `data`; bytes: `56`; sha256/16: `7298bdd9cc4ba810`
+
+
+```csv
+ID,ItemName,ItemType,Rarity,Weight,IconPath,Description
+```
+
+
 ### `res://DataBase/DungeonDataBase/RoomType_and_Weight data.csv`
 
 - Category: `data`; bytes: `89`; sha256/16: `f5d7dc3b96c3e578`
@@ -28957,6 +30823,17 @@ id,tier,mechanic_name,type,description
 ```
 
 
+### `res://DataBase/Item/Weapons.csv`
+
+- Category: `data`; bytes: `238`; sha256/16: `fedf403b9d17b7fd`
+
+
+```csv
+template_id,name_key,desc,category,wep_type,max_durability,default_cards,preview_texture,preview_scene
+w_001,NAME_WEP_RUSTEDMACHETE,DES_WEP_RUSTEDMACHETE,weapon,Mid-lengthBlades,100,20002;10001;10001;10004;10003;10004;10003;10004;10003,,
+```
+
+
 ### `res://Localization/loc_card.csv`
 
 - Category: `data`; bytes: `290`; sha256/16: `b8df6af83a04c0ba`
@@ -28976,15 +30853,17 @@ CARD_NAME_CHARGEUP,蓄力,Charge Up
 
 ### `res://Localization/loc_ui.csv`
 
-- Category: `data`; bytes: `50`; sha256/16: `f840208a55c8541e`
+- Category: `data`; bytes: `180`; sha256/16: `f2fa795b821caed9`
 
 
 ```csv
 keys,zh,en
 UI_STARTGAME,开始游戏,STARTGAME
+NAME_WEP_RUSTEDMACHETE,锈蚀砍刀,Rusted Machete
+DES_WEP_RUSTEDMACHETE,测试阶段武器描述。,Temporary weapon description.
 ```
 
 
 ## Truncated Embedded Files
 
-- `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`: 2,853,556 characters omitted
+- `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`: 2,854,141 characters omitted
