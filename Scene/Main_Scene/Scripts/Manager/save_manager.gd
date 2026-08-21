@@ -34,9 +34,9 @@ extends Node
 const SAVE_DIR: String = "user://saves/"
 const META_PATH: String = "user://save_meta.cfg"
 
-const SAVE_VERSION: int = 2
+const SAVE_VERSION: int = 3
+const INVENTORY_SAVE_VERSION: int = 1
 const SHELTER_SAVE_VERSION: int = 1
-
 
 var current_save: Dictionary = {}
 
@@ -77,19 +77,26 @@ func create_new_save(
 			"uid": "uid_%s_1" % save_id,
 			"template_id": "w_001",
 			"location": "equipped_weapon_1",
-			"current_durability": 100,
-			"is_broken": false,
-			"equipped_cards": [
-				10001,
-				10001,
-				10002
-			]
+			"count": 1,
+
+			"state": {
+				"current_durability": 100,
+				"is_broken": false,
+
+				"equipped_cards": [
+					10001,
+					10001,
+					10002
+				]
+			}
 		},
 		{
 			"uid": "uid_%s_2" % save_id,
 			"template_id": "i_001",
 			"location": "warehouse",
-			"count": 3
+			"count": 3,
+
+			"state": {}
 		}
 	]
 
@@ -104,6 +111,7 @@ func create_new_save(
 
 		"in_raid": false,
 
+		"inventory_version": INVENTORY_SAVE_VERSION,
 		"inventory": default_inventory,
 
 		"shelter": _create_default_shelter_data()
@@ -595,10 +603,29 @@ func _normalize_save_data(
 	):
 		result["in_raid"] = false
 
-	if not result.has(
-		"inventory"
-	):
-		result["inventory"] = []
+	# ========================================================
+	# Inventory Migration
+	# ========================================================
+
+	var raw_inventory: Variant = result.get(
+		"inventory",
+		[]
+	)
+
+	result["inventory"] = (
+		_normalize_inventory_data(
+			raw_inventory,
+			save_id
+		)
+	)
+
+	result[
+		"inventory_version"
+	] = INVENTORY_SAVE_VERSION
+
+	# ========================================================
+	# Shelter
+	# ========================================================
 
 	if (
 		not result.has("shelter")
@@ -608,6 +635,177 @@ func _normalize_save_data(
 	):
 		result["shelter"] = (
 			_create_default_shelter_data()
+		)
+
+	return result
+
+
+func _normalize_inventory_data(
+	raw_inventory: Variant,
+	save_id: String
+) -> Array:
+	var result: Array = []
+
+	if not raw_inventory is Array:
+		push_warning(
+			"SaveManager: "
+			+ "inventory 不是 Array，已重置为空库存。"
+		)
+
+		return result
+
+	var inventory: Array = raw_inventory
+
+	for index in range(
+		inventory.size()
+	):
+		var value: Variant = inventory[index]
+
+		if not value is Dictionary:
+			push_warning(
+				"SaveManager: "
+				+ "库存第 %d 项不是 Dictionary，已跳过。"
+				% index
+			)
+
+			continue
+
+		var source: Dictionary = (
+			value as Dictionary
+		)
+
+		# ----------------------------------------------------
+		# UID
+		# ----------------------------------------------------
+
+		var uid: String = str(
+			source.get(
+				"uid",
+				""
+			)
+		).strip_edges()
+
+		# 非常旧的测试数据如果没有 UID，
+		# 自动生成一个稳定的迁移 UID。
+		if uid.is_empty():
+			uid = (
+				"uid_%s_legacy_%d"
+				% [
+					save_id,
+					index
+				]
+			)
+
+		# ----------------------------------------------------
+		# Template
+		# ----------------------------------------------------
+
+		var template_id: String = str(
+			source.get(
+				"template_id",
+				""
+			)
+		).strip_edges()
+
+		if template_id.is_empty():
+			push_warning(
+				"SaveManager: "
+				+ "库存物品 %s 缺少 template_id。"
+				% uid
+			)
+
+		# ----------------------------------------------------
+		# Location
+		# ----------------------------------------------------
+
+		var location: String = str(
+			source.get(
+				"location",
+				"warehouse"
+			)
+		).strip_edges()
+
+		if location.is_empty():
+			location = "warehouse"
+
+		# ----------------------------------------------------
+		# Count
+		# ----------------------------------------------------
+
+		var count: int = int(
+			source.get(
+				"count",
+				1
+			)
+		)
+
+		if count <= 0:
+			count = 1
+
+		# ----------------------------------------------------
+		# State
+		# ----------------------------------------------------
+
+		var state: Dictionary = {}
+
+		var existing_state: Variant = source.get(
+			"state",
+			{}
+		)
+
+		if existing_state is Dictionary:
+			state = (
+				existing_state as Dictionary
+			).duplicate(
+				true
+			)
+
+		# 旧版本物品实例把动态字段直接放在顶层。
+		#
+		# V1 中除了这五个公共字段以外，
+		# 其它实例字段全部自动迁移进入 state。
+		#
+		# 这样 current_durability /
+		# is_broken /
+		# equipped_cards 等现有数据不会丢失，
+		# 将来其它未知旧字段也能保留下来。
+		for key in source.keys():
+			var field_name: String = str(
+				key
+			)
+
+			if field_name in [
+				"uid",
+				"template_id",
+				"location",
+				"count",
+				"state"
+			]:
+				continue
+
+			# 如果新的 state 已经拥有同名字段，
+			# 优先保留 state 中的数据。
+			if state.has(
+				field_name
+			):
+				continue
+
+			state[
+				field_name
+			] = source[
+				key
+			]
+
+		var normalized_item: Dictionary = {
+			"uid": uid,
+			"template_id": template_id,
+			"location": location,
+			"count": count,
+			"state": state
+		}
+
+		result.append(
+			normalized_item
 		)
 
 	return result

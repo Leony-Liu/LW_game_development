@@ -1,0 +1,4 @@
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,dev_note
+true,res_001,wood,NAME_RESOURCE_WOOD,DES_RESOURCE_WOOD,,,,0,999,0,,原型资源：木材
+true,res_002,metal,NAME_RESOURCE_METAL,DES_RESOURCE_METAL,,,,0,999,0,,原型资源：金属
+true,res_003,plastic,NAME_RESOURCE_PLASTIC,DES_RESOURCE_PLASTIC,,,,0,999,0,,原型资源：塑料

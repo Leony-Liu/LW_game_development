@@ -175,7 +175,7 @@ current = true
 fov = 45.0
 script = ExtResource("2_11o6b")
 target = NodePath("../ShelterPlayer")
-camera_offset = Vector3(0, 5, 7)
+camera_offset = Vector3(0, 7, 5)
 
 [node name="EditModeController" type="Node" parent="GameViewportContainer/GameViewport/World" node_paths=PackedStringArray("player", "gameplay_camera", "room_build_controller", "facility_build_controller")]
 script = ExtResource("5_vfmdr")

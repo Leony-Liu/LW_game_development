@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bupjxqwgqsof2"
+
+[deps]
+
+files=["res://DataBase/Item/KeyItems.template.translation", "res://DataBase/Item/KeyItems.subtype.translation", "res://DataBase/Item/KeyItems.name.translation", "res://DataBase/Item/KeyItems.desc.translation", "res://DataBase/Item/KeyItems.icon.translation", "res://DataBase/Item/KeyItems.preview.translation", "res://DataBase/Item/KeyItems.preview.translation", "res://DataBase/Item/KeyItems.weight.translation", "res://DataBase/Item/KeyItems.max.translation", "res://DataBase/Item/KeyItems.base.translation", "res://DataBase/Item/KeyItems.mechanic.translation", "res://DataBase/Item/KeyItems.progress.translation", "res://DataBase/Item/KeyItems.dev.translation"]
+
+source_file="res://DataBase/Item/KeyItems.csv"
+dest_files=["res://DataBase/Item/KeyItems.template.translation", "res://DataBase/Item/KeyItems.subtype.translation", "res://DataBase/Item/KeyItems.name.translation", "res://DataBase/Item/KeyItems.desc.translation", "res://DataBase/Item/KeyItems.icon.translation", "res://DataBase/Item/KeyItems.preview.translation", "res://DataBase/Item/KeyItems.preview.translation", "res://DataBase/Item/KeyItems.weight.translation", "res://DataBase/Item/KeyItems.max.translation", "res://DataBase/Item/KeyItems.base.translation", "res://DataBase/Item/KeyItems.mechanic.translation", "res://DataBase/Item/KeyItems.progress.translation", "res://DataBase/Item/KeyItems.dev.translation"]
+
+[params]
+
+compress=true
+delimiter=0

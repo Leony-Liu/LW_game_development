@@ -1,0 +1,15 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://1oafgbdpab68"
+valid=false
+
+[deps]
+
+source_file="res://DataBase/Item/loc_ui.csv"
+
+[params]
+
+compress=true
+delimiter=0

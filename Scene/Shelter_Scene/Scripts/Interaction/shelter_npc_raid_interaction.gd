@@ -378,12 +378,9 @@ func _on_raid_entry_body_entered(
 	if _transitioning:
 		return
 
-	# --------------------------------------------------------
 	# 没有经过 NPC 确认：
 	#
 	# 什么都不发生。
-	# --------------------------------------------------------
-
 	if not raid_authorized:
 		return
 
@@ -394,7 +391,11 @@ func _on_raid_entry_body_entered(
 
 		return
 
-	_enter_battle()
+	_transitioning = true
+
+	call_deferred(
+		"_enter_battle"
+	)
 
 
 func _enter_battle() -> void:

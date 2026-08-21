@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c2h0dyufru8jq"
+
+[deps]
+
+files=["res://DataBase/Item/Equipment.template.translation", "res://DataBase/Item/Equipment.subtype.translation", "res://DataBase/Item/Equipment.name.translation", "res://DataBase/Item/Equipment.desc.translation", "res://DataBase/Item/Equipment.icon.translation", "res://DataBase/Item/Equipment.preview.translation", "res://DataBase/Item/Equipment.preview.translation", "res://DataBase/Item/Equipment.weight.translation", "res://DataBase/Item/Equipment.max.translation", "res://DataBase/Item/Equipment.base.translation", "res://DataBase/Item/Equipment.mechanic.translation", "res://DataBase/Item/Equipment.equip.translation", "res://DataBase/Item/Equipment.max.translation", "res://DataBase/Item/Equipment.dev.translation"]
+
+source_file="res://DataBase/Item/Equipment.csv"
+dest_files=["res://DataBase/Item/Equipment.template.translation", "res://DataBase/Item/Equipment.subtype.translation", "res://DataBase/Item/Equipment.name.translation", "res://DataBase/Item/Equipment.desc.translation", "res://DataBase/Item/Equipment.icon.translation", "res://DataBase/Item/Equipment.preview.translation", "res://DataBase/Item/Equipment.preview.translation", "res://DataBase/Item/Equipment.weight.translation", "res://DataBase/Item/Equipment.max.translation", "res://DataBase/Item/Equipment.base.translation", "res://DataBase/Item/Equipment.mechanic.translation", "res://DataBase/Item/Equipment.equip.translation", "res://DataBase/Item/Equipment.max.translation", "res://DataBase/Item/Equipment.dev.translation"]
+
+[params]
+
+compress=true
+delimiter=0

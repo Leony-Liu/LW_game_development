@@ -1,2 +1,2 @@
-template_id,name_key,desc,category,wep_type,max_durability,default_cards,preview_texture,preview_scene
-w_001,NAME_WEP_RUSTEDMACHETE,DES_WEP_RUSTEDMACHETE,weapon,Mid-lengthBlades,100,20002;10001;10001;10004;10003;10004;10003;10004;10003,,
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,max_durability,default_cards,card_pool,dev_note
+true,w_001,Mid-lengthBlades,NAME_WEP_RUSTEDMACHETE,DES_WEP_RUSTEDMACHETE,,,,0,1,0,,100,[20002;10001;10001;10004;10003;10004;10003;10004;10003],[],原型测试武器

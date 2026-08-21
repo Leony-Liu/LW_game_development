@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dacwr2nac0fhb"
+
+[deps]
+
+files=["res://DataBase/Item/Supplies.template.translation", "res://DataBase/Item/Supplies.subtype.translation", "res://DataBase/Item/Supplies.name.translation", "res://DataBase/Item/Supplies.desc.translation", "res://DataBase/Item/Supplies.icon.translation", "res://DataBase/Item/Supplies.preview.translation", "res://DataBase/Item/Supplies.preview.translation", "res://DataBase/Item/Supplies.weight.translation", "res://DataBase/Item/Supplies.max.translation", "res://DataBase/Item/Supplies.base.translation", "res://DataBase/Item/Supplies.mechanic.translation", "res://DataBase/Item/Supplies.dev.translation"]
+
+source_file="res://DataBase/Item/Supplies.csv"
+dest_files=["res://DataBase/Item/Supplies.template.translation", "res://DataBase/Item/Supplies.subtype.translation", "res://DataBase/Item/Supplies.name.translation", "res://DataBase/Item/Supplies.desc.translation", "res://DataBase/Item/Supplies.icon.translation", "res://DataBase/Item/Supplies.preview.translation", "res://DataBase/Item/Supplies.preview.translation", "res://DataBase/Item/Supplies.weight.translation", "res://DataBase/Item/Supplies.max.translation", "res://DataBase/Item/Supplies.base.translation", "res://DataBase/Item/Supplies.mechanic.translation", "res://DataBase/Item/Supplies.dev.translation"]
+
+[params]
+
+compress=true
+delimiter=0

@@ -1,0 +1,2 @@
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,max_uses,use_context,effect_id,effect_value,dev_note
+true,i_001,test,NAME_ITEM_TEST,DES_ITEM_TEST,,,,0,99,0,,1,[],,,当前存档兼容占位道具
