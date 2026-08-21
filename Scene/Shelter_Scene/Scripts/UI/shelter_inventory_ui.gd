@@ -49,6 +49,9 @@ signal inventory_opened_changed(
 	^"../GameViewportContainer/GameViewport/World/EditModeController"
 )
 
+@export var inventory_manager_path: NodePath = (
+	^"../GameViewportContainer/GameViewport/World/ShelterInventoryManager"
+)
 
 @export_category("Temporary Input")
 
@@ -100,6 +103,8 @@ var _player: ShelterPlayer
 # 这样也避免 UI 与建造系统形成不必要的类型耦合。
 var _edit_mode_controller = null
 
+var _inventory_manager: ShelterInventoryManager
+
 var _is_open: bool = false
 
 var _selected_uid: String = ""
@@ -115,8 +120,12 @@ func _ready() -> void:
 	) as ShelterPlayer
 
 	_edit_mode_controller = get_node_or_null(
-	edit_mode_controller_path
-)
+		edit_mode_controller_path
+	)
+
+	_inventory_manager = get_node_or_null(
+		inventory_manager_path
+	) as ShelterInventoryManager
 
 	root_ui.visible = false
 
@@ -128,9 +137,15 @@ func _ready() -> void:
 		_on_item_activated
 	)
 
-	InventoryManager.inventory_changed.connect(
-		_on_inventory_changed
-	)
+	if (
+		_inventory_manager != null
+		and not _inventory_manager.inventory_changed.is_connected(
+			_on_inventory_changed
+		)
+	):
+		_inventory_manager.inventory_changed.connect(
+			_on_inventory_changed
+		)
 
 	_clear_details()
 
@@ -365,7 +380,7 @@ func _refresh_weapon_list(
 	weapon_list.clear()
 
 	var weapons: Array = (
-		InventoryManager.get_character_weapons()
+		_inventory_manager.get_character_weapons()
 	)
 
 	if weapons.is_empty():
@@ -419,7 +434,7 @@ func _refresh_weapon_list(
 		)
 
 		var equipped: bool = (
-			InventoryManager.is_weapon_equipped(
+			_inventory_manager.is_weapon_equipped(
 				uid
 			)
 		)
@@ -522,15 +537,15 @@ func _toggle_selected_weapon() -> void:
 	if _selected_uid.is_empty():
 		return
 
-	if InventoryManager.is_weapon_equipped(
+	if _inventory_manager.is_weapon_equipped(
 		_selected_uid
 	):
-		InventoryManager.unequip_weapon(
+		_inventory_manager.unequip_weapon(
 			_selected_uid
 		)
 
 	else:
-		InventoryManager.equip_weapon(
+		_inventory_manager.equip_weapon(
 			_selected_uid,
 			1
 		)
@@ -542,7 +557,7 @@ func _show_weapon(
 	uid: String
 ) -> void:
 	var item: Dictionary = (
-		InventoryManager.get_item_by_uid(
+		_inventory_manager.get_item_by_uid(
 			uid
 		)
 	)
@@ -605,7 +620,7 @@ func _show_weapon(
 		card_count = cards.size()
 
 	var equipped: bool = (
-		InventoryManager.is_weapon_equipped(
+		_inventory_manager.is_weapon_equipped(
 			uid
 		)
 	)
@@ -746,4 +761,10 @@ func _validate_references() -> void:
 	if _edit_mode_controller == null:
 		push_warning(
 			"ShelterInventoryUI: 找不到 EditModeController。"
+			)
+
+	if _inventory_manager == null:
+		push_error(
+			"ShelterInventoryUI: "
+			+ "找不到 ShelterInventoryManager。"
 		)

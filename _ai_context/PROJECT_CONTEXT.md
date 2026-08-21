@@ -4,114 +4,121 @@
 
 ## Snapshot
 
-- Approximate context size: **921,791 characters / ~230,447 tokens**
-- Generated: `2026-08-18T18:37:27+08:00`
+- Approximate context size: **993,222 characters / ~248,305 tokens**
+- Generated: `2026-08-21T17:46:38+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
-- Files scanned: **714**; readable text files: **227**
-- Scripts: **123**; scenes: **81**; resources: **8**; shaders: **6**
-- Non-text assets: **482** (45.3 MiB)
-- Total scanned size: **50.5 MiB**
+- Files scanned: **798**; readable text files: **241**
+- Scripts: **129**; scenes: **83**; resources: **8**; shaders: **6**
+- Non-text assets: **554** (45.4 MiB)
+- Total scanned size: **50.6 MiB**
 - TODO/FIXME/HACK markers: **16**
 
 ## Project Configuration Summary
 
 - Godot feature flags: `PackedStringArray("4.4", "Forward Plus")`
-- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `SceneManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `InventoryManager`, `UIManager`, `ItemDataBase`, `MAPInventoryManager`, `SearchManager`, `InteractionManager`
+- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `SceneManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `PlayerInventoryCore`, `InventoryManager`, `UIManager`, `ItemDataBase`, `MAPInventoryManager`, `SearchManager`, `InteractionManager`
 - Input actions: `draw_card`, `Left`, `Right`, `Down`, `Up`, `Attack`, `block_key`, `open_backpack`, `interact`
 - Settings sections: `application`, `autoload`, `debug`, `display`, `file_customization`, `gui`, `input`, `internationalization`, `layer_names`, `rendering`, `shader_globals`
 
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `58d09c0 | 2026-08-18T18:07:09+08:00 | 新增（基地）：实现基地的背包系统框架`
+- Last commit: `2e71f36 | 2026-08-21T09:26:55+08:00 | 修改（数据结构）：静态数据库改成表格驱动并与玩家实例分开；利用ItemContract确定了公共协议`
 - Working tree changes:
-  - `M Localization/loc_ui.en.translation`
-  - ` M Localization/loc_ui.zh.translation`
-  - ` M Scene/Shelter_Scene/shelter.tscn`
+  - `?? Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`
+  - `?? Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd.uid`
+  - `?? Scene/Shelter_Scene/Scripts/Inventory/`
+  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
+  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd.uid`
+  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd.uid`
+  - `?? Scene/Shelter_Scene/shelter.tscn173779490.tmp`
+  - `?? Scene/Shelter_Scene/shelter_character_page.tscn`
+  - `?? Scene/Shelter_Scene/shelter_character_slot.tscn`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-18 18:36` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-18 18:36` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-18 18:36` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-18 18:36` `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`
-  - `2026-08-18 18:36` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
-  - `2026-08-18 18:36` `res://Scene/UI/filelist.tscn`
-  - `2026-08-18 18:36` `res://Scene/UI/save_slot_card.tscn`
-  - `2026-08-18 18:36` `res://Scene/Battle_Scene/Battlescene.tscn`
-  - `2026-08-18 18:36` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-18 18:36` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-18 18:36` `res://Localization/loc_ui.zh.translation`
-  - `2026-08-18 18:36` `res://Localization/loc_ui.en.translation`
-  - `2026-08-18 18:36` `res://Scene/Main_Scene/MAIN.tscn`
-  - `2026-08-18 18:07` `res://project.godot`
-  - `2026-08-18 18:07` `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`
-  - `2026-08-18 18:07` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd.uid`
-  - `2026-08-18 18:07` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
-  - `2026-08-18 18:07` `res://Scene/Search_system/Script/Manager/inventory_system.gd`
-  - `2026-08-18 18:07` `res://Scene/Search_system/Script/Manager/inventory_system.gd.uid`
-  - `2026-08-18 18:07` `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`
-  - `2026-08-18 18:07` `res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd`
-  - `2026-08-18 18:07` `res://Scene/Battle_Scene/Card_Scene/card111.png`
-  - `2026-08-18 18:07` `res://Scene/Battle_Scene/Card_Scene/card111.png.import`
-  - `2026-08-18 18:07` `res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png`
-  - `2026-08-18 18:07` `res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png.import`
-  - `2026-08-18 18:07` `res://Scene/Battle_Scene/Card_Scene/Arts/testcard3.png.import`
-  - `2026-08-18 18:07` `res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png`
-  - `2026-08-18 18:07` `res://Localization/loc_ui.csv`
-  - `2026-08-18 18:07` `res://DataBase/Item/Weapons.csv`
-  - `2026-08-18 17:52` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-18 17:52` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-18 17:17` `res://Localization/loc_ui.csv.import`
-  - `2026-08-18 09:29` `res://Scene/UI/world_interactionUI.tscn`
-  - `2026-08-18 09:29` `res://Scene/Search_system/Script/inventory_ui.gd`
-  - `2026-08-18 09:29` `res://Scene/Search_system/Script/UI/inventory_ui.tscn`
-  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Manager/ui_manager.gd`
-  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Data/interactable_object.gd.uid`
-  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Data/item_data_base.gd`
-  - `2026-08-18 09:29` `res://Scene/Search_system/Script/Data/interactable_object.gd`
-  - `2026-08-18 09:29` `res://Scene/Dungeon_Player_Scene(3D)/Scripts/player_3d.gd`
-  - `2026-08-18 09:29` `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`
-  - `2026-08-18 09:29` `res://Scene/DungeonScenes(3D)/Interative Items/Box/interaction_area.gd.uid`
-  - `2026-08-18 09:29` `res://Scene/DungeonScenes(3D)/Interative Items/Box/interaction_area.gd`
-  - `2026-08-18 09:29` `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`
-  - `2026-08-18 09:29` `res://Scene/DungeonScene/world.tscn`
-  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.Weight.translation`
-  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.Rarity.translation`
-  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.ItemName.translation`
-  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.ItemType.translation`
-  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.IconPath.translation`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.csv.import`
-  - `2026-08-18 09:29` `res://DataBase/Item/AllItemData.Description.translation`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.csv`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.Weight.translation`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.Rarity.translation`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.ItemType.translation`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.IconPath.translation`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.ItemName.translation`
-  - `2026-08-18 09:29` `res://DataBase/AllItemData.Description.translation`
-  - `2026-08-15 14:37` `res://Scene/Battle_Scene/Card_Scene/Arts/testcard2.png.import`
-  - `2026-08-13 23:40` `res://Scene/UI/main_menu.tscn`
-  - `2026-08-13 23:40` `res://Scene/UI/Scripts/save_slot_card.gd.uid`
-  - `2026-08-13 23:40` `res://Scene/UI/Scripts/main_menu.gd`
-  - `2026-08-13 23:40` `res://Scene/UI/Scripts/save_slot_card.gd`
-  - `2026-08-13 23:40` `res://Scene/UI/Scripts/filelist_menu.gd`
-  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd.uid`
-  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`
-  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`
-  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd.uid`
-  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`
-  - `2026-08-13 23:40` `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
-  - `2026-08-13 23:40` `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`
-  - `2026-08-13 11:56` `res://Scene/Shelter_Scene/test/test_facility.tscn`
-  - `2026-08-13 11:56` `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`
-  - `2026-08-13 11:56` `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/search_UI.gd`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/UI/search_ui.tscn`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/search_manager.gd`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Manager/interaction_manager.gd`
-  - `2026-08-13 11:27` `res://Scene/Search_system/Script/Data/item_data.gd`
-  - `... 283 more recent files omitted ...`
+  - `2026-08-21 17:46` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-21 17:46` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-21 17:46` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter_character_page.tscn`
+  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter_character_slot.tscn`
+  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`
+  - `2026-08-21 17:46` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
+  - `2026-08-21 17:46` `res://Scene/UI/filelist.tscn`
+  - `2026-08-21 17:46` `res://Scene/UI/save_slot_card.tscn`
+  - `2026-08-21 17:46` `res://Scene/Battle_Scene/Battlescene.tscn`
+  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-21 17:46` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-21 17:46` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-21 17:46` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-21 17:44` `res://project.godot`
+  - `2026-08-21 17:44` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+  - `2026-08-21 17:44` `res://Scene/Main_Scene/Scripts/Shared/item_contract.gd`
+  - `2026-08-21 17:42` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd.uid`
+  - `2026-08-21 17:42` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+  - `2026-08-21 17:42` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
+  - `2026-08-21 17:24` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd.uid`
+  - `2026-08-21 10:05` `res://Scene/Shelter_Scene/shelter.tscn173779490.tmp`
+  - `2026-08-21 10:02` `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`
+  - `2026-08-21 10:02` `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd.uid`
+  - `2026-08-21 09:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`
+  - `2026-08-21 09:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd.uid`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.csv.import`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.dev.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.effect.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.use.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.csv.import`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.dev.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.mechanic.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.max.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.mechanic.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.base.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.base.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.max.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.weight.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.weight.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.preview.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.preview.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.icon.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.icon.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.desc.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.desc.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.name.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.name.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.subtype.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.subtype.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Resources.template.translation`
+  - `2026-08-21 09:27` `res://DataBase/Item/Usables.template.translation`
+  - `2026-08-21 09:26` `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`
+  - `2026-08-21 09:26` `res://Scene/Main_Scene/Scripts/Shared/item_contract.gd.uid`
+  - `2026-08-21 09:26` `res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd.uid`
+  - `2026-08-21 09:26` `res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd`
+  - `2026-08-21 09:26` `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`
+  - `2026-08-21 09:26` `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`
+  - `2026-08-21 09:26` `res://DataBase/Item/loc_ui.csv`
+  - `2026-08-21 09:26` `res://DataBase/Item/loc_ui.csv.import`
+  - `2026-08-21 09:26` `res://DataBase/Item/Weapons.csv`
+  - `2026-08-21 09:26` `res://DataBase/Item/Usables.csv`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.weight.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.template.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.preview.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.subtype.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.mechanic.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.name.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.max.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.desc.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.dev.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.icon.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.csv.import`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.base.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.csv`
+  - `2026-08-21 09:26` `res://DataBase/Item/Resources.csv`
+  - `2026-08-21 09:26` `res://DataBase/Item/KeyItems.weight.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/KeyItems.template.translation`
+  - `2026-08-21 09:26` `res://DataBase/Item/KeyItems.progress.translation`
+  - `... 368 more recent files omitted ...`
 
 ## Script Architecture Index
 
@@ -207,10 +214,13 @@
 | `res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/game_manager.gd` | `Node` | `-` | 0 | 2 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd` | `Node` | `-` | 1 | 0 | 9 | 0 |
-| `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
+| `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd` | `Node` | `-` | 0 | 0 | 10 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd` | `Node` | `-` | 0 | 0 | 7 | 0 |
+| `res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd` | `Node` | `-` | 1 | 0 | 2 | 0 |
+| `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd` | `Node` | `-` | 1 | 0 | 1 | 0 |
+| `res://Scene/Main_Scene/Scripts/Shared/item_contract.gd` | `RefCounted` | `ItemContract` | 0 | 0 | 0 | 0 |
 | `res://Scene/Search_system/Script/Data/interactable_object.gd` | `Area3D` | `InteractableObject` | 0 | 0 | 2 | 0 |
 | `res://Scene/Search_system/Script/Data/item_data.gd` | `-` | `ItemData` | 0 | 0 | 0 | 0 |
 | `res://Scene/Search_system/Script/Data/item_data_base.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
@@ -229,9 +239,12 @@
 | `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd` | `Node3D` | `ShelterRoomManager` | 4 | 6 | 9 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd` | `Node` | `CameraDebugSwitcher` | 0 | 3 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd` | `Node` | `ShelterNPCRaidInteraction` | 0 | 8 | 10 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd` | `Node` | `ShelterInventoryManager` | 1 | 0 | 2 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd` | `Node` | `ShelterSaveBridge` | 0 | 2 | 11 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd` | `Camera3D` | `ShelterCamera` | 0 | 13 | 10 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/shelter_player.gd` | `CharacterBody3D` | `ShelterPlayer` | 0 | 13 | 7 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd` | `Control` | `ShelterCharacterPage` | 0 | 0 | 3 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd` | `Button` | `ShelterCharacterSlot` | 1 | 4 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd` | `CanvasLayer` | `ShelterInventoryUI` | 1 | 3 | 12 | 0 |
 | `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 3 | 10 | 0 |
 | `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 4 | 6 | 0 |
@@ -332,10 +345,13 @@
 - **`res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd`** — methods: `_ready()`, `load_csv_data()`, `roll_mechanics_for_tier()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/game_manager.gd`** — methods: `_ready()`, `_on_event_bus_enter_battle_scene()`; signals: (none); exports: `scene_holder`, `current_scene`
 - **`res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd`** — methods: `_get_inv()`, `get_items()`, `get_item_by_uid()`, `get_character_weapons()`, `_commit_character_inventory_change()`, `move_item()`, `enter_raid()`, `settle_death_penalty()`, `_reduce_durability()`; signals: `inventory_changed`; exports: (none)
-- **`res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`** — methods: `_ready()`, `reload_database()`; signals: (none); exports: (none)
+- **`res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`** — methods: `_ready()`, `reload_database()`, `get_all_item_definitions()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`** — methods: `_ready()`, `save_current_state()`, `get_all_saves()`, `has_any_save()`, `get_last_save_id()`, `get_shelter_data()`, `_create_default_shelter_data()`, `_load_meta()`, `_ensure_save_directory()`, `_generate_save_id()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd`** — methods: `_ready()`, `transition_to()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd`** — methods: `_ready()`, `set_master_volume()`, `get_master_volume()`, `set_resolution()`, `set_fullscreen()`, `save_settings()`, `load_settings()`; signals: (none); exports: (none)
+- **`res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd`** — methods: `has_loaded_save()`, `get_inventory_snapshot()`; signals: `inventory_changed`; exports: (none)
+- **`res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`** — methods: `get_departure_inventory_snapshot()`; signals: `return_inventory_committed`; exports: (none)
+- **`res://Scene/Main_Scene/Scripts/Shared/item_contract.gd`** — methods: (none detected); signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Data/interactable_object.gd`** — methods: `interact()`, `generate_loot()`; signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Data/item_data.gd`** — methods: (none detected); signals: (none); exports: (none)
 - **`res://Scene/Search_system/Script/Data/item_data_base.gd`** — methods: `_ready()`, `load_csv()`, `get_random_items()`, `find_item()`; signals: (none); exports: (none)
@@ -354,9 +370,12 @@
 - **`res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`** — methods: `_ready()`, `can_remove_room()`, `remove_room()`, `get_room()`, `_create_initial_room()`, `_rebuild_all_walls()`, `_create_runtime_roots()`, `_create_wall_material()`, `_create_debug_layout()`; signals: `room_added`, `room_moved`, `room_removed`, `facility_storage_requested`; exports: `cell_size`, `wall_height`, `wall_thickness`, `door_width`, `initial_room_origin`, `rooms`
 - **`res://Scene/Shelter_Scene/Scripts/camera_debug_switcher.gd`** — methods: `_ready()`, `_input()`, `_toggle_camera()`; signals: (none); exports: `gameplay_camera`, `debug_camera`, `using_debug_camera`
 - **`res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`** — methods: `_ready()`, `_connect_detection_areas()`, `_create_ui()`, `_update_interaction_prompt()`, `_hide_interaction_prompt()`, `_open_confirmation_dialog()`, `_on_confirmation_yes()`, `_on_confirmation_no()`, `_enter_battle()`, `_validate_setup()`; signals: (none); exports: `player`, `npc_interaction_area`, `raid_entry_area`, `battle_scene`, `interaction_text`, `authorized_text`, `dialog_title`, `dialog_text`
+- **`res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`** — methods: `_ready()`, `get_character_weapons()`; signals: `inventory_changed`; exports: (none)
 - **`res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`** — methods: `_ready()`, `_connect_change_signals()`, `_on_facility_changed()`, `_queue_save()`, `_save_queued_changes()`, `save_shelter_now()`, `_serialize_rooms()`, `_serialize_storage()`, `_restore_from_current_save()`, `_sanitize_storage_collisions()`, `_validate_setup()`; signals: (none); exports: `room_manager`, `_restoring`
 - **`res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`** — methods: `_ready()`, `_physics_process()`, `_unhandled_input()`, `get_camera_mode()`, `_enter_gameplay_camera()`, `_update_gameplay_transform()`, `_enter_facility_camera()`, `_update_facility_transform()`, `_enter_room_camera()`, `_update_room_transform()`; signals: (none); exports: `target`, `camera_offset`, `look_height`, `facility_pan_speed`, `facility_zoom_min`, `facility_zoom_max`, `facility_zoom_step`, `room_pan_speed`, `room_camera_height`, `room_zoom_min`, `room_zoom_max`, `room_zoom_default`
 - **`res://Scene/Shelter_Scene/Scripts/shelter_player.gd`** — methods: `_ready()`, `is_movement_enabled()`, `_calculate_move_direction()`, `_apply_gravity()`, `_update_animation()`, `_play_animation()`, `_validate_setup()`; signals: (none); exports: `walk_speed`, `run_speed`, `acceleration`, `deceleration`, `rotation_speed`, `visual_root`, `movement_reference`, `animation_player`, `model_yaw_offset_degrees`, `idle_animation`, `walk_animation`, `run_animation`
+- **`res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`** — methods: `_ready()`, `refresh()`, `_clear_all_slots()`; signals: (none); exports: (none)
+- **`res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`** — methods: `_ready()`, `clear_item()`, `get_item_uid()`; signals: `unequip_requested`; exports: `slot_title`, `slot_location`, `accepted_category`, `empty_text`
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`** — methods: `_ready()`, `_exit_tree()`, `open_inventory()`, `close_inventory()`, `toggle_inventory()`, `is_inventory_open()`, `refresh()`, `_activate_current_selection()`, `_toggle_selected_weapon()`, `_clear_details()`, `_on_inventory_changed()`, `_validate_references()`; signals: `inventory_opened_changed`; exports: `player_path`, `edit_mode_controller_path`, `open_key`
 - **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_refresh_save_list()`, `_clear_save_cards()`, `_open_create_dialog()`, `_close_create_dialog()`, `_confirm_create_save()`, `_close_delete_dialog()`, `_confirm_delete_save()`, `_return_to_main_menu()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `save_slot_card_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
@@ -409,6 +428,8 @@
 | `res://Scene/Shelter_Scene/player/shelter_player.tscn` | `ShelterPlayer/CharacterBody3D` | 5 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` | `UAL1_Standard` | 2 | 0 | 0 | 0 |
 | `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 40 | 0 | 7 | 4 |
+| `res://Scene/Shelter_Scene/shelter_character_page.tscn` | `CharacterPage/Control` | 115 | 0 | 2 | 0 |
+| `res://Scene/Shelter_Scene/shelter_character_slot.tscn` | `ShelterCharacterSlot/Button` | 8 | 0 | 1 | 0 |
 | `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn` | `ShelterInventoryUI/CanvasLayer` | 42 | 0 | 1 | 0 |
 | `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` | `ShelterMovementTest/Node3D` | 7 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/test/test_facility.tscn` | `TestFacility/StaticBody3D` | 3 | 0 | 1 | 0 |
@@ -481,6 +502,8 @@
 - **`res://Scene/Main_Scene/MAIN.tscn`** → `res://Scene/Main_Scene/main.gd`, `res://Scene/UI/main_menu.tscn`
 - **`res://Scene/Shelter_Scene/player/shelter_player.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
+- **`res://Scene/Shelter_Scene/shelter_character_page.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+- **`res://Scene/Shelter_Scene/shelter_character_slot.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
 - **`res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
 - **`res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - **`res://Scene/Shelter_Scene/test/test_facility.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
@@ -495,7 +518,7 @@
 ## Resource Dependency Map
 
 - `res://Arts/Theme/GlobalTheme.tres` → `res://Arts/Fort/ark-pixel-12px-monospaced-zh_cn.ttf`
-- `res://project.godot` → `res://Arts/`, `res://Arts/Fort/`, `res://Arts/Theme/`, `res://Audio/`, `res://DataBase/`, `res://Localization/`, `res://Localization/loc_card.en.translation`, `res://Localization/loc_card.zh.translation`, `res://Localization/loc_ui.en.translation`, `res://Localization/loc_ui.zh.translation`, `res://Scene/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/`, `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Player/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player-visuals/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/`, `res://Scene/Battle_Scene/Card_Scene/`, `res://Scene/Battle_Scene/Card_Scene/Arts/` (+31 more)
+- `res://project.godot` → `res://Arts/`, `res://Arts/Fort/`, `res://Arts/Theme/`, `res://Audio/`, `res://DataBase/`, `res://Localization/`, `res://Localization/loc_card.en.translation`, `res://Localization/loc_card.zh.translation`, `res://Localization/loc_ui.en.translation`, `res://Localization/loc_ui.zh.translation`, `res://Scene/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/`, `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`, `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Player/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/Scripts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player-visuals/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Arts/`, `res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/`, `res://Scene/Battle_Scene/Card_Scene/`, `res://Scene/Battle_Scene/Card_Scene/Arts/` (+32 more)
 - `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn` → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_attack.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_calculator.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_combat_data.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_idle.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_manager.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_state_machine.gd`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/enemy_test_data.gd`
 - `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/enemymodle.tscn` → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/enemytest.glb`
 - `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/enemy_3Dvisuals.tscn` → `res://Arts/AnimationLibrary/Ual1_test.res`, `res://Arts/AnimationLibrary/Ual2_test.res`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/enemymodle.tscn`, `res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DVisuals/Scripts/enemy_visuals_manager.gd`
@@ -546,7 +569,9 @@
 - `res://Scene/Search_system/Script/Data/item_data_base.gd` → `res://DataBase/AllItemData.csv`
 - `res://Scene/Shelter_Scene/player/shelter_player.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` → `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+- `res://Scene/Shelter_Scene/shelter_character_page.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+- `res://Scene/Shelter_Scene/shelter_character_slot.tscn` → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
 - `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
 - `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - `res://Scene/Shelter_Scene/test/test_facility.tscn` → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
@@ -683,8 +708,12 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   ├── DungeonDataBase
 │   │   └── RoomType_and_Weight data.csv
 │   ├── Item
-│   │   ├── Armors.csv
-│   │   ├── Materials.csv
+│   │   ├── Equipment.csv
+│   │   ├── KeyItems.csv
+│   │   ├── loc_ui.csv
+│   │   ├── Resources.csv
+│   │   ├── Supplies.csv
+│   │   ├── Usables.csv
 │   │   └── Weapons.csv
 │   ├── AllCardData.csv
 │   ├── AllItemData.csv
@@ -877,6 +906,11 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   │   ├── save_manager.gd
 │   │   │   │   ├── scene_manager.gd
 │   │   │   │   └── settings_manager.gd
+│   │   │   ├── Shared
+│   │   │   │   ├── Inventory
+│   │   │   │   │   ├── player_inventory_core.gd
+│   │   │   │   │   └── raid_inventory_bridge.gd
+│   │   │   │   └── item_contract.gd
 │   │   │   └── event_bus.gd
 │   │   ├── main.gd
 │   │   └── MAIN.tscn
@@ -911,9 +945,13 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   │   └── shelter_room_manager.gd
 │   │   │   ├── Interaction
 │   │   │   │   └── shelter_npc_raid_interaction.gd
+│   │   │   ├── Inventory
+│   │   │   │   └── shelter_inventory_manager.gd
 │   │   │   ├── Save
 │   │   │   │   └── shelter_save_bridge.gd
 │   │   │   ├── UI
+│   │   │   │   ├── shelter_character_page.gd
+│   │   │   │   ├── shelter_character_slot.gd
 │   │   │   │   └── shelter_inventory_ui.gd
 │   │   │   ├── camera_debug_switcher.gd
 │   │   │   ├── shelter_camera.gd
@@ -922,6 +960,8 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   ├── shelter_movement_test.tscn
 │   │   │   └── test_facility.tscn
 │   │   ├── shelter.tscn
+│   │   ├── shelter_character_page.tscn
+│   │   ├── shelter_character_slot.tscn
 │   │   └── shelter_inventory_ui.tscn
 │   ├── UI
 │   │   ├── Scripts
@@ -982,15 +1022,15 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 
 ### By extension
 
-`.import`: 153, `.uid`: 129, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 22, `.translation`: 16, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
+`.import`: 159, `.uid`: 135, `.translation`: 75, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 23, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
 
 ### By top-level folder
 
 - `Arts`: .import=6, .ttf=4, .glb=2, .uid=2
 - `Audio`: .wav=4, .import=4
-- `DataBase`: .translation=12, .import=7
+- `DataBase`: .translation=71, .import=13
 - `Localization`: .translation=4, .import=2
-- `Scene`: .import=133, .uid=127, .png=49, .glb=42, .jpg=40, .tmp=22, .aseprite=9, .gif=6, .fbx=1
+- `Scene`: .import=133, .uid=133, .png=49, .glb=42, .jpg=40, .tmp=23, .aseprite=9, .gif=6, .fbx=1
 - `export_context.py`: .py=1
 - `gitattributes`: [no extension]=1
 - `gitignore`: [no extension]=1
@@ -1003,8 +1043,6 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `Arts/AnimationLibrary/Ual1_test.res: binary file`
 - `Arts/AnimationLibrary/Ual2_test.res: binary file`
 - `Arts/AnimationLibrary/armanimation.res: binary file`
-- `DataBase/Item/Armors.csv: binary file`
-- `DataBase/Item/Materials.csv: binary file`
 
 ## Embedded Project Files
 
@@ -1013,7 +1051,7 @@ Core project files are embedded below in priority order. Large files may be trun
 
 ### `res://project.godot`
 
-- Category: `project`; bytes: `7812`; sha256/16: `1cd8fda3a99a493a`
+- Category: `project`; bytes: `7908`; sha256/16: `63045ea03b5cace8`
 
 
 ```ini
@@ -1046,6 +1084,7 @@ SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
 SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
+PlayerInventoryCore="*res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd"
 InventoryManager="*res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd"
 UIManager="*res://Scene/Search_system/Script/Manager/ui_manager.gd"
 ItemDataBase="*res://Scene/Search_system/Script/Data/item_data_base.gd"
@@ -11243,7 +11282,7 @@ func _reduce_durability(item: Dictionary, damage_amount: int) -> void:
 
 ### `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`
 
-- Category: `script`; bytes: `2953`; sha256/16: `3d6ca32720387b86`
+- Category: `script`; bytes: `11236`; sha256/16: `80fd838bf12e850c`
 
 
 ```gdscript
@@ -11251,24 +11290,107 @@ extends Node
 
 # Item Database Manager
 #
-# Main / Shelter / Battle 侧使用的静态物品数据库。
+# 负责读取全游戏“静态物品定义”。
 #
-# 注意：
-# Dungeon 搜索系统当前使用的是它自己的
-# ItemDataBase / MAPInventoryManager，
-# 这里不负责 Dungeon 的搜索物品逻辑。
+# 当前公共类别：
+#
+# weapon      武器
+# equipment   装备
+# usable      道具
+# key_item    关键道具
+# resource    资源
+# supply      物资
+#
+#
+# 设计原则：
+#
+# 1. 普通物品主要通过 CSV 编辑。
+# 2. 新增普通数值字段时，不需要修改本脚本。
+# 3. 各类别额外字段统一进入 definition["data"]。
+# 4. 保留 get_item_data() 作为旧代码兼容接口。
+# 5. 新代码优先使用 get_item_definition()。
+#
 
-const ITEM_DATA_DIRECTORY: String = "res://DataBase/Item/"
+const ITEM_DATA_DIRECTORY: String = (
+	"res://DataBase/Item/"
+)
 
-const DATA_FILES: Array[String] = [
-	"Weapons.csv"
+# Tables
+
+## category 不需要重复填写进 CSV。
+##
+## 表格本身就代表所属类别，
+## 可以避免策划填错 category。
+const DATA_TABLES: Array[Dictionary] = [
+	{
+		"file": "Weapons.csv",
+		"category": "weapon"
+	},
+	{
+		"file": "Equipment.csv",
+		"category": "equipment"
+	},
+	{
+		"file": "Usables.csv",
+		"category": "usable"
+	},
+	{
+		"file": "KeyItems.csv",
+		"category": "key_item"
+	},
+	{
+		"file": "Resources.csv",
+		"category": "resource"
+	},
+	{
+		"file": "Supplies.csv",
+		"category": "supply"
+	}
 ]
 
-const INT_ARRAY_FIELDS: Array[String] = [
-	"default_cards",
-	"card_pool"
+# Stable Public Fields
+
+## 这些字段属于 ItemDefinition 的稳定公共层。
+##
+## CSV 中其它未知字段全部自动进入：
+##
+## definition["data"]
+##
+## 所以后面新增：
+##
+## base_damage
+## attack_speed
+## max_uses
+## effect_id
+##
+## 等字段时，不需要回来修改数据库加载器。
+const COMMON_FIELDS: Array[String] = [
+	"template_id",
+	"subtype",
+	"name_key",
+	"desc_key",
+	"icon_path",
+	"preview_texture",
+	"preview_scene",
+	"weight",
+	"max_stack",
+	"base_value",
+	"mechanic_id",
+	"dev_note"
 ]
 
+# Temporary Legacy Aliases
+
+## 当前项目旧 Weapons.csv 使用这些名字。
+##
+## 迁移期间继续支持，
+## 这样不用一次性修改 Shelter / Battle。
+const FIELD_ALIASES: Dictionary = {
+	"desc": "desc_key",
+	"wep_type": "subtype"
+}
+
+# template_id -> ItemDefinition
 var database: Dictionary = {}
 
 func _ready() -> void:
@@ -11279,143 +11401,526 @@ func _ready() -> void:
 func reload_database() -> void:
 	database.clear()
 
-	for file_name in DATA_FILES:
-		load_csv_data(
-			ITEM_DATA_DIRECTORY + file_name
+	for table_info in DATA_TABLES:
+		var file_name: String = str(
+			table_info.get(
+				"file",
+				""
+			)
 		)
 
+		var category: String = str(
+			table_info.get(
+				"category",
+				""
+			)
+		)
+
+		if file_name.is_empty():
+			continue
+
+		load_csv_data(
+			ITEM_DATA_DIRECTORY + file_name,
+			category
+		)
+
+	print(
+		"ItemDatabaseManager: "
+		+ "全部静态物品载入完成，共 %d 项。"
+		% database.size()
+	)
+
+## ------------------------------------------------------------
+## 新接口
+## ------------------------------------------------------------
+##
+## 返回结构化 ItemDefinition：
+##
+## {
+##     "template_id": "...",
+##     "category": "...",
+##     ...
+##
+##     "data": {
+##         类别专属字段
+##     }
+## }
+##
+func get_item_definition(
+	template_id: String
+) -> Dictionary:
+	if not database.has(template_id):
+		return {}
+
+	var definition: Dictionary = (
+		database[template_id]
+	)
+
+	return definition.duplicate(
+		true
+	)
+
+## ------------------------------------------------------------
+## 旧接口兼容
+## ------------------------------------------------------------
+##
+## 当前 Shelter 等旧代码仍然会直接访问：
+##
+## static_data["wep_type"]
+## static_data["default_cards"]
+## static_data["desc"]
+##
+## 因此这里把 data 临时摊平。
+##
+## 新代码不要依赖这个摊平结构。
 func get_item_data(
 	template_id: String
 ) -> Dictionary:
-	if database.has(template_id):
-		return database[template_id]
+	var definition: Dictionary = (
+		get_item_definition(
+			template_id
+		)
+	)
 
-	return {}
+	if definition.is_empty():
+		return {}
+
+	var result: Dictionary = (
+		definition.duplicate(
+			true
+		)
+	)
+
+	var extra_data: Variant = result.get(
+		"data",
+		{}
+	)
+
+	if extra_data is Dictionary:
+		for key in extra_data.keys():
+			result[key] = extra_data[key]
+
+	# 当前 Shelter UI 的旧字段兼容。
+	result["desc"] = str(
+		result.get(
+			"desc_key",
+			""
+		)
+	)
+
+	result["wep_type"] = str(
+		result.get(
+			"subtype",
+			""
+		)
+	)
+
+	return result
 
 func has_item_data(
 	template_id: String
 ) -> bool:
-	return database.has(template_id)
+	return database.has(
+		template_id
+	)
+
+func get_all_item_definitions() -> Array:
+	var result: Array = []
+
+	for definition in database.values():
+		if not definition is Dictionary:
+			continue
+
+		result.append(
+			definition.duplicate(
+				true
+			)
+		)
+
+	return result
+
+func get_items_by_category(
+	category: String
+) -> Array:
+	var result: Array = []
+
+	for definition in database.values():
+		if not definition is Dictionary:
+			continue
+
+		if str(
+			definition.get(
+				"category",
+				""
+			)
+		) != category:
+			continue
+
+		result.append(
+			definition.duplicate(
+				true
+			)
+		)
+
+	return result
 
 # CSV
 
 func load_csv_data(
-	file_path: String
+	file_path: String,
+	category: String
 ) -> void:
-	if not FileAccess.file_exists(file_path):
+	if not FileAccess.file_exists(
+		file_path
+	):
 		push_warning(
-			"ItemDatabaseManager: 找不到数据表 -> "
+			"ItemDatabaseManager: "
+			+ "找不到数据表 -> "
 			+ file_path
 		)
+
 		return
 
-	var file := FileAccess.open(
+	var file: FileAccess = FileAccess.open(
 		file_path,
 		FileAccess.READ
 	)
 
 	if file == null:
 		push_warning(
-			"ItemDatabaseManager: 无法打开数据表 -> "
+			"ItemDatabaseManager: "
+			+ "无法打开数据表 -> "
 			+ file_path
 		)
+
 		return
 
 	var headers: PackedStringArray = (
 		file.get_csv_line()
 	)
 
-	if (
-		headers.is_empty()
-		or headers[0].strip_edges()
-		!= "template_id"
-	):
+	if headers.is_empty():
 		push_warning(
-			"ItemDatabaseManager: 数据表不是有效的纯文本 CSV，已跳过 -> "
+			"ItemDatabaseManager: "
+			+ "CSV 没有表头 -> "
 			+ file_path
 		)
 
 		file.close()
 		return
 
+	# 处理部分表格软件保存 UTF-8 CSV 时产生的 BOM。
+	for i in range(
+		headers.size()
+	):
+		headers[i] = (
+			headers[i]
+			.replace(
+				"\ufeff",
+				""
+			)
+			.strip_edges()
+		)
+
+	if not headers.has(
+		"template_id"
+	):
+		push_warning(
+			"ItemDatabaseManager: "
+			+ "CSV 缺少 template_id 列 -> "
+			+ file_path
+		)
+
+		file.close()
+		return
+
+	var loaded_count: int = 0
+
 	while not file.eof_reached():
 		var row: PackedStringArray = (
 			file.get_csv_line()
 		)
 
-		# 跳过空行。
-		if (
-			row.size() == 1
-			and row[0].strip_edges().is_empty()
+		if _is_empty_row(
+			row
 		):
 			continue
 
-		if row.size() < headers.size():
-			push_warning(
-				"ItemDatabaseManager: CSV 行字段数量不足，已跳过 -> "
-				+ file_path
+		var raw_row: Dictionary = {}
+
+		for i in range(
+			headers.size()
+		):
+			var key: String = (
+				headers[i]
 			)
+
+			if key.is_empty():
+				continue
+
+			var raw_value: String = ""
+
+			if i < row.size():
+				raw_value = (
+					row[i]
+					.strip_edges()
+				)
+
+			raw_row[key] = raw_value
+
+		# enabled 为空时默认启用。
+		var enabled_text: String = str(
+			raw_row.get(
+				"enabled",
+				"true"
+			)
+		).strip_edges().to_lower()
+
+		if enabled_text == "false":
 			continue
 
-		var item_info: Dictionary = {}
-
-		for i in range(headers.size()):
-			var key: String = (
-				headers[i].strip_edges()
-			)
-
-			var raw_value: String = (
-				row[i].strip_edges()
-			)
-
-			item_info[key] = _parse_value(
-				key,
-				raw_value
-			)
-
-		var template_id: String = str(
-			item_info.get(
-				"template_id",
-				""
+		var definition: Dictionary = (
+			_create_default_definition(
+				category
 			)
 		)
 
+		var extra_data: Dictionary = {}
+
+		for original_key in raw_row.keys():
+			var original_key_string: String = str(
+				original_key
+			)
+
+			if original_key_string == "enabled":
+				continue
+
+			var canonical_key: String = (
+				_get_canonical_field_name(
+					original_key_string
+				)
+			)
+
+			var raw_value: String = str(
+				raw_row[
+					original_key
+				]
+			)
+
+			# 空白公共字段保留默认值。
+			#
+			# 空白扩展字段则不写入 data，
+			# 避免 data 中堆积大量无意义字段。
+			if raw_value.is_empty():
+				continue
+
+			var parsed_value: Variant = (
+				_parse_value(
+					raw_value
+				)
+			)
+
+			if canonical_key in COMMON_FIELDS:
+				definition[
+					canonical_key
+				] = parsed_value
+			else:
+				extra_data[
+					canonical_key
+				] = parsed_value
+
+		definition[
+			"data"
+		] = extra_data
+
+		var template_id: String = str(
+			definition.get(
+				"template_id",
+				""
+			)
+		).strip_edges()
+
 		if template_id.is_empty():
+			push_warning(
+				"ItemDatabaseManager: "
+				+ "%s 中发现没有 template_id 的行，已跳过。"
+				% file_path.get_file()
+			)
+
 			continue
 
-		database[template_id] = item_info
+		if database.has(
+			template_id
+		):
+			push_error(
+				"ItemDatabaseManager: "
+				+ "发现重复 template_id -> "
+				+ template_id
+				+ "，来源："
+				+ file_path
+			)
+
+			continue
+
+		database[
+			template_id
+		] = definition
+
+		loaded_count += 1
 
 	file.close()
 
 	print(
-		"ItemDatabaseManager: 已载入 %s，当前静态物品总数：%d"
+		"ItemDatabaseManager: "
+		+ "已载入 %s：%d 项。"
 		% [
 			file_path.get_file(),
-			database.size()
+			loaded_count
 		]
 	)
 
+# Definition
+
+func _create_default_definition(
+	category: String
+) -> Dictionary:
+	return {
+		"template_id": "",
+		"category": category,
+		"subtype": "",
+		"name_key": "",
+		"desc_key": "",
+		"icon_path": "",
+		"preview_texture": "",
+		"preview_scene": "",
+		"weight": 0.0,
+		"max_stack": 1,
+		"base_value": 0,
+		"mechanic_id": "",
+		"dev_note": "",
+		"data": {}
+	}
+
+func _get_canonical_field_name(
+	field_name: String
+) -> String:
+	if FIELD_ALIASES.has(
+		field_name
+	):
+		return str(
+			FIELD_ALIASES[
+				field_name
+			]
+		)
+
+	return field_name
+
+# Parsing
+
+## V1 CSV 值规则：
+##
+## true / false
+##     -> bool
+##
+## 10
+##     -> int
+##
+## 1.5
+##     -> float
+##
+## [1;2;3]
+##     -> Array[int]
+##
+## [dungeon;battle]
+##     -> Array[String]
+##
+## 其它内容
+##     -> String
+##
+## 使用 [] 明确表示数组，
+## 避免把普通字符串中的 ; 错误拆分。
 func _parse_value(
-	key: String,
 	value: String
 ) -> Variant:
-	if key in INT_ARRAY_FIELDS:
-		var result: Array[int] = []
+	var clean_value: String = (
+		value.strip_edges()
+	)
 
-		if value.is_empty():
-			return result
+	if clean_value.is_empty():
+		return ""
 
-		for part in value.split(";"):
-			var clean_part: String = (
-				part.strip_edges()
-			)
+	var lower_value: String = (
+		clean_value.to_lower()
+	)
 
-			if clean_part.is_valid_int():
-				result.append(
-					clean_part.to_int()
-				)
+	if lower_value == "true":
+		return true
 
+	if lower_value == "false":
+		return false
+
+	if (
+		clean_value.begins_with(
+			"["
+		)
+		and clean_value.ends_with(
+			"]"
+		)
+	):
+		return _parse_array(
+			clean_value
+		)
+
+	return _parse_scalar(
+		clean_value
+	)
+
+func _parse_array(
+	value: String
+) -> Array:
+	var result: Array = []
+
+	var content: String = (
+		value.substr(
+			1,
+			value.length() - 2
+		)
+		.strip_edges()
+	)
+
+	if content.is_empty():
 		return result
+
+	for part in content.split(
+		";"
+	):
+		var clean_part: String = (
+			part.strip_edges()
+		)
+
+		if clean_part.is_empty():
+			continue
+
+		result.append(
+			_parse_scalar(
+				clean_part
+			)
+		)
+
+	return result
+
+func _parse_scalar(
+	value: String
+) -> Variant:
+	var lower_value: String = (
+		value.to_lower()
+	)
+
+	if lower_value == "true":
+		return true
+
+	if lower_value == "false":
+		return false
 
 	if value.is_valid_int():
 		return value.to_int()
@@ -11424,12 +11929,24 @@ func _parse_value(
 		return value.to_float()
 
 	return value
+
+func _is_empty_row(
+	row: PackedStringArray
+) -> bool:
+	if row.is_empty():
+		return true
+
+	for value in row:
+		if not value.strip_edges().is_empty():
+			return false
+
+	return true
 ```
 
 
 ### `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`
 
-- Category: `script`; bytes: `12021`; sha256/16: `42caa5ae8b464f46`
+- Category: `script`; bytes: `15696`; sha256/16: `2507ad3ecece6709`
 
 
 ```gdscript
@@ -11464,7 +11981,8 @@ extends Node
 const SAVE_DIR: String = "user://saves/"
 const META_PATH: String = "user://save_meta.cfg"
 
-const SAVE_VERSION: int = 2
+const SAVE_VERSION: int = 3
+const INVENTORY_SAVE_VERSION: int = 1
 const SHELTER_SAVE_VERSION: int = 1
 
 var current_save: Dictionary = {}
@@ -11501,19 +12019,26 @@ func create_new_save(
 			"uid": "uid_%s_1" % save_id,
 			"template_id": "w_001",
 			"location": "equipped_weapon_1",
-			"current_durability": 100,
-			"is_broken": false,
-			"equipped_cards": [
-				10001,
-				10001,
-				10002
-			]
+			"count": 1,
+
+			"state": {
+				"current_durability": 100,
+				"is_broken": false,
+
+				"equipped_cards": [
+					10001,
+					10001,
+					10002
+				]
+			}
 		},
 		{
 			"uid": "uid_%s_2" % save_id,
 			"template_id": "i_001",
 			"location": "warehouse",
-			"count": 3
+			"count": 3,
+
+			"state": {}
 		}
 	]
 
@@ -11528,6 +12053,7 @@ func create_new_save(
 
 		"in_raid": false,
 
+		"inventory_version": INVENTORY_SAVE_VERSION,
 		"inventory": default_inventory,
 
 		"shelter": _create_default_shelter_data()
@@ -11985,10 +12511,25 @@ func _normalize_save_data(
 	):
 		result["in_raid"] = false
 
-	if not result.has(
-		"inventory"
-	):
-		result["inventory"] = []
+	# Inventory Migration
+
+	var raw_inventory: Variant = result.get(
+		"inventory",
+		[]
+	)
+
+	result["inventory"] = (
+		_normalize_inventory_data(
+			raw_inventory,
+			save_id
+		)
+	)
+
+	result[
+		"inventory_version"
+	] = INVENTORY_SAVE_VERSION
+
+	# Shelter
 
 	if (
 		not result.has("shelter")
@@ -11998,6 +12539,166 @@ func _normalize_save_data(
 	):
 		result["shelter"] = (
 			_create_default_shelter_data()
+		)
+
+	return result
+
+func _normalize_inventory_data(
+	raw_inventory: Variant,
+	save_id: String
+) -> Array:
+	var result: Array = []
+
+	if not raw_inventory is Array:
+		push_warning(
+			"SaveManager: "
+			+ "inventory 不是 Array，已重置为空库存。"
+		)
+
+		return result
+
+	var inventory: Array = raw_inventory
+
+	for index in range(
+		inventory.size()
+	):
+		var value: Variant = inventory[index]
+
+		if not value is Dictionary:
+			push_warning(
+				"SaveManager: "
+				+ "库存第 %d 项不是 Dictionary，已跳过。"
+				% index
+			)
+
+			continue
+
+		var source: Dictionary = (
+			value as Dictionary
+		)
+
+		# UID
+
+		var uid: String = str(
+			source.get(
+				"uid",
+				""
+			)
+		).strip_edges()
+
+		# 非常旧的测试数据如果没有 UID，
+		# 自动生成一个稳定的迁移 UID。
+		if uid.is_empty():
+			uid = (
+				"uid_%s_legacy_%d"
+				% [
+					save_id,
+					index
+				]
+			)
+
+		# Template
+
+		var template_id: String = str(
+			source.get(
+				"template_id",
+				""
+			)
+		).strip_edges()
+
+		if template_id.is_empty():
+			push_warning(
+				"SaveManager: "
+				+ "库存物品 %s 缺少 template_id。"
+				% uid
+			)
+
+		# Location
+
+		var location: String = str(
+			source.get(
+				"location",
+				"warehouse"
+			)
+		).strip_edges()
+
+		if location.is_empty():
+			location = "warehouse"
+
+		# Count
+
+		var count: int = int(
+			source.get(
+				"count",
+				1
+			)
+		)
+
+		if count <= 0:
+			count = 1
+
+		# State
+
+		var state: Dictionary = {}
+
+		var existing_state: Variant = source.get(
+			"state",
+			{}
+		)
+
+		if existing_state is Dictionary:
+			state = (
+				existing_state as Dictionary
+			).duplicate(
+				true
+			)
+
+		# 旧版本物品实例把动态字段直接放在顶层。
+		#
+		# V1 中除了这五个公共字段以外，
+		# 其它实例字段全部自动迁移进入 state。
+		#
+		# 这样 current_durability /
+		# is_broken /
+		# equipped_cards 等现有数据不会丢失，
+		# 将来其它未知旧字段也能保留下来。
+		for key in source.keys():
+			var field_name: String = str(
+				key
+			)
+
+			if field_name in [
+				"uid",
+				"template_id",
+				"location",
+				"count",
+				"state"
+			]:
+				continue
+
+			# 如果新的 state 已经拥有同名字段，
+			# 优先保留 state 中的数据。
+			if state.has(
+				field_name
+			):
+				continue
+
+			state[
+				field_name
+			] = source[
+				key
+			]
+
+		var normalized_item: Dictionary = {
+			"uid": uid,
+			"template_id": template_id,
+			"location": location,
+			"count": count,
+			"state": state
+		}
+
+		result.append(
+			normalized_item
 		)
 
 	return result
@@ -12267,6 +12968,515 @@ func load_settings() -> void:
 
 	var is_full = config.get_value("Graphics", "fullscreen", false)
 	set_fullscreen(is_full)
+```
+
+
+### `res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd`
+
+- Category: `script`; bytes: `3827`; sha256/16: `419d73c07abcdd8f`
+
+
+```gdscript
+extends Node
+
+# Player Inventory Core
+#
+# 永久玩家库存的公共数据层。
+#
+# 负责：
+#
+# - 获取永久库存快照
+# - 根据 UID 查找物品
+# - 验证 Item V1 数据
+# - 提交一份新的永久库存
+# - 保存
+# - 通知库存变化
+#
+#
+# 不负责：
+#
+# - Shelter 装备规则
+# - Shelter 仓库规则
+# - Dungeon 搜索规则
+# - Raid 撤离规则
+# - Raid 死亡规则
+# - 战斗道具效果
+#
+#
+# 正常的 Shelter / Dungeon 玩法开发
+# 不应该修改这个文件。
+
+signal inventory_changed(
+	reason: StringName
+)
+
+# Read
+
+func has_loaded_save() -> bool:
+	return not SaveManager.current_save.is_empty()
+
+func get_inventory_snapshot() -> Array:
+	if SaveManager.current_save.is_empty():
+		return []
+
+	var value: Variant = (
+		SaveManager.current_save.get(
+			"inventory",
+			[]
+		)
+	)
+
+	if not value is Array:
+		return []
+
+	var inventory: Array = value
+
+	# 永远返回深复制。
+	#
+	# 外部系统不能通过偷偷修改返回值，
+	# 绕过 Core 改写永久存档。
+	return inventory.duplicate(
+		true
+	)
+
+func get_item_by_uid(
+	uid: String
+) -> Dictionary:
+	if uid.is_empty():
+		return {}
+
+	for value in get_inventory_snapshot():
+		if not value is Dictionary:
+			continue
+
+		var item: Dictionary = value
+
+		if str(
+			item.get(
+				"uid",
+				""
+			)
+		) != uid:
+			continue
+
+		return item.duplicate(
+			true
+		)
+
+	return {}
+
+# Validation
+
+func validate_inventory(
+	inventory: Array
+) -> bool:
+	var used_uids: Dictionary = {}
+
+	for index in range(
+		inventory.size()
+	):
+		var value: Variant = inventory[index]
+
+		if not value is Dictionary:
+			push_error(
+				"PlayerInventoryCore: "
+				+ "库存第 %d 项不是 Dictionary。"
+				% index
+			)
+
+			return false
+
+		var item: Dictionary = value
+
+		if not ItemContract.validate_instance(
+			item
+		):
+			push_error(
+				"PlayerInventoryCore: "
+				+ "库存第 %d 项不符合 Item V1 协议。"
+				% index
+			)
+
+			return false
+
+		var uid: String = str(
+			item.get(
+				"uid",
+				""
+			)
+		)
+
+		if used_uids.has(
+			uid
+		):
+			push_error(
+				"PlayerInventoryCore: "
+				+ "发现重复 UID -> "
+				+ uid
+			)
+
+			return false
+
+		used_uids[
+			uid
+		] = true
+
+	return true
+
+# Write
+
+## new_inventory 必须是一份已经完成业务处理的最终结果。
+##
+## Core 不知道为什么发生变化。
+func replace_inventory(
+	new_inventory: Array,
+	reason: StringName = &"inventory_update",
+	save_immediately: bool = true
+) -> bool:
+	if SaveManager.current_save.is_empty():
+		push_error(
+			"PlayerInventoryCore: "
+			+ "当前没有加载存档。"
+		)
+
+		return false
+
+	if not validate_inventory(
+		new_inventory
+	):
+		push_error(
+			"PlayerInventoryCore: "
+			+ "拒绝写入非法库存。"
+		)
+
+		return false
+
+	var previous_inventory: Array = (
+		get_inventory_snapshot()
+	)
+
+	SaveManager.current_save[
+		"inventory"
+	] = new_inventory.duplicate(
+		true
+	)
+
+	if save_immediately:
+		if not SaveManager.save_current_state():
+			# 保存失败时恢复旧库存，
+			# 避免内存和磁盘出现两种结果。
+			SaveManager.current_save[
+				"inventory"
+			] = previous_inventory
+
+			push_error(
+				"PlayerInventoryCore: "
+				+ "库存保存失败，本次修改已回滚。"
+			)
+
+			return false
+
+	inventory_changed.emit(
+		reason
+	)
+
+	return true
+```
+
+
+### `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`
+
+- Category: `script`; bytes: `2461`; sha256/16: `3be60f12694f1507`
+
+
+```gdscript
+extends Node
+
+# Raid Inventory Bridge
+#
+# Dungeon / Raid 与永久库存之间唯一的公共交接端口。
+#
+#
+# 不负责：
+#
+# - 搜索如何生成物品
+# - Dungeon 背包如何工作
+# - 死亡掉什么
+# - 成功撤离获得什么
+# - 安全箱规则
+# - 耐久损失
+#
+#
+# Dungeon 负责自己算出最终结果。
+#
+# Bridge 只负责：
+#
+# 1. 出发时提供永久库存副本。
+# 2. 返回时接收已经完成结算的最终库存。
+#
+
+signal return_inventory_committed(
+	item_count: int
+)
+
+# Departure
+
+## 给 Dungeon 一份玩家出发前的永久库存快照。
+##
+## 返回的是深复制。
+## Dungeon 无法直接修改永久存档。
+func get_departure_inventory_snapshot() -> Array:
+	return PlayerInventoryCore.get_inventory_snapshot()
+
+# Return
+
+## final_inventory 必须是 Dungeon 已经完成所有规则以后
+## 得出的“最终永久库存”。
+func commit_return_inventory(
+	final_inventory: Array
+) -> bool:
+	if not _validate_known_items(
+		final_inventory
+	):
+		return false
+
+	var success: bool = (
+		PlayerInventoryCore.replace_inventory(
+			final_inventory,
+			&"raid_return",
+			true
+		)
+	)
+
+	if not success:
+		return false
+
+	return_inventory_committed.emit(
+		final_inventory.size()
+	)
+
+	return true
+
+# Validation
+
+func _validate_known_items(
+	inventory: Array
+) -> bool:
+	if not PlayerInventoryCore.validate_inventory(
+		inventory
+	):
+		push_error(
+			"RaidInventoryBridge: "
+			+ "Dungeon 返回库存不符合 Item V1 协议。"
+		)
+
+		return false
+
+	for value in inventory:
+		if not value is Dictionary:
+			return false
+
+		var item: Dictionary = value
+
+		var template_id: String = str(
+			item.get(
+				"template_id",
+				""
+			)
+		)
+
+		if not ItemDatabaseManager.has_item_data(
+			template_id
+		):
+			push_error(
+				"RaidInventoryBridge: "
+				+ "Dungeon 返回了未知 template_id -> "
+				+ template_id
+			)
+
+			return false
+
+	return true
+```
+
+
+### `res://Scene/Main_Scene/Scripts/Shared/item_contract.gd`
+
+- Category: `script`; bytes: `3263`; sha256/16: `f980c17882ca9470`
+
+
+```gdscript
+class_name ItemContract
+extends RefCounted
+
+# Item Contract V1
+#
+# Shelter / Dungeon / Battle 共用的物品数据最低协议。
+#
+# 这里不负责任何具体玩法。
+#
+# 不负责：
+#
+# - 武器如何攻击
+# - 道具如何使用
+# - 装备如何计算
+# - Dungeon 如何搜刮
+# - Shelter 如何整理仓库
+# - 死亡如何结算
+#
+# 这里只定义：
+#
+# 1. 静态物品有哪些顶级类别。
+# 2. 永久物品实例最低必须包含什么。
+#
+# 这个文件属于“共享协议”。
+# 后续尽量少改。
+
+# Categories
+
+const CATEGORY_WEAPON: String = "weapon"
+const CATEGORY_EQUIPMENT: String = "equipment"
+const CATEGORY_USABLE: String = "usable"
+const CATEGORY_KEY_ITEM: String = "key_item"
+const CATEGORY_RESOURCE: String = "resource"
+const CATEGORY_SUPPLY: String = "supply"
+
+const VALID_CATEGORIES: Array[String] = [
+	CATEGORY_WEAPON,
+	CATEGORY_EQUIPMENT,
+	CATEGORY_USABLE,
+	CATEGORY_KEY_ITEM,
+	CATEGORY_RESOURCE,
+	CATEGORY_SUPPLY
+]
+
+# ItemDefinition
+
+## 静态定义最低要求：
+##
+## template_id
+## category
+## data
+##
+## 其它字段允许继续扩展。
+static func validate_definition(
+	definition: Dictionary
+) -> bool:
+	var template_id: String = str(
+		definition.get(
+			"template_id",
+			""
+		)
+	).strip_edges()
+
+	if template_id.is_empty():
+		return false
+
+	var category: String = str(
+		definition.get(
+			"category",
+			""
+		)
+	).strip_edges()
+
+	if category not in VALID_CATEGORIES:
+		return false
+
+	var data: Variant = definition.get(
+		"data",
+		{}
+	)
+
+	if not data is Dictionary:
+		return false
+
+	return true
+
+static func is_valid_category(
+	category: String
+) -> bool:
+	return category in VALID_CATEGORIES
+
+# ItemInstance
+
+## 最终永久库存中的一个物品实例，
+## V1 最低结构：
+##
+## {
+##     "uid": "...",
+##     "template_id": "...",
+##     "location": "...",
+##     "count": 1,
+##     "state": {}
+## }
+##
+##
+## state 内容完全由具体玩法决定。
+##
+## 例如武器：
+##
+## state = {
+##     "current_durability": 70
+## }
+##
+## 道具：
+##
+## state = {
+##     "remaining_uses": 2
+## }
+##
+static func validate_instance(
+	item: Dictionary
+) -> bool:
+	var uid: String = str(
+		item.get(
+			"uid",
+			""
+		)
+	).strip_edges()
+
+	if uid.is_empty():
+		return false
+
+	var template_id: String = str(
+		item.get(
+			"template_id",
+			""
+		)
+	).strip_edges()
+
+	if template_id.is_empty():
+		return false
+
+	var location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	).strip_edges()
+
+	if location.is_empty():
+		return false
+
+	var count: int = int(
+		item.get(
+			"count",
+			0
+		)
+	)
+
+	if count <= 0:
+		return false
+
+	var state: Variant = item.get(
+		"state",
+		{}
+	)
+
+	if not state is Dictionary:
+		return false
+
+	return true
 ```
 
 
@@ -16665,7 +17875,7 @@ func _toggle_camera() -> void:
 
 ### `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`
 
-- Category: `script`; bytes: `8529`; sha256/16: `014022150782e02d`
+- Category: `script`; bytes: `8452`; sha256/16: `6425874f9be790ca`
 
 
 ```gdscript
@@ -17006,7 +18216,6 @@ func _on_raid_entry_body_entered(
 	# 没有经过 NPC 确认：
 	#
 	# 什么都不发生。
-
 	if not raid_authorized:
 		return
 
@@ -17017,7 +18226,11 @@ func _on_raid_entry_body_entered(
 
 		return
 
-	_enter_battle()
+	_transitioning = true
+
+	call_deferred(
+		"_enter_battle"
+	)
 
 func _enter_battle() -> void:
 	_transitioning = true
@@ -17114,6 +18327,556 @@ func _validate_setup() -> bool:
 		valid = false
 
 	return valid
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`
+
+- Category: `script`; bytes: `8894`; sha256/16: `b74aad446236a875`
+
+
+```gdscript
+class_name ShelterInventoryManager
+extends Node
+
+# Shelter Inventory Manager
+#
+# 只属于 Shelter。
+#
+# 负责：
+#
+# - Shelter 内库存查询
+# - 仓库 / 角色背包流转
+# - 武器装备 / 卸下
+#
+#
+# 不负责：
+#
+# - Dungeon 搜索
+# - Dungeon 局内背包
+# - Raid 死亡
+# - Raid 撤离
+# - 战斗物品效果
+#
+#
+# 所有永久库存写入最终都经过：
+#
+# PlayerInventoryCore
+#
+
+signal inventory_changed
+
+const LOCATION_WAREHOUSE: String = "warehouse"
+
+const LOCATION_CHARACTER_BACKPACK: String = (
+	"character_backpack"
+)
+
+const EQUIPPED_WEAPON_PREFIX: String = (
+	"equipped_weapon_"
+)
+
+func _ready() -> void:
+	if not PlayerInventoryCore.inventory_changed.is_connected(
+		_on_core_inventory_changed
+	):
+		PlayerInventoryCore.inventory_changed.connect(
+			_on_core_inventory_changed
+		)
+
+# Query
+
+func get_items(
+	location_filter: String = "",
+	category_filter: String = ""
+) -> Array:
+	var result: Array = []
+
+	var inventory: Array = (
+		PlayerInventoryCore.get_inventory_snapshot()
+	)
+
+	for value in inventory:
+		if not value is Dictionary:
+			continue
+
+		var item: Dictionary = value
+
+		var location: String = str(
+			item.get(
+				"location",
+				""
+			)
+		)
+
+		if (
+			not location_filter.is_empty()
+			and location != location_filter
+		):
+			continue
+
+		if not category_filter.is_empty():
+			var template_id: String = str(
+				item.get(
+					"template_id",
+					""
+				)
+			)
+
+			var definition: Dictionary = (
+				ItemDatabaseManager.get_item_definition(
+					template_id
+				)
+			)
+
+			if str(
+				definition.get(
+					"category",
+					""
+				)
+			) != category_filter:
+				continue
+
+		result.append(
+			item
+		)
+
+	return result
+
+func get_item_by_uid(
+	uid: String
+) -> Dictionary:
+	return PlayerInventoryCore.get_item_by_uid(
+		uid
+	)
+
+# Character Inventory
+
+func get_character_weapons() -> Array:
+	var result: Array = []
+
+	for value in PlayerInventoryCore.get_inventory_snapshot():
+		if not value is Dictionary:
+			continue
+
+		var item: Dictionary = value
+
+		var location: String = str(
+			item.get(
+				"location",
+				""
+			)
+		)
+
+		var belongs_to_character: bool = (
+			location
+			== LOCATION_CHARACTER_BACKPACK
+			or location.begins_with(
+				EQUIPPED_WEAPON_PREFIX
+			)
+		)
+
+		if not belongs_to_character:
+			continue
+
+		var template_id: String = str(
+			item.get(
+				"template_id",
+				""
+			)
+		)
+
+		var definition: Dictionary = (
+			ItemDatabaseManager.get_item_definition(
+				template_id
+			)
+		)
+
+		if str(
+			definition.get(
+				"category",
+				""
+			)
+		) != ItemContract.CATEGORY_WEAPON:
+			continue
+
+		result.append(
+			item
+		)
+
+	return result
+
+func is_weapon_equipped(
+	uid: String
+) -> bool:
+	var item: Dictionary = get_item_by_uid(
+		uid
+	)
+
+	if item.is_empty():
+		return false
+
+	var location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	return location.begins_with(
+		EQUIPPED_WEAPON_PREFIX
+	)
+
+# Weapon Equip
+
+func equip_weapon(
+	uid: String,
+	slot_index: int = 1
+) -> bool:
+	if slot_index < 1:
+		push_warning(
+			"ShelterInventoryManager: "
+			+ "武器槽编号必须 >= 1。"
+		)
+
+		return false
+
+	var inventory: Array = (
+		PlayerInventoryCore.get_inventory_snapshot()
+	)
+
+	var target_index: int = (
+		_find_item_index(
+			inventory,
+			uid
+		)
+	)
+
+	if target_index < 0:
+		push_warning(
+			"ShelterInventoryManager: "
+			+ "找不到物品 -> "
+			+ uid
+		)
+
+		return false
+
+	var item: Dictionary = (
+		inventory[target_index]
+	)
+
+	var template_id: String = str(
+		item.get(
+			"template_id",
+			""
+		)
+	)
+
+	var definition: Dictionary = (
+		ItemDatabaseManager.get_item_definition(
+			template_id
+		)
+	)
+
+	if str(
+		definition.get(
+			"category",
+			""
+		)
+	) != ItemContract.CATEGORY_WEAPON:
+		push_warning(
+			"ShelterInventoryManager: "
+			+ "目标物品不是武器 -> "
+			+ uid
+		)
+
+		return false
+
+	var source_location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	# Shelter 不允许直接把仓库中的武器
+	# 隔空装备到角色身上。
+	if (
+		source_location
+		!= LOCATION_CHARACTER_BACKPACK
+		and not source_location.begins_with(
+			EQUIPPED_WEAPON_PREFIX
+		)
+	):
+		push_warning(
+			"ShelterInventoryManager: "
+			+ "武器当前不在角色身上 -> "
+			+ uid
+		)
+
+		return false
+
+	var target_location: String = (
+		EQUIPPED_WEAPON_PREFIX
+		+ str(slot_index)
+	)
+
+	if source_location == target_location:
+		return true
+
+	# 同一装备槽只允许一个物品。
+	#
+	# 原装备自动退回角色背包。
+	for index in range(
+		inventory.size()
+	):
+		if index == target_index:
+			continue
+
+		var existing_value: Variant = (
+			inventory[index]
+		)
+
+		if not existing_value is Dictionary:
+			continue
+
+		var existing_item: Dictionary = (
+			existing_value
+		)
+
+		if str(
+			existing_item.get(
+				"location",
+				""
+			)
+		) != target_location:
+			continue
+
+		existing_item[
+			"location"
+		] = LOCATION_CHARACTER_BACKPACK
+
+	item[
+		"location"
+	] = target_location
+
+	return PlayerInventoryCore.replace_inventory(
+		inventory,
+		&"shelter_equip_weapon",
+		true
+	)
+
+func unequip_weapon(
+	uid: String
+) -> bool:
+	var inventory: Array = (
+		PlayerInventoryCore.get_inventory_snapshot()
+	)
+
+	var target_index: int = (
+		_find_item_index(
+			inventory,
+			uid
+		)
+	)
+
+	if target_index < 0:
+		return false
+
+	var item: Dictionary = (
+		inventory[target_index]
+	)
+
+	var location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	if not location.begins_with(
+		EQUIPPED_WEAPON_PREFIX
+	):
+		return false
+
+	item[
+		"location"
+	] = LOCATION_CHARACTER_BACKPACK
+
+	return PlayerInventoryCore.replace_inventory(
+		inventory,
+		&"shelter_unequip_weapon",
+		true
+	)
+
+# Shelter Item Movement
+
+## 给之后的仓库 UI 使用。
+##
+## 当前允许：
+##
+## warehouse
+## character_backpack
+## equipped_*
+##
+## Shelter 不操作 Dungeon 自己的局内位置。
+func move_item(
+	uid: String,
+	new_location: String
+) -> bool:
+	if not _is_shelter_location(
+		new_location
+	):
+		push_warning(
+			"ShelterInventoryManager: "
+			+ "拒绝移动到非 Shelter 位置 -> "
+			+ new_location
+		)
+
+		return false
+
+	var inventory: Array = (
+		PlayerInventoryCore.get_inventory_snapshot()
+	)
+
+	var target_index: int = (
+		_find_item_index(
+			inventory,
+			uid
+		)
+	)
+
+	if target_index < 0:
+		return false
+
+	var item: Dictionary = (
+		inventory[target_index]
+	)
+
+	var source_location: String = str(
+		item.get(
+			"location",
+			""
+		)
+	)
+
+	if not _is_shelter_location(
+		source_location
+	):
+		push_warning(
+			"ShelterInventoryManager: "
+			+ "目标物品不属于 Shelter 库存位置 -> "
+			+ source_location
+		)
+
+		return false
+
+	if source_location == new_location:
+		return true
+
+	# equipped_* 都视为唯一装备槽。
+	if new_location.begins_with(
+		"equipped_"
+	):
+		for index in range(
+			inventory.size()
+		):
+			if index == target_index:
+				continue
+
+			var existing_value: Variant = (
+				inventory[index]
+			)
+
+			if not existing_value is Dictionary:
+				continue
+
+			var existing_item: Dictionary = (
+				existing_value
+			)
+
+			if str(
+				existing_item.get(
+					"location",
+					""
+				)
+			) != new_location:
+				continue
+
+			existing_item[
+				"location"
+			] = LOCATION_CHARACTER_BACKPACK
+
+	item[
+		"location"
+	] = new_location
+
+	return PlayerInventoryCore.replace_inventory(
+		inventory,
+		&"shelter_move_item",
+		true
+	)
+
+func move_to_warehouse(
+	uid: String
+) -> bool:
+	return move_item(
+		uid,
+		LOCATION_WAREHOUSE
+	)
+
+func move_to_character_backpack(
+	uid: String
+) -> bool:
+	return move_item(
+		uid,
+		LOCATION_CHARACTER_BACKPACK
+	)
+
+# Internal
+
+func _find_item_index(
+	inventory: Array,
+	uid: String
+) -> int:
+	for index in range(
+		inventory.size()
+	):
+		var value: Variant = (
+			inventory[index]
+		)
+
+		if not value is Dictionary:
+			continue
+
+		var item: Dictionary = value
+
+		if str(
+			item.get(
+				"uid",
+				""
+			)
+		) == uid:
+			return index
+
+	return -1
+
+func _is_shelter_location(
+	location: String
+) -> bool:
+	return (
+		location == LOCATION_WAREHOUSE
+		or location
+		== LOCATION_CHARACTER_BACKPACK
+		or location.begins_with(
+			"equipped_"
+		)
+	)
+
+func _on_core_inventory_changed(
+	_reason: StringName
+) -> void:
+	inventory_changed.emit()
 ```
 
 
@@ -18644,6 +20407,395 @@ func _validate_setup() -> void:
 			"ShelterPlayer: Animation Player 尚未设置。"
 			+ "角色仍可以移动，但不会播放动画。"
 		)
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
+
+- Category: `script`; bytes: `3936`; sha256/16: `d90a8d2a51dcdd3d`
+
+
+```gdscript
+extends Control
+class_name ShelterCharacterPage
+
+# Shelter Character Page
+#
+# 独立角色页面。
+#
+# 设计目标：
+# - 角色页面的美术布局完全放在独立 .tscn 中；
+# - ShelterInventoryUI 只负责页面切换，不管理角色页内部布局；
+# - 本页面只读取 ShelterInventoryManager 的正式库存数据；
+# - 装备显示以 item.location 为唯一依据；
+# - 右键卸下仍然经过 ShelterInventoryManager。
+
+@onready var weapon_slot_1: ShelterCharacterSlot = %WeaponSlot1
+@onready var weapon_slot_2: ShelterCharacterSlot = %WeaponSlot2
+
+@onready var helmet_slot: ShelterCharacterSlot = %HelmetSlot
+@onready var chest_slot: ShelterCharacterSlot = %ChestSlot
+@onready var legs_slot: ShelterCharacterSlot = %LegsSlot
+@onready var gloves_slot: ShelterCharacterSlot = %GlovesSlot
+@onready var shoes_slot: ShelterCharacterSlot = %ShoesSlot
+
+@onready var usable_slot_1: ShelterCharacterSlot = %UsableSlot1
+@onready var usable_slot_2: ShelterCharacterSlot = %UsableSlot2
+@onready var usable_slot_3: ShelterCharacterSlot = %UsableSlot3
+
+var _inventory_manager: ShelterInventoryManager
+var _slots: Array[ShelterCharacterSlot] = []
+
+func _ready() -> void:
+	_slots = [
+		weapon_slot_1,
+		weapon_slot_2,
+		helmet_slot,
+		chest_slot,
+		legs_slot,
+		gloves_slot,
+		shoes_slot,
+		usable_slot_1,
+		usable_slot_2,
+		usable_slot_3
+	]
+
+	for slot in _slots:
+		if not slot.unequip_requested.is_connected(
+			_on_slot_unequip_requested
+		):
+			slot.unequip_requested.connect(
+				_on_slot_unequip_requested
+			)
+
+	_clear_all_slots()
+
+# 由 ShelterInventoryUI 注入当前 Shelter 的库存管理器。
+# 角色场景不自行寻找 Shelter 根节点，避免场景层级调整后路径失效。
+func setup(
+	inventory_manager: ShelterInventoryManager
+) -> void:
+	_inventory_manager = inventory_manager
+	refresh()
+
+# 每次打开角色页或库存变化时调用。
+#
+# 这里不缓存“当前装备是什么”。
+# 每次都重新读取正式库存中的 location，确保背包和角色页永远看同一份数据。
+func refresh() -> void:
+	_clear_all_slots()
+
+	if _inventory_manager == null:
+		return
+
+	for slot in _slots:
+		_refresh_slot(
+			slot
+		)
+
+func _refresh_slot(
+	slot: ShelterCharacterSlot
+) -> void:
+	if slot == null:
+		return
+
+	if slot.slot_location.is_empty():
+		return
+
+	# 精确按 location 查询。
+	# 例如背包装备到武器槽 1 后：
+	# location == "equipped_weapon_1"
+	# 这里会直接读到同一个物品实例。
+	var items: Array = (
+		_inventory_manager.get_items(
+			slot.slot_location
+		)
+	)
+
+	if items.is_empty():
+		return
+
+	if items.size() > 1:
+		push_warning(
+			"ShelterCharacterPage: 装备槽出现多个物品 -> "
+			+ slot.slot_location
+		)
+
+	var item_value: Variant = items[0]
+
+	if not item_value is Dictionary:
+		return
+
+	var item: Dictionary = item_value
+
+	var template_id: String = str(
+		item.get(
+			"template_id",
+			""
+		)
+	)
+
+	var definition: Dictionary = (
+		ItemDatabaseManager.get_item_definition(
+			template_id
+		)
+	)
+
+	var category: String = str(
+		definition.get(
+			"category",
+			""
+		)
+	)
+
+	if (
+		not slot.accepted_category.is_empty()
+		and not category.is_empty()
+		and category != slot.accepted_category
+	):
+		push_warning(
+			"ShelterCharacterPage: 槽位类别不一致 -> %s / %s"
+			% [
+				slot.slot_location,
+				category
+			]
+		)
+
+	slot.set_item_data(
+		item,
+		definition
+	)
+
+func _clear_all_slots() -> void:
+	for slot in _slots:
+		if slot != null:
+			slot.clear_item()
+
+func _on_slot_unequip_requested(
+	uid: String
+) -> void:
+	if _inventory_manager == null:
+		return
+
+	if uid.is_empty():
+		return
+
+	# 所有 equipped_* 都通过 ShelterInventoryManager
+	# 移回角色背包，不在 UI 层直接写 SaveManager。
+	_inventory_manager.move_to_character_backpack(
+		uid
+	)
+
+	# 正常情况下 inventory_changed 会触发外层 UI 再次 refresh。
+	# 这里立即刷新一次，保证右键后视觉反馈不依赖信号时序。
+	refresh()
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+
+- Category: `script`; bytes: `3254`; sha256/16: `641a319b65c35480`
+
+
+```gdscript
+extends Button
+class_name ShelterCharacterSlot
+
+# Shelter Character Slot
+#
+# 角色页的单个装备槽。
+# 这个脚本不负责决定“什么能装备到这里”，只负责：
+# - 显示当前物品
+# - 读取物品图标
+# - 右键发送卸下请求
+#
+# 为了方便美术在同一个角色场景里直接复制、缩放、移动槽位，
+# 这里使用相对节点路径，而不是 %UniqueName。
+# 因此同一个角色页面可以存在多个完全相同结构的槽位节点。
+
+signal unequip_requested(
+	uid: String
+)
+
+@export_category("槽位设置")
+
+@export var slot_title: String = "槽位"
+
+## 永久库存中的位置名称。
+## 例如：equipped_weapon_1
+@export var slot_location: String = ""
+
+## 仅用于开发期校验。
+## weapon / equipment / usable
+@export var accepted_category: String = ""
+
+@export var empty_text: String = "未装备"
+
+@onready var slot_title_label: Label = (
+	$Margin/VBox/SlotTitle
+)
+
+@onready var item_icon: TextureRect = (
+	$Margin/VBox/IconCenter/ItemIcon
+)
+
+@onready var item_name_label: Label = (
+	$Margin/VBox/ItemName
+)
+
+var _item_uid: String = ""
+
+func _ready() -> void:
+	focus_mode = Control.FOCUS_NONE
+
+	slot_title_label.text = slot_title
+	clear_item()
+
+func set_item_data(
+	item: Dictionary,
+	definition: Dictionary
+) -> void:
+	_item_uid = str(
+		item.get(
+			"uid",
+			""
+		)
+	)
+
+	var template_id: String = str(
+		item.get(
+			"template_id",
+			""
+		)
+	)
+
+	var name_key: String = str(
+		definition.get(
+			"name_key",
+			""
+		)
+	)
+
+	var display_name: String = template_id
+
+	if not name_key.is_empty():
+		display_name = tr(
+			name_key
+		)
+
+	var count: int = int(
+		item.get(
+			"count",
+			1
+		)
+	)
+
+	if count > 1:
+		display_name += " ×%d" % count
+
+	item_name_label.text = display_name
+	tooltip_text = (
+		"%s\n右键卸下" % display_name
+	)
+
+	_refresh_icon(
+		definition
+	)
+
+func clear_item() -> void:
+	_item_uid = ""
+
+	if is_instance_valid(
+		slot_title_label
+	):
+		slot_title_label.text = slot_title
+
+	if is_instance_valid(
+		item_name_label
+	):
+		item_name_label.text = empty_text
+
+	tooltip_text = (
+		"%s：%s" % [
+			slot_title,
+			empty_text
+		]
+	)
+
+	if is_instance_valid(
+		item_icon
+	):
+		item_icon.texture = null
+		item_icon.visible = false
+
+func get_item_uid() -> String:
+	return _item_uid
+
+func _gui_input(
+	event: InputEvent
+) -> void:
+	if not event is InputEventMouseButton:
+		return
+
+	var mouse_event := (
+		event as InputEventMouseButton
+	)
+
+	if not mouse_event.pressed:
+		return
+
+	if mouse_event.button_index != MOUSE_BUTTON_RIGHT:
+		return
+
+	if _item_uid.is_empty():
+		return
+
+	unequip_requested.emit(
+		_item_uid
+	)
+
+	accept_event()
+
+func _refresh_icon(
+	definition: Dictionary
+) -> void:
+	item_icon.texture = null
+	item_icon.visible = false
+
+	var icon_path: String = str(
+		definition.get(
+			"icon_path",
+			""
+		)
+	).strip_edges()
+
+	if icon_path.is_empty():
+		return
+
+	if not ResourceLoader.exists(
+		icon_path
+	):
+		push_warning(
+			"ShelterCharacterSlot: 找不到图标 -> "
+			+ icon_path
+		)
+		return
+
+	var resource: Resource = load(
+		icon_path
+	)
+
+	if not resource is Texture2D:
+		push_warning(
+			"ShelterCharacterSlot: icon_path 不是 Texture2D -> "
+			+ icon_path
+		)
+		return
+
+	item_icon.texture = (
+		resource as Texture2D
+	)
+	item_icon.visible = true
 ```
 
 
@@ -26982,7 +29134,7 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 
 ### `res://Scene/Shelter_Scene/shelter.tscn`
 
-- Category: `scene`; bytes: `11084`; sha256/16: `504c655226e567b3`
+- Category: `scene`; bytes: `11088`; sha256/16: `4c35e9c2cbe1fa9e`
 
 
 ```ini
@@ -26999,7 +29151,7 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 [ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="6_s55ae"]
 [ext_resource type="Script" uid="uid://xp5gm38wnas" path="res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd" id="10_twju8"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_6667d"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="11_dtnd1"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="11_dtnd1"]
 [ext_resource type="PackedScene" uid="uid://c6hifpw14wnnp" path="res://Scene/Shelter_Scene/shelter_inventory_ui.tscn" id="13_yp273"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_twju8"]
@@ -27163,7 +29315,7 @@ current = true
 fov = 45.0
 script = ExtResource("2_11o6b")
 target = NodePath("../ShelterPlayer")
-camera_offset = Vector3(0, 5, 7)
+camera_offset = Vector3(0, 7, 5)
 
 [node name="EditModeController" type="Node" parent="GameViewportContainer/GameViewport/World" node_paths=PackedStringArray("player", "gameplay_camera", "room_build_controller", "facility_build_controller")]
 script = ExtResource("5_vfmdr")
@@ -27203,6 +29355,1145 @@ mouse_filter = 2
 
 [editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer"]
 [editable path="GameViewportContainer/GameViewport/World/Gameplay/ShelterPlayer/VisualRoot/ShelterPlayerVisual"]
+```
+
+
+### `res://Scene/Shelter_Scene/shelter_character_page.tscn`
+
+- Category: `scene`; bytes: `32378`; sha256/16: `c505cb85e5b6cb65`
+
+
+```ini
+[gd_scene load_steps=9 format=3 uid="uid://melfhxlunn86"]
+
+[ext_resource type="Script" uid="uid://to42dmeuy04l" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd" id="1_page_script"]
+[ext_resource type="Script" uid="uid://dthvc2t7fhp75" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd" id="2_slot_script"]
+[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="3_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StylePanel"]
+bg_color = Color(0.075, 0.073, 0.064, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.69, 0.58, 0.7)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleSlotPressed"]
+bg_color = Color(0.17, 0.16, 0.135, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.84, 0.67, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleSlotHover"]
+bg_color = Color(0.13, 0.125, 0.108, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.78, 0.64, 0.95)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleSlotNormal"]
+bg_color = Color(0.09, 0.087, 0.076, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.62, 0.59, 0.49, 0.78)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleInnerPanel"]
+bg_color = Color(0.055, 0.053, 0.047, 0.58)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.46, 0.39, 0.55)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="CharacterPage" type="Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1600, 760)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_page_script")
+
+[node name="CharacterVisualPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.2
+anchor_bottom = 1.0
+offset_right = -6.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="CharacterVisualPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="Control" parent="CharacterVisualPanel/Margin"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CharacterVisualPanel/Margin/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 30.0
+grow_horizontal = 2
+text = "角色"
+
+[node name="Separator" type="HSeparator" parent="CharacterVisualPanel/Margin/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 34.0
+offset_bottom = 38.0
+grow_horizontal = 2
+
+[node name="CharacterVisualHost" type="Control" parent="CharacterVisualPanel/Margin/Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Placeholder" type="Label" parent="CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "角色立绘 / 模型区域
+
+可直接替换 CharacterPortrait 的 Texture
+或在 CharacterVisualHost 内加入 3D / 动画展示节点"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CharacterPortrait" type="TextureRect" parent="CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EquippedPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_right = 0.58
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="Scroll" type="ScrollContainer" parent="EquippedPanel/Margin"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Content" type="Control" parent="EquippedPanel/Margin/Scroll"]
+custom_minimum_size = Vector2(0, 760)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 30.0
+grow_horizontal = 2
+text = "已装备"
+
+[node name="MainSeparator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 34.0
+offset_bottom = 38.0
+grow_horizontal = 2
+
+[node name="WeaponTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 46.0
+offset_bottom = 72.0
+grow_horizontal = 2
+text = "武器"
+
+[node name="WeaponSlot1" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+offset_top = 78.0
+offset_right = -5.0
+offset_bottom = 190.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "武器 1"
+slot_location = "equipped_weapon_1"
+accepted_category = "weapon"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+layout_mode = 2
+text = "武器 1"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="WeaponSlot2" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+offset_left = 5.0
+offset_top = 78.0
+offset_bottom = 190.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "武器 2"
+slot_location = "equipped_weapon_2"
+accepted_category = "weapon"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+layout_mode = 2
+text = "武器 2"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="EquipmentTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 202.0
+offset_bottom = 228.0
+grow_horizontal = 2
+text = "装备"
+
+[node name="HelmetSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+offset_top = 236.0
+offset_right = -5.0
+offset_bottom = 348.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "头部"
+slot_location = "equipped_equipment_helmet"
+accepted_category = "equipment"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+layout_mode = 2
+text = "头部"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ChestSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+offset_left = 5.0
+offset_top = 236.0
+offset_bottom = 348.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "胸部"
+slot_location = "equipped_equipment_chest"
+accepted_category = "equipment"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+layout_mode = 2
+text = "胸部"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="LegsSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+offset_top = 358.0
+offset_right = -5.0
+offset_bottom = 470.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "腿部"
+slot_location = "equipped_equipment_legs"
+accepted_category = "equipment"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+layout_mode = 2
+text = "腿部"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="GlovesSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+offset_left = 5.0
+offset_top = 358.0
+offset_bottom = 470.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "手部"
+slot_location = "equipped_equipment_gloves"
+accepted_category = "equipment"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+layout_mode = 2
+text = "手部"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ShoesSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+offset_top = 480.0
+offset_right = -5.0
+offset_bottom = 592.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "脚部"
+slot_location = "equipped_equipment_shoes"
+accepted_category = "equipment"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+layout_mode = 2
+text = "脚部"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="UsableTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 604.0
+offset_bottom = 630.0
+grow_horizontal = 2
+text = "道具"
+
+[node name="UsableSlot1" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.333333
+offset_top = 638.0
+offset_right = -5.0
+offset_bottom = 750.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "道具 1"
+slot_location = "equipped_usable_1"
+accepted_category = "usable"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+layout_mode = 2
+text = "道具 1"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="UsableSlot2" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.333333
+anchor_right = 0.666667
+offset_left = 5.0
+offset_top = 638.0
+offset_right = -5.0
+offset_bottom = 750.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "道具 2"
+slot_location = "equipped_usable_2"
+accepted_category = "usable"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+layout_mode = 2
+text = "道具 2"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="UsableSlot3" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.666667
+anchor_right = 1.0
+offset_left = 5.0
+offset_top = 638.0
+offset_bottom = 750.0
+grow_horizontal = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("2_slot_script")
+slot_title = "道具 3"
+slot_location = "equipped_usable_3"
+accepted_category = "usable"
+
+[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+layout_mode = 2
+text = "道具 3"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox/IconCenter"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CharacterDetailsPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.58
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="Control" parent="CharacterDetailsPanel/Margin"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 30.0
+grow_horizontal = 2
+text = "角色详情"
+
+[node name="MainSeparator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 34.0
+offset_bottom = 38.0
+grow_horizontal = 2
+
+[node name="StatsArea" type="PanelContainer" parent="CharacterDetailsPanel/Margin/Content"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 48.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleInnerPanel")
+
+[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel/Margin/Content/StatsArea"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+layout_mode = 2
+text = "角色数值"
+
+[node name="Separator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+layout_mode = 2
+
+[node name="CharacterStatsText" type="Label" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "生命：—
+攻击：—
+防御：—
+体力：—
+能量：—
+
+当前只预留 UI 位置。
+后续接入角色数值时，可直接替换 StatsArea 内部节点。"
+autowrap_mode = 2
+
+[node name="ResourcesArea" type="PanelContainer" parent="CharacterDetailsPanel/Margin/Content"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleInnerPanel")
+
+[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+layout_mode = 2
+text = "拥有的资源"
+
+[node name="Separator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+layout_mode = 2
+
+[node name="CharacterResourcesText" type="Label" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "资源数据尚未接入。
+
+当前只预留 UI 位置。
+后续可以直接替换 ResourcesArea 内部节点。"
+autowrap_mode = 2
+```
+
+
+### `res://Scene/Shelter_Scene/shelter_character_slot.tscn`
+
+- Category: `scene`; bytes: `2966`; sha256/16: `6ff885102708ea6a`
+
+
+```ini
+[gd_scene load_steps=5 format=3 uid="uid://c324w133xamte"]
+
+[ext_resource type="Script" uid="uid://dthvc2t7fhp75" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleSlotPressed"]
+bg_color = Color(0.17, 0.16, 0.135, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.84, 0.67, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleSlotHover"]
+bg_color = Color(0.13, 0.125, 0.108, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.78, 0.64, 0.95)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleSlotNormal"]
+bg_color = Color(0.09, 0.087, 0.076, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.62, 0.59, 0.49, 0.78)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="ShelterCharacterSlot" type="Button"]
+custom_minimum_size = Vector2(118, 104)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
+theme_override_styles/hover = SubResource("StyleSlotHover")
+theme_override_styles/pressed = SubResource("StyleSlotPressed")
+theme_override_styles/normal = SubResource("StyleSlotNormal")
+script = ExtResource("1_script")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 7
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="SlotTitle" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "槽位"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconCenter" type="CenterContainer" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="ItemIcon" type="TextureRect" parent="Margin/VBox/IconCenter"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "未装备"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 ```
 
 
@@ -30548,14 +33839,78 @@ id,tier,mechanic_name,type,description
 ```
 
 
-### `res://DataBase/Item/Weapons.csv`
+### `res://DataBase/Item/Equipment.csv`
 
-- Category: `data`; bytes: `237`; sha256/16: `a41c3690c4f9f3f7`
+- Category: `data`; bytes: `160`; sha256/16: `4ec396e60afa4098`
 
 
 ```csv
-template_id,name_key,desc,category,wep_type,max_durability,default_cards,preview_texture,preview_scene
-w_001,NAME_WEP_RUSTEDMACHETE,DES_WEP_RUSTEDMACHETE,weapon,Mid-lengthBlades,100,20002;10001;10001;10004;10003;10004;10003;10004;10003,,
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,equip_slot,max_durability,dev_note
+```
+
+
+### `res://DataBase/Item/KeyItems.csv`
+
+- Category: `data`; bytes: `147`; sha256/16: `b238e1eccdd14171`
+
+
+```csv
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,progress_tag,dev_note
+```
+
+
+### `res://DataBase/Item/loc_ui.csv`
+
+- Category: `data`; bytes: `0`; sha256/16: `e3b0c44298fc1c14`
+
+
+```csv
+
+```
+
+
+### `res://DataBase/Item/Resources.csv`
+
+- Category: `data`; bytes: `413`; sha256/16: `ef2446f0544796f1`
+
+
+```csv
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,dev_note
+true,res_001,wood,NAME_RESOURCE_WOOD,DES_RESOURCE_WOOD,,,,0,999,0,,原型资源：木材
+true,res_002,metal,NAME_RESOURCE_METAL,DES_RESOURCE_METAL,,,,0,999,0,,原型资源：金属
+true,res_003,plastic,NAME_RESOURCE_PLASTIC,DES_RESOURCE_PLASTIC,,,,0,999,0,,原型资源：塑料
+```
+
+
+### `res://DataBase/Item/Supplies.csv`
+
+- Category: `data`; bytes: `134`; sha256/16: `089adfe3bfccb24a`
+
+
+```csv
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,dev_note
+```
+
+
+### `res://DataBase/Item/Usables.csv`
+
+- Category: `data`; bytes: `272`; sha256/16: `a5b43bf0f91fba20`
+
+
+```csv
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,max_uses,use_context,effect_id,effect_value,dev_note
+true,i_001,test,NAME_ITEM_TEST,DES_ITEM_TEST,,,,0,99,0,,1,[],,,当前存档兼容占位道具
+```
+
+
+### `res://DataBase/Item/Weapons.csv`
+
+- Category: `data`; bytes: `338`; sha256/16: `23fc3895546d1b47`
+
+
+```csv
+enabled,template_id,subtype,name_key,desc_key,icon_path,preview_texture,preview_scene,weight,max_stack,base_value,mechanic_id,max_durability,default_cards,card_pool,dev_note
+true,w_001,Mid-lengthBlades,NAME_WEP_RUSTEDMACHETE,DES_WEP_RUSTEDMACHETE,,,,0,1,0,,100,[20002;10001;10001;10004;10003;10004;10003;10004;10003],[],原型测试武器
 ```
 
 
