@@ -24,7 +24,6 @@ MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_d
 AudioManager="*res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd"
 SaveManager="*res://Scene/Main_Scene/Scripts/Manager/save_manager.gd"
 SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
-SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 PlayerInventoryCore="*res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd"

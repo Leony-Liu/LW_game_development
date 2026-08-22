@@ -101,12 +101,4 @@ func _return_to_main_menu() -> void:
 	if not main_root:
 		return
 		
-	# 封装延迟加载的逻辑函数
-	var load_main_logic = func():
-		# 关键点：用 load() 在按下 ESC 的瞬间去读取场景，彻底告别循环依赖报错！
-		var main_menu = load("res://Scene/UI/main_menu.tscn")
-		# 通知主节点挂载新场景
-		main_root.load_scene_in_main(main_menu) 
-		
-	# 调用场景管理器执行转场，设定过渡时间为 0.5 秒
-	SceneManager.transition_to(load_main_logic, 0.5)
+	EventBus.load_scene.emit("main_menu")

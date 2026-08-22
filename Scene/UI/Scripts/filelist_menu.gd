@@ -10,7 +10,7 @@ extends Control
 @export_category("Transition")
 @export_range(0.0, 2.0, 0.05) var transition_duration: float = 0.3
 
-# 节点绑定
+# 场景内节点绑定
 @onready var save_list_container: VBoxContainer = %SaveListContainer
 @onready var empty_state: Label = %EmptyState
 @onready var back_button: Button = %BackButton
@@ -150,22 +150,7 @@ func _load_save_and_enter_shelter(save_id: String) -> void:
 	if not SaveManager.load_save(save_id):
 		return
 
-	# 获取主节点（MAIN）以便进行场景切换
-	var main_root: Node = _get_main_root()
-
-	# 校验主节点是否存在
-	if main_root == null:
-		push_error("FileList: 找不到 MAIN。")
-		return
-
-	# 构造切换场景的回调函数及参数
-	var callback: Callable = Callable(main_root, "load_scene_in_main").bind(shelter_scene, {
-		"entry_source": "save_list",
-		"save_id": save_id
-	})
-
-	# 调用场景管理器执行带过渡动画的场景切换
-	SceneManager.transition_to(callback, transition_duration)
+	EventBus.load_scene.emit("shelter")
 
 # 初始化并显示创建新存档的弹窗
 func _open_create_dialog() -> void:

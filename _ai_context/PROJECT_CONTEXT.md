@@ -4,58 +4,66 @@
 
 ## Snapshot
 
-- Approximate context size: **1,000,611 characters / ~250,152 tokens**
-- Generated: `2026-08-22T14:55:35+08:00`
+- Approximate context size: **998,495 characters / ~249,623 tokens**
+- Generated: `2026-08-22T21:02:48+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
-- Files scanned: **804**; readable text files: **245**
-- Scripts: **131**; scenes: **85**; resources: **8**; shaders: **6**
-- Non-text assets: **556** (45.4 MiB)
+- Files scanned: **802**; readable text files: **244**
+- Scripts: **130**; scenes: **85**; resources: **8**; shaders: **6**
+- Non-text assets: **555** (45.4 MiB)
 - Total scanned size: **50.6 MiB**
 - TODO/FIXME/HACK markers: **16**
 
 ## Project Configuration Summary
 
 - Godot feature flags: `PackedStringArray("4.4", "Forward Plus")`
-- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `SceneManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `PlayerInventoryCore`, `RaidInventoryBridge`, `UIManager`, `ItemDataBase`, `MAPInventoryManager`, `SearchManager`, `InteractionManager`
+- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `PlayerInventoryCore`, `RaidInventoryBridge`, `UIManager`, `ItemDataBase`, `MAPInventoryManager`, `SearchManager`, `InteractionManager`
 - Input actions: `draw_card`, `Left`, `Right`, `Down`, `Up`, `Attack`, `block_key`, `open_backpack`, `interact`
 - Settings sections: `application`, `autoload`, `debug`, `display`, `file_customization`, `gui`, `input`, `internationalization`, `layer_names`, `rendering`, `shader_globals`
 
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `63991a7 | 2026-08-22T12:22:16+08:00 | 新增（基地）：UI系统调整`
+- Last commit: `c3ef43b | 2026-08-22T20:28:25+08:00 | 优化（管理器）：集中了切换场景的功能到scene_manager里面`
 - Working tree changes:
-  - `M Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
-  - ` M Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
+  - `D Scene/Main_Scene/Scripts/Manager/scene_manager.gd`
+  - ` D Scene/Main_Scene/Scripts/Manager/scene_manager.gd.uid`
+  - ` M Scene/Main_Scene/main.gd`
   - ` M Scene/Shelter_Scene/shelter.tscn`
-  - ` M Scene/Shelter_Scene/shelter_inventory.tscn`
+  - ` M Scene/UI/Scripts/filelist_menu.gd`
+  - ` M Scene/UI/Scripts/options_menu.gd`
   - ` M _ai_context/PROJECT_CONTEXT.md`
-  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
-  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd.uid`
+  - ` M project.godot`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-22 14:48` `res://project.godot`
-  - `2026-08-22 14:48` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-22 14:48` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-22 14:48` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-22 21:02` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-22 21:02` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-22 21:02` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-22 21:02` `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`
+  - `2026-08-22 21:02` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-22 21:02` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-22 21:02` `res://Scene/UI/main_menu.tscn`
+  - `2026-08-22 21:02` `res://Scene/UI/filelist.tscn`
+  - `2026-08-22 21:02` `res://Scene/UI/options.tscn`
+  - `2026-08-22 20:59` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-22 20:59` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-22 20:59` `res://project.godot`
+  - `2026-08-22 20:59` `res://Scene/UI/Scripts/options_menu.gd`
+  - `2026-08-22 20:59` `res://Scene/Main_Scene/main.gd`
+  - `2026-08-22 20:40` `res://Scene/UI/Scripts/filelist_menu.gd`
+  - `2026-08-22 20:27` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+  - `2026-08-22 20:24` `res://Scene/UI/Scripts/main_menu.gd`
+  - `2026-08-22 20:03` `res://Scene/Main_Scene/Scripts/event_bus.gd`
   - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter_character.tscn`
   - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter_inventory.tscn`
   - `2026-08-22 14:48` `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
   - `2026-08-22 14:48` `res://Scene/Battle_Scene/Battlescene.tscn`
   - `2026-08-22 14:48` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-22 14:48` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-22 14:48` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-22 14:48` `res://Scene/Main_Scene/MAIN.tscn`
   - `2026-08-22 13:14` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
   - `2026-08-22 13:14` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd.uid`
   - `2026-08-22 13:13` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
-  - `2026-08-22 12:13` `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`
   - `2026-08-22 12:07` `res://Scene/Shelter_Scene/shelter_character_page.tscn`
   - `2026-08-22 11:57` `res://Scene/UI/save_slot_card.tscn`
-  - `2026-08-22 11:57` `res://Scene/UI/filelist.tscn`
-  - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd.uid`
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`
@@ -108,14 +116,7 @@
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.weight.translation`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.template.translation`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.preview.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.subtype.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.mechanic.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.name.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.max.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.desc.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.dev.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.icon.translation`
-  - `... 374 more recent files omitted ...`
+  - `... 375 more recent files omitted ...`
 
 ## Script Architecture Index
 
@@ -203,9 +204,9 @@
 | `res://Scene/DungeonScenes(3D)/Manager/map_manager.gd` | `Node` | `MapManager` | 0 | 2 | 11 | 0 |
 | `res://Scene/DungeonScenes(3D)/Scripts/room.gd` | `Node3D` | `Room` | 0 | 0 | 2 | 0 |
 | `res://Scene/DungeonScenes(3D)/Scripts/room_data.gd` | `Node` | `RoomData` | 0 | 0 | 0 | 0 |
-| `res://Scene/Main_Scene/main.gd` | `Node` | `-` | 0 | 2 | 1 | 0 |
+| `res://Scene/Main_Scene/main.gd` | `Node` | `-` | 0 | 2 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/BaseClass/State.gd` | `-` | `State` | 0 | 0 | 5 | 0 |
-| `res://Scene/Main_Scene/Scripts/event_bus.gd` | `Node` | `-` | 5 | 0 | 0 | 0 |
+| `res://Scene/Main_Scene/Scripts/event_bus.gd` | `Node` | `-` | 6 | 0 | 0 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
@@ -213,7 +214,6 @@
 | `res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd` | `Node` | `-` | 1 | 0 | 9 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd` | `Node` | `-` | 0 | 0 | 3 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/save_manager.gd` | `Node` | `-` | 0 | 0 | 10 | 0 |
-| `res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd` | `Node` | `-` | 0 | 0 | 7 | 0 |
 | `res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd` | `Node` | `-` | 1 | 0 | 2 | 0 |
 | `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd` | `Node` | `-` | 1 | 0 | 1 | 0 |
@@ -243,10 +243,10 @@
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd` | `Control` | `ShelterCharacterPage` | 0 | 0 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd` | `Button` | `ShelterCharacterSlot` | 1 | 4 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd` | `Control` | `-` | 0 | 0 | 3 | 0 |
-| `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd` | `CanvasLayer` | `ShelterInventoryUI` | 1 | 4 | 12 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd` | `Control` | `ShelterInventoryUI` | 1 | 4 | 12 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd` | `Control` | `-` | 0 | 2 | 3 | 0 |
-| `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 3 | 10 | 0 |
-| `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 4 | 6 | 0 |
+| `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 4 | 17 | 0 |
+| `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 0 | 5 | 0 |
 | `res://Scene/UI/Scripts/options_menu.gd` | `Control` | `-` | 0 | 0 | 7 | 1 |
 | `res://Scene/UI/Scripts/save_slot_card.gd` | `PanelContainer` | `SaveSlotCard` | 2 | 0 | 3 | 0 |
 | `res://Scene/UI/Scripts/world_interaction_HUD.gd` | `Control` | `-` | 0 | 0 | 2 | 0 |
@@ -336,9 +336,9 @@
 - **`res://Scene/DungeonScenes(3D)/Manager/map_manager.gd`** — methods: `_ready()`, `generate_map()`, `create_room()`, `get_room_by_position()`, `connect_rooms()`, `build_map()`, `set_room_doors()`, `enter_door()`, `change_room()`, `spawn_player()`, `find_room_instance()`; signals: (none); exports: `TARGET_ROOM_COUNT`, `room_scene`
 - **`res://Scene/DungeonScenes(3D)/Scripts/room.gd`** — methods: `get_spawn_position()`, `get_player_spawn()`; signals: (none); exports: (none)
 - **`res://Scene/DungeonScenes(3D)/Scripts/room_data.gd`** — methods: (none detected); signals: (none); exports: (none)
-- **`res://Scene/Main_Scene/main.gd`** — methods: `_ready()`; signals: (none); exports: `active_system_holder`, `active_system`
+- **`res://Scene/Main_Scene/main.gd`** — methods: `_ready()`, `_load_single_scene()`; signals: (none); exports: `transition_duration`, `scene_holder`
 - **`res://Scene/Main_Scene/Scripts/BaseClass/State.gd`** — methods: `enter()`, `exit()`, `update()`, `physics_update()`, `handle_input()`; signals: (none); exports: (none)
-- **`res://Scene/Main_Scene/Scripts/event_bus.gd`** — methods: (none detected); signals: `player_died`, `enter_battle_scene`, `interaction_prompt_requested`, `map_generated`, `player_change_scence`; exports: (none)
+- **`res://Scene/Main_Scene/Scripts/event_bus.gd`** — methods: (none detected); signals: `player_died`, `load_scene`, `enter_battle_scene`, `interaction_prompt_requested`, `map_generated`, `player_change_scence`; exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd`** — methods: `_ready()`, `_on_play_sfx()`, `_play_2d()`, `_play_3d()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd`** — methods: `_ready()`, `load_csv_data()`, `get_card()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd`** — methods: `_ready()`, `load_csv_data()`, `roll_mechanics_for_tier()`; signals: (none); exports: (none)
@@ -346,7 +346,6 @@
 - **`res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd`** — methods: `_get_inv()`, `get_items()`, `get_item_by_uid()`, `get_character_weapons()`, `_commit_character_inventory_change()`, `move_item()`, `enter_raid()`, `settle_death_penalty()`, `_reduce_durability()`; signals: `inventory_changed`; exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd`** — methods: `_ready()`, `reload_database()`, `get_all_item_definitions()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/save_manager.gd`** — methods: `_ready()`, `save_current_state()`, `get_all_saves()`, `has_any_save()`, `get_last_save_id()`, `get_shelter_data()`, `_create_default_shelter_data()`, `_load_meta()`, `_ensure_save_directory()`, `_generate_save_id()`; signals: (none); exports: (none)
-- **`res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd`** — methods: `_ready()`, `transition_to()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd`** — methods: `_ready()`, `set_master_volume()`, `get_master_volume()`, `set_resolution()`, `set_fullscreen()`, `save_settings()`, `load_settings()`; signals: (none); exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd`** — methods: `has_loaded_save()`, `get_inventory_snapshot()`; signals: `inventory_changed`; exports: (none)
 - **`res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`** — methods: `get_departure_inventory_snapshot()`; signals: `return_inventory_committed`; exports: (none)
@@ -378,8 +377,8 @@
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`** — methods: `_ready()`, `refresh_ui()`, `_get_items_from_logic()`; signals: (none); exports: (none)
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`** — methods: `_ready()`, `_exit_tree()`, `open_inventory()`, `close_inventory()`, `toggle_inventory()`, `is_inventory_open()`, `refresh()`, `_activate_current_selection()`, `_toggle_selected_weapon()`, `_clear_details()`, `_on_inventory_changed()`, `_validate_references()`; signals: `inventory_opened_changed`; exports: `player_path`, `edit_mode_controller_path`, `inventory_manager_path`, `open_key`
 - **`res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`** — methods: `_ready()`, `_input()`, `toggle_player_ui()`; signals: (none); exports: `character_page`, `is_ui_open`
-- **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_refresh_save_list()`, `_clear_save_cards()`, `_open_create_dialog()`, `_close_create_dialog()`, `_confirm_create_save()`, `_close_delete_dialog()`, `_confirm_delete_save()`, `_return_to_main_menu()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `save_slot_card_scene`, `transition_duration`
-- **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
+- **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_return_to_main_menu()`, `_unhandled_input()`, `_refresh_save_list()`, `_clear_save_cards()`, `_create_save_card()`, `_on_save_play_requested()`, `_load_save_and_enter_shelter()`, `_open_create_dialog()`, `_close_create_dialog()`, `_on_name_submitted()`, `_confirm_create_save()`, `_on_save_delete_requested()`, `_close_delete_dialog()`, `_confirm_delete_save()`, `_find_save_name()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `save_slot_card_scene`, `main_menu`, `transition_duration`
+- **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`; signals: (none); exports: (none)
 - **`res://Scene/UI/Scripts/options_menu.gd`** — methods: `_ready()`, `_on_volume_changed()`, `_on_resolution_selected()`, `_on_fullscreen_toggled()`, `_update_volume_label()`, `_unhandled_input()`, `_return_to_main_menu()`; signals: (none); exports: (none)
 - **`res://Scene/UI/Scripts/save_slot_card.gd`** — methods: `_ready()`, `_on_play_pressed()`, `_on_delete_pressed()`; signals: `play_requested`, `delete_requested`; exports: (none)
 - **`res://Scene/UI/Scripts/world_interaction_HUD.gd`** — methods: `_ready()`, `_on_interaction_prompt_requested()`; signals: (none); exports: (none)
@@ -423,7 +422,7 @@
 | `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn` | `Door/StaticBody3D` | 7 | 2 | 1 | 0 |
 | `res://Scene/DungeonScenes(3D)/TestScence2.tscn` | `Room/Node3D` | 67 | 0 | 1 | 5 |
 | `res://Scene/DungeonScenes(3D)/TestScene.tscn` | `Node3D/Node3D` | 66 | 0 | 0 | 7 |
-| `res://Scene/Main_Scene/MAIN.tscn` | `MAIN/Node` | 4 | 0 | 1 | 1 |
+| `res://Scene/Main_Scene/MAIN.tscn` | `MAIN/Node` | 4 | 0 | 1 | 0 |
 | `res://Scene/Search_system/Script/UI/inventory_ui.tscn` | `InventoryUI/Control` | 2 | 0 | 0 | 0 |
 | `res://Scene/Search_system/Script/UI/search_ui.tscn` | `SearchUI/Control` | 2 | 0 | 0 | 0 |
 | `res://Scene/Shelter_Scene/player/shelter_player.tscn` | `ShelterPlayer/CharacterBody3D` | 5 | 0 | 1 | 1 |
@@ -438,7 +437,7 @@
 | `res://Scene/Shelter_Scene/test/test_facility.tscn` | `TestFacility/StaticBody3D` | 3 | 0 | 1 | 0 |
 | `res://Scene/UI/context_action_menu.tscn` | `ContextActionMenu/CanvasLayer` | 5 | 0 | 1 | 0 |
 | `res://Scene/UI/filelist.tscn` | `filelist/Control` | 41 | 0 | 1 | 2 |
-| `res://Scene/UI/main_menu.tscn` | `MainMenu/Control` | 15 | 0 | 1 | 3 |
+| `res://Scene/UI/main_menu.tscn` | `MainMenu/Control` | 15 | 0 | 1 | 0 |
 | `res://Scene/UI/options.tscn` | `options/Control` | 17 | 0 | 1 | 0 |
 | `res://Scene/UI/save_slot_card.tscn` | `SaveSlotCard/PanelContainer` | 11 | 0 | 1 | 0 |
 | `res://Scene/UI/world_interactionUI.tscn` | `Control/Control` | 4 | 0 | 1 | 0 |
@@ -502,7 +501,7 @@
 - **`res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`
 - **`res://Scene/DungeonScenes(3D)/TestScence2.tscn`** → `res://Scene/DungeonScenes(3D)/Scripts/room.gd`, `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - **`res://Scene/DungeonScenes(3D)/TestScene.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
-- **`res://Scene/Main_Scene/MAIN.tscn`** → `res://Scene/Main_Scene/main.gd`, `res://Scene/UI/main_menu.tscn`
+- **`res://Scene/Main_Scene/MAIN.tscn`** → `res://Scene/Main_Scene/main.gd`
 - **`res://Scene/Shelter_Scene/player/shelter_player.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
 - **`res://Scene/Shelter_Scene/shelter_character_page.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
@@ -513,7 +512,7 @@
 - **`res://Scene/Shelter_Scene/test/test_facility.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - **`res://Scene/UI/context_action_menu.tscn`** → `res://Scene/UI/Scripts/context_action_menu.gd`
 - **`res://Scene/UI/filelist.tscn`** → `res://Scene/UI/Scripts/filelist_menu.gd`, `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/save_slot_card.tscn`
-- **`res://Scene/UI/main_menu.tscn`** → `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`
+- **`res://Scene/UI/main_menu.tscn`** → `res://Scene/UI/Scripts/main_menu.gd`
 - **`res://Scene/UI/options.tscn`** → `res://Scene/UI/Scripts/options_menu.gd`
 - **`res://Scene/UI/save_slot_card.tscn`** → `res://Scene/UI/Scripts/save_slot_card.gd`
 - **`res://Scene/UI/world_interactionUI.tscn`** → `res://Scene/UI/Scripts/world_interaction_HUD.gd`
@@ -565,7 +564,8 @@
 - `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.gd`
 - `res://Scene/DungeonScenes(3D)/TestScence2.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/DungeonScenes(3D)/Scripts/room.gd`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - `res://Scene/DungeonScenes(3D)/TestScene.tscn` → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
-- `res://Scene/Main_Scene/MAIN.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/Main_Scene/main.gd`, `res://Scene/UI/main_menu.tscn`
+- `res://Scene/Main_Scene/main.gd` → `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/main_menu.tscn`, `res://Scene/UI/options.tscn`
+- `res://Scene/Main_Scene/MAIN.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/Main_Scene/main.gd`
 - `res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd` → `res://Audio/SFX/Enemies/%s.wav`, `res://Audio/SFX/Impacts/%s.wav`, `res://Audio/SFX/Players/%s.wav`, `res://Audio/SFX/Skills/%s.wav`, `res://Audio/SFX/Weapons/%s.wav`, `res://Audio/UI/Cards/%s.wav`, `res://Audio/UI/System/%s.wav`
 - `res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd` → `res://DataBase/AllCardData.csv`
 - `res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd` → `res://DataBase/EnemyMechanicsData.csv`
@@ -582,10 +582,9 @@
 - `res://Scene/Shelter_Scene/test/test_facility.tscn` → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
 - `res://Scene/UI/filelist.tscn` → `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/Scripts/filelist_menu.gd`, `res://Scene/UI/save_slot_card.tscn`
-- `res://Scene/UI/main_menu.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/UI/filelist.tscn`, `res://Scene/UI/options.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+- `res://Scene/UI/main_menu.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
 - `res://Scene/UI/options.tscn` → `res://Scene/UI/Arts/Options.png`, `res://Scene/UI/Scripts/options_menu.gd`
 - `res://Scene/UI/save_slot_card.tscn` → `res://Scene/UI/Scripts/save_slot_card.gd`
-- `res://Scene/UI/Scripts/options_menu.gd` → `res://Scene/UI/main_menu.tscn`
 - `res://Scene/UI/world_interactionUI.tscn` → `res://Scene/UI/Scripts/world_interaction_HUD.gd`
 - `res://Scene/VisualTest_MAP/Art/armchair_blue_2.tscn` → `res://Scene/VisualTest_MAP/Art/armchair_blue.glb`
 - `res://Scene/VisualTest_MAP/Art/book_case_2.tscn` → `res://Scene/VisualTest_MAP/Art/book_case.glb`
@@ -663,6 +662,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `res://project.godot` → `res://Scene/UI/Arts/`
 - `res://project.godot` → `res://Scene/UI/Scripts/`
 - `res://project.godot` → `res://Scene/VisualTest_MAP/Art/`
+- `res://project.godot` → `res://Scripts/`
 - `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/enemy_ai_brain.gd` → `res://Scene/Battle_Scene/Battle_Scene_Enemy/Scripts/EnemyMechanics/`
 - `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/time_line.gd` → `res://Scene/Battle_Scene/`
 - `res://Scene/DungeonScene/Scenes/MapScene.tscn` → `res://Scene/Dungeon_Player_Scene/player.tscn`
@@ -909,7 +909,6 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   │   ├── inventory_manager.gd
 │   │   │   │   ├── item_database_manager.gd
 │   │   │   │   ├── save_manager.gd
-│   │   │   │   ├── scene_manager.gd
 │   │   │   │   └── settings_manager.gd
 │   │   │   ├── Shared
 │   │   │   │   ├── Inventory
@@ -1031,7 +1030,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 
 ### By extension
 
-`.import`: 159, `.uid`: 137, `.translation`: 75, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 23, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
+`.import`: 159, `.uid`: 136, `.translation`: 75, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 23, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
 
 ### By top-level folder
 
@@ -1039,7 +1038,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `Audio`: .wav=4, .import=4
 - `DataBase`: .translation=71, .import=13
 - `Localization`: .translation=4, .import=2
-- `Scene`: .uid=135, .import=133, .png=49, .glb=42, .jpg=40, .tmp=23, .aseprite=9, .gif=6, .fbx=1
+- `Scene`: .uid=134, .import=133, .png=49, .glb=42, .jpg=40, .tmp=23, .aseprite=9, .gif=6, .fbx=1
 - `export_context.py`: .py=1
 - `gitattributes`: [no extension]=1
 - `gitignore`: [no extension]=1
@@ -1060,7 +1059,7 @@ Core project files are embedded below in priority order. Large files may be trun
 
 ### `res://project.godot`
 
-- Category: `project`; bytes: `7924`; sha256/16: `790130985fc90bb7`
+- Category: `project`; bytes: `7880`; sha256/16: `48119b49760616c6`
 
 
 ```ini
@@ -1090,7 +1089,6 @@ MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_d
 AudioManager="*res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd"
 SaveManager="*res://Scene/Main_Scene/Scripts/Manager/save_manager.gd"
 SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
-SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 PlayerInventoryCore="*res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd"
@@ -1156,7 +1154,8 @@ folder_colors={
 "res://Scene/Shelter_Scene/Scripts/": "yellow",
 "res://Scene/UI/Arts/": "purple",
 "res://Scene/UI/Scripts/": "yellow",
-"res://Scene/VisualTest_MAP/Art/": "purple"
+"res://Scene/VisualTest_MAP/Art/": "purple",
+"res://Scripts/": "yellow"
 }
 
 [gui]
@@ -10535,48 +10534,101 @@ var down_room: int = -1
 
 ### `res://Scene/Main_Scene/main.gd`
 
-- Category: `script`; bytes: `1035`; sha256/16: `a83509ac23600776`
+- Category: `script`; bytes: `2897`; sha256/16: `f670e62e6f26583a`
 
 
 ```gdscript
 extends Node
 
-@export var active_system_holder: Node
-@export var initial_system_scene: PackedScene
+# 过场动画时长
+@export_category("Transition")
+var transition_duration: float = 0.25
+# 场景挂载节点
+@export var  scene_holder: Node
 
-var active_system: Node
+# 是否装载初始场景
+var have_initial_scene : bool = false
+# 记录激活场景
+var active_scene : Node = null
+# 用于遮挡全屏的纯黑转场矩形
+var transition_rect: ColorRect
+# 记录转场状态
+var is_transitioning: bool = false
 
+# 注册场景
+const SCENE_DIRECTORY = {
+	# 菜单
+	"main_menu" : "res://Scene/UI/main_menu.tscn",
+	"filelist" : "res://Scene/UI/filelist.tscn",
+	"options" : "res://Scene/UI/options.tscn",
+	# 基地
+	"shelter" : "res://Scene/Shelter_Scene/shelter.tscn",
+	# 战斗
+	"battle" : "res://Scene/Battle_Scene/Battlescene.tscn"
+}
+
+# 制作转场黑屏
 func _ready() -> void:
-	# 检查
-	if initial_system_scene == null:
-		push_error("MAIN：未配置 initial_system_scene。")
+
+	# 连接切换场景的信号
+	EventBus.load_scene.connect(_load_single_scene)
+
+	# 生成转场画布层，层级50不会盖住100级的CRT滤镜
+	var transition_layer = CanvasLayer.new()
+	transition_layer.layer = 50
+	add_child(transition_layer)
+
+	# 生成全屏纯黑方块
+	transition_rect = ColorRect.new()
+	transition_rect.color = Color.BLACK
+	transition_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	transition_rect.modulate.a = 0.0
+	transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	transition_layer.add_child(transition_rect)
+
+	EventBus.load_scene.emit("main_menu")
+
+# 加载单个场景到主场景
+func _load_single_scene(scene_name: String) -> void:
+	# 检查要载入的场景是否正常
+	if not SCENE_DIRECTORY.has(scene_name):
+		printerr("Main 严重错误: 字典中未注册场景 -> ", scene_name)
 		return
 
-	load_system_scene(initial_system_scene)
+	# 此时函数既然能走到这里，说明字典里一定有这个场景，直接放心取值
+	var target_scene_path = SCENE_DIRECTORY[scene_name]
 
-func load_system_scene(
-	scene_resource: PackedScene,
-	context: Dictionary = {}
-) -> void:
-	# 检查
-	if scene_resource == null:
-		push_error("MAIN：尝试加载空的 PackedScene。")
-		return
+	# 检查是否有正在激活的场景，若有则清空
+	if is_instance_valid(active_scene):
+		if active_scene.get_parent() == scene_holder:
+			scene_holder.remove_child(active_scene)
+		active_scene.queue_free()
+		active_scene = null
 
-	# 立即把旧系统移出场景树，避免它和新系统在同一帧继续接收输入或信号。
-	if is_instance_valid(active_system):
-		if active_system.get_parent() == active_system_holder:
-			active_system_holder.remove_child(active_system)
+	# 如果已经在转场，就直接打断跳过，防止动画重叠
+	if is_transitioning: return
+	is_transitioning = true
 
-		active_system.queue_free()
-		active_system = null
+	# 关闭鼠标交互
+	transition_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+	# 调整转场方块的透明度来实现转场效果
+	var tween_out = create_tween().set_ignore_time_scale(true)
+	tween_out.tween_property(transition_rect, "modulate:a", 1.0, transition_duration)
+	await tween_out.finished
 
-	active_system = scene_resource.instantiate()
-	active_system_holder.add_child(active_system)
+	# 加载新的场景
+	var scene_to_load = load(target_scene_path)
+	active_scene = scene_to_load.instantiate()
+	scene_holder.add_child(active_scene)
 
-	# 可选的统一初始化接口。
-	if active_system.has_method("enter_system"):
-		active_system.call_deferred("enter_system", context)
+	# 黑幕慢慢变回透明
+	var tween_in = create_tween().set_ignore_time_scale(true)
+	tween_in.tween_property(transition_rect, "modulate:a", 0.0, transition_duration)
+	await tween_in.finished
+
+	# 打开鼠标交互
+	transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	is_transitioning = false
 ```
 
 
@@ -10619,7 +10671,7 @@ func handle_input(event: InputEvent) -> void:
 
 ### `res://Scene/Main_Scene/Scripts/event_bus.gd`
 
-- Category: `script`; bytes: `631`; sha256/16: `2d5be768764f6358`
+- Category: `script`; bytes: `671`; sha256/16: `cdf8a14611f941da`
 
 
 ```gdscript
@@ -10629,6 +10681,7 @@ extends Node
 signal player_died(death_context: String) # 玩家死亡
 
 # —————— 场景转换信号 ——————
+signal load_scene(scene_to_load:String)
 signal enter_battle_scene(hit_enemies: Dictionary, support_enemies: Dictionary)#玩家已准备好进入战斗场景
 
 #—————交互UI呼出信号————
@@ -12840,60 +12893,6 @@ func _sort_saves_newest_first(
 	)
 
 	return a_time > b_time
-```
-
-
-### `res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd`
-
-- Category: `script`; bytes: `1718`; sha256/16: `daf4a75c08ec0786`
-
-
-```gdscript
-extends Node
-
-# 用于遮挡全屏的纯黑转场矩形
-var transition_rect: ColorRect
-var is_transitioning: bool = false
-
-func _ready() -> void:
-	# 动态创建一个转场专用的 CanvasLayer
-	# 层级设为 50：确保盖住 UILayer (10)，但处于 CRT 滤镜 (100) 之下
-	var transition_layer = CanvasLayer.new()
-	transition_layer.layer = 50
-	add_child(transition_layer)
-
-	transition_rect = ColorRect.new()
-	transition_rect.color = Color.BLACK
-	transition_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	transition_rect.modulate.a = 0.0 # 初始完全透明
-	transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	transition_layer.add_child(transition_rect)
-
-# 核心方法：播放转场动画并执行回调函数
-func transition_to(callback: Callable, duration: float = 0.3) -> void:
-	if is_transitioning: return
-	is_transitioning = true
-
-	# 1. 拦截鼠标点击，防止转场期间玩家乱点 UI
-	transition_rect.mouse_filter = Control.MOUSE_FILTER_STOP
-
-	# 2. 画面淡出变黑 (忽略时间缩放，防止被战斗慢动作卡住)
-	var tween_out = create_tween().set_ignore_time_scale(true)
-	tween_out.tween_property(transition_rect, "modulate:a", 1.0, duration)
-	await tween_out.finished
-
-	# 3. 【核心】画面全黑时，执行真正的场景替换逻辑
-	if callback.is_valid():
-		callback.call()
-
-	# 4. 画面淡入变亮
-	var tween_in = create_tween().set_ignore_time_scale(true)
-	tween_in.tween_property(transition_rect, "modulate:a", 0.0, duration)
-	await tween_in.finished
-
-	# 5. 恢复鼠标交互
-	transition_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	is_transitioning = false
 ```
 
 
@@ -20847,11 +20846,11 @@ func _get_items_from_logic() -> Array:
 
 ### `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
 
-- Category: `script`; bytes: `11762`; sha256/16: `737f1f3ee8f3e1f5`
+- Category: `script`; bytes: `11758`; sha256/16: `14c9334e480fae02`
 
 
 ```gdscript
-extends CanvasLayer
+extends Control
 class_name ShelterInventoryUI
 
 # Shelter Inventory UI
@@ -21639,699 +21638,431 @@ func toggle_player_ui() -> void:
 
 ### `res://Scene/UI/Scripts/filelist_menu.gd`
 
-- Category: `script`; bytes: `7475`; sha256/16: `e6aa50fd1ea5cb4d`
+- Category: `script`; bytes: `8993`; sha256/16: `5880219bd692c012`
 
 
 ```gdscript
 extends Control
 
+# 相关场景绑定
 @export_category("Navigation")
-
 @export var shelter_scene: PackedScene
-
 @export var save_slot_card_scene: PackedScene
+@export var main_menu : PackedScene
 
+# 转场动画参数
 @export_category("Transition")
+@export_range(0.0, 2.0, 0.05) var transition_duration: float = 0.3
 
-@export_range(0.0, 2.0, 0.05)
-var transition_duration: float = 0.3
-
-@onready var save_list_container: VBoxContainer = (
-	%SaveListContainer
-)
-
-@onready var empty_state: Label = (
-	%EmptyState
-)
-
-@onready var back_button: Button = (
-	%BackButton
-)
-
-@onready var new_save_button: Button = (
-	%NewSaveButton
-)
-
-@onready var name_input_modal: Control = (
-	%NameInputModal
-)
-
-@onready var save_name_input: LineEdit = (
-	%SaveNameInput
-)
-
-@onready var name_input_error: Label = (
-	%NameInputError
-)
-
-@onready var create_cancel_button: Button = (
-	%CreateCancelButton
-)
-
-@onready var create_confirm_button: Button = (
-	%CreateConfirmButton
-)
-
-@onready var delete_confirm_modal: Control = (
-	%DeleteConfirmModal
-)
-
-@onready var delete_target_label: Label = (
-	%DeleteTargetLabel
-)
-
-@onready var delete_cancel_button: Button = (
-	%DeleteCancelButton
-)
-
-@onready var delete_confirm_button: Button = (
-	%DeleteConfirmButton
-)
+# 场景内节点绑定
+@onready var save_list_container: VBoxContainer = %SaveListContainer
+@onready var empty_state: Label = %EmptyState
+@onready var back_button: Button = %BackButton
+@onready var new_save_button: Button = %NewSaveButton
+@onready var name_input_modal: Control = %NameInputModal
+@onready var save_name_input: LineEdit = %SaveNameInput
+@onready var name_input_error: Label = %NameInputError
+@onready var create_cancel_button: Button = %CreateCancelButton
+@onready var create_confirm_button: Button = %CreateConfirmButton
+@onready var delete_confirm_modal: Control = %DeleteConfirmModal
+@onready var delete_target_label: Label = %DeleteTargetLabel
+@onready var delete_cancel_button: Button = %DeleteCancelButton
+@onready var delete_confirm_button: Button = %DeleteConfirmButton
 
 var pending_delete_id: String = ""
 var pending_delete_name: String = ""
 
+# 初始化节点状态并连接所有UI组件的信号
 func _ready() -> void:
+	# 隐藏弹窗节点
 	name_input_modal.hide()
 	delete_confirm_modal.hide()
 
-	back_button.pressed.connect(
-		_return_to_main_menu
-	)
+	# 绑定返回与新建存档按钮的点击事件
+	back_button.pressed.connect(_return_to_main_menu)
+	new_save_button.pressed.connect(_open_create_dialog)
 
-	new_save_button.pressed.connect(
-		_open_create_dialog
-	)
+	# 绑定创建存档弹窗的按钮及输入事件
+	create_cancel_button.pressed.connect(_close_create_dialog)
+	create_confirm_button.pressed.connect(_confirm_create_save)
+	save_name_input.text_submitted.connect(_on_name_submitted)
 
-	create_cancel_button.pressed.connect(
-		_close_create_dialog
-	)
+	# 绑定删除存档弹窗的确认与取消事件
+	delete_cancel_button.pressed.connect(_close_delete_dialog)
+	delete_confirm_button.pressed.connect(_confirm_delete_save)
 
-	create_confirm_button.pressed.connect(
-		_confirm_create_save
-	)
-
-	save_name_input.text_submitted.connect(
-		_on_name_submitted
-	)
-
-	delete_cancel_button.pressed.connect(
-		_close_delete_dialog
-	)
-
-	delete_confirm_button.pressed.connect(
-		_confirm_delete_save
-	)
-
+	# 初始刷新并加载存档列表
 	_refresh_save_list()
 
-func _unhandled_input(
-	event: InputEvent
-) -> void:
-	if not event.is_action_pressed(
-		"ui_cancel"
-	):
+# 执行场景切换操作，返回主菜单
+func _return_to_main_menu() -> void:
+	# 调用场景管理器执行带过渡动画的场景切换
+	EventBus.load_scene.emit("main_menu")
+
+# 处理全局输入事件，主要用于监听取消操作（如Esc键）来关闭弹窗或返回
+func _unhandled_input(event: InputEvent) -> void:
+	# 如果不是取消动作则不作处理
+	if not event.is_action_pressed("ui_cancel"):
 		return
 
+	# 如果删除确认弹窗处于显示状态，则关闭弹窗并拦截输入
 	if delete_confirm_modal.visible:
 		_close_delete_dialog()
 		get_viewport().set_input_as_handled()
 		return
 
+	# 如果名称输入弹窗处于显示状态，则关闭弹窗并拦截输入
 	if name_input_modal.visible:
 		_close_create_dialog()
 		get_viewport().set_input_as_handled()
 		return
 
+	# 如果没有显示任何弹窗，则执行返回主菜单操作
 	_return_to_main_menu()
 
-# Save List
-
+# 刷新并重新生成存档列表UI
 func _refresh_save_list() -> void:
+	# 清空当前列表中的所有存档卡片
 	_clear_save_cards()
 
+	# 获取所有存档数据
 	var saves: Array = SaveManager.get_all_saves()
 
+	# 根据存档数量控制空状态提示的显示
 	empty_state.visible = saves.is_empty()
 
-	var last_save_id: String = (
-		SaveManager.get_last_save_id()
-	)
+	# 获取最后一次游玩的存档ID
+	var last_save_id: String = SaveManager.get_last_save_id()
 
+	# 遍历存档数据并生成对应的卡片UI
 	for save_value in saves:
+		# 过滤非字典类型的异常存档数据
 		if typeof(save_value) != TYPE_DICTIONARY:
 			continue
 
+		# 创建单个存档卡片并标记是否为最新存档
 		var save_data: Dictionary = save_value
+		_create_save_card(save_data, str(save_data.get("id", "")) == last_save_id)
 
-		_create_save_card(
-			save_data,
-			str(
-				save_data.get(
-					"id",
-					""
-				)
-			) == last_save_id
-		)
-
+# 移除并销毁存档列表容器中的所有子节点
 func _clear_save_cards() -> void:
+	# 遍历容器子节点进行清理
 	for child in save_list_container.get_children():
-		save_list_container.remove_child(
-			child
-		)
-
+		save_list_container.remove_child(child)
 		child.queue_free()
 
-func _create_save_card(
-	save_data: Dictionary,
-	is_last_save: bool
-) -> void:
+# 实例化并配置单个存档卡片节点
+func _create_save_card(save_data: Dictionary, is_last_save: bool) -> void:
+	# 检查存档卡片场景是否已正确配置
 	if save_slot_card_scene == null:
-		push_error(
-			"FileList: Save Slot Card Scene 未绑定。"
-		)
+		push_error("FileList: Save Slot Card Scene 未绑定。")
 		return
 
-	var card_node: Node = (
-		save_slot_card_scene.instantiate()
-	)
+	# 实例化存档卡片节点
+	var card_node: Node = save_slot_card_scene.instantiate()
 
+	# 校验实例化的节点类型是否正确
 	if not card_node is SaveSlotCard:
-		push_error(
-			"FileList: SaveSlotCard 场景脚本错误。"
-		)
-
+		push_error("FileList: SaveSlotCard 场景脚本错误。")
 		card_node.queue_free()
 		return
 
-	var card: SaveSlotCard = (
-		card_node as SaveSlotCard
-	)
+	# 类型转换为SaveSlotCard并添加到容器中
+	var card: SaveSlotCard = card_node as SaveSlotCard
+	save_list_container.add_child(card)
 
-	save_list_container.add_child(
-		card
-	)
+	# 初始化卡片数据及状态
+	card.setup(save_data, is_last_save)
 
-	card.setup(
-		save_data,
-		is_last_save
-	)
+	# 连接卡片的游玩和删除请求信号
+	card.play_requested.connect(_on_save_play_requested)
+	card.delete_requested.connect(_on_save_delete_requested)
 
-	card.play_requested.connect(
-		_on_save_play_requested
-	)
+# 响应存档卡片的游玩请求，触发加载流程
+func _on_save_play_requested(save_id: String) -> void:
+	# 调用加载方法并进入避难所场景
+	_load_save_and_enter_shelter(save_id)
 
-	card.delete_requested.connect(
-		_on_save_delete_requested
-	)
-
-# Load
-
-func _on_save_play_requested(
-	save_id: String
-) -> void:
-	_load_save_and_enter_shelter(
-		save_id
-	)
-
-func _load_save_and_enter_shelter(
-	save_id: String
-) -> void:
+# 执行读取指定存档并切换至避难所场景的逻辑
+func _load_save_and_enter_shelter(save_id: String) -> void:
+	# 检查避难所场景是否已正确配置
 	if shelter_scene == null:
-		push_error(
-			"FileList: Shelter Scene 未绑定。"
-		)
+		push_error("FileList: Shelter Scene 未绑定。")
 		return
 
-	if not SaveManager.load_save(
-		save_id
-	):
+	# 尝试通过管理器加载存档数据，失败则中断
+	if not SaveManager.load_save(save_id):
 		return
 
-	var main_root: Node = _get_main_root()
+	EventBus.load_scene.emit("shelter")
 
-	if main_root == null:
-		push_error(
-			"FileList: 找不到 MAIN。"
-		)
-		return
-
-	var callback: Callable = Callable(
-		main_root,
-		"load_system_scene"
-	).bind(
-		shelter_scene,
-		{
-			"entry_source": "save_list",
-			"save_id": save_id
-		}
-	)
-
-	SceneManager.transition_to(
-		callback,
-		transition_duration
-	)
-
-# Create
-
+# 初始化并显示创建新存档的弹窗
 func _open_create_dialog() -> void:
+	# 清空输入框内容及错误提示
 	save_name_input.text = ""
-
 	name_input_error.text = ""
 	name_input_error.hide()
 
+	# 显示弹窗并让输入框获取焦点
 	name_input_modal.show()
-
 	save_name_input.grab_focus()
 
+# 隐藏创建存档弹窗
 func _close_create_dialog() -> void:
+	# 关闭弹窗显示
 	name_input_modal.hide()
 
-func _on_name_submitted(
-	_submitted_text: String
-) -> void:
+# 响应输入框的回车提交事件，执行创建操作
+func _on_name_submitted(_submitted_text: String) -> void:
+	# 触发确认创建存档流程
 	_confirm_create_save()
 
+# 验证输入并执行新建存档的逻辑
 func _confirm_create_save() -> void:
-	var save_name: String = (
-		save_name_input.text.strip_edges()
-	)
+	# 获取并清理输入框的首尾空格
+	var save_name: String = save_name_input.text.strip_edges()
 
+	# 校验存档名称是否为空，为空则提示错误并重新聚焦
 	if save_name.is_empty():
-		name_input_error.text = (
-			"请输入存档名称。"
-		)
-
+		name_input_error.text = "请输入存档名称。"
 		name_input_error.show()
-
 		save_name_input.grab_focus()
 		return
 
-	var new_save_id: String = (
-		SaveManager.create_new_save(
-			save_name
-		)
-	)
+	# 调用管理器创建新存档并获取新ID
+	var new_save_id: String = SaveManager.create_new_save(save_name)
 
+	# 校验创建结果，失败则显示错误提示
 	if new_save_id.is_empty():
-		name_input_error.text = (
-			"创建存档失败。"
-		)
-
+		name_input_error.text = "创建存档失败。"
 		name_input_error.show()
 		return
 
+	# 创建成功，隐藏弹窗并直接加载进入游戏
 	name_input_modal.hide()
+	_load_save_and_enter_shelter(new_save_id)
 
-	_load_save_and_enter_shelter(
-		new_save_id
-	)
+# 响应存档卡片的删除请求，准备数据并显示确认弹窗
+func _on_save_delete_requested(save_id: String) -> void:
+	# 获取要删除的存档名称
+	var save_name: String = _find_save_name(save_id)
 
-# Delete
-
-func _on_save_delete_requested(
-	save_id: String
-) -> void:
-	var save_name: String = (
-		_find_save_name(
-			save_id
-		)
-	)
-
+	# 记录待删除的存档信息到全局变量中
 	pending_delete_id = save_id
 	pending_delete_name = save_name
 
-	delete_target_label.text = (
-		"确定永久删除存档“%s”吗？\n"
-		+ "该操作无法撤销。"
-	) % save_name
-
+	# 更新确认弹窗的提示文案并显示弹窗
+	delete_target_label.text = "确定永久删除存档“%s”吗？\n该操作无法撤销。" % save_name
 	delete_confirm_modal.show()
 
+# 清除待删除数据并隐藏删除确认弹窗
 func _close_delete_dialog() -> void:
+	# 清空待删除的存档信息
 	pending_delete_id = ""
 	pending_delete_name = ""
 
+	# 隐藏确认弹窗
 	delete_confirm_modal.hide()
 
+# 执行删除存档确认后的实际删除操作
 func _confirm_delete_save() -> void:
+	# 校验待删除ID是否有效，无效则直接关闭弹窗
 	if pending_delete_id.is_empty():
 		_close_delete_dialog()
 		return
 
-	SaveManager.delete_save(
-		pending_delete_id
-	)
+	# 调用管理器执行删除
+	SaveManager.delete_save(pending_delete_id)
 
+	# 关闭弹窗并刷新列表UI
 	_close_delete_dialog()
-
 	_refresh_save_list()
 
-func _find_save_name(
-	save_id: String
-) -> String:
+# 根据存档ID在所有存档数据中查找对应的存档名称
+func _find_save_name(save_id: String) -> String:
+	# 获取所有存档列表
 	var saves: Array = SaveManager.get_all_saves()
 
+	# 遍历匹配指定的存档ID
 	for save_value in saves:
+		# 过滤非字典类型的异常数据
 		if typeof(save_value) != TYPE_DICTIONARY:
 			continue
 
 		var data: Dictionary = save_value
+		# 匹配成功则返回名称，缺失则返回默认名称
+		if str(data.get("id", "")) == save_id:
+			return str(data.get("name", "未命名存档"))
 
-		if str(
-			data.get(
-				"id",
-				""
-			)
-		) == save_id:
-			return str(
-				data.get(
-					"name",
-					"未命名存档"
-				)
-			)
-
+	# 遍历完毕未找到则返回默认未命名提示
 	return "未命名存档"
 
-# Back
-
-func _return_to_main_menu() -> void:
-	var main_root: Node = _get_main_root()
-
-	if main_root == null:
-		push_error(
-			"FileList: 找不到 MAIN。"
-		)
-		return
-
-	var target_scene: PackedScene = (
-		main_root.get(
-			"initial_system_scene"
-		) as PackedScene
-	)
-
-	if target_scene == null:
-		push_error(
-			"FileList: MAIN 的 initial_system_scene 未配置。"
-		)
-		return
-
-	var callback: Callable = Callable(
-		main_root,
-		"load_system_scene"
-	).bind(
-		target_scene,
-		{
-			"entry_source": "file_list"
-		}
-	)
-
-	SceneManager.transition_to(
-		callback,
-		transition_duration
-	)
-
+# 获取用于执行场景管理的主节点对象
 func _get_main_root() -> Node:
-	var current_scene: Node = (
-		get_tree().current_scene
-	)
+	# 尝试获取当前的场景根节点
+	var current_scene: Node = get_tree().current_scene
 
-	if (
-		current_scene != null
-		and current_scene.has_method(
-			"load_system_scene"
-		)
-	):
+	# 如果当前节点存在且包含特定切换方法，则直接返回该节点
+	if current_scene != null and current_scene.has_method("load_scene_in_main"):
 		return current_scene
 
-	return get_tree().root.get_node_or_null(
-		"MAIN"
-	)
+	# 否则从全局树中回退查找名为MAIN的节点
+	return get_tree().root.get_node_or_null("MAIN")
 ```
 
 
 ### `res://Scene/UI/Scripts/main_menu.gd`
 
-- Category: `script`; bytes: `3693`; sha256/16: `049780af5bc78889`
+- Category: `script`; bytes: `1393`; sha256/16: `4878c416e9fa0d8c`
 
 
 ```gdscript
 extends Control
 
+# 连接场景内节点
 @onready var start_button: Button = %StartGame
 @onready var file_button: Button = %FileList
 @onready var options_button: Button = %Options
 @onready var quit_button: Button = %QuitGame
 
-@export_category("Navigation")
-
-@export var shelter_scene: PackedScene
-
-@export var filelist_system_scene: PackedScene
-
-@export var options_system_scene: PackedScene
-
-@export_category("Transition")
-
-@export_range(0.0, 2.0, 0.05)
-var transition_duration: float = 0.25
-
+# 连接按钮所触发的对应方法
 func _ready() -> void:
-	start_button.pressed.connect(
-		_on_start_game_pressed
-	)
+	start_button.pressed.connect(_on_start_game_pressed)
+	file_button.pressed.connect(_on_filelist_open_pressed)
+	options_button.pressed.connect(_on_options_open_pressed)
+	quit_button.pressed.connect(_on_quit_game_pressed)
 
-	file_button.pressed.connect(
-		_on_filelist_open_pressed
-	)
-
-	options_button.pressed.connect(
-		_on_options_open_pressed
-	)
-
-	quit_button.pressed.connect(
-		_on_quit_game_pressed
-	)
-
-# Start
-
+# 点“开始游戏”时，看看有没有最新存档，有就接着玩，没有或者读档失败就跳去存档列表
 func _on_start_game_pressed() -> void:
-	var last_save_id: String = (
-		SaveManager.get_last_save_id()
-	)
+	# 获取最近存档
+	var last_save_id: String = SaveManager.get_last_save_id()
 
 	# 没有任何存档
-
 	if last_save_id.is_empty():
-		_open_system(
-			filelist_system_scene,
-			"filelist_system_scene",
-			{
-				"entry_source": "main_menu",
-				"reason": "no_save"
-			}
-		)
-
+		EventBus.load_scene.emit("filelist")
 		return
 
 	# 有最近使用存档
-
-	if not SaveManager.load_save(
-		last_save_id
-	):
-		# 文件异常时退回存档列表，
-		# 不让开始游戏按钮直接失效。
-		_open_system(
-			filelist_system_scene,
-			"filelist_system_scene",
-			{
-				"entry_source": "main_menu",
-				"reason": "load_failed"
-			}
-		)
-
+	if not SaveManager.load_save(last_save_id):
+		EventBus.load_scene.emit("filelist")
 		return
 
-	_open_system(
-		shelter_scene,
-		"shelter_scene",
-		{
-			"entry_source": "continue",
-			"save_id": last_save_id
-		}
-	)
+	EventBus.load_scene.emit("shelter")
 
-# File List
-
+# 点存档按钮时，直接打开存档列表界面。
 func _on_filelist_open_pressed() -> void:
-	_open_system(
-		filelist_system_scene,
-		"filelist_system_scene",
-		{
-			"entry_source": "main_menu"
-		}
-	)
+	EventBus.load_scene.emit("filelist")
 
-# Options
-
+# 点设置按钮时，直接打开设置界面。
 func _on_options_open_pressed() -> void:
-	_open_system(
-		options_system_scene,
-		"options_system_scene",
-		{
-			"entry_source": "main_menu"
-		}
-	)
+	EventBus.load_scene.emit("options")
 
-# Quit
-
+# 点退出按钮时，直接关掉整个游戏进程。
 func _on_quit_game_pressed() -> void:
 	get_tree().quit()
-
-# Navigation
-
-func _open_system(
-	target_scene: PackedScene,
-	export_name: String,
-	context: Dictionary = {}
-) -> void:
-	if target_scene == null:
-		push_error(
-			"MainMenu: 未配置 %s。"
-			% export_name
-		)
-		return
-
-	var main_root: Node = _get_main_root()
-
-	if main_root == null:
-		push_error(
-			"MainMenu: 找不到 MAIN。"
-		)
-		return
-
-	if not main_root.has_method(
-		"load_system_scene"
-	):
-		push_error(
-			"MainMenu: MAIN 不支持 load_system_scene()。"
-		)
-		return
-
-	var callback: Callable = Callable(
-		main_root,
-		"load_system_scene"
-	).bind(
-		target_scene,
-		context
-	)
-
-	SceneManager.transition_to(
-		callback,
-		transition_duration
-	)
-
-func _get_main_root() -> Node:
-	var current_scene: Node = (
-		get_tree().current_scene
-	)
-
-	if (
-		current_scene != null
-		and current_scene.has_method(
-			"load_system_scene"
-		)
-	):
-		return current_scene
-
-	return get_tree().root.get_node_or_null(
-		"MAIN"
-	)
 ```
 
 
 ### `res://Scene/UI/Scripts/options_menu.gd`
 
-- Category: `script`; bytes: `3692`; sha256/16: `bd546d0bf5e71ea6`
+- Category: `script`; bytes: `4327`; sha256/16: `8e0484bd7e66061d`
 
 
 ```gdscript
 extends Control
 
-# 1. 节点精准绑定 (根据你的场景树路径)
+# 节点绑定
 @onready var volume_slider = $VBoxContainer/MarginContainer/HBoxContainer/HSlider
 @onready var volume_percent_label = $VBoxContainer/MarginContainer/HBoxContainer/Label2 # 原 "THIS IS A BUG" 节点
 @onready var resolution_btn = $VBoxContainer/MarginContainer2/HBoxContainer/OptionButton
 @onready var fullscreen_check = $VBoxContainer/MarginContainer3/HBoxContainer/CheckBox
 
+# 简介：节点进入场景树时调用，负责读取配置、恢复 UI 初始状态并绑定所有交互信号。
 func _ready() -> void:
-	# 2. 初始化 UI 状态 (从 SettingsManager 读取数据)
 
-	# 初始化分辨率下拉菜单
+	# --- 1. 初始化分辨率下拉菜单 ---
+	# 清空默认选项
 	resolution_btn.clear()
+	# 获取支持的分辨率列表并逐一添加
 	var res_keys = SettingsManager.RESOLUTIONS.keys()
 	for key in res_keys:
 		resolution_btn.add_item(key)
 
-	# 读取并设置当前全屏状态
+	# --- 2. 恢复全屏状态 ---
+	# 从配置读取全屏参数并设置复选框状态
 	fullscreen_check.button_pressed = SettingsManager.config.get_value("Graphics", "fullscreen", false)
 
-	# 读取并设置当前分辨率选择项
+	# --- 3. 恢复分辨率状态 ---
+	# 读取当前分辨率配置，并在下拉菜单中自动匹配选中该项
 	var current_res = SettingsManager.config.get_value("Graphics", "resolution", "1920 x 1080 (FHD)")
 	var res_index = res_keys.find(current_res)
 	if res_index != -1:
 		resolution_btn.select(res_index)
 
-	# 读取并设置当前音量
+	# --- 4. 恢复音量状态 ---
+	# 读取当前系统音量，并同步给滑动条与文本标签
 	var current_vol = SettingsManager.get_master_volume()
 	volume_slider.value = current_vol
 	_update_volume_label(current_vol)
 
-	# 3. 绑定玩家交互信号
+	# --- 5. 绑定玩家交互信号 ---
+	# 将 UI 控件的操作连接到对应的响应方法上
 	volume_slider.value_changed.connect(_on_volume_changed)
 	resolution_btn.item_selected.connect(_on_resolution_selected)
 	fullscreen_check.toggled.connect(_on_fullscreen_toggled)
 
-# 4. 信号响应逻辑：将玩家操作发送给大管家
+# 信号响应逻辑：将玩家操作下发给大管家
+
+# 简介：处理音量滑动条变化事件，更新系统音量、刷新 UI 并播放测试反馈音。
 func _on_volume_changed(value: float) -> void:
+	# 更新全局音量设置
 	SettingsManager.set_master_volume(value)
+	# 刷新右侧百分比文本显示
 	_update_volume_label(value)
 
-	# 加入这一行：调用你已有的音频系统播放 UI 测试音（请确保该路径下有声音文件）
-	# 注意：如果你之前没配 "ui_system" 的声音，可以在场景里临时建个 AudioStreamPlayer 节点来 play()
+	# 加入这一行：调用已有的音频系统播放 UI 测试音（需确保该路径下有声音文件）
+	# 注意：如果之前没配 "ui_system" 的声音，可以在场景里临时建个 AudioStreamPlayer 节点来 play()
 	BattleBus.play_sfx.emit("ui_system", "hover_sound", Vector3.ZERO)
 
+# 简介：处理分辨率下拉框的选择事件，将选中的分辨率文本应用到系统设置。
 func _on_resolution_selected(index: int) -> void:
+	# 获取当前选中项对应的文本内容
 	var selected_text = resolution_btn.get_item_text(index)
+	# 传递给设置管理器应用修改
 	SettingsManager.set_resolution(selected_text)
 
+# 简介：处理全屏复选框的切换事件，更新系统的窗口显示模式。
 func _on_fullscreen_toggled(toggled_on: bool) -> void:
+	# 根据复选框状态开启或关闭全屏
 	SettingsManager.set_fullscreen(toggled_on)
 
-# 5. 辅助 UI 刷新
+# 辅助 UI 刷新
+
+# 简介：辅助方法，用于将 0.0~1.0 的浮点型音量值转换为易读的百分比字符串。
 func _update_volume_label(val: float) -> void:
 	# 把 0.0~1.0 的小数转换成 0~100 的整数百分比
 	var percent = int(val * 100)
+	# 拼接 % 符号并赋值给 UI 标签
 	volume_percent_label.text = str(percent) + " %"
 
-# 监听玩家按键
+# 输入与导航控制
+
+# 简介：监听未被其他控件消费的全局输入事件，用于捕获快捷键动作（如 ESC 返回）。
 func _unhandled_input(event: InputEvent) -> void:
 	# "ui_cancel" 是 Godot 默认的取消动作，通常绑定了 ESC 键
 	if event.is_action_pressed("ui_cancel"):
+		# 触发返回主菜单操作
 		_return_to_main_menu()
 
-# 返回主菜单的具体逻辑
+# 简介：处理返回主菜单的完整逻辑，包含安全的场景树节点获取与动态转场加载。
 func _return_to_main_menu() -> void:
+	# 获取场景树根节点下的 MAIN 主节点
 	var main_root = get_tree().root.get_node_or_null("MAIN")
+	# 若主节点不存在，则直接中断执行防止报错
 	if not main_root:
 		return
 
-	var load_main_logic = func():
-		# 关键点：用 load() 在按下 ESC 的瞬间去读取场景，彻底告别循环依赖报错！
-		var main_menu = load("res://Scene/UI/main_menu.tscn")
-		main_root.load_system_scene(main_menu)
-
-	SceneManager.transition_to(load_main_logic, 0.5)
+	EventBus.load_scene.emit("main_menu")
 ```
 
 
@@ -28977,15 +28708,14 @@ script = null
 
 ### `res://Scene/Main_Scene/MAIN.tscn`
 
-- Category: `scene`; bytes: `2094`; sha256/16: `e1ed5d874f0fd6d1`
+- Category: `scene`; bytes: `1908`; sha256/16: `13347cbcc2052331`
 
 
 ```ini
-[gd_scene load_steps=5 format=3 uid="uid://0rtgdscsodly"]
+[gd_scene load_steps=4 format=3 uid="uid://0rtgdscsodly"]
 
 [ext_resource type="Script" uid="uid://boj2pb07rnd5m" path="res://Scene/Main_Scene/main.gd" id="1_7wq48"]
 [ext_resource type="Shader" uid="uid://fx2eb0e1yb6" path="res://Arts/Shader/main_overlay.gdshader" id="3_7wq48"]
-[ext_resource type="PackedScene" uid="uid://dcwlpndhrutbe" path="res://Scene/UI/main_menu.tscn" id="4_r781s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wq48"]
 shader = ExtResource("3_7wq48")
@@ -29014,12 +28744,11 @@ shader_parameter/horizontal_warble_px = 0.0
 shader_parameter/horizontal_warble_speed = 0.5
 shader_parameter/border_color = Color(0, 0, 0, 1)
 
-[node name="MAIN" type="Node" node_paths=PackedStringArray("active_system_holder")]
+[node name="MAIN" type="Node" node_paths=PackedStringArray("scene_holder")]
 script = ExtResource("1_7wq48")
-active_system_holder = NodePath("ActiveSystemHolder")
-initial_system_scene = ExtResource("4_r781s")
+scene_holder = NodePath("SceneHolder")
 
-[node name="ActiveSystemHolder" type="Node" parent="."]
+[node name="SceneHolder" type="Node" parent="."]
 unique_name_in_owner = true
 
 [node name="CRT_Layer" type="CanvasLayer" parent="."]
@@ -31258,16 +30987,13 @@ text = "删除"
 
 ### `res://Scene/UI/main_menu.tscn`
 
-- Category: `scene`; bytes: `5432`; sha256/16: `d5d9e4e1b98c06c6`
+- Category: `scene`; bytes: `4963`; sha256/16: `4fe6c705b34c2437`
 
 
 ```ini
-[gd_scene load_steps=10 format=3 uid="uid://dcwlpndhrutbe"]
+[gd_scene load_steps=7 format=3 uid="uid://dcwlpndhrutbe"]
 
 [ext_resource type="Script" uid="uid://d4fbaphgs66ij" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
-[ext_resource type="PackedScene" uid="uid://bvvhcw3cmlmkh" path="res://Scene/Shelter_Scene/shelter.tscn" id="2_6aje7"]
-[ext_resource type="PackedScene" uid="uid://cju7wln8x7rim" path="res://Scene/UI/filelist.tscn" id="3_6i1m0"]
-[ext_resource type="PackedScene" uid="uid://dq13sgkxdyni6" path="res://Scene/UI/options.tscn" id="4_68aio"]
 [ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="5_68aio"]
 [ext_resource type="Shader" uid="uid://fx2eb0e1yb6" path="res://Arts/Shader/main_overlay.gdshader" id="6_6aje7"]
 
@@ -31321,9 +31047,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3125x")
-shelter_scene = ExtResource("2_6aje7")
-filelist_system_scene = ExtResource("3_6i1m0")
-options_system_scene = ExtResource("4_68aio")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
