@@ -11,9 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="6_s55ae"]
 [ext_resource type="Script" uid="uid://xp5gm38wnas" path="res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd" id="10_twju8"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_6667d"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="11_dtnd1"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="11_dtnd1"]
 [ext_resource type="Script" uid="uid://41hebx36bp5t" path="res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd" id="12_gk2uj"]
-[ext_resource type="PackedScene" uid="uid://c6hifpw14wnnp" path="res://Scene/Shelter_Scene/shelter_inventory_ui.tscn" id="13_yp273"]
+[ext_resource type="PackedScene" uid="uid://c6hifpw14wnnp" path="res://Scene/Shelter_Scene/shelter_inventory_page.tscn" id="13_yp273"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_twju8"]
 size = Vector3(32, 0.2, 2)

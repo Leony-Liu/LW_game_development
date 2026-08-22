@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c6hifpw14wnnp"]
 
-[ext_resource type="Script" uid="uid://087r6rtep3sb" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd" id="1_script"]
-[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_theme"]
+[ext_resource type="Script" uid="uid://087r6rtep3sb" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd" id="1_lrh6w"]
+[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_7jl7o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleHeader"]
 bg_color = Color(0.15, 0.145, 0.125, 0.96)
@@ -27,19 +27,24 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="ShelterInventoryUI" type="CanvasLayer"]
-layer = 60
-script = ExtResource("1_script")
-
-[node name="Root" type="Control" parent="."]
-unique_name_in_owner = true
+[node name="ShelterInventoryPage" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_theme")
+script = ExtResource("1_lrh6w")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7jl7o")
 
 [node name="Background" type="ColorRect" parent="Root"]
 visible = false
@@ -69,6 +74,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="HeaderPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+visible = false
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleHeader")
@@ -258,6 +264,7 @@ text = "—"
 autowrap_mode = 2
 
 [node name="FooterPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+visible = false
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleHeader")

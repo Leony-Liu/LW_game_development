@@ -1,20 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://melfhxlunn86"]
+[gd_scene load_steps=8 format=3 uid="uid://melfhxlunn86"]
 
 [ext_resource type="Script" uid="uid://to42dmeuy04l" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd" id="1_page_script"]
 [ext_resource type="Script" uid="uid://dthvc2t7fhp75" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd" id="2_slot_script"]
 [ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="3_theme"]
-
-[sub_resource type="StyleBoxFlat" id="StylePanel"]
-bg_color = Color(0.075, 0.073, 0.064, 0.94)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.72, 0.69, 0.58, 0.7)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleSlotPressed"]
 bg_color = Color(0.17, 0.16, 0.135, 1)
@@ -64,7 +52,7 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="CharacterPage" type="Control"]
+[node name="ShelterCharacterPage" type="Control"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1600, 760)
 layout_mode = 3
@@ -76,26 +64,32 @@ grow_vertical = 2
 theme = ExtResource("3_theme")
 script = ExtResource("1_page_script")
 
-[node name="CharacterVisualPanel" type="PanelContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.2
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -6.0
+grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StylePanel")
 
-[node name="Margin" type="MarginContainer" parent="CharacterVisualPanel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CharacterVisualPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterVisualPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Content" type="Control" parent="CharacterVisualPanel/Margin"]
+[node name="Content" type="Control" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="CharacterVisualPanel/Margin/Content"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -103,7 +97,7 @@ offset_bottom = 30.0
 grow_horizontal = 2
 text = "角色"
 
-[node name="Separator" type="HSeparator" parent="CharacterVisualPanel/Margin/Content"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -111,7 +105,7 @@ offset_top = 34.0
 offset_bottom = 38.0
 grow_horizontal = 2
 
-[node name="CharacterVisualHost" type="Control" parent="CharacterVisualPanel/Margin/Content"]
+[node name="CharacterVisualHost" type="Control" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -120,7 +114,7 @@ offset_top = 48.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Placeholder" type="Label" parent="CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
+[node name="Placeholder" type="Label" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,7 +129,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="CharacterPortrait" type="TextureRect" parent="CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
+[node name="CharacterPortrait" type="TextureRect" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -146,35 +140,27 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="EquippedPanel" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.2
-anchor_right = 0.58
-anchor_bottom = 1.0
-offset_left = 6.0
-offset_right = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StylePanel")
+[node name="EquippedPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Scroll" type="ScrollContainer" parent="EquippedPanel/Margin"]
+[node name="Scroll" type="ScrollContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin"]
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="Content" type="Control" parent="EquippedPanel/Margin/Scroll"]
+[node name="Content" type="Control" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll"]
 custom_minimum_size = Vector2(0, 760)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Title" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -182,7 +168,7 @@ offset_bottom = 30.0
 grow_horizontal = 2
 text = "已装备"
 
-[node name="MainSeparator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="MainSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -190,7 +176,7 @@ offset_top = 34.0
 offset_bottom = 38.0
 grow_horizontal = 2
 
-[node name="WeaponTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="WeaponTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -199,7 +185,7 @@ offset_bottom = 72.0
 grow_horizontal = 2
 text = "武器"
 
-[node name="WeaponSlot1" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="WeaponSlot1" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -219,7 +205,7 @@ slot_title = "武器 1"
 slot_location = "equipped_weapon_1"
 accepted_category = "weapon"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -232,27 +218,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 layout_mode = 2
 text = "武器 1"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -260,14 +246,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="WeaponSlot2" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="WeaponSlot2" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -288,7 +274,7 @@ slot_title = "武器 2"
 slot_location = "equipped_weapon_2"
 accepted_category = "weapon"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -301,27 +287,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 layout_mode = 2
 text = "武器 2"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -329,14 +315,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="EquipmentTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="EquipmentTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -345,7 +331,7 @@ offset_bottom = 228.0
 grow_horizontal = 2
 text = "装备"
 
-[node name="HelmetSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="HelmetSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -365,7 +351,7 @@ slot_title = "头部"
 slot_location = "equipped_equipment_helmet"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -378,27 +364,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 layout_mode = 2
 text = "头部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -406,14 +392,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ChestSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="ChestSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -434,7 +420,7 @@ slot_title = "胸部"
 slot_location = "equipped_equipment_chest"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -447,27 +433,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 layout_mode = 2
 text = "胸部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -475,14 +461,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="LegsSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="LegsSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -502,7 +488,7 @@ slot_title = "腿部"
 slot_location = "equipped_equipment_legs"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -515,27 +501,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 layout_mode = 2
 text = "腿部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -543,14 +529,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="GlovesSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="GlovesSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -571,7 +557,7 @@ slot_title = "手部"
 slot_location = "equipped_equipment_gloves"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -584,27 +570,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 layout_mode = 2
 text = "手部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -612,14 +598,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ShoesSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="ShoesSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -639,7 +625,7 @@ slot_title = "脚部"
 slot_location = "equipped_equipment_shoes"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -652,27 +638,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 layout_mode = 2
 text = "脚部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -680,14 +666,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="UsableTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -696,7 +682,7 @@ offset_bottom = 630.0
 grow_horizontal = 2
 text = "道具"
 
-[node name="UsableSlot1" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableSlot1" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -716,7 +702,7 @@ slot_title = "道具 1"
 slot_location = "equipped_usable_1"
 accepted_category = "usable"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -729,27 +715,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 layout_mode = 2
 text = "道具 1"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -757,14 +743,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="UsableSlot2" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableSlot2" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -786,7 +772,7 @@ slot_title = "道具 2"
 slot_location = "equipped_usable_2"
 accepted_category = "usable"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -799,27 +785,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 layout_mode = 2
 text = "道具 2"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -827,14 +813,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="UsableSlot3" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableSlot3" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -855,7 +841,7 @@ slot_title = "道具 3"
 slot_location = "equipped_usable_3"
 accepted_category = "usable"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -868,27 +854,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 layout_mode = 2
 text = "道具 3"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -896,35 +882,28 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="CharacterDetailsPanel" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.58
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 6.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StylePanel")
+[node name="CharacterDetailsPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Content" type="Control" parent="CharacterDetailsPanel/Margin"]
+[node name="Content" type="Control" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -932,7 +911,7 @@ offset_bottom = 30.0
 grow_horizontal = 2
 text = "角色详情"
 
-[node name="MainSeparator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="MainSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -940,7 +919,7 @@ offset_top = 34.0
 offset_bottom = 38.0
 grow_horizontal = 2
 
-[node name="StatsArea" type="PanelContainer" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="StatsArea" type="PanelContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -951,25 +930,25 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleInnerPanel")
 
-[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel/Margin/Content/StatsArea"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBox" type="VBoxContainer" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
 layout_mode = 2
 text = "角色数值"
 
-[node name="Separator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
 layout_mode = 2
 
-[node name="CharacterStatsText" type="Label" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+[node name="CharacterStatsText" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "生命：—
@@ -982,7 +961,7 @@ text = "生命：—
 后续接入角色数值时，可直接替换 StatsArea 内部节点。"
 autowrap_mode = 2
 
-[node name="ResourcesArea" type="PanelContainer" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="ResourcesArea" type="PanelContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
@@ -993,25 +972,25 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleInnerPanel")
 
-[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBox" type="VBoxContainer" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
 layout_mode = 2
 text = "拥有的资源"
 
-[node name="Separator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
 layout_mode = 2
 
-[node name="CharacterResourcesText" type="Label" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+[node name="CharacterResourcesText" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "资源数据尚未接入。

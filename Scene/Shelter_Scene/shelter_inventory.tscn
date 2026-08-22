@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dks0umiclakrj"]
+
+[node name="Shelter_Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+item_count = 2
+item_0/text = "TEST ITEM 1"
+item_1/text = "TEST ITEM 2"

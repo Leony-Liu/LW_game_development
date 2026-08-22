@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1th2jgtik3td"]
+
+[ext_resource type="PackedScene" uid="uid://b4nbbfu6160as" path="res://Scene/Shelter_Scene/shelter_character.tscn" id="1_0axom"]
+[ext_resource type="PackedScene" uid="uid://dks0umiclakrj" path="res://Scene/Shelter_Scene/shelter_inventory.tscn" id="2_luea8"]
+
+[node name="Shelter_PlayerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="MainMargin"]
+layout_mode = 2
+
+[node name="PageContainer" type="TabContainer" parent="MainMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Character" parent="MainMargin/MainVBox/PageContainer" instance=ExtResource("1_0axom")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Inventory" parent="MainMargin/MainVBox/PageContainer" instance=ExtResource("2_luea8")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Footer" type="PanelContainer" parent="MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMargin/MainVBox/Footer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Hint" type="Label" parent="MainMargin/MainVBox/Footer/MarginContainer"]
+layout_mode = 2
+text = "操作指示器"

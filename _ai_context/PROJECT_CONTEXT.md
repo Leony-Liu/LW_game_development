@@ -4,67 +4,72 @@
 
 ## Snapshot
 
-- Approximate context size: **993,222 characters / ~248,305 tokens**
-- Generated: `2026-08-21T17:46:38+08:00`
+- Approximate context size: **998,346 characters / ~249,586 tokens**
+- Generated: `2026-08-22T12:19:37+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
-- Files scanned: **798**; readable text files: **241**
-- Scripts: **129**; scenes: **83**; resources: **8**; shaders: **6**
-- Non-text assets: **554** (45.4 MiB)
+- Files scanned: **802**; readable text files: **244**
+- Scripts: **130**; scenes: **85**; resources: **8**; shaders: **6**
+- Non-text assets: **555** (45.4 MiB)
 - Total scanned size: **50.6 MiB**
 - TODO/FIXME/HACK markers: **16**
 
 ## Project Configuration Summary
 
 - Godot feature flags: `PackedStringArray("4.4", "Forward Plus")`
-- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `SceneManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `PlayerInventoryCore`, `InventoryManager`, `UIManager`, `ItemDataBase`, `MAPInventoryManager`, `SearchManager`, `InteractionManager`
+- Autoload singletons: `EventBus`, `BattleBus`, `CardDataBase`, `MechanicDatabaseManager`, `AudioManager`, `SaveManager`, `SettingsManager`, `SceneManager`, `PlayerDeckManager`, `ItemDatabaseManager`, `PlayerInventoryCore`, `RaidInventoryBridge`, `UIManager`, `ItemDataBase`, `MAPInventoryManager`, `SearchManager`, `InteractionManager`
 - Input actions: `draw_card`, `Left`, `Right`, `Down`, `Up`, `Attack`, `block_key`, `open_backpack`, `interact`
 - Settings sections: `application`, `autoload`, `debug`, `display`, `file_customization`, `gui`, `input`, `internationalization`, `layer_names`, `rendering`, `shader_globals`
 
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `2e71f36 | 2026-08-21T09:26:55+08:00 | 修改（数据结构）：静态数据库改成表格驱动并与玩家实例分开；利用ItemContract确定了公共协议`
+- Last commit: `b548717 | 2026-08-21T18:15:08+08:00 | 新增（架构）：稳定库存架构`
 - Working tree changes:
-  - `?? Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`
-  - `?? Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd.uid`
-  - `?? Scene/Shelter_Scene/Scripts/Inventory/`
-  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
-  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd.uid`
-  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
-  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd.uid`
-  - `?? Scene/Shelter_Scene/shelter.tscn173779490.tmp`
-  - `?? Scene/Shelter_Scene/shelter_character_page.tscn`
-  - `?? Scene/Shelter_Scene/shelter_character_slot.tscn`
+  - `M Scene/Shelter_Scene/shelter.tscn`
+  - ` M Scene/Shelter_Scene/shelter_character_page.tscn`
+  - ` D Scene/Shelter_Scene/shelter_character_slot.tscn`
+  - ` D Scene/Shelter_Scene/shelter_inventory_ui.tscn`
+  - `?? Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
+  - `?? Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd.uid`
+  - `?? Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
+  - `?? Scene/Shelter_Scene/shelter_character.tscn`
+  - `?? Scene/Shelter_Scene/shelter_inventory.tscn`
+  - `?? Scene/Shelter_Scene/shelter_inventory_page.tscn`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-21 17:46` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-21 17:46` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-21 17:46` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter_character_page.tscn`
-  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter_character_slot.tscn`
-  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`
-  - `2026-08-21 17:46` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
-  - `2026-08-21 17:46` `res://Scene/UI/filelist.tscn`
-  - `2026-08-21 17:46` `res://Scene/UI/save_slot_card.tscn`
-  - `2026-08-21 17:46` `res://Scene/Battle_Scene/Battlescene.tscn`
-  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-21 17:46` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-21 17:46` `res://Scene/Main_Scene/MAIN.tscn`
-  - `2026-08-21 17:46` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-21 17:46` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-21 17:44` `res://project.godot`
-  - `2026-08-21 17:44` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+  - `2026-08-22 12:16` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-22 12:16` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-22 12:16` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-22 12:16` `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
+  - `2026-08-22 12:14` `res://Scene/Shelter_Scene/shelter_inventory.tscn`
+  - `2026-08-22 12:14` `res://Scene/Shelter_Scene/shelter_character.tscn`
+  - `2026-08-22 12:13` `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`
+  - `2026-08-22 12:13` `res://Scene/Battle_Scene/Battlescene.tscn`
+  - `2026-08-22 12:13` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+  - `2026-08-22 12:13` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-22 12:13` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-22 12:07` `res://Scene/Shelter_Scene/shelter_character_page.tscn`
+  - `2026-08-22 12:01` `res://project.godot`
+  - `2026-08-22 12:00` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-22 12:00` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-22 11:57` `res://Scene/UI/save_slot_card.tscn`
+  - `2026-08-22 11:57` `res://Scene/UI/filelist.tscn`
+  - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+  - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd.uid`
+  - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
+  - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`
+  - `2026-08-22 11:57` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
+  - `2026-08-22 11:50` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd.uid`
+  - `2026-08-22 11:50` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
+  - `2026-08-21 18:15` `res://Scene/Shelter_Scene/shelter.tscn173779490.tmp`
+  - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd.uid`
+  - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+  - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd.uid`
+  - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd.uid`
+  - `2026-08-21 18:15` `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd.uid`
+  - `2026-08-21 18:15` `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`
   - `2026-08-21 17:44` `res://Scene/Main_Scene/Scripts/Shared/item_contract.gd`
-  - `2026-08-21 17:42` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd.uid`
-  - `2026-08-21 17:42` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
-  - `2026-08-21 17:42` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
-  - `2026-08-21 17:24` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd.uid`
-  - `2026-08-21 10:05` `res://Scene/Shelter_Scene/shelter.tscn173779490.tmp`
-  - `2026-08-21 10:02` `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd`
-  - `2026-08-21 10:02` `res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd.uid`
-  - `2026-08-21 09:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`
-  - `2026-08-21 09:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd.uid`
   - `2026-08-21 09:27` `res://DataBase/Item/Usables.csv.import`
   - `2026-08-21 09:27` `res://DataBase/Item/Usables.dev.translation`
   - `2026-08-21 09:27` `res://DataBase/Item/Usables.effect.translation`
@@ -113,12 +118,7 @@
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.icon.translation`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.csv.import`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.base.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.csv`
-  - `2026-08-21 09:26` `res://DataBase/Item/Resources.csv`
-  - `2026-08-21 09:26` `res://DataBase/Item/KeyItems.weight.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/KeyItems.template.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/KeyItems.progress.translation`
-  - `... 368 more recent files omitted ...`
+  - `... 372 more recent files omitted ...`
 
 ## Script Architecture Index
 
@@ -245,7 +245,8 @@
 | `res://Scene/Shelter_Scene/Scripts/shelter_player.gd` | `CharacterBody3D` | `ShelterPlayer` | 0 | 13 | 7 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd` | `Control` | `ShelterCharacterPage` | 0 | 0 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd` | `Button` | `ShelterCharacterSlot` | 1 | 4 | 3 | 0 |
-| `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd` | `CanvasLayer` | `ShelterInventoryUI` | 1 | 3 | 12 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd` | `CanvasLayer` | `ShelterInventoryUI` | 1 | 4 | 12 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
 | `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 3 | 10 | 0 |
 | `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 4 | 6 | 0 |
 | `res://Scene/UI/Scripts/options_menu.gd` | `Control` | `-` | 0 | 0 | 7 | 1 |
@@ -376,7 +377,8 @@
 - **`res://Scene/Shelter_Scene/Scripts/shelter_player.gd`** — methods: `_ready()`, `is_movement_enabled()`, `_calculate_move_direction()`, `_apply_gravity()`, `_update_animation()`, `_play_animation()`, `_validate_setup()`; signals: (none); exports: `walk_speed`, `run_speed`, `acceleration`, `deceleration`, `rotation_speed`, `visual_root`, `movement_reference`, `animation_player`, `model_yaw_offset_degrees`, `idle_animation`, `walk_animation`, `run_animation`
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`** — methods: `_ready()`, `refresh()`, `_clear_all_slots()`; signals: (none); exports: (none)
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`** — methods: `_ready()`, `clear_item()`, `get_item_uid()`; signals: `unequip_requested`; exports: `slot_title`, `slot_location`, `accepted_category`, `empty_text`
-- **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`** — methods: `_ready()`, `_exit_tree()`, `open_inventory()`, `close_inventory()`, `toggle_inventory()`, `is_inventory_open()`, `refresh()`, `_activate_current_selection()`, `_toggle_selected_weapon()`, `_clear_details()`, `_on_inventory_changed()`, `_validate_references()`; signals: `inventory_opened_changed`; exports: `player_path`, `edit_mode_controller_path`, `open_key`
+- **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`** — methods: `_ready()`, `_exit_tree()`, `open_inventory()`, `close_inventory()`, `toggle_inventory()`, `is_inventory_open()`, `refresh()`, `_activate_current_selection()`, `_toggle_selected_weapon()`, `_clear_details()`, `_on_inventory_changed()`, `_validate_references()`; signals: `inventory_opened_changed`; exports: `player_path`, `edit_mode_controller_path`, `inventory_manager_path`, `open_key`
+- **`res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`** — methods: `_ready()`, `_process()`; signals: (none); exports: (none)
 - **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_refresh_save_list()`, `_clear_save_cards()`, `_open_create_dialog()`, `_close_create_dialog()`, `_confirm_create_save()`, `_close_delete_dialog()`, `_confirm_delete_save()`, `_return_to_main_menu()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `save_slot_card_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/options_menu.gd`** — methods: `_ready()`, `_on_volume_changed()`, `_on_resolution_selected()`, `_on_fullscreen_toggled()`, `_update_volume_label()`, `_unhandled_input()`, `_return_to_main_menu()`; signals: (none); exports: (none)
@@ -427,10 +429,12 @@
 | `res://Scene/Search_system/Script/UI/search_ui.tscn` | `SearchUI/Control` | 2 | 0 | 0 | 0 |
 | `res://Scene/Shelter_Scene/player/shelter_player.tscn` | `ShelterPlayer/CharacterBody3D` | 5 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` | `UAL1_Standard` | 2 | 0 | 0 | 0 |
-| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 40 | 0 | 7 | 4 |
-| `res://Scene/Shelter_Scene/shelter_character_page.tscn` | `CharacterPage/Control` | 115 | 0 | 2 | 0 |
-| `res://Scene/Shelter_Scene/shelter_character_slot.tscn` | `ShelterCharacterSlot/Button` | 8 | 0 | 1 | 0 |
-| `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn` | `ShelterInventoryUI/CanvasLayer` | 42 | 0 | 1 | 0 |
+| `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 41 | 0 | 8 | 4 |
+| `res://Scene/Shelter_Scene/shelter_character.tscn` | `Shelter_Character/Control` | 2 | 0 | 0 | 0 |
+| `res://Scene/Shelter_Scene/shelter_character_page.tscn` | `ShelterCharacterPage/Control` | 117 | 0 | 2 | 0 |
+| `res://Scene/Shelter_Scene/shelter_inventory.tscn` | `Shelter_Inventory/Control` | 2 | 0 | 0 | 0 |
+| `res://Scene/Shelter_Scene/shelter_inventory_page.tscn` | `ShelterInventoryPage/Control` | 42 | 0 | 1 | 0 |
+| `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn` | `Shelter_PlayerUI/Control` | 10 | 0 | 0 | 2 |
 | `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` | `ShelterMovementTest/Node3D` | 7 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/test/test_facility.tscn` | `TestFacility/StaticBody3D` | 3 | 0 | 1 | 0 |
 | `res://Scene/UI/context_action_menu.tscn` | `ContextActionMenu/CanvasLayer` | 5 | 0 | 1 | 0 |
@@ -501,10 +505,10 @@
 - **`res://Scene/DungeonScenes(3D)/TestScene.tscn`** → `res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn`, `res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn`, `res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn`, `res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn`, `res://Scene/UI/world_interactionUI.tscn`, `res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn`, `res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn`
 - **`res://Scene/Main_Scene/MAIN.tscn`** → `res://Scene/Main_Scene/main.gd`, `res://Scene/UI/main_menu.tscn`
 - **`res://Scene/Shelter_Scene/player/shelter_player.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
-- **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
+- **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
 - **`res://Scene/Shelter_Scene/shelter_character_page.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
-- **`res://Scene/Shelter_Scene/shelter_character_slot.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
-- **`res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+- **`res://Scene/Shelter_Scene/shelter_inventory_page.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+- **`res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`** → `res://Scene/Shelter_Scene/shelter_character.tscn`, `res://Scene/Shelter_Scene/shelter_inventory.tscn`
 - **`res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - **`res://Scene/Shelter_Scene/test/test_facility.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - **`res://Scene/UI/context_action_menu.tscn`** → `res://Scene/UI/Scripts/context_action_menu.gd`
@@ -569,10 +573,10 @@
 - `res://Scene/Search_system/Script/Data/item_data_base.gd` → `res://DataBase/AllItemData.csv`
 - `res://Scene/Shelter_Scene/player/shelter_player.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` → `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
 - `res://Scene/Shelter_Scene/shelter_character_page.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
-- `res://Scene/Shelter_Scene/shelter_character_slot.tscn` → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
-- `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+- `res://Scene/Shelter_Scene/shelter_inventory_page.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+- `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn` → `res://Scene/Shelter_Scene/shelter_character.tscn`, `res://Scene/Shelter_Scene/shelter_inventory.tscn`
 - `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - `res://Scene/Shelter_Scene/test/test_facility.tscn` → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
@@ -952,7 +956,8 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   ├── UI
 │   │   │   │   ├── shelter_character_page.gd
 │   │   │   │   ├── shelter_character_slot.gd
-│   │   │   │   └── shelter_inventory_ui.gd
+│   │   │   │   ├── shelter_inventory_ui.gd
+│   │   │   │   └── Shelter_PlayerUI.gd
 │   │   │   ├── camera_debug_switcher.gd
 │   │   │   ├── shelter_camera.gd
 │   │   │   └── shelter_player.gd
@@ -960,9 +965,11 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   ├── shelter_movement_test.tscn
 │   │   │   └── test_facility.tscn
 │   │   ├── shelter.tscn
+│   │   ├── shelter_character.tscn
 │   │   ├── shelter_character_page.tscn
-│   │   ├── shelter_character_slot.tscn
-│   │   └── shelter_inventory_ui.tscn
+│   │   ├── shelter_inventory.tscn
+│   │   ├── shelter_inventory_page.tscn
+│   │   └── Shelter_PlayerUI.tscn
 │   ├── UI
 │   │   ├── Scripts
 │   │   │   ├── filelist_menu.gd
@@ -1022,7 +1029,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 
 ### By extension
 
-`.import`: 159, `.uid`: 135, `.translation`: 75, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 23, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
+`.import`: 159, `.uid`: 136, `.translation`: 75, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 23, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
 
 ### By top-level folder
 
@@ -1030,7 +1037,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `Audio`: .wav=4, .import=4
 - `DataBase`: .translation=71, .import=13
 - `Localization`: .translation=4, .import=2
-- `Scene`: .import=133, .uid=133, .png=49, .glb=42, .jpg=40, .tmp=23, .aseprite=9, .gif=6, .fbx=1
+- `Scene`: .uid=134, .import=133, .png=49, .glb=42, .jpg=40, .tmp=23, .aseprite=9, .gif=6, .fbx=1
 - `export_context.py`: .py=1
 - `gitattributes`: [no extension]=1
 - `gitignore`: [no extension]=1
@@ -1051,7 +1058,7 @@ Core project files are embedded below in priority order. Large files may be trun
 
 ### `res://project.godot`
 
-- Category: `project`; bytes: `7908`; sha256/16: `63045ea03b5cace8`
+- Category: `project`; bytes: `7924`; sha256/16: `790130985fc90bb7`
 
 
 ```ini
@@ -1085,7 +1092,7 @@ SceneManager="*res://Scene/Main_Scene/Scripts/Manager/scene_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 PlayerInventoryCore="*res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd"
-InventoryManager="*res://Scene/Main_Scene/Scripts/Manager/inventory_manager.gd"
+RaidInventoryBridge="*res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd"
 UIManager="*res://Scene/Search_system/Script/Manager/ui_manager.gd"
 ItemDataBase="*res://Scene/Search_system/Script/Data/item_data_base.gd"
 MAPInventoryManager="*res://Scene/Search_system/Script/Manager/inventory_system.gd"
@@ -20801,7 +20808,7 @@ func _refresh_icon(
 
 ### `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
 
-- Category: `script`; bytes: `11222`; sha256/16: `252bfa36f1ccc12b`
+- Category: `script`; bytes: `11762`; sha256/16: `737f1f3ee8f3e1f5`
 
 
 ```gdscript
@@ -20854,6 +20861,10 @@ signal inventory_opened_changed(
 	^"../GameViewportContainer/GameViewport/World/EditModeController"
 )
 
+@export var inventory_manager_path: NodePath = (
+	^"../GameViewportContainer/GameViewport/World/ShelterInventoryManager"
+)
+
 @export_category("Temporary Input")
 
 ## 当前阶段使用 I 打开。
@@ -20902,6 +20913,8 @@ var _player: ShelterPlayer
 # 这样也避免 UI 与建造系统形成不必要的类型耦合。
 var _edit_mode_controller = null
 
+var _inventory_manager: ShelterInventoryManager
+
 var _is_open: bool = false
 
 var _selected_uid: String = ""
@@ -20916,8 +20929,12 @@ func _ready() -> void:
 	) as ShelterPlayer
 
 	_edit_mode_controller = get_node_or_null(
-	edit_mode_controller_path
-)
+		edit_mode_controller_path
+	)
+
+	_inventory_manager = get_node_or_null(
+		inventory_manager_path
+	) as ShelterInventoryManager
 
 	root_ui.visible = false
 
@@ -20929,9 +20946,15 @@ func _ready() -> void:
 		_on_item_activated
 	)
 
-	InventoryManager.inventory_changed.connect(
-		_on_inventory_changed
-	)
+	if (
+		_inventory_manager != null
+		and not _inventory_manager.inventory_changed.is_connected(
+			_on_inventory_changed
+		)
+	):
+		_inventory_manager.inventory_changed.connect(
+			_on_inventory_changed
+		)
 
 	_clear_details()
 
@@ -21155,7 +21178,7 @@ func _refresh_weapon_list(
 	weapon_list.clear()
 
 	var weapons: Array = (
-		InventoryManager.get_character_weapons()
+		_inventory_manager.get_character_weapons()
 	)
 
 	if weapons.is_empty():
@@ -21209,7 +21232,7 @@ func _refresh_weapon_list(
 		)
 
 		var equipped: bool = (
-			InventoryManager.is_weapon_equipped(
+			_inventory_manager.is_weapon_equipped(
 				uid
 			)
 		)
@@ -21308,15 +21331,15 @@ func _toggle_selected_weapon() -> void:
 	if _selected_uid.is_empty():
 		return
 
-	if InventoryManager.is_weapon_equipped(
+	if _inventory_manager.is_weapon_equipped(
 		_selected_uid
 	):
-		InventoryManager.unequip_weapon(
+		_inventory_manager.unequip_weapon(
 			_selected_uid
 		)
 
 	else:
-		InventoryManager.equip_weapon(
+		_inventory_manager.equip_weapon(
 			_selected_uid,
 			1
 		)
@@ -21327,7 +21350,7 @@ func _show_weapon(
 	uid: String
 ) -> void:
 	var item: Dictionary = (
-		InventoryManager.get_item_by_uid(
+		_inventory_manager.get_item_by_uid(
 			uid
 		)
 	)
@@ -21390,7 +21413,7 @@ func _show_weapon(
 		card_count = cards.size()
 
 	var equipped: bool = (
-		InventoryManager.is_weapon_equipped(
+		_inventory_manager.is_weapon_equipped(
 			uid
 		)
 	)
@@ -21526,7 +21549,31 @@ func _validate_references() -> void:
 	if _edit_mode_controller == null:
 		push_warning(
 			"ShelterInventoryUI: 找不到 EditModeController。"
+			)
+
+	if _inventory_manager == null:
+		push_error(
+			"ShelterInventoryUI: "
+			+ "找不到 ShelterInventoryManager。"
 		)
+```
+
+
+### `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
+
+- Category: `script`; bytes: `260`; sha256/16: `63cbf485c8ff1d37`
+
+
+```gdscript
+extends Node
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
 ```
 
 
@@ -29134,11 +29181,11 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 
 ### `res://Scene/Shelter_Scene/shelter.tscn`
 
-- Category: `scene`; bytes: `11088`; sha256/16: `4c35e9c2cbe1fa9e`
+- Category: `scene`; bytes: `11368`; sha256/16: `11926f8fd7fa3ff4`
 
 
 ```ini
-[gd_scene load_steps=21 format=3 uid="uid://bvvhcw3cmlmkh"]
+[gd_scene load_steps=22 format=3 uid="uid://bvvhcw3cmlmkh"]
 
 [ext_resource type="Script" uid="uid://bj2gdgqfb3c2s" path="res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd" id="1_11o6b"]
 [ext_resource type="PackedScene" uid="uid://cc05e0cxjslf5" path="res://Scene/Shelter_Scene/player/shelter_player.tscn" id="1_syccu"]
@@ -29151,8 +29198,9 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 [ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="6_s55ae"]
 [ext_resource type="Script" uid="uid://xp5gm38wnas" path="res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd" id="10_twju8"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_6667d"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="11_dtnd1"]
-[ext_resource type="PackedScene" uid="uid://c6hifpw14wnnp" path="res://Scene/Shelter_Scene/shelter_inventory_ui.tscn" id="13_yp273"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="11_dtnd1"]
+[ext_resource type="Script" uid="uid://41hebx36bp5t" path="res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd" id="12_gk2uj"]
+[ext_resource type="PackedScene" uid="uid://c6hifpw14wnnp" path="res://Scene/Shelter_Scene/shelter_inventory_page.tscn" id="13_yp273"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_twju8"]
 size = Vector3(32, 0.2, 2)
@@ -29335,6 +29383,9 @@ facility_build_controller = NodePath("../BuildArea/FacilityBuildController")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="GameViewportContainer/GameViewport/World"]
 environment = ExtResource("11_6667d")
 
+[node name="ShelterInventoryManager" type="Node" parent="GameViewportContainer/GameViewport/World"]
+script = ExtResource("12_gk2uj")
+
 [node name="CRT_Layer" type="CanvasLayer" parent="GameViewportContainer/GameViewport"]
 layer = 100
 
@@ -29358,29 +29409,46 @@ mouse_filter = 2
 ```
 
 
-### `res://Scene/Shelter_Scene/shelter_character_page.tscn`
+### `res://Scene/Shelter_Scene/shelter_character.tscn`
 
-- Category: `scene`; bytes: `32378`; sha256/16: `c505cb85e5b6cb65`
+- Category: `scene`; bytes: `444`; sha256/16: `0e98c10107fb9a1a`
 
 
 ```ini
-[gd_scene load_steps=9 format=3 uid="uid://melfhxlunn86"]
+[gd_scene format=3 uid="uid://b4nbbfu6160as"]
+
+[node name="Shelter_Character" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WeaponList" type="ItemList" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+item_count = 2
+item_0/text = "TEST ITEM 1"
+item_1/text = "TEST ITEM 2"
+```
+
+
+### `res://Scene/Shelter_Scene/shelter_character_page.tscn`
+
+- Category: `scene`; bytes: `35283`; sha256/16: `b60ed007ba3183c5`
+
+
+```ini
+[gd_scene load_steps=8 format=3 uid="uid://melfhxlunn86"]
 
 [ext_resource type="Script" uid="uid://to42dmeuy04l" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd" id="1_page_script"]
 [ext_resource type="Script" uid="uid://dthvc2t7fhp75" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd" id="2_slot_script"]
 [ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="3_theme"]
-
-[sub_resource type="StyleBoxFlat" id="StylePanel"]
-bg_color = Color(0.075, 0.073, 0.064, 0.94)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.72, 0.69, 0.58, 0.7)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleSlotPressed"]
 bg_color = Color(0.17, 0.16, 0.135, 1)
@@ -29430,7 +29498,7 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="CharacterPage" type="Control"]
+[node name="ShelterCharacterPage" type="Control"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1600, 760)
 layout_mode = 3
@@ -29442,26 +29510,32 @@ grow_vertical = 2
 theme = ExtResource("3_theme")
 script = ExtResource("1_page_script")
 
-[node name="CharacterVisualPanel" type="PanelContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.2
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -6.0
+grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StylePanel")
 
-[node name="Margin" type="MarginContainer" parent="CharacterVisualPanel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CharacterVisualPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterVisualPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Content" type="Control" parent="CharacterVisualPanel/Margin"]
+[node name="Content" type="Control" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="CharacterVisualPanel/Margin/Content"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -29469,7 +29543,7 @@ offset_bottom = 30.0
 grow_horizontal = 2
 text = "角色"
 
-[node name="Separator" type="HSeparator" parent="CharacterVisualPanel/Margin/Content"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -29477,7 +29551,7 @@ offset_top = 34.0
 offset_bottom = 38.0
 grow_horizontal = 2
 
-[node name="CharacterVisualHost" type="Control" parent="CharacterVisualPanel/Margin/Content"]
+[node name="CharacterVisualHost" type="Control" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29486,7 +29560,7 @@ offset_top = 48.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Placeholder" type="Label" parent="CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
+[node name="Placeholder" type="Label" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29501,7 +29575,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="CharacterPortrait" type="TextureRect" parent="CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
+[node name="CharacterPortrait" type="TextureRect" parent="MarginContainer/HBoxContainer/CharacterVisualPanel/Margin/Content/CharacterVisualHost"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29512,35 +29586,27 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="EquippedPanel" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.2
-anchor_right = 0.58
-anchor_bottom = 1.0
-offset_left = 6.0
-offset_right = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StylePanel")
+[node name="EquippedPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Scroll" type="ScrollContainer" parent="EquippedPanel/Margin"]
+[node name="Scroll" type="ScrollContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin"]
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="Content" type="Control" parent="EquippedPanel/Margin/Scroll"]
+[node name="Content" type="Control" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll"]
 custom_minimum_size = Vector2(0, 760)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Title" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -29548,7 +29614,7 @@ offset_bottom = 30.0
 grow_horizontal = 2
 text = "已装备"
 
-[node name="MainSeparator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="MainSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -29556,7 +29622,7 @@ offset_top = 34.0
 offset_bottom = 38.0
 grow_horizontal = 2
 
-[node name="WeaponTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="WeaponTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -29565,7 +29631,7 @@ offset_bottom = 72.0
 grow_horizontal = 2
 text = "武器"
 
-[node name="WeaponSlot1" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="WeaponSlot1" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -29585,7 +29651,7 @@ slot_title = "武器 1"
 slot_location = "equipped_weapon_1"
 accepted_category = "weapon"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29598,27 +29664,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 layout_mode = 2
 text = "武器 1"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -29626,14 +29692,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot1/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="WeaponSlot2" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="WeaponSlot2" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -29654,7 +29720,7 @@ slot_title = "武器 2"
 slot_location = "equipped_weapon_2"
 accepted_category = "weapon"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29667,27 +29733,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 layout_mode = 2
 text = "武器 2"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -29695,14 +29761,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/WeaponSlot2/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="EquipmentTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="EquipmentTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -29711,7 +29777,7 @@ offset_bottom = 228.0
 grow_horizontal = 2
 text = "装备"
 
-[node name="HelmetSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="HelmetSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -29731,7 +29797,7 @@ slot_title = "头部"
 slot_location = "equipped_equipment_helmet"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29744,27 +29810,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 layout_mode = 2
 text = "头部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -29772,14 +29838,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/HelmetSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ChestSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="ChestSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -29800,7 +29866,7 @@ slot_title = "胸部"
 slot_location = "equipped_equipment_chest"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29813,27 +29879,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 layout_mode = 2
 text = "胸部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -29841,14 +29907,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ChestSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="LegsSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="LegsSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -29868,7 +29934,7 @@ slot_title = "腿部"
 slot_location = "equipped_equipment_legs"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29881,27 +29947,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 layout_mode = 2
 text = "腿部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -29909,14 +29975,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/LegsSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="GlovesSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="GlovesSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -29937,7 +30003,7 @@ slot_title = "手部"
 slot_location = "equipped_equipment_gloves"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29950,27 +30016,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 layout_mode = 2
 text = "手部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -29978,14 +30044,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/GlovesSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ShoesSlot" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="ShoesSlot" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -30005,7 +30071,7 @@ slot_title = "脚部"
 slot_location = "equipped_equipment_shoes"
 accepted_category = "equipment"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30018,27 +30084,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 layout_mode = 2
 text = "脚部"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -30046,14 +30112,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/ShoesSlot/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="UsableTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -30062,7 +30128,7 @@ offset_bottom = 630.0
 grow_horizontal = 2
 text = "道具"
 
-[node name="UsableSlot1" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableSlot1" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -30082,7 +30148,7 @@ slot_title = "道具 1"
 slot_location = "equipped_usable_1"
 accepted_category = "usable"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30095,27 +30161,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 layout_mode = 2
 text = "道具 1"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -30123,14 +30189,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot1/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="UsableSlot2" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableSlot2" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -30152,7 +30218,7 @@ slot_title = "道具 2"
 slot_location = "equipped_usable_2"
 accepted_category = "usable"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30165,27 +30231,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 layout_mode = 2
 text = "道具 2"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -30193,14 +30259,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot2/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="UsableSlot3" type="Button" parent="EquippedPanel/Margin/Scroll/Content"]
+[node name="UsableSlot3" type="Button" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -30221,7 +30287,7 @@ slot_title = "道具 3"
 slot_location = "equipped_usable_3"
 accepted_category = "usable"
 
-[node name="Margin" type="MarginContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30234,27 +30300,27 @@ theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 7
 
-[node name="VBox" type="VBoxContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="SlotTitle" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="SlotTitle" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 layout_mode = 2
 text = "道具 3"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="IconCenter" type="CenterContainer" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="IconCenter" type="CenterContainer" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="ItemIcon" type="TextureRect" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox/IconCenter"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox/IconCenter"]
 visible = false
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -30262,35 +30328,28 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
+[node name="ItemName" type="Label" parent="MarginContainer/HBoxContainer/EquippedPanel/Margin/Scroll/Content/UsableSlot3/Margin/VBox"]
 layout_mode = 2
 text = "未装备"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="CharacterDetailsPanel" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.58
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 6.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StylePanel")
+[node name="CharacterDetailsPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Content" type="Control" parent="CharacterDetailsPanel/Margin"]
+[node name="Content" type="Control" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -30298,7 +30357,7 @@ offset_bottom = 30.0
 grow_horizontal = 2
 text = "角色详情"
 
-[node name="MainSeparator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="MainSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -30306,7 +30365,7 @@ offset_top = 34.0
 offset_bottom = 38.0
 grow_horizontal = 2
 
-[node name="StatsArea" type="PanelContainer" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="StatsArea" type="PanelContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -30317,25 +30376,25 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleInnerPanel")
 
-[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel/Margin/Content/StatsArea"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBox" type="VBoxContainer" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
 layout_mode = 2
 text = "角色数值"
 
-[node name="Separator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
 layout_mode = 2
 
-[node name="CharacterStatsText" type="Label" parent="CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
+[node name="CharacterStatsText" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/StatsArea/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "生命：—
@@ -30348,7 +30407,7 @@ text = "生命：—
 后续接入角色数值时，可直接替换 StatsArea 内部节点。"
 autowrap_mode = 2
 
-[node name="ResourcesArea" type="PanelContainer" parent="CharacterDetailsPanel/Margin/Content"]
+[node name="ResourcesArea" type="PanelContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
@@ -30359,25 +30418,25 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleInnerPanel")
 
-[node name="Margin" type="MarginContainer" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 10
 
-[node name="VBox" type="VBoxContainer" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
 layout_mode = 2
 text = "拥有的资源"
 
-[node name="Separator" type="HSeparator" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
 layout_mode = 2
 
-[node name="CharacterResourcesText" type="Label" parent="CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
+[node name="CharacterResourcesText" type="Label" parent="MarginContainer/HBoxContainer/CharacterDetailsPanel/Margin/Content/ResourcesArea/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "资源数据尚未接入。
@@ -30388,125 +30447,45 @@ autowrap_mode = 2
 ```
 
 
-### `res://Scene/Shelter_Scene/shelter_character_slot.tscn`
+### `res://Scene/Shelter_Scene/shelter_inventory.tscn`
 
-- Category: `scene`; bytes: `2966`; sha256/16: `6ff885102708ea6a`
+- Category: `scene`; bytes: `442`; sha256/16: `ea219e2450356e4c`
 
 
 ```ini
-[gd_scene load_steps=5 format=3 uid="uid://c324w133xamte"]
+[gd_scene format=3 uid="uid://dks0umiclakrj"]
 
-[ext_resource type="Script" uid="uid://dthvc2t7fhp75" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd" id="1_script"]
+[node name="Shelter_Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleSlotPressed"]
-bg_color = Color(0.17, 0.16, 0.135, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.9, 0.84, 0.67, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleSlotHover"]
-bg_color = Color(0.13, 0.125, 0.108, 0.98)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.82, 0.78, 0.64, 0.95)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleSlotNormal"]
-bg_color = Color(0.09, 0.087, 0.076, 0.96)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.62, 0.59, 0.49, 0.78)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[node name="ShelterCharacterSlot" type="Button"]
-custom_minimum_size = Vector2(118, 104)
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_override_styles/hover_pressed = SubResource("StyleSlotPressed")
-theme_override_styles/hover = SubResource("StyleSlotHover")
-theme_override_styles/pressed = SubResource("StyleSlotPressed")
-theme_override_styles/normal = SubResource("StyleSlotNormal")
-script = ExtResource("1_script")
-
-[node name="Margin" type="MarginContainer" parent="."]
+[node name="ItemList" type="ItemList" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 7
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 7
-
-[node name="VBox" type="VBoxContainer" parent="Margin"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 4
-
-[node name="SlotTitle" type="Label" parent="Margin/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "槽位"
-horizontal_alignment = 1
-
-[node name="Separator" type="HSeparator" parent="Margin/VBox"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="IconCenter" type="CenterContainer" parent="Margin/VBox"]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="ItemIcon" type="TextureRect" parent="Margin/VBox/IconCenter"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-mouse_filter = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ItemName" type="Label" parent="Margin/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "未装备"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
+item_count = 2
+item_0/text = "TEST ITEM 1"
+item_1/text = "TEST ITEM 2"
 ```
 
 
-### `res://Scene/Shelter_Scene/shelter_inventory_ui.tscn`
+### `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`
 
-- Category: `scene`; bytes: `9558`; sha256/16: `38407f54784a8fce`
+- Category: `scene`; bytes: `9688`; sha256/16: `2fafa89e69a59c42`
 
 
 ```ini
 [gd_scene load_steps=5 format=3 uid="uid://c6hifpw14wnnp"]
 
-[ext_resource type="Script" uid="uid://087r6rtep3sb" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd" id="1_script"]
-[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_theme"]
+[ext_resource type="Script" uid="uid://087r6rtep3sb" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd" id="1_lrh6w"]
+[ext_resource type="Theme" uid="uid://wupdljc1nnfi" path="res://Arts/Theme/GlobalTheme.tres" id="2_7jl7o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleHeader"]
 bg_color = Color(0.15, 0.145, 0.125, 0.96)
@@ -30532,19 +30511,24 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="ShelterInventoryUI" type="CanvasLayer"]
-layer = 60
-script = ExtResource("1_script")
-
-[node name="Root" type="Control" parent="."]
-unique_name_in_owner = true
+[node name="ShelterInventoryPage" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_theme")
+script = ExtResource("1_lrh6w")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_7jl7o")
 
 [node name="Background" type="ColorRect" parent="Root"]
 visible = false
@@ -30574,6 +30558,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="HeaderPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+visible = false
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleHeader")
@@ -30763,6 +30748,7 @@ text = "—"
 autowrap_mode = 2
 
 [node name="FooterPanel" type="PanelContainer" parent="Root/MainMargin/MainVBox"]
+visible = false
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleHeader")
@@ -30779,6 +30765,80 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "↑ / ↓ 选择    Enter 装备/卸下    I / Esc 关闭"
 vertical_alignment = 1
+```
+
+
+### `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
+
+- Category: `scene`; bytes: `1953`; sha256/16: `5aaccb8f92b3b81b`
+
+
+```ini
+[gd_scene load_steps=3 format=3 uid="uid://b1th2jgtik3td"]
+
+[ext_resource type="PackedScene" uid="uid://b4nbbfu6160as" path="res://Scene/Shelter_Scene/shelter_character.tscn" id="1_0axom"]
+[ext_resource type="PackedScene" uid="uid://dks0umiclakrj" path="res://Scene/Shelter_Scene/shelter_inventory.tscn" id="2_luea8"]
+
+[node name="Shelter_PlayerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="MainMargin"]
+layout_mode = 2
+
+[node name="PageContainer" type="TabContainer" parent="MainMargin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Character" parent="MainMargin/MainVBox/PageContainer" instance=ExtResource("1_0axom")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Inventory" parent="MainMargin/MainVBox/PageContainer" instance=ExtResource("2_luea8")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Footer" type="PanelContainer" parent="MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMargin/MainVBox/Footer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Hint" type="Label" parent="MainMargin/MainVBox/Footer/MarginContainer"]
+layout_mode = 2
+text = "操作指示器"
 ```
 
 
