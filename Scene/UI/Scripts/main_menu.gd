@@ -1,200 +1,43 @@
 extends Control
 
-
+# 连接场景内节点
 @onready var start_button: Button = %StartGame
 @onready var file_button: Button = %FileList
 @onready var options_button: Button = %Options
 @onready var quit_button: Button = %QuitGame
 
-
-@export_category("Navigation")
-
-@export var shelter_scene: PackedScene
-
-@export var filelist_system_scene: PackedScene
-
-@export var options_system_scene: PackedScene
-
-
-@export_category("Transition")
-
-@export_range(0.0, 2.0, 0.05)
-var transition_duration: float = 0.25
-
-
+# 连接按钮所触发的对应方法
 func _ready() -> void:
-	start_button.pressed.connect(
-		_on_start_game_pressed
-	)
+	start_button.pressed.connect(_on_start_game_pressed)
+	file_button.pressed.connect(_on_filelist_open_pressed)
+	options_button.pressed.connect(_on_options_open_pressed)
+	quit_button.pressed.connect(_on_quit_game_pressed)
 
-	file_button.pressed.connect(
-		_on_filelist_open_pressed
-	)
-
-	options_button.pressed.connect(
-		_on_options_open_pressed
-	)
-
-	quit_button.pressed.connect(
-		_on_quit_game_pressed
-	)
-
-
-# ============================================================
-# Start
-# ============================================================
-
-
+# 点“开始游戏”时，看看有没有最新存档，有就接着玩，没有或者读档失败就跳去存档列表
 func _on_start_game_pressed() -> void:
-	var last_save_id: String = (
-		SaveManager.get_last_save_id()
-	)
-
-	# --------------------------------------------------------
+	# 获取最近存档
+	var last_save_id: String = SaveManager.get_last_save_id()
+	
 	# 没有任何存档
-	# --------------------------------------------------------
-
 	if last_save_id.is_empty():
-		_open_system(
-			filelist_system_scene,
-			"filelist_system_scene",
-			{
-				"entry_source": "main_menu",
-				"reason": "no_save"
-			}
-		)
-
+		EventBus.load_scene.emit("filelist")
 		return
 
-	# --------------------------------------------------------
 	# 有最近使用存档
-	# --------------------------------------------------------
-
-	if not SaveManager.load_save(
-		last_save_id
-	):
-		# 文件异常时退回存档列表，
-		# 不让开始游戏按钮直接失效。
-		_open_system(
-			filelist_system_scene,
-			"filelist_system_scene",
-			{
-				"entry_source": "main_menu",
-				"reason": "load_failed"
-			}
-		)
-
+	if not SaveManager.load_save(last_save_id):
+		EventBus.load_scene.emit("filelist")
 		return
 
-	_open_system(
-		shelter_scene,
-		"shelter_scene",
-		{
-			"entry_source": "continue",
-			"save_id": last_save_id
-		}
-	)
+	EventBus.load_scene.emit("shelter")
 
-
-# ============================================================
-# File List
-# ============================================================
-
-
+# 点存档按钮时，直接打开存档列表界面。
 func _on_filelist_open_pressed() -> void:
-	_open_system(
-		filelist_system_scene,
-		"filelist_system_scene",
-		{
-			"entry_source": "main_menu"
-		}
-	)
+	EventBus.load_scene.emit("filelist")
 
-
-# ============================================================
-# Options
-# ============================================================
-
-
+# 点设置按钮时，直接打开设置界面。
 func _on_options_open_pressed() -> void:
-	_open_system(
-		options_system_scene,
-		"options_system_scene",
-		{
-			"entry_source": "main_menu"
-		}
-	)
+	EventBus.load_scene.emit("options")
 
-
-# ============================================================
-# Quit
-# ============================================================
-
-
+# 点退出按钮时，直接关掉整个游戏进程。
 func _on_quit_game_pressed() -> void:
 	get_tree().quit()
-
-
-# ============================================================
-# Navigation
-# ============================================================
-
-
-func _open_system(
-	target_scene: PackedScene,
-	export_name: String,
-	context: Dictionary = {}
-) -> void:
-	if target_scene == null:
-		push_error(
-			"MainMenu: 未配置 %s。"
-			% export_name
-		)
-		return
-
-	var main_root: Node = _get_main_root()
-
-	if main_root == null:
-		push_error(
-			"MainMenu: 找不到 MAIN。"
-		)
-		return
-
-	if not main_root.has_method(
-		"load_system_scene"
-	):
-		push_error(
-			"MainMenu: MAIN 不支持 load_system_scene()。"
-		)
-		return
-
-	var callback: Callable = Callable(
-		main_root,
-		"load_system_scene"
-	).bind(
-		target_scene,
-		context
-	)
-
-	SceneManager.transition_to(
-		callback,
-		transition_duration
-	)
-
-
-func _get_main_root() -> Node:
-	var current_scene: Node = (
-		get_tree().current_scene
-	)
-
-	if (
-		current_scene != null
-		and current_scene.has_method(
-			"load_system_scene"
-		)
-	):
-		return current_scene
-
-	return get_tree().root.get_node_or_null(
-		"MAIN"
-	)

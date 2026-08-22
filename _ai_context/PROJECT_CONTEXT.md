@@ -4,14 +4,14 @@
 
 ## Snapshot
 
-- Approximate context size: **998,346 characters / ~249,586 tokens**
-- Generated: `2026-08-22T12:19:37+08:00`
+- Approximate context size: **1,000,611 characters / ~250,152 tokens**
+- Generated: `2026-08-22T14:55:35+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
-- Files scanned: **802**; readable text files: **244**
-- Scripts: **130**; scenes: **85**; resources: **8**; shaders: **6**
-- Non-text assets: **555** (45.4 MiB)
+- Files scanned: **804**; readable text files: **245**
+- Scripts: **131**; scenes: **85**; resources: **8**; shaders: **6**
+- Non-text assets: **556** (45.4 MiB)
 - Total scanned size: **50.6 MiB**
 - TODO/FIXME/HACK markers: **16**
 
@@ -25,34 +25,34 @@
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `b548717 | 2026-08-21T18:15:08+08:00 | 新增（架构）：稳定库存架构`
+- Last commit: `63991a7 | 2026-08-22T12:22:16+08:00 | 新增（基地）：UI系统调整`
 - Working tree changes:
-  - `M Scene/Shelter_Scene/shelter.tscn`
-  - ` M Scene/Shelter_Scene/shelter_character_page.tscn`
-  - ` D Scene/Shelter_Scene/shelter_character_slot.tscn`
-  - ` D Scene/Shelter_Scene/shelter_inventory_ui.tscn`
-  - `?? Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
-  - `?? Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd.uid`
-  - `?? Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
-  - `?? Scene/Shelter_Scene/shelter_character.tscn`
-  - `?? Scene/Shelter_Scene/shelter_inventory.tscn`
-  - `?? Scene/Shelter_Scene/shelter_inventory_page.tscn`
+  - `M Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
+  - ` M Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
+  - ` M Scene/Shelter_Scene/shelter.tscn`
+  - ` M Scene/Shelter_Scene/shelter_inventory.tscn`
+  - ` M _ai_context/PROJECT_CONTEXT.md`
+  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
+  - `?? Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd.uid`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-22 12:16` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-22 12:16` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-22 12:16` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-22 12:16` `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
-  - `2026-08-22 12:14` `res://Scene/Shelter_Scene/shelter_inventory.tscn`
-  - `2026-08-22 12:14` `res://Scene/Shelter_Scene/shelter_character.tscn`
+  - `2026-08-22 14:48` `res://project.godot`
+  - `2026-08-22 14:48` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-22 14:48` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-22 14:48` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter_character.tscn`
+  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter_inventory.tscn`
+  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
+  - `2026-08-22 14:48` `res://Scene/Battle_Scene/Battlescene.tscn`
+  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
+  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-22 14:48` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+  - `2026-08-22 14:48` `res://Arts/Theme/GlobalTheme.tres`
+  - `2026-08-22 14:48` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-22 13:14` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
+  - `2026-08-22 13:14` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd.uid`
+  - `2026-08-22 13:13` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
   - `2026-08-22 12:13` `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`
-  - `2026-08-22 12:13` `res://Scene/Battle_Scene/Battlescene.tscn`
-  - `2026-08-22 12:13` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-22 12:13` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-22 12:13` `res://Scene/Main_Scene/MAIN.tscn`
   - `2026-08-22 12:07` `res://Scene/Shelter_Scene/shelter_character_page.tscn`
-  - `2026-08-22 12:01` `res://project.godot`
-  - `2026-08-22 12:00` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
-  - `2026-08-22 12:00` `res://Arts/Theme/GlobalTheme.tres`
   - `2026-08-22 11:57` `res://Scene/UI/save_slot_card.tscn`
   - `2026-08-22 11:57` `res://Scene/UI/filelist.tscn`
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
@@ -61,7 +61,6 @@
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`
   - `2026-08-22 11:57` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
   - `2026-08-22 11:50` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd.uid`
-  - `2026-08-22 11:50` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
   - `2026-08-21 18:15` `res://Scene/Shelter_Scene/shelter.tscn173779490.tmp`
   - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd.uid`
   - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
@@ -116,9 +115,7 @@
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.desc.translation`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.dev.translation`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.icon.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.csv.import`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.base.translation`
-  - `... 372 more recent files omitted ...`
+  - `... 374 more recent files omitted ...`
 
 ## Script Architecture Index
 
@@ -245,8 +242,9 @@
 | `res://Scene/Shelter_Scene/Scripts/shelter_player.gd` | `CharacterBody3D` | `ShelterPlayer` | 0 | 13 | 7 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd` | `Control` | `ShelterCharacterPage` | 0 | 0 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd` | `Button` | `ShelterCharacterSlot` | 1 | 4 | 3 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd` | `Control` | `-` | 0 | 0 | 3 | 0 |
 | `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd` | `CanvasLayer` | `ShelterInventoryUI` | 1 | 4 | 12 | 0 |
-| `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd` | `Node` | `-` | 0 | 0 | 2 | 0 |
+| `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd` | `Control` | `-` | 0 | 2 | 3 | 0 |
 | `res://Scene/UI/Scripts/filelist_menu.gd` | `Control` | `-` | 0 | 3 | 10 | 0 |
 | `res://Scene/UI/Scripts/main_menu.gd` | `Control` | `-` | 0 | 4 | 6 | 0 |
 | `res://Scene/UI/Scripts/options_menu.gd` | `Control` | `-` | 0 | 0 | 7 | 1 |
@@ -377,8 +375,9 @@
 - **`res://Scene/Shelter_Scene/Scripts/shelter_player.gd`** — methods: `_ready()`, `is_movement_enabled()`, `_calculate_move_direction()`, `_apply_gravity()`, `_update_animation()`, `_play_animation()`, `_validate_setup()`; signals: (none); exports: `walk_speed`, `run_speed`, `acceleration`, `deceleration`, `rotation_speed`, `visual_root`, `movement_reference`, `animation_player`, `model_yaw_offset_degrees`, `idle_animation`, `walk_animation`, `run_animation`
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`** — methods: `_ready()`, `refresh()`, `_clear_all_slots()`; signals: (none); exports: (none)
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`** — methods: `_ready()`, `clear_item()`, `get_item_uid()`; signals: `unequip_requested`; exports: `slot_title`, `slot_location`, `accepted_category`, `empty_text`
+- **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`** — methods: `_ready()`, `refresh_ui()`, `_get_items_from_logic()`; signals: (none); exports: (none)
 - **`res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`** — methods: `_ready()`, `_exit_tree()`, `open_inventory()`, `close_inventory()`, `toggle_inventory()`, `is_inventory_open()`, `refresh()`, `_activate_current_selection()`, `_toggle_selected_weapon()`, `_clear_details()`, `_on_inventory_changed()`, `_validate_references()`; signals: `inventory_opened_changed`; exports: `player_path`, `edit_mode_controller_path`, `inventory_manager_path`, `open_key`
-- **`res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`** — methods: `_ready()`, `_process()`; signals: (none); exports: (none)
+- **`res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`** — methods: `_ready()`, `_input()`, `toggle_player_ui()`; signals: (none); exports: `character_page`, `is_ui_open`
 - **`res://Scene/UI/Scripts/filelist_menu.gd`** — methods: `_ready()`, `_refresh_save_list()`, `_clear_save_cards()`, `_open_create_dialog()`, `_close_create_dialog()`, `_confirm_create_save()`, `_close_delete_dialog()`, `_confirm_delete_save()`, `_return_to_main_menu()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `save_slot_card_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/main_menu.gd`** — methods: `_ready()`, `_on_start_game_pressed()`, `_on_filelist_open_pressed()`, `_on_options_open_pressed()`, `_on_quit_game_pressed()`, `_get_main_root()`; signals: (none); exports: `shelter_scene`, `filelist_system_scene`, `options_system_scene`, `transition_duration`
 - **`res://Scene/UI/Scripts/options_menu.gd`** — methods: `_ready()`, `_on_volume_changed()`, `_on_resolution_selected()`, `_on_fullscreen_toggled()`, `_update_volume_label()`, `_unhandled_input()`, `_return_to_main_menu()`; signals: (none); exports: (none)
@@ -432,9 +431,9 @@
 | `res://Scene/Shelter_Scene/shelter.tscn` | `Shelter/Node3D` | 41 | 0 | 8 | 4 |
 | `res://Scene/Shelter_Scene/shelter_character.tscn` | `Shelter_Character/Control` | 2 | 0 | 0 | 0 |
 | `res://Scene/Shelter_Scene/shelter_character_page.tscn` | `ShelterCharacterPage/Control` | 117 | 0 | 2 | 0 |
-| `res://Scene/Shelter_Scene/shelter_inventory.tscn` | `Shelter_Inventory/Control` | 2 | 0 | 0 | 0 |
+| `res://Scene/Shelter_Scene/shelter_inventory.tscn` | `Shelter_Inventory/Control` | 2 | 0 | 1 | 0 |
 | `res://Scene/Shelter_Scene/shelter_inventory_page.tscn` | `ShelterInventoryPage/Control` | 42 | 0 | 1 | 0 |
-| `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn` | `Shelter_PlayerUI/Control` | 10 | 0 | 0 | 2 |
+| `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn` | `Shelter_PlayerUI/Control` | 10 | 0 | 1 | 2 |
 | `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` | `ShelterMovementTest/Node3D` | 7 | 0 | 1 | 1 |
 | `res://Scene/Shelter_Scene/test/test_facility.tscn` | `TestFacility/StaticBody3D` | 3 | 0 | 1 | 0 |
 | `res://Scene/UI/context_action_menu.tscn` | `ContextActionMenu/CanvasLayer` | 5 | 0 | 1 | 0 |
@@ -507,8 +506,9 @@
 - **`res://Scene/Shelter_Scene/player/shelter_player.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - **`res://Scene/Shelter_Scene/shelter.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`
 - **`res://Scene/Shelter_Scene/shelter_character_page.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+- **`res://Scene/Shelter_Scene/shelter_inventory.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
 - **`res://Scene/Shelter_Scene/shelter_inventory_page.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
-- **`res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`** → `res://Scene/Shelter_Scene/shelter_character.tscn`, `res://Scene/Shelter_Scene/shelter_inventory.tscn`
+- **`res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`** → `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`, `res://Scene/Shelter_Scene/shelter_character.tscn`, `res://Scene/Shelter_Scene/shelter_inventory.tscn`
 - **`res://Scene/Shelter_Scene/test/shelter_movement_test.tscn`** → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - **`res://Scene/Shelter_Scene/test/test_facility.tscn`** → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - **`res://Scene/UI/context_action_menu.tscn`** → `res://Scene/UI/Scripts/context_action_menu.gd`
@@ -573,10 +573,11 @@
 - `res://Scene/Search_system/Script/Data/item_data_base.gd` → `res://DataBase/AllItemData.csv`
 - `res://Scene/Shelter_Scene/player/shelter_player.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_player.gd`, `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn`
 - `res://Scene/Shelter_Scene/player/shelter_player_visual.tscn` → `res://Scene/Shelter_Scene/Art/UAL1_Standard.glb`
-- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+- `res://Scene/Shelter_Scene/shelter.tscn` → `res://Arts/Theme/environment.tres`, `res://Scene/Battle_Scene/Battlescene.tscn`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_edit_mode_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_build_controller.gd`, `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_room_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Interaction/shelter_npc_raid_interaction.gd`, `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`, `res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd`, `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`, `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`, `res://Scene/Shelter_Scene/test/test_facility.tscn`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
 - `res://Scene/Shelter_Scene/shelter_character_page.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
+- `res://Scene/Shelter_Scene/shelter_inventory.tscn` → `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
 - `res://Scene/Shelter_Scene/shelter_inventory_page.tscn` → `res://Arts/Theme/GlobalTheme.tres`, `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
-- `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn` → `res://Scene/Shelter_Scene/shelter_character.tscn`, `res://Scene/Shelter_Scene/shelter_inventory.tscn`
+- `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn` → `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`, `res://Scene/Shelter_Scene/shelter_character.tscn`, `res://Scene/Shelter_Scene/shelter_inventory.tscn`
 - `res://Scene/Shelter_Scene/test/shelter_movement_test.tscn` → `res://Scene/Shelter_Scene/Scripts/shelter_camera.gd`, `res://Scene/Shelter_Scene/player/shelter_player.tscn`
 - `res://Scene/Shelter_Scene/test/test_facility.tscn` → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
@@ -956,6 +957,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 │   │   │   ├── UI
 │   │   │   │   ├── shelter_character_page.gd
 │   │   │   │   ├── shelter_character_slot.gd
+│   │   │   │   ├── shelter_inventory.gd
 │   │   │   │   ├── shelter_inventory_ui.gd
 │   │   │   │   └── Shelter_PlayerUI.gd
 │   │   │   ├── camera_debug_switcher.gd
@@ -1029,7 +1031,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 
 ### By extension
 
-`.import`: 159, `.uid`: 136, `.translation`: 75, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 23, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
+`.import`: 159, `.uid`: 137, `.translation`: 75, `.png`: 49, `.glb`: 44, `.jpg`: 40, `.tmp`: 23, `.aseprite`: 9, `.gif`: 6, `.ttf`: 4, `.wav`: 4, `[no extension]`: 2, `.py`: 1, `.svg`: 1, `.kanban`: 1, `.fbx`: 1
 
 ### By top-level folder
 
@@ -1037,7 +1039,7 @@ These are heuristic results. Some may be generated, imported, UID-backed, or con
 - `Audio`: .wav=4, .import=4
 - `DataBase`: .translation=71, .import=13
 - `Localization`: .translation=4, .import=2
-- `Scene`: .uid=134, .import=133, .png=49, .glb=42, .jpg=40, .tmp=23, .aseprite=9, .gif=6, .fbx=1
+- `Scene`: .uid=135, .import=133, .png=49, .glb=42, .jpg=40, .tmp=23, .aseprite=9, .gif=6, .fbx=1
 - `export_context.py`: .py=1
 - `gitattributes`: [no extension]=1
 - `gitignore`: [no extension]=1
@@ -20806,6 +20808,43 @@ func _refresh_icon(
 ```
 
 
+### `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
+
+- Category: `script`; bytes: `744`; sha256/16: `280545ce000030c9`
+
+
+```gdscript
+extends Control
+
+# 通过 Unique Name (%) 获取节点，无论你后续怎么调整 UI 层级结构都不会报错
+@onready var item_list: ItemList = %ItemList
+
+func _ready() -> void:
+	# 清空可能在编辑器里留下的测试占位数据
+	if item_list:
+		item_list.clear()
+
+# 由主页面打开时调用
+func refresh_ui() -> void:
+	if not item_list:
+		return
+	item_list.clear()
+
+	# 预留获取数据的接口
+	var items = _get_items_from_logic()
+
+	for item in items:
+		# 提取物品名称并添加到列表中
+		var item_name = item.get("name_key", "未知物品")
+		item_list.add_item(item_name)
+
+# 预留给后端逻辑的对接函数
+func _get_items_from_logic() -> Array:
+	# 待明确具体的单例调用方法后填入
+	return []
+```
+
+
 ### `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
 
 - Category: `script`; bytes: `11762`; sha256/16: `737f1f3ee8f3e1f5`
@@ -21561,19 +21600,40 @@ func _validate_references() -> void:
 
 ### `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
 
-- Category: `script`; bytes: `260`; sha256/16: `63cbf485c8ff1d37`
+- Category: `script`; bytes: `920`; sha256/16: `c19e5f6093d31d8f`
 
 
 ```gdscript
-extends Node
+extends Control
 
-# Called when the node enters the scene tree for the first time.
+# 暴露给检查器，方便美术/策划直接拖拽分配节点，代码中不写死路径
+@export var character_page: Control
+@export var inventory_page: Control
+
+var is_ui_open: bool = false
+
 func _ready() -> void:
-	pass # Replace with function body.
+	# 初始状态隐藏整个主界面
+	hide()
+	# 初始化子页面状态：默认显示背包，隐藏角色页面
+	if inventory_page:
+		inventory_page.show()
+	if character_page:
+		character_page.hide()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _input(event: InputEvent) -> void:
+	# 监听 Tab 键 (对应项目输入映射中的 open_backpack 动作)
+	if event.is_action_pressed("open_backpack"):
+		toggle_player_ui()
+
+func toggle_player_ui() -> void:
+	is_ui_open = !is_ui_open
+	visible = is_ui_open
+
+	if is_ui_open:
+		# 当界面打开且显示的是背包时，通知背包页面刷新数据
+		if inventory_page and inventory_page.visible and inventory_page.has_method("refresh_ui"):
+			inventory_page.refresh_ui()
 ```
 
 
@@ -29181,7 +29241,7 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 
 ### `res://Scene/Shelter_Scene/shelter.tscn`
 
-- Category: `scene`; bytes: `11368`; sha256/16: `11926f8fd7fa3ff4`
+- Category: `scene`; bytes: `11372`; sha256/16: `751d7b579a8285c6`
 
 
 ```ini
@@ -29198,7 +29258,7 @@ bones/63/rotation = Quaternion(0.00358496, 0.915764, -0.401701, -6.93125e-06)
 [ext_resource type="PackedScene" uid="uid://dendpgv3l41yl" path="res://Scene/Battle_Scene/Battlescene.tscn" id="6_s55ae"]
 [ext_resource type="Script" uid="uid://xp5gm38wnas" path="res://Scene/Shelter_Scene/Scripts/Save/shelter_save_bridge.gd" id="10_twju8"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_6667d"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="11_dtnd1"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="11_dtnd1"]
 [ext_resource type="Script" uid="uid://41hebx36bp5t" path="res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd" id="12_gk2uj"]
 [ext_resource type="PackedScene" uid="uid://c6hifpw14wnnp" path="res://Scene/Shelter_Scene/shelter_inventory_page.tscn" id="13_yp273"]
 
@@ -30449,11 +30509,13 @@ autowrap_mode = 2
 
 ### `res://Scene/Shelter_Scene/shelter_inventory.tscn`
 
-- Category: `scene`; bytes: `442`; sha256/16: `ea219e2450356e4c`
+- Category: `scene`; bytes: `621`; sha256/16: `fff8a6b6f3ea9b27`
 
 
 ```ini
-[gd_scene format=3 uid="uid://dks0umiclakrj"]
+[gd_scene load_steps=2 format=3 uid="uid://dks0umiclakrj"]
+
+[ext_resource type="Script" uid="uid://dfm605gws53xy" path="res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd" id="1_wd8kx"]
 
 [node name="Shelter_Inventory" type="Control"]
 layout_mode = 3
@@ -30462,6 +30524,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_wd8kx")
 
 [node name="ItemList" type="ItemList" parent="."]
 layout_mode = 1
@@ -30770,22 +30833,26 @@ vertical_alignment = 1
 
 ### `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
 
-- Category: `scene`; bytes: `1953`; sha256/16: `5aaccb8f92b3b81b`
+- Category: `scene`; bytes: `2327`; sha256/16: `d4340ceac2843a07`
 
 
 ```ini
-[gd_scene load_steps=3 format=3 uid="uid://b1th2jgtik3td"]
+[gd_scene load_steps=4 format=3 uid="uid://b1th2jgtik3td"]
 
 [ext_resource type="PackedScene" uid="uid://b4nbbfu6160as" path="res://Scene/Shelter_Scene/shelter_character.tscn" id="1_0axom"]
+[ext_resource type="Script" uid="uid://bsq75vy8kunu" path="res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd" id="1_luea8"]
 [ext_resource type="PackedScene" uid="uid://dks0umiclakrj" path="res://Scene/Shelter_Scene/shelter_inventory.tscn" id="2_luea8"]
 
-[node name="Shelter_PlayerUI" type="Control"]
+[node name="Shelter_PlayerUI" type="Control" node_paths=PackedStringArray("character_page", "inventory_page")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_luea8")
+character_page = NodePath("MainMargin/MainVBox/PageContainer/Character")
+inventory_page = NodePath("MainMargin/MainVBox/PageContainer/Inventory")
 
 [node name="Background" type="ColorRect" parent="."]
 visible = false

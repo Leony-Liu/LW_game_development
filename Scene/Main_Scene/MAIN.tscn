@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://0rtgdscsodly"]
+[gd_scene load_steps=4 format=3 uid="uid://0rtgdscsodly"]
 
 [ext_resource type="Script" uid="uid://boj2pb07rnd5m" path="res://Scene/Main_Scene/main.gd" id="1_7wq48"]
 [ext_resource type="Shader" uid="uid://fx2eb0e1yb6" path="res://Arts/Shader/main_overlay.gdshader" id="3_7wq48"]
-[ext_resource type="PackedScene" uid="uid://dcwlpndhrutbe" path="res://Scene/UI/main_menu.tscn" id="4_r781s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wq48"]
 shader = ExtResource("3_7wq48")
@@ -31,12 +30,11 @@ shader_parameter/horizontal_warble_px = 0.0
 shader_parameter/horizontal_warble_speed = 0.5
 shader_parameter/border_color = Color(0, 0, 0, 1)
 
-[node name="MAIN" type="Node" node_paths=PackedStringArray("active_system_holder")]
+[node name="MAIN" type="Node" node_paths=PackedStringArray("scene_holder")]
 script = ExtResource("1_7wq48")
-active_system_holder = NodePath("ActiveSystemHolder")
-initial_system_scene = ExtResource("4_r781s")
+scene_holder = NodePath("SceneHolder")
 
-[node name="ActiveSystemHolder" type="Node" parent="."]
+[node name="SceneHolder" type="Node" parent="."]
 unique_name_in_owner = true
 
 [node name="CRT_Layer" type="CanvasLayer" parent="."]

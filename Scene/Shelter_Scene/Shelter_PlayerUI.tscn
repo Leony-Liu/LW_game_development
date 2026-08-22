@@ -1,15 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://b1th2jgtik3td"]
+[gd_scene load_steps=4 format=3 uid="uid://b1th2jgtik3td"]
 
 [ext_resource type="PackedScene" uid="uid://b4nbbfu6160as" path="res://Scene/Shelter_Scene/shelter_character.tscn" id="1_0axom"]
+[ext_resource type="Script" uid="uid://bsq75vy8kunu" path="res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd" id="1_luea8"]
 [ext_resource type="PackedScene" uid="uid://dks0umiclakrj" path="res://Scene/Shelter_Scene/shelter_inventory.tscn" id="2_luea8"]
 
-[node name="Shelter_PlayerUI" type="Control"]
+[node name="Shelter_PlayerUI" type="Control" node_paths=PackedStringArray("character_page", "inventory_page")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_luea8")
+character_page = NodePath("MainMargin/MainVBox/PageContainer/Character")
+inventory_page = NodePath("MainMargin/MainVBox/PageContainer/Inventory")
 
 [node name="Background" type="ColorRect" parent="."]
 visible = false
