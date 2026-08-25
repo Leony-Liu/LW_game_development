@@ -1,12 +1,5 @@
-# 定义：卡牌数据库读取工具（单例）
-#
-# 职责：
-# 1. 读取CSV
-# 2. 将每一行整理成Dictionary
-# 3. 根据卡牌ID提供安全的数据副本
-
+# 读取卡牌数据并打包
 extends Node
-
 
 const CARD_DATABASE_PATH := "res://DataBase/AllCardData.csv"
 
@@ -21,16 +14,17 @@ const INT_FIELDS := [
 	"poise_damage"
 ]
 
-
 # 键：卡牌ID
 # 值：卡牌基础模板
 var database: Dictionary = {}
 
 
+# 节点就绪时自动触发CSV数据的读取
 func _ready() -> void:
 	load_csv_data(CARD_DATABASE_PATH)
 
 
+# 读取指定路径的CSV文件并解析为字典存入数据库
 func load_csv_data(file_path: String) -> void:
 	var file := FileAccess.open(file_path, FileAccess.READ)
 
@@ -55,10 +49,7 @@ func load_csv_data(file_path: String) -> void:
 			continue
 
 		if data_row.size() < headers.size():
-			push_warning(
-				"card_database_manager：某一行的列数不足，已跳过：%s"
-				% str(data_row)
-			)
+			push_warning("card_database_manager：某一行的列数不足，已跳过：%s" % str(data_row))
 			continue
 
 		var card_info: Dictionary = {}
@@ -66,11 +57,7 @@ func load_csv_data(file_path: String) -> void:
 		for i in range(headers.size()):
 			var header_name: String = headers[i]
 			var cell_value: String = data_row[i].strip_edges()
-
-			card_info[header_name] = _parse_cell(
-				header_name,
-				cell_value
-			)
+			card_info[header_name] = _parse_cell(header_name, cell_value)
 
 		if not card_info.has("id"):
 			push_warning("card_database_manager：发现没有ID的卡牌数据。")
@@ -79,33 +66,22 @@ func load_csv_data(file_path: String) -> void:
 		var card_id: int = card_info["id"]
 
 		if database.has(card_id):
-			push_warning(
-				"card_database_manager：发现重复的卡牌ID：%d" % card_id
-			)
+			push_warning("card_database_manager：发现重复的卡牌ID：%d" % card_id)
 			continue
 
 		database[card_id] = card_info
 
-	print(
-		"card_database_manager：卡牌数据库加载完成，共加载了%d张卡牌。"
-		% database.size()
-	)
+	print("card_database_manager：卡牌数据库加载完成，共加载了%d张卡牌。" % database.size())
 
 
-# 责将CSV文字转换成正确的基础类型
-func _parse_cell(
-	header_name: String,
-	cell_value: String
-) -> Variant:
+# 根据字段名称将CSV中的字符串值转换为对应的数据类型
+func _parse_cell(header_name: String, cell_value: String) -> Variant:
 	if header_name in INT_FIELDS:
 		if cell_value == "":
 			return 0
 
 		if not cell_value.is_valid_int():
-			push_warning(
-				"card_database_manager：字段%s应当是整数，但读取到：%s"
-				% [header_name, cell_value]
-			)
+			push_warning("card_database_manager：字段%s应当是整数，但读取到：%s" % [header_name, cell_value])
 			return 0
 
 		return cell_value.to_int()
@@ -114,7 +90,7 @@ func _parse_cell(
 	return cell_value
 
 
-# 返回卡牌模板的独立副本
+# 根据卡牌ID查询数据库并返回该卡牌数据的独立字典副本
 func get_card(id: int) -> Dictionary:
 	if database.has(id):
 		return database[id].duplicate(true)

@@ -213,7 +213,7 @@ func _resolve_skill_action(
 			)
 
 
-# ActionTimelineManager 在结算行动前会检查这个方法。
+# TimelineManager 在结算行动前会检查这个方法。
 func can_resolve_timeline_action(
 	_action: TimelineAction
 ) -> bool:

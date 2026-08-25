@@ -4,8 +4,8 @@
 
 ## Snapshot
 
-- Approximate context size: **998,495 characters / ~249,623 tokens**
-- Generated: `2026-08-22T21:02:48+08:00`
+- Approximate context size: **998,653 characters / ~249,663 tokens**
+- Generated: `2026-08-23T10:14:37+08:00`
 - Project root: `LW_game_development`
 - Project name: `LW_game_development`
 - Main scene: `uid://0rtgdscsodly`
@@ -25,50 +25,45 @@
 ## Progress Signals
 
 - Git branch: `battle_development`
-- Last commit: `c3ef43b | 2026-08-22T20:28:25+08:00 | 优化（管理器）：集中了切换场景的功能到scene_manager里面`
+- Last commit: `f111397 | 2026-08-22T21:11:32+08:00 | 优化（管理器）：将scenemanager.gd整合进了main.gd`
 - Working tree changes:
-  - `D Scene/Main_Scene/Scripts/Manager/scene_manager.gd`
-  - ` D Scene/Main_Scene/Scripts/Manager/scene_manager.gd.uid`
-  - ` M Scene/Main_Scene/main.gd`
-  - ` M Scene/Shelter_Scene/shelter.tscn`
-  - ` M Scene/UI/Scripts/filelist_menu.gd`
-  - ` M Scene/UI/Scripts/options_menu.gd`
-  - ` M _ai_context/PROJECT_CONTEXT.md`
-  - ` M project.godot`
+  - `M Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
+  - ` M Scene/UI/main_menu.tscn`
 - Files modified in the last 30 days (newest first, max 80):
-  - `2026-08-22 21:02` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
-  - `2026-08-22 21:02` `res://Arts/Shader/3d_world.gdshader`
-  - `2026-08-22 21:02` `res://Arts/Shader/main_overlay.gdshader`
-  - `2026-08-22 21:02` `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`
-  - `2026-08-22 21:02` `res://Scene/Shelter_Scene/shelter.tscn`
-  - `2026-08-22 21:02` `res://Scene/Main_Scene/MAIN.tscn`
-  - `2026-08-22 21:02` `res://Scene/UI/main_menu.tscn`
+  - `2026-08-23 10:13` `res://project.godot`
+  - `2026-08-22 22:27` `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
+  - `2026-08-22 22:27` `res://Arts/Shader/3d_world.gdshader`
+  - `2026-08-22 22:27` `res://Arts/Shader/main_overlay.gdshader`
+  - `2026-08-22 22:27` `res://Scene/UI/main_menu.tscn`
+  - `2026-08-22 21:38` `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
+  - `2026-08-22 21:19` `res://Scene/Main_Scene/MAIN.tscn`
+  - `2026-08-22 21:11` `res://Scene/UI/Scripts/options_menu.gd`
+  - `2026-08-22 21:11` `res://Scene/UI/Scripts/main_menu.gd`
+  - `2026-08-22 21:11` `res://Scene/UI/Scripts/filelist_menu.gd`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/shelter_inventory_page.tscn`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/shelter_inventory.tscn`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/shelter_character_page.tscn`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/shelter_character.tscn`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/shelter.tscn`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd.uid`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd.uid`
+  - `2026-08-22 21:11` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
+  - `2026-08-22 21:11` `res://Scene/Main_Scene/main.gd`
+  - `2026-08-22 21:11` `res://Scene/Main_Scene/Scripts/event_bus.gd`
   - `2026-08-22 21:02` `res://Scene/UI/filelist.tscn`
   - `2026-08-22 21:02` `res://Scene/UI/options.tscn`
   - `2026-08-22 20:59` `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
   - `2026-08-22 20:59` `res://Arts/Theme/GlobalTheme.tres`
-  - `2026-08-22 20:59` `res://project.godot`
-  - `2026-08-22 20:59` `res://Scene/UI/Scripts/options_menu.gd`
-  - `2026-08-22 20:59` `res://Scene/Main_Scene/main.gd`
-  - `2026-08-22 20:40` `res://Scene/UI/Scripts/filelist_menu.gd`
-  - `2026-08-22 20:27` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd`
-  - `2026-08-22 20:24` `res://Scene/UI/Scripts/main_menu.gd`
-  - `2026-08-22 20:03` `res://Scene/Main_Scene/Scripts/event_bus.gd`
-  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter_character.tscn`
-  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/shelter_inventory.tscn`
-  - `2026-08-22 14:48` `res://Scene/Shelter_Scene/Shelter_PlayerUI.tscn`
   - `2026-08-22 14:48` `res://Scene/Battle_Scene/Battlescene.tscn`
   - `2026-08-22 14:48` `res://Scene/Shelter_Scene/player/shelter_player.tscn`
-  - `2026-08-22 13:14` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd`
-  - `2026-08-22 13:14` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory.gd.uid`
-  - `2026-08-22 13:13` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd`
-  - `2026-08-22 12:07` `res://Scene/Shelter_Scene/shelter_character_page.tscn`
   - `2026-08-22 11:57` `res://Scene/UI/save_slot_card.tscn`
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_inventory_ui.gd.uid`
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_page.gd`
   - `2026-08-22 11:57` `res://Scene/Shelter_Scene/Scripts/Inventory/shelter_inventory_manager.gd`
   - `2026-08-22 11:57` `res://Scene/Battle_Scene/Card_Scene/Card.tscn`
-  - `2026-08-22 11:50` `res://Scene/Shelter_Scene/Scripts/UI/Shelter_PlayerUI.gd.uid`
   - `2026-08-21 18:15` `res://Scene/Shelter_Scene/shelter.tscn173779490.tmp`
   - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd.uid`
   - `2026-08-21 18:15` `res://Scene/Shelter_Scene/Scripts/UI/shelter_character_slot.gd`
@@ -115,7 +110,6 @@
   - `2026-08-21 09:26` `res://DataBase/Item/Usables.csv`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.weight.translation`
   - `2026-08-21 09:26` `res://DataBase/Item/Supplies.template.translation`
-  - `2026-08-21 09:26` `res://DataBase/Item/Supplies.preview.translation`
   - `... 375 more recent files omitted ...`
 
 ## Script Architecture Index
@@ -140,7 +134,7 @@
 | `res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd` | `Control` | `-` | 0 | 0 | 11 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd` | `Node` | `ActionTimelineManager` | 12 | 0 | 15 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd` | `Node` | `-` | 25 | 0 | 0 | 0 |
-| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd` | `Node` | `BattleGameManager` | 0 | 2 | 10 | 0 |
+| `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd` | `Node` | `BattleGameManager` | 0 | 2 | 19 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd` | `Node` | `-` | 0 | 1 | 1 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd` | `Node` | `-` | 0 | 7 | 16 | 0 |
 | `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd` | `Node` | `-` | 0 | 0 | 4 | 0 |
@@ -272,7 +266,7 @@
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/tactical_backpack.gd`** — methods: `_ready()`, `_notification()`, `_process()`, `toggle_backpack()`, `_get_center_pos()`, `_get_corner_pos()`, `_snap_to_corner()`, `_snap_to_center()`, `_set_buttons_interactable()`, `_on_btn_top_pressed()`, `_on_btn_bottom_pressed()`; signals: (none); exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd`** — methods: `_ready()`, `request_enemy_plan()`, `_on_action_required()`, `_assign_sequence_id()`, `_add_action()`, `_sort_pending_actions()`, `advance_time()`, `_find_next_event_time()`, `_move_time_to()`, `finish_time_visual_move()`, `_resolve_actions_at_current_time()`, `_is_action_valid()`, `_cancel_action()`, `get_visible_actions()`, `_emit_timeline_changed()`; signals: `timeline_changed`, `action_resolution_requested`, `action_execution_finished`, `action_resolved`, `action_cancelled`, `time_passed`, `time_advance_started`, `time_advance_finished`, `time_visual_move_requested`, `time_visual_move_finished`, `enemy_plan_requested`, `action_resolution_started`; exports: (none)
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd`** — methods: (none detected); signals: `battle_start`, `battle_inprogress`, `battle_finished`, `card_played`, `card_successfully_played`, `card_rejected`, `card_discard_requested`, `card_timeline_preview_requested`, `card_timeline_preview_cleared`, `card_timeline_preview_committed`, `player_dealt_damage`, `enemy_dealt_damage`; exports: (none)
-- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`** — methods: `_ready()`, `_unhandled_input()`, `_bootstrap_battle()`, `_register_current_enemy()`, `_bind_current_enemy_ai()`, `_disconnect_current_enemy_ai()`, `can_play_card()`, `_prepare_battle()`, `_start_battle_logic()`, `_finish_battle_logic()`; signals: (none); exports: `player`, `enemy_slot`
+- **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`** — methods: `_ready()`, `_unhandled_input()`, `_bootstrap_battle()`, `_register_current_enemy()`, `_bind_current_enemy_ai()`, `_disconnect_current_enemy_ai()`, `change_battle_state()`, `can_play_card()`, `_on_card_played()`, `_create_player_timeline_action()`, `_on_action_resolution_requested()`, `_on_timeline_time_passed()`, `_bind_timeline_actor_completion()`, `_on_actor_timeline_action_finished()`, `_on_player_dealt_damage()`, `_on_enemy_dealt_damage()`, `_prepare_battle()`, `_start_battle_logic()`, `_finish_battle_logic()`; signals: (none); exports: `player`, `enemy_slot`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd`** — methods: `create_card()`; signals: (none); exports: `basic_card_scene`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd`** — methods: `_ready()`, `_connect_signals()`, `_resolve_dependencies()`, `_process()`, `_request_refill_hand()`, `_get_player_card_deck()`, `_draw_initial_hand_card()`, `draw_cards()`, `_find_empty_slot()`, `_shuffle_discard_to_draw()`, `_on_card_successfully_played()`, `_on_card_discard_requested()`, `_reject_card()`, `_remove_card_from_hand()`, `_add_card_to_discard_pile()`, `_cleanup_hand_references()`; signals: (none); exports: `hand_deck_node`, `card_factory`, `player`, `max_hand_size`, `draw_action`, `draw_stamina_cost`, `discard_stamina_cost`
 - **`res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/effect_manager.gd`** — methods: `execute_effects()`, `_effect_vulnerable()`, `_effect_add_buff()`, `_effect_buff_hand()`; signals: (none); exports: (none)
@@ -582,7 +576,7 @@
 - `res://Scene/Shelter_Scene/test/test_facility.tscn` → `res://Scene/Shelter_Scene/Scripts/BuildSystem/shelter_facility.gd`
 - `res://Scene/UI/context_action_menu.tscn` → `res://Scene/UI/Scripts/context_action_menu.gd`
 - `res://Scene/UI/filelist.tscn` → `res://Scene/Shelter_Scene/shelter.tscn`, `res://Scene/UI/Scripts/filelist_menu.gd`, `res://Scene/UI/save_slot_card.tscn`
-- `res://Scene/UI/main_menu.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/VisualTest_MAP/scripts/test_map.gdshader`
+- `res://Scene/UI/main_menu.tscn` → `res://Arts/Shader/main_overlay.gdshader`, `res://Scene/UI/Scripts/main_menu.gd`, `res://Scene/VisualTest_MAP/Art/test_map.gdshader`
 - `res://Scene/UI/options.tscn` → `res://Scene/UI/Arts/Options.png`, `res://Scene/UI/Scripts/options_menu.gd`
 - `res://Scene/UI/save_slot_card.tscn` → `res://Scene/UI/Scripts/save_slot_card.gd`
 - `res://Scene/UI/world_interactionUI.tscn` → `res://Scene/UI/Scripts/world_interaction_HUD.gd`
@@ -3796,7 +3790,7 @@ signal action_committed(action: TimelineAction) # 被确认加入时间轴的行
 
 ### `res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_game_manager.gd`
 
-- Category: `script`; bytes: `12131`; sha256/16: `b08ba7d7e6a68127`
+- Category: `script`; bytes: `14208`; sha256/16: `d37c9587ef3d8946`
 
 
 ```gdscript
@@ -3807,13 +3801,12 @@ class_name BattleGameManager
 @export var player: Node3D
 @export var enemy_slot: Node
 
-# BattleGameManager 挂载在 BattleScene 根节点，
-# 行动轴位于 Logic/ActionTimelineManager。
 @onready var timeline_manager: ActionTimelineManager = ($Logic/ActionTimelineManager)
 
 var current_enemy: Node = null
 var current_enemy_ai: Node = null
 
+# 游戏阶段
 enum GameState {
 	NONE,
 	START,
@@ -3827,555 +3820,365 @@ var battle_current_state: GameState = GameState.NONE
 # 按下原格挡键时，玩家什么也不做并推进的时间。
 const WAIT_TIME_AMOUNT: int = 10
 
+# 初始化战斗总线和时间轴信号的连接
 func _ready() -> void:
-	if not BattleBus.card_played.is_connected(
-		_on_card_played
-	):
-		BattleBus.card_played.connect(
-			_on_card_played
-		)
 
-	if not BattleBus.player_dealt_damage.is_connected(
-		_on_player_dealt_damage
-	):
-		BattleBus.player_dealt_damage.connect(
-			_on_player_dealt_damage
-		)
+	BattleBus.card_played.connect(_on_card_played)
+# 绑定卡牌打出信号完毕
 
-	if not BattleBus.enemy_dealt_damage.is_connected(
-		_on_enemy_dealt_damage
-	):
-		BattleBus.enemy_dealt_damage.connect(
-			_on_enemy_dealt_damage
-		)
+	BattleBus.player_dealt_damage.connect(_on_player_dealt_damage)
+# 绑定玩家造成伤害信号完毕
 
-	if not timeline_manager.action_resolution_requested.is_connected(
-		_on_action_resolution_requested
-	):
-		timeline_manager.action_resolution_requested.connect(
-			_on_action_resolution_requested
-		)
+	BattleBus.enemy_dealt_damage.connect(_on_enemy_dealt_damage)
+# 绑定敌人造成伤害信号完毕
 
-	if not timeline_manager.time_passed.is_connected(
-		_on_timeline_time_passed
-	):
-		timeline_manager.time_passed.connect(
-			_on_timeline_time_passed
-		)
+	timeline_manager.action_resolution_requested.connect(_on_action_resolution_requested)
+# 绑定时间轴动作结算信号完毕
 
-	# 延迟启动，保证玩家状态机和 EnemyAI 已完成 _ready。
+	timeline_manager.time_passed.connect(_on_timeline_time_passed)
+# 绑定时间推移信号完毕
+
+# 延迟启动，保证玩家状态机和 EnemyAI 已完成 _ready。
 	call_deferred("_bootstrap_battle")
+# 延迟启动战斗准备逻辑完毕
 
-# 原 block_key 当前绑定为空格。
-# 现在按下后不生成玩家行动，只推进 10 点逻辑时间。
+# 处理未被截获的输入，当前仅处理玩家的防御等待操作
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed("block_key"):
 		return
-
 	if event is InputEventKey and event.echo:
 		return
+	# 校验格挡按键输入完毕
 
 	get_viewport().set_input_as_handled()
+	# 拦截并标记输入已处理完毕
 
 	if battle_current_state != GameState.INPROGRESS:
 		return
-
 	if timeline_manager == null:
 		return
+	# 校验当前战斗状态和时间轴有效性完毕
 
 	# 时间推进或动作播放期间不能重复等待。
-	if (
-		timeline_manager.is_advancing
-		or timeline_manager.current_action != null
-	):
-		print(
-			"BattleGameManager："
-			+ "当前行动尚未结束，不能再次推进时间。"
-		)
+	if timeline_manager.is_advancing or timeline_manager.current_action != null:
+		print("BattleGameManager：当前行动尚未结束，不能再次推进时间。")
 		return
+	# 检查当前是否允许推进时间完毕
 
-	print(
-		"BattleGameManager：玩家等待，推进 %d 时间。"
-		% WAIT_TIME_AMOUNT
-	)
-
+	print("BattleGameManager：玩家等待，推进 %d 时间。" % WAIT_TIME_AMOUNT)
 	timeline_manager.advance_time(WAIT_TIME_AMOUNT)
+	# 执行时间推移推进逻辑完毕
 
-# 自动依次进入战斗的三个准备阶段。
+# 自动执行战斗状态机的初始流转，依次进入准备和进行阶段
 func _bootstrap_battle() -> void:
 	change_battle_state(GameState.START)
 	change_battle_state(GameState.READY)
 	change_battle_state(GameState.INPROGRESS)
+	# 依次推进状态机阶段完毕
 
-# 登记 EnemySlot 中的第一个敌人。
+# 从敌人槽位中获取并登记当前需要对战的首个敌人
 func _register_current_enemy() -> void:
 	_disconnect_current_enemy_ai()
+	# 清理旧的敌人AI连接完毕
 
 	if enemy_slot == null:
 		current_enemy = null
 		push_error("BattleGameManager：enemy_slot 未绑定。")
 		return
+	# 校验槽位节点是否有效完毕
 
 	if enemy_slot.get_child_count() <= 0:
 		current_enemy = null
 		push_warning("BattleGameManager：EnemySlot 中没有敌人。")
 		return
+	# 校验槽位中是否存在敌人完毕
 
 	current_enemy = enemy_slot.get_child(0)
+	print("BattleGameManager：已登记当前敌人 -> ", current_enemy.name)
+	# 记录第一个子节点为当前敌人完毕
 
-	print(
-		"BattleGameManager：已登记当前敌人 -> ",
-		current_enemy.name
-	)
-
-# 将行动轴的规划请求连接到当前敌人 AI。
+# 将当前敌人的AI节点方法与时间轴的规划请求信号进行绑定
 func _bind_current_enemy_ai() -> bool:
 	if current_enemy == null:
 		return false
+	# 校验当前敌人是否存在完毕
 
-	current_enemy_ai = current_enemy.get_node_or_null(
-		"EnemyAI"
-	)
-
+	current_enemy_ai = current_enemy.get_node_or_null("EnemyAI")
 	if current_enemy_ai == null:
-		push_error(
-			"BattleGameManager：当前敌人没有 EnemyAI 节点。"
-		)
+		push_error("BattleGameManager：当前敌人没有 EnemyAI 节点。")
 		return false
+	# 获取敌人的AI节点完毕
 
-	if not current_enemy_ai.has_method(
-		"on_plan_requested"
-	):
-		push_error(
-			"BattleGameManager：EnemyAI 缺少 "
-			+ "on_plan_requested()。"
-		)
+	if not current_enemy_ai.has_method("on_plan_requested"):
+		push_error("BattleGameManager：EnemyAI 缺少 on_plan_requested()。")
 		current_enemy_ai = null
 		return false
+	# 校验AI节点是否具备规划方法完毕
 
-	var callback := Callable(
-		current_enemy_ai,
-		"on_plan_requested"
-	)
-
-	if not timeline_manager.enemy_plan_requested.is_connected(
-		callback
-	):
-		timeline_manager.enemy_plan_requested.connect(
-			callback
-		)
-
+	var callback := Callable(current_enemy_ai, "on_plan_requested")
+	if not timeline_manager.enemy_plan_requested.is_connected(callback):
+		timeline_manager.enemy_plan_requested.connect(callback)
 	print("BattleGameManager：行动轴已连接当前敌人 AI。")
-
 	return true
+	# 连接时间轴的敌人规划信号完毕
 
+# 断开当前敌人AI与时间轴规划请求的信号连接
 func _disconnect_current_enemy_ai() -> void:
 	if current_enemy_ai == null:
 		return
-
 	if not is_instance_valid(current_enemy_ai):
 		current_enemy_ai = null
 		return
+	# 校验AI节点有效性完毕
 
-	var callback := Callable(
-		current_enemy_ai,
-		"on_plan_requested"
-	)
-
-	if timeline_manager.enemy_plan_requested.is_connected(
-		callback
-	):
-		timeline_manager.enemy_plan_requested.disconnect(
-			callback
-		)
+	var callback := Callable(current_enemy_ai, "on_plan_requested")
+	if timeline_manager.enemy_plan_requested.is_connected(callback):
+		timeline_manager.enemy_plan_requested.disconnect(callback)
+	# 断开时间轴规划信号的连接完毕
 
 	current_enemy_ai = null
+	# 清空当前敌人AI引用完毕
 
-# 战斗阶段切换。
-func change_battle_state(
-	new_state: GameState,
-	context: Dictionary = {}
-) -> void:
+# 切换当前战斗阶段并触发对应阶段的初始化或结束逻辑
+func change_battle_state(new_state: GameState, context: Dictionary = {}) -> void:
 	if battle_current_state == new_state:
 		return
-
 	battle_current_state = new_state
+	# 校验并更新战斗状态完毕
 
 	match battle_current_state:
 		GameState.START:
 			BattleBus.battle_start.emit()
-
 		GameState.READY:
 			_prepare_battle()
-
 		GameState.INPROGRESS:
 			BattleBus.battle_inprogress.emit()
 			_start_battle_logic()
-
 		GameState.FINISHED:
-			var winner := str(
-				context.get(
-					"winner",
-					""
-				)
-			)
-
+			var winner := str(context.get("winner", ""))
 			BattleBus.battle_finished.emit(winner)
 			_finish_battle_logic()
+	# 根据新状态执行对应的分支逻辑完毕
 
-# 判断卡牌能否提交。
+# 检查当前状态和条件下玩家是否能够打出指定的卡牌
 func can_play_card(card_data: Dictionary) -> bool:
 	if battle_current_state != GameState.INPROGRESS:
 		print("BattleGameManager：当前不在战斗进行阶段。")
 		return false
+	# 检查是否处于战斗进行阶段完毕
 
 	if timeline_manager.is_advancing:
 		print("BattleGameManager：行动轴正在推进，暂时不能出牌。")
 		return false
+	# 检查时间轴是否处于静止状态完毕
 
 	if player == null or not is_instance_valid(player):
 		push_error("BattleGameManager：玩家节点无效。")
 		return false
+	# 检查玩家节点是否有效完毕
 
-	var category := str(
-		card_data.get(
-			"categories",
-			""
-		)
-	)
-
+	var category := str(card_data.get("categories", ""))
 	if category == "attack":
-		if (
-			current_enemy == null
-			or not is_instance_valid(current_enemy)
-		):
+		if current_enemy == null or not is_instance_valid(current_enemy):
 			print("BattleGameManager：当前没有有效攻击目标。")
 			return false
+	# 若为攻击卡牌则校验是否有有效目标完毕
 
 	if not player.has_method("can_commit_card"):
-		push_error(
-			"BattleGameManager：玩家缺少 can_commit_card()。"
-		)
+		push_error("BattleGameManager：玩家缺少 can_commit_card()。")
 		return false
+	return bool(player.call("can_commit_card", card_data))
+	# 调用玩家节点的方法进行最终校验完毕
 
-	return bool(
-		player.call(
-			"can_commit_card",
-			card_data
-		)
-	)
-
-# 接收 CardBase 发出的出牌请求。
-func _on_card_played(
-	card_data: Dictionary,
-	card_node: Control
-) -> void:
+# 接收玩家打出卡牌的请求，校验后创建时间轴行动并扣除费用
+func _on_card_played(card_data: Dictionary, card_node: Control) -> void:
 	if not can_play_card(card_data):
 		BattleBus.card_rejected.emit(card_node)
 		return
+	# 校验卡牌是否允许打出完毕
 
-	var action := _create_player_timeline_action(
-		card_data
-	)
-
+	var action := _create_player_timeline_action(card_data)
 	if action == null:
 		BattleBus.card_rejected.emit(card_node)
-		push_error(
-			"BattleGameManager：玩家卡牌行动创建失败。"
-		)
+		push_error("BattleGameManager：玩家卡牌行动创建失败。")
 		return
+	# 将卡牌数据转换为时间轴动作完毕
 
 	if not player.has_method("pay_card_cost"):
 		BattleBus.card_rejected.emit(card_node)
-		push_error(
-			"BattleGameManager：玩家缺少 pay_card_cost()。"
-		)
+		push_error("BattleGameManager：玩家缺少 pay_card_cost()。")
 		return
-
-	var cost_paid := bool(
-		player.call(
-			"pay_card_cost",
-			card_data
-		)
-	)
-
+	var cost_paid := bool(player.call("pay_card_cost", card_data))
 	if not cost_paid:
 		BattleBus.card_rejected.emit(card_node)
 		return
+	# 校验并扣除玩家卡牌费用完毕
 
-		# 必须先把悬停预览转换为正式推进条。
+	# 必须先把悬停预览转换为正式推进条。
 	# action_committed 会同步进入 ActionTimelineManager，
 	# 并可能立刻发出 time_visual_move_requested。
-	BattleBus.card_timeline_preview_committed.emit(
-		action.time_cost
-	)
-
+	BattleBus.card_timeline_preview_committed.emit(action.time_cost)
 	# 预览状态准备完成后，再提交行动并开始推进时间。
 	BattleBus.action_committed.emit(action)
-
 	# 行动已提交后，卡牌才能离开手牌进入弃牌堆。
 	BattleBus.card_successfully_played.emit(card_node)
+	# 提交时间轴动作并触发卡牌打出成功信号完毕
 
-# 将卡牌数据封装为统一的 TimelineAction。
-func _create_player_timeline_action(
-	card_data: Dictionary
-) -> TimelineAction:
-	var time_cost := int(
-		card_data.get(
-			"time_cost",
-			-1
-		)
-	)
-
+# 将传入的卡牌字典数据解析并封装为统一的时间轴动作对象
+func _create_player_timeline_action(card_data: Dictionary) -> TimelineAction:
+	var time_cost := int(card_data.get("time_cost", -1))
 	if time_cost < 0:
-		push_error(
-			"BattleGameManager：卡牌 time_cost 不能小于 0。"
-		)
+		push_error("BattleGameManager：卡牌 time_cost 不能小于 0。")
 		return null
+	# 提取并校验卡牌的时间消耗完毕
 
-	var category := str(
-		card_data.get(
-			"categories",
-			""
-		)
-	)
-
+	var category := str(card_data.get("categories", ""))
 	if category != "attack" and category != "skill":
-		push_error(
-			"BattleGameManager：不支持的卡牌类型：%s"
-			% category
-		)
+		push_error("BattleGameManager：不支持的卡牌类型：%s" % category)
 		return null
+	# 校验卡牌的类别是否合法完毕
 
-	var execute_priority := clampi(
-		int(
-			card_data.get(
-				"execute_priority",
-				1
-			)
-		),
-		0,
-		3
-	)
+	var execute_priority := clampi(int(card_data.get("execute_priority", 1)), 0, 3)
+	# 提取执行优先级完毕
 
 	var action := TimelineAction.new()
-
 	# sequence_id 不再使用卡牌 ID。
 	# 该编号由 ActionTimelineManager 自动分配。
-	action.action_name = str(
-		card_data.get(
-			"name_key",
-			"UNKNOWN_CARD"
-		)
-	)
-
+	action.action_name = str(card_data.get("name_key", "UNKNOWN_CARD"))
 	action.actor = player
 	action.actor_side = TimelineAction.ActorSide.PLAYER
 	action.time_cost = time_cost
 	action.execute_priority = execute_priority
-
 	# 保留当前 CSV 的约定：
 	# execute_priority 为 0 的卡牌视为先手牌。
 	action.has_initiative = execute_priority == 0
-
 	action.advances_time = true
-	action.can_be_cancelled = bool(
-		card_data.get(
-			"can_be_cancelled",
-			true
-		)
-	)
+	action.can_be_cancelled = bool(card_data.get("can_be_cancelled", true))
+	# 实例化并配置基础动作属性完毕
 
 	var target_type := "self"
-
 	if category == "attack":
 		target_type = "enemy"
-
 	action.payload = {
-		"action_id": str(
-			card_data.get(
-				"id",
-				""
-			)
-		),
+		"action_id": str(card_data.get("id", "")),
 		"category": category,
 		"effect_type": "card",
 		"target_type": target_type,
 		"action_data": card_data.duplicate(true)
 	}
-
 	return action
+	# 根据卡牌类别设定目标类型并组装载荷数据完毕
 
-# 行动轴到达行动时间时，由此处分发给行动发起者。
-func _on_action_resolution_requested(
-	action: TimelineAction
-) -> void:
+# 当时间轴到达行动时间时，分发行动给对应的发起者执行
+func _on_action_resolution_requested(action: TimelineAction) -> void:
 	if action == null:
 		return
-
-	if (
-		action.actor == null
-		or not is_instance_valid(action.actor)
-	):
-		push_warning(
-			"BattleGameManager：行动发起者已经失效。"
-		)
-
+	if action.actor == null or not is_instance_valid(action.actor):
+		push_warning("BattleGameManager：行动发起者已经失效。")
 		# 防止行动轴永久等待。
 		timeline_manager.finish_action_execution(action)
 		return
+	# 校验动作和发起者的有效性完毕
 
-	if not action.actor.has_method(
-		"resolve_timeline_action"
-	):
-		push_error(
-			"BattleGameManager：行动发起者 %s "
-			+ "缺少 resolve_timeline_action()。"
-			% action.actor.name
-		)
-
+	if not action.actor.has_method("resolve_timeline_action"):
+		push_error("BattleGameManager：行动发起者 %s 缺少 resolve_timeline_action()。" % action.actor.name)
 		timeline_manager.finish_action_execution(action)
 		return
+	# 校验发起者是否具备处理动作的方法完毕
 
 	# 这里只负责启动动作。
 	# 动作结束后，角色自己发出 timeline_action_finished。
-	action.actor.call(
-		"resolve_timeline_action",
-		action
-	)
+	action.actor.call("resolve_timeline_action", action)
+	# 调用发起者的动作结算方法完毕
 
-func _on_timeline_time_passed(
-	amount: int,
-	_current_time: int
-) -> void:
+# 在时间轴推移时，触发玩家随时间恢复资源的逻辑
+func _on_timeline_time_passed(amount: int, _current_time: int) -> void:
 	if player == null or not is_instance_valid(player):
 		return
-
-	var combat_data := player.get_node_or_null(
-		"Data/CombatData"
-	)
-
+	var combat_data := player.get_node_or_null("Data/CombatData")
 	if combat_data == null:
 		return
+	# 校验玩家及其战斗数据节点完毕
 
-	if combat_data.has_method(
-		"recover_resources_by_time"
-	):
+	if combat_data.has_method("recover_resources_by_time"):
 		combat_data.recover_resources_by_time(amount)
+	# 调用资源时间恢复方法完毕
 
-# 玩家和敌人都使用相同的完成信号。
-func _bind_timeline_actor_completion(
-	actor: Node
-) -> void:
+# 为指定角色的动作完成信号绑定统一的处理回调
+func _bind_timeline_actor_completion(actor: Node) -> void:
 	if actor == null:
 		return
-
-	if not actor.has_signal(
-		&"timeline_action_finished"
-	):
-		push_error(
-			"BattleGameManager：角色 %s "
-			+ "缺少 timeline_action_finished 信号。"
-			% actor.name
-		)
+	if not actor.has_signal(&"timeline_action_finished"):
+		push_error("BattleGameManager：角色 %s 缺少 timeline_action_finished 信号。" % actor.name)
 		return
+	# 校验角色节点及其信号是否存在完毕
 
-	var callback := Callable(
-		self,
-		"_on_actor_timeline_action_finished"
-	)
+	var callback := Callable(self, "_on_actor_timeline_action_finished")
+	if not actor.is_connected(&"timeline_action_finished", callback):
+		actor.connect(&"timeline_action_finished", callback)
+	# 将动作完成信号连接到回调函数完毕
 
-	if not actor.is_connected(
-		&"timeline_action_finished",
-		callback
-	):
-		actor.connect(
-			&"timeline_action_finished",
-			callback
-		)
-
-func _on_actor_timeline_action_finished(
-	action: TimelineAction
-) -> void:
+# 接收角色动作完成的回调，通知时间轴结束该动作的执行状态
+func _on_actor_timeline_action_finished(action: TimelineAction) -> void:
 	timeline_manager.finish_action_execution(action)
+	# 调用时间轴的动作结束方法完毕
 
-# 接收玩家伤害并路由给当前敌人。
-func _on_player_dealt_damage(
-	payload: Dictionary
-) -> void:
-	if (
-		current_enemy != null
-		and is_instance_valid(current_enemy)
-		and current_enemy.has_method("take_damage")
-	):
-		current_enemy.call(
-			"take_damage",
-			payload
-		)
+# 接收玩家造成的伤害数据并传递给当前的敌人目标
+func _on_player_dealt_damage(payload: Dictionary) -> void:
+	if current_enemy != null and is_instance_valid(current_enemy) and current_enemy.has_method("take_damage"):
+		current_enemy.call("take_damage", payload)
 	else:
 		print("BattleGameManager：玩家攻击没有有效目标。")
+	# 校验目标有效性并调用其受伤方法完毕
 
-# 接收敌人伤害并路由给玩家。
-func _on_enemy_dealt_damage(
-	payload: Dictionary
-) -> void:
+# 接收敌人造成的伤害数据并传递给玩家进行处理
+func _on_enemy_dealt_damage(payload: Dictionary) -> void:
 	if player == null or not is_instance_valid(player):
 		return
-
-	var player_combat_data := player.get_node_or_null(
-		"Data/CombatData"
-	)
-
+	var player_combat_data := player.get_node_or_null("Data/CombatData")
 	if player_combat_data == null:
-		push_error(
-			"BattleGameManager：玩家没有 Data/CombatData。"
-		)
+		push_error("BattleGameManager：玩家没有 Data/CombatData。")
 		return
+	# 校验并获取玩家战斗数据节点完毕
 
-	var damage := int(
-		payload.get(
-			"damage",
-			0
-		)
-	)
-
+	var damage := int(payload.get("damage", 0))
 	var source_name := "enemy"
 	var source = payload.get("source", null)
-
 	if source != null and is_instance_valid(source):
 		source_name = str(source.name)
+	player_combat_data.get_hit(damage, source_name)
+	# 解析伤害数值和伤害来源并触发玩家受击完毕
 
-	player_combat_data.get_hit(
-		damage,
-		source_name
-	)
-
+# 战斗准备阶段，负责登记敌人并绑定双方的时间轴动作完成信号
 func _prepare_battle() -> void:
 	_register_current_enemy()
 	_bind_current_enemy_ai()
+	# 注册并绑定敌人AI完毕
 
 	# 连接玩家动作完成信号。
 	_bind_timeline_actor_completion(player)
-
 	# 连接当前敌人动作完成信号。
 	_bind_timeline_actor_completion(current_enemy)
+	# 绑定玩家与敌人的动作完成信号完毕
 
+# 战斗开始阶段，负责请求敌人进行初始的行动规划
 func _start_battle_logic() -> void:
 	if current_enemy == null:
-		push_warning(
-			"BattleGameManager：没有敌人，无法开始敌人规划。"
-		)
+		push_warning("BattleGameManager：没有敌人，无法开始敌人规划。")
 		return
-
 	if current_enemy_ai == null:
 		if not _bind_current_enemy_ai():
 			return
+	# 校验敌人有效性并确保AI已绑定完毕
 
 	# 战斗刚开始时先让敌人规划 current_time + 100。
 	timeline_manager.request_enemy_plan()
+	# 向敌人AI发起时间轴规划请求完毕
 
+# 战斗结束阶段，负责清理和断开相关的逻辑连接
 func _finish_battle_logic() -> void:
 	_disconnect_current_enemy_ai()
+	# 断开敌人AI信号连接完毕
 ```
 
 
@@ -30987,14 +30790,14 @@ text = "删除"
 
 ### `res://Scene/UI/main_menu.tscn`
 
-- Category: `scene`; bytes: `4963`; sha256/16: `4fe6c705b34c2437`
+- Category: `scene`; bytes: `4959`; sha256/16: `5515fe12dbf1e94f`
 
 
 ```ini
 [gd_scene load_steps=7 format=3 uid="uid://dcwlpndhrutbe"]
 
 [ext_resource type="Script" uid="uid://d4fbaphgs66ij" path="res://Scene/UI/Scripts/main_menu.gd" id="1_3125x"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="5_68aio"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="5_68aio"]
 [ext_resource type="Shader" uid="uid://fx2eb0e1yb6" path="res://Arts/Shader/main_overlay.gdshader" id="6_6aje7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6aje7"]

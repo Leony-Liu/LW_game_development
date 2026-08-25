@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=5 format=3 uid="uid://bmm6pdcygw1s6"]
+
+[ext_resource type="Script" uid="uid://dfvcst7pqedb7" path="res://Scene/Battle_Scene/Scripts/Resource/R_cardeffect.gd" id="1_fopu2"]
+[ext_resource type="Script" uid="uid://chyf28s5x8l2f" path="res://Scene/Battle_Scene/Scripts/Resource/R_carddata.gd" id="2_f21do"]
+[ext_resource type="Script" uid="uid://0f73x88hunnf" path="res://Scene/Battle_Scene/Scripts/CardEffect/E_cost.gd" id="2_ixf60"]
+
+[sub_resource type="Resource" id="Resource_fv3nm"]
+script = ExtResource("2_ixf60")
+stanima_cost = 1
+mana_cost = 0
+time_cost = 30
+metadata/_custom_type_script = "uid://0f73x88hunnf"
+
+[resource]
+script = ExtResource("2_f21do")
+id = "10003"
+name = "迅跃斩"
+description = "造成25点伤害，伤害提升10%"
+card_type = 0
+effects = Array[ExtResource("1_fopu2")]([SubResource("Resource_fv3nm")])
+metadata/_custom_type_script = "uid://chyf28s5x8l2f"

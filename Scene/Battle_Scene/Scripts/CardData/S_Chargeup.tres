@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=5 format=3 uid="uid://d0g26hc50k48j"]
+
+[ext_resource type="Script" uid="uid://dfvcst7pqedb7" path="res://Scene/Battle_Scene/Scripts/Resource/R_cardeffect.gd" id="1_0bpjh"]
+[ext_resource type="Script" uid="uid://0f73x88hunnf" path="res://Scene/Battle_Scene/Scripts/CardEffect/E_cost.gd" id="2_mdwcr"]
+[ext_resource type="Script" uid="uid://chyf28s5x8l2f" path="res://Scene/Battle_Scene/Scripts/Resource/R_carddata.gd" id="3_wcban"]
+
+[sub_resource type="Resource" id="Resource_nwkdu"]
+script = ExtResource("2_mdwcr")
+stanima_cost = 0
+mana_cost = 1
+time_cost = 5
+metadata/_custom_type_script = "uid://0f73x88hunnf"
+
+[resource]
+script = ExtResource("3_wcban")
+id = "20002"
+name = "蓄力"
+description = "下一次攻击提升25点伤害"
+card_type = 1
+effects = Array[ExtResource("1_0bpjh")]([SubResource("Resource_nwkdu")])
+metadata/_custom_type_script = "uid://chyf28s5x8l2f"

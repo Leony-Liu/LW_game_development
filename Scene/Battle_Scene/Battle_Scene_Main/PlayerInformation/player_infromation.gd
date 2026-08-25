@@ -32,7 +32,7 @@ extends Control
 	) as VBoxContainer
 )
 
-var timeline_manager: ActionTimelineManager = null
+var timeline_manager: TimelineManager = null
 
 func _ready():
 	# 1. 默认隐藏，不干扰极简赛博主 UI
@@ -132,16 +132,16 @@ func _connect_timeline_debug_ui() -> void:
 	# 从当前场景树中寻找行动轴。
 	timeline_manager = (
 		get_tree().root.find_child(
-			"ActionTimelineManager",
+			"TimelineManager",
 			true,
 			false
-		) as ActionTimelineManager
+		) as TimelineManager
 	)
 
 	if timeline_manager == null:
 		push_error(
 			"DeveloperData："
-			+ "找不到 ActionTimelineManager。"
+			+ "找不到 TimelineManager。"
 		)
 		return
 
@@ -199,7 +199,7 @@ func _on_timeline_changed(
 		action_list.remove_child(child)
 		child.queue_free()
 
-	# ActionTimelineManager 中的行动已经按结算顺序排列。
+	# TimelineManager 中的行动已经按结算顺序排列。
 	for action: TimelineAction in actions:
 		if action == null:
 			continue

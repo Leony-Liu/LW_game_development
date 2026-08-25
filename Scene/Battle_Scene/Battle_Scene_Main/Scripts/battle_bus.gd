@@ -1,11 +1,17 @@
 extends Node
 
 # —————— 战斗阶段信号 ——————
+signal game_state_changed(state:int)
+signal change_state_request(state:int)
+
+
 signal battle_start()# 进入战斗
 signal battle_inprogress()# 战斗开始
 signal battle_finished(winner:String) # 战斗结束
 
 # —————— 卡牌信号 ——————
+signal deck_changed(deck:Dictionary)
+
 signal card_played(card_data: Dictionary, card_node: Control) # 一张牌被打出
 signal card_successfully_played(card_node: Control) # 卡牌成功打出
 signal card_rejected(card_node: Control) # 卡牌不能打出

@@ -178,7 +178,7 @@ func finish_timeline_action() -> void:
 		finished_action
 	)
 	
-# ActionTimelineManager 在正式结算前会自动检查这个方法。
+# TimelineManager 在正式结算前会自动检查这个方法。
 func can_resolve_timeline_action(
 	_action: TimelineAction
 ) -> bool:

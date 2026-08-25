@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dsebvj67a4pc7" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_factory.gd" id="3_yjeh4"]
 [ext_resource type="PackedScene" uid="uid://b5bqwwplbqjgj" path="res://Scene/Battle_Scene/Card_Scene/Card.tscn" id="4_56mea"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="4_bqxj8"]
-[ext_resource type="Script" uid="uid://bx74wyqxi8seb" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/action_timeline_manager.gd" id="5_lgq4a"]
+[ext_resource type="Script" uid="uid://bx74wyqxi8seb" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/Timeline_Manager.gd" id="5_lgq4a"]
 [ext_resource type="PackedScene" uid="uid://ci2n0jrhben06" path="res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy.tscn" id="6_hmd7w"]
 [ext_resource type="Texture2D" uid="uid://k7v3ck5y0d80" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/texture/Horror_Floor_12-128x128.png" id="7_n70pr"]
 [ext_resource type="PackedScene" uid="uid://cgmk8os2mw0of" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/Modles/sceneobject/brick_wall.glb" id="8_awypu"]
@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn" id="10_2fb2n"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_bqxj8"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn" id="11_lrknh"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="12_bqxj8"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="12_bqxj8"]
 [ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="12_xwslp"]
 [ext_resource type="PackedScene" uid="uid://cmeflymhpukrk" path="res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn" id="13_fxnc5"]
 [ext_resource type="PackedScene" uid="uid://cg4gfu6tl4ke6" path="res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.tscn" id="15_lgq4a"]
@@ -54,7 +54,7 @@ hand_deck_node = NodePath("../../UI/UIManager/UIRoot/PlayerHandDeck")
 card_factory = NodePath("../CardFactory")
 player = NodePath("../../GameViewportContainer/GameViewport/World/Player")
 
-[node name="ActionTimelineManager" type="Node" parent="Logic"]
+[node name="TimelineManager" type="Node" parent="Logic"]
 script = ExtResource("5_lgq4a")
 
 [node name="GameViewportContainer" type="SubViewportContainer" parent="."]

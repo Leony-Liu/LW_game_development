@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=5 format=3 uid="uid://b64j4n3pcdsl3"]
+
+[ext_resource type="Script" uid="uid://dfvcst7pqedb7" path="res://Scene/Battle_Scene/Scripts/Resource/R_cardeffect.gd" id="1_1o8er"]
+[ext_resource type="Script" uid="uid://0f73x88hunnf" path="res://Scene/Battle_Scene/Scripts/CardEffect/E_cost.gd" id="2_chff2"]
+[ext_resource type="Script" uid="uid://chyf28s5x8l2f" path="res://Scene/Battle_Scene/Scripts/Resource/R_carddata.gd" id="2_mtwxa"]
+
+[sub_resource type="Resource" id="Resource_ma11o"]
+script = ExtResource("2_chff2")
+stanima_cost = 1
+mana_cost = 0
+time_cost = 30
+metadata/_custom_type_script = "uid://0f73x88hunnf"
+
+[resource]
+script = ExtResource("2_mtwxa")
+id = "10002"
+name = "致命斩击"
+description = "造成20点伤害并使下一次攻击增加15点"
+card_type = 0
+effects = Array[ExtResource("1_1o8er")]([SubResource("Resource_ma11o")])
+metadata/_custom_type_script = "uid://chyf28s5x8l2f"
