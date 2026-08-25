@@ -1,7 +1,3 @@
-# effect_manager.gd
-# A.解析数据库传出来的字符串并分发任务
-# B.具体的效果函数
-
 extends Node
 
 func execute_effects(effect_string: String, source_node: Node, target_node: Node):

@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="CardData" load_steps=5 format=3 uid="uid://bqfokp4hd1rbr"]
 
-[ext_resource type="Script" uid="uid://dfvcst7pqedb7" path="res://Scene/Battle_Scene/Scripts/Resource/R_cardeffect.gd" id="1_8q8i7"]
-[ext_resource type="Script" uid="uid://chyf28s5x8l2f" path="res://Scene/Battle_Scene/Scripts/Resource/R_carddata.gd" id="2_mo3fo"]
-[ext_resource type="Script" uid="uid://0f73x88hunnf" path="res://Scene/Battle_Scene/Scripts/CardEffect/E_cost.gd" id="2_npme5"]
+[ext_resource type="Script" uid="uid://dfvcst7pqedb7" path="res://Scripts/Resource/Card/R_cardeffect.gd" id="1_8q8i7"]
+[ext_resource type="Script" uid="uid://chyf28s5x8l2f" path="res://Scripts/Resource/Card/R_carddata.gd" id="2_mo3fo"]
+[ext_resource type="Script" uid="uid://0f73x88hunnf" path="res://Scripts/CardData/CardEffect/E_cost.gd" id="2_npme5"]
 
 [sub_resource type="Resource" id="Resource_sip27"]
 script = ExtResource("2_npme5")
@@ -13,7 +13,7 @@ metadata/_custom_type_script = "uid://0f73x88hunnf"
 
 [resource]
 script = ExtResource("2_mo3fo")
-id = "20001"
+id = 2002
 name = "崩势步"
 description = "下一次攻击伤害增加50%"
 card_type = 0

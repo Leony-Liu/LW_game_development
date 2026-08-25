@@ -24,6 +24,7 @@ func _ready() -> void:
 	load_csv_data(CARD_DATABASE_PATH)
 
 
+#region 将csv打包成一个字典
 # 读取指定路径的CSV文件并解析为字典存入数据库
 func load_csv_data(file_path: String) -> void:
 	var file := FileAccess.open(file_path, FileAccess.READ)
@@ -88,6 +89,7 @@ func _parse_cell(header_name: String, cell_value: String) -> Variant:
 
 	# 字符串字段为空时保持为空字符串
 	return cell_value
+#endregion
 
 
 # 根据卡牌ID查询数据库并返回该卡牌数据的独立字典副本

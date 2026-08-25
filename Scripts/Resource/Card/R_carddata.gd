@@ -4,7 +4,7 @@ class_name CardData
 # 基础信息
 @export_category("基本信息")
 ## 身份
-@export var id : String
+@export var id : int
 ## 名称
 @export var name : String
 ## 描述

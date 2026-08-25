@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://csq7wsuq3pvpm"]
+[gd_scene load_steps=2 format=3 uid="uid://csq7wsuq3pvpm"]
+
+[ext_resource type="Script" uid="uid://fptev7g2dxkf" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardPileSystem/PlayerHandDeck.gd" id="1_1cig6"]
 
 [node name="PlayerHandDeck" type="HBoxContainer"]
 anchors_preset = 7
@@ -15,6 +17,7 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 10
 alignment = 1
+script = ExtResource("1_1cig6")
 
 [node name="Slot_1" type="Control" parent="."]
 custom_minimum_size = Vector2(200, 280)

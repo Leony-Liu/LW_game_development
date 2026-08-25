@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+AllCardData="*res://Scripts/CardData/AllCardData.gd"
 EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
 BattleBus="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
 CardDataBase="*res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd"
@@ -72,10 +73,10 @@ folder_colors={
 "res://Scene/Battle_Scene/Battle_Scene_Player/player-visuals/Arts/": "purple",
 "res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Arts/": "purple",
 "res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/": "yellow",
+"res://Scene/Battle_Scene/CardSystem/Scripts/": "yellow",
 "res://Scene/Battle_Scene/Card_Scene/": "blue",
 "res://Scene/Battle_Scene/Card_Scene/Arts/": "purple",
 "res://Scene/Battle_Scene/Card_Scene/Scripts/": "yellow",
-"res://Scene/Battle_Scene/Scripts/": "yellow",
 "res://Scene/DungeonScene/": "blue",
 "res://Scene/DungeonScene/Arts/": "purple",
 "res://Scene/DungeonScene/Script/": "yellow",

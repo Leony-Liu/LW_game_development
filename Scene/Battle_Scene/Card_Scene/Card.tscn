@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://b5bqwwplbqjgj"]
 
-[ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/Card_Scene/Scripts/Card_Logic.gd" id="1_avhnj"]
+[ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardPileSystem/Card_Logic.gd" id="1_avhnj"]
 [ext_resource type="Texture2D" uid="uid://vpkeqft8exb8" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png" id="2_i0dxh"]
 [ext_resource type="FontFile" uid="uid://bo0ngvdd2ivvx" path="res://Arts/Fort/OldWizard.ttf" id="3_i0dxh"]
-[ext_resource type="Script" uid="uid://cyjo1bc5py8rc" path="res://Scene/Battle_Scene/Card_Scene/Scripts/Card_Interaction.gd" id="4_to4ic"]
-[ext_resource type="Script" uid="uid://dwwcgqwfwfb4u" path="res://Scene/Battle_Scene/Card_Scene/Scripts/Card_Animation.gd" id="5_elktq"]
+[ext_resource type="Script" uid="uid://cyjo1bc5py8rc" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardPileSystem/Card_Interaction.gd" id="4_to4ic"]
+[ext_resource type="Script" uid="uid://dwwcgqwfwfb4u" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardPileSystem/Card_Animation.gd" id="5_elktq"]
 
 [sub_resource type="Environment" id="Environment_i0dxh"]
 background_mode = 3
@@ -12,13 +12,15 @@ glow_enabled = true
 glow_intensity = 0.3
 glow_strength = 0.5
 
-[node name="Card" type="Control"]
+[node name="Card" type="Control" node_paths=PackedStringArray("interaction", "animation")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -100.0
 offset_top = -280.0
 offset_right = 100.0
 script = ExtResource("1_avhnj")
+interaction = NodePath("InteractionComponent")
+animation = NodePath("AnimationComponent")
 
 [node name="Visuals" type="Control" parent="."]
 unique_name_in_owner = true
@@ -94,11 +96,11 @@ horizontal_alignment = 1
 autowrap_mode = 3
 clip_text = true
 
-[node name="2D_Glow" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_i0dxh")
-
 [node name="InteractionComponent" type="Node" parent="."]
 script = ExtResource("4_to4ic")
 
 [node name="AnimationComponent" type="Node" parent="."]
 script = ExtResource("5_elktq")
+
+[node name="2D_Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_i0dxh")

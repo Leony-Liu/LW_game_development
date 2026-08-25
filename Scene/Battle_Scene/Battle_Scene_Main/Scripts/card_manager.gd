@@ -1,9 +1,11 @@
 extends Node
 
+
 @export_category("节点引用")
 @export var hand_deck_node: Control # 指向 PlayerHandDeck，下面应当直接包含 Slot_1 ~ Slot_5
 @export var card_factory: Node # 指向 CardFactory 节点
 @export var player: Node # 直接绑定战斗场景中的 Player 根节点
+
 
 @export_category("牌堆设置")
 @export var max_hand_size: int = 5 # 最大手牌数量限制
@@ -11,11 +13,13 @@ extends Node
 @export var draw_stamina_cost: int = 1 # 补满手牌消耗的体力
 @export var discard_stamina_cost: int = 1 # 主动弃置一张牌消耗的体力
 
+
 var draw_pile: Array = [] # 抽牌堆
 var hand: Array[Control] = [] # 手牌数组
 var discard_pile: Array = [] # 弃牌堆
 var card_count: int = 0 # 当前生成的卡牌总数
 var combat_data: Node # 玩家战斗数据节点引用
+
 
 # 节点初始化，连接信号、验证依赖并抽取初始手牌
 func _ready() -> void:

@@ -13,8 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://d4lo5ywjrle2p" path="res://Scene/Battle_Scene/Battle_Scene_Main/EnemyHPBar/enemy_hp_bar_root.tscn" id="10_2fb2n"]
 [ext_resource type="Environment" uid="uid://cx6hj5tcr6ag8" path="res://Arts/Theme/environment.tres" id="11_bqxj8"]
 [ext_resource type="PackedScene" uid="uid://c5rx8b18vfr3k" path="res://Scene/Battle_Scene/Battle_Scene_Main/PlayerInformation/developer_data.tscn" id="11_lrknh"]
-[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/scripts/test_map.gdshader" id="12_bqxj8"]
-[ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/Battle_Player_HandDeck/player_hand_deck.tscn" id="12_xwslp"]
+[ext_resource type="Shader" uid="uid://m1nlftt6iaju" path="res://Scene/VisualTest_MAP/Art/test_map.gdshader" id="12_bqxj8"]
+[ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/CardSystem/player_hand_deck.tscn" id="12_xwslp"]
 [ext_resource type="PackedScene" uid="uid://cmeflymhpukrk" path="res://Scene/Battle_Scene/Battle_Scene_Main/time_line.tscn" id="13_fxnc5"]
 [ext_resource type="PackedScene" uid="uid://cg4gfu6tl4ke6" path="res://Scene/Battle_Scene/Battle_Scene_Player/player_ui.tscn" id="15_lgq4a"]
 
