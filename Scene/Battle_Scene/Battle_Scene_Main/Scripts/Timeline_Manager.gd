@@ -1,5 +1,5 @@
 extends Node
-class_name TimelineManager
+class_name TimelineMManager
 
 # 对外通知信号
 # 时间轴内容发生变化，UI可以监听它

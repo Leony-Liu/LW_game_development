@@ -1,10 +1,13 @@
-# 接收并处理武器牌组
-# 提供：抽牌、出牌、弃牌方法
+# 接收武器牌组
+# 提供方法： 抽牌 弃牌 出牌
 
 class_name CardPileSystem
 extends Node
 
+# 绑定 PlayerHandDeck 节点
+@export var player_hand_deck: Control
 
+#region 向上汇报信号
 # 已初始化，输出抽牌堆内有几张牌
 signal deck_initialized(deck_size: int)
 # 已抽牌，抽到的牌的id和手牌数量
@@ -17,7 +20,7 @@ signal card_discarded(card_id: String)
 signal discard_shuffled_into_draw(shuffled_amount: int)
 # 所有的手牌都被丢弃
 signal hand_pile_cleared()
-
+#endregion
 
 # 抽牌堆
 var draw_pile: Array[String] = []
@@ -26,17 +29,26 @@ var hand_pile: Array[String] = []
 # 弃牌堆
 var discard_pile: Array[String] = []
 
+# 检查手牌节点并连接信号
+func _ready() -> void:
+	if player_hand_deck:
+		player_hand_deck.card_play_requested.connect(play_card)
+		player_hand_deck.card_discard_requested.connect(discard_card)
+	else:
+		push_error("未在检查器中绑定 player_hand_deck！")
 
 # 初始化系统（在战斗开始时调用）
 func initialize(player_deck: Array[String]) -> void:
-	 # 深拷贝，在此脚本内复制一个玩家牌组，并全部加入抽牌堆
+	# 深拷贝，在此脚本内复制一个玩家牌组，并全部加入抽牌堆
 	draw_pile = player_deck.duplicate()
 	# 初始洗牌
 	draw_pile.shuffle()                 
 	hand_pile.clear()
 	discard_pile.clear()
 	deck_initialized.emit(draw_pile.size())
+	print("已成功初始化卡牌系统")
 
+#region 卡牌操作方法
 # 抽取卡牌
 func draw_cards(amount: int) -> void:
 	for i in range(amount):
@@ -73,9 +85,9 @@ func discard_all_hand_pile() -> void:
 		discard_pile.append(card_id)
 		card_discarded.emit(card_id)
 	hand_pile_cleared.emit()
+#endregion
 
-# ----------------- 内部方法 (Private) -----------------
-
+#region 内部方法
 # 抽取单张卡牌的核心逻辑
 func _draw_single_card() -> void:
 	# 1. 如果抽牌堆为空，尝试洗牌
@@ -92,7 +104,11 @@ func _draw_single_card() -> void:
 	hand_pile.append(drawn_card)
 	var current_hand_pile_index = hand_pile.size() - 1
 	
-	# 4. 通知外部
+	# 4. 自上而下方法调用：通知UI层生成卡牌
+	if player_hand_deck and player_hand_deck.has_method("add_card_to_hand"):
+		player_hand_deck.add_card_to_hand(drawn_card, current_hand_pile_index)
+	
+	# 5. 通知外部
 	card_drawn.emit(drawn_card, current_hand_pile_index)
 
 # 洗牌逻辑：将弃牌堆重新洗入抽牌堆
@@ -103,3 +119,4 @@ func _reshuffle_discard_to_draw() -> void:
 	draw_pile.shuffle() 
 	
 	discard_shuffled_into_draw.emit(amount)
+#endregion

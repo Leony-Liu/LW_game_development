@@ -185,7 +185,7 @@ func _rebuild_timeline() -> void:
 # 同步敌方行动图标的位置与层叠状态，清理过期图标
 func _sync_enemy_action_markers() -> void:
 	# 获取当前范围内的可见行动并初始化去重字典
-	var visible_actions := timeline_manager.get_visible_actions(VISIBLE_RANGE)
+	var visible_actions = timeline_manager.get_visible_actions(VISIBLE_RANGE)
 	var live_sequence_ids: Dictionary = {}
 	var stack_counts: Dictionary = {}
 
@@ -654,7 +654,7 @@ func _refresh_detail_list() -> void:
 	if hovered_enemy_action != null:
 		detail_lines.append(_format_enemy_action_detail(hovered_enemy_action))
 	elif hover_preview_source != null and is_instance_valid(hover_preview_source) and hover_preview_time > 0 and committed_preview_remaining <= 0.0:
-		var actions := timeline_manager.get_visible_actions(VISIBLE_RANGE)
+		var actions = timeline_manager.get_visible_actions(VISIBLE_RANGE)
 		for action: TimelineAction in actions:
 			if action == null or action.actor_side != TimelineAction.ActorSide.ENEMY:
 				continue

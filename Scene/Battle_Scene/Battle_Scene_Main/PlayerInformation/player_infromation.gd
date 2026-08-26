@@ -167,7 +167,7 @@ func _connect_timeline_debug_ui() -> void:
 		)
 
 	# 主动执行一次，避免等待下一次变化才显示。
-	var initial_actions := (
+	var initial_actions = (
 		timeline_manager.get_visible_actions(
 			100000
 		)

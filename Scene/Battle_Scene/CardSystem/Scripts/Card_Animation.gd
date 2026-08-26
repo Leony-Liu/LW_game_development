@@ -1,3 +1,4 @@
+# 动画效果节点
 extends Node
 
 #region 暴露的视觉与动画参数

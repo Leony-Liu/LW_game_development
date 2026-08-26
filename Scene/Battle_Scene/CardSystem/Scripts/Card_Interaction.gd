@@ -1,13 +1,11 @@
 extends Node
 
-# 左键点击
+# 点击信号
 signal left_clicked
-# 右键点击
 signal right_clicked
-
+# 悬浮信号
 signal hover_started
 signal hover_ended
-
 
 var parent_control: Control
 
@@ -26,7 +24,7 @@ func _on_mouse_exited() -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	var mouse_event := event as InputEventMouseButton
 	if not mouse_event or not mouse_event.pressed: return
-
+	# 检测并发送点击信号
 	if mouse_event.button_index == MOUSE_BUTTON_LEFT:
 		left_clicked.emit()
 		parent_control.accept_event()

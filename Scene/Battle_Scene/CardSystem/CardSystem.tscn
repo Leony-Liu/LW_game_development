@@ -1,15 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://c78kcq0ttk5ra"]
+[gd_scene load_steps=3 format=3 uid="uid://c78kcq0ttk5ra"]
 
-[ext_resource type="Script" uid="uid://cj11vpepeuctj" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardSystem_Manager.gd" id="1_ohyaq"]
-[ext_resource type="Script" uid="uid://cydo32vbnimo8" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardPileSystem/CardPileSystem.gd" id="2_veaht"]
+[ext_resource type="Script" uid="uid://cydo32vbnimo8" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardSystem.gd" id="1_ohyaq"]
 [ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/CardSystem/player_hand_deck.tscn" id="3_veaht"]
 
-[node name="CardSystem" type="Node"]
+[node name="CardSystem" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_ohyaq")
 
-[node name="CardPileSystem" type="Node" parent="."]
-script = ExtResource("2_veaht")
+[node name="PlayerHandDeck" parent="." instance=ExtResource("3_veaht")]
+layout_mode = 1
+offset_left = -520.0
+offset_top = -280.0
+offset_right = 520.0
+offset_bottom = 0.0
 
-[node name="PlayerHandDeck" parent="CardPileSystem" instance=ExtResource("3_veaht")]
-
-[editable path="CardPileSystem/PlayerHandDeck"]
+[editable path="PlayerHandDeck"]
