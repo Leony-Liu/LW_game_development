@@ -1,5 +1,5 @@
 extends Node
-class_name EnemyAI
+class_name EnemyAIW
 
 @onready var data_source: Node = get_node_or_null("EnemyTestData")
 

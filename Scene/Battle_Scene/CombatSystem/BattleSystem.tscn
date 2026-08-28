@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://ct4htxn1thykf"]
+
+[ext_resource type="Script" uid="uid://bxwk5d6e4yaon" path="res://Scene/Battle_Scene/CombatSystem/BattleManager.gd" id="1_1c1d2"]
+[ext_resource type="Script" uid="uid://dkm0w0eifllcw" path="res://Scene/Battle_Scene/CombatSystem/Scripts/CombatManager.gd" id="2_lmoaq"]
+[ext_resource type="Script" uid="uid://bukn7h70wtv6q" path="res://Scene/Battle_Scene/CombatSystem/Scripts/Timeline.gd" id="3_im1mx"]
+[ext_resource type="Script" uid="uid://b2l8ay0cqxa2m" path="res://Scene/Battle_Scene/CombatSystem/Scripts/EnemyAI.gd" id="4_q4v35"]
+[ext_resource type="Script" uid="uid://b6dc0kc2h7fqo" path="res://Scene/Battle_Scene/CombatSystem/Scripts/CombatProcessor.gd" id="5_t6qnu"]
+[ext_resource type="PackedScene" uid="uid://c78kcq0ttk5ra" path="res://Scene/Battle_Scene/CardSystem/CardSystem.tscn" id="6_00fpp"]
+
+[node name="BattleSystem" type="Node" node_paths=PackedStringArray("combat_manager", "card_manager")]
+script = ExtResource("1_1c1d2")
+combat_manager = NodePath("CombatManager")
+card_manager = NodePath("CardManager")
+
+[node name="CombatManager" type="Node" parent="." node_paths=PackedStringArray("timeline", "enemy_ai", "processor")]
+script = ExtResource("2_lmoaq")
+timeline = NodePath("Timeline")
+enemy_ai = NodePath("EnemyAI")
+processor = NodePath("CombatProcessor")
+
+[node name="Timeline" type="Node" parent="CombatManager"]
+script = ExtResource("3_im1mx")
+
+[node name="EnemyAI" type="Node" parent="CombatManager"]
+script = ExtResource("4_q4v35")
+
+[node name="CombatProcessor" type="Node" parent="CombatManager"]
+script = ExtResource("5_t6qnu")
+
+[node name="PlayerEntity" type="Node" parent="CombatManager/CombatProcessor"]
+
+[node name="EnemyEntity" type="Node" parent="CombatManager/CombatProcessor"]
+
+[node name="CardManager" parent="." instance=ExtResource("6_00fpp")]
+
+[editable path="CardManager"]
+[editable path="CardManager/PlayerHandDeck"]

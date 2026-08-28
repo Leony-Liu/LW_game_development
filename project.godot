@@ -17,13 +17,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+SaveManager="*res://Scripts/SaveManager.gd"
 AllCardData="*res://Scripts/CardData/AllCardData.gd"
 EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
 BattleBus="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
 CardDataBase="*res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd"
 MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd"
 AudioManager="*res://Scene/Main_Scene/Scripts/Manager/audio_manager.gd"
-SaveManager="*res://Scene/Main_Scene/Scripts/Manager/save_manager.gd"
 SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
 PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
@@ -77,7 +77,7 @@ folder_colors={
 "res://Scene/Battle_Scene/Card_Scene/": "blue",
 "res://Scene/Battle_Scene/Card_Scene/Arts/": "purple",
 "res://Scene/Battle_Scene/Card_Scene/Scripts/": "yellow",
-"res://Scene/Battle_Scene/TimeLineSystem/Scripts/": "yellow",
+"res://Scene/Battle_Scene/CombatSystem/Scripts/": "yellow",
 "res://Scene/DungeonScene/": "blue",
 "res://Scene/DungeonScene/Arts/": "purple",
 "res://Scene/DungeonScene/Script/": "yellow",

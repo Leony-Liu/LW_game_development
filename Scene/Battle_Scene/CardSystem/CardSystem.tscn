@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c78kcq0ttk5ra"]
 
-[ext_resource type="Script" uid="uid://cydo32vbnimo8" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardSystem.gd" id="1_ohyaq"]
+[ext_resource type="Script" uid="uid://cydo32vbnimo8" path="res://Scene/Battle_Scene/CardSystem/Scripts/CardManager.gd" id="1_ohyaq"]
 [ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/CardSystem/player_hand_deck.tscn" id="3_veaht"]
 
 [node name="CardSystem" type="Control"]

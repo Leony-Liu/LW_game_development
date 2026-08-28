@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://b5bqwwplbqjgj"]
 
-[ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/CardSystem/Scripts/Card_Logic.gd" id="1_avhnj"]
+[ext_resource type="Script" uid="uid://bs05jrql004kf" path="res://Scene/Battle_Scene/CardSystem/Scripts/card/Card_Logic.gd" id="1_avhnj"]
 [ext_resource type="Texture2D" uid="uid://vpkeqft8exb8" path="res://Scene/Battle_Scene/Card_Scene/Arts/testcarda.png" id="2_i0dxh"]
 [ext_resource type="FontFile" uid="uid://bo0ngvdd2ivvx" path="res://Arts/Fort/OldWizard.ttf" id="3_i0dxh"]
-[ext_resource type="Script" uid="uid://cyjo1bc5py8rc" path="res://Scene/Battle_Scene/CardSystem/Scripts/Card_Interaction.gd" id="4_to4ic"]
-[ext_resource type="Script" uid="uid://dwwcgqwfwfb4u" path="res://Scene/Battle_Scene/CardSystem/Scripts/Card_Animation.gd" id="5_elktq"]
+[ext_resource type="Script" uid="uid://cyjo1bc5py8rc" path="res://Scene/Battle_Scene/CardSystem/Scripts/card/Card_Interaction.gd" id="4_to4ic"]
+[ext_resource type="Script" uid="uid://dwwcgqwfwfb4u" path="res://Scene/Battle_Scene/CardSystem/Scripts/card/Card_Animation.gd" id="5_elktq"]
 
 [sub_resource type="Environment" id="Environment_i0dxh"]
 background_mode = 3
