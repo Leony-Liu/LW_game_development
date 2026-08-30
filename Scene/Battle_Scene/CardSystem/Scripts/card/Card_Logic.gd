@@ -1,102 +1,207 @@
 extends Control
 class_name CardLogic
 
-# 脚本定位：纯粹的MVC视图控制器（View）。仅负责根据注入的 RuntimeCard 实例来刷新画面表现，并将玩家交互原封不动向上传递。
+# 定义卡牌 UI 当前所处的交互状态。
+enum CardState {
+	DRAWING,
+	IDLE,
+	REQUESTING_PLAY,
+	REQUESTING_DISCARD,
+	EXITING
+}
 
 #region 节点引用
-@export var cost_label: Label 
-@export var name_label: Label 
+# 保存费用文本节点。
+@export var cost_label: Label
+# 保存名称文本节点。
+@export var name_label: Label
+# 保存描述文本节点。
 @export var description: Label
-@export var interaction: Node 
-@export var animation: Node 
+# 保存输入组件。
+@export var interaction: Node
+# 保存动画组件。
+@export var animation: Node
 #endregion
 
-# 核心数据载体（直接由上级传递注入，不再自己查数据库）
-var runtime_card: RuntimeCard
-
-# 申请处理出牌信号 
+# 请求上层判断当前卡牌能否出牌。
 signal card_played_request(runtime_card: RuntimeCard)
+# 请求上层判断当前卡牌能否弃牌。
 signal card_discarded_request(runtime_card: RuntimeCard)
+# 卡牌离场动画完成后通知手牌容器删除节点。
+signal exit_finished(runtime_card: RuntimeCard)
 
-# 状态缓存
-var is_locked: bool = false
+# 保存当前 UI 对应的 RuntimeCard。
+var runtime_card: RuntimeCard
+# 保存当前卡牌 UI 状态。
+var state: CardState = CardState.DRAWING
+# 保存鼠标当前是否位于卡牌范围。
 var is_hovered: bool = false
+# 保留兼容属性并通过状态判断是否锁定。
+var is_locked: bool:
+	get:
+		return state != CardState.IDLE
 
-
-# 初始化组件，连接交互节点与动画节点的信号。
+# 初始化组件并在第一帧渲染前隐藏卡牌。
 func _ready() -> void:
+	animation.setup(self, %Visuals)
+	animation.prepare_draw()
+	
 	interaction.setup(self)
+	interaction.set_enabled(false)
+	
 	interaction.hover_started.connect(_on_hover_started)
 	interaction.hover_ended.connect(_on_hover_ended)
 	interaction.left_clicked.connect(_on_left_clicked)
 	interaction.right_clicked.connect(_on_right_clicked)
 	
-	animation.setup(self, %Visuals)
+	animation.draw_finished.connect(_on_draw_finished)
+	animation.exit_finished.connect(_on_exit_animation_finished)
 
-# 依赖注入入口
+# 注入 RuntimeCard 并在布局完成后播放抽牌动画。
 func setup(in_runtime_card: RuntimeCard) -> void:
 	runtime_card = in_runtime_card
 	
 	runtime_card.stats_updated.connect(_update_visuals)
 	_update_visuals()
 	
-	# 卡牌数据注入完毕后，立刻播放横向展开的抽牌动画
+	# 等待 HBoxContainer 完成 Card 的最终尺寸和排版。
+	await get_tree().process_frame
+	
+	if not is_instance_valid(self):
+		return
+	
+	animation.initialize_transform()
 	animation.play_draw()
 
-# 渲染画面：读取 RuntimeCard 提供的方法更新文本与颜色。
+# 根据 RuntimeCard 数据刷新所有文本表现。
 func _update_visuals() -> void:
-	if not runtime_card: return
+	if not runtime_card:
+		return
 	
-	# 获取基础数据里的分类
-	var type_val = runtime_card.base_data.get("card_type", 0)
-	var is_attack: bool = (type_val == 0)
+	var type_value = runtime_card.base_data.get("card_type", 0)
+	var is_attack: bool = type_value == 0
 	
-	# 获取名称与描述 (读取你数据库里的 description 字段)
-	name_label.text = tr(str(runtime_card.base_data.get("name", "未命名")))
-	description.text = tr(str(runtime_card.base_data.get("description", "")))
+	name_label.text = tr(
+		str(runtime_card.base_data.get("name", "未命名"))
+	)
 	
-	# UI 上显示资源消耗
+	description.text = tr(
+		str(runtime_card.base_data.get("description", ""))
+	)
+	
 	cost_label.text = str(runtime_card.get_resource_cost())
 	animation.set_cost_color(cost_label, is_attack)
-	
-#region 交互响应流程
-# 左键点击：锁定卡牌，播放出牌脱离动画，并向上传递意图
-func _on_left_clicked() -> void:
-	if is_locked: return
-	is_locked = true
-	
-	# 播放刚才写好的专属出牌动画
-	animation.play_card_played()
-	card_played_request.emit(runtime_card)
-	
-# 右键点击：播放弃牌动画，并向上传递弃牌请求。
-func _on_right_clicked() -> void:
-	if is_locked: return
-	is_locked = true
-	animation.play_discard()
-	card_discarded_request.emit(runtime_card)
-	
-# 悬浮开始
-func _on_hover_started() -> void:
-	is_hovered = true
-	if is_locked: return
-	animation.play_hover_enter()
-	
-# 悬浮结束
-func _on_hover_ended() -> void:
-	is_hovered = false
-	if is_locked: return
-	animation.play_hover_exit()
 
-# 拒绝出牌模拟（外部调用解体报错）
-func reject_card() -> void:
-	is_locked = false
-	animation.play_error_shake()
-	if is_hovered:
-		animation.play_hover_enter()
+#region 交互触发
+# 左键只发送出牌请求并等待上层确认。
+func _on_left_clicked() -> void:
+	if state != CardState.IDLE:
+		return
+	
+	state = CardState.REQUESTING_PLAY
+	interaction.set_enabled(false)
+	
+	card_played_request.emit(runtime_card)
+
+# 右键只发送弃牌请求并等待上层确认。
+func _on_right_clicked() -> void:
+	if state != CardState.IDLE:
+		return
+	
+	state = CardState.REQUESTING_DISCARD
+	interaction.set_enabled(false)
+	
+	card_discarded_request.emit(runtime_card)
+
+# 鼠标进入时开始播放 Visuals 悬浮动画。
+func _on_hover_started() -> void:
+	if state != CardState.IDLE:
+		return
+	
+	is_hovered = true
+	animation.play_hover_enter()
+
+# 鼠标离开时恢复 Visuals 默认状态。
+func _on_hover_ended() -> void:
+	if state != CardState.IDLE:
+		return
+	
+	is_hovered = false
+	animation.play_hover_exit()
 #endregion
 
-# 每帧动态更新旋转（根据鼠标位置）
+# 上层确认出牌成功后才播放真正的出牌动画。
+func confirm_play() -> void:
+	if state != CardState.REQUESTING_PLAY:
+		return
+	
+	state = CardState.EXITING
+	animation.play_card_played()
+
+# 上层确认弃牌成功后才播放真正的弃牌动画。
+func confirm_discard() -> void:
+	if state != CardState.REQUESTING_DISCARD:
+		return
+	
+	state = CardState.EXITING
+	animation.play_discard()
+
+# 上层拒绝请求后恢复交互并播放错误反馈。
+func reject_action() -> void:
+	if state == CardState.IDLE or state == CardState.DRAWING:
+		return
+	
+	animation.cancel_action_and_restore()
+	
+	state = CardState.IDLE
+	interaction.set_enabled(true)
+	
+	is_hovered = get_global_rect().has_point(
+		get_global_mouse_position()
+	)
+	
+	animation.play_error_feedback()
+	
+	if is_hovered:
+		animation.play_hover_enter()
+	else:
+		animation.play_hover_exit()
+
+# 抽牌完成后进入正常交互状态。
+func _on_draw_finished() -> void:
+	if state != CardState.DRAWING:
+		return
+	
+	state = CardState.IDLE
+	interaction.set_enabled(true)
+	
+	is_hovered = get_global_rect().has_point(
+		get_global_mouse_position()
+	)
+	
+	if is_hovered:
+		animation.play_hover_enter()
+
+# 离场动画完成后通知 PlayerHandDeck 删除卡牌。
+func _on_exit_animation_finished() -> void:
+	if state != CardState.EXITING:
+		return
+	
+	exit_finished.emit(runtime_card)
+
+# Hover 状态下使用 Card 本地坐标计算鼠标旋转。
 func _process(delta: float) -> void:
-	if is_hovered and not is_locked:
-		animation.update_dynamic_rotation(delta, get_local_mouse_position().x, size.x)
+	if state != CardState.IDLE or not is_hovered:
+		return
+	
+	if size.x <= 0.0:
+		return
+	
+	var local_mouse_x := get_local_mouse_position().x
+	var offset_x := local_mouse_x - size.x * 0.5
+	
+	animation.update_dynamic_rotation(
+		delta,
+		offset_x,
+		size.x
+	)

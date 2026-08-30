@@ -11,10 +11,8 @@ func _ready() -> void:
 	var test_deck: Array[int] = [1001,1001,1001,1001,1001,1002,1003,1004,1005] 
 	print(">>> 模拟测试：初始化牌组")
 	card_manager.initialize(test_deck)
-	
-	# 2. 模拟开局抽牌
-	print(">>> 模拟测试：抽取 5 张手牌")
-	card_manager.draw_cards(5)
+
+
 
 func _input(event: InputEvent) -> void:
 	# 测试 1：按空格键，模拟战斗系统给第一张手牌挂载减费 Buff

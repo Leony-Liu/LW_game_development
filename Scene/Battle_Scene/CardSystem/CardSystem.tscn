@@ -16,12 +16,11 @@ player_hand_deck = NodePath("PlayerHandDeck")
 hand_limit = 6
 
 [node name="PlayerHandDeck" parent="." instance=ExtResource("3_veaht")]
+custom_minimum_size = Vector2(0, 0)
 layout_mode = 1
-offset_left = -520.0
-offset_top = -280.0
-offset_right = 520.0
-offset_bottom = 0.0
-card_spacing = 200.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
 
 [node name="CardSystem_Test" type="Node" parent="."]
 script = ExtResource("3_48hkr")

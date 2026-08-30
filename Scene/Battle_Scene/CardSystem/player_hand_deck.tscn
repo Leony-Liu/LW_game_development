@@ -4,15 +4,15 @@
 [ext_resource type="PackedScene" uid="uid://b5bqwwplbqjgj" path="res://Scene/Battle_Scene/Card_Scene/Card.tscn" id="2_el7km"]
 
 [node name="PlayerHandDeck" type="HBoxContainer"]
+custom_minimum_size = Vector2(200, 280)
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -200.0
-offset_top = -99.0
+offset_top = -280.0
 offset_right = 200.0
-offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2

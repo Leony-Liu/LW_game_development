@@ -37,7 +37,6 @@ func initialize(player_deck: Array[int]) -> void:
 	discard_pile.clear()
 	# 获取所有卡牌数据
 	var card_database = AllCardData.get_cards()
-	# 开局遍历传入的玩家牌组，全部实例化为 RuntimeCard
 	for card_id in player_deck:
 		if card_database.has(card_id):
 			var new_runtime_card = RuntimeCard.new(card_id, card_database[card_id])
@@ -48,7 +47,6 @@ func initialize(player_deck: Array[int]) -> void:
 	draw_pile.shuffle()                 
 	deck_initialized.emit(draw_pile.size())
 	print("已成功初始化卡牌系统，生成实例数量：", draw_pile.size())
-	# TODO 暂定战斗开始抽五张牌
 	draw_cards_to_limit()
 
 # 供外部系统（或玩家点击抽牌堆按钮）调用的标准抽牌操作
@@ -63,7 +61,16 @@ func execute_player_draw_action() -> void:
 #region 卡牌操作方法
 # 抽牌
 func draw_cards(amount: int) -> void:
-	for i in range(amount):
+	# 计算当前手牌堆距离上限还有多少空位
+	var space_left = hand_limit - hand_pile.size()
+	# 实际能抽的数量，取“请求数量”与“剩余空位”中的最小值
+	var actual_draw = mini(amount, space_left)
+	
+	if actual_draw <= 0:
+		print("手牌已达上限 (", hand_limit, ")，指令被拦截！")
+		return
+		
+	for i in range(actual_draw):
 		_draw_single_card()
 # 出牌
 func play_card(runtime_card: RuntimeCard) -> void:
@@ -78,6 +85,7 @@ func play_card(runtime_card: RuntimeCard) -> void:
 	# 压入弃牌堆
 	discard_pile.append(runtime_card)
 	card_discarded.emit(runtime_card)
+
 # 弃牌
 func discard_card(runtime_card: RuntimeCard) -> void:
 	var current_index = hand_pile.find(runtime_card)
@@ -111,12 +119,13 @@ func _draw_single_card() -> void:
 		
 	var drawn_card = draw_pile.pop_back()
 	hand_pile.append(drawn_card)
-	
+	print("抽了一张牌")
 	# 直接下发实体对象给 UI，不传 index
 	if player_hand_deck and player_hand_deck.has_method("add_card_to_hand"):
 		player_hand_deck.add_card_to_hand(drawn_card)
 	
 	card_drawn.emit(drawn_card)
+
 # 重置弃牌堆
 func _reshuffle_discard_to_draw() -> void:
 	var amount = discard_pile.size()
