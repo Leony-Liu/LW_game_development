@@ -88,14 +88,30 @@ func play_error_shake() -> void:
 	tween.tween_property(card, "position:x", card.position.x, 0.05)
 	tween.tween_property(card, "modulate", Color.WHITE, 0.15)
 
+# 出牌动画：放大、向上移动、透明度变0
+func play_card_played() -> void:
+	if hover_tween: hover_tween.kill()
+	if reset_rotation_tween: reset_rotation_tween.kill()
+	card.z_index = hover_z_index
+	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	# 注意这里改为移动 visual_root，与手牌整体滑动互不干扰
+	tween.tween_property(visual_root, "scale", original_visual_scale * 1.2, 0.2)
+	tween.tween_property(visual_root, "position:y", original_visual_position.y - 80.0, 0.2)
+	tween.tween_property(card, "modulate:a", 0.0, 0.2)
+	tween.chain().tween_callback(card.queue_free)
+
+# 弃牌动画：向下移动、透明度变0
 func play_discard() -> void:
 	if hover_tween: hover_tween.kill()
 	if reset_rotation_tween: reset_rotation_tween.kill()
 	card.z_index = hover_z_index
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
 	var tween := create_tween().set_parallel(true)
 	tween.tween_property(card, "modulate:a", 0.0, discard_duration)
-	tween.tween_property(card, "position:y", card.position.y + discard_y_offset, discard_duration)
+	tween.tween_property(visual_root, "position:y", original_visual_position.y + discard_y_offset, discard_duration)
 	tween.chain().tween_callback(card.queue_free)
 
 func play_draw() -> void:

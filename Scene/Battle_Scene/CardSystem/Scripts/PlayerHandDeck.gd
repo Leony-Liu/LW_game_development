@@ -1,48 +1,59 @@
 extends Control
 class_name PlayerHandDeck
 
-# 绑定单张卡牌节点
+# 绑定单张卡牌场景
 @export var card_scene: PackedScene
+# 卡牌之间的间隔宽度（可在编辑器中调整）
+@export var card_spacing: float
 
-# 向上汇报信号
-signal card_play_requested(hand_pile_index: int)
-signal card_discard_requested(hand_pile_index: int)
+signal card_play_requested(runtime_card: RuntimeCard)
+signal card_discard_requested(runtime_card: RuntimeCard)
 
-# 使用数组存储5个槽位，方便通过索引快速访问
-@onready var hand_slots: Array[Node] = [
-	$Slot_1,
-	$Slot_2,
-	$Slot_3,
-	$Slot_4,
-	$Slot_5
-]
-
-# 实例化卡牌：参数改为接收 RuntimeCard 实例
-func add_card_to_hand(runtime_card: RuntimeCard, hand_pile_index: int) -> void:
-	if hand_pile_index < 0 or hand_pile_index >= hand_slots.size():
-		return push_warning("手牌已满或索引越界")
+# 实例化单张卡牌到手牌处
+func add_card_to_hand(runtime_card: RuntimeCard) -> void:
+	if not card_scene: return push_error("未配置 card_scene！")
 		
-	if not card_scene:
-		return push_error("未配置 card_scene！")
+	var card_ui = card_scene.instantiate()
+	card_ui.card_played_request.connect(_on_card_played_request)
+	card_ui.card_discarded_request.connect(_on_card_discarded_request)
+	
+	add_child(card_ui)
+	if card_ui.has_method("setup"):
+		card_ui.setup(runtime_card)
 		
-	var card_ui_instance = card_scene.instantiate()
-	card_ui_instance.card_played_request.connect(_on_card_played_request)
-	card_ui_instance.card_discarded_request.connect(_on_card_discarded_request)
-	
-	# 向下级 UI 注入 RuntimeCard 实例
-	if card_ui_instance.has_method("setup"):
-		card_ui_instance.setup(runtime_card, hand_pile_index)
-	
-	var target_slot = hand_slots[hand_pile_index]
-	target_slot.add_child(card_ui_instance)
+	# 新卡加入后，立刻重新计算所有卡牌的位置
+	_rearrange_cards()
 
+# 核心重排算法：让手牌永远居中对齐，并平滑移动
+func _rearrange_cards() -> void:
+	var valid_cards = []
+	# 筛选出所有有效卡牌（排除掉那些正在播放出牌/弃牌销毁动画的卡牌）
+	for child in get_children():
+		if child is CardLogic and not child.is_locked:
+			valid_cards.append(child)
+			
+	var count = valid_cards.size()
+	if count == 0: return
+	
+	# 计算整个牌列的总宽度，以得出第一张牌的起始 X 坐标，实现整体居中
+	var total_width = (count - 1) * card_spacing
+	var start_x = (size.x - total_width) / 2.0
+	var center_y = size.y / 2.0
+	
+	for i in range(count):
+		var card = valid_cards[i]
+		var target_pos = Vector2(start_x + i * card_spacing, center_y)
+		# 使用补间动画让卡牌平滑滑动到新位置
+		var tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tween.tween_property(card, "position", target_pos, 0.25)
 
 #region 向上汇报信号
-# 处理CL发来的出牌请求信号，继续向上传递给CPS
-func _on_card_played_request(runtime_card: RuntimeCard, card_slot: int) -> void:
-	card_play_requested.emit(card_slot)
+func _on_card_played_request(runtime_card: RuntimeCard) -> void:
+	# 某张牌被打出时（已被设为锁定），立刻触发重排，剩下的牌会自动往中间靠拢
+	_rearrange_cards() 
+	card_play_requested.emit(runtime_card)
 
-# 处理下级CL发来的弃牌请求信号，继续向上传递给CPS
-func _on_card_discarded_request(runtime_card: RuntimeCard, card_slot: int) -> void:
-	card_discard_requested.emit(card_slot)
+func _on_card_discarded_request(runtime_card: RuntimeCard) -> void:
+	_rearrange_cards()
+	card_discard_requested.emit(runtime_card)
 #endregion

@@ -20,28 +20,3 @@ theme_override_constants/separation = 10
 alignment = 1
 script = ExtResource("1_1cig6")
 card_scene = ExtResource("2_el7km")
-
-[node name="Slot_1" type="Control" parent="."]
-custom_minimum_size = Vector2(200, 280)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Slot_2" type="Control" parent="."]
-custom_minimum_size = Vector2(200, 280)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Slot_3" type="Control" parent="."]
-custom_minimum_size = Vector2(200, 280)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Slot_4" type="Control" parent="."]
-custom_minimum_size = Vector2(200, 280)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Slot_5" type="Control" parent="."]
-custom_minimum_size = Vector2(200, 280)
-layout_mode = 2
-mouse_filter = 2

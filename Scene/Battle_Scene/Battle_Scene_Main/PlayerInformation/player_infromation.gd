@@ -4,7 +4,7 @@ extends Control
 # 节点绑定 (指向整理后的 MainVBoxContainer)
 # ==========================================
 @onready var hp_label = %HP
-@onready var stamina_label = %Stanima
+@onready var stamina_label = %stamina
 @onready var mana_label = %Mana
 @onready var defence_label = %Defence
 @onready var shield_label = %Shield

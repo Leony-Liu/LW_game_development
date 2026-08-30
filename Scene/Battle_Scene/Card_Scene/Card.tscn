@@ -12,13 +12,15 @@ glow_enabled = true
 glow_intensity = 0.3
 glow_strength = 0.5
 
-[node name="Card" type="Control" node_paths=PackedStringArray("interaction", "animation")]
+[node name="Card" type="Control" node_paths=PackedStringArray("cost_label", "name_label", "description", "interaction", "animation")]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -100.0
-offset_top = -280.0
-offset_right = 100.0
+offset_right = 200.0
+offset_bottom = 280.0
 script = ExtResource("1_avhnj")
+cost_label = NodePath("Visuals/Background/VBoxContainer/MarginContainer/CostLable")
+name_label = NodePath("Visuals/Background/VBoxContainer/MarginContainer2/NameLable")
+description = NodePath("Visuals/Background/VBoxContainer/MarginContainer3/Description")
 interaction = NodePath("InteractionComponent")
 animation = NodePath("AnimationComponent")
 

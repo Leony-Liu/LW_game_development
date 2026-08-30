@@ -1,35 +1,27 @@
-# 接收武器牌组
-# 提供方法： 抽牌 弃牌 出牌
-
+# 接收玩家初始牌组，在战斗初将其全部转化为 RuntimeCard 实例
+# 提供方法：抽牌、弃牌、出牌、洗牌
 class_name CardManger
 extends Node
 
-# 绑定 PlayerHandDeck 节点
+# 绑定手牌展示节点
 @export var player_hand_deck: Control
+# 手牌上限
+@export var hand_limit: int
 
 #region 向上汇报信号
-# 已初始化，输出抽牌堆内有几张牌
 signal deck_initialized(deck_size: int)
-# 已抽牌，抽到的牌的id和手牌数量
-signal card_drawn(card_id: int, hand_pile_index: int)
-# 已出牌，打出的牌的id和手牌数量
-signal card_played(card_id: int, hand_pile_index: int)
-# 已弃牌，弃牌id
-signal card_discarded(card_id: int)
-# 弃牌堆的牌被洗完并加入到抽牌堆中
+signal card_drawn(runtime_card: RuntimeCard)
+signal card_played(runtime_card: RuntimeCard)
+signal card_discarded(runtime_card: RuntimeCard)
 signal discard_shuffled_into_draw(shuffled_amount: int)
-# 所有的手牌都被丢弃
 signal hand_pile_cleared()
 #endregion
 
-# 抽牌堆
-var draw_pile: Array[int] = []
-# 手牌堆
+var draw_pile: Array[RuntimeCard] = []
 var hand_pile: Array[RuntimeCard] = []
-# 弃牌堆
-var discard_pile: Array[int] = []
+var discard_pile: Array[RuntimeCard] = []
 
-# 检查手牌节点并连接信号
+# 检查是否绑定手牌节点，同时连接信号
 func _ready() -> void:
 	if player_hand_deck:
 		player_hand_deck.card_play_requested.connect(play_card)
@@ -37,77 +29,95 @@ func _ready() -> void:
 	else:
 		push_error("未在检查器中绑定 player_hand_deck！")
 
-# 初始化系统（在战斗开始时调用）
+# 初始化系统
 func initialize(player_deck: Array[int]) -> void:
-	# 深拷贝，在此脚本内复制一个玩家牌组，并全部加入抽牌堆
-	draw_pile = player_deck.duplicate()
-	# 初始洗牌
-	draw_pile.shuffle()                 
+	# 清空三个牌堆
+	draw_pile.clear()
 	hand_pile.clear()
 	discard_pile.clear()
+	# 获取所有卡牌数据
+	var card_database = AllCardData.get_cards()
+	# 开局遍历传入的玩家牌组，全部实例化为 RuntimeCard
+	for card_id in player_deck:
+		if card_database.has(card_id):
+			var new_runtime_card = RuntimeCard.new(card_id, card_database[card_id])
+			draw_pile.append(new_runtime_card)
+		else:
+			push_error("CardManager: 数据库中找不到 ID ", card_id)
+			
+	draw_pile.shuffle()                 
 	deck_initialized.emit(draw_pile.size())
-	print("已成功初始化卡牌系统")
+	print("已成功初始化卡牌系统，生成实例数量：", draw_pile.size())
+	# TODO 暂定战斗开始抽五张牌
+	draw_cards_to_limit()
+
+# 供外部系统（或玩家点击抽牌堆按钮）调用的标准抽牌操作
+func execute_player_draw_action() -> void:
+	var draw_amount = hand_limit - hand_pile.size()
+	if draw_amount > 0:
+		print("玩家发起抽牌，补齐数量：", draw_amount)
+		draw_cards(draw_amount)
+	else:
+		print("手牌已达上限，无法抽牌")
 
 #region 卡牌操作方法
-# 抽取卡牌
+# 抽牌
 func draw_cards(amount: int) -> void:
 	for i in range(amount):
 		_draw_single_card()
-
-# 出牌：参数是手牌数组的索引，就是手牌中的第几张
-func play_card(hand_pile_index: int) -> void:
-	if hand_pile_index < 0 or hand_pile_index >= hand_pile.size(): return
-	var played_card: RuntimeCard = hand_pile[hand_pile_index]
-	hand_pile.remove_at(hand_pile_index)
-	card_played.emit(played_card.base_card_id, hand_pile_index)
-	discard_pile.append(played_card.base_card_id)
-	card_discarded.emit(played_card.base_card_id)
-
-# 丢弃单张手牌
-func discard_card(hand_pile_index: int) -> void:
-	if hand_pile_index < 0 or hand_pile_index >= hand_pile.size(): return
-	var discarded_card: RuntimeCard = hand_pile[hand_pile_index]
-	hand_pile.remove_at(hand_pile_index)
-	discard_pile.append(discarded_card.base_card_id)
-	card_discarded.emit(discarded_card.base_card_id)
-
-# 丢弃所有手牌
+# 出牌
+func play_card(runtime_card: RuntimeCard) -> void:
+	var current_index = hand_pile.find(runtime_card)
+	if current_index == -1: 
+		return push_warning("出牌失败：手牌堆中找不到该卡牌实例")
+		
+	# 从手牌数组移除
+	hand_pile.remove_at(current_index)
+	# 触发信号并附带实时位置
+	card_played.emit(runtime_card)
+	# 压入弃牌堆
+	discard_pile.append(runtime_card)
+	card_discarded.emit(runtime_card)
+# 弃牌
+func discard_card(runtime_card: RuntimeCard) -> void:
+	var current_index = hand_pile.find(runtime_card)
+	if current_index == -1: 
+		return
+		
+	hand_pile.remove_at(current_index)
+	discard_pile.append(runtime_card)
+	card_discarded.emit(runtime_card)
+# 弃全部手牌
 func discard_all_hand_pile() -> void:
 	while hand_pile.size() > 0:
-		var card_id = hand_pile.pop_back()
-		discard_pile.append(card_id)
-		card_discarded.emit(card_id)
+		var card = hand_pile.pop_back()
+		discard_pile.append(card)
+		card_discarded.emit(card)
 	hand_pile_cleared.emit()
+
+# 内部补牌逻辑（供开局等情况调用）
+func draw_cards_to_limit() -> void:
+	var draw_amount = hand_limit - hand_pile.size()
+	if draw_amount > 0:
+		draw_cards(draw_amount)
 #endregion
 
 #region 内部方法
-# 抽取单张卡牌的核心逻辑
+# 抽单张卡
 func _draw_single_card() -> void:
 	if draw_pile.is_empty():
 		if discard_pile.is_empty(): return
 		_reshuffle_discard_to_draw()
 		
-	var drawn_id = draw_pile.pop_back()
+	var drawn_card = draw_pile.pop_back()
+	hand_pile.append(drawn_card)
 	
-	# ================= 核心组装区 =================
-	# 假设 AllCardData 存在并能获取静态数据字典
-	var card_database = AllCardData.get_cards()
-	if not card_database.has(drawn_id): return push_error("查无此牌")
-	
-	# 在抽牌瞬间，将静态数据打包成动态黑盒
-	var runtime_card = RuntimeCard.new(drawn_id, card_database[drawn_id])
-	# ============================================
-	
-	hand_pile.append(runtime_card)
-	var current_hand_pile_index = hand_pile.size() - 1
-	
-	# 将组装好的黑盒发给 UI
+	# 直接下发实体对象给 UI，不传 index
 	if player_hand_deck and player_hand_deck.has_method("add_card_to_hand"):
-		player_hand_deck.add_card_to_hand(runtime_card, current_hand_pile_index)
+		player_hand_deck.add_card_to_hand(drawn_card)
 	
-	card_drawn.emit(drawn_id, current_hand_pile_index)
-
-# 洗牌逻辑：将弃牌堆重新洗入抽牌堆
+	card_drawn.emit(drawn_card)
+# 重置弃牌堆
 func _reshuffle_discard_to_draw() -> void:
 	var amount = discard_pile.size()
 	draw_pile = discard_pile.duplicate()
