@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://csq7wsuq3pvpm"]
+
+[ext_resource type="Script" uid="uid://fptev7g2dxkf" path="res://Scene/Battle_Scene/BattleSystem/CardSystem/Scripts/PlayerHandDeck.gd" id="1_s4kns"]
+[ext_resource type="PackedScene" uid="uid://b5bqwwplbqjgj" path="res://Scene/Battle_Scene/BattleSystem/CardSystem/Card.tscn" id="2_b1et5"]
+
+[node name="PlayerHandDeck" type="HBoxContainer"]
+custom_minimum_size = Vector2(200, 280)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -280.0
+offset_right = 200.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+script = ExtResource("1_s4kns")
+card_scene = ExtResource("2_b1et5")

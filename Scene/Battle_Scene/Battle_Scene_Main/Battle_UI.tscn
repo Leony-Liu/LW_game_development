@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://b3kucp358w4ba" path="res://Scene/Battle_Scene/Battle_Scene_Main/Arts/UI/Group 40.png" id="11_2ih3d"]
 [ext_resource type="Script" uid="uid://cjkwkg4utu1o8" path="res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/card_manager.gd" id="11_d2lmi"]
 [ext_resource type="FontFile" uid="uid://cxvcfs37fakec" path="res://Arts/Fort/SirClive.ttf" id="11_lxtdy"]
-[ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/CardSystem/player_hand_deck.tscn" id="12_b8vng"]
+[ext_resource type="PackedScene" uid="uid://csq7wsuq3pvpm" path="res://Scene/Battle_Scene/BattleSystem/CardSystem/player_hand_deck.tscn" id="12_b8vng"]
 
 [sub_resource type="Theme" id="Theme_axmqt"]
 

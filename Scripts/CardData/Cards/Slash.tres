@@ -1,21 +1,18 @@
-[gd_resource type="Resource" script_class="CardData" load_steps=5 format=3 uid="uid://b8y5vh8uat3i5"]
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://b8y5vh8uat3i5"]
 
 [ext_resource type="Script" uid="uid://dfvcst7pqedb7" path="res://Scripts/Resource/Card/R_cardeffect.gd" id="1_v36af"]
 [ext_resource type="Script" uid="uid://chyf28s5x8l2f" path="res://Scripts/Resource/Card/R_carddata.gd" id="2_tbybo"]
-[ext_resource type="Script" uid="uid://0f73x88hunnf" path="res://Scripts/CardData/CardEffect/E_cost.gd" id="2_ube6j"]
-
-[sub_resource type="Resource" id="Resource_rq6mi"]
-script = ExtResource("2_ube6j")
-stamina_cost = 1
-mana_cost = 0
-time_cost = 30
-metadata/_custom_type_script = "uid://0f73x88hunnf"
 
 [resource]
 script = ExtResource("2_tbybo")
 id = 1005
 name = "劈砍"
+stamina_cost = 1
+mana_cost = 0
+damage = 30
+time_cost = 30
+priority = 3
 description = "造成30点伤害"
 card_type = 0
-effects = Array[ExtResource("1_v36af")]([SubResource("Resource_rq6mi")])
+effects = Array[ExtResource("1_v36af")]([])
 metadata/_custom_type_script = "uid://chyf28s5x8l2f"

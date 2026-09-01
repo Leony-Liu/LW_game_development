@@ -1,21 +1,18 @@
-[gd_resource type="Resource" script_class="CardData" load_steps=5 format=3 uid="uid://kvh83fxaw8oo"]
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3 uid="uid://kvh83fxaw8oo"]
 
 [ext_resource type="Script" uid="uid://dfvcst7pqedb7" path="res://Scripts/Resource/Card/R_cardeffect.gd" id="1_tdp57"]
-[ext_resource type="Script" uid="uid://0f73x88hunnf" path="res://Scripts/CardData/CardEffect/E_cost.gd" id="2_si8m5"]
 [ext_resource type="Script" uid="uid://chyf28s5x8l2f" path="res://Scripts/Resource/Card/R_carddata.gd" id="2_uib3o"]
-
-[sub_resource type="Resource" id="Resource_npbeq"]
-script = ExtResource("2_si8m5")
-stamina_cost = 2
-mana_cost = 0
-time_cost = 60
-metadata/_custom_type_script = "uid://0f73x88hunnf"
 
 [resource]
 script = ExtResource("2_uib3o")
 id = 1001
 name = "重劈"
+stamina_cost = 2
+mana_cost = 0
+damage = 70
+time_cost = 60
+priority = 3
 description = "造成70伤害"
 card_type = 0
-effects = Array[ExtResource("1_tdp57")]([SubResource("Resource_npbeq")])
+effects = Array[ExtResource("1_tdp57")]([])
 metadata/_custom_type_script = "uid://chyf28s5x8l2f"

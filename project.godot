@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+GameManager="*res://Scripts/GameManager.gd"
 SaveManager="*res://Scripts/SaveManager.gd"
 AllCardData="*res://Scripts/CardData/AllCardData.gd"
 EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
@@ -58,6 +59,11 @@ folder_colors={
 "res://DataBase/": "red",
 "res://Localization/": "pink",
 "res://Scene/": "blue",
+"res://Scene/Battle_Scene/BattleSystem/CardSystem/Arts/": "purple",
+"res://Scene/Battle_Scene/BattleSystem/CardSystem/Scripts/": "yellow",
+"res://Scene/Battle_Scene/BattleSystem/CombatSystem/ProcessorSystem/Scripts/": "yellow",
+"res://Scene/Battle_Scene/BattleSystem/CombatSystem/Scripts/": "yellow",
+"res://Scene/Battle_Scene/BattleSystem/Scripts/": "yellow",
 "res://Scene/Battle_Scene/Battle_Scene_Enemy/": "blue",
 "res://Scene/Battle_Scene/Battle_Scene_Enemy/Arts/": "purple",
 "res://Scene/Battle_Scene/Battle_Scene_Enemy/Enemy3DModle/Arts/": "purple",
@@ -73,11 +79,7 @@ folder_colors={
 "res://Scene/Battle_Scene/Battle_Scene_Player/player-visuals/Arts/": "purple",
 "res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Arts/": "purple",
 "res://Scene/Battle_Scene/Battle_Scene_Player/player_3Dvisuals/Scripts/": "yellow",
-"res://Scene/Battle_Scene/CardSystem/Scripts/": "yellow",
-"res://Scene/Battle_Scene/Card_Scene/": "blue",
-"res://Scene/Battle_Scene/Card_Scene/Arts/": "purple",
 "res://Scene/Battle_Scene/Card_Scene/Scripts/": "yellow",
-"res://Scene/Battle_Scene/CombatSystem/Scripts/": "yellow",
 "res://Scene/DungeonScene/": "blue",
 "res://Scene/DungeonScene/Arts/": "purple",
 "res://Scene/DungeonScene/Script/": "yellow",
@@ -90,6 +92,7 @@ folder_colors={
 "res://Scene/Main_Scene/Scripts/": "yellow",
 "res://Scene/Shelter_Scene/Art/": "purple",
 "res://Scene/Shelter_Scene/Scripts/": "yellow",
+"res://Scene/Shelter_Scene/ShelterSystem/Scripts/": "yellow",
 "res://Scene/UI/Arts/": "purple",
 "res://Scene/UI/Scripts/": "yellow",
 "res://Scene/VisualTest_MAP/Art/": "purple",

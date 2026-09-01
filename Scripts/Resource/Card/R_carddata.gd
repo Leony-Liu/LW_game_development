@@ -7,6 +7,16 @@ class_name CardData
 @export var id : int
 ## 名称
 @export var name : String
+## 消耗的体力
+@export var stamina_cost : int
+## 消耗的脑力
+@export var mana_cost : int
+## 造成的伤害
+@export var damage : int
+## 推进的时间
+@export var time_cost : int
+## 执行优先级
+@export var priority : int
 ## 描述
 @export_multiline var description: String
 ##卡牌类型
