@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ct4htxn1thykf"]
+[gd_scene load_steps=12 format=3 uid="uid://ct4htxn1thykf"]
 
 [ext_resource type="Script" uid="uid://bxwk5d6e4yaon" path="res://Scene/Battle_Scene/BattleSystem/Scripts/BattleManager.gd" id="1_1c1d2"]
 [ext_resource type="Script" uid="uid://dkm0w0eifllcw" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/Scripts/CombatManager.gd" id="2_lmoaq"]
@@ -8,12 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://c78kcq0ttk5ra" path="res://Scene/Battle_Scene/BattleSystem/CardSystem/CardSystem.tscn" id="6_00fpp"]
 [ext_resource type="Script" uid="uid://dbq7ojv5fsdf0" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/ProcessorSystem/Scripts/CombatEntity.gd" id="6_ko14o"]
 [ext_resource type="Script" uid="uid://bb180w5lpkuou" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/ProcessorSystem/Scripts/AttributeSet.gd" id="7_gc2h7"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_ko14o"]
-size = Vector3(10, 0.1, 10)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_gc2h7"]
-size = Vector3(10, 0.1, 10)
+[ext_resource type="PackedScene" uid="uid://diasj0i1yv8ea" path="res://Scene/Battle_Scene/BattleSystem/PlayerVisual/PlayerVisual.tscn" id="8_gc2h7"]
+[ext_resource type="PackedScene" uid="uid://dn2c6ojwph1kq" path="res://Scene/Battle_Scene/BattleSystem/BattleRoom/BattleRoom.tscn" id="9_t62l1"]
+[ext_resource type="PackedScene" uid="uid://chhps0rjfreou" path="res://Scene/Battle_Scene/BattleSystem/EnemyVisual/EnemyVisual.tscn" id="10_tdmfm"]
 
 [node name="BattleSystem" type="Node" node_paths=PackedStringArray("combat_manager", "card_manager")]
 script = ExtResource("1_1c1d2")
@@ -37,36 +34,35 @@ script = ExtResource("5_t6qnu")
 player_entity = NodePath("PlayerEntity")
 enemy_entity = NodePath("EnemyEntity")
 
-[node name="PlayerEntity" type="Node" parent="CombatManager/ProcessorManager"]
+[node name="PlayerEntity" type="Node" parent="CombatManager/ProcessorManager" node_paths=PackedStringArray("attribute_set")]
 script = ExtResource("6_ko14o")
 is_player = true
+attribute_set = NodePath("AttributeSet")
 
 [node name="AttributeSet" type="Node" parent="CombatManager/ProcessorManager/PlayerEntity"]
 script = ExtResource("7_gc2h7")
 
-[node name="PlayerVisual" type="Node3D" parent="CombatManager/ProcessorManager/PlayerEntity"]
-
-[node name="Camera3D" type="Camera3D" parent="CombatManager/ProcessorManager/PlayerEntity/PlayerVisual"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-fov = 60.0
-
-[node name="EnemyEntity" type="Node" parent="CombatManager/ProcessorManager"]
+[node name="EnemyEntity" type="Node" parent="CombatManager/ProcessorManager" node_paths=PackedStringArray("attribute_set")]
 script = ExtResource("6_ko14o")
+attribute_set = NodePath("AttributeSet")
 
 [node name="AttributeSet" type="Node" parent="CombatManager/ProcessorManager/EnemyEntity"]
 script = ExtResource("7_gc2h7")
 
-[node name="EnemyVisual" type="Node3D" parent="CombatManager/ProcessorManager/EnemyEntity"]
+[node name="World" type="Node" parent="."]
 
-[node name="testworld" type="Node3D" parent="."]
+[node name="RoomSet" type="Node" parent="World"]
 
-[node name="floor" type="StaticBody3D" parent="testworld"]
+[node name="BattleRoom" parent="World/RoomSet" instance=ExtResource("9_t62l1")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="testworld/floor"]
-mesh = SubResource("BoxMesh_ko14o")
+[node name="PlayerVisualRoot" type="Node3D" parent="World"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="testworld/floor"]
-shape = SubResource("BoxShape3D_gc2h7")
+[node name="PlayerVisual" parent="World/PlayerVisualRoot" instance=ExtResource("8_gc2h7")]
+
+[node name="EnemyVisualRoot" type="Node3D" parent="World"]
+
+[node name="EnemyVisual" parent="World/EnemyVisualRoot" instance=ExtResource("10_tdmfm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, -2.87968)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

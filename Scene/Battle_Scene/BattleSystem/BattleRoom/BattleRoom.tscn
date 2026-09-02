@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dn2c6ojwph1kq"]
+
+[ext_resource type="PackedScene" uid="uid://o0jy78jn4shj" path="res://Scene/Battle_Scene/BattleSystem/BattleRoom/Prefab/Floor.tscn" id="1_o841m"]
+[ext_resource type="PackedScene" uid="uid://b4tmgwlvlc11l" path="res://Scene/Battle_Scene/BattleSystem/BattleRoom/Prefab/Wall.tscn" id="2_afubj"]
+[ext_resource type="PackedScene" uid="uid://x6k0uthgk7g0" path="res://Scene/Battle_Scene/BattleSystem/BattleRoom/Prefab/Door.tscn" id="3_xhtr7"]
+[ext_resource type="PackedScene" uid="uid://bj7ysjngtbq7c" path="res://Scene/Battle_Scene/BattleSystem/BattleRoom/Prefab/Ceiling.tscn" id="4_nm0wd"]
+
+[node name="BattleRoom" type="Node3D"]
+
+[node name="testlight" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="testlight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55688, 0)
+omni_range = 17.145
+
+[node name="Field" type="Node3D" parent="."]
+
+[node name="Floor" parent="Field" instance=ExtResource("1_o841m")]
+
+[node name="Wall2" parent="Field" instance=ExtResource("2_afubj")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 1.5, 0)
+
+[node name="Wall3" parent="Field" instance=ExtResource("2_afubj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5)
+
+[node name="Wall4" parent="Field" instance=ExtResource("2_afubj")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 1.5, 0)
+
+[node name="Door" parent="Field" instance=ExtResource("3_xhtr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -5)
+
+[node name="Ceiling" parent="Field" instance=ExtResource("4_nm0wd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

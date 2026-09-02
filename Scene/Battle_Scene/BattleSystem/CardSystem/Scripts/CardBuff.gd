@@ -2,10 +2,14 @@
 class_name CardBuff
 extends RefCounted
 
-enum ModifierType { SET, ADD, MULTIPLY }
+enum ModifierType { 
+	SET,  # 直接设置
+	ADD,  # 加减
+	MULTIPLY  # 乘除
+	}
 
 var buff_id: String
-var target_property: String
+var target_property: String # 修改的具体数值名称
 var mod_type: ModifierType
 var value_modifier: float 
 var time_left: int = -1 

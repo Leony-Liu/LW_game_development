@@ -5,17 +5,18 @@ signal visual_requested(effect_data: Dictionary)
 signal entity_died(entity: CombatEntity)
 
 @export var is_player: bool = false
-@onready var attribute_set: AttributeSet = $AttributeSet
+@export var attribute_set: AttributeSet
 
 func _ready() -> void:
 	if attribute_set:
 		attribute_set.attribute_updated.connect(_on_attribute_updated)
 
-func initialize_stats(stats_dict: Dictionary) -> void:
-	for key in stats_dict.keys():
-		attribute_set.register_attribute(key, stats_dict[key])
+# 注册属性
+func initialize_stats(stats_dictionary: Dictionary) -> void:
+	for key in stats_dictionary.keys():
+		attribute_set.register_attribute(key, stats_dictionary[key])
 
-# 统一接收来自 Processor 的影响数据
+# 接收 Processor 读取的 CombatAction 部分数据，确认行动的效果并执行
 func apply_effect(effect_data: Dictionary) -> void:
 	var effect_type = effect_data.get("type", "")
 	
@@ -38,6 +39,7 @@ func apply_effect(effect_data: Dictionary) -> void:
 				stamina_attr.sub_base(cost_amount)
 			visual_requested.emit({"type": "pay_cost_animation", "target": self, "value": cost_amount})
 
+# 实体属性变化上报
 func _on_attribute_updated(attribute_name: String, old_value: float, new_value: float) -> void:
 	# 向上报告UI更新需求
 	visual_requested.emit({"type": "update_ui", "target": self, "attribute": attribute_name, "value": new_value})

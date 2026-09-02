@@ -54,7 +54,14 @@ func execute_player_draw_action() -> void:
 		print("手牌已达上限，无法抽牌")
 
 # 接收战斗管理器下发的 Buff 指令，实例化并挂载给指定的 RuntimeCard
-func apply_buff_to_card(target_card: RuntimeCard, buff_id: String, property: String, modifier_type: CardBuff.ModifierType, value: float, time_left: int = -1, count_left: int = -1) -> void:
+func apply_buff_to_card(
+	target_card: RuntimeCard, 
+	buff_id: String, 
+	property: String, 
+	modifier_type: CardBuff.ModifierType, 
+	value: float, 
+	time_left: int = -1, 
+	count_left: int = -1) -> void:
 	if not target_card:
 		push_warning("CardManager: 施加 Buff 失败，目标 RuntimeCard 为空。")
 		return

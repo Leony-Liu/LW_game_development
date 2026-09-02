@@ -23,7 +23,7 @@ func _init(id: int, raw_data: Variant) -> void:
 			else:
 				card_data[prop_name] = value
 
-# 打包存数据方法（供 SaveModule 持久化保存使用）
+# 打包存数据方法（供 BattleSaveModule 持久化保存使用）
 func to_dictionary() -> Dictionary:
 	return {
 		"card_id": card_id,
@@ -38,12 +38,13 @@ static func from_dictionary(dict: Dictionary) -> RuntimeCard:
 		return null
 	return RuntimeCard.new(c_id, c_data)
 
-# 添加单个buff
+#region CardBuff的添加与消耗
+# 添加单个 buff
 func add_buff(buff: CardBuff) -> void:
 	active_buffs.append(buff)
 	stats_updated.emit()
 
-# 经过了多少时间
+# 消耗计时类 buff 的时间
 func advance_time(delta: int) -> void:
 	var needs_update = false
 	for i in range(active_buffs.size() - 1, -1, -1):
@@ -53,6 +54,7 @@ func advance_time(delta: int) -> void:
 	if needs_update:
 		stats_updated.emit()
 
+# 消耗一次计数类 buff 的次数
 func consume_action_event() -> void:
 	var needs_update = false
 	for i in range(active_buffs.size() - 1, -1, -1):
@@ -61,7 +63,9 @@ func consume_action_event() -> void:
 			needs_update = true
 	if needs_update:
 		stats_updated.emit()
+#endregion
 
+#region 让外部脚本读取数据
 # 获取资源消耗
 func get_resource_cost() -> int:
 	var type_val = card_data.get("card_type", 0)
@@ -82,8 +86,32 @@ func get_action_name() -> String:
 func get_priority() -> int:
 	var base_priority = float(card_data.get("priority", 1.0))
 	return _calculate_property("priority", base_priority)
+#endregion
 
-# 编译意图：向 ProcessorManager 输出完整的效果与数值
+# 让目标属性经历所有 buff 的计算并返回最终结果
+func _calculate_property(
+	property_name: String, # 要修改的属性
+	base_value: float # 原本的数值
+	) -> int:
+	var relevant_buffs: Array[CardBuff] = []
+	# 遍历所有已挂载的 buff
+	for buff in active_buffs:
+		if buff.target_property == property_name:
+			relevant_buffs.append(buff)
+	# 保底返回一个四舍五入的值
+	if relevant_buffs.is_empty():
+		return maxi(0, int(round(base_value)))
+	# buff 排序：先设定，后加减，再乘除
+	relevant_buffs.sort_custom(func(a, b): return a.mod_type < b.mod_type)
+	# 按排好的 buff 进行调整
+	var final_value = base_value
+	for buff in relevant_buffs:
+		final_value = buff.apply_modifier(final_value)
+		
+	# 返回运算结果
+	return maxi(0, int(round(final_value)))
+
+# 返回此脚本所有结果的字典
 func compile_effect_data() -> Dictionary:
 	var compiled_effect = {}
 	var original_effects = card_data.get("effects", [])
@@ -93,21 +121,3 @@ func compile_effect_data() -> Dictionary:
 	var base_damage = float(card_data.get("damage", 0))
 	compiled_effect["damage"] = _calculate_property("damage", base_damage)
 	return compiled_effect
-
-# 内部管线结算
-func _calculate_property(prop_name: String, base_value: float) -> int:
-	var relevant_buffs: Array[CardBuff] = []
-	for buff in active_buffs:
-		if buff.target_property == prop_name:
-			relevant_buffs.append(buff)
-			
-	if relevant_buffs.is_empty():
-		return maxi(0, int(round(base_value)))
-		
-	relevant_buffs.sort_custom(func(a, b): return a.mod_type < b.mod_type)
-	
-	var final_value = base_value
-	for buff in relevant_buffs:
-		final_value = buff.apply_modifier(final_value)
-		
-	return maxi(0, int(round(final_value)))

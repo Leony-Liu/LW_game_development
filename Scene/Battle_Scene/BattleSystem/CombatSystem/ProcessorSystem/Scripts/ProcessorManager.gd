@@ -1,19 +1,19 @@
 class_name ProcessorManager
 extends Node
 
-signal visual_effect_generated(effect_data: Dictionary)
+signal visual_effect_generated(visual_effect_data: Dictionary)
 
 @export var player_entity: CombatEntity
 @export var enemy_entity: CombatEntity
 
+# 信号绑定
 func _ready() -> void:
-	# 绑定下级请求视觉表现的信号，直接转发给顶层CombatManager
 	if player_entity:
 		player_entity.visual_requested.connect(_on_entity_visual_requested)
 	if enemy_entity:
 		enemy_entity.visual_requested.connect(_on_entity_visual_requested)
 
-# 接收 EntityData
+# 接收双方实体数据并下发
 func initialize_entities(player_data: EntityData, enemy_data: EnemyData) -> void:
 	if player_entity and player_data:
 		player_entity.initialize_stats(player_data.base_attributes)
@@ -43,5 +43,6 @@ func accept_action(action: CombatAction) -> void:
 		elif effect_type == "pay_cost": # 新增：预留给敌人的扣除资源指令
 			enemy_entity.apply_effect(effect)
 
-func _on_entity_visual_requested(effect_data: Dictionary) -> void:
-	visual_effect_generated.emit(effect_data)
+# 发送视觉内容需求信号
+func _on_entity_visual_requested(visual_effect_data: Dictionary) -> void:
+	visual_effect_generated.emit(visual_effect_data)

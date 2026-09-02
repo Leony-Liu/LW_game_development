@@ -1,13 +1,13 @@
+# 管理实体所属的所有 Attribute。作为中间层封装属性获取与修改，向 Entity 汇报具体哪个属性发生了变化。
 class_name AttributeSet
 extends Node
-
-# 实现的功能：管理实体所属的所有 Attribute。作为中间层封装属性获取与修改，向 Entity 汇报具体哪个属性发生了变化。
 
 
 signal attribute_updated(attribute_name: String, old_value: float, new_value: float)
 
 var _attributes: Dictionary = {}
 
+# 实例化一个 Attribute
 func register_attribute(attribute_name: String, initial_value: float) -> void:
 	var new_attr = Attribute.new()
 	new_attr.initialize(initial_value)
@@ -15,17 +15,17 @@ func register_attribute(attribute_name: String, initial_value: float) -> void:
 	new_attr.value_changed.connect(func(old, new): attribute_updated.emit(attribute_name, old, new))
 	_attributes[attribute_name] = new_attr
 
-# 外部方法，提供一个属性
+# 外部方法，读取一个 Attribute
 func get_attribute(attribute_name: String) -> Attribute:
 	return _attributes.get(attribute_name)
 
+# 外部方法，读取 Attribute 当前数值
 func get_value(attribute_name: String) -> float:
 	var attr = get_attribute(attribute_name)
 	if attr: return attr.get_value()
 	return 0.0
 
 # 通过 dependencies 数组，实现跨属性的自动化联动。
-
 func bind_custom_formula_to_attribute(target_attribute_name: String, formula_callable: Callable, dependencies: Array = []) -> void:
 	var target_attr = get_attribute(target_attribute_name)
 	if not target_attr:
