@@ -12,7 +12,7 @@ var is_player: bool
 # 效果数据
 var effect_data: Dictionary # 存放具体效果的参数，如 {"type": "attack", "damage": 10} 或 {"type": "stun"}
 
-# 用于时间轴排序的静态方法
+# 用于时间轴排序的静态方法,被Timeline调用
 static func sort_actions(a: CombatAction, b: CombatAction) -> bool:
 	if a.trigger_time != b.trigger_time:
 		return a.trigger_time < b.trigger_time # 时间早的优先

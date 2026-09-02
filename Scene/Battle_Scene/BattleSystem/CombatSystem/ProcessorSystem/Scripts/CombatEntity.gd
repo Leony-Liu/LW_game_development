@@ -1,9 +1,6 @@
 class_name CombatEntity
 extends Node
 
-# 实现的功能：作为敌我实体的通用基类，持有 AttributeSet 并在其发生变化时，请求视觉表现。
-# 使用方法：挂载在场景中。PlayerEntity 和 EnemyEntity 脚本只需继承此类即可（extends CombatEntity）。
-
 signal visual_requested(effect_data: Dictionary)
 signal entity_died(entity: CombatEntity)
 
@@ -26,15 +23,24 @@ func apply_effect(effect_data: Dictionary) -> void:
 		"attack":
 			var dmg = effect_data.get("damage", 0)
 			var hp_attr = attribute_set.get_attribute("hp")
-			if hp_attr: hp_attr.sub_base(dmg)
+			if hp_attr: 
+				hp_attr.sub_base(dmg)
 			visual_requested.emit({"type": "take_damage_animation", "target": self, "value": dmg})
+			
 		"buff":
 			# 示例：此处可解析数据生成 AttributeBuff 并交由 attribute_set 处理
 			pass
+			
+		"pay_cost": # 新增：处理扣除资源的实际运算
+			var cost_amount = effect_data.get("amount", 0)
+			var stamina_attr = attribute_set.get_attribute("stamina")
+			if stamina_attr:
+				stamina_attr.sub_base(cost_amount)
+			visual_requested.emit({"type": "pay_cost_animation", "target": self, "value": cost_amount})
 
-func _on_attribute_updated(attr_name: String, old_value: float, new_value: float) -> void:
+func _on_attribute_updated(attribute_name: String, old_value: float, new_value: float) -> void:
 	# 向上报告UI更新需求
-	visual_requested.emit({"type": "update_ui", "target": self, "attribute": attr_name, "value": new_value})
+	visual_requested.emit({"type": "update_ui", "target": self, "attribute": attribute_name, "value": new_value})
 	
-	if attr_name == "hp" and new_value <= 0:
+	if attribute_name == "hp" and new_value <= 0:
 		entity_died.emit(self)

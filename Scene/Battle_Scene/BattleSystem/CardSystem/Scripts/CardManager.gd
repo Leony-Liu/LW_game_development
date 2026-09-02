@@ -83,7 +83,7 @@ func play_card(runtime_card: RuntimeCard) -> void:
 	var current_index = hand_pile.find(runtime_card)
 	if current_index == -1: 
 		return push_warning("出牌失败：手牌堆中找不到该卡牌实例")
-		
+
 	# 从手牌数组移除
 	hand_pile.remove_at(current_index)
 	# 触发信号并附带实时位置

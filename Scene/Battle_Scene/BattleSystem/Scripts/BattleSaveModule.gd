@@ -1,48 +1,121 @@
 class_name BattleSaveModule
 extends SaveModule
 
+# --- 战斗状态标记 ---
+var is_in_combat: bool = false
+var rng_seed: int = 0
+
 # --- 战斗系统外输入的预留通道 ---
-var input_deck = [] 
+var input_deck: Array = [] 
 var input_player_data: EntityData 
-var input_enemy_data: EntityData 
+var input_enemy_data: EnemyData
 
 # --- 保存至战斗系统内的实际流通数据 ---
-var current_deck : Array[RuntimeCard] = []
+var current_deck: Array[RuntimeCard] = []
 
 # 定义在 JSON 里的键名
 func get_module_key() -> String:
 	return "battle_state" 
 
-func get_save_data() -> Array:
+# 将战前所有状态打包成一个快照字典保存
+func get_save_data() -> Dictionary:
 	var deck_data = []
 	for card in current_deck:
 		if card.has_method("to_dictionary"):
 			deck_data.append(card.to_dictionary())
 		else:
-			deck_data.append({
-				"card_id": card.card_id,
-				"card_data": card.card_data
-			})
-	return deck_data
+			deck_data.append({"card_id": card.card_id, "card_data": card.card_data})
+			
+	var player_dict = {}
+	if input_player_data:
+		player_dict = {"entity_id": input_player_data.entity_id, "base_attributes": input_player_data.base_attributes}
+		
+	var enemy_dict = {}
+	if input_enemy_data:
+		enemy_dict = {
+			"enemy_id": input_enemy_data.enemy_id, 
+			"base_attributes": input_enemy_data.base_attributes
+		}
 
-func load_save_data(data):
-	input_deck.clear()
-	current_deck.clear()
+	return {
+		"is_in_combat": is_in_combat,
+		"rng_seed": rng_seed,
+		"current_deck": deck_data,
+		"player_data": player_dict,
+		"enemy_data": enemy_dict
+	}
+
+# 读取存档恢复快照数据
+func load_save_data(data: Variant) -> void:
+	clear_data()
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+		
+	is_in_combat = data.get("is_in_combat", false)
+	rng_seed = data.get("rng_seed", 0)
 	
-	if data is Array:
-		for card_dictionary in data:
-			var c_id = card_dictionary.get("card_id", 0)
-			var c_data = card_dictionary.get("card_data", {})
+	if data.has("current_deck") and data["current_deck"] is Array:
+		for card_dict in data["current_deck"]:
+			var c_id = card_dict.get("card_id", 0)
+			var c_data = card_dict.get("card_data", {})
 			if c_id != 0:
 				current_deck.append(RuntimeCard.new(c_id, c_data))
 				
-	print("[BattleSaveModule] 牌组读取完毕。")
+	if data.has("player_data") and not data["player_data"].is_empty():
+		input_player_data = EntityData.new(data["player_data"].get("entity_id", ""), data["player_data"].get("base_attributes", {}))
+		
 
-#region 向核心统筹器(BattleManager)提供初始化数据
+	if data.has("enemy_data") and not data["enemy_data"].is_empty():
+		var saved_enemy_data = data["enemy_data"]
+		var e_id = saved_enemy_data.get("enemy_id", -1)
+		
+		# 从数据库拉取包含动作池的完整模板
+		var template = AllEnemyData.get_enemy(e_id)
+		if template:
+			input_enemy_data = template.duplicate(true)
+			# 将存档中的残血状态覆盖上去
+			input_enemy_data.base_attributes = saved_enemy_data.get("base_attributes", template.base_attributes).duplicate()
+		else:
+			push_error("[BattleSaveModule] 读档失败：找不到对应的敌人 ID " + str(e_id))
 
-# 1. 提供卡牌数据
+	print("[BattleSaveModule] 战斗状态读取完毕，当前处于战斗中: ", is_in_combat)
+
+# 供 SaveManager 退回主菜单时清理残留数据
+func clear_data() -> void:
+	is_in_combat = false
+	rng_seed = 0
+	input_deck.clear()
+	current_deck.clear()
+	input_player_data = null
+	input_enemy_data = null
+
+
+#region 战斗快照流程控制
+
+# 外部发起战斗时调用
+func create_battle_snapshot(save_manager: Node) -> void:
+	is_in_combat = true
+	rng_seed = randi() # 固定随机数种子，确保重连后战斗随机性不变
+	
+	# 向全局系统注册并立刻物理保存
+	save_manager.register_module(self)
+	save_manager.save_game()
+	print("[BattleSaveModule] 战前快照生成完毕，游戏已自动保存！")
+
+# 战斗正常结束后结算时调用
+func resolve_battle(save_manager: Node) -> void:
+	is_in_combat = false
+	
+	save_manager.save_game()
+	print("[BattleSaveModule] 战斗结算完毕，战斗标记已清除。")
+
+#endregion
+
+
+#region 向BattleManager提供初始化数据
+
 func process_and_get_runtime_deck() -> Array[RuntimeCard]:
-	if not input_deck.is_empty():
+	if not input_deck.is_empty() and current_deck.is_empty():
 		_compile_input_to_runtime()
 	
 	if current_deck.is_empty():
@@ -51,39 +124,31 @@ func process_and_get_runtime_deck() -> Array[RuntimeCard]:
 		
 	return current_deck
 
-# 2. 提供玩家实体数据
 func process_and_get_player_data() -> EntityData:
-	if input_player_data:
-		return input_player_data
-		
-	push_warning("[BattleSaveModule] 警告：无局外传入的玩家数据，生成测试玩家数据...")
+	if input_player_data: return input_player_data
 	return build_test_player_data()
 
-# 3. 提供敌人实体数据
-func process_and_get_enemy_data() -> EntityData:
+func process_and_get_enemy_data() -> EnemyData:
 	if input_enemy_data:
-		return input_enemy_data
-		
-	push_warning("[BattleSaveModule] 警告：无局外传入的敌人数据，生成测试敌人数据...")
+		return input_enemy_data.duplicate(true) as EnemyData
+	
+	push_warning("[BattleSaveModule] 警告：未接收到敌人数据，正在生成测试敌人...")
 	return build_test_enemy_data()
+
+func _compile_input_to_runtime() -> void:
+	current_deck.clear()
+	# 预留给 CardInstance 转译使用
+	pass
 
 #endregion
 
-# --- 预留：将局外的 CardInstance 转译为局内的 RuntimeCard ---
-func _compile_input_to_runtime() -> void:
-	current_deck.clear()
-	var card_database = AllCardData.get_cards()
-	
-	for instance in input_deck:
-		# TODO: 待 CardInstance 完善后，将其拆解并组装为 RuntimeCard
-		pass
 
 #region 测试数据生成器
+
 func build_test_deck():
 	current_deck.clear()
 	var card_database = AllCardData.get_cards()
 	
-	# 测试的卡牌
 	var test_card_ids: Array[int] = [1001, 1001, 1002, 1002] 
 	
 	for card_id in test_card_ids:
@@ -92,10 +157,7 @@ func build_test_deck():
 			current_deck.append(new_card)
 		else:
 			push_error("生成测试牌组警告：找不到 ID 为 %d 的卡牌资源！" % card_id)
-			
-	print("[BattleSaveModule] 测试牌组构建完毕，当前拥有卡牌数：", current_deck.size())
 
-# 生成玩家测试数据：血量和发牌所需的费用（体力）
 func build_test_player_data() -> EntityData:
 	return EntityData.new("player_test", {
 		"hp": 100.0,
@@ -103,9 +165,16 @@ func build_test_player_data() -> EntityData:
 		"max_stamina": 5.0
 	})
 
-# 生成敌人测试数据
-func build_test_enemy_data() -> EntityData:
-	return EntityData.new("enemy_test", {
-		"hp": 80.0
-	})
+func build_test_enemy_data() -> EnemyData:
+	# 优先尝试从数据库拉取我们在 AllEnemyData 里写的 101 测试史莱姆
+	var test_enemy = AllEnemyData.get_enemy(1001)
+	if test_enemy:
+		return test_enemy.duplicate(true)
+		
+	# 究极兜底方案
+	var dummy = EnemyData.new()
+	dummy.enemy_id = 999
+	dummy.base_attributes = {"hp": 80.0}
+	return dummy
+
 #endregion

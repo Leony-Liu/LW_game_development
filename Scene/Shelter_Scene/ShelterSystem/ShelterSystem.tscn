@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtr44lt5a15ul"]
+
+[ext_resource type="Script" uid="uid://bhf684l5l1hv6" path="res://Scene/Shelter_Scene/ShelterSystem/Scripts/ShelterManager.gd" id="1_bc2c3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bc2c3"]
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r8gap"]
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_bc2c3"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r8gap"]
+radius = 0.3
+height = 1.8
+
+[node name="ShelterSystem" type="Node"]
+script = ExtResource("1_bc2c3")
+
+[node name="ShelterWorld" type="Node3D" parent="."]
+
+[node name="floor" type="StaticBody3D" parent="ShelterWorld"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ShelterWorld/floor"]
+mesh = SubResource("BoxMesh_bc2c3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShelterWorld/floor"]
+shape = SubResource("BoxShape3D_r8gap")
+
+[node name="NPC" type="StaticBody3D" parent="ShelterWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.21871, 0.920957, -1.78164)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ShelterWorld/NPC"]
+mesh = SubResource("CapsuleMesh_bc2c3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShelterWorld/NPC"]
+shape = SubResource("CapsuleShape3D_r8gap")

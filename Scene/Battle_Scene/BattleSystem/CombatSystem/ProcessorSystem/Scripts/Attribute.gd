@@ -6,9 +6,13 @@ extends RefCounted
 
 signal value_changed(old_value: float, new_value: float)
 
+# 默认数值
 var base_value: float = 0.0
+# 过程数值
 var computed_value: float = 0.0
+# 调整器记录
 var buffs: Array[AttributeBuff] = []
+
 var custom_formula: Callable
 
 var _cached_final_value: float = 0.0

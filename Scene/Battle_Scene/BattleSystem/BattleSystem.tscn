@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct4htxn1thykf"]
+[gd_scene load_steps=11 format=3 uid="uid://ct4htxn1thykf"]
 
 [ext_resource type="Script" uid="uid://bxwk5d6e4yaon" path="res://Scene/Battle_Scene/BattleSystem/Scripts/BattleManager.gd" id="1_1c1d2"]
 [ext_resource type="Script" uid="uid://dkm0w0eifllcw" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/Scripts/CombatManager.gd" id="2_lmoaq"]
@@ -6,10 +6,19 @@
 [ext_resource type="Script" uid="uid://b2l8ay0cqxa2m" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/Scripts/EnemyAI.gd" id="4_q4v35"]
 [ext_resource type="Script" uid="uid://b6dc0kc2h7fqo" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/ProcessorSystem/Scripts/ProcessorManager.gd" id="5_t6qnu"]
 [ext_resource type="PackedScene" uid="uid://c78kcq0ttk5ra" path="res://Scene/Battle_Scene/BattleSystem/CardSystem/CardSystem.tscn" id="6_00fpp"]
-[ext_resource type="Script" uid="uid://mcy2qe8tbygj" path="res://Scene/Battle_Scene/BattleSystem/Scripts/BattleSaveModule.gd" id="7_w1567"]
+[ext_resource type="Script" uid="uid://dbq7ojv5fsdf0" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/ProcessorSystem/Scripts/CombatEntity.gd" id="6_ko14o"]
+[ext_resource type="Script" uid="uid://bb180w5lpkuou" path="res://Scene/Battle_Scene/BattleSystem/CombatSystem/ProcessorSystem/Scripts/AttributeSet.gd" id="7_gc2h7"]
 
-[node name="BattleSystem" type="Node"]
+[sub_resource type="BoxMesh" id="BoxMesh_ko14o"]
+size = Vector3(10, 0.1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gc2h7"]
+size = Vector3(10, 0.1, 10)
+
+[node name="BattleSystem" type="Node" node_paths=PackedStringArray("combat_manager", "card_manager")]
 script = ExtResource("1_1c1d2")
+combat_manager = NodePath("CombatManager")
+card_manager = NodePath("UI/CardSystem")
 
 [node name="CombatManager" type="Node" parent="." node_paths=PackedStringArray("timeline", "enemy_ai", "processor")]
 script = ExtResource("2_lmoaq")
@@ -23,17 +32,51 @@ script = ExtResource("3_im1mx")
 [node name="EnemyAI" type="Node" parent="CombatManager"]
 script = ExtResource("4_q4v35")
 
-[node name="ProcessorManager" type="Node" parent="CombatManager"]
+[node name="ProcessorManager" type="Node" parent="CombatManager" node_paths=PackedStringArray("player_entity", "enemy_entity")]
 script = ExtResource("5_t6qnu")
+player_entity = NodePath("PlayerEntity")
+enemy_entity = NodePath("EnemyEntity")
 
 [node name="PlayerEntity" type="Node" parent="CombatManager/ProcessorManager"]
+script = ExtResource("6_ko14o")
+is_player = true
+
+[node name="AttributeSet" type="Node" parent="CombatManager/ProcessorManager/PlayerEntity"]
+script = ExtResource("7_gc2h7")
+
+[node name="PlayerVisual" type="Node3D" parent="CombatManager/ProcessorManager/PlayerEntity"]
+
+[node name="Camera3D" type="Camera3D" parent="CombatManager/ProcessorManager/PlayerEntity/PlayerVisual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+fov = 60.0
 
 [node name="EnemyEntity" type="Node" parent="CombatManager/ProcessorManager"]
+script = ExtResource("6_ko14o")
 
-[node name="CardManager" parent="." instance=ExtResource("6_00fpp")]
+[node name="AttributeSet" type="Node" parent="CombatManager/ProcessorManager/EnemyEntity"]
+script = ExtResource("7_gc2h7")
 
-[node name="BattleSaveModule" type="Node" parent="."]
-script = ExtResource("7_w1567")
+[node name="EnemyVisual" type="Node3D" parent="CombatManager/ProcessorManager/EnemyEntity"]
 
-[editable path="CardManager"]
-[editable path="CardManager/PlayerHandDeck"]
+[node name="testworld" type="Node3D" parent="."]
+
+[node name="floor" type="StaticBody3D" parent="testworld"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="testworld/floor"]
+mesh = SubResource("BoxMesh_ko14o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="testworld/floor"]
+shape = SubResource("BoxShape3D_gc2h7")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="CardSystem" parent="UI" instance=ExtResource("6_00fpp")]
+
+[node name="PlayerInformation" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[editable path="UI/CardSystem"]
+[editable path="UI/CardSystem/PlayerHandDeck"]
