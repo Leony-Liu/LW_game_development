@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://diasj0i1yv8ea"]
+
+[ext_resource type="Script" uid="uid://6t5ghivu2aoi" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerController.gd" id="1_1qcaa"]
+
+[node name="PlayerVisual" type="Node3D"]
+script = ExtResource("1_1qcaa")
+
+[node name="PlayerCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)

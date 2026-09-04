@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://cgstkmha5whja"]
+
+[ext_resource type="PackedScene" uid="uid://dn2c6ojwph1kq" path="res://ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn" id="1_5x4cq"]
+[ext_resource type="PackedScene" uid="uid://ct4htxn1thykf" path="res://ExpeditionSystem/BattleSystem/BattleSystem.tscn" id="1_a61xp"]
+[ext_resource type="Script" uid="uid://qngvyyjnqo2v" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd" id="1_kcca6"]
+[ext_resource type="PackedScene" uid="uid://diasj0i1yv8ea" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn" id="2_kcca6"]
+[ext_resource type="Script" uid="uid://couy1uuqh6w15" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/RoomSet.gd" id="2_vrybq"]
+[ext_resource type="Script" uid="uid://csm3isenvkk2y" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd" id="3_kcca6"]
+[ext_resource type="PackedScene" uid="uid://b6n5b2sanwwt2" path="res://ExpeditionSystem/WorldSystem/DebugFreeCamera.tscn" id="6_wahro"]
+
+[node name="Expedition‌System" type="Node"]
+
+[node name="WorldSystem" type="Node" parent="." node_paths=PackedStringArray("room_set", "player_visual_manager")]
+script = ExtResource("1_kcca6")
+room_set = NodePath("RoomSet")
+player_visual_manager = NodePath("PlayerVisualRoot")
+
+[node name="RoomSet" type="Node3D" parent="WorldSystem"]
+script = ExtResource("2_vrybq")
+battle_room_scene = ExtResource("1_5x4cq")
+
+[node name="BattleRoom" parent="WorldSystem/RoomSet" instance=ExtResource("1_5x4cq")]
+
+[node name="PlayerVisualRoot" type="Node3D" parent="WorldSystem" node_paths=PackedStringArray("player_controller", "player_camera")]
+script = ExtResource("3_kcca6")
+player_controller = NodePath("PlayerVisual")
+player_camera = NodePath("PlayerVisual/PlayerCamera")
+
+[node name="PlayerVisual" parent="WorldSystem/PlayerVisualRoot" instance=ExtResource("2_kcca6")]
+
+[node name="DebugFreeCamera" parent="WorldSystem" instance=ExtResource("6_wahro")]
+current = true
+
+[node name="BattleSystem" parent="." instance=ExtResource("1_a61xp")]
+
+[node name="UISystem" type="CanvasLayer" parent="."]
+
+[editable path="WorldSystem/RoomSet/BattleRoom"]
+[editable path="WorldSystem/RoomSet/BattleRoom/EnemyVisualRoot/EnemyVisual"]
+[editable path="WorldSystem/PlayerVisualRoot/PlayerVisual"]
+[editable path="BattleSystem"]
+[editable path="BattleSystem/UI/CardSystem"]
+[editable path="BattleSystem/UI/CardSystem/PlayerHandDeck"]

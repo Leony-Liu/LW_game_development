@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6n5b2sanwwt2"]
+
+[ext_resource type="Script" uid="uid://280fuaqmy3df" path="res://ExpeditionSystem/WorldSystem/Scripts/DebugFreeCamera.gd" id="1_bcxix"]
+
+[node name="DebugFreeCamera" type="Camera3D"]
+script = ExtResource("1_bcxix")
