@@ -1,65 +1,114 @@
 class_name BattleRoom
 extends Node3D
 
-# 在检查器中将 Prefab 文件夹下的 Wall.tscn 和 Door.tscn 拖入这两个槽位
-@export var wall_prefab: PackedScene
-@export var door_prefab: PackedScene
+## 房间数据变化时对外发送的信号
+signal room_data_changed(updated_data: RoomData)
 
-# 缓存四个方向的挂载点节点，与 RoomData 里的 "N", "E", "S", "W" 对应
-@onready var wall_anchors = {
-	"N": $Field/NorthWall,
-	"E": $Field/EastWall,
-	"S": $Field/SouthWall,
-	"W": $Field/WestWall
-}
+@export_group("挂载节点绑定")
+@export var north_wall: Node3D
+@export var east_wall: Node3D
+@export var south_wall: Node3D
+@export var west_wall: Node3D
+@export var floor_root: Node3D
+@export var ceiling_root: Node3D
+@export var enemy_root: Node3D
 
-@onready var enemy_visual_root = $EnemyVisualRoot
+@export_group("场景预制体")
+## 实心墙体场景
+@export var wall_scene: PackedScene
+## 带门洞的墙体场景
+@export var door_wall_scene: PackedScene
+## 地面场景
+@export var floor_scene: PackedScene
+## 天花板场景
+@export var ceiling_scene: PackedScene
+## 敌人预制体场景
+@export var enemy_scene: PackedScene
 
-var room_data: RoomData
 
-# 由 RoomSet 在实例化本房间时主动调用
-func initialize_room(data: RoomData) -> void:
-	room_data = data
+# 纯代码变量（由 RoomSet 动态赋值，不暴露在检查器中）
+var room_data: RoomData:
+	set = set_room_data
+
+func _ready() -> void:
+	# 若 RoomSet 在 add_child 之前已赋值 room_data，进入节点树时立即构建
+	if room_data:
+		build_room()
+
+## 接收 RoomSet 传递数据的入口
+func set_room_data(new_data: RoomData) -> void:
+	room_data = new_data
+	# 若节点已进入场景树，赋值时立即触发重新构建
+	if is_node_ready() and room_data:
+		build_room()
+
+## 根据 room_data 数据组装房间场景
+func build_room() -> void:
+	_setup_walls()
+	_setup_floor_and_ceiling()
+	_setup_enemies()
+
+## 1. 组装四面墙体
+func _setup_walls() -> void:
+	var doors: Array[RoomData.Direction] = room_data.connected_doors
 	
-	_setup_walls_and_doors()
-	_setup_enemy()
+	_mount_scene(north_wall, door_wall_scene if RoomData.Direction.NORTH in doors else wall_scene)
+	_mount_scene(east_wall,  door_wall_scene if RoomData.Direction.EAST in doors else wall_scene)
+	_mount_scene(south_wall, door_wall_scene if RoomData.Direction.SOUTH in doors else wall_scene)
+	_mount_scene(west_wall,  door_wall_scene if RoomData.Direction.WEST in doors else wall_scene)
 
-func _setup_walls_and_doors() -> void:
-	if not wall_prefab or not door_prefab:
-		push_error("[BattleRoom] 未在检查器中配置 Wall 或 Door 的 Prefab！")
+## 2. 组装地面与天花板
+func _setup_floor_and_ceiling() -> void:
+	if floor_scene:
+		_mount_scene(floor_root, floor_scene)
+	if ceiling_scene:
+		_mount_scene(ceiling_root, ceiling_scene)
+
+## 3. 组装敌人
+func _setup_enemies() -> void:
+	_clear_children(enemy_root)
+	if room_data.has_enemies and enemy_scene:
+		var enemy_instance = enemy_scene.instantiate()
+		enemy_root.add_child(enemy_instance)
+
+## 挂载实例到指定父节点下
+func _mount_scene(parent_node: Node3D, scene_to_instantiate: PackedScene) -> void:
+	if not parent_node or not scene_to_instantiate:
 		return
+	_clear_children(parent_node)
+	var instance = scene_to_instantiate.instantiate()
+	parent_node.add_child(instance)
 
-	for dir in wall_anchors.keys():
-		var anchor = wall_anchors[dir]
-		
-		# 1. 清理你在编辑器里为了预览而手动摆放的占位节点（如 Wall2, Door 等）
-		for child in anchor.get_children():
-			child.queue_free()
-			
-		# 2. 根据数据查验该方向是否应该有门
-		var has_door = room_data.doors.has(dir)
-		var prefab_to_spawn = door_prefab if has_door else wall_prefab
-		
-		# 3. 实例化并添加为子节点（它会自动继承你预设好的东西南北旋转角度）
-		var instance = prefab_to_spawn.instantiate()
-		anchor.add_child(instance)
+## 清理节点下原有子节点
+func _clear_children(parent_node: Node3D) -> void:
+	if not parent_node:
+		return
+	for child in parent_node.get_children():
+		child.queue_free()
 
-func _setup_enemy() -> void:
-	# 初始阶段，先把编辑器里的占位怪物隐藏
-	enemy_visual_root.visible = false
-	
-	if room_data.has_enemy and not room_data.is_cleared:
-		# 如果房间有怪且没被杀，显示怪物节点
-		enemy_visual_root.visible = true
-		
-		# TODO: 如果未来有多种怪物，可以在这里根据 room_data.enemy_id 
-		# 动态加载对应的 3D 怪物模型并 add_child 到 enemy_visual_root 下
+#region 状态更新与信号汇报
 
-# 供外部（如 WorldManager 结算战斗胜利后）调用，抹除怪物
-func clear_enemy_visual() -> void:
-	# 播放一个简单的消失特效（或者直接隐藏/删除）
-	enemy_visual_root.visible = false
-	
-	# 如果是动态实例化的模型，这里应该使用：
-	# for child in enemy_visual_root.get_children():
-	#     child.queue_free()
+## 玩家进出房间状态同步
+func set_player_inside(inside: bool) -> void:
+	if not room_data or room_data.is_player_inside == inside:
+		return
+	room_data.is_player_inside = inside
+	room_data_changed.emit(room_data)
+
+
+## 玩家是否在附近状态同步
+func set_player_nearby(nearby: bool) -> void:
+	if not room_data or room_data.is_player_nearby == nearby:
+		return
+	room_data.is_player_nearby = nearby
+	room_data_changed.emit(room_data)
+
+
+## 房间敌人全部被消灭时调用
+func clear_enemies() -> void:
+	if not room_data or not room_data.has_enemies:
+		return
+	room_data.has_enemies = false
+	_clear_children(enemy_root)
+	room_data_changed.emit(room_data)
+#endregion

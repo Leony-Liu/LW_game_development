@@ -165,6 +165,10 @@ locale/test="en"
 3d_physics/layer_6="EnemyHurtbox"
 3d_physics/layer_7="PlayerHurtbox"
 
+[physics]
+
+common/physics_interpolation=true
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

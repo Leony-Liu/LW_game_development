@@ -102,9 +102,9 @@ func room_occupied(leaf_node: Array[BSPNode]):
 		
 		for x in range(node.room.position.x, node.room.end.x):
 			for y in range(node.room.position.y, node.room.end.y):
-				var room_coords = Vector2i(x, y)
-				if not temp_room_occ.has(room_coords):
-					temp_room_occ[room_coords] = true
+				var room_position = Vector2i(x, y)
+				if not temp_room_occ.has(room_position):
+					temp_room_occ[room_position] = true
 		WorldRoom_change.emit(temp_room_occ)
 
 

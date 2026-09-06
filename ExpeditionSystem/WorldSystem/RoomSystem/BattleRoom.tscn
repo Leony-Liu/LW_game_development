@@ -1,40 +1,48 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn2c6ojwph1kq"]
+[gd_scene load_steps=7 format=3 uid="uid://dn2c6ojwph1kq"]
 
+[ext_resource type="PackedScene" uid="uid://x6k0uthgk7g0" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/DoorWall.tscn" id="1_8pu1m"]
+[ext_resource type="Script" uid="uid://ckuwr21ep7kva" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/BattleRoom.gd" id="1_byiho"]
 [ext_resource type="PackedScene" uid="uid://o0jy78jn4shj" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Floor.tscn" id="1_o841m"]
 [ext_resource type="PackedScene" uid="uid://b4tmgwlvlc11l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Wall.tscn" id="2_afubj"]
-[ext_resource type="PackedScene" uid="uid://x6k0uthgk7g0" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn" id="3_xhtr7"]
 [ext_resource type="PackedScene" uid="uid://bj7ysjngtbq7c" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Ceiling.tscn" id="4_nm0wd"]
 [ext_resource type="PackedScene" uid="uid://chhps0rjfreou" path="res://ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn" id="5_gf0ju"]
 
-[node name="BattleRoom" type="Node3D"]
+[node name="BattleRoom" type="Node3D" node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root")]
+script = ExtResource("1_byiho")
+north_wall = NodePath("Field/NorthWall")
+east_wall = NodePath("Field/EastWall")
+south_wall = NodePath("Field/SouthWall")
+west_wall = NodePath("Field/WestWall")
+floor_root = NodePath("Field/FloorRoot")
+ceiling_root = NodePath("Field/CeilingRoot")
+enemy_root = NodePath("EnemyRoot")
+wall_scene = ExtResource("2_afubj")
+door_wall_scene = ExtResource("1_8pu1m")
+floor_scene = ExtResource("1_o841m")
+ceiling_scene = ExtResource("4_nm0wd")
+enemy_scene = ExtResource("5_gf0ju")
 
 [node name="testlight" type="Node3D" parent="."]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="testlight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55688, 0)
-omni_range = 17.145
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.13056, 0)
+light_color = Color(1, 1, 0.909804, 1)
+light_energy = 1.905
+omni_range = 8.104
 
 [node name="Field" type="Node3D" parent="."]
 
 [node name="NorthWall" type="Node3D" parent="Field"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
-
-[node name="Door" parent="Field/NorthWall" instance=ExtResource("3_xhtr7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.95)
 
 [node name="EastWall" type="Node3D" parent="Field"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5, 0, 0)
-
-[node name="Wall2" parent="Field/EastWall" instance=ExtResource("2_afubj")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.95, 0, 0)
 
 [node name="SouthWall" type="Node3D" parent="Field"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
-
-[node name="Wall3" parent="Field/SouthWall" instance=ExtResource("2_afubj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.95)
 
 [node name="WestWall" type="Node3D" parent="Field"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5, 0, 0)
-
-[node name="Wall4" parent="Field/WestWall" instance=ExtResource("2_afubj")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.95, 0, 0)
 
 [node name="FloorRoot" type="Node3D" parent="Field"]
 
@@ -45,8 +53,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
 [node name="Ceiling" parent="Field/CeilingRoot" instance=ExtResource("4_nm0wd")]
 
-[node name="EnemyVisualRoot" type="Node3D" parent="."]
+[node name="EnemyRoot" type="Node3D" parent="."]
 
-[node name="EnemyVisual" parent="EnemyVisualRoot" instance=ExtResource("5_gf0ju")]
+[node name="EnemyVisual" parent="EnemyRoot" instance=ExtResource("5_gf0ju")]
 
-[editable path="EnemyVisualRoot/EnemyVisual"]
+[editable path="EnemyRoot/EnemyVisual"]

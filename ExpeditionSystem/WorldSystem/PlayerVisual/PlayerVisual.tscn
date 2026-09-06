@@ -1,9 +1,42 @@
-[gd_scene load_steps=2 format=3 uid="uid://diasj0i1yv8ea"]
+[gd_scene load_steps=7 format=3 uid="uid://diasj0i1yv8ea"]
 
-[ext_resource type="Script" uid="uid://6t5ghivu2aoi" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerController.gd" id="1_1qcaa"]
+[ext_resource type="Script" uid="uid://b6skrfvytmn34" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd" id="1_1qcaa"]
+[ext_resource type="Script" uid="uid://dfk6u7scys6s3" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerController.gd" id="2_qophj"]
+[ext_resource type="Script" uid="uid://ctot6dg4uyqge" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/HeadController.gd" id="3_qmmr6"]
+[ext_resource type="Script" uid="uid://dxcv4kneaemjv" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/CameraBobMount.gd" id="4_cbkoi"]
+[ext_resource type="Script" uid="uid://drf8lubtxng5u" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/DebugFreeCamera.gd" id="5_2vbnf"]
 
-[node name="PlayerVisual" type="Node3D"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1qcaa"]
+
+[node name="PlayerVisual" type="Node3D" node_paths=PackedStringArray("player", "head", "bob_mount", "player_camera", "debug_free_camera")]
 script = ExtResource("1_1qcaa")
+player = NodePath("Player")
+head = NodePath("Player/Head")
+bob_mount = NodePath("Player/Head/CameraBobMount")
+player_camera = NodePath("Player/Head/CameraBobMount/PlayerCamera")
+debug_free_camera = NodePath("DebugFreeCamera")
 
-[node name="PlayerCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+[node name="Player" type="CharacterBody3D" parent="."]
+floor_snap_length = 0.2
+script = ExtResource("2_qophj")
+walk_speed = 2.5
+sprint_speed = 4.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_1qcaa")
+
+[node name="Head" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+script = ExtResource("3_qmmr6")
+
+[node name="CameraBobMount" type="Node3D" parent="Player/Head"]
+script = ExtResource("4_cbkoi")
+
+[node name="PlayerCamera" type="Camera3D" parent="Player/Head/CameraBobMount"]
+current = true
+
+[node name="DebugFreeCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+top_level = true
+script = ExtResource("5_2vbnf")
