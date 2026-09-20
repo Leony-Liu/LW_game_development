@@ -1,6 +1,6 @@
 # 接收玩家初始牌组(RuntimeCard数组)，管理卡牌在各个牌堆间的流转。
 # 提供方法：抽牌、弃牌、出牌、洗牌、施加Buff
-class_name CardManger
+class_name CardManager
 extends Node
 
 # 绑定手牌展示节点
@@ -11,6 +11,7 @@ extends Node
 #region 向上汇报信号
 signal deck_initialized(deck_size: int)
 signal card_drawn(runtime_card: RuntimeCard)
+signal card_play_requested(runtime_card: RuntimeCard)
 signal card_played(runtime_card: RuntimeCard)
 signal card_discarded(runtime_card: RuntimeCard)
 signal discard_shuffled_into_draw(shuffled_amount: int)
@@ -24,7 +25,7 @@ var discard_pile: Array[RuntimeCard] = []
 # 检查是否绑定手牌节点，同时连接信号
 func _ready() -> void:
 	if player_hand_deck:
-		player_hand_deck.card_play_requested.connect(play_card)
+		player_hand_deck.card_play_requested.connect(_on_hand_deck_card_play_requested)
 		player_hand_deck.card_discard_requested.connect(discard_card)
 	else:
 		push_error("未在检查器中绑定 player_hand_deck！")
@@ -53,22 +54,24 @@ func execute_player_draw_action() -> void:
 	else:
 		print("手牌已达上限，无法抽牌")
 
-# 接收战斗管理器下发的 Buff 指令，实例化并挂载给指定的 RuntimeCard
-func apply_buff_to_card(
-	target_card: RuntimeCard, 
-	buff_id: String, 
-	property: String, 
-	modifier_type: CardBuff.ModifierType, 
-	value: float, 
-	time_left: int = -1, 
-	count_left: int = -1) -> void:
+#region 卡牌Buff
+# 接收打包好的 CardBuff 实例
+func apply_buff_to_card(target_card: RuntimeCard, buff: CardBuff) -> void:
 	if not target_card:
 		push_warning("CardManager: 施加 Buff 失败，目标 RuntimeCard 为空。")
 		return
-		
-	var new_buff = CardBuff.new(buff_id, property, modifier_type, value, time_left, count_left)
-	target_card.add_buff(new_buff)
-	print("CardManager: 成功向卡牌施加 Buff -> ", buff_id, " (影响属性: ", property, ")")
+	target_card.add_buff(buff)
+
+# AOE 给所有手牌施加 Buff
+func apply_buff_to_all_hand_cards(buff: CardBuff) -> void:
+	for card in hand_pile:
+		card.add_buff(buff)
+
+# 随时间轴推进扣减手牌限时 Buff
+func advance_hand_buffs_time(delta_time: int) -> void:
+	for card in hand_pile:
+		card.advance_time(delta_time)
+#endregion
 
 #region 卡牌操作方法
 # 抽牌
@@ -86,26 +89,49 @@ func draw_cards(amount: int) -> void:
 		_draw_single_card()
 
 # 出牌
-func play_card(runtime_card: RuntimeCard) -> void:
+func _on_hand_deck_card_play_requested(runtime_card: RuntimeCard) -> void:
+	if not hand_pile.has(runtime_card):
+		push_warning("出牌失败：手牌堆中找不到该卡牌实例")
+		return
+	card_play_requested.emit(runtime_card)
+
+func confirm_play_card(runtime_card: RuntimeCard) -> void:
 	var current_index = hand_pile.find(runtime_card)
 	if current_index == -1: 
-		return push_warning("出牌失败：手牌堆中找不到该卡牌实例")
+		return
 
-	# 从手牌数组移除
+	# 1. 从手牌移除并向外汇报
 	hand_pile.remove_at(current_index)
-	# 触发信号并附带实时位置
 	card_played.emit(runtime_card)
-	# 压入弃牌堆
+
+	# 2. 通知手牌节点触发 CardLogic 的飞出动画（新增）
+	if player_hand_deck and player_hand_deck.has_method("confirm_play"):
+		player_hand_deck.confirm_play(runtime_card)
+
+	# 3. 消耗卡牌上绑定的“出牌计数类”Buff（新增）
+	runtime_card.consume_action_event()
+
+	# 4. 压入弃牌堆（原逻辑保留）
 	discard_pile.append(runtime_card)
 	card_discarded.emit(runtime_card)
+
+func cancel_play_card(runtime_card: RuntimeCard) -> void:
+	# 通知手牌节点触发 CardLogic 的飘红与回弹动画
+	if player_hand_deck and player_hand_deck.has_method("reject_action"):
+		player_hand_deck.reject_action(runtime_card)
 
 # 弃牌
 func discard_card(runtime_card: RuntimeCard) -> void:
 	var current_index = hand_pile.find(runtime_card)
 	if current_index == -1: 
 		return
-		
+
 	hand_pile.remove_at(current_index)
+
+	# 新增：通知 UI 触发下落掉出动画
+	if player_hand_deck and player_hand_deck.has_method("confirm_discard"):
+		player_hand_deck.confirm_discard(runtime_card)
+
 	discard_pile.append(runtime_card)
 	card_discarded.emit(runtime_card)
 

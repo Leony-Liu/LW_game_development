@@ -11,7 +11,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion:
 		rotate_x(-event.relative.y * mouse_sensitivity)
-		rotation.x = clamp(rotation.x, deg_to_rad(-89), deg_to_rad(89))
+		rotation.x = clamp(rotation.x, deg_to_rad(-60), deg_to_rad(60))
 
 func set_active(active: bool) -> void:
 	is_active = active

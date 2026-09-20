@@ -14,8 +14,9 @@ enum WorldState {
 @export var door_set: DoorSet
 @export var player_visual: PlayerVisualManager
 
-# TODO 暂定房间数量
-var default_room_count: int = 10
+@export_group("关卡配置")
+## 默认地图蓝图配置（可拖入配置好的 .tres 资源）
+@export var default_blueprint: MapBlueprint
 
 var current_state: WorldState = WorldState.INIT
 var mapdata: Dictionary = {}
@@ -28,19 +29,24 @@ func _ready() -> void:
 		door_set.door_opened_relay.connect(_on_door_opened)
 
 	# 启动时执行初始化生成
-	init_map(default_room_count)
+	init_map(default_blueprint)
 
 
-## 生成地图
-func init_map(room_count: int) -> void:
+## 生成地图（传入 MapBlueprint 驱动整个生成流水线）
+func init_map(blueprint: MapBlueprint = null) -> void:
 	current_state = WorldState.INIT
 
 	if not world_generator or not room_set or not door_set:
 		push_error("WorldManager: 缺少生成器或 Set 节点引用！")
 		return
 
+	# 蓝图优先级判定：传参 > 检查器绑定的默认资源 > 纯代码新实例兜底
+	var target_blueprint: MapBlueprint = blueprint
+	if not target_blueprint:
+		target_blueprint = default_blueprint if default_blueprint else MapBlueprint.new()
+
 	# 1. 驱动算法生成地图蓝本数据
-	mapdata = world_generator.generate(room_count)
+	mapdata = world_generator.generate(target_blueprint)
 
 	# 2. 分发数据给两个 Set 节点进行实体装配
 	room_set.build_rooms(mapdata)
@@ -49,6 +55,7 @@ func init_map(room_count: int) -> void:
 	# 3. 设置初始房间与状态
 	current_room_coords = Vector2.ZERO
 	enter_explore_mode()
+
 
 ## 世界阶段切换
 # 进入探索模式

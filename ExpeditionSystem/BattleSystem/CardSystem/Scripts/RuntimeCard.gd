@@ -111,13 +111,26 @@ func _calculate_property(
 	# 返回运算结果
 	return maxi(0, int(round(final_value)))
 
-# 返回此脚本所有结果的字典
-func compile_effect_data() -> Dictionary:
-	var compiled_effect = {}
-	var original_effects = card_data.get("effects", [])
-	
-	compiled_effect["effects"] = original_effects.duplicate()
-	# 将直观数据打包给战斗处理器（包含经过 Buff 修正后的数值）
+# 根据当前卡牌数据与 Buff 状态，生成提交给时间轴的 CombatAction
+func create_action(source_id: String, target_id: String, current_timeline: int) -> CombatAction:
+	var action = CombatAction.new()
+	action.action_name = get_action_name()
+	action.source_id = source_id
+	action.target_id = target_id
+	action.is_player = true
+	action.priority = get_priority()
+	action.trigger_time = current_timeline + get_time_cost()
+
+	# 1. 计算伤害效果并装配为负向 HP 变更
 	var base_damage = float(card_data.get("damage", 0))
-	compiled_effect["damage"] = _calculate_property("damage", base_damage)
-	return compiled_effect
+	var final_damage = _calculate_property("damage", base_damage)
+	if final_damage > 0:
+		action.add_attribute_impact("hp", -float(final_damage))
+
+	# 2. 计算护盾效果（若有）
+	var base_shield = float(card_data.get("shield", 0))
+	var final_shield = _calculate_property("shield", base_shield)
+	if final_shield > 0:
+		action.add_attribute_impact("shield", float(final_shield))
+
+	return action

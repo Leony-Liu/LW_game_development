@@ -20,7 +20,6 @@ wall_scene = ExtResource("2_afubj")
 door_wall_scene = ExtResource("1_8pu1m")
 floor_scene = ExtResource("1_o841m")
 ceiling_scene = ExtResource("4_nm0wd")
-enemy_scene = ExtResource("5_gf0ju")
 
 [node name="testlight" type="Node3D" parent="."]
 

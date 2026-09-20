@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MapBlueprint" load_steps=2 format=3 uid="uid://dwqlu61a8djd8"]
+
+[ext_resource type="Script" uid="uid://bin2wadnkuv64" path="res://Scripts/MapBlueprint.gd" id="1_5icub"]
+
+[resource]
+script = ExtResource("1_5icub")
+base_room_count = 15
+count_variance = 0.2
+boss_count = 0
+enemy_spawn_chance = 0.7
+elite_chance = 0.25
+room_type_weights = {
+1: 100
+}
+metadata/_custom_type_script = "uid://bin2wadnkuv64"

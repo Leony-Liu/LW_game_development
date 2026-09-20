@@ -22,9 +22,10 @@ signal room_data_changed(updated_data: RoomData)
 @export var floor_scene: PackedScene
 ## 天花板场景
 @export var ceiling_scene: PackedScene
-## 敌人预制体场景
-@export var enemy_scene: PackedScene
 
+
+# 本房间当前分配的敌人 ID (-1 表示无敌人)
+var enemy_id: int = -1
 
 # 纯代码变量（由 RoomSet 动态赋值，不暴露在检查器中）
 var room_data: RoomData:
@@ -64,12 +65,21 @@ func _setup_floor_and_ceiling() -> void:
 	if ceiling_scene:
 		_mount_scene(ceiling_root, ceiling_scene)
 
-## 3. 组装敌人
+## 3. 组装敌人（仅记录敌人 ID 并控制子节点显隐）
 func _setup_enemies() -> void:
-	_clear_children(enemy_root)
-	if room_data.has_enemies and enemy_scene:
-		var enemy_instance = enemy_scene.instantiate()
-		enemy_root.add_child(enemy_instance)
+	if room_data and room_data.has_enemies:
+		enemy_id = room_data.enemy_id
+	else:
+		enemy_id = -1
+
+	if enemy_root:
+		# 无敌人时隐藏根节点，有敌人时激活显示
+		enemy_root.visible = (enemy_id != -1)
+		
+		# 预留透传：如果子节点挂载了脚本且包含 enemy_id 属性，直接向下同步
+		for child in enemy_root.get_children():
+			if "enemy_id" in child:
+				child.enemy_id = enemy_id
 
 ## 挂载实例到指定父节点下
 func _mount_scene(parent_node: Node3D, scene_to_instantiate: PackedScene) -> void:
@@ -109,6 +119,11 @@ func clear_enemies() -> void:
 	if not room_data or not room_data.has_enemies:
 		return
 	room_data.has_enemies = false
-	_clear_children(enemy_root)
+	room_data.enemy_id = -1
+	enemy_id = -1
+	
+	if enemy_root:
+		enemy_root.visible = false
+
 	room_data_changed.emit(room_data)
 #endregion

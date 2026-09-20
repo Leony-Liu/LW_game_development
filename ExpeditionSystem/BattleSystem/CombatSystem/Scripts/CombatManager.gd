@@ -4,7 +4,7 @@ extends Node
 # 下级脚本
 @export var timeline: Timeline
 @export var enemy_ai: EnemyAI
-@export var processor: ProcessorManager
+@export var entitymanager: EntityManager
 
 # 提供画面变化信号
 signal input_lock_state_changed(is_locked: bool)
@@ -20,7 +20,7 @@ var _is_input_locked: bool = false
 # 连接信号
 func _ready():
 	# 有动画生成
-	processor.visual_effect_generated.connect(_on_processor_visual_generated)
+	entitymanager.visual_effect_generated.connect(_on_processor_visual_generated)
 
 # 接收双方实体数据并下发 
 func initialize_combat(player_data: EntityData, enemy_data: EnemyData) -> void:
@@ -28,8 +28,8 @@ func initialize_combat(player_data: EntityData, enemy_data: EnemyData) -> void:
 	enemy_ai.initialize(enemy_data)
 	
 	# 2. 将数据透传给处理器进行底层实例化
-	if processor.has_method("initialize_entities"):
-		processor.initialize_entities(player_data, enemy_data)
+	if entitymanager.has_method("initialize_entities"):
+		entitymanager.initialize_entities(player_data, enemy_data)
 		
 	# 3. 实体准备完毕后，初始化敌人行动并刷新时间轴
 	enemy_ai.plan_actions(timeline)
@@ -95,7 +95,7 @@ func _advance_timeline_logic(target_time: int):
 		timeline_data_updated.emit(timeline.current_time, timeline.action_line.duplicate())
 		
 		# 处理器执行纯逻辑，并会通过信号吐出视觉需求
-		processor.accept_action(next_action)
+		entitymanager.accept_action(next_action)
 		
 		# 如果处理器产生了视觉表现请求，则挂起系统，等待外部视觉系统完成
 		if _is_waiting_visual:

@@ -47,7 +47,7 @@ func build_rooms(mapdata: Dictionary) -> void:
 		room_instance.position = Vector3(pos.x, 0.0, pos.y)
 		room_instance.name = "Room_%d_%d" % [int(pos.x), int(pos.y)]
 
-
+# 清空所有房间
 func clear_rooms() -> void:
 	for child in get_children():
 		child.queue_free()

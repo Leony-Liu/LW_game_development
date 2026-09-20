@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgstkmha5whja"]
+[gd_scene load_steps=9 format=3 uid="uid://cgstkmha5whja"]
 
 [ext_resource type="PackedScene" uid="uid://dn2c6ojwph1kq" path="res://ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn" id="1_5x4cq"]
-[ext_resource type="Script" uid="uid://dxhwr3y7lk3s1" path="res://ExpeditionSystem/Scripts/WorldManager.gd" id="1_b0kv7"]
+[ext_resource type="Script" uid="uid://dxhwr3y7lk3s1" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd" id="1_b0kv7"]
 [ext_resource type="Script" uid="uid://dooun8tqr6wym" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd" id="1_vrybq"]
 [ext_resource type="Script" uid="uid://1jpumep2m1he" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/DoorSet.gd" id="2_5x4cq"]
+[ext_resource type="Resource" uid="uid://dwqlu61a8djd8" path="res://ExpeditionSystem/WorldSystem/Scripts/test_mapblueprint.tres" id="2_b0kv7"]
 [ext_resource type="PackedScene" uid="uid://diasj0i1yv8ea" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn" id="2_kcca6"]
 [ext_resource type="Script" uid="uid://hb1cr0b2ytvw" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/RoomSet.gd" id="2_vrybq"]
 [ext_resource type="PackedScene" uid="uid://c3jaitphg2byh" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn" id="4_vrybq"]
@@ -16,6 +17,7 @@ world_generator = NodePath("WorldGenerator")
 room_set = NodePath("RoomSet")
 door_set = NodePath("DoorSet")
 player_visual = NodePath("PlayerVisualRoot/PlayerVisual")
+default_blueprint = ExtResource("2_b0kv7")
 
 [node name="RoomSet" type="Node3D" parent="WorldSystem"]
 script = ExtResource("2_vrybq")

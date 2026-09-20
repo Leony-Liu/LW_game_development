@@ -1,7 +1,7 @@
 extends Node
 
 
-var _database: Dictionary = {}
+var all_enemy_data: Dictionary = {}
 
 const ENEMY_DATA_DIR = "res://Scripts/EnemyData/EnemyDatas/"
 
@@ -23,14 +23,17 @@ func _load_all_enemies_from_directory() -> void:
 					
 					# 确保加载的资源确实是 EnemyData 类型
 					if resource is EnemyData:
-						_database[resource.enemy_id] = resource
+						all_enemy_data[resource.enemy_id] = resource
 						print("[AllEnemyData]已加载敌人数据: -ID: %s- %s" % [resource.enemy_id, resource.enemy_name])
 			file_name = dir.get_next()
 	else:
 		push_error("无法打开敌人数据文件夹，请检查路径: " + ENEMY_DATA_DIR)
 
 func get_enemy(id: int) -> EnemyData:
-	if not _database.has(id):
+	if not all_enemy_data.has(id):
 		push_warning("未找到指定的敌人 ID: " + str(id))
 		return null
-	return _database.get(id)
+	return all_enemy_data.get(id)
+
+func get_all_enemy_data()->Dictionary:
+	return all_enemy_data

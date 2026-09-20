@@ -21,6 +21,8 @@ enum Direction {
 @export var room_type: RoomType = RoomType.NORMAL
 # 是否有敌人
 @export var has_enemies: bool = false
+# 房间内的敌人ID
+@export var enemy_id : int
 # 玩家进入的朝向
 @export var entry_direction: Direction = Direction.NONE
 # 玩家是否在里面
