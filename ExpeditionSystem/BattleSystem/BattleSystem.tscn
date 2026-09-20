@@ -9,9 +9,8 @@
 [ext_resource type="Script" uid="uid://dbq7ojv5fsdf0" path="res://ExpeditionSystem/BattleSystem/EntitySystem/Scripts/CombatEntity.gd" id="6_ko14o"]
 [ext_resource type="Script" uid="uid://bb180w5lpkuou" path="res://ExpeditionSystem/BattleSystem/EntitySystem/Scripts/AttributeSet.gd" id="7_gc2h7"]
 
-[node name="BattleSystem" type="Node" node_paths=PackedStringArray("combat_manager", "card_manager")]
+[node name="BattleSystem" type="Node" node_paths=PackedStringArray("card_manager")]
 script = ExtResource("1_1c1d2")
-combat_manager = NodePath("CombatManager")
 card_manager = NodePath("UI/CardSystem")
 
 [node name="CombatManager" type="Node" parent="." node_paths=PackedStringArray("timeline", "enemy_ai")]

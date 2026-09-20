@@ -21,20 +21,6 @@ GameManager="*res://Scripts/GameManager.gd"
 SaveManager="*res://Scripts/SaveManager.gd"
 AllCardData="*res://Scripts/CardData/AllCardData.gd"
 AllEnemyData="*res://Scripts/EnemyData/AllEnemyData.gd"
-EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
-BattleBus="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
-CardDataBase="*res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd"
-MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd"
-SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
-PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
-ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
-PlayerInventoryCore="*res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd"
-RaidInventoryBridge="*res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd"
-UIManager="*res://Scene/Search_system/Script/Manager/ui_manager.gd"
-ItemDataBase="*res://Scene/Search_system/Script/Data/item_data_base.gd"
-MAPInventoryManager="*res://Scene/Search_system/Script/Manager/inventory_system.gd"
-SearchManager="*res://Scene/Search_system/Script/Manager/search_manager.gd"
-InteractionManager="*res://Scene/Search_system/Script/Manager/interaction_manager.gd"
 
 [debug]
 
@@ -55,8 +41,6 @@ folder_colors={
 "res://Arts/": "purple",
 "res://Arts/Fort/": "purple",
 "res://Arts/Theme/": "purple",
-"res://Audio/": "green",
-"res://DataBase/": "red",
 "res://ExpeditionSystem/BattleSystem/CardSystem/Arts/": "purple",
 "res://ExpeditionSystem/BattleSystem/CardSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/BattleSystem/CombatSystem/Scripts/": "yellow",
@@ -66,24 +50,6 @@ folder_colors={
 "res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/Scripts/": "yellow",
-"res://Localization/": "pink",
-"res://Scene/": "blue",
-"res://Scene/DungeonScene/": "blue",
-"res://Scene/DungeonScene/Arts/": "purple",
-"res://Scene/DungeonScene/Script/": "yellow",
-"res://Scene/DungeonScenes(3D)/Art/": "purple",
-"res://Scene/DungeonScenes(3D)/Scripts/": "yellow",
-"res://Scene/Dungeon_Enemy_Scene(3D)/Arts/": "purple",
-"res://Scene/Dungeon_Enemy_Scene(3D)/Scripts/": "yellow",
-"res://Scene/Dungeon_Enemy_Scene/Art/": "purple",
-"res://Scene/Dungeon_Player_Scene(3D)/Scripts/": "yellow",
-"res://Scene/Main_Scene/Scripts/": "yellow",
-"res://Scene/Shelter_Scene/Art/": "purple",
-"res://Scene/Shelter_Scene/Scripts/": "yellow",
-"res://Scene/Shelter_Scene/ShelterSystem/Scripts/": "yellow",
-"res://Scene/UI/Arts/": "purple",
-"res://Scene/UI/Scripts/": "yellow",
-"res://Scene/VisualTest_MAP/Art/": "purple",
 "res://Scripts/": "yellow"
 }
 
@@ -157,7 +123,6 @@ turn_right={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Localization/loc_ui.en.translation", "res://Localization/loc_ui.zh.translation", "res://Localization/loc_card.en.translation", "res://Localization/loc_card.zh.translation")
 locale/test="en"
 
 [layer_names]

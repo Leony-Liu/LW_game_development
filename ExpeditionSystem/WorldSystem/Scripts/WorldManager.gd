@@ -37,7 +37,7 @@ func init_map(blueprint: MapBlueprint = null) -> void:
 	current_state = WorldState.INIT
 
 	if not world_generator or not room_set or not door_set:
-		push_error("WorldManager: 缺少生成器或 Set 节点引用！")
+		push_error("[WorldManager] 缺少生成器或 Set 节点引用！")
 		return
 
 	# 蓝图优先级判定：传参 > 检查器绑定的默认资源 > 纯代码新实例兜底
@@ -69,7 +69,7 @@ func enter_explore_mode() -> void:
 # 进入战斗准备模式（运镜、锁定玩家控制、播入场动效）
 func enter_preparing_battle_mode(target_room: RoomData) -> void:
 	current_state = WorldState.PREPARING_BATTLE
-	print("[WorldManager] 发现敌人！进入准备战斗模式: 房间 ", target_room.room_position)
+	print("[WorldManager] 进入准备战斗模式: 房间 ", target_room.room_position)
 
 	# 1. 临时锁定玩家控制，防止准备阶段走动
 	if player_visual and player_visual.player:

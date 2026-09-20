@@ -37,6 +37,10 @@ func initialize(player_deck: Array[RuntimeCard]) -> void:
 	hand_pile.clear()
 	discard_pile.clear()
 	
+	if player_deck == null:
+		print("[CardManager] 接收得到的玩家牌组为空")
+		return
+	
 	# 直接接收外界生成好的 RuntimeCard 实例数组作为抽牌堆
 	draw_pile = player_deck.duplicate()
 			

@@ -32,7 +32,7 @@ func _load_all_cards():
 			file_name = dir.get_next()
 			
 		dir.list_dir_end()
-		print("[CardDataManager] 初始化完成，共加载 ", card_database.size(), " 张卡牌。")
+		print("[AllCardData] 初始化完成，共加载 ", card_database.size(), " 张卡牌。")
 	else:
 		push_error("无法打开卡牌目录，请检查路径: ", CARDS_DIR)
 
