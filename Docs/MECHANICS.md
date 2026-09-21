@@ -1,652 +1,1399 @@
 # MECHANICS.md
 
-> **文件作用（给人和 AI）：**这是项目的“玩法规则与数值层”。它记录当前源码实际采用的计算方式、数据含义、时间/伤害/资源/随机规则，以及已经表达但尚未实现或尚未确认的设计意图。  
-> **它不负责：**列出所有函数、记录当前开发进度或规定 Agent 的工作纪律。实现位置请查 `CODE_INDEX.md`，当前任务请查 `AI_PROGRESS.md`。  
-> **阅读规则：**标为“源码已实现”的规则可作为当前实现事实；标为 **[待确认]** 的规则不能被 AI 擅自固化成最终设计。  
-> **基线：**依据 `PROJECT_DUMP.md`（2026-09-20 19:17 +08:00）静态分析，未做运行验证。
+> **文件作用（给人和 AI）：**这是项目的“玩法规则与数值层”。它记录当前源码实际采用的机制、已确认但尚未实现的设计，以及实现与设计之间的冲突。
+>
+> **它不负责：**
+> - SceneTree / script contract / runtime data flow → `ARCHITECTURE.md`
+> - 系统职责与 state ownership → `AI_CONTEXT.md`
+> - 当前 blocker / milestone → `AI_PROGRESS.md`
+> - 文件定位 → `CODE_INDEX.md`
+> - Agent 工作规则 → `AGENTS.md`
+>
+> **事实原则：**
+> 1. 当前真实 `.gd` / `.tres` / `.tscn` 高于本文。
+> 2. `[IMPLEMENTED]` 只表示当前源码明确实现，不自动等于最终设计。
+> 3. `[CONFIRMED DESIGN]` 表示用户已经确认的设计方向，即使代码尚未实现。
+> 4. `[CONFLICT]` 表示当前实现内部不一致，AI 不得擅自选一边当最终规则。
+> 5. `[PENDING DESIGN]` 表示仍需用户决定。
+> 6. 不因为某个机制尚未实现就删除设计意图；也不因为描述文字存在就宣称机制已经生效。
+>
+> **当前基线：**2026-09-21。本文基于已有 `MECHANICS.md`、当前源码审计结果和已确认的长期架构决定整理。没有把 `PROJECT_DUMP.md` 作为 Agent 的实时事实来源；运行时行为若未实际验证，不标记为 runtime verified。
 
-## 0. 状态标记
+---
 
-- **[源码已实现]**：可以直接从当前代码/Resource 证明。
-- **[当前实现存在冲突]**：不同代码路径采用了不一致的规则。
-- **[待确认：设计意图]**：来自旧版 `AGENTS.md` 或资源描述，但当前代码未完整实现。
-- **[请用户填写]**：当前材料无法判断，需要人为决定。
+# 0. 状态标记
 
-## 1. 游戏总体设计
+| 标签 | 含义 |
+| --- | --- |
+| `[IMPLEMENTED]` | 当前源码明确实现 |
+| `[CONFIRMED DESIGN]` | 用户已确认的长期设计方向 |
+| `[CONFLICT]` | 当前实现存在互相冲突的规则 |
+| `[LEGACY]` | 旧实现仍存在，但不应驱动新设计 |
+| `[PENDING DESIGN]` | 设计尚未决定 |
+| `[RUNTIME VERIFY]` | 静态源码可见，但需要实际运行确认 |
 
-### 1.1 高层定位
+---
 
-**[待确认：设计意图，来自旧版 AGENTS.md]**
+# 1. 游戏总体设计
 
-- 非回合制肉鸽卡牌战斗。
-- 战斗使用“逻辑行动轴时间”而不是传统玩家/敌人轮流回合。
-- 每把武器绑定一个牌组；武器毁坏时对应牌组消失。
-- 地牢探索时进入带敌人的房间，随后从探索切换到卡牌战斗。
+## 1.1 高层定位
 
-### 1.2 核心循环
+以下来自既有设计文档，当前继续保留为设计方向；尚未全部由游戏闭环验证：
 
-**[待确认：设计意图]**
+- 非传统轮流回合制的肉鸽卡牌战斗。
+- 战斗以**逻辑行动轴时间**为核心，而不是“玩家回合 / 敌人回合”交替。
+- 地图探索中进入带敌人的房间后，从探索切换到卡牌战斗。
+- 武器与牌组存在长期绑定关系；武器毁坏时对应牌组消失。`[PENDING DESIGN]`：当前代码尚未实现这条长期系统。
+- 基地、物资、撤离、长期成长属于更高层循环，当前源码尚未形成完整闭环。
+
+## 1.2 长期核心循环
 
 ```text
 基地整备
-→ 进入地图
-→ 探索
+→ 进入远征
+→ 地图探索
 → 获得物资
 → 遭遇
 → 战斗
 → 奖励
 → 完成地图目标
-→ 收集/存放
+→ 收集 / 存放
 → 撤离
 → 返回基地
-→ 保存成长
+→ 保存长期成长
 ```
 
-**[待确认：设计意图]** 出生房包含物资收集设施；玩家取得的物资/奖励需要存入设施后，远征结束才会保留。
+当前纵向开发优先级更窄：
 
-当前源码尚未实现完整基地、物资、奖励、撤离和长期成长闭环。
+```text
+探索
+→ 遭遇
+→ ExpeditionManager
+→ BattleSystem
+→ battle result
+→ 同一次 mapdata / RoomData
+→ 返回探索
+```
 
-## 2. 卡牌静态数据
+`[CONFIRMED DESIGN]`
 
-`CardData` 当前字段：
+## 1.3 远征 / 战斗职责对玩法的约束
 
-- `id`
-- `name`
-- `stamina_cost`
-- `mana_cost`
-- `damage`
-- `time_cost`
-- `priority`
-- `description`
-- `card_type`
-- `effects`
+已确认：
+
+- `ExpeditionManager` 是探索 ↔ 战斗唯一上层协调器。
+- `BattleSystem` 最终常驻于 `ExpeditionSystem`。
+- `WorldManager` 持有当前地图 / 房间 / encounter truth。
+- `BattleManager` 只负责单场战斗生命周期，不拥有地图或长期玩家成长。
+- 玩家长期数据由 `PlayerSaveManager` 持有。
+- 当前原型阶段不要求旧存档兼容。
+- 最终一个 expedition-level save module 负责整次远征，而不是 World / Battle 各维护一套独立真相。
+
+这些是玩法状态如何跨系统流动的设计约束。`[CONFIRMED DESIGN]`
+
+---
+
+# 2. 卡牌静态数据
+
+## 2.1 `CardData`
+
+当前 `CardData` 字段包括：
+
+```text
+id
+name
+stamina_cost
+mana_cost
+damage
+time_cost
+priority
+description
+card_type
+effects
+```
 
 `CardType`：
 
-- `Attack = 0`
-- `Skill = 1`
-- `Power = 2`
+```text
+Attack = 0
+Skill  = 1
+Power  = 2
+```
 
-### 2.1 当前卡牌表
+`[IMPLEMENTED]`
 
-| ID | 名称 | 类型字段 | 体力 | 脑力 | 伤害 | 时间 | 优先级 | 描述中的额外效果 |
-| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+## 2.2 当前卡牌基线
+
+既有资源索引记录：
+
+| ID | 名称 | 类型 | stamina | mana | damage | time | priority | 描述中的附加效果 |
+| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | 1001 | 重劈 | Attack | 2 | 0 | 70 | 60 | 3 | 无 |
 | 1002 | 迅跃斩 | Attack | 1 | 0 | 25 | 30 | 3 | “伤害提升10%” |
 | 1003 | 致命斩击 | Attack | 2 | 0 | 20 | 30 | 3 | “下一次攻击增加15点” |
 | 1004 | 快砍 | Attack | 1 | 0 | 20 | 10 | 3 | 无 |
-| 2001 | 蓄力 | Skill | 0 | 1 | 0 | 5 | 0 | “下一次攻击提升25点伤害” |
-| 2002 | 崩势步 | **当前数据为 Attack** | 0 | 2 | 0 | 5 | 0 | “下一次攻击伤害增加50%” |
 | 1005 | 劈砍 | Attack | 1 | 0 | 30 | 30 | 3 | 无 |
+| 2001 | 蓄力 | Skill | 0 | 1 | 0 | 5 | 0 | “下一次攻击提升25点伤害” |
+| 2002 | 崩势步 | 当前数据为 Attack | 0 | 2 | 0 | 5 | 0 | “下一次攻击伤害增加50%” |
 
-### 2.2 描述与实现差异
+**注意：**具体数值在相关任务中必须重新读取当前 `.tres`；本表是机制文档基线，不应覆盖真实资源文件。
 
-**[当前实现存在冲突 / 待确认]**
+## 2.3 描述 ≠ 已实现效果
 
-当前这些 `.tres` 的 `effects` 数组全部为空；`RuntimeCard.create_action()` 当前只从基础 `damage` / `shield` 和 `CardBuff` 计算效果。
+当前旧文档审计显示，相关 `.tres` 的 `effects` 为空，而当前主战斗链主要依赖：
+
+```text
+RuntimeCard
+→ CombatAction
+→ Timeline
+→ EntityManager
+```
 
 因此：
 
-- “迅跃斩伤害提升 10%”
-- “致命斩击让下一次攻击 +15”
-- “蓄力让下一次攻击 +25”
-- “崩势步让下一次攻击 +50%”
-
-目前都只能视为**文本设计描述**，不能视为已经生效。
-
-另外 `CardData.play()` + `CardEffect.execute()` 是另一条旧效果路径，而现行战斗链主要走：
-
-`RuntimeCard -> CombatAction -> EntityManager`
-
-AI 修改卡牌机制前必须先确认是否废弃旧 `CardData.play()` 路径。
-
-## 3. 卡牌资源消耗
-
-### 3.1 RuntimeCard 的当前计算
-
-**[源码已实现]**
-
-`RuntimeCard.get_resource_cost()`：
-
 ```text
-如果 card_type == Attack:
-    基础消耗 = stamina_cost
-否则:
-    基础消耗 = mana_cost
-
-最终消耗 = CardBuff 修正后的 resource_cost
-最终结果四舍五入为 int，并限制 >= 0
+迅跃斩 +10%
+致命斩击 下一次攻击 +15
+蓄力 下一次攻击 +25
+崩势步 下一次攻击 +50%
 ```
 
-### 3.2 BattleManager 的当前实际扣费
+只能视为**卡牌描述中的设计意图**，不能视为当前实际生效机制。
 
-**[当前实现存在冲突]**
+`[CONFLICT]`
 
-`BattleManager._on_card_play_requested()` 当前无论卡牌类型，都执行：
+## 2.4 Legacy CardEffect 路径
+
+工程中仍存在：
+
+```text
+CardData.play()
+→ CardEffect.execute()
+```
+
+以及：
+
+```text
+RuntimeCard
+→ CombatAction
+```
+
+新主链明显偏向后者，但旧 CardEffect 路径尚未正式清理。
+
+规则：
+
+> 未经明确迁移任务，不应批量删除旧 CardEffect；也不应继续在两套效果系统中同时新增同一种机制。
+
+`[LEGACY]`
+
+---
+
+# 3. CardInstance 与 RuntimeCard
+
+## 3.1 `CardInstance`
+
+设计角色：
+
+```text
+局外 / 长期 / 可持久化的一张卡
+```
+
+当前可保存的信息包括：
+
+```text
+card_id
+modifiers
+unique_id
+```
+
+具体字段以当前 `CardInstance.gd` 为准。
+
+## 3.2 `RuntimeCard`
+
+设计角色：
+
+```text
+单场战斗内的一张卡
+```
+
+持有：
+
+```text
+card_id
+card_data
+active_buffs
+```
+
+并负责基于当前 battle state 计算：
+
+```text
+resource_cost
+time_cost
+priority
+damage
+shield
+CombatAction
+```
+
+`[IMPLEMENTED]`
+
+## 3.3 当前转换缺口
+
+当前 `BattleManager.start_battle()` 的 `CardInstance → RuntimeCard` 转换主要使用：
+
+```text
+card_id
+card_data
+```
+
+当前审计发现：
+
+```text
+CardInstance.modifiers
+CardInstance.unique_id
+```
+
+没有完整传入 `RuntimeCard`。
+
+是否必须保留两者属于长期卡牌持久化设计的一部分。
+
+`[PENDING DESIGN]`
+
+---
+
+# 4. 卡牌资源消耗
+
+## 4.1 RuntimeCard 的资源成本
+
+当前 `RuntimeCard.get_resource_cost()`：
+
+```text
+Attack
+→ stamina_cost
+
+Skill / Power
+→ mana_cost
+
+然后经过 CardBuff 的 resource_cost modifier
+→ round()
+→ int
+→ clamp >= 0
+```
+
+`[IMPLEMENTED]`
+
+## 4.2 BattleManager 当前实际支付
+
+当前 `BattleManager` 对出牌请求固定使用：
 
 ```text
 entity_manager.can_player_afford(cost, "stamina")
 entity_manager.consume_player_resource(cost, "stamina")
 ```
 
-所以当前代码的实际行为是：
+因此实际出现：
 
-- Attack 的 `get_resource_cost()` 来源于 `stamina_cost`，再扣 stamina。
-- Skill / Power 的 `get_resource_cost()` 来源于 `mana_cost`，但仍然从 **stamina** 扣除。
+```text
+Attack:
+stamina_cost → 扣 stamina
 
-**[待确认]**：技能/Power 是否应真正消耗 `mana`？若是，这是当前优先修复的不一致。
+Skill / Power:
+mana_cost → 仍扣 stamina
+```
 
-### 3.3 资源回复
+`[CONFLICT]`
 
-`EntityData` 定义：
+### 待确认
 
-- `stamina_regen_rate = 1.0`
-- `mana_regen_rate = 0.5`
+`[PENDING DESIGN]`
 
-但当前 `BattleManager._on_timeline_time_advanced()` 只调用：
+需要明确：
 
-`card_manager.advance_hand_buffs_time(delta_time)`
+```text
+Attack 消耗什么？
+Skill 消耗什么？
+Power 消耗什么？
+```
 
-**没有实际给 stamina / mana 回复。**
+在决定前，不应让 AI 自行把 Skill / Power 改成 mana，哪怕这看起来最直觉。
 
-源码注释提到“扣除手牌 Buff 时间与回复体力”，但回复部分尚未实现。
+---
 
-**[请用户填写]**：
-- stamina 是否应每逻辑时间单位回复？
-- regen_rate 的单位是“每 1 行动值”还是“每 N 行动值”？
-- mana 是否自然回复？
+# 5. 资源回复
 
-## 4. 逻辑时间轴
+`EntityData` 当前包含：
 
-### 4.1 玩家卡排期
+```text
+stamina_regen_rate = 1.0
+mana_regen_rate = 0.5
+```
 
-**[源码已实现]**
+但当前 Timeline time advancement 只明确推进：
 
-`Timeline.receive_card()`：
+```text
+CardManager.advance_hand_buffs_time(delta_time)
+```
+
+尚未看到稳定的 stamina / mana regeneration 结算。
+
+因此：
+
+```text
+regen fields = 已存在
+regen gameplay = 尚未完成
+```
+
+`[CONFLICT / PENDING DESIGN]`
+
+需要定义：
+
+- stamina 是否随 logical time 自动恢复？
+- mana 是否自动恢复？
+- regen rate 是“每 1 logical time”的量，还是其他单位？
+- 回复是否允许超过初始/最大值？
+- regen 在 action 前、action 后还是 time segment 推进时结算？
+
+---
+
+# 6. 逻辑时间轴
+
+## 6.1 核心原则
+
+逻辑时间和现实动画时间分离：
+
+```text
+logical time
+≠
+animation duration
+```
+
+Timeline 可以等待视觉表现完成，但动画播放几秒不应改变 `time_cost`。
+
+`[IMPLEMENTED / DESIGN CONSISTENT]`
+
+## 6.2 玩家卡排期
+
+当前 `Timeline.receive_card()` 逻辑：
 
 ```text
 time_cost = runtime_card.get_time_cost()
-priority = runtime_card.get_priority()
+priority  = runtime_card.get_priority()
+
 target_time = current_time + time_cost
 
-如果 priority == 0:
+if priority == 0:
     action.trigger_time = current_time
-否则:
+else:
     action.trigger_time = target_time
 
-随后 Timeline 仍会推进到 target_time
+Timeline 最终仍推进到 target_time
 ```
 
-这意味着“优先级 0”在当前实现中具有特殊含义：**行动效果立即触发，但仍消耗其 time_cost 并把逻辑时间推进到目标时刻。**
+所以当前：
 
-**[待确认]**：`priority == 0` 是否确实应该代表“瞬发”，还是应该有独立字段表示瞬发。
+> `priority == 0` 会造成“效果立即触发，但逻辑时间仍消费 time_cost”。
 
-### 4.2 行动排序
+`[IMPLEMENTED]`
 
-**[源码已实现]**
+### 是否为最终设计
 
-`Timeline._sort_actions(a, b)`：
+`[PENDING DESIGN]`
 
-1. `trigger_time` 小的先执行。
-2. 同一 `trigger_time` 下，`priority` 大的先执行。
-3. 同时间、同优先级时，`is_player == true` 的玩家行动先执行。
+尚未确认：
 
-**[待确认：设计状态]**：旧版设计文档明确说“同刻排序尚未稳定，不应被重构悄悄定为最终规则”。因此上面的排序是**当前实现事实**，不是自动视为最终设计。
+```text
+priority == 0
+```
 
-### 4.3 推进方式
+是否永久代表“瞬发”，还是未来应增加单独的 instant / cast timing 字段。
 
-**[源码已实现]**
+## 6.3 行动排序
 
-`advance_timeline_to(target_time)` 会：
+当前排序规则：
 
-1. 找出 `target_time` 以前（含）的最早行动。
-2. 先把 `current_time` 推到该行动时间。
-3. 发出 `time_advanced(delta)`。
-4. 发出 `action_triggered(action)`。
-5. 等待外部调用 `notify_action_finished()`。
-6. 继续寻找下一个到期行动。
-7. 最后把剩余时间推进到 `target_time`。
-8. 发出 `timeline_advancement_finished`。
+```text
+1. trigger_time 小的先
+2. 同 trigger_time：priority 大的先
+3. 同 trigger_time + 同 priority：player action 先
+```
 
-因此逻辑时间和动画时间原则上已经分离：行动轴等待“表现完成通知”，但动画耗时本身不会改变逻辑行动值。
+`[IMPLEMENTED]`
 
-## 5. 敌人 AI
+但：
 
-### 5.1 当前敌人数据
+> 该排序目前只应视为当前代码事实，不自动升级为最终玩法规则。
 
-| ID | 名称 | 等级 | HP | 行动 time_cost | cooldown | weight | `effect_data` |
-| ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| 1001 | testenemy1 | 0 | 100 | 30 | 60 | 0.5 | `{}` |
-| 1002 | testenemy2 | 1 | 100 | 30 | 60 | 0.5 | `{}` |
+`[PENDING DESIGN]`
 
-### 5.2 加权随机与冷却
+## 6.4 Timeline 推进
 
-**[源码已实现]**
+当前推进模型：
 
-`EnemyAI`：
+```text
+advance_timeline_to(target_time)
 
-- 每个行动有 `weight`。
-- 在当前规划时间点筛选已经冷却完成的行动。
-- 使用轮盘赌权重随机选择。
-- 触发时间 = `current_plan_start + time_cost`。
-- 选中后，下次可用时间 = `target_time + cooldown`。
-- `_last_planned_time` 防止下一次规划早于已经预定的行动。
+→ 找下一条 <= target_time 的 action
+→ current_time 推到 action.trigger_time
+→ time_advanced(delta)
+→ action_triggered(action)
+→ 等 notify_action_finished()
+→ 继续下一条
+→ 最终推进剩余时间
+→ timeline_advancement_finished
+```
 
-若全部技能仍在冷却：
+`[IMPLEMENTED]`
+
+---
+
+# 7. Enemy AI
+
+## 7.1 当前模型
+
+Enemy AI 使用：
+
+```text
+EnemyData
+→ action_pool: Array[EnemyAction]
+→ EnemyAI
+→ CombatAction
+```
+
+每个 `EnemyAction` 当前可包含：
+
+```text
+time_cost
+cooldown
+weight
+effect_data
+```
+
+## 7.2 加权随机与 cooldown
+
+当前规则：
+
+```text
+available actions
+= cooldown 已结束的 actions
+
+从 available actions
+按 weight 轮盘赌选择
+
+trigger_time
+= current_plan_start + time_cost
+
+选中后 next_available_time
+= trigger_time + cooldown
+```
+
+`_last_planned_time` 用于避免新的规划早于已安排的行动。
+
+`[IMPLEMENTED]`
+
+## 7.3 所有行动都在 cooldown 时
+
+当前逻辑：
 
 ```text
 _last_planned_time = current_plan_start + 10
 return
 ```
 
-当前没有看到自动在这 10 点后重新请求规划的机制。
+但没有稳定的“10 logical time 后自动重新尝试规划”的闭环。
 
-### 5.3 当前敌人伤害
+`[CONFLICT / INCOMPLETE]`
 
-**[源码已实现]**
+## 7.4 当前测试敌人伤害
 
-`EnemyAI._create_combat_action_from_enemy_action()` 对 `"attack"` 使用：
+EnemyAI 对 `"attack"`：
 
 ```text
 damage = effect_data.get("damage", 10.0)
 ```
 
-现有两个测试敌人的 `effect_data = {}`，因此当前代码会给它们的普通攻击装配 **10 点伤害**。
+因此当 `effect_data` 不提供 damage 时，默认产生：
 
-### 5.4 连续行动规划
+```text
+10 damage
+```
 
-**[当前未完成]**
+`[IMPLEMENTED]`
 
-`EntityManager.initialize()` 会调用 `plan_initial_actions()`，但当前未看到敌人行动结算后再次调用 `plan_next_action()` 的完整闭环。
+具体敌人 `.tres` 值在相关任务中应重新读取真实资源。
 
-**[待确认]**：下一次敌人规划应由谁触发？
-- `BattleManager`
-- `EntityManager`
-- `Timeline`
-- 其他
+## 7.5 Continuous planning
 
-建议保持“Timeline 只负责排期、不做 AI 决策”的现有职责方向。
+目前：
 
-## 6. 伤害、护盾与属性
+```text
+EntityManager.initialize()
+→ setup_ai()
+→ plan_initial_actions()
+```
 
-### 6.1 当前伤害模型
+但尚未形成：
 
-**[源码已实现]**
+```text
+enemy action completed
+→ next planning trigger
+→ plan_next_action(current_timeline_time)
+```
+
+`[INCOMPLETE]`
+
+### 设计约束
+
+`Timeline` 的职责是逻辑时间和 queue，不应该成为 AI 决策 owner。
+
+谁触发下一次 planning 仍需确定。
+
+`[PENDING DESIGN]`
+
+---
+
+# 8. CombatAction
+
+`CombatAction` 是当前战斗系统的统一行动 payload。
+
+来源：
+
+```text
+RuntimeCard
+EnemyAI
+```
+
+主要可携带：
+
+```text
+attribute impacts
+entity buffs
+card buffs
+timing / priority / source / target information
+```
+
+流向：
+
+```text
+RuntimeCard / EnemyAI
+→ Timeline
+→ BattleManager
+→ EntityManager
+→ CombatEntity / CardManager
+```
+
+`[IMPLEMENTED ARCHITECTURE]`
+
+原则：
+
+> 新的玩家 / 敌人战斗效果应优先考虑能否表达为 `CombatAction`，避免再造平行的 action protocol。
+
+---
+
+# 9. 伤害、护盾与属性
+
+## 9.1 当前伤害模型
 
 玩家卡伤害：
 
 ```text
 base_damage = CardData.damage
-final_damage = RuntimeCard._calculate_property("damage", base_damage)
-CombatAction 添加 hp = -final_damage
+→ RuntimeCard modifiers
+→ CombatAction hp negative impact
 ```
 
-敌人伤害同样最终转为负 `hp` impact。
+敌人 damage 最终也进入：
 
-当前没有：
+```text
+hp < 0
+```
 
-- 防御力减伤公式
-- 暴击
-- 命中/闪避
-- 元素抗性
+当前没有明确实现：
 
-除非另有新代码，这些机制都不应由 AI 擅自假设存在。
+```text
+defense formula
+critical hit
+accuracy / evasion
+elemental resistance
+```
 
-### 6.2 护盾吸收
+除非未来设计确认，不应假设这些系统存在。
 
-**[源码已实现]**
+## 9.2 Shield absorption
 
-当 `CombatEntity.apply_attribute_impact()` 收到：
+当：
 
-`attribute_name == "hp"` 且 `value < 0`
+```text
+attribute_name == "hp"
+value < 0
+```
 
-当前规则：
+当前：
 
 ```text
 incoming_damage = abs(value)
 
-如果 shield > 0:
-    先扣 shield
-    shield 不足时，剩余伤害再扣 hp
-
-如果 shield 足够:
-    hp 不变
+if shield > 0:
+    shield absorbs first
+    overflow → hp
+else:
+    all damage → hp
 ```
 
-当前未看到护盾自然衰减、上限或回合清空规则。
+`[IMPLEMENTED]`
 
-### 6.3 Attribute 公式
+当前尚未定义：
 
-**[源码已实现]**
+- shield 是否自动衰减
+- battle end 是否清空
+- 是否有上限
+- 是否允许负 shield
+- shield 是否可以被特殊伤害绕过
 
-一个 `Attribute` 有：
+`[PENDING DESIGN]`
 
-- `computed_value`
-- 可选 `custom_formula`
-- `Array[AttributeBuff]`
+## 9.3 Attribute calculation
 
-取值时：
+一个 `Attribute` 当前包含：
 
 ```text
-current_base =
-    custom_formula()   （若存在）
-    否则 computed_value
-
-对 buffs 按数组当前顺序逐个执行：
-    + add_value
-    - sub_value
-    * mul_value
-    / div_value（div != 0）
+computed_value
+optional custom_formula
+Array[AttributeBuff]
 ```
 
-没有统一的最小值/最大值 clamp。
+取值：
 
-`AttributeSet.bind_custom_formula_to_attribute()` 可以让依赖属性变化时触发目标属性重算。
+```text
+base =
+    custom_formula() if present
+    else computed_value
 
-## 7. CardBuff
+then apply buffs in current array order:
++ add
+- subtract
+* multiply
+/ divide (if divisor != 0)
+```
 
-### 7.1 生命周期
+当前没有统一 min/max clamp。
 
-**[源码已实现]**
+`AttributeSet.bind_custom_formula_to_attribute()` 可让依赖属性变化时触发目标属性更新。
 
-`CardBuff` 可以同时带：
+`[IMPLEMENTED]`
 
-- `time_left`
-- `count_left`
+---
 
-其中 `-1` 表示对应维度不消耗。
+# 10. CardBuff
 
-- 时间轴推进 → `tick_time(delta)`
-- 卡牌出牌成功 → `consume_action_event()` → `tick_count()`
+## 10.1 Lifetime
 
-达到 `<= 0` 时 Buff 被移除。
+`CardBuff` 可以同时有：
 
-### 7.2 计算顺序
+```text
+time_left
+count_left
+```
 
-`ModifierType`：
+`-1` 表示该维度不消耗。
 
-1. `SET`
-2. `ADD`
-3. `MULTIPLY`
+当前：
 
-`RuntimeCard._calculate_property()` 会先按类型排序，然后依次应用。
+```text
+logical time advance
+→ tick_time(delta)
+
+successful card-action consumption
+→ consume_action_event()
+→ tick_count()
+```
+
+达到 `<= 0` 后移除。
+
+`[IMPLEMENTED]`
+
+## 10.2 Modifier order
+
+当前 `ModifierType`：
+
+```text
+SET
+ADD
+MULTIPLY
+```
+
+`RuntimeCard._calculate_property()` 按 modifier type 排序后应用。
 
 最终：
 
 ```text
-round(final_value)
-→ 转 int
-→ maxi(0, ...)
+round(value)
+→ int
+→ max(0, value)
 ```
 
-所以卡牌的：
+应用到：
 
-- `resource_cost`
-- `time_cost`
-- `priority`
-- `damage`
-- `shield`
+```text
+resource_cost
+time_cost
+priority
+damage
+shield
+```
 
-都不会通过这一路径得到负数。
+`[IMPLEMENTED]`
 
-### 7.3 当前重复入口风险
+### 同类型 Buff 顺序
 
-**[当前实现存在冲突]**
+多个同类型 modifier 的稳定顺序是否影响最终设计尚未明确。
 
-`EntityManager.execute_action()` 对 `action.card_buffs` 会发出 `card_buff_requested`。
+`[PENDING DESIGN]`
 
-`BattleManager` 已监听这个信号，并转发给 `CardManager`。
+## 10.3 当前双重应用风险
 
-但 `BattleManager._on_timeline_action_triggered()` 随后又直接遍历同一个 `action.card_buffs` 再调用一次：
+当前同一 `action.card_buffs` 有两条入口：
 
-`card_manager.apply_buff_to_all_hand_cards(card_buff)`
+```text
+EntityManager.execute_action()
+→ card_buff_requested
+→ BattleManager
+→ CardManager
+```
 
-因此当前代码存在**同一 CardBuff 可能被施加两次**的路径。
+同时：
 
-## 8. 卡牌牌堆
+```text
+BattleManager._on_timeline_action_triggered()
+→ directly loops action.card_buffs
+→ CardManager
+```
 
-**[源码已实现]**
+所以同一 Buff 可能应用两次。
 
-`CardManager` 持有三个权威数组：
+`[CONFLICT]`
 
-- `draw_pile`
-- `hand_pile`
-- `discard_pile`
+目标：
+
+> 未来必须只保留一个权威 CardBuff application path。
+
+---
+
+# 11. Card pile rules
+
+`CardManager` 是三个逻辑牌堆的 authority：
+
+```text
+draw_pile
+hand_pile
+discard_pile
+```
 
 当前规则：
 
-- 初始化时把输入的 RuntimeCard 全部放入 draw pile。
-- 抽牌堆随机 `shuffle()`。
-- 自动补手牌至 `hand_limit`。
-- `CardSystem.tscn` 当前 `hand_limit = 6`。
-- 出牌确认后：hand → discard。
-- 主动弃牌后：hand → discard。
-- draw 空且 discard 非空时：复制 discard → draw，清空 discard，再 shuffle。
-
-UI `PlayerHandDeck` 只实例化/删除卡牌表现节点，不应成为逻辑牌堆所有者。
-
-## 9. 地图生成
-
-### 9.1 当前默认 MapBlueprint
-
-`test_mapblueprint.tres`：
-
-- `base_room_count = 15`
-- `count_variance = 0.2`
-- `boss_count = 0`
-- `enemy_spawn_chance = 0.7`
-- `elite_chance = 0.25`
-- `room_type_weights = { NORMAL: 100 }`
-
-### 9.2 房间数量
-
-**[源码已实现]**
-
 ```text
-min_count = round(base_room_count * (1 - variance))
-max_count = round(base_room_count * (1 + variance))
-target_room_count = random integer [min_count, max_count]
+battle init
+→ all RuntimeCard enter draw pile
+→ shuffle
+
+draw
+→ draw → hand
+
+play confirmed
+→ hand → discard
+
+discard
+→ hand → discard
+
+draw empty + discard not empty
+→ discard copied into draw
+→ discard cleared
+→ draw shuffled
 ```
 
-以当前默认值：
+当前 `CardSystem.tscn`：
+
+```text
+hand_limit = 6
+```
+
+UI `PlayerHandDeck` 只负责表现节点和输入请求，不拥有逻辑 pile membership。
+
+`[IMPLEMENTED]`
+
+---
+
+# 12. Map generation
+
+## 12.1 Default blueprint baseline
+
+既有审计记录的 `test_mapblueprint.tres`：
+
+```text
+base_room_count = 15
+count_variance = 0.2
+boss_count = 0
+enemy_spawn_chance = 0.7
+elite_chance = 0.25
+room_type_weights = { NORMAL: 100 }
+```
+
+精确值相关任务必须读取当前 `.tres`。
+
+## 12.2 Room count
+
+当前逻辑：
+
+```text
+min = round(base_room_count * (1 - variance))
+max = round(base_room_count * (1 + variance))
+room_count = random integer [min, max]
+```
+
+在当前基线配置：
 
 ```text
 15 ± 20%
-→ 12 ~ 18 个房间
+→ 12..18 rooms
 ```
 
-### 9.3 地图几何
+`[IMPLEMENTED]`
 
-- 房间逻辑尺寸：`10.0`
-- 半尺寸：`5.0`
-- 初始房固定在 `(0, 0)`
-- 四方向扩展：N / S / E / W
-- `CORRIDOR_BIAS = 0.1`
+## 12.3 Geometry
 
-扩展时：
-- 10% 概率优先从最新生成的房间继续延伸。
-- 其他情况从已有房间随机选一个再扩展。
-
-相邻房间会自动建立双向 `connected_doors`。
-
-### 9.4 敌人分配
-
-初始房不生成敌人。
-
-其余房间：
+当前：
 
 ```text
-70% 概率有敌人
-有敌人时：
-    25% → 等级 1 敌人
-    75% → 等级 0 敌人
+logical room size = 10.0
+half size = 5.0
+origin room = (0, 0)
+expansion directions = N / S / E / W
+CORRIDOR_BIAS = 0.1
 ```
 
-实际敌人 ID 从 `AllEnemyData` 中按 `enemy_level` 随机选择。
-
-### 9.5 Boss 选址算法
-
-虽然当前 `boss_count = 0`，代码已经实现 Boss 位置选择：
+扩展：
 
 ```text
-score = BFS 深度 * 10
-      + (死胡同 ? 60 : 0)
+10%:
+prefer latest generated room
+
+otherwise:
+choose random existing room
 ```
 
-优先：
-1. 高分。
-2. 不同主分支。
-3. 分支不足时按总分补齐。
+相邻房间建立双向 `connected_doors`。
 
-但当前敌人库只有 `enemy_level = 0 / 1`。
+`[IMPLEMENTED]`
 
-**[待确认 / 当前数据不完整]**：若把 `boss_count` 调到 > 0，`WorldGenerator` 会尝试查找 `enemy_level == 2`，当前会找不到并返回 `-1`。
+## 12.4 Enemy placement
 
-## 10. 探索与遭遇
+起始房：
 
-### 10.1 开门
+```text
+no enemies
+```
 
-当前门参数默认：
+其他房：
 
-- 下沉深度：`3.0 m`
-- 自动关门距离：`2.0 m`
-- 开/关动画：`0.5 s`
-- 交互：直接检测 `KEY_E`
+```text
+70% enemy spawn chance
 
-### 10.2 当前门关闭逻辑异常
+if enemy:
+    25% → enemy level 1
+    75% → enemy level 0
+```
 
-**[当前实现疑似 Bug，需运行确认]**
+具体 `enemy_id` 从 `AllEnemyData` 按 level 选择。
 
-`Door._process()` 中，当门已打开且 `current_player` 存在：
+`[IMPLEMENTED BASELINE]`
 
-- 距离 > 2m → `close_door()`
-- 距离 <= 2m → 当前代码的 `else` 也调用 `close_door()`
+## 12.5 Boss selection
 
-所以按静态代码，门打开动画结束后，只要玩家仍被记录，就可能立即开始关门。
+当前算法已存在，即使默认：
 
-### 10.3 房间识别
+```text
+boss_count = 0
+```
 
-玩家开门后，`WorldManager`：
+score：
 
-1. 读取玩家和门的 X/Z 坐标。
-2. 计算玩家指向门的单位向量。
-3. 从门位置向前偏移 `4.0`。
-4. 除以 `10.0` 后四舍五入，再乘回 `10.0`。
-5. 得到门对面的房间中心坐标。
+```text
+BFS depth * 10
++ dead-end bonus 60
+```
 
-如果目标房存在，更新 `current_room_coords`。
+当前 enemy database 基线只明确有 level 0 / 1 测试敌人。
 
-### 10.4 遭遇切换
+如果未来：
 
-如果目标房 `has_enemies`：
+```text
+boss_count > 0
+```
+
+则需要确认 level 2 boss data 已存在，否则 generator 可能得到 invalid enemy id。
+
+`[PENDING DATA]`
+
+---
+
+# 13. Exploration / encounter
+
+## 13.1 Door
+
+既有代码基线：
+
+```text
+door sink depth = 3.0 m
+auto-close distance = 2.0 m
+open/close animation = 0.5 s
+interaction = KEY_E
+```
+
+## 13.2 Door close behavior
+
+静态源码曾显示：
+
+```text
+door open + current_player exists
+
+distance > 2
+→ close
+
+else
+→ also close
+```
+
+因此可能导致门打开动画后很快关闭。
+
+`[RUNTIME VERIFY]`
+
+不要只根据静态可疑逻辑决定最终行为，需要运行确认。
+
+## 13.3 Room identification
+
+开门后，当前 WorldManager 基于：
+
+```text
+player position
+door position
+direction player → door
+forward offset 4.0
+room grid size 10.0
+round to room center
+```
+
+推断门后的房间坐标。
+
+`[IMPLEMENTED]`
+
+## 13.4 当前 encounter transition
+
+当前：
 
 ```text
 EXPLORE
 → PREPARING_BATTLE
-→ 暂停 PlayerController
-→ 等 1.2 秒
+→ PlayerController inactive
+→ wait 1.2s
 → BATTLE
-→ 当前代码又把 PlayerController 重新设为 active
+→ current code re-enables PlayerController
 ```
 
-当前尚未实际启动 `BattleManager`。
-
-**[待确认]**：进入正式战斗后，探索 PlayerController 是否应该继续保持关闭，直到战斗结束？
-
-## 11. 玩家移动与镜头
-
-### 11.1 当前场景实际移速
-
-脚本默认：
-- walk = 3.5
-- sprint = 6.5
-
-但 `PlayerVisual.tscn` 覆盖为：
-- **walk = 2.5**
-- **sprint = 4.5**
-
-因此以当前场景实例为准。
-
-### 11.2 奔跑
-
-- WASD 直接读物理键，不依赖 InputMap。
-- 只有“按住左 Shift 且输入方向包含向前 (`input_dir.y < 0`)”才使用 sprint speed。
-- 加速度默认 `10.0`。
-- 重力来自项目设置。
-
-### 11.3 视角
-
-- 身体 Yaw 灵敏度：`0.001`
-- 头部 Pitch 灵敏度：`0.002`
-- Pitch clamp：`-60° ~ +60°`
-
-### 11.4 Head bob
-
-步行：
-- freq `10`
-- amp `0.04`
-
-奔跑：
-- freq `14`
-- amp `0.08`
-
-## 12. 存档
-
-### 12.1 SaveManager
-
-**[源码已实现基础框架]**
-
-路径：
-
-`user://saves/<slot_id>.json`
-
-根结构：
+但并没有正式调用：
 
 ```text
+ExpeditionManager
+BattleManager.start_battle()
+```
+
+`[INCOMPLETE]`
+
+### 目标
+
+```text
+WorldManager reports encounter
+→ ExpeditionManager owns handoff
+→ BattleManager starts once
+→ exploration control remains appropriately disabled
+→ battle result returns through ExpeditionManager
+→ same mapdata resumes
+```
+
+`[CONFIRMED DESIGN]`
+
+---
+
+# 14. Player movement / camera
+
+## 14.1 Current scene movement values
+
+脚本默认曾记录：
+
+```text
+walk = 3.5
+sprint = 6.5
+```
+
+但当前场景覆盖基线：
+
+```text
+walk = 2.5
+sprint = 4.5
+```
+
+因此 gameplay 实际值以当前 `.tscn` inspector data 为准。
+
+## 14.2 Sprint
+
+当前输入规则：
+
+```text
+WASD physical keys
++
+Left Shift
++
+forward direction required
+```
+
+才使用 sprint speed。
+
+Acceleration 基线：
+
+```text
+10.0
+```
+
+Gravity 来自 Godot project setting。
+
+`[IMPLEMENTED]`
+
+## 14.3 Camera look
+
+当前基线：
+
+```text
+body yaw sensitivity = 0.001
+head pitch sensitivity = 0.002
+pitch clamp = -60° .. +60°
+```
+
+`[IMPLEMENTED]`
+
+## 14.4 Head bob
+
+基线：
+
+```text
+walk:
+freq = 10
+amp = 0.04
+
+sprint:
+freq = 14
+amp = 0.08
+```
+
+`[IMPLEMENTED]`
+
+---
+
+# 15. Save / persistence mechanics
+
+## 15.1 SaveManager file format
+
+当前基础：
+
+```text
+user://saves/<slot_id>.json
+```
+
+root：
+
+```json
 {
-  "metadata": {...},
+  "metadata": {},
   "modules_data": {
-    "<module_key>": ...
+    "<module_key>": {}
   }
 }
 ```
 
-模块必须提供：
+`SaveModule` contract：
 
-- `get_module_key()`
-- `get_save_data()`
-- `load_save_data()`
-- `clear_data()`
+```text
+get_module_key()
+get_save_data()
+load_save_data()
+clear_data()
+```
 
-### 12.2 BattleSaveModule
+`[IMPLEMENTED INFRASTRUCTURE]`
 
-**[当前实现不一致，不能视为可用机制]**
+## 15.2 Long-term player data
 
-当前已发现：
+目标 owner：
 
-- `BattleManager.start_battle()` 检查 `save_initial_state`，但 `BattleSaveModule` 没有这个方法。
-- `BattleSaveModule` 使用 `EntityData.base_attributes`，但当前 `EntityData` 没有该字段。
-- `BattleSaveModule.load_save_data()` / `build_test_player_data()` 对 `EntityData.new()` 的参数形态与当前构造函数不一致。
-- 对 `EnemyData.base_attributes` 的访问与当前 `EnemyData.attributes` 字段不一致。
-- `_compile_input_to_runtime()` 仍为 `pass`。
-- `RuntimeCard.to_dictionary()` 当前不保存 `active_buffs`。
-- `CardInstance.modifiers` 在 `BattleManager._convert_deck_to_runtime()` 中没有被转换为战斗内 Buff/Modifier。
+```text
+PlayerSaveManager
+```
 
-因此战斗读档/恢复规则尚未稳定。
+负责：
 
-## 13. 仍需用户做出的机制决定
+```text
+long-term progression
+long-term deck
+equipment
+```
 
-以下内容请不要让 AI 自行“补全设计”。
+目前实现仍是 placeholder。
 
-- **[请用户填写]** Skill / Power 的资源类型与扣费规则：
-- **[请用户填写]** stamina / mana 回复公式：
-- **[请用户填写]** 同时间、同优先级行动最终排序：
-- **[请用户填写]** `priority == 0` 是否永久定义为瞬发：
-- **[请用户填写]** CardBuff 的 SET / ADD / MULTIPLY 同类型多个 Buff 的排序是否重要：
-- **[请用户填写]** Buff 在“出牌请求、确认出牌、行动结算、时间推进”的哪个阶段消耗：
-- **[请用户填写]** 防御/护甲、暴击等是否计划进入伤害公式：
-- **[请用户填写]** 护盾是否会衰减/清空/有上限：
-- **[请用户填写]** 敌人下一次规划的触发时机：
-- **[请用户填写]** RNG 是否需要固定种子并进入存档：
-- **[请用户填写]** 遭遇失败/撤离失败后的奖励和地图状态：
-- **[请用户填写]** 战斗中读档要恢复到什么粒度：
+`[CONFIRMED DESIGN / NOT IMPLEMENTED]`
+
+## 15.3 Expedition persistence
+
+长期目标：
+
+```text
+one expedition-level save module
+```
+
+统一保存一次远征需要恢复的：
+
+```text
+world / map state
+current encounter context
+expedition state
+battle-related expedition state (if required by restore granularity)
+```
+
+而不是：
+
+```text
+WorldSave truth
++
+BattleSave truth
+```
+
+`[CONFIRMED DESIGN]`
+
+## 15.4 BattleSaveModule
+
+当前 `BattleSaveModule.gd`：
+
+- 文件仍存在；
+- 未挂载到当前 BattleSystem；
+- 未形成可靠当前注册链；
+- 与当前 `EntityData` / `EnemyData` 模型不兼容；
+- 旧接口和当前 BattleManager 预期不一致。
+
+因此：
+
+```text
+BattleSaveModule = LEGACY
+```
+
+不应再用它推导新的战斗存档机制。
+
+当前不要求旧存档兼容。
+
+`[LEGACY / CONFIRMED DESIGN]`
+
+## 15.5 Battle restore granularity
+
+未来 expedition save 是否支持：
+
+```text
+战斗中途精确恢复
+```
+
+以及恢复到什么粒度，目前尚未决定。
+
+可能涉及：
+
+```text
+Timeline.current_time
+action_line
+RuntimeCard active_buffs
+draw / hand / discard
+entity Attribute state
+EnemyAI cooldown / planning state
+visual wait state
+```
+
+`[PENDING DESIGN]`
+
+在决定恢复粒度前，不应为了“完整存档”提前序列化所有 runtime transient state。
+
+---
+
+# 16. RuntimeCard / battle save implications
+
+当前已知：
+
+```text
+RuntimeCard.to_dictionary()
+```
+
+不包含：
+
+```text
+active_buffs
+```
+
+同时：
+
+```text
+CardInstance.modifiers
+```
+
+尚未完整转换为 battle runtime modifiers。
+
+这两个问题是否必须修复，取决于：
+
+```text
+CardInstance modifier semantics
++
+battle restore granularity
+```
+
+`[PENDING DESIGN]`
+
+---
+
+# 17. 当前需要用户决定的机制
+
+这些问题仍然开放。AI 不得自行补成最终规则。
+
+1. **Card resources**
+   - Attack / Skill / Power 分别消耗 stamina 还是 mana？
+
+2. **Resource regeneration**
+   - stamina 是否随 logical time 回复？
+   - mana 是否回复？
+   - regen_rate 的时间单位是什么？
+   - 是否有 max clamp？
+
+3. **Timeline ties**
+   - 同 `trigger_time`、同 `priority` 时，玩家先是否为最终规则？
+
+4. **Instant actions**
+   - `priority == 0` 是否永久代表 instant？
+   - 还是新增独立字段？
+
+5. **CardBuff ordering**
+   - 同类型 SET / ADD / MULTIPLY 中多个 Buff 的顺序是否需要稳定规则？
+
+6. **Buff consumption timing**
+   - 出牌 request、confirm、action trigger、action resolve、time advance 中，何时扣 count / duration？
+
+7. **Damage extensions**
+   - defense / armor / critical / accuracy / evasion / elemental resistance 是否进入最终伤害模型？
+
+8. **Shield**
+   - 是否衰减？
+   - battle end 是否清空？
+   - 是否有上限？
+
+9. **Enemy re-planning**
+   - 下一次 `EnemyAI.plan_next_action()` 由 `BattleManager`、`EntityManager` 还是其他 coordinator 触发？
+
+10. **RNG**
+    - 地图 / AI / shuffle 是否需要 deterministic seed？
+    - seed 是否进入 expedition save？
+
+11. **Failure / retreat**
+    - battle loss / retreat 如何影响 rewards、RoomData、expedition state？
+
+12. **Battle restore**
+    - 是否需要 battle mid-state save？
+    - 如果需要，精确恢复到什么粒度？
+
+13. **CardInstance → RuntimeCard**
+    - `unique_id` 是否需要在 battle runtime 保留？
+    - `modifiers` 如何转为 RuntimeCard / CardBuff？
+
+---
+
+# 18. AI 修改机制时的规则
+
+涉及 gameplay mechanics 的任务：
+
+```text
+1. 先读本文件相关 section
+2. 用 CODE_INDEX.md 定位真实源码 / .tres
+3. 读取真实文件确认当前实现
+4. 区分：
+   IMPLEMENTED
+   CONFIRMED DESIGN
+   CONFLICT
+   PENDING DESIGN
+5. 不把 card description 当成已实现效果
+6. 不因当前代码行为就自动把它升级为最终设计
+7. 不替用户决定 PENDING DESIGN
+8. 改变 mechanics 后同步更新本文件
+9. 若改变 SceneTree / public contract / data flow，同时更新 ARCHITECTURE.md
+10. 若改变当前 blocker / milestone，同时更新 AI_PROGRESS.md
+```
+
+---
+
+# 19. 当前重点机制债务
+
+当前最值得在 gameplay vertical slice 中优先处理：
+
+```text
+World encounter
+→ ExpeditionManager handoff
+→ Battle start
+→ battle result
+→ same map / room restore
+```
+
+在该闭环内部，与战斗可运行直接相关的机制债务：
+
+```text
+BattleSystem wiring
+EnemyAI continuous planning
+stamina / mana payment conflict
+CardBuff duplicate application
+battle lifecycle cleanup
+```
+
+以下可以延后：
+
+```text
+legacy BattleSaveModule repair
+old-save compatibility
+full mid-battle restore
+unused CardEffect cleanup
+large-scale balance tuning
+advanced damage formulas
+```
+
+除非当前任务明确要求。
+
+---
+
+# 20. 文档维护边界
+
+更新本文，当：
+
+- gameplay rule 改变；
+- cost / time / damage / priority semantics 改变；
+- Buff 生命周期改变；
+- enemy planning rule 改变；
+- map-generation rule 改变；
+- exploration / encounter gameplay behavior 改变；
+- save / restore gameplay semantics 改变；
+- 某个 `[PENDING DESIGN]` 被用户正式决定。
+
+通常不因为以下情况更新：
+
+- private refactor；
+- 单纯路径移动；
+- SceneTree 接线但 mechanics 不变；
+- 工具 / Codex workflow 改动；
+- 纯 UI 外观变化。
+
+本文的首要目标：
+
+> **让实现事实、已确认设计、冲突和未决机制保持清晰分离。**

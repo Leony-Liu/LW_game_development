@@ -1,320 +1,769 @@
 # AI_PROGRESS.md
 
-> **文件作用（给人和 AI）：**这是项目的“当前工作台”。它只记录现在做到哪里、正在解决什么、哪些问题阻塞下一步、下一里程碑如何验收。  
-> **它不负责：**保存长期架构原则、玩法公式或全部函数索引。稳定架构放 `AI_CONTEXT.md`，机制放 `MECHANICS.md`，代码定位放 `CODE_INDEX.md`。  
-> **更新建议：**每完成一个明显里程碑、开始新任务、发现关键阻塞或完成一次运行验证后更新。不要把它写成历史日志；旧历史交给 Git / 看板 / issue。  
-> **基线：**静态分析 `PROJECT_DUMP.md`（2026-09-20 19:17 +08:00）以及旧版 `AGENTS.md`。没有实际运行项目。
+> **文件作用（给人和 AI）：**这是项目的“当前工作台”。它只记录现在做到哪里、正在解决什么、哪些问题阻塞下一步、下一阶段准备做什么，以及最近已经实际验证过什么。
+>
+> **它不负责：**
+> - 定义长期系统职责：见 `AI_CONTEXT.md`
+> - 展示 SceneTree / 脚本契约 / runtime data flow：见 `ARCHITECTURE.md`
+> - 保存全部代码定位信息：见 `CODE_INDEX.md`
+> - 保存玩法、数值与机制规则：见 `MECHANICS.md`
+> - 规定 Agent 工作方式：见 `AGENTS.md`
+>
+> **更新原则：**这是动态文档，不是历史日志。完成一个明显里程碑、发现/解决关键阻塞、完成一次真实验证，或当前工作重点改变时更新；旧历史交给 Git / issue / 看板。
+>
+> **当前基线日期：**2026-09-21  
+> **当前活动工作区：**`D:/Game project/Godot/LW_game_development_upgrade_test`  
+> **当前开发引擎：**Godot 4.7.2 stable
 
-## 0. 当前里程碑
+---
 
-### 候选当前目标
+# 0. 当前工作重点
 
-**[待确认：以下目标来自旧版 AGENTS.md，请确认目前 Restart 分支仍以此为当前目标]**
+## 0.1 当前正在进行
 
-打通完整纵向流程：
+当前阶段首先在建立一套可长期使用的 Codex + Godot 工程工作流，并同步刷新项目指导文档。
+
+目前已经完成或基本完成：
+
+```text
+Godot 4.7.2 升级测试环境
+→ canonical Godot CLI wrapper
+→ MCP Editor Bridge 连通
+→ AI_CONTEXT.md 刷新
+→ ARCHITECTURE.md 初次真实源码审计
+```
+
+当前文档刷新顺序：
+
+```text
+AI_CONTEXT.md          [已完成]
+ARCHITECTURE.md        [已完成第一轮源码审计]
+AI_PROGRESS.md         [当前]
+CODE_INDEX.md          [下一份]
+MECHANICS.md           [之后]
+```
+
+完成指导文件刷新后，再继续：
+
+```text
+Runtime MCP 端到端验证
+→ 工具/环境收口
+→ 游戏纵向闭环实现
+```
+
+---
+
+## 0.2 下一阶段 gameplay 里程碑
+
+已确定的主 gameplay 目标仍然是：
 
 ```text
 地图探索
 → 遭遇敌人
-→ 进入战斗
+→ ExpeditionManager 接管交接
+→ 进入 BattleSystem
 → 战斗结束
-→ 返回同一次远征地图
-→ 继续探索
+→ BattleResult 返回 ExpeditionManager
+→ 更新同一次 World map / RoomData
+→ 回到探索
+→ 继续同一次远征
 ```
 
-### 候选验收标准
+该闭环完成前，不应优先扩展大量新玩法系统。
 
-**[待确认]**
+### 纵向闭环验收目标
 
-- 一次敌人遭遇只启动一次战斗。
-- 探索暂停；玩家 / 牌组 / 敌人战斗输入只交接一次。
-- 战斗只初始化一次。
-- 战斗结束事件只处理一次。
-- 战斗结果返回同一次远征和对应房间，而不是重新生成地图。
-- 已处理遭遇的房间状态被更新。
-- 返回探索后移动、镜头和输入恢复。
-- 上一场战斗的行动队列、临时 Buff、信号、回调、表现等待、输入锁不泄漏到下一阶段。
+- 一次遭遇只启动一次战斗。
+- 探索状态只暂停/恢复一次。
+- 玩家数据、牌组和 `EnemyID` 只交接一次。
+- `BattleManager` 只初始化一次。
+- `battle_ended` 结果只处理一次。
+- 战斗结果回到同一次 expedition / 同一份 `mapdata`。
+- 已处理房间的遭遇状态得到更新。
+- 返回探索后移动、镜头与输入恢复。
+- 上一场战斗的 queue、临时 Buff、signals、callbacks、visual waits、input locks 不泄漏到下一场。
 
-## 1. 当前静态状态总览
+---
 
-> “已存在”只表示源码结构存在；不等于运行验证通过。
+# 1. 工程与工具当前状态
 
-| 子系统 | 静态状态 | 说明 |
+## 1.1 Godot
+
+- 当前开发版本：Godot `4.7.2 stable`
+- 4.4.1 原项目继续作为安全回退项目。
+- 当前 main scene：
+  `res://MainMenuSystem/MainMenu.tscn`
+- 旧失效 main-scene UID 问题已解决。
+
+## 1.2 Canonical CLI
+
+标准入口：
+
+```powershell
+.\tools\godot_cli.ps1 <Godot args>
+```
+
+已实际验证：
+
+```text
+wrapper
+→ 找到 Godot 4.7.2 console executable
+→ --version 正确返回 4.7.2
+→ 创建 .codex_runtime/
+→ --headless --editor --path . --quit 可完成 editor 初始化并正常退出
+```
+
+`.codex_runtime/` 当前至少包含：
+
+```text
+AppData/
+Temp/
+```
+
+其用途是隔离 Codex / Godot 自动化运行产生的用户与临时数据。
+
+### 尚需最终确认
+
+- `.codex_runtime/` 是否已经正式加入当前工作区 `.gitignore`
+- wrapper 是否已经纳入最终 Git checkpoint
+
+以上不影响当前使用，但在最终环境收口时应检查。
+
+---
+
+## 1.3 MCP
+
+### Editor Bridge
+
+此前已经完成 Editor MCP 连通验证：
+
+- MCP server 正常
+- Editor Bridge connected
+- Godot version 4.7.2
+- 能读取当前打开场景与 editor info
+
+### Runtime Bridge
+
+Godot 输出中已经观察到：
+
+```text
+[godot-mcp-runtime] Listening on 127.0.0.1:9877
+```
+
+但仍缺少正式的 Runtime MCP 端到端验证，例如：
+
+```text
+runtime_ping
+runtime_get_tree（小范围）
+```
+
+因此：
+
+```text
+Editor MCP        = 已验证
+Runtime listener  = 已出现
+Runtime MCP E2E   = 待验证
+```
+
+---
+
+# 2. 当前真实架构状态摘要
+
+> 详细结构、函数签名和数据流见 `ARCHITECTURE.md`。本节只保留影响当前开发优先级的事实。
+
+| Area | 当前状态 | 说明 |
 | --- | --- | --- |
-| `GameManager` | ⛔ 占位 | `_ready/_process` 都是空实现 |
-| `ExpeditionManager` | ⛔ 占位 | 尚未实现远征生命周期和探索↔战斗协调 |
-| `PlayerSaveManager` | ⛔ 占位 | 尚未实现长期玩家数据 |
-| `SaveManager` | 🟡 基础存在 | JSON 槽位 + SaveModule 注册框架已写 |
-| `AllCardData` | 🟢 结构存在 | 自动扫描卡牌 `.tres` |
-| `AllEnemyData` | 🟢 结构存在 | 自动扫描敌人 Resource |
-| `WorldGenerator` | 🟢 主要算法存在 | 随机房间、门、敌人分配、Boss 选址代码已写 |
-| `RoomSet / DoorSet / BattleRoom` | 🟢 结构存在 | 可把 mapdata 转为场景实例 |
-| `WorldManager` | 🟡 部分完成 | 地图生成与探索状态已写；真正战斗启动未接上 |
-| `PlayerVisualManager` | 🟢 探索表现存在 | 探索/调试相机与移动开关已写 |
-| `BattleManager` | 🟡 代码存在 | 战斗编排逻辑较完整，但场景依赖/接线不完整 |
-| `CardManager` | 🟢 主要牌堆逻辑存在 | draw/hand/discard、抽弃牌、出牌确认、Buff 时间推进 |
-| `Card UI` | 🟢 结构存在 | 交互、悬浮、抽牌/出牌/弃牌动画 |
-| `Timeline` | 🟢 核心流程存在 | 排期、排序、推进、等待行动完成 |
-| `EntityManager` | 🟡 部分完成 | 属性结算、资源扣除、敌人初始化；AI 接线未完整 |
-| `CombatEntity / AttributeSet` | 🟢 结构存在 | HP/Shield 等通用属性和 Buff |
-| `EnemyAI` | 🟡 部分完成 | 首次行动生成存在；连续规划链缺失 |
-| `BattleSaveModule` | 🔴 接口不一致 | 当前与 BattleManager / EntityData / EnemyData 多处不匹配 |
+| `GameManager` | ⛔ 占位 | 当前没有应用流程实现 |
+| `ExpeditionManager` | ⛔ 占位 / 未挂载 | 目标职责已确认，但当前尚未进入真实 SceneTree |
+| `PlayerSaveManager` | ⛔ 占位 / 未挂载 | 长期玩家数据 owner 已确认，但实现尚未开始 |
+| `SaveManager` | 🟡 基础框架存在 | slot / module registry / JSON file I/O 已有 |
+| `WorldManager` | 🟡 部分完成 | 地图和探索逻辑存在，但尚未把 encounter 上报给 ExpeditionManager |
+| `WorldGenerator` | 🟢 基础主要逻辑存在 | 生成 mapdata / RoomData / doors |
+| `RoomSet / DoorSet` | 🟢 基础结构存在 | 动态生成房间与门 |
+| `PlayerVisualManager` | 🟢 基础表现控制存在 | 探索移动/镜头模式已有 |
+| `BattleManager` | 🟡 代码存在 / 场景接线阻塞 | battle orchestration 已写较多，但关键 exports 未绑定 |
+| `Timeline` | 🟢 核心逻辑存在 | logical time / action queue / wait lifecycle |
+| `EntityManager` | 🟡 部分完成 | action execution 存在；`enemy_ai` 当前场景未绑定 |
+| `EnemyAI` | 🟡 部分完成 | initial planning 有；continuous planning 未接通 |
+| `CardManager` | 🟢 主要牌堆逻辑存在 | draw / hand / discard authority |
+| Card UI | 🟢 基础结构存在 | RuntimeCard UI / interaction / animation 路径存在 |
+| `BattleSaveModule` | 🔴 Legacy | 当前数据模型不兼容，不作为新架构依据 |
+| Expedition-level save module | ⬜ 未实现 | 已确认长期目标 |
 
-## 2. 当前 P0 阻塞：先让纵向流程具备可运行条件
+---
 
-### P0-1 主场景无法从快照解析
+# 3. 已解决的旧 P0
 
-`project.godot`：
+## 3.1 主场景 UID
 
-`run/main_scene="uid://0rtgdscsodly"`
+旧状态：
 
-快照中没有对应 UID 的 `.tscn`。
+```text
+run/main_scene = uid://0rtgdscsodly
+```
 
-- 状态：**[需人工确认]**
-- 当前主场景实际路径：`[请用户填写]`
-- 项目 Run 是否成功：`[请用户填写]`
+该 UID 已失效。
 
-### P0-2 `BattleSystem.tscn` 仍引用缺失的旧脚本
+当前已经修复为：
 
-场景引用：
+```text
+res://MainMenuSystem/MainMenu.tscn
+uid://cu8ebs30en5qs
+```
 
-`res://ExpeditionSystem/BattleSystem/CombatSystem/Scripts/CombatManager.gd`
+状态：
 
-但当前源码快照没有该文件。
+```text
+RESOLVED
+```
 
-- 状态：**静态确认的断引用**
-- 处理方向：**[待确认]** 按当前 `BattleManager` 职责修复场景接线，而不是重新引入重复职责的 `CombatManager`。
+---
 
-### P0-3 `BattleManager` 导出依赖未完整绑定
+## 3.2 Godot 4.4.1 MCP 兼容问题
 
-`BattleManager.gd` 需要：
+旧版 Godot 4.4.1 无法解析当前 `godot-mcp` plugin 使用的一些更新 Editor API。
 
-- `timeline`
-- `entity_manager`
-- `card_manager`
+当前处理方式：
 
-当前 `BattleSystem.tscn` 只看到 `card_manager` 绑定。
+```text
+4.4.1 original project
+→ 保留为 fallback
 
-- `timeline`：未绑定
-- `entity_manager`：未绑定
-- `battle_save_module`：可选，未绑定
+4.7.2 upgrade_test
+→ 当前开发 workspace
+```
 
-### P0-4 `EntityManager.enemy_ai` 未绑定
+Godot 4.7.2 中 Editor MCP 已正常加载。
 
-`EntityManager.gd` 有：
+状态：
 
-`@export var enemy_ai: Node`
+```text
+RESOLVED BY UPGRADE TEST WORKSPACE
+```
 
-当前场景只绑定了：
+---
 
-- `player_entity`
-- `enemy_entity`
+## 3.3 Codex Godot CLI 环境
 
-未见 `enemy_ai` NodePath。
+此前自动化 Godot CLI 会遇到用户目录 / temp / console executable 等问题。
 
-### P0-5 远征顶层未装配
+当前：
 
-`ExpeditionSystem.tscn` 当前只有 WorldSystem / UISystem，没有看到：
+```text
+tools/godot_cli.ps1
++
+.codex_runtime/
++
+Godot 4.7.2 console executable
+```
 
-- `ExpeditionManager`
-- `BattleSystem`
+已完成核心 headless editor 验证。
 
-因此纵向闭环当前没有顶层协调对象。
+状态：
 
-## 3. 当前 P1 战斗逻辑问题
+```text
+RESOLVED FOR CURRENT WORKFLOW
+```
 
-### P1-1 Skill / Power 资源扣费不一致
+---
 
-`RuntimeCard` 对非 Attack 返回 `mana_cost`，但 `BattleManager` 始终从 `stamina` 校验并扣除。
+# 4. 当前 P0：阻塞纵向 gameplay 闭环
 
-- 状态：**静态确认**
-- 设计决定：`[请用户确认 Skill / Power 是否扣 mana]`
+## P0-1 `ExpeditionManager` 尚未真正进入场景
 
-### P1-2 敌人只能可靠生成首个行动
+当前保存态：
 
-初始化会调用：
-
-`EnemyAI.plan_initial_actions()`
-
-但当前未看到每次行动后继续请求 `plan_next_action()` 的闭环。
-
-- 状态：**静态确认**
-- 下一次规划责任方：`[请用户确认]`
-
-### P1-3 CardBuff 可能重复施加
-
-同一个 `action.card_buffs`：
-
-1. `EntityManager.execute_action()` → `card_buff_requested`
-2. `BattleManager._on_entity_card_buff_requested()` → CardManager
-3. `BattleManager._on_timeline_action_triggered()` 又直接遍历 `action.card_buffs`
-
-- 状态：**静态确认的双入口**
-- 目标：保留唯一权威结算路径。
-
-### P1-4 stamina_regen 只存在数据，没有执行
-
-`EntityData` 有 `stamina_regen` / `mana_regen`，Timeline 的注释也提到回复体力，但当前 `time_advanced` 只推进手牌 Buff 时间。
-
-- 状态：**未实现**
-
-### P1-5 卡牌描述中的多个效果没有实现
-
-当前 `.tres` 文本描述包含下一次攻击加伤等效果，但 `effects` 都为空，RuntimeCard 也未根据描述生成对应 Buff。
-
-- 状态：**数据描述超前于实现**
-- 处理前应确认这些牌是否仍是当前设计。
-
-### P1-6 旧 `CardData.play()` 路径与 RuntimeCard 路径并存
-
-当前主战斗链看起来已经转向：
-
-`RuntimeCard -> CombatAction`
-
-旧：
-
-`CardData.play() -> CardEffect.execute()`
-
-仍留在源码。
-
-- 状态：**架构迁移未完全清理**
-- 目标：`[待确认]` 选定唯一效果结算链后再清理旧路径。
-
-## 4. 当前 P1 世界/遭遇问题
-
-### P1-7 `WorldManager.enter_battle_mode()` 没有真正启动战斗
-
-当前只：
-
-- 改 `WorldState`
-- 打印日志
-- 重新启用 PlayerController
+```text
+ExpeditionSystem
+├─ WorldSystem
+└─ UISystem
+```
 
 没有：
 
-- 构造玩家战斗输入
-- 调用 `BattleManager.start_battle()`
-- 订阅 `battle_ended`
+```text
+ExpeditionManager
+BattleSystem instance
+Expedition-level save module
+```
 
-### P1-8 准备战斗时没有保存目标 RoomData
+而目标架构要求：
 
-`enter_preparing_battle_mode(target_room)` 接收目标房间，但当前只用它打印位置，没有把目标房间/敌人 ID 存为待处理遭遇上下文。
+```text
+ExpeditionSystem
+├─ ExpeditionManager
+├─ WorldSystem
+├─ BattleSystem        # resident
+├─ UISystem
+└─ expedition save adapter/module
+```
 
-### P1-9 战斗结束返回探索尚未闭环
+### 影响
 
-`WorldManager.finish_battle()` 当前：
+当前没有真正的：
 
-- 把当前 RoomData 的 `has_enemies = false`
-- 返回 explore
+```text
+World → Expedition → Battle
+Battle → Expedition → World
+```
 
-但真正的 `BattleManager.battle_ended` 尚未接到该流程。
+上层协调对象。
 
-并且这里没有同步：
+---
 
-`enemy_id = -1`
+## P0-2 `BattleSystem.tscn` 存在 legacy 断引用与关键 export 未绑定
 
-是否需要清空请统一使用 `BattleRoom.clear_enemies()` 或明确的数据层更新规则。
+当前保存态仍有：
 
-### P1-10 门自动关闭逻辑疑似反向
+```text
+CombatManager node
+→ missing CombatManager.gd reference
+```
 
-`Door._process()` 当前在玩家仍靠近时也会执行 `close_door()`。
+这属于 legacy 断引用，不应通过重新恢复第二个战斗总管理器来解决。
 
-- 状态：**静态可疑**
-- 需要：Godot 运行验证。
+当前 `BattleManager`：
 
-## 5. 当前 P1/P2 存档问题
+```text
+timeline         = 未绑定
+entity_manager   = 未绑定
+card_manager     = UI/CardSystem [已绑定]
+battle_save_module = 未绑定
+```
 
-`BattleSaveModule` 当前不能作为可靠战斗恢复实现，已确认至少有：
+当前 `EntityManager`：
 
-- `save_initial_state()` 调用方与实现方不匹配。
-- `EntityData.base_attributes` 不存在。
-- `EntityData.new()` 参数使用方式不匹配。
-- `EnemyData.base_attributes` 不存在，当前字段是 `attributes`。
-- `_compile_input_to_runtime()` 为空。
-- RuntimeCard 没保存 active_buffs。
-- CardInstance.modifiers 没进入 RuntimeCard。
+```text
+player_entity = 已绑定
+enemy_entity  = 已绑定
+enemy_ai      = 未绑定
+```
 
-**[待确认]** 当前纵向切换里程碑是否暂时不要求“战斗中读档恢复”。旧版 AGENTS 将其列为非当前硬依赖。
+### 影响
 
-## 6. 建议的当前开发顺序
+即使存在 `BattleManager.start_battle()`，当前保存的场景 wiring 也无法完整运行预期战斗链。
 
-> 这是基于现有依赖关系整理的工作顺序，不代表用户已经批准所有改动。实际执行前仍以本次任务为准。
+---
 
-### Step 1：确认可运行入口
+## P0-3 World → Battle 没有正式交接接口
 
-- [ ] **[用户]** 确认真实 main scene。
-- [ ] 让 `ExpeditionSystem.tscn` 能作为明确测试入口加载。
-- [ ] 修掉 `BattleSystem.tscn` 的缺失脚本引用。
-- [ ] 把 `BattleManager.timeline/entity_manager/card_manager` 接好。
-- [ ] 把 `EntityManager.enemy_ai` 接好。
+当前 `WorldManager` 遭遇流程仍然内部切换：
 
-### Step 2：建立最小探索 → 战斗输入交接
+```text
+door opened
+→ target RoomData
+→ PREPARING_BATTLE
+→ timer
+→ enter_battle_mode()
+```
 
-- [ ] 实现 `ExpeditionManager` 最小职责。
-- [ ] WorldManager 遭遇时只“上报事实”，不自行造玩家牌组。
-- [ ] 明确玩家 `Array[CardInstance]` 和 `EntityData` 的来源。
-- [ ] 使用房间 `enemy_id` 启动 BattleManager。
-- [ ] 防止同一遭遇重复启动。
+当前没有：
 
-### Step 3：建立战斗 → 探索返回
+```text
+EncounterFact
+encounter signal
+ExpeditionManager handoff
+BattleManager.start_battle()
+```
 
-- [ ] 订阅 `battle_ended`.
-- [ ] 胜利后清理当前房间敌人状态。
-- [ ] 恢复同一份 `mapdata`。
-- [ ] 恢复探索移动/镜头/输入。
-- [ ] 清空战斗队列、等待状态和临时引用。
+`enter_battle_mode()` 目前也没有真正启动战斗。
 
-### Step 4：补齐战斗内部最小闭环
+---
 
-- [ ] 统一 stamina / mana 扣费规则。
-- [ ] 敌人连续行动规划。
-- [ ] 去掉 CardBuff 双重结算。
-- [ ] 明确 priority=0 / 同刻排序。
-- [ ] 决定是否在本里程碑实现 stamina regen。
+## P0-4 Battle → World 没有结果闭环
 
-### Step 5：再决定战斗存档范围
+当前：
 
-- [ ] 先定义恢复粒度。
-- [ ] 再修 BattleSaveModule 数据模型。
-- [ ] 不要在规则未确定前堆兼容代码。
+```text
+BattleManager
+→ battle_ended(is_player_victory: bool)
+```
 
-## 7. 当前里程碑验收记录模板
+但：
 
-> 每次真正运行后填写；AI 不得凭静态阅读自动写“通过”。
+```text
+receiver = none
+```
 
-### 最近一次运行
+目前工程中也没有正式的：
 
-- 日期：`[请用户填写]`
-- Godot 版本：`[请用户填写]`
-- 启动场景：`[请用户填写]`
-- Git commit / 工作区状态：`[请用户填写]`
-- 实际运行结果：`[请用户填写]`
+```text
+BattleResult
+```
 
-### 纵向闭环
+数据类型/契约。
 
-- [ ] 项目可启动
-- [ ] 地图可生成
-- [ ] 玩家可探索
-- [ ] 进入有敌人房间只触发一次遭遇
-- [ ] 探索控制正确暂停
-- [ ] BattleManager 只初始化一次
-- [ ] 玩家牌组正确进入战斗
-- [ ] 玩家属性正确进入战斗
-- [ ] enemy_id 正确进入战斗
-- [ ] 玩家可以出牌
-- [ ] 敌人可以连续行动
-- [ ] 胜负可以结束战斗
-- [ ] 战斗结果只处理一次
-- [ ] 原房间敌人状态正确清除
-- [ ] 没有重新生成地图
-- [ ] 返回探索后移动/镜头/输入正常
-- [ ] 第二场战斗不会继承第一场的队列/Buff/锁定
+`WorldManager.finish_battle()` 存在，但没有连接到真实 Battle result flow。
 
-## 8. 用户维护区
+---
 
-- **当前正在做：** `[请用户填写]`
-- **刚完成：** `[请用户填写]`
-- **下一项：** `[请用户填写]`
-- **当前最大阻塞：** `[请用户填写]`
-- **已知但暂不处理：** `[请用户填写]`
-- **需要 AI 特别避免碰的区域：** `[请用户填写]`
+# 5. 当前 P1：战斗内部已知问题
+
+## P1-1 EnemyAI 只有 initial planning 链
+
+当前存在：
+
+```text
+setup_ai()
+→ plan_initial_actions()
+→ plan_next_action(0)
+→ action_planned(CombatAction)
+```
+
+但尚未形成：
+
+```text
+action completed
+→ next plan trigger
+→ plan_next_action(current_time)
+```
+
+的持续闭环。
+
+此外，当前 `EntityManager.enemy_ai` 未绑定，因此保存态甚至无法通过该引用启动首次规划。
+
+---
+
+## P1-2 stamina / mana 支付规则不一致
+
+当前：
+
+```text
+RuntimeCard
+attack → stamina_cost
+other  → mana_cost
+```
+
+但 `BattleManager` 当前出牌校验与扣费固定使用：
+
+```text
+"stamina"
+```
+
+### 需要的后续设计决定
+
+在修复前需要明确：
+
+```text
+Attack / Skill / Power
+分别使用什么资源
+```
+
+不要仅为了消除报错而任意选择。
+
+---
+
+## P1-3 CardBuff 存在双路径施加风险
+
+当前同一 `CombatAction.card_buffs` 存在两条路径：
+
+```text
+EntityManager.execute_action()
+→ card_buff_requested
+→ BattleManager
+→ CardManager
+```
+
+以及：
+
+```text
+BattleManager._on_timeline_action_triggered()
+→ 直接处理 action.card_buffs
+```
+
+需要统一为一个权威结算路径。
+
+---
+
+## P1-4 `CardInstance` → `RuntimeCard` 数据未完整继承
+
+当前 `BattleManager.start_battle()` 转换主要使用：
+
+```text
+card_id
+card_data
+```
+
+`CardInstance.modifiers` / `unique_id` 当前没有完整进入 `RuntimeCard`。
+
+这是否属于 bug，取决于长期 CardInstance / RuntimeCard 设计，应结合 `MECHANICS.md` 与未来卡牌持久化设计一起确认。
+
+---
+
+## P1-5 `RuntimeCard` 存档内容不完整
+
+当前 `RuntimeCard.to_dictionary()` 不保存：
+
+```text
+active_buffs
+```
+
+这在未来决定“战斗中途可恢复”的存档粒度时需要处理。
+
+当前不阻塞纵向探索↔战斗里程碑。
+
+---
+
+# 6. Save 当前状态
+
+## 6.1 当前实现
+
+`SaveManager`：
+
+```text
+slot
+metadata
+module registry
+JSON I/O
+```
+
+基础存在。
+
+`BattleSaveModule.gd`：
+
+```text
+file exists
+but not mounted
+not registered in current chain
+data model incompatible
+legacy
+```
+
+当前已知 legacy 问题包括：
+
+- 与 `EntityData` 当前 constructor / fields 不兼容；
+- 与 `EnemyData` 当前 fields 不兼容；
+- `BattleManager` 曾期待 `save_initial_state(...)`，但 module 没有该接口；
+- 当前不应为了别的任务顺便修补。
+
+## 6.2 已确认目标
+
+最终：
+
+```text
+SaveManager
+├─ PlayerSaveManager adapter
+└─ Expedition-level Save Module
+```
+
+而不是：
+
+```text
+World save truth
++
+Battle save truth
+```
+
+各自独立。
+
+当前原型阶段：
+
+```text
+旧存档兼容 = 非要求
+```
+
+因此未来可以优先建立干净的新 expedition snapshot contract。
+
+---
+
+# 7. 当前文档与 Agent 工作流状态
+
+| File | 当前状态 | 下一动作 |
+| --- | --- | --- |
+| `AGENTS.md` | 已完成工作流规则升级 | 后续若规则改变再更新；每次修改必须向用户报告 |
+| `AI_CONTEXT.md` | 已刷新 | 稳定职责/ownership 改变时更新 |
+| `ARCHITECTURE.md` | 已完成第一轮真实源码审计 | Editor/Runtime 实际状态改变时增量维护 |
+| `AI_PROGRESS.md` | 本次刷新 | 每个明显 milestone 后更新 |
+| `CODE_INDEX.md` | 旧版仍含过期内容 | **下一份处理** |
+| `MECHANICS.md` | 尚未刷新 | CODE_INDEX 后处理 |
+
+`PROJECT_DUMP.md` / `build_godot_snapshot.py`：
+
+```text
+Web model workflow only
+```
+
+不属于 Codex Agent 的实时工程事实来源。
+
+---
+
+# 8. ARCHITECTURE 当前验证边界
+
+本轮 `ARCHITECTURE.md` 刷新时 Godot Editor 没有打开，因此 Editor MCP 未参与该次审计。
+
+这不会使当前架构文档失效，因为：
+
+```text
+project.godot
+.tscn
+.gd
+.tres
+```
+
+足以确认“磁盘保存态”的 SceneTree、attached scripts、export values 和源码契约。
+
+但以下内容仍不能据此声明 runtime 已验证：
+
+- 未保存的 Editor 临时状态；
+- runtime 动态 SceneTree；
+- signal 实际是否按预期触发；
+- battle flow 是否实际可跑通；
+- runtime-only data flow；
+- Inspector 中尚未保存的改动。
+
+因此当前原则是：
+
+```text
+saved project structure
+= 可作为当前事实
+
+runtime behavior
+= 仍需运行验证
+```
+
+不需要为了这一点重做整份 `ARCHITECTURE.md`。
+
+---
+
+# 9. 接下来推荐的工作顺序
+
+## 当前文档收口
+
+```text
+1. AI_PROGRESS.md      ← 当前完成
+2. CODE_INDEX.md
+3. MECHANICS.md
+```
+
+## 工具收口
+
+```text
+4. Runtime MCP E2E validation
+5. 检查 .gitignore / .codex_runtime/
+6. 可选：tools/codex_doctor.ps1
+7. Git checkpoint
+```
+
+## Gameplay implementation
+
+```text
+8. 清理 BattleSystem scene wiring blockers
+9. 实现 ExpeditionManager 最小纵向协调
+10. World encounter → Expedition handoff
+11. Expedition → Battle start
+12. Battle result → Expedition
+13. Expedition → same World/RoomData restore
+14. 第二场战斗 lifecycle cleanup 验证
+```
+
+之后再处理非纵向闭环必要的 P1 战斗问题。
+
+---
+
+# 10. 最近实际验证记录
+
+## 2026-09-21 — Godot 4.7.2 CLI
+
+已验证：
+
+```text
+Godot console executable --version
+→ 4.7.2 stable
+```
+
+## 2026-09-21 — canonical wrapper
+
+已验证：
+
+```powershell
+.\tools\godot_cli.ps1 --version
+```
+
+结果：
+
+```text
+wrapper 找到正确 4.7.2 console executable
+version 正确
+```
+
+## 2026-09-21 — `.codex_runtime`
+
+已验证：
+
+```text
+.codex_runtime/
+├─ AppData/
+└─ Temp/
+```
+
+## 2026-09-21 — headless editor initialization
+
+已验证：
+
+```powershell
+.\tools\godot_cli.ps1 --headless --editor --path . --quit
+```
+
+观察：
+
+```text
+Godot 4.7.2 启动
+filesystem scan DONE
+editor layout load DONE
+Godot MCP plugin loaded
+Godot MCP plugin unloaded
+process returned to PowerShell normally
+```
+
+这证明 wrapper 与 headless editor initialization 可以正常工作。
+
+它**不等于** gameplay runtime 闭环通过。
+
+---
+
+# 11. 已知但当前故意不处理
+
+## `BattleSaveModule.gd`
+
+这是 legacy 代码，计划被新的 expedition-level save architecture 替代。
+
+当前已知 parser/type compatibility 问题可以作为迁移例外记录，不应为了“让项目看起来零错误”而在无关任务中修复。
+
+## 旧 CardEffect 路径
+
+如果当前工程仍同时保留：
+
+```text
+CardData / CardEffect legacy path
+```
+
+与：
+
+```text
+RuntimeCard → CombatAction
+```
+
+不要在没有明确迁移任务时大范围删除。
+
+先确认 gameplay effect architecture，再统一清理。
+
+---
+
+# 12. 当前完成定义
+
+当前 workflow/documentation 阶段在以下条件满足后可以视为收口：
+
+- [x] Godot 4.7.2 active workspace 可用
+- [x] canonical CLI wrapper 可用
+- [x] headless editor initialization 验证
+- [x] Editor MCP 基础连通验证
+- [x] `AI_CONTEXT.md` 刷新
+- [x] `ARCHITECTURE.md` 第一轮真实源码审计
+- [x] `AI_PROGRESS.md` 刷新
+- [ ] `CODE_INDEX.md` 刷新
+- [ ] `MECHANICS.md` 刷新
+- [ ] Runtime MCP E2E 验证
+- [ ] `.gitignore` / generated runtime data 最终确认
+- [ ] 最终 Git checkpoint
+
+完成后即可把主要精力切回 gameplay vertical slice。

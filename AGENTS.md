@@ -1,253 +1,195 @@
 # AGENTS.md
 
-> **作用范围：**整个仓库。当前对话中的用户明确指令始终优先于本文。
+> Scope: entire repository. Explicit user instructions in the current conversation always take precedence.
 >
-> 本文件用于向 Coding Agent 提供完成任务所需的最小可靠上下文：如何检查工程、如何修改、哪些职责边界不能破坏，以及如何验证结果。不要把本文当作实现状态的替代品。
+> Purpose: stable operating contract for coding agents. It defines how to inspect, modify, validate, and protect this Godot project. It is not a task log and never overrides the real workspace state.
 
-## 0. 开始前先读
+## 1. Core operating rules
 
-### 必须遵守
+1. **Inspect before editing.** Read the target file, callers, and relevant `.tscn` / `.tres`. Check `project.godot` when startup, Autoloads, input, rendering, or project settings are involved.
+2. **Keep scope narrow.** Record unrelated problems; fix them only if they block the current task. Do not add speculative gameplay, abstractions, or refactors.
+3. **One mutable state, one authoritative owner.** Do not duplicate runtime truth or add a second manager for a local problem.
+4. **Respect architecture boundaries.** Exploration/battle handoff belongs to `ExpeditionManager`; battle-domain coordination belongs to `BattleManager`, unless the user explicitly changes the architecture.
+5. **Check Godot wiring with script changes.** Verify signals, NodePaths, exported references, scene/resource references, animation tracks, and UIDs when relevant.
+6. **Do not hide required-interface failures.** No `has_method`, null skipping, swallowed errors, fake defaults, or warning suppression to make required dependencies look valid.
+7. **Every start path needs cleanup.** Success, cancellation, failure, and exit paths must not leak signals, callbacks, queues, visual waits, input locks, or stale scene references.
+8. **Validate according to the change.** Never present static inspection as runtime validation; state what was and was not tested.
+9. **Protect existing work.** Do not commit, push, publish, revert, overwrite, or clean unrelated user changes unless explicitly requested.
 
-1. **先检查，再修改。** 阅读目标脚本、调用方及相关 `.tscn` / `.tres`；涉及场景启动、输入、Autoload、渲染器或项目设置时同时检查 `project.godot`。不要只根据文件名、类名或本文判断实现状态。
-2. **不扩大范围。** 无关问题只记录；只有阻碍当前任务时才纳入修复。不要顺手增加玩法，也不要为未来假设提前抽象。
-3. **一种可变状态只有一个权威所有者。** 不复制运行时真实状态，不为单个需求临时增加第二套管理层。
-4. **遵守第 3 节职责边界。** 探索 ↔ 战斗通过 `ExpeditionManager` 协调；战斗内卡牌 / 实体 / 行动轴通过 `BattleManager` 协调，除非用户明确决定调整架构。
-5. **修改脚本时同步检查 Godot 接线。** 包括信号、NodePath、导出属性、场景/资源引用、动画轨道和资源 UID。
-6. **不要掩盖必需接口错误。** 对核心依赖，不要用 `has_method`、空值跳过、吞错、伪造默认数据或关闭警告来假装初始化成功。
-7. **每个开始流程都必须有结束 / 取消 / 失败清理。** 不能把旧信号、异步回调、行动队列、表现等待、输入锁或场景引用带到下一阶段。
-8. **按改动做验证。** 不能实际运行时，明确说明检查了什么、没有验证什么；不要把静态审阅描述成运行通过。
-9. **保护现有工作。** 用户未要求时，不提交、推送、发布、回退或覆盖无关已有改动。
+## 2. Source of truth and document use
 
-### 按任务读取，不要机械通读
+Priority when information conflicts:
 
-| 任务 | 必读章节 |
-| --- | --- |
-| 任意代码 / 场景 / 资源修改 | 0、1、4、5 |
-| 玩法或设计解释 | 2 |
-| 跨系统 / 状态所有权修改 | 3 |
-| 探索 ↔ 战斗衔接 | 1、3.2～3.5 |
-| 卡牌 / 实体 / 行动轴 | 3.2～3.5 |
-| 存档 / 读档 | 3.2～3.4、4、5 |
+1. Explicit user instruction.
+2. Current real workspace files and live Godot editor/runtime state.
+3. `project.godot` for project configuration/wiring facts.
+4. `Docs/AI_PROGRESS.md` for current milestone, blockers, and temporary exceptions.
+5. `Docs/AI_CONTEXT.md` for architecture/system-map context.
+6. `Docs/CODE_INDEX.md` for navigation.
+7. `Docs/MECHANICS.md` for gameplay rules/design decisions.
+8. Git history and explicitly provided external snapshots/notes, when relevant.
 
-如果目标目录下存在更近的 `AGENTS.md`，该文件可对其子树提供更具体的规则；用户当前对话指令仍然优先。
+If documentation conflicts with current files, report the conflict. Do not modify code merely to match stale documentation.
 
----
+Read only what the task needs:
 
-## 1. 当前工作区
+- Use `Docs/CODE_INDEX.md` when locations are unknown, then inspect the real files.
+- Read `Docs/AI_PROGRESS.md` before substantial work.
+- Read `Docs/AI_CONTEXT.md` for ownership, scene composition, or cross-system work.
+- Read `Docs/MECHANICS.md` only when gameplay rules/numbers matter.
+- Do not mechanically load every project document into context.
 
-> 本节是高频变化信息。修改相关模块前必须重新检查实际脚本、场景、资源和 `project.godot`。观察过期时更新或删除，不要为了匹配旧文档而改代码。
+## 3. Development environment and tool policy
 
-### 当前目标
+### Active workspace
 
-打通完整纵向流程：
+- Workspace: `D:/Game project/Godot/LW_game_development_upgrade_test`
+- Godot editor: `D:/APP/Godot/4.7.2/Godot_v4.7.2-stable_win64.exe`
+- Godot CLI backend: `D:/APP/Godot/4.7.2/Godot_v4.7.2-stable_win64_console.exe`
+- Canonical CLI wrapper: `tools/godot_cli.ps1`
+- MCP server: `godot-mcp-472-test`
 
-`地图探索 -> 遭遇敌人 -> 进入战斗 -> 战斗结束 -> 返回同一次远征地图 -> 继续探索`
+### Protected fallback
 
-验收路径：
+- Godot 4.4.1 project: `D:/Game project/Godot/LW_game_development`
+- Treat it as protected fallback state. Do not modify, migrate, or open it with newer Godot unless the user explicitly requests this.
 
-- 一次敌人遭遇只启动一次战斗。
-- 探索暂停；玩家 / 牌组 / 敌人等战斗输入只传入一次。
-- 战斗只初始化一次，结束事件只处理一次。
-- 战斗结果返回同一次远征和对应房间，不重新生成整张地图。
-- 已处理遭遇状态正确更新。
-- `PlayerVisualManager` 恢复探索表现、移动、镜头和输入。
-- 上一场战斗的队列、临时状态、回调、信号和输入锁不残留到探索阶段或下一场战斗。
+### CLI
 
-主要协调链：
+`tools/godot_cli.ps1` is the **canonical CLI entry point** for automated Godot work in this repository.
 
-`WorldManager -> ExpeditionManager -> BattleManager -> ExpeditionManager -> WorldManager`
+Use it instead of the generic `godot` command or a directly invoked Godot executable:
 
-处理该流程时至少检查：
+```powershell
+.\tools\godot_cli.ps1 --version
+.\tools\godot_cli.ps1 --headless --path . --quit
+.\tools\godot_cli.ps1 --headless --editor --path . --quit
+```
 
-- `ExpeditionSystem.tscn`
-- `BattleSystem.tscn`
-- 相关脚本、信号和资源绑定
+Rules:
 
-### 当前范围
+- Do not use the generic `godot` command; PATH may resolve to the protected Godot 4.4.1 installation.
+- Do not bypass the wrapper by calling the 4.7.2 executable directly during normal agent work. Direct engine invocation is reserved for diagnosing the wrapper itself or when the user explicitly requests it.
+- The wrapper must resolve the repository root, use the approved Godot 4.7.2 console executable, forward arguments, preserve the process exit code, and isolate automated user/temp data under `.codex_runtime/`.
+- `.codex_runtime/` is generated automation state, never authored project content, and must remain ignored by Git.
+- For clean `--editor` validation, avoid running a second interactive Godot editor when plugin ports or editor state could conflict.
 
-**本阶段处理：**遭遇上报、战斗数据交接、战斗启动、战斗结果回传、房间/遭遇更新、探索/战斗模式切换、生命周期清理，以及完成闭环所需的最小接口或场景接线修改。
+### Tool order
 
-**除非成为硬依赖，否则不处理：**完整奖励结算、长期成长、撤离/物资系统、完整战斗中读档恢复、完整失败惩罚、无关的大范围架构重构。
+Use the smallest tool surface/context that can complete the task:
 
-### 修改前复核这些实现观察
+1. Targeted file navigation/search.
+2. Relevant real file reads.
+3. Direct `.gd` / `.tscn` / `.tres` edits.
+4. `tools/godot_cli.ps1` for Godot parsing/loading/running/validation.
+5. Editor MCP only for real editor state or editor-only operations.
+6. Runtime MCP only when live runtime state is required and the bridge is connected.
 
-以下是 **2026-09-20** 的静态审阅快照：
+Editor MCP is appropriate for open scenes, scene trees, Inspector/exported properties, and editor wiring. Runtime MCP is appropriate for runtime trees/properties, method calls, input injection, pause/step, and runtime-only behavior.
 
-| 当前观察 | 修改前要确认 |
-| --- | --- |
-| `GameManager`、`ExpeditionManager`、`PlayerSaveManager` 主要仍是占位；`ExpeditionSystem.tscn` 尚未完整装配 | 顶层装配、玩家数据来源、探索/战斗交接 |
-| `WorldManager` 的准备流程仍主要表现为定时切换 | 区分表现准备与真实 `BattleManager.start_battle` |
-| `BattleSystem.tscn` 仍引用旧 `CombatManager.gd` | 按当前职责修复接线，不恢复重复管理器职责 |
-| `EntityManager` / `EnemyAI` 已有部分接口，但连续规划链不完整 | 一次行动完成后由谁请求下一次规划 |
-| `BattleManager` / `BattleSaveModule` 的对象和快照接口不一致 | 创建、注册、导出、恢复边界 |
-| `CardData.play` 与 `RuntimeCard -> CombatAction` 两条效果路径并存，Buff 也有多入口迹象 | 在相关任务中确认唯一权威结算链 |
+### Context/token discipline
 
-### 当前运行条件与未决问题
+- No whole-project scan unless required.
+- No full scene-tree dump when a narrow subtree is enough.
+- No full logs when only errors are needed.
+- No screenshots unless the issue is visual.
+- Prefer targeted searches/reads and CLI validation over repeated broad MCP inspection.
 
-- 项目使用 GDScript；Godot 版本、渲染器、Autoload 和 `run/main_scene` 以真实 `project.godot` 为准。
-- 当前没有保证可用的统一自动化测试命令。运行前先确认 Godot 可执行文件、版本、目标场景和依赖。
-- `kanban_tasks_data.kanban` 可提供任务背景，但看板条目不是功能已完成的证据。
-- 只有当前任务确实依赖时，才向用户确认这些未决项：目标平台/性能目标、固定 Godot 版本、纵向验收入口场景、原型阶段允许的架构调整范围、旧存档兼容范围、同刻行动排序、Buff 时机、战斗恢复粒度、撤离失败后的奖励处理。
+## 4. Stable architecture boundaries
 
----
-
-## 2. 稳定游戏设计
-
-本节描述设计方向，不表示对应功能已经实现。设计与代码不一致时指出差异，不擅自把任一方当作最终事实。
-
-### 游戏定位与核心循环
-
-- 非回合制肉鸽卡牌战斗，采用逻辑行动轴时间机制。
-- 每把武器绑定一个牌组；武器毁坏则对应牌组消失。
-- 地牢房间中会出现敌人，遭遇后从探索切换到卡牌战斗。
-
-核心循环：
-
-`基地整备 -> 进入地图 -> 探索 -> 获得物资 -> 遭遇 -> 战斗 -> 奖励 -> 完成地图目标 -> 收集/存放 -> 撤离 -> 返回基地 -> 保存成长`
-
-### 战斗
-
-玩家操作：出牌、弃牌、抽牌、等待。
-
-- 玩家和敌人共享一条逻辑时间轴。
-- 敌人行动预先排在特定逻辑时间点。
-- 卡牌效果在逻辑时间点结算，并按行动值推进世界时间。
-- 动画耗时不能改变行动值、伤害或排期。
-- 同刻排序、Buff 时机和战斗中断/恢复规则，在未被明确稳定前都不能被重构悄悄定成最终设计。
-
-### 基地与远征
-
-- 基地：整理装备和进行局外成长。
-- 远征：地牢地图探索；房间为矩形空间，相连处通过门连接。
-- 出生房为初始房，包含物资收集设施；玩家取得的物资/奖励需要存入该设施，才会在远征结束后保留，除非后续设计明确修改此规则。
-
----
-
-## 3. 架构与状态所有权
-
-### 3.1 原则
-
-- 沿用现有 Godot 场景组合、管理器编排和数据驱动 Resource 方向。
-- 先让真实玩法流程可验证，再增加通用框架层。
-- 管理器负责领域流程和协调；算法、单个实体行为、动画放在对应脚本中。
-- 玩法数据、运行时状态、表现分开；UI 副本和存档快照都不是真实运行时状态。
-- 上层装配依赖；必需依赖在初始化阶段明确失败。
-- 命令有明确接收者，事件用于报告事实。
-- 没有测量结果、第二个真实用例或明确职责冲突时，不提前优化或抽象。
-
-### 3.2 管理器职责
-
-| 脚本 | 应负责 | 不应负责 |
+| Area | Authoritative owner | Must not own |
 | --- | --- | --- |
-| `Scripts/GameManager.gd` | 应用级流程、基地/远征切换、调用存档服务 | 伤害、洗牌、房间生成、战斗 UI |
-| `ExpeditionSystem/Scripts/ExpeditionManager.gd` | 一次远征生命周期、探索/战斗交接、远征结果、收集/撤离编排 | 地图生成算法、单次行动结算、镜头动画、直接写存档文件 |
-| `.../WorldSystem/Scripts/WorldManager.gd` | 当前地图/房间/遭遇状态、探索模式、遭遇上报、接收战斗结果 | 牌堆初始化、伤害、局外成长 |
-| `.../BattleSystem/Scripts/BattleManager.gd` | 战斗生命周期、操作合法性协调、资源/牌堆请求、提交行动、结算与表现同步、上报胜负 | 复制牌堆/实体状态、生成地图、写存档、实现卡牌动画 |
-| `.../CardSystem/Scripts/CardManager.gd` | 抽牌堆/手牌/弃牌堆真实状态、抽弃洗牌、确认/拒绝出牌、RuntimeCard Buff 分发 | 决定胜负、直接改实体资源、推进时间轴、动画轨迹 |
-| `.../EntitySystem/Scripts/EntityManager.gd` | 战斗实体注册、通过实体接口改属性、目标路由、死亡/表现事件 | 管理牌堆、推进时间轴、卡牌动画、文件存档 |
-| `.../PlayerVisual/Scripts/PlayerVisualManager.gd` | 探索/战斗/调试表现模式、移动和镜头开关 | 遭遇规则、战斗结果、奖励、真实战斗数值 |
-| `Scripts/SaveManager.gd` | 存档槽位、元数据、模块注册、文件读写、结果报告 | 业务字段、奖励计算、玩法流程决策 |
-| `Scripts/PlayerSaveManager.gd` | 玩家长期数据、存档模块适配 | 再实现一套文件读写、复制实时战斗属性 |
-| `AllCardData.gd` / `AllEnemyData.gd` | 静态模板加载、ID 查找、有效性检查 | 当前生命、临时卡牌 Buff、当前行动队列 |
+| Application flow / base-expedition switching | `GameManager` | combat resolution, deck logic, map generation |
+| Expedition lifecycle / explore-battle handoff | `ExpeditionManager` | map generation, single-action resolution, direct save-file I/O |
+| Current map / room / encounter state | `WorldManager` | deck initialization, damage, long-term progression |
+| Battle lifecycle / permissions / coordination | `BattleManager` | duplicated deck/entity state, map generation, direct file saving, card animation implementation |
+| Draw / hand / discard runtime state | `CardManager` | win/loss ownership, entity-resource ownership, timeline ownership |
+| Battle entity routing / attribute changes | `EntityManager` | deck ownership, timeline ownership, card animation, file saving |
+| Exploration/battle/debug presentation | `PlayerVisualManager` | encounter rules, battle results, real combat values |
+| Logical time / action queue | `Timeline` | damage, payment, saving, animation implementation |
+| Static templates | `AllCardData` / `AllEnemyData` | current HP, temporary Buffs, live queues |
+| Save slots / file I/O / module registration | `SaveManager` | gameplay decisions and reward calculation |
 
-### 3.3 关键辅助边界
+Core flows:
 
-- `Timeline.gd`：拥有逻辑时间、行动队列、排期/排序和推进状态；发出到期行动并等待完成通知。**不**负责伤害、扣费、存档或动画。
-- `EnemyAI.gd`：根据配置和只读战况生成行动意图；**不**直接修改玩家状态。
-- `CombatAction.gd`：只承载行动数据（来源/目标 ID、触发时间、优先级、效果载荷）；**不**自己查场景或执行效果。
-- `CombatEntity` + `AttributeSet`：拥有真实战斗属性；通过 `EntityManager` 协调访问。
-- `CardInstance` / `RuntimeCard` / `CardBuff`：分别表示可序列化实例、战斗内状态和临时 Buff；共享 Resource 不能造成多张牌之间的可变状态污染。
-- `PlayerHandDeck` 与卡牌交互/动画脚本：只负责展示和输入；真实牌堆成员仍由 `CardManager` 决定。
-- `WorldGenerator` / `MapBlueprint`：生成房间/门数据；**不**移动玩家，也不启动战斗。
-- `RoomSet` / `DoorSet` / 房间表现脚本：负责局部场景实例和表现；远征进度仍归 `WorldManager`。
-- `SaveModule` / `BattleSaveModule`：只做序列化适配；快照由业务所有者导出，恢复通过业务接口完成。
+- Exploration/battle: `WorldManager -> ExpeditionManager -> BattleManager -> ExpeditionManager -> WorldManager`
+- Battle action: `Card UI -> CardManager -> BattleManager -> EntityManager / CardManager / Timeline -> BattleManager -> presentation -> completion -> Timeline`
 
-### 3.4 权威状态
+Invariants:
 
-| 状态 | 唯一所有者 |
-| --- | --- |
-| 应用阶段 / 当前会话 | `GameManager` |
-| 一次远征进度、待收集/已收集结果 | `ExpeditionManager` |
-| 当前地图、房间位置、遭遇清除状态 | `WorldManager` |
-| 战斗活动状态、操作许可 | `BattleManager` |
-| 逻辑时间、行动队列 | `Timeline` |
-| 抽牌堆 / 手牌 / 弃牌堆 RuntimeCard | `CardManager` |
-| 战斗属性、实体 Buff | 每个 `CombatEntity` 的 `AttributeSet` |
-| 已保存槽位 / 快照 | `SaveManager` + 对应 `SaveModule` |
+- One valid action pays once, moves a card once, and applies each effect once.
+- Failed requests must not leave partially committed state.
+- A stable `RuntimeCard` belongs to one logical pile at a time; visual nodes are not authoritative deck state.
+- Logical time is separate from animation duration.
+- Pause/skip/cancel/exit must resolve pending presentation waits explicitly.
+- Template IDs and runtime-instance IDs are distinct.
+- Do not silently decide unresolved same-time ordering, Buff timing, or interruption/recovery rules during unrelated work.
+- When reproducibility matters, identify the RNG owner/seed/persistence; cosmetic randomness must not alter gameplay randomness.
 
-### 3.5 核心流程与不可破坏约定
+## 5. Godot modification rules
 
-战斗行动链：
+- Follow local naming, indentation, and organization. Do not mass-format unrelated history.
+- Prefer typed GDScript when it matches the surrounding code.
+- Put designer-tuned values in existing Resources or appropriate `@export` fields; do not expose every internal variable.
+- Check related `.tscn` / `.tres` wiring with script changes.
+- Renames/moves require checking NodePaths, signals, animation tracks, exported references, and resource references.
+- Preserve valid resource UIDs and `.uid` files; never invent UIDs manually.
+- `.godot/` and `.codex_runtime/` are generated state, not authored source; both must remain ignored by Git.
+- Do not create editor-data folders such as `export_templates/`, `feature_profiles/`, or `text_editor_themes/` in the project root as normal source work. If tooling unexpectedly creates them, report the environment issue before treating them as assets.
+- Changes to input actions, collision layers, Autoloads, renderer settings, or other `project.godot` settings require impact review.
+- Save tests must use isolated test data and never overwrite user saves.
+- New resource/save fields need explicit defaults, invalid/missing-ID behavior, and an old-data compatibility decision.
+- Production code must fail clearly when required data is missing; do not silently inject test decks, enemies, or debug data.
 
-`卡牌 UI -> CardManager -> BattleManager -> EntityManager / CardManager / Timeline -> BattleManager -> 表现 -> 完成通知 -> Timeline`
+## 6. Current known migration exception
 
-探索/战斗链：
+`BattleSaveModule.gd` is legacy code scheduled for replacement. Its incompatibility with `EntityData` is known and may produce a Godot 4.7.2 parser/type error.
 
-`WorldManager 上报遭遇 -> ExpeditionManager 提供战斗输入 -> BattleManager 执行战斗 -> ExpeditionManager 接收结果 -> WorldManager 更新房间和探索状态`
+- Do not fix/refactor it unless the user explicitly requests it or it becomes a hard dependency.
+- Do not count this known error as a newly introduced regression.
+- Do not claim the entire project has zero parser errors while it remains.
+- If another task depends on it, surface the dependency before expanding scope.
+- Keep detailed status/replacement plans in `Docs/AI_PROGRESS.md`, not here.
 
-不可破坏：
+## 7. Validation and delivery
 
-- 一次有效行动只扣费一次、流转卡牌一次、施加每项效果一次。
-- 失败请求不能留下“已扣费但未执行”等半完成状态。
-- RuntimeCard 在稳定状态只属于一个逻辑牌堆；画面节点不能造成逻辑重复。
-- 逻辑时间与动画耗时分离。
-- 暂停 / 跳过 / 取消 / 退出必须明确结束正在等待的表现流程。
-- 模板 ID 与运行时实例 ID 保持不同含义。
-- 重构时不能悄悄决定尚未稳定的同刻排序和 Buff 时机。
-- 需要可复现时，明确 RNG 所有者、种子设置时机和是否保存 RNG 状态；装饰动画不能改变玩法随机序列。
+Use these terms precisely:
 
-### 3.6 修改架构时
+- **Implemented**: files changed.
+- **Static check passed**: inspected/parsed; runtime behavior not observed.
+- **Runtime validated**: relevant project/scene executed and target behavior observed.
+- **User playtest accepted**: user manually confirmed gameplay/visuals/feel.
 
-新增或修改管理器、状态所有权或跨模块接口时，同一次修改中说明：所有者/接收者、输入输出、调用前提、成功后的状态变化、失败行为、完成/取消通知、清理路径、验证方法。
+Validation expectations:
 
-只有出现真实的职责或生命周期问题，且现有边界无法清晰表达时，才考虑增加新管理器。
+- Documentation: check facts, paths, and internal consistency.
+- Script/scene/resource changes: parse/load when possible and run the narrow relevant path.
+- Timeline/card work: verify request conditions, cost, order, time advancement, effect count, and input unlock.
+- Exploration work: verify relevant generation/movement, encounter transition, and exploration return.
+- Save work: use non-user test data and perform save + reload.
+- Lifecycle/interface work: cover normal flow plus relevant failure/cancel/duplicate-entry/cleanup paths.
+- Random behavior: record a reproducible seed/condition when supported.
 
----
+Delivery must briefly state: what changed; what was validated and result; what was not validated; remaining relevant issues; manual Godot steps still required.
 
-## 4. Godot 修改规则
+## 8. Maintaining AGENTS.md
 
-- 沿用目标文件现有命名、缩进和组织方式；不要批量格式化无关历史代码。
-- 新接口在符合现有风格时尽量写清参数和返回类型。
-- 策划需要反复调整的参数优先放进现有 Resource 或合适的 `@export`；不要暴露所有内部变量。
-- 修改脚本时同步检查相关 `.tscn` / `.tres` 绑定。
-- 重命名/移动节点或资源时检查 NodePath、信号、动画轨道、导出引用和资源引用。
-- 保留有效资源 UID 和 `.uid` 文件；不要手工编造 UID。
-- `.godot/` 是生成缓存，不作为源码修改。
-- 修改输入动作、碰撞层、Autoload、渲染器或其他 `project.godot` 设置时，检查调用方并说明玩家可见影响。
-- 存档沿用 `SaveManager` / 模块边界；验证使用独立测试存档，不覆盖用户已有存档。
-- 新增资源/存档字段时，定义缺省值、无效/缺失 ID 行为，以及旧数据是否兼容。
-- 生产流程缺少必需数据时应明确失败；不要静默注入测试牌组、测试敌人或调试数据。
+`AGENTS.md` is a stable operating contract, not a task/history log or automatic preference-learning store.
 
----
+The agent may **propose** an update after observing a repeated user preference, recurring workflow correction, new stable project constraint, canonical tool/validation path, or user-confirmed long-term architecture rule.
 
-## 5. 验证、交付与协作保护
+Do not silently turn one-off requests into permanent rules. Do not edit this file merely to match the current task. Before changing an existing rule or adding a behavioral preference, obtain user approval unless the user explicitly requested that the rule become permanent.
 
-### 验证
+### Mandatory change reporting
 
-- 纯文档：核对事实、路径和内部一致性。
-- 脚本 / 场景 / 资源：能执行时检查解析/加载，并运行相关场景。
-- 行动轴 / 卡牌结算：检查出牌条件、资源消耗、顺序、时间推进、效果次数和输入解锁。
-- 探索修改：检查相关生成/移动，并验证遭遇切换和探索恢复。
-- 存档修改：使用非用户测试槽位执行保存 + 重新加载。
-- 生命周期 / 接口修改：除正常流程外，覆盖相关失败、取消、重复进入和退出清理。
-- 随机问题：现有实现支持时记录可复现种子/条件。
+**Every time this file is modified, clearly tell the user exactly what changed. Never modify it silently.**
 
-严格区分这些表述：
+The final response for any `AGENTS.md` modification must include an **`AGENTS.md changes`** summary covering:
 
-- **已实现**：文件已经修改。
-- **静态检查通过**：完成了审阅/解析，但没有运行时证据。
-- **实际运行验证**：相关项目/场景已运行并观察到目标行为。
-- **用户试玩认可**：用户已手动确认玩法、画面或手感。
+- rules/sections added;
+- rules/sections changed;
+- rules/sections removed;
+- why each change was made;
+- important existing constraints intentionally preserved unchanged.
 
-### 交付
-
-完成时简要说明：改了什么；验证了什么及结果；哪些内容没有验证；仍存在的相关问题；是否需要用户在 Godot 编辑器中执行额外步骤。
-
-### 协作保护
-
-- 修改前查看工作区已有改动并保留无关工作。
-- Diff 保持聚焦，不混入缓存、临时日志、大体积导出或无关格式变化。
-- 不回退或清理来源不明的改动。
-- 用户未要求时不提交、推送或发布。
-- 短期当前状态只维护在第 1 节；稳定设计、职责和规则维护在后续章节。
-- `AGENTS.md` 不是历史日志。已完成历史放在现有看板 / issue 流程或验证输出中。
+Do not maintain a running changelog inside this file. Git history plus the explicit user-facing change summary are the change record.

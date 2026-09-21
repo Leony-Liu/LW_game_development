@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cgstkmha5whja"]
+[gd_scene format=3 uid="uid://cgstkmha5whja"]
 
 [ext_resource type="PackedScene" uid="uid://dn2c6ojwph1kq" path="res://ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn" id="1_5x4cq"]
 [ext_resource type="Script" uid="uid://dxhwr3y7lk3s1" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd" id="1_b0kv7"]
@@ -9,9 +9,9 @@
 [ext_resource type="Script" uid="uid://hb1cr0b2ytvw" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/RoomSet.gd" id="2_vrybq"]
 [ext_resource type="PackedScene" uid="uid://c3jaitphg2byh" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn" id="4_vrybq"]
 
-[node name="Expedition‌System" type="Node"]
+[node name="Expedition‌System" type="Node" unique_id=692706964]
 
-[node name="WorldSystem" type="Node" parent="." node_paths=PackedStringArray("world_generator", "room_set", "door_set", "player_visual")]
+[node name="WorldSystem" type="Node" parent="." unique_id=114827851 node_paths=PackedStringArray("world_generator", "room_set", "door_set", "player_visual")]
 script = ExtResource("1_b0kv7")
 world_generator = NodePath("WorldGenerator")
 room_set = NodePath("RoomSet")
@@ -19,26 +19,26 @@ door_set = NodePath("DoorSet")
 player_visual = NodePath("PlayerVisualRoot/PlayerVisual")
 default_blueprint = ExtResource("2_b0kv7")
 
-[node name="RoomSet" type="Node3D" parent="WorldSystem"]
+[node name="RoomSet" type="Node3D" parent="WorldSystem" unique_id=2136358554]
 script = ExtResource("2_vrybq")
 battle_room_scene = ExtResource("1_5x4cq")
 
-[node name="DoorSet" type="Node3D" parent="WorldSystem"]
+[node name="DoorSet" type="Node3D" parent="WorldSystem" unique_id=1230728107]
 script = ExtResource("2_5x4cq")
 door_scene = ExtResource("4_vrybq")
 
-[node name="PlayerVisualRoot" type="Node3D" parent="WorldSystem"]
+[node name="PlayerVisualRoot" type="Node3D" parent="WorldSystem" unique_id=1255466857]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.324762, 0)
 
-[node name="PlayerVisual" parent="WorldSystem/PlayerVisualRoot" instance=ExtResource("2_kcca6")]
+[node name="PlayerVisual" parent="WorldSystem/PlayerVisualRoot" unique_id=1791432276 instance=ExtResource("2_kcca6")]
 
 [node name="DebugFreeCamera" parent="WorldSystem/PlayerVisualRoot/PlayerVisual" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12524, 0)
 top_level = false
 
-[node name="WorldGenerator" type="Node" parent="WorldSystem"]
+[node name="WorldGenerator" type="Node" parent="WorldSystem" unique_id=286245731]
 script = ExtResource("1_vrybq")
 
-[node name="UISystem" type="CanvasLayer" parent="."]
+[node name="UISystem" type="CanvasLayer" parent="." unique_id=1716876260]
 
 [editable path="WorldSystem/PlayerVisualRoot/PlayerVisual"]
