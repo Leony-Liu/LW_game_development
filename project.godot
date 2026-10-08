@@ -50,6 +50,7 @@ folder_colors={
 "res://Arts/": "purple",
 "res://Arts/Fort/": "purple",
 "res://Arts/Theme/": "purple",
+"res://ExpeditionSystem/": "blue",
 "res://ExpeditionSystem/BattleSystem/CardSystem/Arts/": "purple",
 "res://ExpeditionSystem/BattleSystem/CardSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/BattleSystem/CombatSystem/Scripts/": "yellow",
@@ -59,6 +60,7 @@ folder_colors={
 "res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/Scripts/": "yellow",
+"res://MainMenuSystem/": "blue",
 "res://Scripts/": "yellow"
 }
 

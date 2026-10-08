@@ -2,3 +2,5 @@
 .godot/
 /android/
 .codex_runtime/
+# Generated web-model snapshot
+PROJECT_DUMP.md

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bj7ysjngtbq7c" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Ceiling.tscn" id="4_nm0wd"]
 [ext_resource type="PackedScene" uid="uid://chhps0rjfreou" path="res://ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn" id="5_gf0ju"]
 
-[node name="BattleRoom" type="Node3D" node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root")]
+[node name="BattleRoom" type="Node3D" node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root", "encounter_approach_anchor")]
 script = ExtResource("1_byiho")
 north_wall = NodePath("Field/NorthWall")
 east_wall = NodePath("Field/EastWall")
@@ -16,6 +16,7 @@ west_wall = NodePath("Field/WestWall")
 floor_root = NodePath("Field/FloorRoot")
 ceiling_root = NodePath("Field/CeilingRoot")
 enemy_root = NodePath("EnemyRoot")
+encounter_approach_anchor = NodePath("EnemyRoot/EncounterApproachAnchor")
 wall_scene = ExtResource("2_afubj")
 door_wall_scene = ExtResource("1_8pu1m")
 floor_scene = ExtResource("1_o841m")
@@ -53,6 +54,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 [node name="Ceiling" parent="Field/CeilingRoot" instance=ExtResource("4_nm0wd")]
 
 [node name="EnemyRoot" type="Node3D" parent="."]
+
+[node name="EncounterApproachAnchor" type="Marker3D" parent="EnemyRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 
 [node name="EnemyVisual" parent="EnemyRoot" instance=ExtResource("5_gf0ju")]
 

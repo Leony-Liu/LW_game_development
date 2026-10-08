@@ -1,3 +1,5 @@
+## 按 RoomData 组装单个房间的结构与敌人表现。
+## 对外提供与当前敌人绑定的场景接近锚点。
 class_name BattleRoom
 extends Node3D
 
@@ -12,6 +14,7 @@ signal room_data_changed(updated_data: RoomData)
 @export var floor_root: Node3D
 @export var ceiling_root: Node3D
 @export var enemy_root: Node3D
+@export var encounter_approach_anchor: Node3D
 
 @export_group("场景预制体")
 ## 实心墙体场景
@@ -126,4 +129,19 @@ func clear_enemies() -> void:
 		enemy_root.visible = false
 
 	room_data_changed.emit(room_data)
+
+
+# 返回本房间当前敌人的场景配置观察锚点。
+func get_encounter_approach_target() -> Node3D:
+	if room_data == null or not room_data.has_enemies:
+		return null
+	if enemy_id < 0 or enemy_id != room_data.enemy_id:
+		return null
+	if not is_instance_valid(enemy_root) or not enemy_root.visible:
+		return null
+	if not is_instance_valid(encounter_approach_anchor):
+		return null
+	if not encounter_approach_anchor.is_inside_tree():
+		return null
+	return encounter_approach_anchor
 #endregion

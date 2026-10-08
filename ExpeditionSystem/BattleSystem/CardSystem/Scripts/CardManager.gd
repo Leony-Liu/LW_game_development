@@ -1,5 +1,5 @@
-# 接收玩家初始牌组(RuntimeCard数组)，管理卡牌在各个牌堆间的流转。
-# 提供方法：抽牌、弃牌、出牌、洗牌、施加Buff
+## 管理 Battle 内抽牌堆、手牌与弃牌堆。
+## 负责初始化、流转与 Buff，并向 BattleManager 返回启动结果。
 class_name CardManager
 extends Node
 
@@ -22,24 +22,54 @@ var draw_pile: Array[RuntimeCard] = []
 var hand_pile: Array[RuntimeCard] = []
 var discard_pile: Array[RuntimeCard] = []
 
-# 检查是否绑定手牌节点，同时连接信号
+# 校验必需手牌节点并连接信号。
 func _ready() -> void:
-	if player_hand_deck:
-		player_hand_deck.card_play_requested.connect(_on_hand_deck_card_play_requested)
-		player_hand_deck.card_discard_requested.connect(discard_card)
-	else:
-		push_error("未在检查器中绑定 player_hand_deck！")
+	assert(player_hand_deck is PlayerHandDeck, "CardManager: 缺少必需的 PlayerHandDeck 引用。")
+	var hand_deck := player_hand_deck as PlayerHandDeck
+	assert(hand_deck.card_scene != null, "CardManager: PlayerHandDeck 缺少必需的 card_scene。")
+	assert(_is_card_scene_valid(hand_deck.card_scene), "CardManager: card_scene 根节点必须使用 CardLogic。")
+	hand_deck.card_play_requested.connect(_on_hand_deck_card_play_requested)
+	hand_deck.card_discard_requested.connect(discard_card)
 
-# 初始化系统，清空牌堆、读取传入的实例数组、补齐手牌
-func initialize(player_deck: Array[RuntimeCard]) -> void:
+
+# 在不修改牌堆或 UI 的前提下校验初始化输入。
+func can_initialize(player_deck: Array[RuntimeCard]) -> bool:
+	if not player_hand_deck is PlayerHandDeck:
+		push_error("CardManager: 缺少必需的 PlayerHandDeck 引用。")
+		return false
+	var hand_deck := player_hand_deck as PlayerHandDeck
+	if hand_deck.card_scene == null:
+		push_error("CardManager: PlayerHandDeck 缺少必需的 card_scene。")
+		return false
+	if not _is_card_scene_valid(hand_deck.card_scene):
+		push_error("CardManager: card_scene 根节点必须使用 CardLogic。")
+		return false
+	for runtime_card in player_deck:
+		if runtime_card == null:
+			push_error("CardManager: 玩家运行时牌组包含空卡牌。")
+			return false
+	return true
+
+
+# 无需入树即可校验卡牌场景根节点类型。
+func _is_card_scene_valid(card_scene: PackedScene) -> bool:
+	if card_scene == null:
+		return false
+	var preview := card_scene.instantiate()
+	var is_valid := preview is CardLogic
+	preview.free()
+	return is_valid
+
+
+# 初始化牌堆并补齐手牌，成功完成时返回 true。
+func initialize(player_deck: Array[RuntimeCard]) -> bool:
+	if not can_initialize(player_deck):
+		return false
+
 	# 清空三个牌堆
 	draw_pile.clear()
 	hand_pile.clear()
 	discard_pile.clear()
-	
-	if player_deck == null:
-		print("[CardManager] 接收得到的玩家牌组为空")
-		return
 	
 	# 直接接收外界生成好的 RuntimeCard 实例数组作为抽牌堆
 	draw_pile = player_deck.duplicate()
@@ -48,6 +78,7 @@ func initialize(player_deck: Array[RuntimeCard]) -> void:
 	deck_initialized.emit(draw_pile.size())
 	print("已成功初始化卡牌系统，牌堆数量：", draw_pile.size())
 	draw_cards_to_limit()
+	return true
 
 # 供外部系统（或玩家点击抽牌堆按钮）调用的标准抽牌操作
 func execute_player_draw_action() -> void:

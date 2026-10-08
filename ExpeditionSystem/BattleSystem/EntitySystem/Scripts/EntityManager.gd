@@ -1,3 +1,5 @@
+## 管理 Battle 实体、属性装配与行动执行边界。
+## 初始化失败会显式返回，不伪装成可用战斗状态。
 class_name EntityManager
 extends Node
 
@@ -12,48 +14,73 @@ signal entity_died(entity: CombatEntity)
 
 @export var player_entity: CombatEntity
 @export var enemy_entity: CombatEntity
-@export var enemy_ai: Node # 挂载在该节点下的 EnemyAI（或具体类型 EnemyAI）
+@export var enemy_ai: EnemyAI
 
+# 校验依赖并连接实体与 EnemyAI 信号。
 func _ready() -> void:
-	if player_entity:
-		player_entity.visual_requested.connect(_on_entity_visual_requested)
-		player_entity.entity_died.connect(_on_entity_died)
-	if enemy_entity:
-		enemy_entity.visual_requested.connect(_on_entity_visual_requested)
-		enemy_entity.entity_died.connect(_on_entity_died)
-	if enemy_ai and enemy_ai.has_signal("action_planned"):
-		enemy_ai.connect("action_planned", _on_enemy_action_planned)
+	_validate_dependencies()
+	player_entity.visual_requested.connect(_on_entity_visual_requested)
+	player_entity.entity_died.connect(_on_entity_died)
+	enemy_entity.visual_requested.connect(_on_entity_visual_requested)
+	enemy_entity.entity_died.connect(_on_entity_died)
+	enemy_ai.action_planned.connect(_on_enemy_action_planned)
+
+
+# 校验场景保存的必需实体与属性引用。
+func _validate_dependencies() -> void:
+	assert(player_entity != null, "EntityManager: 缺少必需的 player_entity 引用。")
+	assert(enemy_entity != null, "EntityManager: 缺少必需的 enemy_entity 引用。")
+	assert(enemy_ai != null, "EntityManager: 缺少必需的 enemy_ai 引用。")
+	assert(player_entity.attribute_set != null, "EntityManager: player_entity 缺少必需的 attribute_set 引用。")
+	assert(enemy_entity.attribute_set != null, "EntityManager: enemy_entity 缺少必需的 attribute_set 引用。")
 
 
 #region 初始化装配
 
-# 接收玩家 EntityData 与敌人 EnemyID，装配底层 AttributeSet 并激活 AI
-func initialize(player_data: EntityData, enemy_id: int) -> void:
-	# 1. 玩家数据装载
-	if player_entity and player_data:
-		player_entity.initialize_from_data(player_data)
-		player_entity.entity_id = "player"
+# 在不修改实体、AI 或 Timeline 的前提下校验初始化输入。
+func can_initialize(player_data: EntityData, enemy_id: int) -> bool:
+	if player_data == null:
+		push_error("EntityManager: 缺少必需的 player_data。")
+		return false
+	if player_entity == null or enemy_entity == null or enemy_ai == null:
+		push_error("EntityManager: 初始化所需节点引用不完整。")
+		return false
+	if player_entity.attribute_set == null or enemy_entity.attribute_set == null:
+		push_error("EntityManager: 初始化所需 AttributeSet 引用不完整。")
+		return false
 
-	# 2. 从敌人数据库调取静态模板并装配敌人实体
 	var enemy_res: EnemyData = AllEnemyData.get_enemy(enemy_id)
 	if not enemy_res:
 		push_error("EntityManager: 无法找到 ID 为 %d 的敌人数据配置" % enemy_id)
-		return
+		return false
+	for action in enemy_res.action_pool:
+		if action == null:
+			push_error("EntityManager: 敌人 %d 的 action_pool 包含空行动。" % enemy_id)
+			return false
+	return true
 
-	if enemy_entity:
-		enemy_entity.entity_id = "enemy_%d" % enemy_id
-		# 将 EnemyData 的静态 attributes 注入 AttributeSet
-		if enemy_entity.attribute_set:
-			for attr_name in enemy_res.attributes.keys():
-				var initial_val = float(enemy_res.attributes[attr_name])
-				enemy_entity.attribute_set.register_attribute(attr_name, initial_val)
+
+# 接收玩家与敌人输入，全部前置校验通过后装配实体并激活 AI。
+func initialize(player_data: EntityData, enemy_id: int) -> bool:
+	if not can_initialize(player_data, enemy_id):
+		return false
+
+	var enemy_res: EnemyData = AllEnemyData.get_enemy(enemy_id)
+
+	# 1. 玩家数据装载
+	player_entity.initialize_from_data(player_data)
+	player_entity.entity_id = "player"
+
+	# 2. 将敌人静态属性装配到运行时实体。
+	enemy_entity.entity_id = "enemy_%d" % enemy_id
+	for attr_name in enemy_res.attributes.keys():
+		var initial_val = float(enemy_res.attributes[attr_name])
+		enemy_entity.attribute_set.register_attribute(attr_name, initial_val)
 
 	# 3. 激活敌人 AI 并下发行动池，规划首轮行动
-	if enemy_ai:
-		if enemy_ai.has_method("setup_ai"):
-			enemy_ai.setup_ai(enemy_res.action_pool, enemy_entity.entity_id)
-		if enemy_ai.has_method("plan_initial_actions"):
-			enemy_ai.plan_initial_actions()
+	enemy_ai.setup_ai(enemy_res.action_pool, enemy_entity.entity_id)
+	enemy_ai.plan_initial_actions()
+	return true
 
 #endregion
 

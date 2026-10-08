@@ -1,195 +1,187 @@
 # AGENTS.md
 
-> Scope: entire repository. Explicit user instructions in the current conversation always take precedence.
->
-> Purpose: stable operating contract for coding agents. It defines how to inspect, modify, validate, and protect this Godot project. It is not a task log and never overrides the real workspace state.
+Stable project map and collaboration contract for Web GPT and Desktop Codex.
+Keep this file compact, generic, and slow-changing. It defines how AI collaborators reason about and work on the repository; it is not a project status log, gameplay specification, architecture reference, schedule, or code index.
+Do not modify it unless the user explicitly changes the collaboration workflow or repository-wide rules.
 
-## 1. Core operating rules
+## Communication
 
-1. **Inspect before editing.** Read the target file, callers, and relevant `.tscn` / `.tres`. Check `project.godot` when startup, Autoloads, input, rendering, or project settings are involved.
-2. **Keep scope narrow.** Record unrelated problems; fix them only if they block the current task. Do not add speculative gameplay, abstractions, or refactors.
-3. **One mutable state, one authoritative owner.** Do not duplicate runtime truth or add a second manager for a local problem.
-4. **Respect architecture boundaries.** Exploration/battle handoff belongs to `ExpeditionManager`; battle-domain coordination belongs to `BattleManager`, unless the user explicitly changes the architecture.
-5. **Check Godot wiring with script changes.** Verify signals, NodePaths, exported references, scene/resource references, animation tracks, and UIDs when relevant.
-6. **Do not hide required-interface failures.** No `has_method`, null skipping, swallowed errors, fake defaults, or warning suppression to make required dependencies look valid.
-7. **Every start path needs cleanup.** Success, cancellation, failure, and exit paths must not leak signals, callbacks, queues, visual waits, input locks, or stale scene references.
-8. **Validate according to the change.** Never present static inspection as runtime validation; state what was and was not tested.
-9. **Protect existing work.** Do not commit, push, publish, revert, overwrite, or clean unrelated user changes unless explicitly requested.
+- Report to the user in Simplified Chinese unless explicitly requested otherwise.
+- Keep code identifiers, class names, methods, signals, file paths, CLI commands, and exact tool/status strings in their original form.
+- Keep completion reports concise and factual.
+- Do not invent gameplay, product, save, or architecture decisions when requirements are unresolved.
 
-## 2. Source of truth and document use
+## GDScript 中文注释与可维护性规范
 
-Priority when information conflicts:
+Codex 新建或实质修改 `.gd` 脚本时，使用**简体中文、短句注释**；代码标识符与 Godot API 保持原样。
 
-1. Explicit user instruction.
-2. Current real workspace files and live Godot editor/runtime state.
-3. `project.godot` for project configuration/wiring facts.
-4. `Docs/AI_PROGRESS.md` for current milestone, blockers, and temporary exceptions.
-5. `Docs/AI_CONTEXT.md` for architecture/system-map context.
-6. `Docs/CODE_INDEX.md` for navigation.
-7. `Docs/MECHANICS.md` for gameplay rules/design decisions.
-8. Git history and explicitly provided external snapshots/notes, when relevant.
+- **脚本开头**：仅用 2～3 行概述用途和职责，不写使用教程或大段修改指南。
+- **方法前**：每个方法用 1 行短句说明作用及关键运行机制；仅在确有歧义时补充必要信息。
+- **方法内部**：只在关键分支、状态变更、跨系统交接和不直观的实现处使用单行注释，说明原因或影响；不逐行翻译代码。
+- **方便修改**：需要特别定位的配置或逻辑入口，用 1 行注释指出可修改的字段、方法或影响范围；优先利用清晰命名和 Inspector 分组。
+- **简洁准确**：避免连续多行、重复说明、装饰性分隔线和无必要注释；注释与实际代码保持同步，不把待实现功能写成已完成。
+- **修改范围**：仅为新增或本任务涉及的脚本补注释，不批量改写无关脚本。
 
-If documentation conflicts with current files, report the conflict. Do not modify code merely to match stale documentation.
+## Canonical project documents
 
-Read only what the task needs:
+Use only the document relevant to the question. Do not load the entire set by default.
 
-- Use `Docs/CODE_INDEX.md` when locations are unknown, then inspect the real files.
-- Read `Docs/AI_PROGRESS.md` before substantial work.
-- Read `Docs/AI_CONTEXT.md` for ownership, scene composition, or cross-system work.
-- Read `Docs/MECHANICS.md` only when gameplay rules/numbers matter.
-- Do not mechanically load every project document into context.
+| Document | Read when you need |
+| --- | --- |
+| `/AGENTS.md` | Stable collaboration rules, source-of-truth policy, and repository workflow |
+| `Docs/README.md` | Project overview, current environment, current stage, blockers, and immediate direction |
+| `Docs/GAME_DESIGN.md` | Intended gameplay, player experience, Demo/full-game scope, balance intent, or design TBDs |
+| `Docs/ARCHITECTURE.md` | System responsibilities, state ownership, important SceneTree composition, contracts, and cross-system flow |
+| `Docs/CODEMAP.md` | Task-oriented navigation to likely real source, scene, and resource files |
 
-## 3. Development environment and tool policy
+The personal GDD and production planning material are external to this repository knowledge system. They are not Desktop Codex dependencies unless the user explicitly provides them for a task.
 
-### Active workspace
+## Collaboration model
 
-- Workspace: `D:/Game project/Godot/LW_game_development_upgrade_test`
-- Godot editor: `D:/APP/Godot/4.7.2/Godot_v4.7.2-stable_win64.exe`
-- Godot CLI backend: `D:/APP/Godot/4.7.2/Godot_v4.7.2-stable_win64_console.exe`
-- Canonical CLI wrapper: `tools/godot_cli.ps1`
-- MCP server: `godot-mcp-472-test`
+### Web GPT
 
-### Protected fallback
+- Discusses design and architecture with the user.
+- Uses the canonical documents and factual Codex reports.
+- Plans the next implementation task and writes scoped Codex instructions.
+- Reviews results and identifies decisions that need user confirmation.
+- Must not assume unverified local repository state.
 
-- Godot 4.4.1 project: `D:/Game project/Godot/LW_game_development`
-- Treat it as protected fallback state. Do not modify, migrate, or open it with newer Godot unless the user explicitly requests this.
+### Desktop Codex
 
-### CLI
+- Reads this file first and routes to the minimum relevant canonical documents.
+- Uses `Docs/CODEMAP.md` before broad repository search.
+- Inspects the real workspace, and Editor / Runtime state when the task requires them.
+- Performs scoped changes, validates them proportionately, and preserves unrelated user work.
+- Updates only documentation whose owned information materially changed.
+- Returns a concise factual report, including validation limits and unresolved decisions.
 
-`tools/godot_cli.ps1` is the **canonical CLI entry point** for automated Godot work in this repository.
+## Authority and source of truth
 
-Use it instead of the generic `godot` command or a directly invoked Godot executable:
+### Gameplay and player experience
+
+1. Explicit user decisions in the current task.
+2. `Docs/GAME_DESIGN.md`.
+
+Current code does not redefine confirmed design. If implementation and confirmed design differ, report an implementation gap. Never resolve a `【待设计】`, TBD, pending, or equivalent item without user confirmation.
+
+### Architecture
+
+1. Explicit user decisions in the current task.
+2. Confirmed rules in `Docs/ARCHITECTURE.md`.
+
+Never treat `[TARGET]` architecture as already implemented.
+
+### Current implementation
+
+Trust, in order:
+
+1. Real workspace files.
+2. Current Godot Editor state when relevant.
+3. Current Runtime state when relevant.
+4. Documentation summaries.
+
+If documentation conflicts with verified implementation facts, report the mismatch. Do not change unrelated code merely to make it match stale documentation.
+
+### Current project status
+
+Use `Docs/README.md`. It is a current summary, not a substitute for inspecting real files.
+
+## Stable project principles
+
+- Keep design truth separate from implementation truth.
+- Prefer minimal, readable, maintainable changes that preserve behavior outside the task.
+- Prefer data-driven configuration for values expected to be tuned repeatedly.
+- Respect established state ownership; do not create a second global owner for convenience.
+- Required dependencies and invalid data must fail clearly; do not hide them with silent defaults or skipped calls.
+- Every lifecycle entry path needs corresponding success, failure, cancellation, and cleanup handling.
+- `GameManager` owns application-level flow such as Base / MainMenu ↔ Expedition.
+- `ExpeditionManager` is the sole upper coordinator for World ↔ Battle inside one expedition.
+- `WorldManager` owns current map, room, and encounter facts.
+- `BattleManager` owns one battle, not map state or long-term progression.
+- `Timeline` owns logical scheduling, not EnemyAI decisions or damage truth.
+- Presentation reflects gameplay state but does not own gameplay truth.
+- `CardData → CardInstance → RuntimeCard` is an intentional lifecycle separation.
+- `SaveManager` owns generic save infrastructure, not gameplay-specific state.
+- Verify only as deeply as necessary to prove the task; do not claim runtime behavior from parsing or scene loading alone.
+
+## Desktop Codex workflow
+
+### Navigation
+
+1. Read `Docs/CODEMAP.md` to locate the likely implementation area.
+2. Read the real files it points to.
+3. Read `Docs/GAME_DESIGN.md` when gameplay meaning matters.
+4. Read `Docs/ARCHITECTURE.md` when ownership, SceneTree, public contracts, signals, or cross-system flow matters.
+5. Read `Docs/README.md` when current stage, blockers, environment, or recent verification matters.
+6. Expand to targeted repository search only when the map is missing, stale, or insufficient.
+
+Do not depend on generated source snapshots as current runtime truth.
+
+### Before editing
+
+- Inspect `git status` and treat existing uncommitted changes as intentional.
+- Inspect the relevant real source, scene, resource, or configuration files.
+- Identify the minimum file set and check whether the requested behavior already exists in another form.
+- Do not modify unrelated files or perform unrelated refactors, migrations, renames, cleanup, or formatting passes.
+- Do not repair or remove legacy systems unless they are in scope or a hard dependency.
+- Do not add Autoloads, global managers, architectural layers, or third-party dependencies without a clear task requirement.
+- Do not hardcode secrets, credentials, or machine-specific paths into gameplay code.
+- When scripts, scenes, or resources change, verify relevant NodePaths, signals, exported references, animation tracks, resource references, and UIDs; never invent UIDs manually.
+- Treat the fallback project identified in `Docs/README.md` as protected unless the user explicitly asks to modify it.
+
+### Godot validation
+
+Canonical CLI entry point:
 
 ```powershell
-.\tools\godot_cli.ps1 --version
-.\tools\godot_cli.ps1 --headless --path . --quit
-.\tools\godot_cli.ps1 --headless --editor --path . --quit
+.\tools\godot_cli.ps1 <Godot args>
 ```
 
-Rules:
+Use the smallest validation that proves the task:
 
-- Do not use the generic `godot` command; PATH may resolve to the protected Godot 4.4.1 installation.
-- Do not bypass the wrapper by calling the 4.7.2 executable directly during normal agent work. Direct engine invocation is reserved for diagnosing the wrapper itself or when the user explicitly requests it.
-- The wrapper must resolve the repository root, use the approved Godot 4.7.2 console executable, forward arguments, preserve the process exit code, and isolate automated user/temp data under `.codex_runtime/`.
-- `.codex_runtime/` is generated automation state, never authored project content, and must remain ignored by Git.
-- For clean `--editor` validation, avoid running a second interactive Godot editor when plugin ports or editor state could conflict.
+1. Relevant source/static inspection.
+2. Targeted Godot CLI validation.
+3. Targeted scene run or temporary probe when behavior requires it.
+4. Editor MCP when current editor state matters.
+5. Runtime MCP when live runtime behavior must be observed.
 
-### Tool order
+Prefer targeted runtime inspection over broad SceneTree dumps. Temporary probes must not remain as gameplay source unless explicitly requested.
+Save validation must use isolated test data and must not overwrite user saves.
 
-Use the smallest tool surface/context that can complete the task:
+### Godot test process cleanup
 
-1. Targeted file navigation/search.
-2. Relevant real file reads.
-3. Direct `.gd` / `.tscn` / `.tres` edits.
-4. `tools/godot_cli.ps1` for Godot parsing/loading/running/validation.
-5. Editor MCP only for real editor state or editor-only operations.
-6. Runtime MCP only when live runtime state is required and the bridge is connected.
+- Track PIDs for Godot processes launched by Codex for automated validation, including headless probes.
+- Ensure these test processes exit after success, failure, or timeout; use graceful termination first and force-stop only Codex-owned test processes when necessary.
+- Verify that no Codex-launched test process remains and that its MCP ports (such as `9876` / `9877`) are no longer held by that process.
+- Never terminate the user's Godot Editor, active game session, or any unrelated process; identify process ownership before cleanup.
+- If cleanup is unsafe or unsuccessful, report the PID, command line, occupied port, and reason. Do not claim cleanup succeeded without verification.
 
-Editor MCP is appropriate for open scenes, scene trees, Inspector/exported properties, and editor wiring. Runtime MCP is appropriate for runtime trees/properties, method calls, input injection, pause/step, and runtime-only behavior.
+### Repository and Git safety
 
-### Context/token discipline
+- Never discard, overwrite, revert, or normalize unrelated user changes.
+- Do not create commits, branches, tags, merges, rebases, or pushes unless explicitly requested.
+- Do not modify `.gitignore`, `.gitattributes`, repository tooling, or shared infrastructure unless required by the task.
+- Human developers control final Git history.
 
-- No whole-project scan unless required.
-- No full scene-tree dump when a narrow subtree is enough.
-- No full logs when only errors are needed.
-- No screenshots unless the issue is visual.
-- Prefer targeted searches/reads and CLI validation over repeated broad MCP inspection.
+### Documentation maintenance
 
-## 4. Stable architecture boundaries
+Update only the document whose responsibility changed:
 
-| Area | Authoritative owner | Must not own |
-| --- | --- | --- |
-| Application flow / base-expedition switching | `GameManager` | combat resolution, deck logic, map generation |
-| Expedition lifecycle / explore-battle handoff | `ExpeditionManager` | map generation, single-action resolution, direct save-file I/O |
-| Current map / room / encounter state | `WorldManager` | deck initialization, damage, long-term progression |
-| Battle lifecycle / permissions / coordination | `BattleManager` | duplicated deck/entity state, map generation, direct file saving, card animation implementation |
-| Draw / hand / discard runtime state | `CardManager` | win/loss ownership, entity-resource ownership, timeline ownership |
-| Battle entity routing / attribute changes | `EntityManager` | deck ownership, timeline ownership, card animation, file saving |
-| Exploration/battle/debug presentation | `PlayerVisualManager` | encounter rules, battle results, real combat values |
-| Logical time / action queue | `Timeline` | damage, payment, saving, animation implementation |
-| Static templates | `AllCardData` / `AllEnemyData` | current HP, temporary Buffs, live queues |
-| Save slots / file I/O / module registration | `SaveManager` | gameplay decisions and reward calculation |
+- `README.md`: current stage, blocker, environment, immediate direction, or important verification.
+- `GAME_DESIGN.md`: explicit user-approved gameplay or scope decision.
+- `ARCHITECTURE.md`: ownership, important SceneTree, public contract, or cross-system data flow.
+- `CODEMAP.md`: important path, entry point, or navigation guidance.
 
-Core flows:
+Do not maintain deprecated parallel documents.
 
-- Exploration/battle: `WorldManager -> ExpeditionManager -> BattleManager -> ExpeditionManager -> WorldManager`
-- Battle action: `Card UI -> CardManager -> BattleManager -> EntityManager / CardManager / Timeline -> BattleManager -> presentation -> completion -> Timeline`
+## Completion report
 
-Invariants:
+Report in Simplified Chinese:
 
-- One valid action pays once, moves a card once, and applies each effect once.
-- Failed requests must not leave partially committed state.
-- A stable `RuntimeCard` belongs to one logical pile at a time; visual nodes are not authoritative deck state.
-- Logical time is separate from animation duration.
-- Pause/skip/cancel/exit must resolve pending presentation waits explicitly.
-- Template IDs and runtime-instance IDs are distinct.
-- Do not silently decide unresolved same-time ordering, Buff timing, or interruption/recovery rules during unrelated work.
-- When reproducibility matters, identify the RNG owner/seed/persistence; cosmetic randomness must not alter gameplay randomness.
+- what changed;
+- files changed;
+- validation performed and results;
+- Godot test-process cleanup status, including any remaining PID or MCP port conflict;
+- unresolved issues, decisions, or material documentation/implementation mismatches.
 
-## 5. Godot modification rules
-
-- Follow local naming, indentation, and organization. Do not mass-format unrelated history.
-- Prefer typed GDScript when it matches the surrounding code.
-- Put designer-tuned values in existing Resources or appropriate `@export` fields; do not expose every internal variable.
-- Check related `.tscn` / `.tres` wiring with script changes.
-- Renames/moves require checking NodePaths, signals, animation tracks, exported references, and resource references.
-- Preserve valid resource UIDs and `.uid` files; never invent UIDs manually.
-- `.godot/` and `.codex_runtime/` are generated state, not authored source; both must remain ignored by Git.
-- Do not create editor-data folders such as `export_templates/`, `feature_profiles/`, or `text_editor_themes/` in the project root as normal source work. If tooling unexpectedly creates them, report the environment issue before treating them as assets.
-- Changes to input actions, collision layers, Autoloads, renderer settings, or other `project.godot` settings require impact review.
-- Save tests must use isolated test data and never overwrite user saves.
-- New resource/save fields need explicit defaults, invalid/missing-ID behavior, and an old-data compatibility decision.
-- Production code must fail clearly when required data is missing; do not silently inject test decks, enemies, or debug data.
-
-## 6. Current known migration exception
-
-`BattleSaveModule.gd` is legacy code scheduled for replacement. Its incompatibility with `EntityData` is known and may produce a Godot 4.7.2 parser/type error.
-
-- Do not fix/refactor it unless the user explicitly requests it or it becomes a hard dependency.
-- Do not count this known error as a newly introduced regression.
-- Do not claim the entire project has zero parser errors while it remains.
-- If another task depends on it, surface the dependency before expanding scope.
-- Keep detailed status/replacement plans in `Docs/AI_PROGRESS.md`, not here.
-
-## 7. Validation and delivery
-
-Use these terms precisely:
-
-- **Implemented**: files changed.
-- **Static check passed**: inspected/parsed; runtime behavior not observed.
-- **Runtime validated**: relevant project/scene executed and target behavior observed.
-- **User playtest accepted**: user manually confirmed gameplay/visuals/feel.
-
-Validation expectations:
-
-- Documentation: check facts, paths, and internal consistency.
-- Script/scene/resource changes: parse/load when possible and run the narrow relevant path.
-- Timeline/card work: verify request conditions, cost, order, time advancement, effect count, and input unlock.
-- Exploration work: verify relevant generation/movement, encounter transition, and exploration return.
-- Save work: use non-user test data and perform save + reload.
-- Lifecycle/interface work: cover normal flow plus relevant failure/cancel/duplicate-entry/cleanup paths.
-- Random behavior: record a reproducible seed/condition when supported.
-
-Delivery must briefly state: what changed; what was validated and result; what was not validated; remaining relevant issues; manual Godot steps still required.
-
-## 8. Maintaining AGENTS.md
-
-`AGENTS.md` is a stable operating contract, not a task/history log or automatic preference-learning store.
-
-The agent may **propose** an update after observing a repeated user preference, recurring workflow correction, new stable project constraint, canonical tool/validation path, or user-confirmed long-term architecture rule.
-
-Do not silently turn one-off requests into permanent rules. Do not edit this file merely to match the current task. Before changing an existing rule or adding a behavioral preference, obtain user approval unless the user explicitly requested that the rule become permanent.
-
-### Mandatory change reporting
-
-**Every time this file is modified, clearly tell the user exactly what changed. Never modify it silently.**
-
-The final response for any `AGENTS.md` modification must include an **`AGENTS.md changes`** summary covering:
-
-- rules/sections added;
-- rules/sections changed;
-- rules/sections removed;
-- why each change was made;
-- important existing constraints intentionally preserved unchanged.
-
-Do not maintain a running changelog inside this file. Git history plus the explicit user-facing change summary are the change record.
+Never claim more than was actually verified.

@@ -48,6 +48,7 @@ from typing import Iterable
 IGNORE_DIRS = {
     ".git",
     ".godot",
+    ".codex_runtime",
     ".idea",
     ".vscode",
     "__pycache__",

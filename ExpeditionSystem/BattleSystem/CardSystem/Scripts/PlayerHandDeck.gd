@@ -1,4 +1,5 @@
-# 实例化卡牌场景、信号交接、管理手牌区域的整体交互状态
+## 实例化卡牌场景并管理手牌区域的整体交互状态。
+## 新卡会继承当前系统锁，避免抽牌动画结束后越过上层门闩。
 extends HBoxContainer
 class_name PlayerHandDeck
 
@@ -33,13 +34,13 @@ func add_card_to_hand(runtime_card: RuntimeCard) -> CardLogic:
 	
 	card_ui.setup(runtime_card)
 	
-	# 同步锁定状态：如果当前大系统处于锁定状态，新抽上来的牌也要被锁定
-	if is_input_locked and card_ui.has_method("set_system_lock"):
-		card_ui.set_system_lock(true)
+	# 新卡始终同步当前系统锁，锁状态会跨越抽牌动画保留。
+	if card_ui.has_method("set_system_lock"):
+		card_ui.set_system_lock(is_input_locked)
 		
 	return card_ui
 
-# --- 新增：接收 BattleManager 的 UI 锁定指令并下发给所有子卡牌 ---
+# 接收 BattleManager 的 UI 锁定指令并下发给所有子卡牌。
 func set_input_locked(locked: bool) -> void:
 	is_input_locked = locked
 	for child in get_children():

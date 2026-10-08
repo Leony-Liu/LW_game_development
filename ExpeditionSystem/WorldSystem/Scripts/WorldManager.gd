@@ -1,5 +1,10 @@
+## 管理当前地图、房间与探索状态，并向远征协调器上报遇敌事实。
+## 不直接启动战斗，也不组装玩家或牌组数据。
 class_name WorldManager
 extends Node
+
+signal encounter_requested(room_data: RoomData, enemy_id: int)
+signal world_state_changed(previous_state: int, current_state: int)
 
 enum WorldState {
 	INIT,             # 初始化生成阶段
@@ -21,15 +26,100 @@ enum WorldState {
 var current_state: WorldState = WorldState.INIT
 var mapdata: Dictionary = {}
 var current_room_coords: Vector2 = Vector2.ZERO
+var _pending_encounter_room: RoomData = null
+var _last_resolved_encounter_room: RoomData = null
+var _last_encounter_was_accepted: bool = false
+var _preparation_transition_id: int = 0
+var _preparation_room: RoomData = null
+var _preparation_target: Node3D = null
 
 
+# 初始化门事件监听并生成默认地图。
 func _ready() -> void:
 	# 监听 DoorSet 的开门中继信号
 	if door_set:
 		door_set.door_opened_relay.connect(_on_door_opened)
+	if player_visual and not player_visual.encounter_approach_finished.is_connected(
+		_on_encounter_approach_finished
+	):
+		player_visual.encounter_approach_finished.connect(_on_encounter_approach_finished)
 
 	# 启动时执行初始化生成
 	init_map(default_blueprint)
+
+
+# 校验并上报房间遭遇；重复或无消费者的请求不会改变 World 状态。
+func report_encounter(room_data: RoomData) -> bool:
+	if current_state != WorldState.EXPLORE:
+		push_warning("[WorldManager] 仅在 EXPLORE 接受遭遇上报。")
+		return false
+	if _pending_encounter_room != null:
+		push_warning("[WorldManager] 已有待处理的遭遇请求，忽略重复上报。")
+		return false
+	if room_data == null:
+		push_error("[WorldManager] 无法上报遭遇：RoomData 为空。")
+		return false
+	if not room_data.has_enemies:
+		push_error("[WorldManager] 无法上报遭遇：目标房间没有敌人。")
+		return false
+	if room_data.enemy_id < 0:
+		push_error("[WorldManager] 无法上报遭遇：enemy_id 无效。")
+		return false
+	if AllEnemyData.get_enemy(room_data.enemy_id) == null:
+		push_error("[WorldManager] 无法上报遭遇：找不到 enemy_id %d。" % room_data.enemy_id)
+		return false
+	if not encounter_requested.has_connections():
+		push_warning("[WorldManager] 遭遇请求没有消费者，保持探索状态。")
+		return false
+
+	_last_resolved_encounter_room = null
+	_last_encounter_was_accepted = false
+	_pending_encounter_room = room_data
+	encounter_requested.emit(room_data, room_data.enemy_id)
+	if _pending_encounter_room == room_data:
+		push_error("[WorldManager] 遭遇请求未被同步处理，已自动释放 pending 状态。")
+		_pending_encounter_room = null
+		return false
+	return _last_resolved_encounter_room == room_data and _last_encounter_was_accepted
+
+
+# 由远征协调器结束当前请求；只有明确接受后才进入战斗准备状态。
+func resolve_encounter_request(room_data: RoomData, should_prepare_battle: bool) -> bool:
+	if _pending_encounter_room == null:
+		push_warning("[WorldManager] 没有可结束的遭遇请求。")
+		return false
+	if room_data != _pending_encounter_room:
+		push_error("[WorldManager] 遭遇请求房间不匹配，拒绝结束请求。")
+		return false
+
+	var resolution_succeeded := true
+	var encounter_accepted := false
+	if should_prepare_battle:
+		resolution_succeeded = enter_preparing_battle_mode(room_data)
+		encounter_accepted = resolution_succeeded
+		if not resolution_succeeded:
+			push_error("[WorldManager] 遭遇无法进入战斗准备状态，已释放 pending 请求。")
+
+	# 匹配请求无论接受或拒绝都必须结束，避免失败后永久阻塞重试。
+	_pending_encounter_room = null
+	_last_resolved_encounter_room = room_data
+	_last_encounter_was_accepted = encounter_accepted
+	return resolution_succeeded
+
+
+# 查询指定房间是否仍是当前唯一的待处理遭遇。
+func is_encounter_pending(room_data: RoomData) -> bool:
+	return room_data != null and _pending_encounter_room == room_data
+
+
+# 校验原房间、敌人身份和表现依赖均能启动接近运镜。
+func has_valid_encounter_approach(room_data: RoomData, enemy_id: int) -> bool:
+	if room_data == null or room_data.enemy_id != enemy_id:
+		return false
+	if room_set == null or player_visual == null:
+		return false
+	var target := room_set.get_encounter_approach_target(room_data)
+	return target != null and player_visual.can_start_encounter_approach(target)
 
 
 ## 生成地图（传入 MapBlueprint 驱动整个生成流水线）
@@ -59,38 +149,117 @@ func init_map(blueprint: MapBlueprint = null) -> void:
 
 ## 世界阶段切换
 # 进入探索模式
-func enter_explore_mode() -> void:
-	current_state = WorldState.EXPLORE
-	if player_visual:
-		player_visual.change_mode("explore")
+func enter_explore_mode() -> bool:
+	_preparation_transition_id += 1
+	_preparation_room = null
+	_preparation_target = null
+	if player_visual == null or not player_visual.change_mode("explore"):
+		push_error("[WorldManager] 无法进入 EXPLORE：PlayerVisualManager 不可用。")
+		return false
+	_set_world_state(WorldState.EXPLORE)
 	print("[WorldManager] 进入探索模式")
+	return true
 
 
 # 进入战斗准备模式（运镜、锁定玩家控制、播入场动效）
-func enter_preparing_battle_mode(target_room: RoomData) -> void:
-	current_state = WorldState.PREPARING_BATTLE
+func enter_preparing_battle_mode(target_room: RoomData) -> bool:
+	if current_state != WorldState.EXPLORE:
+		push_error("[WorldManager] 仅能从 EXPLORE 进入 PREPARING_BATTLE。")
+		return false
+	var current_room: RoomData = mapdata.get("rooms", {}).get(current_room_coords)
+	if target_room == null or target_room != current_room:
+		push_error("[WorldManager] 准备战斗的房间不是当前有效房间。")
+		return false
+	if room_set == null or player_visual == null:
+		push_error("[WorldManager] 准备战斗前缺少 RoomSet 或 PlayerVisualManager。")
+		return false
+	var approach_target := room_set.get_encounter_approach_target(target_room)
+	if approach_target == null or not player_visual.can_start_encounter_approach(approach_target):
+		push_error("[WorldManager] 准备战斗前缺少有效的敌人接近目标或玩家表现依赖。")
+		return false
+	if not player_visual.change_mode("preparing_battle"):
+		push_error("[WorldManager] 无法切换到战斗准备表现状态。")
+		return false
+
+	_preparation_transition_id += 1
+	var transition_id := _preparation_transition_id
+	_preparation_room = target_room
+	_preparation_target = approach_target
+	if not player_visual.start_encounter_approach(approach_target, transition_id):
+		_preparation_room = null
+		_preparation_target = null
+		player_visual.change_mode("explore")
+		push_error("[WorldManager] 遇敌接近运镜启动失败。")
+		return false
+	_set_world_state(WorldState.PREPARING_BATTLE)
 	print("[WorldManager] 进入准备战斗模式: 房间 ", target_room.room_position)
-
-	# 1. 临时锁定玩家控制，防止准备阶段走动
-	if player_visual and player_visual.player:
-		player_visual.player.set_active(false)
-
-	# 2. 模拟准备阶段的运镜与动画过渡（此处用定时器演示，后续可接入运镜动画轨道）
-	var prep_timer := get_tree().create_timer(1.2)
-	prep_timer.timeout.connect(enter_battle_mode)
+	return true
 
 
 # 进入正式战斗模式
-func enter_battle_mode() -> void:
-	current_state = WorldState.BATTLE
+func enter_battle_mode(transition_id: int = -1, target_room: RoomData = null) -> bool:
+	if current_state != WorldState.PREPARING_BATTLE:
+		push_error("[WorldManager] 仅能从 PREPARING_BATTLE 进入 BATTLE。")
+		return false
+	if transition_id != _preparation_transition_id or target_room != _preparation_room:
+		push_warning("[WorldManager] 已忽略失效的战斗准备回调。")
+		return false
+	var current_room: RoomData = mapdata.get("rooms", {}).get(current_room_coords)
+	if target_room == null or target_room != current_room:
+		push_error("[WorldManager] 战斗准备完成时目标房间已失效。")
+		return false
+	var current_target := room_set.get_encounter_approach_target(target_room)
+	if not is_instance_valid(_preparation_target) or current_target != _preparation_target:
+		push_error("[WorldManager] 战斗准备完成时敌人接近目标已失效。")
+		return false
+	if player_visual == null or not player_visual.change_mode("battle"):
+		push_error("[WorldManager] 无法切换到战斗表现状态。")
+		return false
+
+	_preparation_room = null
+	_preparation_target = null
+	_set_world_state(WorldState.BATTLE)
 	print("[WorldManager] 镜头就绪，进入正式战斗模式！")
-	
-	# 恢复控制或移交战斗系统管理
-	if player_visual and player_visual.player:
-		player_visual.player.set_active(true)
-	
-	# 此处可发送信号唤醒同级子系统 BattleSystem:
-	# var battle_system = get_node_or_null("../BattleSystem")
+	return true
+
+
+# 校验运镜完成身份；失败时明确降级进入已启动的 Battle，避免永久锁定。
+func _on_encounter_approach_finished(transition_id: int, succeeded: bool) -> void:
+	if current_state != WorldState.PREPARING_BATTLE:
+		push_warning("[WorldManager] 已忽略非准备状态的遇敌运镜回调。")
+		return
+	if transition_id != _preparation_transition_id or _preparation_room == null:
+		push_warning("[WorldManager] 已忽略失效的遇敌运镜回调。")
+		return
+	var target_room := _preparation_room
+	if succeeded:
+		enter_battle_mode(transition_id, target_room)
+		return
+	_recover_from_approach_failure(transition_id, target_room)
+
+
+# 运镜运行失败时保持 World/Battle 一致，显式跳过表现而不伪造成功。
+func _recover_from_approach_failure(transition_id: int, target_room: RoomData) -> void:
+	var current_room: RoomData = mapdata.get("rooms", {}).get(current_room_coords)
+	if transition_id != _preparation_transition_id or target_room != current_room:
+		push_error("[WorldManager] 遇敌运镜失败且房间上下文已失效，无法安全恢复。")
+		return
+	push_error("[WorldManager] 遇敌运镜失败；Battle 已启动，为避免永久锁定将直接进入 BATTLE。")
+	if player_visual == null or not player_visual.change_mode("battle"):
+		push_error("[WorldManager] 运镜失败后无法切换到 Battle 表现状态。")
+		return
+	_preparation_room = null
+	_preparation_target = null
+	_set_world_state(WorldState.BATTLE)
+
+
+# 统一更新世界状态并广播一次变化。
+func _set_world_state(next_state: WorldState) -> void:
+	if current_state == next_state:
+		return
+	var previous_state := current_state
+	current_state = next_state
+	world_state_changed.emit(previous_state, current_state)
 
 
 # 供 BattleSystem 或击杀逻辑回调：战斗胜利结算并回归探索
@@ -130,4 +299,4 @@ func _on_door_opened(door_node: Node3D) -> void:
 
 		# 检查该房间是否有怪
 		if target_room.has_enemies:
-			enter_preparing_battle_mode(target_room)
+			report_encounter(target_room)

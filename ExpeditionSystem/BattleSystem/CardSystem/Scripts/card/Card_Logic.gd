@@ -1,3 +1,5 @@
+## 管理单张卡牌的展示、交互状态与请求生命周期。
+## 系统锁独立于动画状态保存，动画完成不能擅自恢复交互。
 extends Control
 class_name CardLogic
 
@@ -36,6 +38,7 @@ var runtime_card: RuntimeCard
 var state: CardState = CardState.DRAWING
 # 保存鼠标当前是否位于卡牌范围。
 var is_hovered: bool = false
+var _is_system_locked: bool = false
 # 保留兼容属性并通过状态判断是否锁定。
 var is_locked: bool:
 	get:
@@ -155,7 +158,7 @@ func reject_action() -> void:
 	animation.cancel_action_and_restore()
 	
 	state = CardState.IDLE
-	interaction.set_enabled(true)
+	interaction.set_enabled(not _is_system_locked)
 	
 	is_hovered = get_global_rect().has_point(
 		get_global_mouse_position()
@@ -174,7 +177,7 @@ func _on_draw_finished() -> void:
 		return
 	
 	state = CardState.IDLE
-	interaction.set_enabled(true)
+	interaction.set_enabled(not _is_system_locked)
 	
 	is_hovered = get_global_rect().has_point(
 		get_global_mouse_position()
@@ -208,9 +211,8 @@ func _process(delta: float) -> void:
 	)
 #endregion
 
-# 接收大系统下发的全局交互锁定/解锁
+# 接收系统锁并保留状态，避免动画结束时错误解锁。
 func set_system_lock(locked: bool) -> void:
-	# 只有卡牌处于闲置（IDLE）状态时，才受全局锁定的影响控制开关
-	# 正在抽牌或正在播放出牌/弃牌动画的卡牌不应该被意外解锁
+	_is_system_locked = locked
 	if state == CardState.IDLE:
 		interaction.set_enabled(not locked)

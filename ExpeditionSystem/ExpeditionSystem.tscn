@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cgstkmha5whja"]
 
+[ext_resource type="Script" uid="uid://ccb783k5mdxpc" path="res://ExpeditionSystem/Scripts/ExpeditionManager.gd" id="1_2pn7p"]
 [ext_resource type="PackedScene" uid="uid://dn2c6ojwph1kq" path="res://ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn" id="1_5x4cq"]
 [ext_resource type="Script" uid="uid://dxhwr3y7lk3s1" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd" id="1_b0kv7"]
 [ext_resource type="Script" uid="uid://dooun8tqr6wym" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd" id="1_vrybq"]
@@ -7,9 +8,33 @@
 [ext_resource type="Resource" uid="uid://dwqlu61a8djd8" path="res://ExpeditionSystem/WorldSystem/Scripts/test_mapblueprint.tres" id="2_b0kv7"]
 [ext_resource type="PackedScene" uid="uid://diasj0i1yv8ea" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn" id="2_kcca6"]
 [ext_resource type="Script" uid="uid://hb1cr0b2ytvw" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/RoomSet.gd" id="2_vrybq"]
+[ext_resource type="PackedScene" uid="uid://ct4htxn1thykf" path="res://ExpeditionSystem/BattleSystem/BattleSystem.tscn" id="3_h5q8n"]
+[ext_resource type="Script" uid="uid://ftp2xy0hcqcq" path="res://ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd" id="3_provider"]
 [ext_resource type="PackedScene" uid="uid://c3jaitphg2byh" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn" id="4_vrybq"]
 
 [node name="Expedition‌System" type="Node" unique_id=692706964]
+
+[node name="ExpeditionManager" type="Node" parent="." unique_id=1711523906 node_paths=PackedStringArray("world_manager", "battle_manager", "prototype_player_data_provider")]
+script = ExtResource("1_2pn7p")
+world_manager = NodePath("../WorldSystem")
+battle_manager = NodePath("../BattleSystem")
+prototype_player_data_provider = NodePath("../PrototypePlayerDataProvider")
+
+[node name="PrototypePlayerDataProvider" type="Node" parent="." unique_id=772115256]
+script = ExtResource("3_provider")
+prototype_player_configured = true
+prototype_entity_id = "player"
+prototype_entity_name = "player"
+prototype_max_hp = 100.0
+prototype_current_hp = 100.0
+prototype_max_stamina = 5.0
+prototype_current_stamina = 5.0
+prototype_stamina_regen_rate = 20.0
+prototype_max_mana = 5.0
+prototype_current_mana = 5.0
+prototype_mana_regen_rate = 40.0
+prototype_deck_configured = true
+prototype_card_ids = Array[int]([1001, 1001, 1002, 1002, 1002, 1003, 1003, 1003, 1004, 1004, 2001, 2001, 2002, 2002, 1001])
 
 [node name="WorldSystem" type="Node" parent="." unique_id=114827851 node_paths=PackedStringArray("world_generator", "room_set", "door_set", "player_visual")]
 script = ExtResource("1_b0kv7")
@@ -38,6 +63,8 @@ top_level = false
 
 [node name="WorldGenerator" type="Node" parent="WorldSystem" unique_id=286245731]
 script = ExtResource("1_vrybq")
+
+[node name="BattleSystem" parent="." unique_id=1786665297 instance=ExtResource("3_h5q8n")]
 
 [node name="UISystem" type="CanvasLayer" parent="." unique_id=1716876260]
 
