@@ -176,6 +176,7 @@ Primary:
 - `ExpeditionSystem/BattleSystem/BattleSystem.tscn`
 
 Related:
+- `project.godot` `[input]` (`combat_draw_to_full`, `combat_advance_time`)
 - `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd`
 - `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`
 - `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`
@@ -184,6 +185,7 @@ Key entry points / signals:
 - `BattleManager.start_battle(Array[CardInstance], EntityData, int) -> bool`
 - `BattleManager.set_presentation_ready()`
 - `BattleManager.is_battle_input_locked()`
+- `BattleManager.request_draw_to_full()` / `request_advance_time()`
 - `BattleManager.notify_visual_completed()`
 - `battle_started`
 - `battle_ended(is_player_victory)`
@@ -204,7 +206,8 @@ Key entry points / signals:
 - `Timeline.add_action()`
 - `Timeline.receive_card()`
 - `Timeline.advance_timeline_to()`
-- `Timeline.notify_action_finished()`
+- `Timeline.notify_action_finished(action)`
+- `Timeline.cancel_advancement()`
 - `action_triggered`
 - `time_advanced`
 - `timeline_advancement_finished`
@@ -262,6 +265,7 @@ Key entry points / signals:
 - `CardManager.initialize()`
 - `CardManager.can_initialize()`
 - `CardManager.draw_cards()`
+- `CardManager.execute_player_draw_action() -> int`
 - `CardManager.confirm_play_card()`
 - `CardManager.discard_card()`
 - `CardManager.advance_hand_buffs_time()`
@@ -485,7 +489,10 @@ Timeline.action_triggered
 -> EntityManager.execute_action()
 -> CombatEntity
 -> AttributeSet / Attribute
--> Timeline.notify_action_finished()
+-> Timeline.notify_action_finished(action)
+
+Battle 结束时：
+BattleManager -> Timeline.cancel_advancement()
 ```
 
 ### Enemy action planning

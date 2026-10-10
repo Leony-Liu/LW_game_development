@@ -1,3 +1,5 @@
+## 管理 Battle 的逻辑时间、行动排序与逐项完成同步。
+## 外部结算必须携带原行动确认，避免旧确认唤醒其他行动。
 class_name Timeline
 extends Node
 
@@ -9,8 +11,8 @@ signal action_triggered(action: CombatAction)
 signal timeline_advancement_finished
 # 推进的时间
 signal time_advanced(delta_time: int)
-# 内部协程同步信号：等待外部动画与逻辑执行完毕
-signal _action_completed_step
+# 内部协程同步信号：仅由当前行动的有效确认或取消唤醒。
+signal _action_completed_step(action: CombatAction)
 
 # 战斗时间
 var current_time: int = 0
@@ -18,6 +20,8 @@ var current_time: int = 0
 var action_line: Array[CombatAction] = []
 # 是否处于推进与结算状态
 var is_advancing: bool = false
+var _pending_action: CombatAction = null
+var _advancement_cancelled: bool = false
 
 
 #region 接收输入与排期
@@ -58,8 +62,9 @@ func advance_timeline_to(target_time: int) -> void:
 	if is_advancing:
 		return
 	is_advancing = true
+	_advancement_cancelled = false
 
-	while true:
+	while not _advancement_cancelled:
 		var next_action = pop_next_action_before_or_equal(target_time)
 
 		if next_action == null:
@@ -78,16 +83,34 @@ func advance_timeline_to(target_time: int) -> void:
 			time_advanced.emit(delta_to_action) # 扣除手牌 Buff 时间与回复体力
 			timeline_data_updated.emit(current_time, action_line.duplicate())
 
-		# 触发行动
+		# 先登记待完成行动，确保同步确认不会早于等待状态。
+		_pending_action = next_action
 		action_triggered.emit(next_action)
-		await _action_completed_step
+		if _pending_action == next_action and not _advancement_cancelled:
+			await _action_completed_step
 
+	_pending_action = null
 	is_advancing = false
 	timeline_advancement_finished.emit()
 
-# 供外部（BattleManager）在完成数值计算与动画播放后调用，唤醒时间轴继续推移
-func notify_action_finished() -> void:
-	_action_completed_step.emit()
+# 仅接受当前行动的首次完成确认，拒绝重复或过期确认。
+func notify_action_finished(action: CombatAction) -> bool:
+	if action == null or action != _pending_action:
+		return false
+	_pending_action = null
+	_action_completed_step.emit(action)
+	return true
+
+
+# 终止当前推进并清空未执行行动，保证 Battle 结束后协程可退出。
+func cancel_advancement() -> void:
+	_advancement_cancelled = true
+	action_line.clear()
+	var cancelled_action := _pending_action
+	_pending_action = null
+	if cancelled_action != null:
+		_action_completed_step.emit(cancelled_action)
+	timeline_data_updated.emit(current_time, action_line.duplicate())
 
 #endregion
 
@@ -99,8 +122,12 @@ func _sort_actions(a: CombatAction, b: CombatAction) -> bool:
 	if a.trigger_time != b.trigger_time:
 		return a.trigger_time < b.trigger_time # 时间早的优先
 	if a.priority != b.priority:
-		return a.priority > b.priority         # 优先级高的优先
-	return a.is_player                         # 同时间同优先级，玩家优先
+		if a.priority == 0 or b.priority == 0:
+			return a.priority == 0              # Priority 0 始终最先
+		return a.priority < b.priority         # 数值更小的优先
+	if a.is_player != b.is_player:
+		return a.is_player                    # 同时间同优先级，玩家优先
+	return false                              # 同阵营精确并列保留既有未定义语义
 
 # 获取并移除下一个在目标时间（含）之前的行动
 func pop_next_action_before_or_equal(target_time: int) -> CombatAction:

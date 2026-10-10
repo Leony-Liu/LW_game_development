@@ -3,12 +3,16 @@
 class_name BattleManager
 extends Node
 
+const PLAYER_ADVANCE_TIME: int = 10
+const DRAW_TO_FULL_STAMINA_COST: int = 1
+
 # 核心子系统挂载
 @export var timeline: Timeline
 @export var entity_manager: EntityManager
 @export var card_manager: CardManager
 @export var battle_ui: CanvasLayer
 @export var battle_save_module: Node # 可选：挂载 BattleSaveModules
+@export var wait_for_combat_presentation: bool = false
 
 #region 外部与中介通信信号
 signal battle_started
@@ -32,6 +36,20 @@ func _ready() -> void:
 	_setup_connections()
 	_apply_battle_presentation()
 	_apply_effective_input_lock()
+
+
+# 通过 InputMap 动作接收战斗键盘输入，物理按键可在运行时重绑。
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_battle_active:
+		return
+	if event is InputEventKey and event.echo:
+		return
+	if event.is_action_pressed("combat_draw_to_full"):
+		request_draw_to_full()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("combat_advance_time"):
+		request_advance_time()
+		get_viewport().set_input_as_handled()
 
 
 # 校验场景保存的必需子系统引用。
@@ -190,9 +208,38 @@ func _convert_deck_to_runtime(deck: Array[CardInstance]) -> Array[RuntimeCard]:
 
 #region 出牌与资源仲裁流
 
+# 校验 Battle 当前是否允许玩家发起新操作。
+func _can_accept_player_control() -> bool:
+	return is_battle_active and not _effective_input_locked and not timeline.is_advancing
+
+
+# 请求补满手牌；仅在至少抽到一张牌后统一支付 1 点体力。
+func request_draw_to_full() -> bool:
+	if not _can_accept_player_control():
+		return false
+	if card_manager.hand_pile.size() >= card_manager.hand_limit:
+		return false
+	if not entity_manager.can_player_afford(DRAW_TO_FULL_STAMINA_COST, "stamina"):
+		return false
+
+	var drawn_count := card_manager.execute_player_draw_action()
+	if drawn_count <= 0:
+		return false
+	entity_manager.consume_player_resource(DRAW_TO_FULL_STAMINA_COST, "stamina")
+	return true
+
+
+# 请求空等 10 个逻辑时间单位，并沿用 Timeline 的行动结算协议。
+func request_advance_time() -> bool:
+	if not _can_accept_player_control():
+		return false
+	_set_internal_input_locked(true)
+	timeline.advance_timeline_to(timeline.current_time + PLAYER_ADVANCE_TIME)
+	return true
+
 # 响应玩家手牌出牌请求：进行资源校验与出牌调度
 func _on_card_play_requested(runtime_card: RuntimeCard) -> void:
-	if not is_battle_active or _effective_input_locked or timeline.is_advancing:
+	if not _can_accept_player_control():
 		card_manager.cancel_play_card(runtime_card)
 		return
 
@@ -225,13 +272,13 @@ func _on_timeline_action_triggered(action: CombatAction) -> void:
 	for card_buff in action.card_buffs:
 		card_manager.apply_buff_to_all_hand_cards(card_buff)
 
-	# 3. 动画等待与挂起机制：若触发了视觉表现，等待播放完毕后再唤醒时间轴
+	# 3. 未来表现控制器启用等待后，由 notify_visual_completed() 恢复。
 	if _is_waiting_for_visual:
 		await _wait_for_visual_complete()
 
-	# 4. 唤醒时间轴继续推移
+	# 4. 携带原行动确认，重复或过期确认不会唤醒其他行动。
 	if is_battle_active:
-		timeline.notify_action_finished()
+		timeline.notify_action_finished(action)
 
 
 # 时间轴流动过程中分段广播流逝时间：推进手牌限时 Buff
@@ -261,7 +308,7 @@ func _on_entity_card_buff_requested(_target_id: String, buff: CardBuff) -> void:
 
 # 转发实体/卡牌系统的视觉请求给外部展示层
 func _on_visual_effect_generated(visual_type: String, data: Dictionary) -> void:
-	_is_waiting_for_visual = true
+	_is_waiting_for_visual = wait_for_combat_presentation
 	visual_effect_requested.emit(visual_type, data)
 
 
@@ -272,9 +319,13 @@ func notify_visual_completed() -> void:
 
 # 实体阵亡结算
 func _on_entity_died(entity: CombatEntity) -> void:
+	if not is_battle_active:
+		return
 	is_battle_active = false
 	_presentation_input_ready = false
 	_internal_input_locked = true
+	_is_waiting_for_visual = false
+	timeline.cancel_advancement()
 	_apply_battle_presentation()
 	_apply_effective_input_lock()
 	

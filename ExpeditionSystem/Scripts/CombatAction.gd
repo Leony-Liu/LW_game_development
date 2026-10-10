@@ -18,7 +18,7 @@ var is_player: bool = false       # 是否为玩家行动
 
 # 时间轴调度属性
 var trigger_time: int = 0         # 在时间轴上的绝对触发时间戳
-var priority: int = 0             # 优先级（同一时间点数值越大越先执行）
+var priority: int = 0             # 优先级（0 最先，其余数值越小越先）
 
 # 意图效果载荷集合
 var attribute_impacts: Array[AttributeImpact] = [] # 目标属性变更列表（数值调整）

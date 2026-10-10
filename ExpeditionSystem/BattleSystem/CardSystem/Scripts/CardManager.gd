@@ -80,14 +80,15 @@ func initialize(player_deck: Array[RuntimeCard]) -> bool:
 	draw_cards_to_limit()
 	return true
 
-# 供外部系统（或玩家点击抽牌堆按钮）调用的标准抽牌操作
-func execute_player_draw_action() -> void:
+# 补齐手牌并返回实际抽到的数量，供上层决定是否支付资源。
+func execute_player_draw_action() -> int:
 	var draw_amount = hand_limit - hand_pile.size()
 	if draw_amount > 0:
 		print("玩家发起抽牌，补齐数量：", draw_amount)
-		draw_cards(draw_amount)
+		return draw_cards(draw_amount)
 	else:
 		print("手牌已达上限，无法抽牌")
+	return 0
 
 #region 卡牌Buff
 # 接收打包好的 CardBuff 实例
@@ -109,8 +110,8 @@ func advance_hand_buffs_time(delta_time: int) -> void:
 #endregion
 
 #region 卡牌操作方法
-# 抽牌
-func draw_cards(amount: int) -> void:
+# 抽取指定数量并返回实际进入手牌的数量。
+func draw_cards(amount: int) -> int:
 	# 计算当前手牌堆距离上限还有多少空位
 	var space_left = hand_limit - hand_pile.size()
 	# 实际能抽的数量，取“请求数量”与“剩余空位”中的最小值
@@ -118,10 +119,14 @@ func draw_cards(amount: int) -> void:
 	
 	if actual_draw <= 0:
 		print("手牌已达上限 (", hand_limit, ")，指令被拦截！")
-		return
+		return 0
 		
+	var drawn_count := 0
 	for i in range(actual_draw):
-		_draw_single_card()
+		if not _draw_single_card():
+			break
+		drawn_count += 1
+	return drawn_count
 
 # 出牌
 func _on_hand_deck_card_play_requested(runtime_card: RuntimeCard) -> void:
@@ -178,18 +183,20 @@ func discard_all_hand_pile() -> void:
 		card_discarded.emit(card)
 	hand_pile_cleared.emit()
 
-# 开局补齐手牌
-func draw_cards_to_limit() -> void:
+# 开局补齐手牌并返回实际抽牌数。
+func draw_cards_to_limit() -> int:
 	var draw_amount = hand_limit - hand_pile.size()
 	if draw_amount > 0:
-		draw_cards(draw_amount)
+		return draw_cards(draw_amount)
+	return 0
 #endregion
 
 #region 内部方法
-# 抽单张卡，触发PHD中的实例化函数
-func _draw_single_card() -> void:
+# 抽取一张卡并报告是否成功。
+func _draw_single_card() -> bool:
 	if draw_pile.is_empty():
-		if discard_pile.is_empty(): return
+		if discard_pile.is_empty():
+			return false
 		_reshuffle_discard_to_draw()
 		
 	var drawn_card = draw_pile.pop_back()
@@ -200,6 +207,7 @@ func _draw_single_card() -> void:
 		player_hand_deck.add_card_to_hand(drawn_card)
 	
 	card_drawn.emit(drawn_card)
+	return true
 
 # 重置弃牌堆
 func _reshuffle_discard_to_draw() -> void:

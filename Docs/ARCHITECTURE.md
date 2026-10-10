@@ -245,7 +245,7 @@ Door opened
 
 运镜具有最长运行时间并显式处理目标释放。由于当前没有 Battle 激活后的 rollback contract，运行中目标失效或移动超时时不会伪造运镜成功，而是记录错误并降级进入已经初始化的 `BATTLE`，以保持 World / Battle 表现一致并避免玩家永久锁定；若房间身份也已失效，则拒绝推进，等待后续正式 cleanup contract 处理。`[LIVE][TARGET]`
 
-Battle 最终输入锁由 `BattleManager` 合并两个来源：远征层的 presentation readiness，以及 Battle 内部的 Timeline / lifecycle lock。前者不能解开后者；卡牌会持久保存 system lock，抽牌或拒绝动画结束不会自行恢复交互。`[LIVE]`
+Battle 最终输入锁由 `BattleManager` 合并两个来源：远征层的 presentation readiness，以及 Battle 内部的 Timeline / lifecycle lock。前者不能解开后者；卡牌会持久保存 system lock，抽牌或拒绝动画结束不会自行恢复交互。`BattleManager` 通过 InputMap 动作 `combat_draw_to_full` / `combat_advance_time` 接收补牌与空等输入，并在同一合并锁后分别调用 `CardManager.execute_player_draw_action()` 与 `Timeline.advance_timeline_to()`；物理按键不写入 gameplay 逻辑。`[LIVE]`
 
 当前没有 Battle 激活后的取消 / rollback contract。运镜自身失败且原房间仍有效时会显式降级进入已初始化的 Battle；若准备阶段被外部强制改成错误房间或其他不一致状态，则不能安全返回探索或自动重试。该缺口仍需后续明确的 Battle cleanup / result lifecycle 解决，不能在启动失败处理中伪造战斗结果或清除房间。`[TARGET][VERIFY]`
 
@@ -340,13 +340,13 @@ RuntimeCard / EnemyAI
 → CombatEntity / CardManager
 ```
 
-`Timeline` 拥有 `current_time`、`action_line`、`is_advancing`，按 `trigger_time`、priority 和当前 tie-break 排序。它推进到目标时间，逐个发出 `action_triggered`，并等待 `BattleManager.notify_action_finished()` 后继续。`[SOURCE]`
+`Timeline` 拥有 `current_time`、`action_line`、`is_advancing`，按 `trigger_time`、Priority-0 最先 / 其余 priority 升序、玩家优先 tie-break 排序。它在发出 `action_triggered(action)` 前登记当前待完成行动；`BattleManager` 完成 gameplay 与可选表现后以同一个 `action` 调用 `notify_action_finished(action)`。同步确认会在 signal 返回后被直接观察到，异步确认会唤醒等待；重复或过期行动引用不能完成其他行动。Battle 结束时 `cancel_advancement()` 会清空队列并解除当前等待。`[LIVE][SOURCE]`
 
 职责边界：
 
 - Timeline 负责“何时执行、先后顺序、推进多少逻辑时间”。
 - `RuntimeCard` / `EnemyAI` 负责把各自意图变成 `CombatAction`。
-- `BattleManager` 负责协调结算、输入锁和表现等待。
+- `BattleManager` 负责协调结算、输入锁和表现等待；当前未接战斗表现控制器时，视觉请求立即视为完成，未来控制器通过 `notify_visual_completed()` 接回同一确认边界。
 - `EntityManager` / `CombatEntity` 负责把行动应用到实际战斗状态。
 - Timeline 不拥有伤害真相，也不决定敌人下一步做什么。
 
@@ -507,7 +507,7 @@ gameplay state owner
 - `PlayerVisualManager` 反映 World mode；不拥有当前房间或遇敌状态。
 - `CardManager` 拥有逻辑牌堆；`PlayerHandDeck` / `CardLogic` 创建 UI 节点、提交请求并播放确认 / 拒绝动画。
 - `ExpeditionManager` 只协调 Battle UI / input 的 presentation gate；`BattleManager` 仍拥有 Timeline 等内部锁，二者共同决定最终卡牌输入状态。
-- `CombatEntity` 发出 visual request，经 `EntityManager` / `BattleManager` 转发；`BattleManager` 可等待 `notify_visual_completed()`，但现实动画时长不改变逻辑 `time_cost`。
+- `CombatEntity` 发出 visual request，经 `EntityManager` / `BattleManager` 转发；当前 `wait_for_combat_presentation == false`，请求不会阻塞 gameplay。未来接入控制器后可启用等待并由 `notify_visual_completed()` 完成表现，但现实动画时长不改变逻辑 `time_cost`。
 
 等待表现完成是同步机制，不意味着表现层有权修改 HP、牌堆、Timeline 或 battle result。
 

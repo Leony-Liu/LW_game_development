@@ -907,14 +907,23 @@ logical time ≠ animation duration
 - 敌人行动同样进入统一行动轴；
 - 玩家与敌人的主要战斗行为应在同一个时序模型下结算。
 
-尚未正式锁定的细节【待设计】：
+### 31.1 Priority 与“先手属性”【试玩版已确定】
 
-- 同 `trigger_time`、同优先级时最终采用什么 tie-break；
-- `priority == 0` 是否永久代表“立即触发但仍消耗时间”；
-- 是否需要独立的 instant / cast timing 字段；
-- priority 的最终设计语义及允许范围。
+`priority` 同时决定**卡牌效果的触发时机**和**同一逻辑时间点的行动先后**：
 
-当前实现行为不能自动成为上述问题的最终设计答案。
+- **`priority == 0`：该卡牌拥有“先手属性”。**在当前逻辑时间立即结算效果，随后仍按该卡牌的 `time_cost` 推进 Timeline；先手不等于免除时间成本。
+- **`priority != 0`：**卡牌效果在推进其 `time_cost` 后到达对应逻辑时间点时触发；非零 priority 数值越高，优先级越低。
+- **同 `trigger_time` 的行动：**`priority == 0` 先于非零 priority；非零值按数值从小到大结算。
+- **同 `trigger_time` 且同 priority：**我方行动先于敌方行动。
+- 表现动画的现实耗时不改变 Timeline 的逻辑时间。
+
+### 31.2 仍待设计【待设计】
+
+- `priority` 的最终允许数值范围（包括非零值是否允许负数）；
+- 同一阵营、同 `trigger_time`、同 priority 的多项行动如何稳定排序；
+- 敌人行动是否可能使用 `priority == 0`，以及对应数据如何表达。
+
+已确认的先手和排序规则不能被现有代码中的不同排序行为覆盖。
 
 ---
 
@@ -1678,29 +1687,25 @@ Battle 开始时记录：
 
 ---
 
-## 64. Timeline tie-break【待设计】
+## 64. Timeline tie-break【部分待设计】
 
-需要确定：
+已确定：
 
-- 同 `trigger_time`；
-- 同 priority；
+- 同 `trigger_time` 时，`priority == 0` 先于非零 priority；其余按数值从小到大结算（数值越高，优先级越低）。
+- 同 `trigger_time`、同 priority 时，我方先于敌方结算。
 
-时：
+仍需确定【待设计】：
 
-- 玩家先？
-- 敌人先？
-- 按入队顺序？
-- 使用额外规则？
+- 同一阵营、同 `trigger_time`、同 priority 的多项行动按何种稳定规则排序。
 
 ---
 
-## 65. Instant 行动表达【待设计】
+## 65. Instant 行动表达【试玩版已确定】
 
-需要确定：
-
-- `priority == 0` 是否永久代表“立即触发”；
-- 是否建立独立 instant / timing 字段；
-- 即时触发和 `time_cost` 的关系。
+- `priority == 0` 代表卡牌拥有“先手属性”：效果在当前逻辑时间立即触发。
+- 立即结算效果之后，Timeline 仍推进该卡牌的 `time_cost`，处理沿途到达的行动。
+- 非零 priority 卡牌在消耗 `time_cost` 后触发效果。
+- 现阶段由 `priority` 同时承担触发时机与行动先后两种语义，不另设必需的 instant / timing 字段。
 
 ---
 
