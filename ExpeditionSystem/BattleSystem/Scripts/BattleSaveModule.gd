@@ -1,3 +1,5 @@
+## 遗留战斗存档模块，仅保留现有快照接口与测试数据构造。
+## 当前未接入战斗启动流程，不承担现行战斗状态所有权。
 class_name BattleSaveModule
 extends SaveModule
 
@@ -28,15 +30,28 @@ func get_save_data() -> Dictionary:
 			deck_data.append({"card_id": card.card_id, "card_data": card.card_data})
 		print("[BattleSaveModule] 已打包 -牌组数据-")
 		
-	var player_dict = {}
+	var player_dict: Dictionary = {}
 	if input_player_data:
-		player_dict = {"entity_id": input_player_data.entity_id, "base_attributes": input_player_data.base_attributes}
+		player_dict = {
+			"entity_id": input_player_data.entity_id,
+			"entity_name": input_player_data.entity_name,
+			"max_hp": input_player_data.max_hp,
+			"current_hp": input_player_data.current_hp,
+			"shield": input_player_data.shield,
+			"max_stamina": input_player_data.max_stamina,
+			"current_stamina": input_player_data.current_stamina,
+			"stamina_regen_rate": input_player_data.stamina_regen_rate,
+			"max_mana": input_player_data.max_mana,
+			"current_mana": input_player_data.current_mana,
+			"mana_regen_rate": input_player_data.mana_regen_rate,
+			"custom_properties": input_player_data.custom_properties.duplicate(true)
+		}
 		print("[BattleSaveModule] 已打包 -玩家数据-")
-	var enemy_dict = {}
+	var enemy_dict: Dictionary = {}
 	if input_enemy_data:
 		enemy_dict = {
 			"enemy_id": input_enemy_data.enemy_id, 
-			"base_attributes": input_enemy_data.base_attributes
+			"attributes": input_enemy_data.attributes.duplicate(true)
 		}
 		print("[BattleSaveModule] 已打包 -敌人数据-")
 
@@ -66,19 +81,36 @@ func load_save_data(data: Variant) -> void:
 				current_deck.append(RuntimeCard.new(c_id, c_data))
 				
 	if data.has("player_data") and not data["player_data"].is_empty():
-		input_player_data = EntityData.new(data["player_data"].get("entity_id", ""), data["player_data"].get("base_attributes", {}))
+		var saved_player_data: Dictionary = data["player_data"]
+		# 仅按当前命名字段恢复，不迁移旧 base_attributes 格式。
+		input_player_data = EntityData.new(
+			String(saved_player_data.get("entity_id", "")),
+			String(saved_player_data.get("entity_name", "Unknown"))
+		)
+		input_player_data.max_hp = float(saved_player_data.get("max_hp", input_player_data.max_hp))
+		input_player_data.current_hp = float(saved_player_data.get("current_hp", input_player_data.current_hp))
+		input_player_data.shield = float(saved_player_data.get("shield", input_player_data.shield))
+		input_player_data.max_stamina = float(saved_player_data.get("max_stamina", input_player_data.max_stamina))
+		input_player_data.current_stamina = float(saved_player_data.get("current_stamina", input_player_data.current_stamina))
+		input_player_data.stamina_regen_rate = float(saved_player_data.get("stamina_regen_rate", input_player_data.stamina_regen_rate))
+		input_player_data.max_mana = float(saved_player_data.get("max_mana", input_player_data.max_mana))
+		input_player_data.current_mana = float(saved_player_data.get("current_mana", input_player_data.current_mana))
+		input_player_data.mana_regen_rate = float(saved_player_data.get("mana_regen_rate", input_player_data.mana_regen_rate))
+		var saved_custom_properties: Variant = saved_player_data.get("custom_properties", {})
+		if saved_custom_properties is Dictionary:
+			input_player_data.custom_properties = saved_custom_properties.duplicate(true)
 		
 
 	if data.has("enemy_data") and not data["enemy_data"].is_empty():
-		var saved_enemy_data = data["enemy_data"]
-		var e_id = saved_enemy_data.get("enemy_id", -1)
+		var saved_enemy_data: Dictionary = data["enemy_data"]
+		var e_id := int(saved_enemy_data.get("enemy_id", -1))
 		
 		# 从数据库拉取包含动作池的完整模板
 		var template = AllEnemyData.get_enemy(e_id)
 		if template:
 			input_enemy_data = template.duplicate(true)
-			# 将存档中的残血状态覆盖上去
-			input_enemy_data.base_attributes = saved_enemy_data.get("base_attributes", template.base_attributes).duplicate()
+			# 将存档中的属性状态覆盖上去
+			input_enemy_data.attributes = saved_enemy_data.get("attributes", template.attributes).duplicate(true)
 		else:
 			push_error("[BattleSaveModule] 读档失败：找不到对应的敌人 ID " + str(e_id))
 
@@ -166,11 +198,12 @@ func build_test_deck():
 			push_error("生成测试牌组警告：找不到 ID 为 %d 的卡牌资源！" % card_id)
 # 组建测试玩家数据
 func build_test_player_data() -> EntityData:
-	return EntityData.new("player_test", {
-		"hp": 100.0,
-		"stamina": 5.0,
-		"max_stamina": 5.0
-	})
+	var player_data := EntityData.new("player_test", "测试玩家")
+	player_data.max_hp = 100.0
+	player_data.current_hp = 100.0
+	player_data.max_stamina = 5.0
+	player_data.current_stamina = 5.0
+	return player_data
 # 组建测试敌人数据
 func build_test_enemy_data() -> EnemyData:
 	# 从 AllEnemyData 中拿取对应id 的敌人数据
@@ -181,7 +214,7 @@ func build_test_enemy_data() -> EnemyData:
 	# 究极兜底方案
 	var dummy = EnemyData.new()
 	dummy.enemy_id = 999
-	dummy.base_attributes = {"hp": 80.0}
+	dummy.attributes = {"hp": 80.0}
 	return dummy
 
 #endregion

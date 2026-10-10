@@ -13,7 +13,9 @@
 
 `LW_game_development` 是一款以**第一人称程序生成远征、逻辑行动轴卡牌战斗和“武器即牌组”构筑**为核心的游戏。
 
-当前开发目标是先打通可靠的探索 ↔ 战斗纵向闭环，再扩展更多 gameplay 内容。
+**当前阶段目标：完成远征系统最基础的可运行闭环——地图生成 → 触发战斗 → 进行战斗 → 结束战斗 → 继续探索。**
+
+这一阶段优先验证同一次远征内 World 与 Battle 的实际联动，不以完成基地、经济、存档或全部试玩版内容为验收条件。其中“进行战斗”的最小可玩范围尚待用户与 Web GPT 进一步讨论；既有战斗代码应优先复用，不将当前实现的临时规则视为最终设计。
 
 | 项目 | 当前值 |
 | --- | --- |
@@ -39,23 +41,23 @@
 | `Docs/` | 项目规范文档；精确文件入口见 `CODEMAP.md` |
 | `tools/` | Godot CLI 等开发验证工具 |
 
-## 3. 当前开发阶段
+## 3. 当前开发阶段与阶段目标
 
-当前 gameplay 主线是完成一次完整的：
+**阶段目标：完成远征系统最基础的五步流程。**
 
 ```text
-地图探索
-→ 遭遇敌人
-→ ExpeditionManager 接管交接
-→ BattleSystem
-→ 战斗结束
-→ 结果返回 ExpeditionManager
-→ 更新同一次 World / mapdata / RoomData
-→ 恢复探索
-→ 继续同一次远征
+1. 地图生成：创建可探索的房间与门
+2. 触发战斗：探索、开门遇敌，可靠进入 Battle
+3. 进行战斗：玩家能够使用卡牌，Timeline / EnemyAI / 实体效果形成可运行的单场战斗
+4. 结束战斗：产生明确的胜负结果并正确结束本场 Battle
+5. 继续探索：结果交回 ExpeditionManager，更新同一 World / mapdata / RoomData，恢复探索
 ```
 
-这条纵向闭环尚未完成，因此当前不应把“场景已装配”误认为“完整 gameplay 已验证”。
+**当前进度边界：** 地图生成与探索、遇敌上报、Battle 启动和第一人称入场过场已具备实现并经过相应验证；“进行战斗”的内部机制已有代码基础，但完整可玩性仍需核查与补全；“结束战斗 → 继续探索”尚未接通。当前阶段尚不能标记为完成。
+
+**下一步协作重点：** 用户与 Web GPT 先逐项确认“进行战斗”的最低可玩内容、既有实现是否符合预期及未定玩法规则，再向 Codex 下发具体补全任务。不可把 M2 的讨论项直接视为已批准的开发需求。
+
+**阶段验收条件：** 玩家能够在同一张生成地图上探索并遭遇敌人，实际完成一场可结算的战斗，得到结果后回到原远征上下文继续移动、开门，并可再次正常触发战斗；不得通过重新生成地图或重建整次远征伪造返回探索的结果。
 
 ## 4. 已完成的关键基础
 
@@ -101,7 +103,7 @@ CardData IDs → AllCardData lookup → CardInstance[]
 
 M1-04 Exploration-to-Battle transition 及第一人称遇敌接近补充已完成：World 依次进入 `EXPLORE → PREPARING_BATTLE → BATTLE`；准备期停用手动移动与视角，保留原第一人称相机，并让真实 `CharacterBody3D` 沿碰撞几何接近原 `RoomData` 对应房间的敌人锚点。玩家到达安全距离且身体 / 镜头朝向完成后才进入 `BATTLE`，Battle UI / 卡牌输入只在最终状态开放。transition id、原 `RoomData` 与目标节点身份共同拒绝旧回调和错误目标；Battle 的内部锁与远征表现门闩继续采用合并锁。
 
-M1-05 Battle startup failure handling 已完成：encounter 返回最终接受结果，匹配请求在接受或拒绝后都会释放 pending；`ExpeditionManager` 在启动前额外预检敌人锚点和玩家表现依赖，并允许修正配置后重试；`BattleManager` 在任何 Entity、Timeline、牌堆或卡牌 UI 写入前完成 Entity / Card 预检，并拒绝重入及已激活 Battle。正常启动、四个接近方向、旧回调、错误房间、无效 / 释放目标与 Battle 表现门闩已通过隔离运行探针验证。实际镜头手感仍需在可视窗口中人工验收。
+M1-05 Battle startup failure handling 已完成：encounter 返回最终接受结果，匹配请求在接受或拒绝后都会释放 pending；`ExpeditionManager` 在启动前额外预检敌人锚点和玩家表现依赖，并允许修正配置后重试；`BattleManager` 在任何 Entity、Timeline、牌堆或卡牌 UI 写入前完成 Entity / Card 预检，并拒绝重入及已激活 Battle。正常启动、四个接近方向、旧回调、错误房间、无效 / 释放目标与 Battle 表现门闩已通过隔离运行探针验证。入场过场已由用户进行初步人工体验，当前效果暂时符合预期；最终表现品质可在后续迭代调整。
 
 因此 M1-01 至 M1-05 的“探索遇敌并可靠进入 Battle”启动阶段可视为完成；这不包含战斗结果返回、正常恢复探索或第二场 Battle cleanup。
 
@@ -149,7 +151,7 @@ SaveManager
 
 试玩版恢复边界已经确定为 Room Entry Checkpoint 与 Battle Start Checkpoint；战斗中断后整场重开，不要求序列化战斗中途 transient state。
 
-`BattleSaveModule.gd` 仍是未挂载且数据模型不兼容的 legacy 文件，不应作为新存档架构基础。`PlayerSaveManager.gd` 仍是 placeholder。
+`BattleSaveModule.gd` 仍属于未挂载的 legacy 文件。其与 `EntityData` 的解析兼容错误已单独修复，但不代表旧存档流程可用，也不应作为新存档架构基础。`PlayerSaveManager.gd` 仍是 placeholder。
 
 ## 7. 工具链与验证边界
 
@@ -176,7 +178,7 @@ Canonical CLI：
 
 当前验证不能自动证明以下行为完成：
 
-- 人工窗口中的最终运镜手感与视觉品质；
+- 入场过场的最终视觉品质（用户已初步体验，暂时无问题）；
 - 完整 battle lifecycle；
 - battle result return；
 - 第二场战斗 cleanup；
@@ -184,14 +186,17 @@ Canonical CLI：
 
 ## 8. 当前直接开发方向
 
+目前按照阶段目标推进，**先细化并验证“进行战斗”，再补全战斗结束与探索恢复**：
+
 ```text
-1. Battle result → ExpeditionManager
-2. 更新 same World / same mapdata / same RoomData
-3. 恢复探索
-4. 验证第二场战斗没有继承上一场 transient state
+1. 用户 + Web GPT：对照最新源码讨论“进行战斗”的最低可玩机制与验收条件
+2. Codex：按确认后的规则，核查、修复并验证单场 Battle 内部运行闭环
+3. Battle result → ExpeditionManager：明确胜败结果的交接与单场 Battle 结束
+4. 更新同一 World / mapdata / 原 RoomData，并恢复探索控制与画面
+5. 验证返回后继续开门、再次遭遇和第二场 Battle 的 transient state 清理
 ```
 
-这是一条当前实现方向摘要，不是生产排期。
+当前 M2 细节尚在讨论中，不能把旧版五项任务名当作最终需求。已确定的玩法遵循 `GAME_DESIGN.md`；遇到标记为【待设计】的规则必须先由用户确认。以上是阶段实施方向，不是具体排期，也不表示各项已经完成。
 
 ## 9. 重要注意事项
 
