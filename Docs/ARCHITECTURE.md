@@ -95,7 +95,7 @@ Expedition‌System（独立保存场景，Node）
 | `WorldSystem` | `ExpeditionSystem/WorldSystem/` | 场景子树 | 地图、房间、门与世界状态 |
 | `PlayerVisual` | `ExpeditionSystem/WorldSystem/PlayerVisual/` | 子场景 | 玩家控制、相机与遇敌接近 |
 | `BattleSystem` | `ExpeditionSystem/BattleSystem/` | 常驻子场景 | 单场战斗装配与协调 |
-| `UISystem` | `ExpeditionSystem/ExpeditionSystem.tscn` | `CanvasLayer` | 当前保存的空界面节点 |
+| `UISystem` | `ExpeditionSystem/ExpeditionSystem.tscn` | `CanvasLayer` | 胜利与失败结果面板及操作信号 |
 
 ## 4. Application 系统
 
@@ -134,7 +134,7 @@ Expedition‌System（独立保存场景，Node）
 
 ### 组成与通信
 
-`ExpeditionSystem/ExpeditionSystem.tscn` 中，`ExpeditionManager`、`PrototypePlayerDataProvider`、`WorldSystem`、`BattleSystem`、`UISystem` 为同级子节点。`ExpeditionManager` 保存对前三者中 provider、World、Battle 的引用。`[LIVE]`
+`ExpeditionSystem/ExpeditionSystem.tscn` 中，`ExpeditionManager`、`PrototypePlayerDataProvider`、`WorldSystem`、`BattleSystem`、`UISystem` 为同级子节点。`ExpeditionManager` 保存对 provider、World、Battle、UISystem 的引用。`[LIVE]`
 
 ```text
 WorldManager.encounter_requested(RoomData, enemy_id)
@@ -192,8 +192,10 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`；`CanvasLayer` `[LIVE]` |
-| 输入、输出与数据 | `UISystem` 为当前场景中的 `CanvasLayer` 节点 `[LIVE]` |
+| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`；`ExpeditionResultUI.gd`、`VictoryPanel`、`GameOverPanel` `[LIVE]` |
+| 输入、输出与数据 | 接收结果显隐请求；发出 `victory_confirmed`、`restart_requested`，不修改 World 或 Battle `[SOURCE]` |
+
+`ExpeditionManager` 接收 `BattleManager.battle_ended`。胜利确认后调用 `WorldManager.finish_battle()`，由当前 `BattleRoom.clear_enemies()` 清除敌人，再恢复探索；失败确认后重新实例化远征场景，生成新地图与玩家输入。`[SOURCE]`
 
 ## 6. BattleSystem
 
@@ -224,7 +226,7 @@ BattleSystem [BattleManager]
 | 位置与组成 | `ExpeditionSystem/BattleSystem/BattleSystem.tscn` 根节点；导出引用绑定 `Timeline`、`EntityManager`、`UI/CardSystem`、`UI` `[LIVE]` |
 | 输入 | `start_battle(external_deck, external_player_data, enemy_id) -> bool`、`set_presentation_ready(is_ready) -> bool`、`request_draw_to_full()`、`request_advance_time()`；接收 Card、Timeline、Entity 信号 |
 | 输出 | `battle_started`、`battle_ended(is_player_victory)`、`input_lock_changed(is_locked)`、`visual_effect_requested(visual_type, data)`；调用 Timeline、EntityManager、CardManager |
-| 数据 | `is_battle_active`、启动与输入锁状态、表现就绪状态；`UI.visible` 随激活与表现状态更新 `[SOURCE]` |
+| 数据 | `is_battle_active`、`battle_result`、启动与输入锁状态、表现就绪状态；`UI.visible` 随激活与表现状态更新 `[SOURCE]` |
 
 `start_battle()` 将 `CardInstance[]` 转为 `RuntimeCard[]`，预检后依次初始化 `EntityManager` 和 `CardManager`。`EntityManager.entity_died` 触发战斗关闭、`Timeline.cancel_advancement()` 与 `battle_ended`。`[SOURCE]`
 

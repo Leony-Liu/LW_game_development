@@ -262,14 +262,18 @@ func _set_world_state(next_state: WorldState) -> void:
 	world_state_changed.emit(previous_state, current_state)
 
 
-# 供 BattleSystem 或击杀逻辑回调：战斗胜利结算并回归探索
-func finish_battle() -> void:
-	print("[WorldManager] 战斗胜利！")
+# 清理当前房间的敌人，并在成功后回到探索模式。
+func finish_battle() -> bool:
 	var room_data: RoomData = mapdata.get("rooms", {}).get(current_room_coords)
-	if room_data:
-		room_data.has_enemies = false
-
-	enter_explore_mode()
+	var room_instance: BattleRoom = room_set.get_room_instance(room_data) if room_set else null
+	if room_instance == null or not room_data.has_enemies:
+		push_error("[WorldManager] 无法结束战斗：当前房间或敌人已失效。")
+		return false
+	room_instance.clear_enemies()
+	if not enter_explore_mode():
+		return false
+	print("[WorldManager] 战斗胜利！")
+	return true
 
 
 # 入门判断

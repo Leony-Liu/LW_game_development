@@ -5,14 +5,17 @@ extends Node
 @export var world_manager: WorldManager
 @export var battle_manager: BattleManager
 @export var prototype_player_data_provider: PrototypePlayerDataProvider
+@export var result_ui: ExpeditionResultUI
 
 var _is_starting_battle := false
+var _result_pending := false
 
 
 # 校验依赖并接收 World 的遭遇请求。
 func _ready() -> void:
 	assert(world_manager != null, "ExpeditionManager: 缺少必需的 world_manager 引用。")
 	assert(battle_manager != null, "ExpeditionManager: 缺少必需的 battle_manager 引用。")
+	assert(result_ui != null, "ExpeditionManager: 缺少必需的 result_ui 引用。")
 	assert(
 		prototype_player_data_provider != null,
 		"ExpeditionManager: 缺少必需的 prototype_player_data_provider 引用。"
@@ -21,11 +24,17 @@ func _ready() -> void:
 		world_manager.encounter_requested.connect(_on_world_encounter_requested)
 	if not world_manager.world_state_changed.is_connected(_on_world_state_changed):
 		world_manager.world_state_changed.connect(_on_world_state_changed)
+	battle_manager.battle_ended.connect(_on_battle_ended)
+	result_ui.victory_confirmed.connect(_on_victory_confirmed)
+	result_ui.restart_requested.connect(_on_restart_requested)
 	battle_manager.set_presentation_ready(false)
 
 
 # 接收有效遭遇事实，并在启动成功后接受原请求。
 func _on_world_encounter_requested(room_data: RoomData, enemy_id: int) -> void:
+	if _result_pending:
+		_reject_encounter(room_data, "战斗结果尚未确认。")
+		return
 	if _is_starting_battle:
 		push_warning("ExpeditionManager: 已有 Battle 启动正在处理，拒绝重入调用。")
 		return
@@ -101,6 +110,32 @@ func _on_world_state_changed(_previous_state: int, current_state: int) -> void:
 	var presentation_ready := current_state == WorldManager.WorldState.BATTLE
 	if not battle_manager.set_presentation_ready(presentation_ready):
 		push_error("ExpeditionManager: World 已进入 BATTLE，但 Battle 尚未激活。")
+
+
+# 接收 Battle 的最终结果，并等待玩家选择后续远征动作。
+func _on_battle_ended(is_player_victory: bool) -> void:
+	_result_pending = true
+	result_ui.show_result(is_player_victory)
+
+
+# 胜利确认后通过 World API 清敌并恢复探索。
+func _on_victory_confirmed() -> void:
+	if not _result_pending or battle_manager.battle_result != BattleManager.BattleResult.VICTORY:
+		return
+	if not world_manager.finish_battle():
+		push_error("ExpeditionManager: 胜利确认后无法恢复探索。")
+		return
+	_result_pending = false
+	result_ui.hide_result()
+
+
+# 失败确认后重新实例化远征场景，丢弃本次临时状态。
+func _on_restart_requested() -> void:
+	if not _result_pending or battle_manager.battle_result != BattleManager.BattleResult.DEFEAT:
+		return
+	var error := get_tree().change_scene_to_file("res://ExpeditionSystem/ExpeditionSystem.tscn")
+	if error != OK:
+		push_error("ExpeditionManager: 无法重新开始远征，错误码 %d。" % error)
 
 
 # 释放失败请求并恢复启动门闩，使 World 可以安全重试。

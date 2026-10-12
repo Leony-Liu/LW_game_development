@@ -47,6 +47,14 @@ func set_input_locked(locked: bool) -> void:
 		if child is CardLogic and child.has_method("set_system_lock"):
 			child.set_system_lock(locked)
 
+
+# 清除旧战斗的卡牌节点，保留其他子节点与当前输入锁。
+func clear_hand_visuals() -> void:
+	for child in get_children():
+		if child is CardLogic:
+			remove_child(child)
+			child.queue_free()
+
 #region 向上汇报
 # 向上汇报出牌请求
 func _on_card_played_request(runtime_card: RuntimeCard) -> void:

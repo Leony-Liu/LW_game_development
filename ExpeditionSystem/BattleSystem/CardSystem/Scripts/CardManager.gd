@@ -70,6 +70,8 @@ func initialize(player_deck: Array[RuntimeCard]) -> bool:
 	draw_pile.clear()
 	hand_pile.clear()
 	discard_pile.clear()
+	# 旧卡牌表现必须先移除，再生成新战斗的起手牌。
+	(player_hand_deck as PlayerHandDeck).clear_hand_visuals()
 	
 	# 直接接收外界生成好的 RuntimeCard 实例数组作为抽牌堆
 	draw_pile = player_deck.duplicate()

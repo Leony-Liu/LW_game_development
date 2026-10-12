@@ -6,6 +6,8 @@ extends Node
 const PLAYER_ADVANCE_TIME: int = 10
 const DRAW_TO_FULL_STAMINA_COST: int = 1
 
+enum BattleResult { NONE, VICTORY, DEFEAT }
+
 # 核心子系统挂载
 @export var timeline: Timeline
 @export var entity_manager: EntityManager
@@ -23,6 +25,7 @@ signal visual_effect_requested(visual_type: String, data: Dictionary)
 
 # 内部状态
 var is_battle_active: bool = false
+var battle_result: BattleResult = BattleResult.NONE
 var _is_starting_battle: bool = false
 var _is_waiting_for_visual: bool = false
 var _internal_input_locked: bool = true
@@ -106,6 +109,7 @@ func start_battle(
 		return false
 
 	_is_starting_battle = true
+	battle_result = BattleResult.NONE
 	_presentation_input_ready = false
 	_internal_input_locked = true
 	_apply_battle_presentation()
@@ -186,6 +190,7 @@ func _validate_startup_inputs(
 func _secure_failed_startup_state() -> void:
 	_is_starting_battle = false
 	is_battle_active = false
+	battle_result = BattleResult.NONE
 	_presentation_input_ready = false
 	_internal_input_locked = true
 	_apply_battle_presentation()
@@ -330,7 +335,8 @@ func _on_entity_died(entity: CombatEntity) -> void:
 	_apply_battle_presentation()
 	_apply_effective_input_lock()
 	
-	var is_player_victory = not entity.is_player
+	battle_result = BattleResult.DEFEAT if entity.is_player else BattleResult.VICTORY
+	var is_player_victory := battle_result == BattleResult.VICTORY
 	print("[BattleManager] 战斗结束！胜者: ", "玩家" if is_player_victory else "敌人")
 	battle_ended.emit(is_player_victory)
 

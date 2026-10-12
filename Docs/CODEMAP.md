@@ -314,6 +314,11 @@ Key entry points / signals:
 
 ### UI
 
+Expedition result UI:
+- `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`
+- `ExpeditionSystem/UISystem/Scripts/ExpeditionResultUI.gd`
+- `ExpeditionSystem/Scripts/ExpeditionManager.gd` (result signal coordination)
+
 Primary card UI area:
 - `ExpeditionSystem/BattleSystem/CardSystem/CardSystem.tscn`
 - `ExpeditionSystem/BattleSystem/CardSystem/player_hand_deck.tscn`

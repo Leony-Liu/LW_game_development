@@ -127,6 +127,10 @@ func clear_enemies() -> void:
 	
 	if enemy_root:
 		enemy_root.visible = false
+		# 保留接近锚点，移除本场战斗的敌人表现实例。
+		for child in enemy_root.get_children():
+			if child != encounter_approach_anchor:
+				child.queue_free()
 
 	room_data_changed.emit(room_data)
 

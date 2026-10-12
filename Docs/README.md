@@ -1,230 +1,366 @@
 # LW_game_development
 
-本文件是项目的快速首页，面向用户、Web GPT、Desktop Codex 与其他开发者。它说明项目是什么、当前环境是否可用、开发做到哪里、主要缺口是什么，以及接下来应从哪里继续。
+# 项目概览
 
-详细内容由其他规范文档负责：
+本文档是项目的快速入口，面向：
 
-- 协作规则与文档路由 → `/AGENTS.md`
-- 玩法、体验和 Demo / full-game 设计 → `Docs/GAME_DESIGN.md`
-- 系统关系、状态归属和实现边界 → `Docs/ARCHITECTURE.md`
-- 精确代码导航 → `Docs/CODEMAP.md`
+-   开发者；
+-   Web GPT；
+-   Desktop Codex；
+-   其他参与项目开发的 AI 或人员。
 
-## 1. 项目概况
+它用于快速恢复项目上下文，包括：
 
-`LW_game_development` 是一款以**第一人称程序生成远征、逻辑行动轴卡牌战斗和“武器即牌组”构筑**为核心的游戏。
+-   项目是什么；
+-   当前开发环境；
+-   当前开发阶段；
+-   当前主要目标；
+-   当前阻塞问题；
+-   下一步开发方向；
+-   人与 AI 如何协作推进项目。
 
-**当前阶段目标：完成远征系统最基础的可运行闭环——地图生成 → 触发战斗 → 进行战斗 → 结束战斗 → 继续探索。**
+本文档描述的是**当前项目状态摘要**。
 
-这一阶段优先验证同一次远征内 World 与 Battle 的实际联动，不以完成基地、经济、存档或全部试玩版内容为验收条件。其中“进行战斗”的最小可玩范围尚待用户与 Web GPT 进一步讨论；既有战斗代码应优先复用，不将当前实现的临时规则视为最终设计。
+当需要确认实际实现时，应以：
 
-| 项目 | 当前值 |
-| --- | --- |
-| 活动工作区 | `D:/Game project/Godot/LW_game_development_upgrade_test` |
-| 活动分支 | `upgrade/godot-4.7-test` |
-| 开发引擎 | Godot `4.7.2 stable` |
-| 主场景 | `res://MainMenuSystem/MainMenu.tscn` |
-| 主场景 UID | `uid://cu8ebs30en5qs` |
-| 受保护回退项目 | `D:/Game project/Godot/LW_game_development` |
-| 回退引擎 / 标签 | Godot `4.4.1` / `godot-4.4.1-safe` |
+-   真实工作区文件；
+-   Godot Editor 状态；
+-   Runtime 行为；
 
-本文是当前状态摘要，不替代真实工作区。涉及当前源码、场景、Inspector、Resource 或运行时行为时，应重新检查对应文件或 Godot 状态。
+作为最终事实来源。
 
-## 2. 主要工程区域
+README 不替代：
 
-| 区域 | 作用 |
-| --- | --- |
-| `MainMenuSystem/` | 当前应用入口；正式 Application flow 尚未完成 |
-| `ExpeditionSystem/` | 一次远征的顶层组合，包括 World、resident Battle 和 UI |
-| `ExpeditionSystem/WorldSystem/` | 地图生成、房间与门、探索移动和相机 |
-| `ExpeditionSystem/BattleSystem/` | Battle lifecycle、Timeline、EnemyAI、Entity、Card 和 battle UI |
-| `Scripts/` | 全局管理器、静态数据加载器、共享 Resource / RefCounted 类型 |
-| `Docs/` | 项目规范文档；精确文件入口见 `CODEMAP.md` |
-| `tools/` | Godot CLI 等开发验证工具 |
+-   `/AGENTS.md`
+-   `Docs/GAME_DESIGN.md`
+-   `Docs/ARCHITECTURE.md`
+-   `Docs/CODEMAP.md`
 
-## 3. 当前开发阶段与阶段目标
+------------------------------------------------------------------------
 
-**阶段目标：完成远征系统最基础的五步流程。**
+# 文档体系
 
-```text
-1. 地图生成：创建可探索的房间与门
-2. 触发战斗：探索、开门遇敌，可靠进入 Battle
-3. 进行战斗：玩家能够使用卡牌，Timeline / EnemyAI / 实体效果形成可运行的单场战斗
-4. 结束战斗：产生明确的胜负结果并正确结束本场 Battle
-5. 继续探索：结果交回 ExpeditionManager，更新同一 World / mapdata / RoomData，恢复探索
-```
+本项目使用多个文档维护不同类型的信息。
 
-**当前进度边界：** 地图生成与探索、遇敌上报、Battle 启动和第一人称入场过场已具备实现并经过相应验证；M2-A 单张玩家卡驱动的 Timeline 行动结算、输入锁和致死中断已通过定向自动化运行验证，等待人工验收；敌人持续规划、资源规则及“结束战斗 → 继续探索”仍未接通。当前阶段尚不能标记为完成。
+  文件                     作用
+  ------------------------ ----------------------------------------
+  `/AGENTS.md`             AI 协作规则、修改原则、验证要求
+  `Docs/README.md`         项目状态、当前阶段、开发方向、协作流程
+  `Docs/GAME_DESIGN.md`    游戏设计目标、玩法规则、玩家体验
+  `Docs/ARCHITECTURE.md`   系统关系、职责边界、接口、数据流
+  `Docs/CODEMAP.md`        AI 实现阶段的代码导航和文件定位
 
-**下一步协作重点：** 用户与 Web GPT 先逐项确认“进行战斗”的最低可玩内容、既有实现是否符合预期及未定玩法规则，再向 Codex 下发具体补全任务。不可把 M2 的讨论项直接视为已批准的开发需求。
+------------------------------------------------------------------------
 
-**阶段验收条件：** 玩家能够在同一张生成地图上探索并遭遇敌人，实际完成一场可结算的战斗，得到结果后回到原远征上下文继续移动、开门，并可再次正常触发战斗；不得通过重新生成地图或重建整次远征伪造返回探索的结果。
+# AI 协作工作流
 
-## 4. 已完成的关键基础
+本项目采用：
 
-### Expedition / Battle 顶层装配
+    需求讨论与规划
+            ↓
+    生成实现任务
+            ↓
+    Codex 执行
+            ↓
+    验证与反馈
 
-当前保存场景已经包含：
+的双阶段 AI 协作模式。
 
-```text
-ExpeditionSystem
-├─ ExpeditionManager
-├─ PrototypePlayerDataProvider
-├─ WorldSystem
-├─ BattleSystem
-└─ UISystem
-```
+目标：
 
-已确认：
+当开启新的 Web GPT 对话、新模型会话，或者新的 Desktop Codex
+工作环境时，只需要提供项目文档和当前任务，即可快速恢复一致的项目理解，并继续产生符合项目方向的实现。
 
-- `BattleSystem` 是 `ExpeditionSystem` 的常驻子场景。
-- `ExpeditionManager` 已绑定 World、Battle 与 prototype provider。
-- `BattleManager` 已绑定 Timeline、EntityManager 与 CardManager。
-- `EntityManager` 已绑定 player、enemy 与 EnemyAI。
-- 旧 `CombatManager` 节点及缺失脚本引用已移除。
+------------------------------------------------------------------------
 
-这些接线已经过定向场景加载 / probe 验证，但完整 battle lifecycle 尚未运行验证。
+# 第一阶段：需求讨论与任务规划
 
-### Prototype player / deck input
+## 使用对象
 
-`PrototypePlayerDataProvider` 当前可从显式 Inspector 配置生成：
+-   Web GPT
+-   其他推理模型
+-   开发者与 AI 的讨论过程
 
-```text
-player fields → EntityData
-CardData IDs → AllCardData lookup → CardInstance[]
-```
+## 目标
 
-默认未配置时不会伪造数据；无效 Card ID 会明确失败且不返回部分牌组。保存配置、字段映射、空牌组、重复有效 Card ID 与无效 Card ID 已通过隔离运行探针验证。该 provider 是原型期临时输入，不是长期玩家数据 owner。
+这一阶段不是修改代码，而是：
 
-### World encounter reporting
+-   理解需求；
+-   明确目标；
+-   分析影响范围；
+-   确认实现方案；
+-   生成明确的 Codex 任务。
 
-`WorldManager` 现在通过 `encounter_requested(room_data, enemy_id)` 向 `ExpeditionManager` 上报有效遭遇。请求期间使用门闩拒绝重复或重入上报；空房间、无敌房间、无效 / 不存在的敌人 ID 会明确失败。
+## 规划阶段文档使用方式
 
-`ExpeditionManager` 已完成 M1-03 Battle startup handoff：校验原 `RoomData`、provider 与 Battle 状态，组装 `EntityData + CardInstance[] + enemy_id`，并仅在 `BattleManager.start_battle()` 明确返回成功后接受 encounter。失败请求会释放，World 保持可重试状态。
+### README
 
-M1-04 Exploration-to-Battle transition 及第一人称遇敌接近补充已完成：World 依次进入 `EXPLORE → PREPARING_BATTLE → BATTLE`；准备期停用手动移动与视角，保留原第一人称相机，并让真实 `CharacterBody3D` 沿碰撞几何接近原 `RoomData` 对应房间的敌人锚点。玩家到达安全距离且身体 / 镜头朝向完成后才进入 `BATTLE`，Battle UI / 卡牌输入只在最终状态开放。transition id、原 `RoomData` 与目标节点身份共同拒绝旧回调和错误目标；Battle 的内部锁与远征表现门闩继续采用合并锁。
+用于了解：
 
-M1-05 Battle startup failure handling 已完成：encounter 返回最终接受结果，匹配请求在接受或拒绝后都会释放 pending；`ExpeditionManager` 在启动前额外预检敌人锚点和玩家表现依赖，并允许修正配置后重试；`BattleManager` 在任何 Entity、Timeline、牌堆或卡牌 UI 写入前完成 Entity / Card 预检，并拒绝重入及已激活 Battle。正常启动、四个接近方向、旧回调、错误房间、无效 / 释放目标与 Battle 表现门闩已通过隔离运行探针验证。入场过场已由用户进行初步人工体验，当前效果暂时符合预期；最终表现品质可在后续迭代调整。
+-   当前项目是什么；
+-   当前开发阶段；
+-   当前目标；
+-   当前阻塞问题；
+-   下一步方向。
 
-因此 M1-01 至 M1-05 的“探索遇敌并可靠进入 Battle”启动阶段可视为完成；这不包含战斗结果返回、正常恢复探索或第二场 Battle cleanup。
+### GAME_DESIGN
 
-### Battle 内部基础
+用于确认：
 
-当前已有：
+-   游戏应该如何工作；
+-   玩家体验目标；
+-   已确定设计；
+-   未确定设计。
 
-- `Timeline` logical time / action queue 基础；
-- `EntityManager` 初始化与 action execution 基础；
-- `CardManager` draw / hand / discard 基础；
-- Card UI / interaction / animation 基础；
-- `EnemyAI` initial planning 基础。
+### ARCHITECTURE
 
-M2-A 已补全玩家单张出牌驱动的行动结算：Priority-0 先结算后推进，非零 Priority 在终点结算；Timeline 以具体 `CombatAction` 完成确认同步或异步结算，并在 Battle 结束时取消剩余推进。扩展控制使用 InputMap：F 补满手牌且成功时整次支付 1 点体力、不推进时间；Space 空等并推进 10 个逻辑时间单位。当前没有战斗表现控制器时，视觉请求不会阻塞 gameplay；远征表现门闩仍与 Battle 内部锁共同决定最终卡牌输入。
+用于确认：
 
-M2-A 原型 Combat HUD 已接入：实时显示玩家 HP / 体力 / 法力 / 牌堆 / 时间、全部敌人 HP 与各自下次行动、未来 100 时间单位敌方行动，以及输入锁 / 推进 / 待确认 / Battle 结束调试状态。敌人 ID、名称、HP 和下次行动已改为多敌人独立的纵向键值块，长值在右侧面板内换行。HUD 是信号驱动的只读表现。
+-   系统之间的关系；
+-   已存在职责边界；
+-   数据流；
+-   实现限制。
 
-M2-A 逻辑时间资源回复已接通：原型字段 `prototype_stamina_regen_rate` / `prototype_mana_regen_rate` 分别转成 `stamina_regen` / `mana_regen` 属性，表示每回复 1 点所需的逻辑时间；当前 Expedition 场景配置为 20 / 40。回复进度跨多次 Space 和敌人行动分段累计，大段推进会结算全部跨过间隔，且不超过资源上限。F 不推进时间，Battle 结束后不再接受推进。上述行为、异步确认协议与 HUD 同步已通过真实 Battle 场景探针，敌人布局已通过可渲染截图检查。
+### CODEMAP
 
-## 5. 当前主要缺口
+用于辅助确认：
 
-### Battle → Expedition → World
+-   可能涉及的代码区域；
+-   当前实现入口；
+-   相关文件位置。
 
-`BattleManager` 已发出 `battle_ended(is_player_victory: bool)`，但没有正式 receiver，也没有完整 result contract。
+规划阶段最终输出：
 
-战斗结束后保持同一 `mapdata`、更新原 `RoomData`、恢复探索移动 / 镜头 / 输入的闭环尚未实现。
+一份给 Desktop Codex 的实现任务说明。
 
-Battle 已激活后若准备阶段被外部强制中断，目前没有安全的取消 / rollback contract。旧计时器不会恢复 UI 或输入，但 Battle 会保持 active、隐藏且锁定；该状态需要后续正式 cleanup / result lifecycle 处理，不能视为可重试启动失败。
+任务说明应该包含：
 
-### Battle 内部已知问题
+-   目标；
+-   期望行为；
+-   影响范围；
+-   实现限制；
+-   可能修改的文件；
+-   验证要求。
 
-- `EnemyAI` continuous planning 尚未形成完整循环。
-- stamina / mana 当前支付路径不一致。
-- `CardBuff` 存在重复施加路径风险。
-- `CardInstance → RuntimeCard` 尚未完整继承 `modifiers / unique_id`。
-- resident BattleSystem 的第二场战斗 cleanup 尚未验证。
+------------------------------------------------------------------------
 
-最终玩法语义以 `GAME_DESIGN.md` 为准；实现边界和 owner 见 `ARCHITECTURE.md`。
+# 第二阶段：Codex 实现与验证
 
-## 6. 存档当前状态
+## 使用对象
 
-`SaveManager` 已具备 slot、metadata、module registry 与 JSON file I/O 基础。
+-   Desktop Codex
 
-长期方向是：
+## 目标
 
-```text
-SaveManager
-├─ persistent player data adapter
-└─ one expedition-level checkpoint module
-```
+根据明确任务，在真实项目环境中完成：
 
-试玩版恢复边界已经确定为 Room Entry Checkpoint 与 Battle Start Checkpoint；战斗中断后整场重开，不要求序列化战斗中途 transient state。
+-   文件定位；
+-   代码修改；
+-   场景调整；
+-   验证测试；
+-   结果反馈。
 
-`BattleSaveModule.gd` 仍属于未挂载的 legacy 文件。其与 `EntityData` 的解析兼容错误已单独修复，但不代表旧存档流程可用，也不应作为新存档架构基础。`PlayerSaveManager.gd` 仍是 placeholder。
+## Codex 工作流程
 
-## 7. 工具链与验证边界
+    读取任务说明
 
-当前已验证：
+            ↓
 
-| 能力 | 状态 |
-| --- | --- |
-| 真实项目文件访问 | 可用 |
-| Godot 4.7.2 工作区 | 可用 |
-| Canonical Godot CLI wrapper | 已验证 |
-| Editor MCP | 已验证 |
-| Runtime MCP direct access | 已验证 |
-| Headless editor initialization | 已验证 |
+    README
+    确认当前项目状态
 
-Canonical CLI：
+            ↓
 
-```powershell
+    CODEMAP
+    定位实现文件
+
+            ↓
+
+    检查真实源码 / Scene / Resource
+
+            ↓
+
+    必要时阅读 ARCHITECTURE
+    理解系统关系
+
+            ↓
+
+    必要时阅读 GAME_DESIGN
+    确认玩法目标
+
+            ↓
+
+    进行最小范围修改
+
+            ↓
+
+    验证结果
+
+            ↓
+
+    反馈实际情况
+
+CODEMAP 是实现阶段的主要导航入口。
+
+文档用于提供上下文。
+
+真实工作区、Godot Editor 和 Runtime 状态是最终实现事实。
+
+------------------------------------------------------------------------
+
+# 协作原则
+
+## 用户负责
+
+用户负责：
+
+-   最终设计决策；
+-   未确定需求确认；
+-   项目方向控制；
+-   实现结果验收。
+
+AI 不应该替代用户决定：
+
+-   未设计玩法；
+-   未确认规则；
+-   未确认架构变化。
+
+## AI 负责
+
+AI 负责：
+
+-   理解已有信息；
+-   发现不确定点；
+-   提供实现方案；
+-   执行明确任务；
+-   验证实际结果。
+
+目标不是替代开发者，而是让人和 AI 可以基于相同项目理解持续协作。
+
+------------------------------------------------------------------------
+
+# 项目概况
+
+`LW_game_development` 是一个以：
+
+-   第一人称程序生成远征；
+-   逻辑时间轴卡牌战斗；
+-   "武器即牌组"构筑；
+
+为核心方向的游戏项目。
+
+------------------------------------------------------------------------
+
+# 当前开发阶段
+
+当前阶段目标：
+
+完成远征系统最基础可运行闭环：
+
+    地图生成
+        ↓
+    触发战斗
+        ↓
+    进行战斗
+        ↓
+    结束战斗
+        ↓
+    继续探索
+
+当前重点：
+
+验证一次完整远征流程中的：
+
+World ↔ Battle
+
+交互闭环。
+
+------------------------------------------------------------------------
+
+# 当前开发方向
+
+当前优先级：
+
+    1. 明确最低可运行 Battle 内容
+
+            ↓
+
+    2. 完成单次 Battle 生命周期
+
+            ↓
+
+    3. 完成 Battle → Expedition 返回
+
+            ↓
+
+    4. 恢复 World 探索状态
+
+            ↓
+
+    5. 验证连续探索与多次战斗
+
+------------------------------------------------------------------------
+
+# 工具链与验证
+
+Godot CLI：
+
+``` powershell
 .\tools\godot_cli.ps1 <Godot args>
 ```
 
-已知工具例外：`get_status` 可能把 Runtime Bridge 汇总为 `not running / not enabled`，即使 `runtime_ping` 与 targeted runtime inspection 成功。判断 Runtime 是否可用时，应优先看直接调用结果。
+验证原则：
 
-`.codex_runtime/` 是自动化隔离目录，不属于 gameplay 源码。
+根据任务选择最小必要验证：
 
-当前验证不能自动证明以下行为完成：
+1.  源码检查；
+2.  Godot CLI 验证；
+3.  Scene 运行验证；
+4.  Editor 状态验证；
+5.  Runtime 行为验证。
 
-- 入场过场的最终视觉品质（用户已初步体验，暂时无问题）；
-- 完整 battle lifecycle；
-- battle result return；
-- 第二场战斗 cleanup；
-- 完整探索 ↔ 战斗纵向闭环。
+不能仅通过静态代码分析声称运行行为正确。
 
-## 8. 当前直接开发方向
+------------------------------------------------------------------------
 
-目前按照阶段目标推进，**先细化并验证“进行战斗”，再补全战斗结束与探索恢复**：
+# 文档维护规则
 
-```text
-1. 用户 + Web GPT：对照最新源码讨论“进行战斗”的最低可玩机制与验收条件
-2. Codex：按确认后的规则，核查、修复并验证单场 Battle 内部运行闭环
-3. Battle result → ExpeditionManager：明确胜败结果的交接与单场 Battle 结束
-4. 更新同一 World / mapdata / 原 RoomData，并恢复探索控制与画面
-5. 验证返回后继续开门、再次遭遇和第二场 Battle 的 transient state 清理
-```
+只更新负责对应信息的文档。
 
-M2-A 已按用户确认规则实现并完成定向自动化验证，仍需人工验收。其余 M2 细节不能从旧任务名推导为已批准需求；已确定玩法遵循 `GAME_DESIGN.md`，遇到标记为【待设计】的规则必须先由用户确认。以上是阶段实施方向，不是具体排期，也不表示未授权项目已经完成。
+  信息           文档
+  -------------- ------------------------
+  AI 工作规则    `/AGENTS.md`
+  当前项目状态   `Docs/README.md`
+  游戏设计       `Docs/GAME_DESIGN.md`
+  系统架构       `Docs/ARCHITECTURE.md`
+  代码导航       `Docs/CODEMAP.md`
 
-## 9. 重要注意事项
+不要创建重复的信息来源。
 
-- `BattleSaveModule.gd` 是 legacy；不要为了无关任务顺手修补。
-- 旧 `CardData → CardEffect` 路径仍与 `RuntimeCard → CombatAction` 并存；未经明确迁移任务不要扩展或批量删除。
-- `ExpeditionSystem.tscn` 根节点名含不可见字符；精确导航风险见 `CODEMAP.md`。
-- 当前工程状态、SceneTree 和运行行为以真实工作区为准，不以旧快照或本文摘要替代。
+------------------------------------------------------------------------
 
-## 10. 文档导航
+# 项目知识结构
 
-项目长期知识系统只包含：
+    AGENTS.md
+        ↓
+    AI 如何工作
 
-| 文件 | 负责内容 |
-| --- | --- |
-| `/AGENTS.md` | Web GPT / Desktop Codex 共用协作契约、事实权威与工作方式 |
-| `Docs/README.md` | 项目概览、当前环境、阶段、缺口与直接方向 |
-| `Docs/GAME_DESIGN.md` | 游戏设计、体验规则、Demo / full-game scope 与设计 TBD |
-| `Docs/ARCHITECTURE.md` | 实现架构、状态归属、系统关系、current / target 边界 |
-| `Docs/CODEMAP.md` | Desktop Codex 使用的任务导向代码导航 |
+    README.md
+        ↓
+    项目现在是什么状态
 
-## 11. 本文件何时更新
+    GAME_DESIGN.md
+        ↓
+    游戏应该是什么
 
-应更新：当前开发阶段、重要 blocker、环境 / branch / Godot 版本、直接开发方向、关键验证边界或重要 tooling exception 发生变化。
+    ARCHITECTURE.md
+        ↓
+    系统如何组织
 
-通常不更新：普通局部 bug fix、私有重构、数值微调、详细架构变化或完整历史记录。对应内容分别由真实代码、`GAME_DESIGN.md`、`ARCHITECTURE.md`、Git history / issue tracking 承担。
+    CODEMAP.md
+        ↓
+    代码在哪里
+
+    真实工作区
+        ↓
+    最终实现事实
