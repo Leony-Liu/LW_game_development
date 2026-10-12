@@ -284,6 +284,7 @@ func _on_timeline_action_triggered(action: CombatAction) -> void:
 # 时间轴流动过程中分段广播流逝时间：推进手牌限时 Buff
 func _on_timeline_time_advanced(delta_time: int) -> void:
 	card_manager.advance_hand_buffs_time(delta_time)
+	entity_manager.advance_player_resource_regeneration(delta_time)
 
 
 # 单次出牌导致的时间推移与沿途动作全部结算完成

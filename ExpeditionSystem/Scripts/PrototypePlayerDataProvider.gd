@@ -22,11 +22,13 @@ extends Node
 @export_subgroup("体力")
 @export var prototype_max_stamina: float = 0.0
 @export var prototype_current_stamina: float = 0.0
+# 每回复 1 点体力所需的逻辑时间；0 表示不回复。
 @export var prototype_stamina_regen_rate: float = 0.0
 
 @export_subgroup("法力")
 @export var prototype_max_mana: float = 0.0
 @export var prototype_current_mana: float = 0.0
+# 每回复 1 点法力所需的逻辑时间；0 表示不回复。
 @export var prototype_mana_regen_rate: float = 0.0
 
 @export_subgroup("扩展属性")

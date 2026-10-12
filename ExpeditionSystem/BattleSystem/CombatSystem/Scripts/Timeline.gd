@@ -11,6 +11,8 @@ signal action_triggered(action: CombatAction)
 signal timeline_advancement_finished
 # 推进的时间
 signal time_advanced(delta_time: int)
+# 当前行动等待状态变化信号，供只读表现层刷新。
+signal pending_action_changed(is_pending: bool)
 # 内部协程同步信号：仅由当前行动的有效确认或取消唤醒。
 signal _action_completed_step(action: CombatAction)
 
@@ -85,11 +87,13 @@ func advance_timeline_to(target_time: int) -> void:
 
 		# 先登记待完成行动，确保同步确认不会早于等待状态。
 		_pending_action = next_action
+		pending_action_changed.emit(true)
 		action_triggered.emit(next_action)
 		if _pending_action == next_action and not _advancement_cancelled:
 			await _action_completed_step
 
 	_pending_action = null
+	pending_action_changed.emit(false)
 	is_advancing = false
 	timeline_advancement_finished.emit()
 
@@ -98,6 +102,7 @@ func notify_action_finished(action: CombatAction) -> bool:
 	if action == null or action != _pending_action:
 		return false
 	_pending_action = null
+	pending_action_changed.emit(false)
 	_action_completed_step.emit(action)
 	return true
 
@@ -108,6 +113,7 @@ func cancel_advancement() -> void:
 	action_line.clear()
 	var cancelled_action := _pending_action
 	_pending_action = null
+	pending_action_changed.emit(false)
 	if cancelled_action != null:
 		_action_completed_step.emit(cancelled_action)
 	timeline_data_updated.emit(current_time, action_line.duplicate())
@@ -116,6 +122,29 @@ func cancel_advancement() -> void:
 
 
 #region 队列查询与管理
+
+# 返回当前是否有行动等待 BattleManager 确认。
+func has_pending_action() -> bool:
+	return _pending_action != null
+
+
+# 返回未来窗口内已排期敌方行动的只读快照，不暴露可变行动对象。
+func get_scheduled_enemy_action_snapshots(horizon: int = 100) -> Array[Dictionary]:
+	var snapshots: Array[Dictionary] = []
+	var end_time := current_time + maxi(horizon, 0)
+	for action in action_line:
+		if action.is_player:
+			continue
+		if action.trigger_time <= current_time or action.trigger_time > end_time:
+			continue
+		snapshots.append({
+			"relative_time": action.trigger_time - current_time,
+			"trigger_time": action.trigger_time,
+			"source_id": action.source_id,
+			"action_name": action.action_name,
+			"priority": action.priority,
+		})
+	return snapshots
 
 # 用于时间轴排序的方法
 func _sort_actions(a: CombatAction, b: CombatAction) -> bool:

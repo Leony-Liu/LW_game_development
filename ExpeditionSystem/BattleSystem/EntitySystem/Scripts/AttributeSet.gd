@@ -25,6 +25,13 @@ func get_value(attribute_name: String) -> float:
 	if attr: return attr.get_value()
 	return 0.0
 
+# 返回属性初始化时的基础值，供只读表现显示缺省最大值。
+func get_initial_value(attribute_name: String) -> float:
+	var attr = get_attribute(attribute_name)
+	if attr:
+		return attr.base_value
+	return 0.0
+
 # 通过 dependencies 数组，实现跨属性的自动化联动。
 func bind_custom_formula_to_attribute(target_attribute_name: String, formula_callable: Callable, dependencies: Array = []) -> void:
 	var target_attr = get_attribute(target_attribute_name)

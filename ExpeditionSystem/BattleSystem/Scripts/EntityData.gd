@@ -13,11 +13,11 @@ var shield: float = 0.0
 # 资源类属性
 var max_stamina: float = 10.0
 var current_stamina: float = 10.0
-var stamina_regen_rate: float = 1.0 # 随时间每秒/每步回复量
+var stamina_regen_rate: float = 1.0 # 每回复 1 点体力所需的逻辑时间。
 
 var max_mana: float = 5.0
 var current_mana: float = 5.0
-var mana_regen_rate: float = 0.5
+var mana_regen_rate: float = 0.5 # 每回复 1 点法力所需的逻辑时间。
 
 # 预留自定义拓展属性字典（仅用于特殊被动、特殊抗性等非标准字段）
 var custom_properties: Dictionary = {}

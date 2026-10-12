@@ -16,6 +16,8 @@ signal entity_died(entity: CombatEntity)
 @export var enemy_entity: CombatEntity
 @export var enemy_ai: EnemyAI
 
+var _player_resource_regen_progress: Dictionary = {}
+
 # 校验依赖并连接实体与 EnemyAI 信号。
 func _ready() -> void:
 	_validate_dependencies()
@@ -66,6 +68,7 @@ func initialize(player_data: EntityData, enemy_id: int) -> bool:
 		return false
 
 	var enemy_res: EnemyData = AllEnemyData.get_enemy(enemy_id)
+	_player_resource_regen_progress.clear()
 
 	# 1. 玩家数据装载
 	player_entity.initialize_from_data(player_data)
@@ -104,10 +107,55 @@ func consume_player_resource(cost: int, resource_name: String = "stamina") -> vo
 	if res_attr:
 		res_attr.sub_base(float(cost))
 
+
+# 按实际流逝的逻辑时间累计并结算玩家体力与法力回复。
+func advance_player_resource_regeneration(delta_time: int) -> void:
+	if delta_time <= 0 or player_entity == null or player_entity.attribute_set == null:
+		return
+	_advance_resource_regeneration("stamina", "max_stamina", "stamina_regen", delta_time)
+	_advance_resource_regeneration("mana", "max_mana", "mana_regen", delta_time)
+
+
+# 保留不足一次回复的进度，并一次结算跨过的全部间隔。
+func _advance_resource_regeneration(
+	resource_name: String,
+	max_resource_name: String,
+	regen_interval_name: String,
+	delta_time: int
+) -> void:
+	var attributes := player_entity.attribute_set
+	if attributes.get_attribute(resource_name) == null:
+		return
+	var regen_interval := attributes.get_value(regen_interval_name)
+	if regen_interval <= 0.0:
+		_player_resource_regen_progress.erase(resource_name)
+		return
+
+	var progress := float(_player_resource_regen_progress.get(resource_name, 0.0)) + float(delta_time)
+	var completed_intervals := floori(progress / regen_interval)
+	_player_resource_regen_progress[resource_name] = progress - float(completed_intervals) * regen_interval
+	if completed_intervals <= 0:
+		return
+
+	var current_value := attributes.get_value(resource_name)
+	var max_value := attributes.get_value(max_resource_name)
+	var restored_amount := minf(float(completed_intervals), maxf(max_value - current_value, 0.0))
+	if restored_amount > 0.0:
+		attributes.get_attribute(resource_name).add_base(restored_amount)
+
 #endregion
 
 
 #region 结算与行动执行
+
+# 返回当前场景树中的全部敌方实体，只提供只读枚举入口。
+func get_enemy_entities() -> Array[CombatEntity]:
+	var enemies: Array[CombatEntity] = []
+	for node in find_children("*", "CombatEntity", true, false):
+		var entity := node as CombatEntity
+		if entity != null and not entity.is_player:
+			enemies.append(entity)
+	return enemies
 
 # 执行到达时间刻度的 CombatAction，根据目标 ID 精准更新属性
 func execute_action(action: CombatAction) -> void:

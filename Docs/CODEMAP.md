@@ -52,6 +52,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Door interaction / room transition detection | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Door.gd` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/DoorSet.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn` | Door signals relay upward to `WorldManager` |
 | Exploration movement / camera | `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd` | `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerController.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/HeadController.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/CameraBobMount.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/DebugFreeCamera.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | Use the `PlayerVisual/` implementation, not the obsolete standalone debug scene |
 | Battle lifecycle | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | `ExpeditionSystem/BattleSystem/BattleSystem.tscn`, `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `start_battle()` is the public start entry; `battle_ended` is the result signal |
+| Prototype combat HUD | `ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd` | `ExpeditionSystem/BattleSystem/BattleSystem.tscn`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd`, `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd` | Read-only, signal-driven text presentation; gameplay truth remains in subsystem owners |
 | Timeline / logical time | `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`, `ExpeditionSystem/Scripts/CombatAction.gd` | Owns `current_time`, `action_line`, and advancement state |
 | Enemy AI | `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/EnemyAI.gd` | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`, `Scripts/Resource/Enemy/R_EnemyData.gd`, `Scripts/Resource/Enemy/R_EnemyAction.gd`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | Converts `EnemyAction` resources to `CombatAction` |
 | Entity initialization / action execution | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd` | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/CombatEntity.gd`, `ExpeditionSystem/BattleSystem/Scripts/EntityData.gd`, `ExpeditionSystem/Scripts/CombatAction.gd` | Mediates entities, resources, AI, and action resolution |
@@ -208,6 +209,8 @@ Key entry points / signals:
 - `Timeline.advance_timeline_to()`
 - `Timeline.notify_action_finished(action)`
 - `Timeline.cancel_advancement()`
+- `Timeline.has_pending_action()`
+- `Timeline.get_scheduled_enemy_action_snapshots()`
 - `action_triggered`
 - `time_advanced`
 - `timeline_advancement_finished`
@@ -230,8 +233,10 @@ Related:
 Key entry points / signals:
 - `EntityManager.initialize()`
 - `EntityManager.can_initialize()`
+- `EntityManager.get_enemy_entities()`
 - `EntityManager.can_player_afford()`
 - `EntityManager.consume_player_resource()`
+- `EntityManager.advance_player_resource_regeneration()`
 - `EntityManager.execute_action()`
 - `enemy_action_generated`
 - `card_buff_requested`

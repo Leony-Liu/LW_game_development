@@ -119,6 +119,10 @@ M1-05 Battle startup failure handling 已完成：encounter 返回最终接受�
 
 M2-A 已补全玩家单张出牌驱动的行动结算：Priority-0 先结算后推进，非零 Priority 在终点结算；Timeline 以具体 `CombatAction` 完成确认同步或异步结算，并在 Battle 结束时取消剩余推进。扩展控制使用 InputMap：F 补满手牌且成功时整次支付 1 点体力、不推进时间；Space 空等并推进 10 个逻辑时间单位。当前没有战斗表现控制器时，视觉请求不会阻塞 gameplay；远征表现门闩仍与 Battle 内部锁共同决定最终卡牌输入。
 
+M2-A 原型 Combat HUD 已接入：实时显示玩家 HP / 体力 / 法力 / 牌堆 / 时间、全部敌人 HP 与各自下次行动、未来 100 时间单位敌方行动，以及输入锁 / 推进 / 待确认 / Battle 结束调试状态。敌人 ID、名称、HP 和下次行动已改为多敌人独立的纵向键值块，长值在右侧面板内换行。HUD 是信号驱动的只读表现。
+
+M2-A 逻辑时间资源回复已接通：原型字段 `prototype_stamina_regen_rate` / `prototype_mana_regen_rate` 分别转成 `stamina_regen` / `mana_regen` 属性，表示每回复 1 点所需的逻辑时间；当前 Expedition 场景配置为 20 / 40。回复进度跨多次 Space 和敌人行动分段累计，大段推进会结算全部跨过间隔，且不超过资源上限。F 不推进时间，Battle 结束后不再接受推进。上述行为、异步确认协议与 HUD 同步已通过真实 Battle 场景探针，敌人布局已通过可渲染截图检查。
+
 ## 5. 当前主要缺口
 
 ### Battle → Expedition → World

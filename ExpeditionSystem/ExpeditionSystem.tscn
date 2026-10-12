@@ -29,10 +29,10 @@ prototype_max_hp = 100.0
 prototype_current_hp = 100.0
 prototype_max_stamina = 5.0
 prototype_current_stamina = 5.0
-prototype_stamina_regen_rate = 20.0
+prototype_stamina_regen_rate = 40.0
 prototype_max_mana = 5.0
 prototype_current_mana = 5.0
-prototype_mana_regen_rate = 40.0
+prototype_mana_regen_rate = 80.0
 prototype_deck_configured = true
 prototype_card_ids = Array[int]([1001, 1001, 1002, 1002, 1002, 1003, 1003, 1003, 1004, 1004, 2001, 2001, 2002, 2002, 1001])
 

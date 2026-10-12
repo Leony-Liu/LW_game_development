@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct4htxn1thykf"]
+[gd_scene load_steps=11 format=3 uid="uid://ct4htxn1thykf"]
 
 [ext_resource type="Script" uid="uid://bxwk5d6e4yaon" path="res://ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd" id="1_1c1d2"]
 [ext_resource type="Script" uid="uid://bukn7h70wtv6q" path="res://ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd" id="3_im1mx"]
@@ -7,6 +7,39 @@
 [ext_resource type="PackedScene" uid="uid://c78kcq0ttk5ra" path="res://ExpeditionSystem/BattleSystem/CardSystem/CardSystem.tscn" id="6_00fpp"]
 [ext_resource type="Script" uid="uid://dbq7ojv5fsdf0" path="res://ExpeditionSystem/BattleSystem/EntitySystem/Scripts/CombatEntity.gd" id="6_ko14o"]
 [ext_resource type="Script" uid="uid://bb180w5lpkuou" path="res://ExpeditionSystem/BattleSystem/EntitySystem/Scripts/AttributeSet.gd" id="7_gc2h7"]
+[ext_resource type="Script" uid="uid://dgrylxgehd5bp" path="res://ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd" id="8_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud_left"]
+bg_color = Color(0.035, 0.045, 0.06, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.48, 0.65, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud_right"]
+bg_color = Color(0.035, 0.045, 0.06, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.36, 0.3, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
 
 [node name="BattleSystem" type="Node" node_paths=PackedStringArray("timeline", "entity_manager", "card_manager", "battle_ui")]
 script = ExtResource("1_1c1d2")
@@ -51,6 +84,100 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="CombatHUD" type="Control" parent="UI" node_paths=PackedStringArray("battle_manager", "timeline", "entity_manager", "card_manager", "player_info_label", "enemy_info_container", "future_actions_label", "debug_status_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_hud")
+battle_manager = NodePath("../..")
+timeline = NodePath("../../Timeline")
+entity_manager = NodePath("../../EntityManager")
+card_manager = NodePath("../CardSystem")
+player_info_label = NodePath("Margin/Columns/LeftPanel/LeftContent/PlayerInfo")
+enemy_info_container = NodePath("Margin/Columns/RightPanel/RightContent/EnemyInfo")
+future_actions_label = NodePath("Margin/Columns/RightPanel/RightContent/FutureActions")
+debug_status_label = NodePath("Margin/Columns/LeftPanel/LeftContent/DebugStatus")
+
+[node name="Margin" type="MarginContainer" parent="UI/CombatHUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 420.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Columns" type="HBoxContainer" parent="UI/CombatHUD/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LeftPanel" type="PanelContainer" parent="UI/CombatHUD/Margin/Columns"]
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_left")
+
+[node name="LeftContent" type="VBoxContainer" parent="UI/CombatHUD/Margin/Columns/LeftPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlayerInfo" type="Label" parent="UI/CombatHUD/Margin/Columns/LeftPanel/LeftContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 17
+text = "玩家状态\n等待 Battle 初始化"
+
+[node name="Separator" type="HSeparator" parent="UI/CombatHUD/Margin/Columns/LeftPanel/LeftContent"]
+layout_mode = 2
+
+[node name="DebugStatus" type="Label" parent="UI/CombatHUD/Margin/Columns/LeftPanel/LeftContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.82, 0.92, 1)
+theme_override_font_sizes/font_size = 15
+text = "调试状态\n玩家输入: 锁定"
+
+[node name="Spacer" type="Control" parent="UI/CombatHUD/Margin/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="RightPanel" type="PanelContainer" parent="UI/CombatHUD/Margin/Columns"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_right")
+
+[node name="RightContent" type="VBoxContainer" parent="UI/CombatHUD/Margin/Columns/RightPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EnemyInfo" type="VBoxContainer" parent="UI/CombatHUD/Margin/Columns/RightPanel/RightContent"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Placeholder" type="Label" parent="UI/CombatHUD/Margin/Columns/RightPanel/RightContent/EnemyInfo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.86, 1)
+text = "敌人状态\n等待 Battle 初始化"
+
+[node name="Separator" type="HSeparator" parent="UI/CombatHUD/Margin/Columns/RightPanel/RightContent"]
+layout_mode = 2
+
+[node name="FutureActions" type="Label" parent="UI/CombatHUD/Margin/Columns/RightPanel/RightContent"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.93, 0.8, 0.72, 1)
+theme_override_font_sizes/font_size = 15
+text = "未来 100 时间单位 · 敌方行动\n暂无已排期行动"
+autowrap_mode = 2
 
 [editable path="UI/CardSystem"]
 [editable path="UI/CardSystem/PlayerHandDeck"]
