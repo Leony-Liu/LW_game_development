@@ -32,7 +32,7 @@
 
 ### 顶层系统树
 
-以下是概念分组；`Application` 与 `PlayerVisualSystem` 不是节点名。`BattleSystem` 是 `ExpeditionSystem` 的常驻子场景。`[LIVE]`
+以下是概念分组，不是另一棵 SceneTree。`Application` 仅把入口场景 `MainMenu` 与已注册的 Autoload 服务放在一起说明；没有名为 `Application` 的节点或管理器。`PlayerVisualSystem` 也是文档分组，实际节点名见下方 SceneTree。`ExpeditionSystem` 是独立保存的场景，`BattleSystem` 是其中的常驻子场景。`[LIVE]`
 
 ```text
 Application
@@ -99,7 +99,11 @@ Expedition‌System（独立保存场景，Node）
 
 ## 4. Application 系统
 
+本节的 `Application` 只是阅读分组：`MainMenu` 是主场景节点，`GameManager`、`SaveManager`、`AllCardData` 和 `AllEnemyData` 是分别注册的 Autoload。当前没有统一的 `Application` 节点承载这些服务；远征内的 World/Battle 交接由 `ExpeditionManager` 处理。`[LIVE][SOURCE]`
+
 ### `MainMenu`
+
+`MainMenu` 提供项目配置的场景入口。当前保存场景只有根节点，因此这里不承载远征、存档或战斗状态。`[LIVE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -107,6 +111,8 @@ Expedition‌System（独立保存场景，Node）
 | 输入 | `project.godot` 的 `run/main_scene` 指向该场景 |
 
 ### `GameManager`
+
+`GameManager` 是已注册的 Autoload，但当前生命周期方法为空；不能据其名称推断它已负责场景切换或远征协调。`[LIVE][SOURCE][PLACEHOLDER]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -116,6 +122,8 @@ Expedition‌System（独立保存场景，Node）
 
 ### `SaveManager`
 
+`SaveManager` 集中处理存档槽与文件读写，并通过 `SaveModule` 接口收集各模块的数据。模块负责提供和恢复自身数据；`SaveManager` 持有当前槽、元数据及模块注册表，不持有 World 或 Battle 的运行时事实。`[SOURCE]`
+
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `Scripts/SaveManager.gd` Autoload；接收 `SaveModule` 实例 `[LIVE][SOURCE]` |
@@ -124,6 +132,8 @@ Expedition‌System（独立保存场景，Node）
 | 数据 | `current_slot_id`、`current_metadata`、`_modules`；文件根字典含 `metadata` 与 `modules_data` |
 
 ### `AllCardData` 与 `AllEnemyData`
+
+这两个 Autoload 分别索引卡牌与敌人静态资源，供 provider 校验卡牌 ID、供 World 和 Battle 查询敌人 ID。它们持有资源索引；原型配置、房间敌人事实和战斗内实体状态仍由各自系统持有。`[SOURCE]`
 
 | 系统与位置 | 输入 | 输出与数据 |
 | --- | --- | --- |
@@ -150,14 +160,18 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 ### `ExpeditionManager`
 
+`ExpeditionManager` 接收 World 的遭遇请求，向 provider 取得玩家输入，交给 `BattleManager` 启动，再将启动结果交还 World。这个场景节点只协调 World/Battle 的生命周期边界：World 保留房间和探索状态，Battle 保留战斗状态。它自身保存启动重入门闩与待确认结果标志，并通过 `UISystem` 接收结果操作。`[SOURCE]`
+
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/ExpeditionManager`；`ExpeditionSystem/Scripts/ExpeditionManager.gd`；导出 `world_manager`、`battle_manager`、`prototype_player_data_provider` `[LIVE]` |
+| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/ExpeditionManager`；`ExpeditionSystem/Scripts/ExpeditionManager.gd`；导出 `world_manager`、`battle_manager`、`prototype_player_data_provider`、`result_ui` `[LIVE]` |
 | 输入 | `WorldManager.encounter_requested(room_data, enemy_id)`、`world_state_changed(previous_state, current_state)` |
 | 输出 | 调用 provider、`BattleManager.start_battle()`、`WorldManager.resolve_encounter_request()`、`BattleManager.set_presentation_ready()` |
-| 数据 | `_is_starting_battle` 保存启动重入门闩；从 `WorldManager` 查询当前房间与 pending 状态 `[SOURCE]` |
+| 数据 | `_is_starting_battle` 保存启动重入门闩，`_result_pending` 保存待确认结果标志；从 `WorldManager` 查询当前房间与 pending 状态 `[SOURCE]` |
 
 ### `PrototypePlayerDataProvider`
+
+`PrototypePlayerDataProvider` 把 Inspector 中的原型玩家配置转成 `EntityData` 和 `CardInstance`，让启动交接可以取得明确的输入。它持有原型配置并调用 `AllCardData` 校验 ID；战斗激活和运行时牌堆由 Battle 子系统管理。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -167,6 +181,8 @@ WorldManager.world_state_changed(previous_state, current_state)
 | 数据 | 导出字段保存原型配置；按请求构造玩家数据和卡牌实例 `[SOURCE]` |
 
 ### `WorldSystem`
+
+`WorldSystem` 负责地图生成后的探索流程：`WorldManager` 保存地图、当前房间、World 模式和遭遇请求，`RoomSet` / `DoorSet` 根据地图数据装配场景。遇敌时它向 `ExpeditionManager` 报告房间与敌人，并通过 `PlayerVisualManager` 完成接近表现；它不构造牌组，也不启动 Battle。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -179,7 +195,7 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 ### `PlayerVisualSystem`
 
-此处是 `WorldSystem/PlayerVisualRoot/PlayerVisual` 的文档分组；真实子场景根节点名为 `PlayerVisual`。`[LIVE]`
+此处是 `WorldSystem/PlayerVisualRoot/PlayerVisual` 的文档分组；真实子场景根节点名为 `PlayerVisual`。它把 World 请求的探索、准备和战斗模式落实到玩家控制与相机，并将接近运镜的完成结果回报 World。`PlayerVisualManager` 及子节点持有表现状态；World 决定当前世界阶段和对应转换身份。`[LIVE][SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -190,6 +206,8 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 ### `UISystem`
 
+`UISystem` 显示远征的胜利或失败结果，并把玩家确认动作发给 `ExpeditionManager`。它持有面板显示状态与操作信号；结果由 `BattleManager` 判定，清敌与恢复探索由 `WorldManager` 执行。`[SOURCE]`
+
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`；`ExpeditionResultUI.gd`、`VictoryPanel`、`GameOverPanel` `[LIVE]` |
@@ -198,6 +216,8 @@ WorldManager.world_state_changed(previous_state, current_state)
 `ExpeditionManager` 接收 `BattleManager.battle_ended`。胜利确认后调用 `WorldManager.finish_battle()`，由当前 `BattleRoom.clear_enemies()` 清除敌人，再恢复探索；失败确认后重新实例化远征场景，生成新地图与玩家输入。`[SOURCE]`
 
 ## 6. BattleSystem
+
+`BattleSystem` 常驻于远征场景，但由 `BattleManager` 控制单场战斗的启动、激活与结束。内部子系统分别持有时间、实体、卡牌、AI 与界面状态；外部通过 `BattleManager` 提交输入并接收结果。`[LIVE][SOURCE]`
 
 ### 保存的内部结构
 
@@ -221,6 +241,8 @@ BattleSystem [BattleManager]
 
 ### `BattleManager`
 
+`BattleManager` 是单场战斗的协调入口：接收远征提供的玩家数据、牌组与敌人 ID，初始化实体和卡牌子系统，再连接时间轴行动与结算。它持有战斗激活、结果及输入/表现门闩；逻辑时间、实体属性和牌堆仍由对应子系统持有。`[SOURCE]`
+
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `ExpeditionSystem/BattleSystem/BattleSystem.tscn` 根节点；导出引用绑定 `Timeline`、`EntityManager`、`UI/CardSystem`、`UI` `[LIVE]` |
@@ -232,6 +254,8 @@ BattleSystem [BattleManager]
 
 ### `Timeline`
 
+`Timeline` 保存逻辑时间与行动队列，按排期触发 `CombatAction`，再等待同一行动的完成确认。Battle 通过它统一推进玩家出牌、空等及敌方行动的时间；实体结算和卡牌状态不由时间轴持有。`[SOURCE]`
+
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `BattleSystem/Timeline`；`CombatSystem/Scripts/Timeline.gd` `[LIVE]` |
@@ -240,6 +264,8 @@ BattleSystem [BattleManager]
 | 数据 | `current_time`、`action_line`、`is_advancing`、当前待确认行动；按触发时间、优先级及玩家先序排序 `[SOURCE]` |
 
 ### `EntitySystem`
+
+`EntitySystem` 是实体相关代码的概念分组，实际由 `EntityManager`、`CombatEntity` 与 `AttributeSet` 等节点承担。`EntityManager` 用玩家数据和敌人 ID 装配实体，转交到期行动并连接 `EnemyAI`；属性数值保存在各实体的 `Attribute` 中，资源回复进度保存在 `EntityManager`。`[LIVE][SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -252,6 +278,8 @@ BattleSystem [BattleManager]
 
 ### `CardSystem`
 
+`CardSystem` 负责战斗内牌组和手牌：`CardManager` 持有抽牌、手牌、弃牌堆并处理卡牌请求，手牌节点负责界面输入。它接收 `BattleManager` 转换后的 `RuntimeCard`；出牌是否可支付以及何时进入时间轴由 `BattleManager` 协调，单卡 Buff 保存在该 `RuntimeCard`。`[SOURCE]`
+
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `BattleSystem/UI/CardSystem` 挂 `CardManager.gd`；子场景含 `PlayerHandDeck`，卡牌节点由 `Card.tscn` 实例化 `[LIVE]` |
@@ -260,6 +288,8 @@ BattleSystem [BattleManager]
 | 数据 | `draw_pile`、`hand_pile`、`discard_pile`；每张 `RuntimeCard.active_buffs` 保存战斗内卡牌 Buff `[SOURCE]` |
 
 ### `EnemyAI`
+
+`EnemyAI` 根据 `EntityManager` 注入的行动池与敌我 ID 规划 `CombatAction`，再经 `EntityManager` 和 `BattleManager` 交给 `Timeline` 排期。它持有行动池、冷却和规划时间；敌人属性属于 `CombatEntity`，行动排期属于 `Timeline`。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -271,6 +301,8 @@ BattleSystem [BattleManager]
 当前 `EntityManager.initialize()` 调用 `plan_initial_actions()`，以 `EnemyAction` 生成首个排期行动。`[SOURCE]`
 
 ### 战斗 `UI`
+
+战斗 `UI` 展示战斗状态并把手牌操作送往 `CardManager`；`CombatHUD` 从 Battle、Timeline、Entity 和 Card 信号刷新文本。`BattleManager` 决定整层界面何时可见及输入是否锁定；界面保存刷新与卡牌节点状态，不持有战斗结果或属性数值。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -297,6 +329,8 @@ BattleSystem [BattleManager]
 
 ### 远征与世界
 
+`encounter_requested(room_data, enemy_id)` 同时传房间对象和敌人 ID，因为 World 持有房间遭遇事实，`ExpeditionManager` 需要用原对象核对 pending 请求及当前房间，并用 ID 校验和启动对应敌人。协调器决定启动结果，World 通过 `resolve_encounter_request()` 接受或释放这次请求。接近运镜的 `transition_id` 让 World 将回调匹配到当前准备转换，`succeeded` 则告知运镜结果；World 再发布状态变化供 Battle 开放表现。`[SOURCE]`
+
 | 方向 | 接口与重要参数 | 当前传递 |
 | --- | --- | --- |
 | `Door → DoorSet → WorldManager` | `door_opened(door: Node3D)` → `door_opened_relay(door: Node3D)` | 门节点身份；World 根据玩家和门位置更新当前房间 `[SOURCE]` |
@@ -307,6 +341,8 @@ BattleSystem [BattleManager]
 | `WorldManager → ExpeditionManager → BattleManager` | `world_state_changed(previous_state: int, current_state: int)` → `set_presentation_ready(is_ready: bool)` | `BATTLE` 状态开放战斗 UI 与输入表现门闩 `[SOURCE]` |
 
 ### 战斗与数据
+
+启动接口把 `external_deck`、`external_player_data` 和 `enemy_id` 一起交给 `BattleManager`：前两项来自 provider 的原型输入，敌人 ID 来自 World 的房间事实。Battle 将牌组转为 `RuntimeCard`，并让 `EntityManager` 按玩家数据和敌人资源建立实体。随后各子系统传递同一个 `CombatAction` 供排期、结算及完成确认；`time_advanced(delta_time)` 将实际流逝时间交给卡牌 Buff 和资源回复的持有者。`[SOURCE]`
 
 | 方向 | 接口与重要参数 | 当前传递 |
 | --- | --- | --- |
@@ -336,8 +372,11 @@ BattleSystem [BattleManager]
 
 ## 9. 状态归属摘要
 
+沿接口读取或请求变更状态，避免把收到的参数当成新的状态归属：`ExpeditionManager` 仅保存跨系统启动与结果确认状态；`WorldManager` 持有房间、遭遇和 World 模式；`BattleManager` 持有单场战斗生命周期与结果。玩家表现、时间轴、实体属性、AI 与牌堆各由下表所列节点或对象持有。`[SOURCE]`
+
 | 状态 | 当前持有者 | 证据 |
 | --- | --- | --- |
+| 战斗启动重入门闩、待确认结果标志 | `ExpeditionManager` | `[SOURCE]` |
 | 地图 `mapdata`、当前房间 `current_room_coords`、遭遇请求 | `WorldManager` | `[SOURCE]` |
 | World 模式 `current_state`、准备转换身份 | `WorldManager` | `[SOURCE]` |
 | 玩家控制、相机模式、当前接近运镜 ID | `PlayerVisualManager` 及其子节点 | `[SOURCE]` |
@@ -348,4 +387,6 @@ BattleSystem [BattleManager]
 | 敌方行动池、冷却与规划时间 | `EnemyAI` | `[SOURCE]` |
 | 抽牌堆、手牌、弃牌堆 | `CardManager` | `[SOURCE]` |
 | 单卡战斗 Buff | `RuntimeCard` | `[SOURCE]` |
+| 原型玩家与牌组配置 | `PrototypePlayerDataProvider` | `[SOURCE]` |
+| 远征结果面板显示状态 | `UISystem` | `[SOURCE]` |
 | 存档槽、元数据、模块注册表 | `SaveManager` | `[SOURCE]` |
