@@ -4,14 +4,15 @@
 [ext_resource type="PackedScene" uid="uid://ccqqpgj7mkefg" path="res://JourneySystem/RoomSystem/Art/floor_2x_22.tscn" id="1_mqp0l"]
 [ext_resource type="PackedScene" uid="uid://85pemmvv3jwy" path="res://JourneySystem/RoomSystem/Art/brick_wall_2.tscn" id="2_3gweh"]
 [ext_resource type="PackedScene" uid="uid://cj5lxabk52up0" path="res://JourneySystem/RoomSystem/ScenesAssets/Door/door.tscn" id="3_8u4ce"]
-[ext_resource type="PackedScene" uid="uid://bx7dvcxk1g305" path="res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn" id="4_73vbj"]
 [ext_resource type="PackedScene" uid="uid://diyjv03ndijqc" path="res://JourneySystem/SearchSystem/SceneAssets/Interative Items/Box/box.tscn" id="5_64d01"]
+[ext_resource type="PackedScene" uid="uid://dtag3tj4onntt" path="res://JourneySystem/EnemySystem/SceneAssets/enemy.tscn" id="5_wwli3"]
 
 [node name="Room" type="Node3D" unique_id=1027427574]
 script = ExtResource("1_3gweh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=593705784]
 transform = Transform3D(1, 0, 0, 0, 0.797784, 0.602943, 0, -0.602943, 0.797784, 0, 4, 3)
+light_energy = 0.363
 
 [node name="PlayerSpawn" type="Node3D" parent="." unique_id=1726380751]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.535, 0.1, 0)
@@ -198,10 +199,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.24333, 0, -5.03894)
 [node name="DoorUp" parent="Doors" unique_id=540826566 instance=ExtResource("3_8u4ce")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -4.31994, 0, 6.65104)
 
-[node name="Enemies" type="Node3D" parent="." unique_id=881009010]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.42375, 0, 1.11648)
-
-[node name="Enemy" parent="Enemies" unique_id=43499371 instance=ExtResource("4_73vbj")]
-
 [node name="Box" parent="." unique_id=661661160 instance=ExtResource("5_64d01")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 0, -1)
+
+[node name="Enemies" type="Node" parent="." unique_id=1869720900]
+
+[node name="Enemy" parent="Enemies" unique_id=517089321 instance=ExtResource("5_wwli3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3519573, 0, 2.6456256)

@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bx2p4cn2vx0qt"]
+[gd_scene format=3 uid="uid://bx2p4cn2vx0qt"]
 
-[ext_resource type="PackedScene" uid="uid://cm8iytkrb2ocj" path="res://Scene/Dungeon_Enemy_Scene(3D)/Enemy_Normal.tscn" id="1_oyqrr"]
+[ext_resource type="PackedScene" uid="uid://cm8iytkrb2ocj" path="res://JourneySystem/EnemySystem/Art/Enemy_Normal.tscn" id="1_oyqrr"]
 [ext_resource type="AnimationLibrary" uid="uid://b2hnqxi0ep1bv" path="res://Arts/AnimationLibrary/Ual2_test.res" id="2_tlgro"]
 
 [node name="testenemymodle" instance=ExtResource("1_oyqrr")]
