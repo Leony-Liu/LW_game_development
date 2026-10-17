@@ -1,4 +1,4 @@
-class_name Door
+class_name DoorB
 extends Node3D
 
 signal door_opened(door:Node3D)

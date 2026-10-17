@@ -1,11 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dfq0bmdaffeew"]
+[gd_scene format=3 uid="uid://dfq0bmdaffeew"]
 
 [ext_resource type="PackedScene" uid="uid://88hhvx6dcosd" path="res://Scene/Dungeon_Player_Scene(3D)/Player3D.tscn" id="1_b0ec4"]
 [ext_resource type="PackedScene" uid="uid://85pemmvv3jwy" path="res://Scene/VisualTest_MAP/Art/brick_wall_2.tscn" id="2_d857q"]
 [ext_resource type="PackedScene" uid="uid://ccqqpgj7mkefg" path="res://Scene/VisualTest_MAP/Art/floor_2x_22.tscn" id="2_salop"]
 [ext_resource type="PackedScene" uid="uid://bx7dvcxk1g305" path="res://Scene/Dungeon_Enemy_Scene(3D)/enemy.tscn" id="3_bvpl2"]
-[ext_resource type="PackedScene" uid="uid://cj5lxabk52up0" path="res://Scene/DungeonScenes(3D)/Interative Items/Door/door.tscn" id="3_chtub"]
-[ext_resource type="PackedScene" uid="uid://diyjv03ndijqc" path="res://Scene/DungeonScenes(3D)/Interative Items/Box/box.tscn" id="4_ykl1n"]
+[ext_resource type="PackedScene" uid="uid://cj5lxabk52up0" path="res://JourneySystem/RoomSystem/ScenesAssets/Door/door.tscn" id="3_chtub"]
+[ext_resource type="PackedScene" uid="uid://diyjv03ndijqc" path="res://JourneySystem/SearchSystem/SceneAssets/Interative Items/Box/box.tscn" id="4_ykl1n"]
 [ext_resource type="PackedScene" uid="uid://dwf7eo5717q2s" path="res://Scene/UI/world_interactionUI.tscn" id="5_m4d72"]
 
 [node name="Node3D" type="Node3D"]

@@ -3,11 +3,13 @@
 importer="csv_translation"
 type="Translation"
 uid="uid://cfju5w5n8a56i"
-valid=false
 
 [deps]
 
+files=["res://DataBase/Item/Weapons.template.translation", "res://DataBase/Item/Weapons.subtype.translation", "res://DataBase/Item/Weapons.name.translation", "res://DataBase/Item/Weapons.desc.translation", "res://DataBase/Item/Weapons.icon.translation", "res://DataBase/Item/Weapons.preview.translation", "res://DataBase/Item/Weapons.preview.translation", "res://DataBase/Item/Weapons.weight.translation", "res://DataBase/Item/Weapons.max.translation", "res://DataBase/Item/Weapons.base.translation", "res://DataBase/Item/Weapons.mechanic.translation", "res://DataBase/Item/Weapons.max.translation", "res://DataBase/Item/Weapons.default.translation", "res://DataBase/Item/Weapons.card.translation", "res://DataBase/Item/Weapons.dev.translation"]
+
 source_file="res://DataBase/Item/Weapons.csv"
+dest_files=["res://DataBase/Item/Weapons.template.translation", "res://DataBase/Item/Weapons.subtype.translation", "res://DataBase/Item/Weapons.name.translation", "res://DataBase/Item/Weapons.desc.translation", "res://DataBase/Item/Weapons.icon.translation", "res://DataBase/Item/Weapons.preview.translation", "res://DataBase/Item/Weapons.preview.translation", "res://DataBase/Item/Weapons.weight.translation", "res://DataBase/Item/Weapons.max.translation", "res://DataBase/Item/Weapons.base.translation", "res://DataBase/Item/Weapons.mechanic.translation", "res://DataBase/Item/Weapons.max.translation", "res://DataBase/Item/Weapons.default.translation", "res://DataBase/Item/Weapons.card.translation", "res://DataBase/Item/Weapons.dev.translation"]
 
 [params]
 

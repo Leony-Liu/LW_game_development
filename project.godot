@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="LW_game_development"
 run/main_scene="uid://0rtgdscsodly"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -30,11 +34,12 @@ PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_de
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 PlayerInventoryCore="*res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd"
 RaidInventoryBridge="*res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd"
-UIManager="*res://Scene/Search_system/Script/Manager/ui_manager.gd"
-ItemDataBase="*res://Scene/Search_system/Script/Data/item_data_base.gd"
-MAPInventoryManager="*res://Scene/Search_system/Script/Manager/inventory_system.gd"
-SearchManager="*res://Scene/Search_system/Script/Manager/search_manager.gd"
-InteractionManager="*res://Scene/Search_system/Script/Manager/interaction_manager.gd"
+UIManager="*res://JourneySystem/SearchSystem/Script/Manager/ui_manager.gd"
+ItemDataBase="*res://JourneySystem/SearchSystem/Script/Data/item_data_base.gd"
+MAPInventoryManager="*res://JourneySystem/SearchSystem/Script/Manager/inventory_system.gd"
+SearchManager="*res://JourneySystem/SearchSystem/Script/Manager/search_manager.gd"
+InteractionManager="*res://JourneySystem/SearchSystem/Script/Manager/interaction_manager.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [debug]
 
@@ -48,6 +53,10 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg", "res://addons/godot_omni/plugin.cfg")
 
 [file_customization]
 
@@ -66,6 +75,11 @@ folder_colors={
 "res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/Scripts/": "yellow",
+"res://JourneySystem/RoomSystem/Art/": "purple",
+"res://JourneySystem/RoomSystem/Data/": "red",
+"res://JourneySystem/RoomSystem/ScenesAssets/": "green",
+"res://JourneySystem/RoomSystem/Scripts/": "yellow",
+"res://JourneySystem/SearchSystem/SceneAssets/": "teal",
 "res://Localization/": "pink",
 "res://Scene/": "blue",
 "res://Scene/DungeonScene/": "blue",
@@ -75,7 +89,6 @@ folder_colors={
 "res://Scene/DungeonScenes(3D)/Scripts/": "yellow",
 "res://Scene/Dungeon_Enemy_Scene(3D)/Arts/": "purple",
 "res://Scene/Dungeon_Enemy_Scene(3D)/Scripts/": "yellow",
-"res://Scene/Dungeon_Enemy_Scene/Art/": "purple",
 "res://Scene/Dungeon_Player_Scene(3D)/Scripts/": "yellow",
 "res://Scene/Main_Scene/Scripts/": "yellow",
 "res://Scene/Shelter_Scene/Art/": "purple",
@@ -86,6 +99,10 @@ folder_colors={
 "res://Scene/VisualTest_MAP/Art/": "purple",
 "res://Scripts/": "yellow"
 }
+
+[filesystem]
+
+import/blender/enabled=false
 
 [gui]
 

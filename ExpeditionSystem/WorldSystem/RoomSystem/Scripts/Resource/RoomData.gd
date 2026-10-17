@@ -1,4 +1,4 @@
-class_name RoomData
+class_name RoomDataB
 extends Resource
 
 # 房间类型

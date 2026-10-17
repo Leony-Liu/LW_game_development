@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://i38ped4vvbn2"]
+[gd_scene format=3 uid="uid://i38ped4vvbn2"]
 
 [ext_resource type="Texture2D" uid="uid://bj7pggdfk0ntx" path="res://Scene/DungeonScene/Arts/Floors_Tiles.png" id="1_xwflq"]
 [ext_resource type="Texture2D" uid="uid://5nbijmly8la5" path="res://Scene/DungeonScene/Arts/Dungeon_Tiles.png" id="2_opq22"]

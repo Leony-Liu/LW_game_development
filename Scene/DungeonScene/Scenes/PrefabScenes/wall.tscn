@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cv36ihxkcgkjc"]
+[gd_scene format=3 uid="uid://cv36ihxkcgkjc"]
 
 [ext_resource type="Texture2D" uid="uid://5nbijmly8la5" path="res://Scene/DungeonScene/Arts/Dungeon_Tiles.png" id="1_ig7pt"]
 [ext_resource type="Script" uid="uid://nhd6ptfwfo1e" path="res://Scene/DungeonScene/Script/Wall_shelter.gd" id="2_4ituk"]
