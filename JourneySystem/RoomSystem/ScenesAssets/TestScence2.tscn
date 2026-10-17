@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bsdjs57ymg03n"]
 
 [ext_resource type="Script" uid="uid://cbmd8berw4o1m" path="res://JourneySystem/RoomSystem/Scripts/room.gd" id="1_3gweh"]
-[ext_resource type="PackedScene" uid="uid://ccqqpgj7mkefg" path="res://JourneySystem/RoomSystem/Art/floor_2x_22.tscn" id="1_mqp0l"]
-[ext_resource type="PackedScene" uid="uid://85pemmvv3jwy" path="res://JourneySystem/RoomSystem/Art/brick_wall_2.tscn" id="2_3gweh"]
+[ext_resource type="PackedScene" uid="uid://ccqqpgj7mkefg" path="res://JourneySystem/RoomSystem/ScenesAssets/floor_2x_22.tscn" id="1_mqp0l"]
+[ext_resource type="PackedScene" uid="uid://85pemmvv3jwy" path="res://JourneySystem/RoomSystem/ScenesAssets/brick_wall_2.tscn" id="2_3gweh"]
 [ext_resource type="PackedScene" uid="uid://cj5lxabk52up0" path="res://JourneySystem/RoomSystem/ScenesAssets/Door/door.tscn" id="3_8u4ce"]
 [ext_resource type="PackedScene" uid="uid://diyjv03ndijqc" path="res://JourneySystem/SearchSystem/SceneAssets/Interative Items/Box/box.tscn" id="5_64d01"]
 [ext_resource type="PackedScene" uid="uid://dtag3tj4onntt" path="res://JourneySystem/EnemySystem/SceneAssets/enemy.tscn" id="5_wwli3"]

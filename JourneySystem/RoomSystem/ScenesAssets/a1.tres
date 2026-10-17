@@ -1,6 +1,6 @@
 [gd_resource type="MeshLibrary" format=3 uid="uid://d1vsio8tlgdsh"]
 
-[ext_resource type="Texture2D" uid="uid://bw83f6s065mp5" path="res://Scene/VisualTest_MAP/Art/floor_2x2_carpet.jpg" id="1_472kr"]
+[ext_resource type="Texture2D" uid="uid://bw83f6s065mp5" path="res://VisualTest_MAP/Art/floor_2x2_carpet.jpg" id="1_472kr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e0rxj"]
 resource_name = "carpet"

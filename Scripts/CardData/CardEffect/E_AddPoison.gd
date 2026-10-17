@@ -1,2 +1,0 @@
-extends CardEffect
-class_name E_AddPoison

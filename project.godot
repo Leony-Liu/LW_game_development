@@ -21,14 +21,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
-ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
 UIManager="*res://JourneySystem/SearchSystem/Script/Manager/ui_manager.gd"
 ItemDataBase="*res://JourneySystem/SearchSystem/Script/Data/item_data_base.gd"
 MAPInventoryManager="*res://JourneySystem/SearchSystem/Script/Manager/inventory_system.gd"
 SearchManager="*res://JourneySystem/SearchSystem/Script/Manager/search_manager.gd"
 InteractionManager="*res://JourneySystem/SearchSystem/Script/Manager/interaction_manager.gd"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+EventBus="*res://JourneySystem/event_bus.gd"
 
 [debug]
 
@@ -76,14 +75,7 @@ folder_colors={
 "res://JourneySystem/RoomSystem/Scripts/": "yellow",
 "res://JourneySystem/SearchSystem/SceneAssets/": "teal",
 "res://JourneySystem/UI/Scripts/": "yellow",
-"res://Localization/": "pink",
-"res://Scene/": "blue",
-"res://Scene/Main_Scene/Scripts/": "yellow",
-"res://Scene/Shelter_Scene/Art/": "purple",
-"res://Scene/Shelter_Scene/Scripts/": "yellow",
-"res://Scene/Shelter_Scene/ShelterSystem/Scripts/": "yellow",
-"res://Scene/VisualTest_MAP/Art/": "purple",
-"res://Scripts/": "yellow"
+"res://Localization/": "pink"
 }
 
 [filesystem]
