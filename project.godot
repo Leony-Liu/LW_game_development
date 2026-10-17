@@ -15,25 +15,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="LW_game_development"
-run/main_scene="uid://0rtgdscsodly"
+run/main_scene="uid://bwljaaods183o"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*res://Scripts/GameManager.gd"
-SaveManager="*res://Scripts/SaveManager.gd"
-AllCardData="*res://Scripts/CardData/AllCardData.gd"
-AllEnemyData="*res://Scripts/EnemyData/AllEnemyData.gd"
 EventBus="*res://Scene/Main_Scene/Scripts/event_bus.gd"
-BattleBus="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/battle_bus.gd"
-CardDataBase="*res://Scene/Main_Scene/Scripts/Manager/card_database_manager.gd"
-MechanicDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/enemymechanic_database_manager.gd"
-SettingsManager="*res://Scene/Main_Scene/Scripts/Manager/settings_manager.gd"
-PlayerDeckManager="*res://Scene/Battle_Scene/Battle_Scene_Main/Scripts/player_deck_manager.gd"
 ItemDatabaseManager="*res://Scene/Main_Scene/Scripts/Manager/item_database_manager.gd"
-PlayerInventoryCore="*res://Scene/Main_Scene/Scripts/Shared/Inventory/player_inventory_core.gd"
-RaidInventoryBridge="*res://Scene/Main_Scene/Scripts/Shared/Inventory/raid_inventory_bridge.gd"
 UIManager="*res://JourneySystem/SearchSystem/Script/Manager/ui_manager.gd"
 ItemDataBase="*res://JourneySystem/SearchSystem/Script/Data/item_data_base.gd"
 MAPInventoryManager="*res://JourneySystem/SearchSystem/Script/Manager/inventory_system.gd"
@@ -75,27 +64,26 @@ folder_colors={
 "res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/Scripts/": "yellow",
+"res://JourneySystem/EnemySystem/Art/": "purple",
+"res://JourneySystem/EnemySystem/SceneAssets/": "green",
+"res://JourneySystem/EnemySystem/Scripts/": "yellow",
+"res://JourneySystem/PlayerSystem/Art/": "purple",
+"res://JourneySystem/PlayerSystem/SceneAssets/": "green",
+"res://JourneySystem/PlayerSystem/Scripts/": "yellow",
 "res://JourneySystem/RoomSystem/Art/": "purple",
 "res://JourneySystem/RoomSystem/Data/": "red",
 "res://JourneySystem/RoomSystem/ScenesAssets/": "green",
 "res://JourneySystem/RoomSystem/Scripts/": "yellow",
 "res://JourneySystem/SearchSystem/SceneAssets/": "teal",
+"res://JourneySystem/UI/Scripts/": "yellow",
 "res://Localization/": "pink",
 "res://Scene/": "blue",
-"res://Scene/DungeonScene/": "blue",
-"res://Scene/DungeonScene/Arts/": "purple",
-"res://Scene/DungeonScene/Script/": "yellow",
-"res://Scene/DungeonScenes(3D)/Art/": "purple",
-"res://Scene/DungeonScenes(3D)/Scripts/": "yellow",
 "res://Scene/Dungeon_Enemy_Scene(3D)/Arts/": "purple",
 "res://Scene/Dungeon_Enemy_Scene(3D)/Scripts/": "yellow",
-"res://Scene/Dungeon_Player_Scene(3D)/Scripts/": "yellow",
 "res://Scene/Main_Scene/Scripts/": "yellow",
 "res://Scene/Shelter_Scene/Art/": "purple",
 "res://Scene/Shelter_Scene/Scripts/": "yellow",
 "res://Scene/Shelter_Scene/ShelterSystem/Scripts/": "yellow",
-"res://Scene/UI/Arts/": "purple",
-"res://Scene/UI/Scripts/": "yellow",
 "res://Scene/VisualTest_MAP/Art/": "purple",
 "res://Scripts/": "yellow"
 }

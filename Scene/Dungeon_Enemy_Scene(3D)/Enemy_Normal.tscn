@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cm8iytkrb2ocj"]
+[gd_scene format=3 uid="uid://cm8iytkrb2ocj"]
 
-[ext_resource type="PackedScene" uid="uid://dbxostai38qc3" path="res://Scene/Dungeon_Player_Scene(3D)/ual_1_standard.tscn" id="1_61ucs"]
+[ext_resource type="PackedScene" uid="uid://dbxostai38qc3" path="res://JourneySystem/PlayerSystem/Art/ual_1_standard.tscn" id="1_61ucs"]
 
 [node name="UAL1_Standard" instance=ExtResource("1_61ucs")]
 

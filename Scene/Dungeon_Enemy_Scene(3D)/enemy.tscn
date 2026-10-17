@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bx7dvcxk1g305"]
+[gd_scene format=3 uid="uid://bx7dvcxk1g305"]
 
-[ext_resource type="PackedScene" uid="uid://bx2p4cn2vx0qt" path="res://Scene/Dungeon_Enemy_Scene(3D)/testenemymodle.tscn" id="1_rjst2"]
-[ext_resource type="Script" uid="uid://dtbb4hogsh1ja" path="res://Scene/Dungeon_Player_Scene(3D)/Scripts/PublicScripts/hurt_box.gd" id="2_7co3p"]
+[ext_resource type="PackedScene" uid="uid://bx2p4cn2vx0qt" path="res://JourneySystem/EnemySystem/Art/testenemymodle.tscn" id="1_rjst2"]
+[ext_resource type="Script" uid="uid://dtbb4hogsh1ja" path="res://JourneySystem/PlayerSystem/Scripts/PublicScripts/hurt_box.gd" id="2_7co3p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7co3p"]
 radius = 0.155687
@@ -22,30 +22,33 @@ transitions = ["Start", "Ual2_test_Zombie_Idle", SubResource("AnimationNodeState
 radius = 0.15494
 height = 1.46761
 
-[node name="Enemy" type="CharacterBody3D"]
+[node name="Enemy" type="CharacterBody3D" unique_id=517089321]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1941982928]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.753467, 0)
 shape = SubResource("CapsuleShape3D_7co3p")
 
-[node name="EnemyPoint" type="Node3D" parent="."]
+[node name="EnemyPoint" type="Node3D" parent="." unique_id=1118120982]
 
-[node name="testenemymodle" parent="EnemyPoint" instance=ExtResource("1_rjst2")]
+[node name="testenemymodle" parent="EnemyPoint" unique_id=2086062493 instance=ExtResource("1_rjst2")]
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationPlayer" parent="EnemyPoint/testenemymodle" index="2"]
+autoplay = &"Idle"
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=623905133]
 root_node = NodePath("../EnemyPoint/testenemymodle")
 tree_root = SubResource("AnimationNodeStateMachine_rtrcv")
 anim_player = NodePath("../EnemyPoint/testenemymodle/AnimationPlayer")
 
-[node name="Hurtbox" type="Area3D" parent="."]
+[node name="Hurtbox" type="Area3D" parent="." unique_id=1242981107]
 collision_layer = 33
 collision_mask = 0
 script = ExtResource("2_7co3p")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox" unique_id=1325748768]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.755774, 0)
 shape = SubResource("CapsuleShape3D_rjst2")
 
-[node name="Movement" type="Node" parent="."]
+[node name="Movement" type="Node" parent="." unique_id=572975484]
 
 [editable path="EnemyPoint/testenemymodle"]

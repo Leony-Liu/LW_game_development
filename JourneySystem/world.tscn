@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bwljaaods183o"]
+
+[ext_resource type="Script" uid="uid://c3n5srm1pr6k0" path="res://JourneySystem/RoomSystem/Scripts/map_manager.gd" id="1_83hb5"]
+[ext_resource type="PackedScene" uid="uid://88hhvx6dcosd" path="res://JourneySystem/PlayerSystem/SceneAssets/Player3D.tscn" id="2_jx3bg"]
+[ext_resource type="PackedScene" uid="uid://dwf7eo5717q2s" path="res://JourneySystem/UI/world_interactionUI.tscn" id="2_qyo7k"]
+[ext_resource type="PackedScene" uid="uid://eirjqi3byf6r" path="res://JourneySystem/SearchSystem/Script/UI/search_ui.tscn" id="5_na8fq"]
+[ext_resource type="Script" uid="uid://dw6akaho7j05b" path="res://JourneySystem/SearchSystem/Script/search_UI.gd" id="6_h6bmn"]
+[ext_resource type="PackedScene" uid="uid://cyi0fqi0624qh" path="res://JourneySystem/SearchSystem/Script/UI/inventory_ui.tscn" id="7_g7ais"]
+[ext_resource type="Script" uid="uid://fl6legvkghit" path="res://JourneySystem/SearchSystem/Script/inventory_ui.gd" id="8_4tus6"]
+
+[sub_resource type="PackedScene" id="PackedScene_0uwes"]
+
+[node name="World" type="Node3D" unique_id=831134462]
+
+[node name="MapManager" type="Node3D" parent="." unique_id=1686218424 groups=["dungeon_manager"]]
+script = ExtResource("1_83hb5")
+player_scene = ExtResource("2_jx3bg")
+room_scene = SubResource("PackedScene_0uwes")
+
+[node name="RoomContainer" type="Node3D" parent="." unique_id=1263265073]
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1624393801]
+
+[node name="Control" parent="UILayer" unique_id=960937535 instance=ExtResource("2_qyo7k")]
+script = null
+
+[node name="SearchUI" parent="UILayer" unique_id=153190268 instance=ExtResource("5_na8fq")]
+script = ExtResource("6_h6bmn")
+
+[node name="InventoryUI" parent="UILayer" unique_id=919643617 instance=ExtResource("7_g7ais")]
+script = ExtResource("8_4tus6")
+
+[editable path="UILayer/SearchUI"]
+[editable path="UILayer/InventoryUI"]
