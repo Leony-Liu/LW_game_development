@@ -27,8 +27,6 @@ var current_state: WorldState = WorldState.INIT
 var mapdata: Dictionary = {}
 var current_room_coords: Vector2 = Vector2.ZERO
 var _pending_encounter_room: RoomData = null
-var _last_resolved_encounter_room: RoomData = null
-var _last_encounter_was_accepted: bool = false
 var _preparation_transition_id: int = 0
 var _preparation_room: RoomData = null
 var _preparation_target: Node3D = null
@@ -48,7 +46,7 @@ func _ready() -> void:
 	init_map(default_blueprint)
 
 
-# 校验并上报房间遭遇；重复或无消费者的请求不会改变 World 状态。
+# 校验并上报待处理遭遇；返回值只表示已通知，不读取监听者的处理结果。
 func report_encounter(room_data: RoomData) -> bool:
 	if current_state != WorldState.EXPLORE:
 		push_warning("[WorldManager] 仅在 EXPLORE 接受遭遇上报。")
@@ -72,15 +70,9 @@ func report_encounter(room_data: RoomData) -> bool:
 		push_warning("[WorldManager] 遭遇请求没有消费者，保持探索状态。")
 		return false
 
-	_last_resolved_encounter_room = null
-	_last_encounter_was_accepted = false
 	_pending_encounter_room = room_data
 	encounter_requested.emit(room_data, room_data.enemy_id)
-	if _pending_encounter_room == room_data:
-		push_error("[WorldManager] 遭遇请求未被同步处理，已自动释放 pending 状态。")
-		_pending_encounter_room = null
-		return false
-	return _last_resolved_encounter_room == room_data and _last_encounter_was_accepted
+	return true
 
 
 # 由远征协调器结束当前请求；只有明确接受后才进入战斗准备状态。
@@ -93,17 +85,13 @@ func resolve_encounter_request(room_data: RoomData, should_prepare_battle: bool)
 		return false
 
 	var resolution_succeeded := true
-	var encounter_accepted := false
 	if should_prepare_battle:
 		resolution_succeeded = enter_preparing_battle_mode(room_data)
-		encounter_accepted = resolution_succeeded
 		if not resolution_succeeded:
 			push_error("[WorldManager] 遭遇无法进入战斗准备状态，已释放 pending 请求。")
 
 	# 匹配请求无论接受或拒绝都必须结束，避免失败后永久阻塞重试。
 	_pending_encounter_room = null
-	_last_resolved_encounter_room = room_data
-	_last_encounter_was_accepted = encounter_accepted
 	return resolution_succeeded
 
 

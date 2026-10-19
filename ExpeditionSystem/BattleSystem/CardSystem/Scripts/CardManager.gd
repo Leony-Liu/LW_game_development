@@ -4,7 +4,7 @@ class_name CardManager
 extends Node
 
 # 绑定手牌展示节点
-@export var player_hand_deck: Control
+@export var player_hand_deck: PlayerHandDeck
 # 手牌上限
 @export var hand_limit: int
 
@@ -24,16 +24,14 @@ var discard_pile: Array[RuntimeCard] = []
 
 # 校验必需手牌节点并连接信号。
 func _ready() -> void:
-	assert(player_hand_deck is PlayerHandDeck, "CardManager: 缺少必需的 PlayerHandDeck 引用。")
-	var hand_deck := player_hand_deck as PlayerHandDeck
-	assert(hand_deck.card_scene != null, "CardManager: PlayerHandDeck 缺少必需的 card_scene。")
-	assert(_is_card_scene_valid(hand_deck.card_scene), "CardManager: card_scene 根节点必须使用 CardLogic。")
-	hand_deck.card_play_requested.connect(_on_hand_deck_card_play_requested)
-	hand_deck.card_discard_requested.connect(discard_card)
+	if not validate_configuration():
+		return
+	player_hand_deck.card_play_requested.connect(_on_hand_deck_card_play_requested)
+	player_hand_deck.card_discard_requested.connect(discard_card)
 
 
-# 在不修改牌堆或 UI 的前提下校验初始化输入。
-func can_initialize(player_deck: Array[RuntimeCard]) -> bool:
+# 校验必需手牌视图及卡牌场景，失败时不继续装配。
+func validate_configuration() -> bool:
 	if not player_hand_deck is PlayerHandDeck:
 		push_error("CardManager: 缺少必需的 PlayerHandDeck 引用。")
 		return false
@@ -44,11 +42,26 @@ func can_initialize(player_deck: Array[RuntimeCard]) -> bool:
 	if not _is_card_scene_valid(hand_deck.card_scene):
 		push_error("CardManager: card_scene 根节点必须使用 CardLogic。")
 		return false
+	return true
+
+
+# 在不修改牌堆或 UI 的前提下校验初始化输入。
+func can_initialize(player_deck: Array[RuntimeCard]) -> bool:
+	if not validate_configuration():
+		return false
 	for runtime_card in player_deck:
 		if runtime_card == null:
 			push_error("CardManager: 玩家运行时牌组包含空卡牌。")
 			return false
 	return true
+
+
+# 接收协调器的输入锁指令，再下发给自有手牌视图。
+func set_input_locked(is_locked: bool) -> void:
+	if player_hand_deck == null:
+		push_error("CardManager: 缺少必需的 PlayerHandDeck，无法设置输入锁。")
+		return
+	player_hand_deck.set_input_locked(is_locked)
 
 
 # 无需入树即可校验卡牌场景根节点类型。
@@ -147,8 +160,7 @@ func confirm_play_card(runtime_card: RuntimeCard) -> void:
 	card_played.emit(runtime_card)
 
 	# 2. 通知手牌节点触发 CardLogic 的飞出动画（新增）
-	if player_hand_deck and player_hand_deck.has_method("confirm_play"):
-		player_hand_deck.confirm_play(runtime_card)
+	player_hand_deck.confirm_play(runtime_card)
 
 	# 3. 消耗卡牌上绑定的“出牌计数类”Buff（新增）
 	runtime_card.consume_action_event()
@@ -159,8 +171,7 @@ func confirm_play_card(runtime_card: RuntimeCard) -> void:
 
 func cancel_play_card(runtime_card: RuntimeCard) -> void:
 	# 通知手牌节点触发 CardLogic 的飘红与回弹动画
-	if player_hand_deck and player_hand_deck.has_method("reject_action"):
-		player_hand_deck.reject_action(runtime_card)
+	player_hand_deck.reject_action(runtime_card)
 
 # 弃牌
 func discard_card(runtime_card: RuntimeCard) -> void:
@@ -171,8 +182,7 @@ func discard_card(runtime_card: RuntimeCard) -> void:
 	hand_pile.remove_at(current_index)
 
 	# 新增：通知 UI 触发下落掉出动画
-	if player_hand_deck and player_hand_deck.has_method("confirm_discard"):
-		player_hand_deck.confirm_discard(runtime_card)
+	player_hand_deck.confirm_discard(runtime_card)
 
 	discard_pile.append(runtime_card)
 	card_discarded.emit(runtime_card)
@@ -205,8 +215,7 @@ func _draw_single_card() -> bool:
 	hand_pile.append(drawn_card)
 	print("抽了一张牌")
 	# 直接下发实体对象给 UI，不传 index
-	if player_hand_deck and player_hand_deck.has_method("add_card_to_hand"):
-		player_hand_deck.add_card_to_hand(drawn_card)
+	player_hand_deck.add_card_to_hand(drawn_card)
 	
 	card_drawn.emit(drawn_card)
 	return true

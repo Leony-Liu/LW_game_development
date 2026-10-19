@@ -13,6 +13,7 @@ enum BattleResult { NONE, VICTORY, DEFEAT }
 @export var entity_manager: EntityManager
 @export var card_manager: CardManager
 @export var battle_ui: CanvasLayer
+@export var combat_hud: CombatHUD # 必需：只接收显示快照。
 @export var battle_save_module: Node # 可选：挂载 BattleSaveModules
 @export var wait_for_combat_presentation: bool = false
 
@@ -31,14 +32,21 @@ var _is_waiting_for_visual: bool = false
 var _internal_input_locked: bool = true
 var _presentation_input_ready: bool = false
 var _effective_input_locked: bool = false
+var _dependencies_ready: bool = false
+var _hud_refresh_queued: bool = false
 
 
 # 连接各个子系统的中介信号
 func _ready() -> void:
-	_validate_dependencies()
+	if not _validate_dependencies():
+		set_process_unhandled_input(false)
+		return
+	_connect_hud_updates()
 	_setup_connections()
+	_dependencies_ready = true
 	_apply_battle_presentation()
 	_apply_effective_input_lock()
+	_refresh_hud()
 
 
 # 通过 InputMap 动作接收战斗键盘输入，物理按键可在运行时重绑。
@@ -56,12 +64,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 # 校验场景保存的必需子系统引用。
-func _validate_dependencies() -> void:
-	assert(timeline != null, "BattleManager: 缺少必需的 timeline 引用。")
-	assert(entity_manager != null, "BattleManager: 缺少必需的 entity_manager 引用。")
-	assert(card_manager != null, "BattleManager: 缺少必需的 card_manager 引用。")
-	assert(battle_ui != null, "BattleManager: 缺少必需的 battle_ui 引用。")
-	assert(card_manager.player_hand_deck is PlayerHandDeck, "BattleManager: card_manager 缺少必需的 PlayerHandDeck 引用。")
+func _validate_dependencies() -> bool:
+	if timeline == null or entity_manager == null or card_manager == null:
+		push_error("BattleManager: 缺少必需的 Timeline、EntityManager 或 CardManager 引用。")
+		return false
+	if battle_ui == null or combat_hud == null:
+		push_error("BattleManager: 缺少必需的 battle_ui 或 combat_hud 引用。")
+		return false
+	return entity_manager.validate_configuration() and card_manager.validate_configuration() and combat_hud.validate_configuration()
 
 
 # 连接 Card、Timeline 与 Entity 子系统信号。
@@ -76,7 +86,6 @@ func _setup_connections() -> void:
 
 	# 3. 监听 EntityManager 信号
 	entity_manager.enemy_action_generated.connect(_on_enemy_action_generated)
-	entity_manager.card_buff_requested.connect(_on_entity_card_buff_requested)
 	entity_manager.visual_effect_generated.connect(_on_visual_effect_generated)
 	entity_manager.entity_died.connect(_on_entity_died)
 
@@ -89,6 +98,9 @@ func start_battle(
 	external_player_data: EntityData,
 	enemy_id: int
 ) -> bool:
+	if not _dependencies_ready or not _validate_dependencies():
+		push_error("BattleManager: 必需依赖未完成装配，拒绝启动战斗。")
+		return false
 	if is_battle_active:
 		push_warning("BattleManager: 战斗已处于激活状态！")
 		return false
@@ -129,6 +141,8 @@ func start_battle(
 	# 3. 若存在存档模块，在成功装配后写入初始快照。
 	if battle_save_module and battle_save_module.has_method("save_initial_state"):
 		battle_save_module.save_initial_state(runtime_deck, external_player_data, enemy_id)
+	elif battle_save_module:
+		push_warning("BattleManager: 可选存档模块未提供 save_initial_state，跳过战前快照。")
 
 	is_battle_active = true
 	_is_starting_battle = false
@@ -142,6 +156,8 @@ func start_battle(
 
 # 接收远征层的表现就绪门闩，不覆盖时间轴等战斗内部锁。
 func set_presentation_ready(is_ready: bool) -> bool:
+	if not _validate_dependencies():
+		return false
 	if is_ready and not is_battle_active:
 		push_error("BattleManager: Battle 未激活，不能开放战斗表现与输入。")
 		return false
@@ -215,7 +231,7 @@ func _convert_deck_to_runtime(deck: Array[CardInstance]) -> Array[RuntimeCard]:
 
 # 校验 Battle 当前是否允许玩家发起新操作。
 func _can_accept_player_control() -> bool:
-	return is_battle_active and not _effective_input_locked and not timeline.is_advancing
+	return _dependencies_ready and is_battle_active and not _effective_input_locked and not timeline.is_advancing
 
 
 # 请求补满手牌；仅在至少抽到一张牌后统一支付 1 点体力。
@@ -266,6 +282,84 @@ func _on_card_play_requested(runtime_card: RuntimeCard) -> void:
 #endregion
 
 
+# 在现有协调器收集更新事件，HUD 不连接玩法系统。
+func _connect_hud_updates() -> void:
+	battle_started.connect(_on_hud_battle_started)
+	battle_ended.connect(_queue_hud_refresh.unbind(1))
+	input_lock_changed.connect(_queue_hud_refresh.unbind(1))
+	timeline.timeline_data_updated.connect(_queue_hud_refresh.unbind(2))
+	timeline.pending_action_changed.connect(_queue_hud_refresh.unbind(1))
+	card_manager.deck_initialized.connect(_queue_hud_refresh.unbind(1))
+	card_manager.card_drawn.connect(_queue_hud_refresh.unbind(1))
+	card_manager.card_played.connect(_queue_hud_refresh.unbind(1))
+	card_manager.card_discarded.connect(_queue_hud_refresh.unbind(1))
+	card_manager.discard_shuffled_into_draw.connect(_queue_hud_refresh.unbind(1))
+	card_manager.hand_pile_cleared.connect(_queue_hud_refresh)
+	_bind_hud_entity_signals()
+
+
+# 初始化完成后重新绑定当前实体，保持原有刷新时机。
+func _on_hud_battle_started() -> void:
+	_bind_hud_entity_signals()
+	_queue_hud_refresh()
+
+
+# 属性仍由实体持有，协调器仅监听变动。
+func _bind_hud_entity_signals() -> void:
+	var entities := entity_manager.get_enemy_entities()
+	if entity_manager.player_entity != null:
+		entities.append(entity_manager.player_entity)
+	var callback := _queue_hud_refresh.unbind(3)
+	for entity in entities:
+		if entity.attribute_set != null and not entity.attribute_set.attribute_updated.is_connected(callback):
+			entity.attribute_set.attribute_updated.connect(callback)
+
+
+# 合并同一帧内的更新，避免读取结算中的中间状态。
+func _queue_hud_refresh() -> void:
+	if _hud_refresh_queued:
+		return
+	_hud_refresh_queued = true
+	_refresh_hud.call_deferred()
+
+
+# 汇总值快照并向 HUD 下发，文本与布局仍由 HUD 决定。
+func _refresh_hud() -> void:
+	_hud_refresh_queued = false
+	var enemies: Array[Dictionary] = []
+	for entity in entity_manager.get_enemy_entities():
+		enemies.append(_get_entity_display_data(entity))
+	combat_hud.display_state({
+		"player": _get_entity_display_data(entity_manager.player_entity),
+		"enemies": enemies,
+		"piles": {"hand": card_manager.hand_pile.size(), "limit": card_manager.hand_limit,
+			"draw": card_manager.draw_pile.size(), "discard": card_manager.discard_pile.size()},
+		"current_time": timeline.current_time,
+		"future_actions": timeline.get_scheduled_enemy_action_snapshots(100),
+		"scheduled_actions": timeline.get_scheduled_enemy_action_snapshots(1000000),
+		"input_allowed": is_battle_active and not is_battle_input_locked(),
+		"is_advancing": timeline.is_advancing,
+		"has_pending_action": timeline.has_pending_action(),
+		"battle_ended": battle_result != BattleResult.NONE,
+	})
+
+
+# 复制显示所需属性；没有显式上限时沿用初始化值。
+func _get_entity_display_data(entity: CombatEntity) -> Dictionary:
+	if entity == null:
+		return {}
+	var data := {"entity_id": entity.entity_id if not entity.entity_id.is_empty() else String(entity.name),
+		"name": String(entity.name)}
+	var attributes := entity.attribute_set
+	for attribute_name in ["hp", "stamina", "mana"]:
+		var max_name: String = "max_" + attribute_name
+		data[attribute_name] = attributes.get_value(attribute_name) if attributes != null else 0.0
+		data[max_name] = 0.0
+		if attributes != null:
+			data[max_name] = attributes.get_value(max_name) if attributes.get_attribute(max_name) != null else attributes.get_initial_value(attribute_name)
+	return data
+
+
 #region 时间轴调度与行动结算
 
 # 时间轴推进经过特定刻度，触发需要生效的 CombatAction
@@ -307,14 +401,11 @@ func _on_enemy_action_generated(action: CombatAction) -> void:
 	timeline.add_action(action)
 
 
-# 实体系统产生卡牌 Buff 诉求时的路由
-func _on_entity_card_buff_requested(_target_id: String, buff: CardBuff) -> void:
-	card_manager.apply_buff_to_all_hand_cards(buff)
-
-
 # 转发实体/卡牌系统的视觉请求给外部展示层
 func _on_visual_effect_generated(visual_type: String, data: Dictionary) -> void:
-	_is_waiting_for_visual = wait_for_combat_presentation
+	_is_waiting_for_visual = wait_for_combat_presentation and visual_effect_requested.has_connections()
+	if wait_for_combat_presentation and not _is_waiting_for_visual:
+		push_warning("BattleManager: 未连接可选战斗表现，跳过表现等待。")
 	visual_effect_requested.emit(visual_type, data)
 
 
@@ -363,8 +454,7 @@ func _apply_effective_input_lock() -> void:
 		return
 	_effective_input_locked = should_lock
 	input_lock_changed.emit(should_lock)
-	var hand_deck := card_manager.player_hand_deck as PlayerHandDeck
-	hand_deck.set_input_locked(should_lock)
+	card_manager.set_input_locked(should_lock)
 
 
 # 内部挂起协程，等待视觉完成

@@ -27,6 +27,7 @@
 | [7. 数据结构与生命周期](#7-数据结构与生命周期) | 当前数据转换 |
 | [8. 跨系统通信](#8-跨系统通信) | 已核实的方法、参数、信号 |
 | [9. 状态归属摘要](#9-状态归属摘要) | 当前运行时状态持有者 |
+| [10. 依赖方向审计](#10-依赖方向审计) | 脚本边界、保留例外与未修复问题 |
 
 ## 2. 项目架构总览
 
@@ -171,7 +172,7 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 ### `PrototypePlayerDataProvider`
 
-`PrototypePlayerDataProvider` 把 Inspector 中的原型玩家配置转成 `EntityData` 和 `CardInstance`，让启动交接可以取得明确的输入。它持有原型配置并调用 `AllCardData` 校验 ID；战斗激活和运行时牌堆由 Battle 子系统管理。`[SOURCE]`
+`PrototypePlayerDataProvider` 把 Inspector 中的原型玩家配置转成 `EntityData` 和 `CardInstance`，让启动交接可以取得明确的输入。它持有原型配置并调用 `AllCardData` 校验 ID，再将对应 `CardData` 注入 `CardInstance.new(id, template)`；数据对象自身不访问 Autoload。战斗激活和运行时牌堆由 Battle 子系统管理。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -193,6 +194,8 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 `WorldGenerator.generate(blueprint)` 返回地图字典；`RoomSet` 按 `RoomData` 建立 `BattleRoom` 实例与接近锚点索引；`DoorSet` 创建 `Door` 并中继 `door_opened`。`[SOURCE]`
 
+`report_encounter()` 的 `true` 只表示有效通知已发出，不表示 Battle 已接受。World 保留唯一 pending 请求，直到协调器调用 `resolve_encounter_request()`；不读取监听者的同步处理结果。没有消费者时明确返回 `false`，不留下 pending，也不切换 World 状态。`[SOURCE]`
+
 ### `PlayerVisualSystem`
 
 此处是 `WorldSystem/PlayerVisualRoot/PlayerVisual` 的文档分组；真实子场景根节点名为 `PlayerVisual`。它把 World 请求的探索、准备和战斗模式落实到玩家控制与相机，并将接近运镜的完成结果回报 World。`PlayerVisualManager` 及子节点持有表现状态；World 决定当前世界阶段和对应转换身份。`[LIVE][SOURCE]`
@@ -203,6 +206,8 @@ WorldManager.world_state_changed(previous_state, current_state)
 | 输入 | `change_mode(mode)`、`start_encounter_approach(target, transition_id)`、`cancel_encounter_approach(transition_id)`；玩家运动信号 |
 | 输出 | `encounter_approach_finished(transition_id, succeeded)`；更新控制、相机和鼠标模式 |
 | 数据 | `current_mode`、当前接近运镜 ID；运动与相机状态由子节点持有 `[SOURCE]` |
+
+`player`、`head`、`player_camera` 是正式模式的必需引用，缺失时 `change_mode()` 在变更控制状态前失败。`bob_mount` 与 `debug_free_camera` 是可选表现；缺少调试相机时调试请求失败并保留原模式，探索和战斗模式仍可用。`[SOURCE]`
 
 ### `UISystem`
 
@@ -221,7 +226,7 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 ### 保存的内部结构
 
-`BattleSystem` 根节点挂 `BattleManager.gd`。`CardSystem` 实际位于 `UI` 下；`EnemyAI` 与 `EntityManager` 是同级节点。`[LIVE]`
+`BattleSystem` 根节点挂 `BattleManager.gd`。`Timeline`、`EnemyAI` 与 `EntityManager` 仍是 `BattleSystem.tscn` 中的内联节点；`CardSystem` 和 `CombatHUD` 在 `UI` 下分别实例化各自的场景。`[LIVE]`
 
 ```text
 BattleSystem [BattleManager]
@@ -236,7 +241,12 @@ BattleSystem [BattleManager]
    ├─ CardSystem [CardManager]
    │  └─ PlayerHandDeck
    ├─ PlayerInformation
-   └─ CombatHUD
+   └─ CombatHUD [CombatHUD.tscn]
+      └─ Margin
+         └─ Columns
+            ├─ LeftPanel
+            ├─ Spacer
+            └─ RightPanel
 ```
 
 ### `BattleManager`
@@ -245,12 +255,14 @@ BattleSystem [BattleManager]
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `ExpeditionSystem/BattleSystem/BattleSystem.tscn` 根节点；导出引用绑定 `Timeline`、`EntityManager`、`UI/CardSystem`、`UI` `[LIVE]` |
+| 位置与组成 | `ExpeditionSystem/BattleSystem/BattleSystem.tscn` 根节点；导出引用绑定 `Timeline`、`EntityManager`、`UI/CardSystem`、`UI`、`UI/CombatHUD` `[LIVE]` |
 | 输入 | `start_battle(external_deck, external_player_data, enemy_id) -> bool`、`set_presentation_ready(is_ready) -> bool`、`request_draw_to_full()`、`request_advance_time()`；接收 Card、Timeline、Entity 信号 |
 | 输出 | `battle_started`、`battle_ended(is_player_victory)`、`input_lock_changed(is_locked)`、`visual_effect_requested(visual_type, data)`；调用 Timeline、EntityManager、CardManager |
 | 数据 | `is_battle_active`、`battle_result`、启动与输入锁状态、表现就绪状态；`UI.visible` 随激活与表现状态更新 `[SOURCE]` |
 
 `start_battle()` 将 `CardInstance[]` 转为 `RuntimeCard[]`，预检后依次初始化 `EntityManager` 和 `CardManager`。`EntityManager.entity_died` 触发战斗关闭、`Timeline.cancel_advancement()` 与 `battle_ended`。`[SOURCE]`
+
+必需子系统、实体属性容器、手牌场景和 HUD 控件通过布尔预检；失败时拒绝启动，不继续激活半装配 Battle。`set_presentation_ready(false)` 可在父级初始化交接时早于 Battle 的 `_ready()` 调用，但也校验已保存引用。存档模块可选，非空但缺少 `save_initial_state()` 时警告并跳过快照；启用表现等待却无 `visual_effect_requested` 消费者时警告并跳过等待。已连接的表现消费者仍负责调用 `notify_visual_completed()`。`[SOURCE]`
 
 ### `Timeline`
 
@@ -271,7 +283,7 @@ BattleSystem [BattleManager]
 | --- | --- |
 | 位置与组成 | 概念分组；`BattleSystem/EntityManager` 下有 `PlayerEntity` 与 `EnemyEntity`，各含 `AttributeSet`；`EntityManager` 引用同级 `EnemyAI` `[LIVE]` |
 | 输入 | `initialize(player_data, enemy_id)`、`execute_action(action)`、`can_player_afford(cost, resource_name)`、`consume_player_resource(cost, resource_name)`、`advance_player_resource_regeneration(delta_time)` |
-| 输出 | `enemy_action_generated(action)`、`card_buff_requested(target_id, buff)`、`visual_effect_generated(visual_type, data)`、`entity_died(entity)`；`get_enemy_entities()` |
+| 输出 | `enemy_action_generated(action)`、`visual_effect_generated(visual_type, data)`、`entity_died(entity)`；`get_enemy_entities()` |
 | 数据 | `CombatEntity.attribute_set` 中的 `Attribute` 保存战斗数值；`EntityManager._player_resource_regen_progress` 保存分段回复进度 `[SOURCE]` |
 
 `EntityManager.initialize()` 从 `EntityData` 注册玩家属性，从 `AllEnemyData.get_enemy(enemy_id)` 注册敌人属性并注入 AI 行动池。`CombatEntity.apply_attribute_impact()` 处理属性冲击，负向 `hp` 先扣 `shield`。`[SOURCE]`
@@ -283,7 +295,7 @@ BattleSystem [BattleManager]
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `BattleSystem/UI/CardSystem` 挂 `CardManager.gd`；子场景含 `PlayerHandDeck`，卡牌节点由 `Card.tscn` 实例化 `[LIVE]` |
-| 输入 | `initialize(player_deck: Array[RuntimeCard])`、`draw_cards(amount)`、`confirm_play_card(runtime_card)`、`discard_card(runtime_card)`、`advance_hand_buffs_time(delta_time)`；`PlayerHandDeck.card_play_requested` |
+| 输入 | `initialize(player_deck: Array[RuntimeCard])`、`draw_cards(amount)`、`confirm_play_card(runtime_card)`、`discard_card(runtime_card)`、`advance_hand_buffs_time(delta_time)`、`set_input_locked(is_locked)`；`PlayerHandDeck.card_play_requested` |
 | 输出 | `deck_initialized`、`card_drawn`、`card_play_requested`、`card_played`、`card_discarded`、`discard_shuffled_into_draw`、`hand_pile_cleared`；更新手牌节点 |
 | 数据 | `draw_pile`、`hand_pile`、`discard_pile`；每张 `RuntimeCard.active_buffs` 保存战斗内卡牌 Buff `[SOURCE]` |
 
@@ -302,14 +314,16 @@ BattleSystem [BattleManager]
 
 ### 战斗 `UI`
 
-战斗 `UI` 展示战斗状态并把手牌操作送往 `CardManager`；`CombatHUD` 从 Battle、Timeline、Entity 和 Card 信号刷新文本。`BattleManager` 决定整层界面何时可见及输入是否锁定；界面保存刷新与卡牌节点状态，不持有战斗结果或属性数值。`[SOURCE]`
+战斗 `UI` 展示战斗状态并把手牌操作送往 `CardManager`。`BattleManager` 监听现有子系统信号，合并同一帧更新，向 `CombatHUD.display_state(snapshot)` 下发显示值；HUD 只格式化文本，不连接或查询玩法系统，不保存战斗结束副本。`BattleManager` 决定整层界面显隐，并经 `CardManager.set_input_locked()` 向手牌视图下发输入锁。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `BattleSystem/UI` 为 `CanvasLayer`；含 `CardSystem`、`PlayerInformation`、`CombatHUD` `[LIVE]` |
-| 输入 | `BattleManager` 控制 `UI.visible`；`CombatHUD` 监听 Battle、Timeline、Entity、Card 信号；`PlayerHandDeck` 与 `CardLogic` 接收卡牌数据和输入锁 |
+| 位置与组成 | `BattleSystem/UI` 为 `CanvasLayer`；`CardSystem` 是原有场景实例，`PlayerInformation` 保持内联，`CombatHUD` 实例化 `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn`。HUD 场景持有内部布局、样式及四个控件引用；BattleSystem 根节点绑定 `combat_hud` `[LIVE]` |
+| 输入 | `BattleManager` 控制 `UI.visible` 并调用 `CombatHUD.display_state(snapshot)`；`PlayerHandDeck` 与 `CardLogic` 接收卡牌数据和输入锁 |
 | 输出 | `CardLogic.card_played_request` → `PlayerHandDeck.card_play_requested` → `CardManager.card_play_requested`；`CombatHUD` 刷新玩家、敌人、牌堆、时间轴文本 |
-| 数据 | `CombatHUD` 保存刷新排队与结束显示标志；`PlayerHandDeck` 保存界面输入锁和卡牌节点 `[SOURCE]` |
+| 数据 | `CombatHUD` 只保留控件与呈现文本；快照仅在本次渲染使用。刷新排队标志属于 `BattleManager`；`PlayerHandDeck` 保存界面输入锁和卡牌节点 `[SOURCE]` |
+
+快照包含 `player`、`enemies`、`piles`、`current_time`、`future_actions`、`scheduled_actions`、`input_allowed`、`is_advancing`、`has_pending_action`、`battle_ended`，只含字典、数组和显示值。实体快照含 ID、名称及 HP/体力/法力与上限；无显式上限时沿用属性初始化值。未来列表仍查询 100 时间单位，下次行动查询仍用原 1000000 范围。未收到快照的独立 HUD 保留场景占位文本。`[SOURCE]`
 
 ## 7. 数据结构与生命周期
 
@@ -324,6 +338,8 @@ BattleSystem [BattleManager]
 | `SaveModule → SaveManager → JSON` | 注册模块提供序列化数据；`SaveManager` 写入 `metadata` / `modules_data`，加载时回调模块 | `[SOURCE]` |
 
 `BattleManager._convert_deck_to_runtime()` 当前使用 `CardInstance.card_id` 与 `card_data`；`CardInstance.modifiers`、`unique_id` 保存在输入实例中。`[SOURCE]`
+
+`CardInstance.new(id, template)` 和 `CardInstance.from_dictionary(data, template)` 都要求创建者注入 ID 匹配的 `CardData`。恢复时保留实例身份并复制修改器；无有效模板的恢复明确失败。`[SOURCE]`
 
 ## 8. 跨系统通信
 
@@ -356,7 +372,8 @@ BattleSystem [BattleManager]
 | `BattleManager → Timeline` | `notify_action_finished(action)`；战斗结束调用 `cancel_advancement()` | 使用同一行动引用确认结算 `[SOURCE]` |
 | `Timeline → BattleManager → CardManager / EntityManager` | `time_advanced(delta_time)` → `advance_hand_buffs_time(delta_time)` / `advance_player_resource_regeneration(delta_time)` | 实际流逝的逻辑时间段 `[SOURCE]` |
 | `CombatEntity → EntityManager → BattleManager` | `entity_died(entity)`；`visual_requested` → `visual_effect_generated` → `visual_effect_requested` | 阵亡实体与表现请求；BattleManager 发出 `battle_ended(is_player_victory)` `[SOURCE]` |
-| `EntityManager / BattleManager → CardManager` | `card_buff_requested(target_id, buff)` 与 BattleManager 遍历 `action.card_buffs` 均调用 `apply_buff_to_all_hand_cards(buff)` | 同一 `card_buffs` 当前存在两条应用路径 `[SOURCE]` |
+| `BattleManager → CardManager` | 到期行动中遍历 `action.card_buffs`，调用 `apply_buff_to_all_hand_cards(buff)` | 唯一卡牌 Buff 派发入口；EntityManager 只处理实体效果，不再发出 `card_buff_requested` `[SOURCE]` |
+| `BattleManager → CombatHUD` | `display_state(snapshot: Dictionary)` | 从各状态持有者复制显示值，不转交模型或管理器引用 `[SOURCE]` |
 
 ### 重要参数
 
@@ -386,7 +403,69 @@ BattleSystem [BattleManager]
 | 玩家资源回复进度 | `EntityManager` | `[SOURCE]` |
 | 敌方行动池、冷却与规划时间 | `EnemyAI` | `[SOURCE]` |
 | 抽牌堆、手牌、弃牌堆 | `CardManager` | `[SOURCE]` |
-| 单卡战斗 Buff | `RuntimeCard` | `[SOURCE]` |
+| 单卡战斗 Buff 列表 | `RuntimeCard`；共享可变 Buff 的计时归属仍待明确 | `[SOURCE]`，见第 10 节 |
 | 原型玩家与牌组配置 | `PrototypePlayerDataProvider` | `[SOURCE]` |
 | 远征结果面板显示状态 | `UISystem` | `[SOURCE]` |
 | 存档槽、元数据、模块注册表 | `SaveManager` | `[SOURCE]` |
+
+## 10. 依赖方向审计
+
+2026-10-19 检查覆盖 49 个项目 `.gd`、16 个 `.tscn`、12 个 `.tres` 及 `project.godot`。第 4–9 节记录主要协调器；下表补充叶节点、非节点对象及遗留路径，合起来构成此次依赖图。`addons/godot-mcp` 的编辑器插件与运行时桥接作为开发基础设施检查其项目接入，不据此保证插件内部全部实现正确。
+
+### 叶节点与数据对象的边界
+
+| 脚本 / 实际生命周期 | 责任、状态和依赖 | 调用 / 信号与依赖性质 |
+| --- | --- | --- |
+| `WorldGenerator.gd`；WorldSystem 子节点 | 从必需 `MapBlueprint` 和 `AllEnemyData` 索引生成 `RoomData`；临时生成过程状态 | `generate()` 返回 rooms/doors；无反向 World 调用或信号 |
+| `RoomSet.gd` / `DoorSet.gd`；WorldSystem 子节点 | 持有生成实例索引；依赖房间/门 PackedScene | `build_rooms()` / `build_doors()` 向实例下发数据；DoorSet 监听 `door_opened` 后中继；必需预制体失败传播仍有缺口 |
+| `BattleRoom.gd`；RoomSet 创建的 BattleRoom.tscn 根 | 持有 RoomData 引用和表现节点；房间事实属于 RoomData | `set_room_data()`、`clear_enemies()`；发出 `room_data_changed`；墙体/地板等场景为装配依赖，敌人仅在有敌人时显示 |
+| `Door.gd`；DoorSet 创建的 Prefab/Door.tscn 根 | 门的开关与交互状态，持有连接房间信息 | `open_door()` 改变本门并发 `door_opened(self)`；不调用 World |
+| `PlayerController.gd`；PlayerVisual/Player | 真实运动、速度、接近运动身份与进度 | 接收 `set_active()` / `start_cinematic_approach()`；必需接近目标和注入的 HeadController；发出运动与接近完成信号 |
+| `HeadController.gd`；Player/Head | 俯仰和朝向插值 | 接收 `set_active()` / `smooth_face_world_position()`；父 Node3D 仅用于坐标换算；不调用模式协调器 |
+| `CameraBobMount.gd`；Head/CameraBobMount | 相机晃动相位和偏移 | `apply_bob()` 接收运动值；无玩法依赖、信号或权威状态；功能可选 |
+| `DebugFreeCamera.gd`；PlayerVisual/DebugFreeCamera | 调试相机输入与速度 | `set_active()` 向下控制；无 World 依赖；功能可选 |
+| `CombatEntity.gd`；EntityManager 的两个实体 | ID 与 AttributeSet 引用；实体属性由下级 Attribute 持有 | 必需 AttributeSet；`initialize_from_data()`、`apply_attribute_impact()`、`apply_entity_buff()`；接收 `attribute_updated`，发 `visual_requested` / `entity_died` |
+| `AttributeSet.gd`；每个实体的子节点 | 属性字典和初始值 | 创建 Attribute；中继 `value_changed` 为 `attribute_updated`；可选公式是注入 Callable，无管理器查找 |
+| `Attribute.gd` / `AttributeBuff.gd`；RefCounted，AttributeSet/Attribute 持有 | 属性计算值、缓存和修改器；缓存不是独立游戏事实 | 属性操作及 `value_changed`；Buff 只计算数值；不访问场景树或全局服务 |
+| `PlayerHandDeck.gd`；CardSystem 子场景 | 卡牌视图列表、输入锁和布局，牌堆权威在 CardManager | 必需 `card_scene: PackedScene`；创建 CardLogic，调用确认/拒绝动画；中继出牌与弃牌意图 |
+| `Card_Logic.gd`；动态 Card.tscn 根 | 绑定一张 RuntimeCard，持有显示/动画状态 | 必需内部控件、Interaction/Animation；读单一卡牌模型并监听 `stats_updated`；发出牌/弃牌意图；不改牌堆或玩家资源 |
+| `Card_Interaction.gd` / `Card_Animation.gd`；Card.tscn 子节点 | 输入检测 / Tween 生命周期 | 注入通用 Control 目标；调用控件 API、发交互/动画完成信号；不依赖 CardManager、Timeline 或 BattleManager |
+| `RuntimeCard.gd` / `CardBuff.gd`；RefCounted，CardManager 牌堆持有 | 战斗卡牌数据与 Buff 列表 / 可变时间次数 | 模板由构造参数注入；`create_action()` 生成 CombatAction；`stats_updated` 通知单卡视图；共享 Buff 风险见下表 |
+| `CardInstance.gd`；RefCounted，provider 创建、启动参数持有 | 长期卡牌 ID、模板、修改器、实例身份 | 必需 CardData 注入；序列化不访问 Autoload；无信号。独立于 RuntimeCard 生命周期 |
+| `EntityData.gd` / `CombatAction.gd`；RefCounted，由 provider / Card或AI 创建 | 启动属性输入 / 一次行动载荷 | 调用者传入数据；无节点、反向管理器引用或信号；由相应消费方解释 |
+| `MapBlueprint.gd` / `RoomData.gd`；Resource，默认配置 / mapdata 持有 | 生成配置 / 房间与敌人事实 | 由 WorldGenerator 创建房间数据，World/BattleRoom 操作；不主动找管理器 |
+| `R_carddata.gd` / `R_EnemyData.gd` / `R_EnemyAction.gd`；Resource，目录索引持有 | 卡牌模板 / 敌人模板 / 行动配置 | 由 provider、EntityManager、EnemyAI 向下读取；CardData.play 的旧效果执行路径未接入现行 Battle |
+| `SaveModule.gd`；RefCounted，SaveManager 注册表持有 | 通用序列化接口，无玩法事实 | `get_save_data()` / `load_save_data()` / `clear_data()` 由 SaveManager 调用；不要求具体玩法监听者 |
+| `BattleSaveModule.gd`；SaveModule 子类，当前未挂载 | 旧战前快照缓存，非现行状态持有者 | 反向调用注入的 save_manager 注册/保存，读取 AllEnemyData；与 Battle 可选 Node 槽接口不兼容，保留为遗留问题 |
+| `R_cardeffect.gd`、`E_cost.gd`、`E_Priority.gd`、`E_AddPoison.gd`；Resource 旧效果路径 | 旧卡牌直接修改 source/target | 依赖调用者提供旧字段/方法，现行 RuntimeCard 不调用；迁移范围待单独处理 |
+| `PlayerSaveManager.gd`；未挂载空 Node | 无已实现持久化职责 | 无有效依赖或信号；不能视为玩家数据权威 |
+
+### 已修正的确认问题
+
+- HUD 原先同时依赖四个玩法系统并缓存结束标志；现在由现有 BattleManager 下发值快照，HUD 仅持有控件。输入锁经 CardManager 下发给其自有手牌视图。
+- CardInstance 原先在构造/恢复时隐式读取 AllCardData；改由 provider/恢复调用者显式注入模板。
+- 同一 CombatAction.card_buffs 原先经 EntityManager 信号和 BattleManager 循环各应用一次；删除前一路，保留协调器唯一派发。运行探针复现每张手牌两次，修正后为一次，符合 GAME_DESIGN 的禁止重复结算要求。
+- World 的通知返回值原先读取同步监听结果；现在通知与明确 resolve 分开，无消费者也不会悬挂 pending。
+- Battle 必需引用错误原先可能仅终止校验函数而继续调用方；现在布尔预检阻止启动。玩家表现的必需控制引用也在模式变更前检查；可选调试相机、存档接口、无监听表现等待均有降级路径。
+
+### 保留的合理例外
+
+- EntityManager 注入同级 EnemyAI 是明确装配的下级规划器关系，不因 SceneTree 同级而构成反向依赖；PlayerController 接收 HeadController 也是局部运动组合。
+- Timeline 的 `action_triggered` 有明确必需消费者 BattleManager，后者以同一行动调用 `notify_action_finished()`；这是现有具备取消出口的完成协议。Timeline 不读取信号监听者的返回值。
+- provider、WorldGenerator、WorldManager、ExpeditionManager 和 EntityManager 对 AllCardData/AllEnemyData 的访问是对低层静态目录的显式依赖；目录不反向访问使用者。数据模型自身已去除该隐藏依赖。
+- CardLogic 观察一张 RuntimeCard、通用交互/动画组件操作注入的 Control，以及 Attribute 的计算缓存均有局部责任边界，不能仅凭对象引用判为循环。
+
+### 未修复项与验证边界
+
+| 优先级 / 分类 | 证据与影响 | 后续边界 |
+| --- | --- | --- |
+| 高 / 确认：共享可变 CardBuff 归属 | `apply_buff_to_all_hand_cards()` 将同一实例加入多张牌，之后各 RuntimeCard 分别修改其 time_left/count_left；移除重复派发并未解决共享计数 | 需先明确每牌独立效果还是整手共享效果；前者逐牌创建状态，后者由一个拥有者推进共享计数。GAME_DESIGN 的 Buff 时机仍待设计，本次不猜测 |
+| 中 / 确认：World 装配失败未完整上报 | RoomSet 缺少预制体时返回但 World.init_map 仍继续；BattleRoom 缺墙体资源静默返回；DoorSet 条件式连接也不能证明有效门已装配 | 后续统一 build 成败契约，在进入探索前检查；本次有效场景路径通过，不代表缺失资源的路径安全 |
+| 中 / 确认：遗留存档反向调用及接口错位 | BattleSaveModule 反向调用存档协调器，且是 RefCounted，无法直接赋给 Battle 的可选 Node 槽，也无 save_initial_state | 当前未挂载；需在存档接入任务中决定注册/快照的上级拥有者，不把旧模块当可用方案 |
+| 低 / 确认：旧效果与无效接线 | E_cost 旧路径重复修改 stamina；RoomSet 检查不存在的 BattleRoom.connected_doors 字段，赋值分支不会执行；WorldGenerator 已填充 RoomData.connected_doors | 不影响本次实际 Battle 路径；保留迁移/清理任务，未启用旧效果 |
+| 待验证：房间缓存 | BattleRoom 缓存 enemy_id；RoomData.is_player_inside 与 World.current_room_coords 缺少统一同步契约 | 当前正常调用保持敌人缓存同步，不能据此断言已发生错误；直接改 Resource 和长期移动流程待验证 |
+| 待验证：通用公式与存档异常 | AttributeSet 可注入相互依赖的 Callable；SaveManager 的文件打开/损坏数据失败路径未完整验证 | 当前无公式绑定使用者；不宣称存在已复现循环，不测试或覆盖真实用户存档 |
+
+本轮运行验证覆盖 49 个脚本加载、27 个可用场景/资源加载及序列化 NodePath/导出引用解析；第 16 个旧 `WorldSystem/DebugFreeCamera.tscn` 指向已缺失脚本，属于已记录遗留错误，未计入通过项。Battle 探针覆盖 10 个状态与 30 个事件，并用修改前 HUD 渲染同一运行状态比较文本。实际远征场景覆盖准备运镜、战斗解锁、胜利确认清敌和失败重建；另有必需引用缺失、可选功能降级与异步 resolve 检查。未做像素截图比较、人工连续走门、完整存档恢复或完整 Buff 组合测试。
+
+实现与设计还存在已知差距：EnemyAI 当前只由初始化启动首轮规划；provider 每次战斗重新构造玩家数据，尚非跨战斗持久玩家属性。这些是玩法实现边界，本次未改变设计或补写机制。

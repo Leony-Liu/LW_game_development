@@ -158,6 +158,103 @@ If documentation conflicts with verified implementation:
 - Verify only as deeply as required to prove the task.
 - Do not claim runtime behavior from static inspection alone.
 
+
+---
+
+# Code Dependency Direction and Communication
+
+## Default Architecture Rule
+
+- Default to **downward calls and upward notifications**: a higher-level owner/coordinator calls the lower-level modules it coordinates; lower-level modules emit signals describing events or state changes for interested listeners.
+- “Higher/lower level” means architectural responsibility and state ownership, not simply literal SceneTree parent/child position. A Node's parent defines containment and lifecycle, but does not automatically define its architectural owner.
+- Every dependency must have a clear direction and reason. Avoid circular dependencies, lower-level calls into their coordinator, and lower-level modules directly controlling UI or unrelated siblings. Route sibling coordination through their existing owner unless a documented interface justifies otherwise.
+- Do not add an Autoload, global event bus, or framework to bypass these rules.
+
+## Identify the Script's Role First
+
+- For Node-attached scripts, inspect the actual scene path, responsibility, state ownership, exported references, method calls, signals, and lifecycle. Use SceneTree as evidence of containment, not as the only proof of architecture.
+- For `Resource`, `RefCounted`, data/model, and static utility scripts, determine dependencies from who creates/owns them and their APIs; they have no SceneTree parent.
+- Treat Autoloads and global services as explicit dependencies in the graph, not as exceptions to dependency direction.
+
+## Calls and Signals
+
+- **Downward calls:** use explicit exported references or initialization interfaces for required lower-level dependencies. Stable local NodePaths for a scene's own children are acceptable; avoid `get_parent().get_parent()` and brittle distant/absolute path lookups.
+- **Upward signals:** the module that owns an event/state change defines and emits the signal. Its owner/coordinator or other interested listeners may connect to it. The emitter must not require a specific listener or wait for an acknowledgment; emitting with no listeners should be safe unless an explicit contract says otherwise.
+- Signals are notifications, not hidden request/response calls. If a result is required, use an explicit downward method call or narrow command interface. Do not replace every method call with a signal or every signal with a method call mechanically.
+- A lower-level module should not call back into its owner to report an event; emit a signal instead. The owner decides what to do.
+
+## UI and Presentation
+
+- UI/presentation scripts must not query multiple gameplay systems to reconstruct authoritative state. The responsible coordinator should provide display data or a narrow presentation interface.
+- UI may emit signals expressing player intent; the owning gameplay system validates the request and decides the outcome. UI owns presentation state, not gameplay truth.
+- Scene modularity and code dependency direction are separate decisions: an independently editable scene is not automatically allowed to depend on every system that uses it.
+
+## Required vs. Optional Dependencies
+
+- Mark dependencies as required or optional in design and validation.
+- Missing/invalid required dependencies must fail clearly before the dependent operation proceeds; never silently continue in a broken state.
+- Missing optional dependencies may disable only the affected feature and continue safely; make the fallback explicit and warn when silent degradation would hinder debugging.
+
+## Architecture Audit and Refactoring
+
+1. Inventory actual scenes, attached and unattached scripts, references, direct calls, signals, NodePaths, Resources, and Autoloads. For each script, record role, state ownership, dependencies, emitted/received signals, and required/optional status.
+2. Classify findings as confirmed violations, suspected issues needing runtime verification, or intentional exceptions. Do not infer violations from names or node position alone.
+3. Fix confirmed violations in small, testable slices. Preserve gameplay behavior and existing contracts unless explicitly approved. Verify callers, listeners, exported references, NodePaths, initialization order, and failure paths.
+4. If ownership or the safe migration path is ambiguous, report evidence and options rather than inventing an architecture decision. Update `Docs/ARCHITECTURE.md` and `Docs/CODEMAP.md` only to reflect verified changes.
+
+---
+
+# Scene and UI Modularity
+
+## Core Rule
+
+- Modularity is a design goal; creating a separate `.tscn` is only one way to achieve it. Do not equate "independent responsibility" with "must be an independent scene."
+- Optimize for iterative AI-assisted development and human editor finishing: modules should be understandable, inspectable, adjustable, testable, and replaceable where useful.
+- Preserve the parent system as a clear composition root. Opening a system scene should make its major responsibilities and relationships easy to understand.
+- Prefer the smallest structure that provides clear ownership and useful editing boundaries. Do not maximize scene count or introduce abstraction solely for visual neatness.
+
+## When to Create a Separate Scene
+
+Create a separate `.tscn` when one or more concrete benefits justify a scene boundary, such as:
+
+- It has a substantial editable node hierarchy, especially UI layout or visual composition, that benefits from being opened and adjusted independently.
+- It is a reusable object or visual component instantiated in multiple places.
+- It has its own meaningful configuration, lifecycle, or replacement boundary.
+- It needs independent scene-level testing or composition, and that benefit outweighs the added indirection.
+- It is a complete functional object whose internal node structure should be encapsulated from its parent.
+
+Keep a node inline in its owning scene by default when:
+
+- It is a small, tightly coupled logical subsystem used only by that composition root.
+- It is primarily a script-bearing logic node with little or no independently editable child hierarchy.
+- Extracting it would create a scene containing only a root node without meaningful reusable composition, configuration, or editing value.
+- Its dependencies and role are easier to understand as part of the parent system's SceneTree.
+
+A module may be logically independent without being a separate scene. Nodes such as coordinators, schedulers, AI controllers, and managers can remain nodes inside a system scene when that is the clearest representation.
+
+## UI and Editable Presentation
+
+- Prefer editable scene composition for stable node hierarchies, UI layout, visual arrangement, and designer-tunable properties. Create nodes at runtime for genuinely dynamic or repeated content; do not build an entire UI hierarchy in code when an editable scene is more suitable.
+- Give substantial or independently tuned UI modules their own scenes when this creates a useful editing boundary. A complex `CombatHUD` is a good candidate because its layout and panel hierarchy benefit from independent editing.
+- Small labels, containers, spacers, and tightly coupled layout groups do not each need their own scenes. Keep internal layout structure inside the scene that owns the UI module.
+- Choose a root node that matches the module's role: `Node3D` for world-space content, `Control` for UI widgets and screens, and `CanvasLayer` only when a screen-space drawing layer is needed. Do not add a `CanvasLayer` to every UI component.
+
+## Encapsulation and Dependencies
+
+- Encapsulate a scene's internal tree. Expose required dependencies through exported references, initialization methods or parameters, and signals where appropriate.
+- Avoid brittle assumptions about exact parent paths or distant parts of the SceneTree. However, do not restructure working code solely to eliminate every NodePath; preserve simple, stable local relationships when they are appropriate.
+- Keep gameplay truth in its responsible gameplay system. UI and visual scenes present state and emit player intent; they must not become duplicate authorities for gameplay data.
+- Expose likely-to-be-tuned values through the Inspector, exported properties, Resources, or Themes instead of burying adjustment points in scripts.
+
+## Refactoring Existing Scenes
+
+- Apply these principles primarily to new work and scoped changes. Do not broadly refactor existing scenes solely to make them conform.
+- Before extracting a node into a separate scene, state the concrete benefit and verify that the new scene boundary will not obscure the parent system's composition.
+- Prefer extracting complex editable presentation or genuinely reusable/configurable objects before extracting small internal logic nodes.
+- For structure-only tasks, preserve runtime node names, hierarchy paths, signal connections, exported references, initialization order, and visible presentation unless the user explicitly requests a behavior change.
+- If the appropriate scene boundary is ambiguous or extraction may require script changes, inspect the dependencies and ask for clarification or report the trade-off instead of guessing.
+- Keep scene boundaries meaningful. Do not create a scene for every node group, add wrapper scenes only for neatness, or split modules without a concrete benefit. Modularity is for editability, reuse, testing, and clear responsibility—not for maximizing scene count.
+
 ---
 
 # GDScript Comment Style

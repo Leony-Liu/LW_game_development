@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://dmyyjhca6ge40"]
+
+[ext_resource type="Script" uid="uid://dgrylxgehd5bp" path="res://ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd" id="1_hud"]
+
+[node name="CombatHUD" type="Control" unique_id=1223785805 node_paths=PackedStringArray("player_info_label", "enemy_info_container", "future_actions_label", "debug_status_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+player_info_label = NodePath("Margin/Columns/LeftPanel/LeftContent/PlayerInfo")
+enemy_info_container = NodePath("Margin/Columns/RightPanel/RightContent/EnemyInfo")
+future_actions_label = NodePath("Margin/Columns/RightPanel/RightContent/FutureActions")
+debug_status_label = NodePath("Margin/Columns/LeftPanel/LeftContent/DebugStatus")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=405921798]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 420.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Columns" type="HBoxContainer" parent="Margin" unique_id=248271267]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LeftPanel" type="PanelContainer" parent="Margin/Columns" unique_id=1120068210]
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+
+[node name="LeftContent" type="VBoxContainer" parent="Margin/Columns/LeftPanel" unique_id=1919787022]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlayerInfo" type="Label" parent="Margin/Columns/LeftPanel/LeftContent" unique_id=518002305]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "玩家状态
+等待 Battle 初始化"
+
+[node name="Separator" type="HSeparator" parent="Margin/Columns/LeftPanel/LeftContent" unique_id=1395630595]
+layout_mode = 2
+
+[node name="DebugStatus" type="Label" parent="Margin/Columns/LeftPanel/LeftContent" unique_id=396038]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.82, 0.92, 1)
+theme_override_font_sizes/font_size = 16
+text = "调试状态
+玩家输入: 锁定"
+
+[node name="Spacer" type="Control" parent="Margin/Columns" unique_id=1416193409]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="RightPanel" type="PanelContainer" parent="Margin/Columns" unique_id=1962342987]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+
+[node name="RightContent" type="VBoxContainer" parent="Margin/Columns/RightPanel" unique_id=2127905957]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="EnemyInfo" type="VBoxContainer" parent="Margin/Columns/RightPanel/RightContent" unique_id=1219669566]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Placeholder" type="Label" parent="Margin/Columns/RightPanel/RightContent/EnemyInfo" unique_id=839294312]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 16
+text = "敌人状态
+等待 Battle 初始化"
+
+[node name="Separator" type="HSeparator" parent="Margin/Columns/RightPanel/RightContent" unique_id=1267720709]
+layout_mode = 2
+
+[node name="FutureActions" type="Label" parent="Margin/Columns/RightPanel/RightContent" unique_id=574421140]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.93, 0.8, 0.72, 1)
+theme_override_font_sizes/font_size = 16
+text = "未来 100 时间单位 · 敌方行动
+暂无已排期行动"
+autowrap_mode = 2

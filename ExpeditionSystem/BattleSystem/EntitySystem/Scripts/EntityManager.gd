@@ -5,8 +5,6 @@ extends Node
 
 # 视觉效果向上汇报（受击、飘字、UI刷新等）
 signal visual_effect_generated(visual_type: String, data: Dictionary)
-# 卡牌 Buff 请求向上汇报给 BattleManager 路由给 CardManager
-signal card_buff_requested(target_id: String, buff: CardBuff)
 # AI 行动生成信号（敌人决策生成 CombatAction 后层层上报给 BattleManager 转交 Timeline）
 signal enemy_action_generated(action: CombatAction)
 # 某方实体阵亡报告
@@ -20,7 +18,8 @@ var _player_resource_regen_progress: Dictionary = {}
 
 # 校验依赖并连接实体与 EnemyAI 信号。
 func _ready() -> void:
-	_validate_dependencies()
+	if not validate_configuration():
+		return
 	player_entity.visual_requested.connect(_on_entity_visual_requested)
 	player_entity.entity_died.connect(_on_entity_died)
 	enemy_entity.visual_requested.connect(_on_entity_visual_requested)
@@ -29,12 +28,14 @@ func _ready() -> void:
 
 
 # 校验场景保存的必需实体与属性引用。
-func _validate_dependencies() -> void:
-	assert(player_entity != null, "EntityManager: 缺少必需的 player_entity 引用。")
-	assert(enemy_entity != null, "EntityManager: 缺少必需的 enemy_entity 引用。")
-	assert(enemy_ai != null, "EntityManager: 缺少必需的 enemy_ai 引用。")
-	assert(player_entity.attribute_set != null, "EntityManager: player_entity 缺少必需的 attribute_set 引用。")
-	assert(enemy_entity.attribute_set != null, "EntityManager: enemy_entity 缺少必需的 attribute_set 引用。")
+func validate_configuration() -> bool:
+	if player_entity == null or enemy_entity == null or enemy_ai == null:
+		push_error("EntityManager: 缺少必需的 player_entity、enemy_entity 或 enemy_ai 引用。")
+		return false
+	if player_entity.attribute_set == null or enemy_entity.attribute_set == null:
+		push_error("EntityManager: 实体缺少必需的 attribute_set 引用。")
+		return false
+	return true
 
 
 #region 初始化装配
@@ -44,11 +45,7 @@ func can_initialize(player_data: EntityData, enemy_id: int) -> bool:
 	if player_data == null:
 		push_error("EntityManager: 缺少必需的 player_data。")
 		return false
-	if player_entity == null or enemy_entity == null or enemy_ai == null:
-		push_error("EntityManager: 初始化所需节点引用不完整。")
-		return false
-	if player_entity.attribute_set == null or enemy_entity.attribute_set == null:
-		push_error("EntityManager: 初始化所需 AttributeSet 引用不完整。")
+	if not validate_configuration():
 		return false
 
 	var enemy_res: EnemyData = AllEnemyData.get_enemy(enemy_id)
@@ -172,9 +169,7 @@ func execute_action(action: CombatAction) -> void:
 	for buff in action.entity_buffs:
 		target_entity.apply_entity_buff("hp", buff)
 
-	# 3. 转发卡牌 Buff（如果有行动对手牌施加影响，向上抛出给 BattleManager）
-	for card_buff in action.card_buffs:
-		card_buff_requested.emit(action.target_id, card_buff)
+	# 卡牌 Buff 由 BattleManager 单独派发给 CardManager，避免重复结算。
 
 # 根据 ID 检索实体节点
 func _get_entity_by_id(id: String) -> CombatEntity:

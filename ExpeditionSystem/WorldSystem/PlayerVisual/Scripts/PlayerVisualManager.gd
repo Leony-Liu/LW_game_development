@@ -8,8 +8,10 @@ signal encounter_approach_finished(transition_id: int, succeeded: bool)
 @export_group("子节点引用")
 @export var player: PlayerController
 @export var head: HeadController
+# 可选：缺失时只停用行走晃动。
 @export var bob_mount: Node3D
 @export var player_camera: Camera3D
+# 可选：缺失时只停用调试模式。
 @export var debug_free_camera: Camera3D
 
 @export_group("遇敌接近运镜")
@@ -25,18 +27,34 @@ var _active_approach_id: int = -1
 
 # 初始化运动中继并进入探索表现模式。
 func _ready() -> void:
+	if not _validate_required_dependencies():
+		return
 	# 监听 Player 的运动信号
-	if player and player.has_signal("movement_state_changed"):
-		player.movement_state_changed.connect(_on_player_movement_changed)
-	if player and not player.cinematic_approach_finished.is_connected(
+	player.movement_state_changed.connect(_on_player_movement_changed)
+	if not player.cinematic_approach_finished.is_connected(
 		_on_cinematic_approach_finished
 	):
 		player.cinematic_approach_finished.connect(_on_cinematic_approach_finished)
 	change_mode("explore")
 
+
+# 玩家、视角和主相机是所有正式模式的必需依赖。
+func _validate_required_dependencies() -> bool:
+	if not is_instance_valid(player) or not is_instance_valid(head) or not is_instance_valid(player_camera):
+		push_error("PlayerVisualManager: 缺少必需的 player、head 或 player_camera 引用。")
+		return false
+	return true
+
 ## 切换控制、相机与鼠标模式；未知模式会明确失败。
 func change_mode(mode: String) -> bool:
+	if not _validate_required_dependencies():
+		return false
 	var next_mode := mode.to_lower()
+	if next_mode in ["debug", "调试"] and (
+		not is_instance_valid(debug_free_camera) or not debug_free_camera.has_method("set_active")
+	):
+		push_warning("PlayerVisualManager: 未配置可用调试相机，保持当前模式。")
+		return false
 
 	match next_mode:
 		"explore", "探索":
@@ -119,10 +137,8 @@ func cancel_encounter_approach(transition_id: int = -1) -> bool:
 
 # 统一启停探索移动和视角输入。
 func _set_exploration_controls_active(active: bool) -> void:
-	if player and player.has_method("set_active"):
-		player.set_active(active)
-	if head and head.has_method("set_active"):
-		head.set_active(active)
+	player.set_active(active)
+	head.set_active(active)
 
 
 # 切换玩家相机的当前状态。

@@ -82,8 +82,9 @@ func get_player_deck() -> Array[CardInstance]:
 		return player_deck
 
 	# 需要改变卡牌实例构造方式时，修改此处。
+	var card_database: Dictionary = AllCardData.get_cards()
 	for card_id in prototype_card_ids:
-		player_deck.append(CardInstance.new(card_id))
+		player_deck.append(CardInstance.new(card_id, card_database[card_id]))
 	return player_deck
 
 

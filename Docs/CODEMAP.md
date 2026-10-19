@@ -43,7 +43,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | --- | --- | --- | --- |
 | Main scene / Autoloads / input map | `project.godot` | Referenced scene or Autoload script | Main scene is UID-backed; verify both config and scene |
 | Application or Base <-> Expedition flow | `Scripts/GameManager.gd` | `MainMenuSystem/MainMenu.tscn`, `ExpeditionSystem/ExpeditionSystem.tscn` | No Base scene is present; see the `[PLACEHOLDER]` warning below |
-| Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | Startup and presentation readiness are live; result handoff remains incomplete |
+| Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | Startup, presentation readiness, victory confirmation, and defeat restart are implemented; result buttons are in `UISystem/Scripts/ExpeditionResultUI.gd` |
 | Prototype player / deck input | `ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd` | `ExpeditionSystem/BattleSystem/Scripts/EntityData.gd`, `Scripts/RefCounted/CardInstance.gd`, `Scripts/CardData/AllCardData.gd` | Prototype-only input route; persistent player data is separate |
 | Map generation | `ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd` | `Scripts/MapBlueprint.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd`, `Scripts/EnemyData/AllEnemyData.gd` | `generate()` returns `rooms` and `doors` dictionaries |
 | World state / current room / encounter pre-flow | `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/DoorSet.gd` | `WorldManager.mapdata` is the current runtime map container |
@@ -52,7 +52,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Door interaction / room transition detection | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Door.gd` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/DoorSet.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn` | Door signals relay upward to `WorldManager` |
 | Exploration movement / camera | `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd` | `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerController.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/HeadController.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/CameraBobMount.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/DebugFreeCamera.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | Use the `PlayerVisual/` implementation, not the obsolete standalone debug scene |
 | Battle lifecycle | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | `ExpeditionSystem/BattleSystem/BattleSystem.tscn`, `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `start_battle()` is the public start entry; `battle_ended` is the result signal |
-| Prototype combat HUD | `ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd` | `ExpeditionSystem/BattleSystem/BattleSystem.tscn`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd`, `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd` | Read-only, signal-driven text presentation; gameplay truth remains in subsystem owners |
+| Prototype combat HUD | `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` | `ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`, `ExpeditionSystem/BattleSystem/BattleSystem.tscn` | Edit hierarchy/style in HUD scene; `BattleManager._refresh_hud()` supplies values to `CombatHUD.display_state()`; HUD has no gameplay-system references |
 | Timeline / logical time | `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`, `ExpeditionSystem/Scripts/CombatAction.gd` | Owns `current_time`, `action_line`, and advancement state |
 | Enemy AI | `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/EnemyAI.gd` | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`, `Scripts/Resource/Enemy/R_EnemyData.gd`, `Scripts/Resource/Enemy/R_EnemyAction.gd`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | Converts `EnemyAction` resources to `CombatAction` |
 | Entity initialization / action execution | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd` | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/CombatEntity.gd`, `ExpeditionSystem/BattleSystem/Scripts/EntityData.gd`, `ExpeditionSystem/Scripts/CombatAction.gd` | Mediates entities, resources, AI, and action resolution |
@@ -118,6 +118,7 @@ Data / resources:
 Key entry points:
 - `WorldManager.init_map()`
 - `WorldManager.report_encounter()` / `encounter_requested`
+- `report_encounter()` returns notification-dispatched status; acceptance is a separate `resolve_encounter_request()` command
 - `WorldManager.is_encounter_pending()`
 - `WorldManager.world_state_changed`
 - `WorldManager.resolve_encounter_request()`
@@ -233,13 +234,13 @@ Related:
 Key entry points / signals:
 - `EntityManager.initialize()`
 - `EntityManager.can_initialize()`
+- `EntityManager.validate_configuration()`
 - `EntityManager.get_enemy_entities()`
 - `EntityManager.can_player_afford()`
 - `EntityManager.consume_player_resource()`
 - `EntityManager.advance_player_resource_regeneration()`
 - `EntityManager.execute_action()`
 - `enemy_action_generated`
-- `card_buff_requested`
 - `entity_died`
 - `CombatEntity.initialize_from_data()`
 - `CombatEntity.apply_attribute_impact()`
@@ -269,6 +270,7 @@ Data / resources:
 Key entry points / signals:
 - `CardManager.initialize()`
 - `CardManager.can_initialize()`
+- `CardManager.validate_configuration()` / `set_input_locked()`
 - `CardManager.draw_cards()`
 - `CardManager.execute_player_draw_action() -> int`
 - `CardManager.confirm_play_card()`
@@ -280,6 +282,7 @@ Key entry points / signals:
 - `CardLogic.card_played_request`
 - `PlayerHandDeck.card_play_requested`
 - `CardManager.card_play_requested`
+- `CardInstance.new(id, template)` / `from_dictionary(data, template)` require matching `CardData`; the current creator is `PrototypePlayerDataProvider`
 
 ### Static Data / Resources
 
@@ -313,6 +316,11 @@ Key entry points / signals:
 - `load_started` / `load_finished`
 
 ### UI
+
+Combat HUD:
+- `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` (editable layout and four internal control references)
+- `ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd` (`display_state(snapshot)`, no gameplay queries)
+- `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` (collects subsystem updates and produces display values)
 
 Expedition result UI:
 - `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`
@@ -374,7 +382,7 @@ Door.open_door()
 ```text
 Scripts/Resource/Card/R_carddata.gd (CardData)
 -> AllCardData
--> CardInstance
+-> PrototypePlayerDataProvider injects CardData into CardInstance
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard
@@ -415,7 +423,8 @@ SaveManager
 | --- | --- | --- |
 | `MainMenuSystem/MainMenu.tscn` | `MainMenu`; no script | Configured application entry scene |
 | `ExpeditionSystem/ExpeditionSystem.tscn` | Top-level root; no root script | ExpeditionManager, prototype provider, WorldSystem, resident BattleSystem, UISystem assembly |
-| `ExpeditionSystem/BattleSystem/BattleSystem.tscn` | `BattleSystem` / `BattleManager.gd` | Battle subsystem nodes and exported references |
+| `ExpeditionSystem/BattleSystem/BattleSystem.tscn` | `BattleSystem` / `BattleManager.gd` | Battle composition and exported references; `Timeline`, `EnemyAI`, and `EntityManager` remain inline |
+| `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` | `CombatHUD` / `CombatHUD.gd` | Independently editable HUD hierarchy, layout, styles, and internal label references |
 | `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | `PlayerVisual` / `PlayerVisualManager.gd` | Exploration player, head, camera bob, player camera, debug camera |
 | `ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn` | `BattleRoom` / `BattleRoom.gd` | Dynamic room walls, floor, ceiling, enemy visual root |
 | `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn` | `Door` / `Door.gd` | Door body, interaction area, open/close behavior |
@@ -499,6 +508,7 @@ Timeline.action_triggered
 -> EntityManager.execute_action()
 -> CombatEntity
 -> AttributeSet / Attribute
+-> BattleManager dispatches action.card_buffs once to CardManager
 -> Timeline.notify_action_finished(action)
 
 Battle 结束时：
@@ -523,7 +533,7 @@ AllEnemyData / EnemyData
 ```text
 CardData
 -> AllCardData
--> CardInstance
+-> PrototypePlayerDataProvider injects CardData into CardInstance
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard
