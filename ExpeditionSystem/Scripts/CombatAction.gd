@@ -12,6 +12,7 @@ class AttributeImpact extends RefCounted:
 
 # 行动元数据
 var action_name: String = ""
+var action_type: String = ""  # 敌方行动来源类型，供执行时选择可选表现。
 var source_id: String = ""        # 行动发起方 ID（如 "player" 或 "enemy_0"）
 var target_id: String = ""        # 行动目标方 ID
 var is_player: bool = false       # 是否为玩家行动

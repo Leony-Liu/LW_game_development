@@ -3,54 +3,50 @@
 class_name RoomSet
 extends Node3D
 
-const HALF_ROOM_SIZE: float = 5.0
-
 @export_group("场景预制体")
 @export var battle_room_scene: PackedScene
 
 var _room_instances_by_data: Dictionary = {}
 
 
-## 接收完整地图蓝图构建所有房间
-func build_rooms(mapdata: Dictionary) -> void:
+## 接收地图数据；任一必需房间失败时清除本批实例并返回失败。
+func build_rooms(mapdata: Dictionary) -> bool:
 	clear_rooms()
-
-	if not battle_room_scene:
-		push_error("RoomSet: 未绑定 battle_room_scene！")
-		return
-
-	var rooms: Dictionary = mapdata.get("rooms", {})
-	var doors: Dictionary = mapdata.get("doors", {})
-
-	for pos: Vector2 in rooms.keys():
-		var room_data: RoomData = rooms[pos]
-		var room_instance = battle_room_scene.instantiate()
-
-		# 1. 注入纯数值数据
-		if "room_data" in room_instance:
-			room_instance.room_data = room_data
-
-		# 2. 从门字典中计算该房间朝向哪些方向有门洞
-		var open_doors: Array[RoomData.Direction] = []
-		if doors.has(pos + Vector2(0, -HALF_ROOM_SIZE)):
-			open_doors.append(RoomData.Direction.NORTH)
-		if doors.has(pos + Vector2(0, HALF_ROOM_SIZE)):
-			open_doors.append(RoomData.Direction.SOUTH)
-		if doors.has(pos + Vector2(HALF_ROOM_SIZE, 0)):
-			open_doors.append(RoomData.Direction.EAST)
-		if doors.has(pos + Vector2(-HALF_ROOM_SIZE, 0)):
-			open_doors.append(RoomData.Direction.WEST)
-
-		# 3. 将门洞布局直接告知 BattleRoom（不污染 RoomData）
-		if "connected_doors" in room_instance:
-			room_instance.connected_doors = open_doors
-
+	var rooms_value: Variant = mapdata.get("rooms")
+	if not rooms_value is Dictionary or rooms_value.is_empty():
+		push_error("RoomSet ： 房间组装失败：地图缺少有效房间数据。")
+		return false
+	if battle_room_scene == null:
+		push_error("RoomSet ： 房间组装失败：缺少 battle_room_scene。")
+		return false
+	var rooms: Dictionary = rooms_value
+	print("RoomSet ： 开始组装房间，数量：%d。" % rooms.size())
+	for pos in rooms.keys():
+		var room_data: Variant = rooms[pos]
+		if not pos is Vector2 or not room_data is RoomData or room_data.room_position != pos:
+			return _fail_build("房间坐标或 RoomData 无效。")
+		var room_instance := battle_room_scene.instantiate()
+		if not room_instance is BattleRoom:
+			if room_instance != null:
+				room_instance.free()
+			return _fail_build("battle_room_scene 根节点不是 BattleRoom。")
+		room_instance.room_data = room_data
 		add_child(room_instance)
-
-		# 4. 坐标映射至 3D 空间
+		if not room_instance.is_assembled:
+			return _fail_build("房间 %s 的必需结构未完成。" % pos)
+		# 坐标映射至 3D 空间
 		room_instance.position = Vector3(pos.x, 0.0, pos.y)
 		room_instance.name = "Room_%d_%d" % [int(pos.x), int(pos.y)]
 		_room_instances_by_data[room_data] = room_instance
+	print("RoomSet ： 房间组装完成，数量：%d。" % _room_instances_by_data.size())
+	return true
+
+
+# 报告失败并撤下本批全部房间，避免留下半张地图。
+func _fail_build(reason: String) -> bool:
+	push_error("RoomSet ： 房间组装失败：%s" % reason)
+	clear_rooms()
+	return false
 
 
 # 按原 RoomData 身份查找对应的真实房间实例。
@@ -74,4 +70,5 @@ func get_encounter_approach_target(room_data: RoomData) -> Node3D:
 func clear_rooms() -> void:
 	_room_instances_by_data.clear()
 	for child in get_children():
+		remove_child(child)
 		child.queue_free()

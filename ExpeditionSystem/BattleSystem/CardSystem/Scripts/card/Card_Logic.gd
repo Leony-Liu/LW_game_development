@@ -135,12 +135,14 @@ func _on_hover_ended() -> void:
 
 #region 动画触发
 # 上层确认出牌成功后才播放出牌动画。
-func confirm_play() -> void:
+func confirm_play() -> bool:
 	if state != CardState.REQUESTING_PLAY:
-		return
+		return false
 	
+	if not animation.play_card_played():
+		return false
 	state = CardState.EXITING
-	animation.play_card_played()
+	return true
 
 # 上层确认弃牌成功后才播放弃牌动画。
 func confirm_discard() -> void:

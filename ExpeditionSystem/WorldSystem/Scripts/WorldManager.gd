@@ -42,8 +42,9 @@ func _ready() -> void:
 	):
 		player_visual.encounter_approach_finished.connect(_on_encounter_approach_finished)
 
-	# 启动时执行初始化生成
-	init_map(default_blueprint)
+	# 启动时执行初始化生成，失败时保持 INIT。
+	if not init_map(default_blueprint):
+		return
 
 
 # 校验并上报待处理遭遇；返回值只表示已通知，不读取监听者的处理结果。
@@ -110,13 +111,21 @@ func has_valid_encounter_approach(room_data: RoomData, enemy_id: int) -> bool:
 	return target != null and player_visual.can_start_encounter_approach(target)
 
 
-## 生成地图（传入 MapBlueprint 驱动整个生成流水线）
-func init_map(blueprint: MapBlueprint = null) -> void:
+## 生成并装配地图；只有全部必需阶段成功后才进入探索。
+func init_map(blueprint: MapBlueprint = null) -> bool:
+	print("WorldManager ： 地图初始化开始。")
 	current_state = WorldState.INIT
+	mapdata = {}
+	current_room_coords = Vector2.ZERO
+	_pending_encounter_room = null
+	_preparation_transition_id += 1
+	_preparation_room = null
+	_preparation_target = null
 
-	if not world_generator or not room_set or not door_set:
-		push_error("[WorldManager] 缺少生成器或 Set 节点引用！")
-		return
+	if not is_instance_valid(world_generator) or not is_instance_valid(room_set) or not is_instance_valid(door_set) or not is_instance_valid(player_visual):
+		return _abort_map_initialization("缺少必需的生成器、RoomSet、DoorSet 或 PlayerVisualManager。")
+	room_set.clear_rooms()
+	door_set.clear_doors()
 
 	# 蓝图优先级判定：传参 > 检查器绑定的默认资源 > 纯代码新实例兜底
 	var target_blueprint: MapBlueprint = blueprint
@@ -124,15 +133,44 @@ func init_map(blueprint: MapBlueprint = null) -> void:
 		target_blueprint = default_blueprint if default_blueprint else MapBlueprint.new()
 
 	# 1. 驱动算法生成地图蓝本数据
-	mapdata = world_generator.generate(target_blueprint)
+	var generated_map := world_generator.generate(target_blueprint)
+	var rooms_value: Variant = generated_map.get("rooms")
+	var doors_value: Variant = generated_map.get("doors")
+	if not rooms_value is Dictionary or not doors_value is Dictionary:
+		return _abort_map_initialization("地图生成结果缺少 rooms 或 doors 字典。")
+	var rooms: Dictionary = rooms_value
+	var doors: Dictionary = doors_value
+	if rooms.is_empty() or not rooms.get(Vector2.ZERO) is RoomData:
+		return _abort_map_initialization("地图生成结果缺少初始房间。")
+	print("WorldManager ： 地图数据生成完成，房间：%d，门：%d。" % [rooms.size(), doors.size()])
 
 	# 2. 分发数据给两个 Set 节点进行实体装配
-	room_set.build_rooms(mapdata)
-	door_set.build_doors(mapdata)
+	if not room_set.build_rooms(generated_map):
+		return _abort_map_initialization("房间组装失败。")
+	if not door_set.build_doors(generated_map):
+		return _abort_map_initialization("门组装失败。")
 
 	# 3. 设置初始房间与状态
+	mapdata = generated_map
+	if not enter_explore_mode():
+		return _abort_map_initialization("探索表现状态切换失败。")
+	print("WorldManager ： 地图初始化完成，已进入 EXPLORE。")
+	return true
+
+
+# 装配失败时撤下本次实例并保留 INIT，供调用者读取失败结果。
+func _abort_map_initialization(reason: String) -> bool:
+	if is_instance_valid(room_set):
+		room_set.clear_rooms()
+	if is_instance_valid(door_set):
+		door_set.clear_doors()
+	if is_instance_valid(player_visual):
+		player_visual.suspend_after_world_initialization_failure()
+	mapdata = {}
 	current_room_coords = Vector2.ZERO
-	enter_explore_mode()
+	current_state = WorldState.INIT
+	push_error("WorldManager ： 地图初始化中止：%s" % reason)
+	return false
 
 
 ## 世界阶段切换
@@ -262,6 +300,54 @@ func finish_battle() -> bool:
 		return false
 	print("[WorldManager] 战斗胜利！")
 	return true
+
+
+# 将已执行的敌方攻击交给当前房间的模型表现节点。
+func show_enemy_attack_feedback(source_id: String, on_completed: Callable = Callable()) -> bool:
+	var visual := _get_current_enemy_visual(source_id)
+	if visual != null and is_instance_valid(player_visual) and is_instance_valid(player_visual.player):
+		return visual.play_attack_lunge(player_visual.player.global_position, on_completed)
+	return false
+
+
+# 仅在实际敌方扣血后调用房间模型的受击接口。
+func show_enemy_hit_feedback(target_id: String, on_completed: Callable = Callable()) -> bool:
+	var visual := _get_current_enemy_visual(target_id)
+	if visual != null:
+		return visual.play_hit_reaction(on_completed)
+	return false
+
+
+# 玩家受伤表现由 PlayerVisualManager 持有相机与覆盖层。
+func show_player_damage_feedback(on_completed: Callable = Callable()) -> bool:
+	if is_instance_valid(player_visual) and current_state == WorldState.BATTLE:
+		return player_visual.show_damage_feedback(on_completed)
+	return false
+
+
+# 取消本房间与玩家在途的战斗占位效果，不修改战斗实体。
+func cancel_combat_feedback() -> void:
+	if is_instance_valid(player_visual):
+		player_visual.cancel_damage_feedback()
+	if room_set == null:
+		return
+	var room_data: RoomData = mapdata.get("rooms", {}).get(current_room_coords)
+	var room_instance := room_set.get_room_instance(room_data)
+	if room_instance != null:
+		var visual := room_instance.get_enemy_visual()
+		if visual != null:
+			visual.cancel_feedback()
+
+
+# 根据当前 RoomData 和敌人 ID 定位其可选视觉模型。
+func _get_current_enemy_visual(entity_id: String) -> EnemyVisual:
+	if current_state != WorldState.BATTLE or room_set == null:
+		return null
+	var room_data: RoomData = mapdata.get("rooms", {}).get(current_room_coords)
+	if room_data == null or not room_data.has_enemies or entity_id != "enemy_%d" % room_data.enemy_id:
+		return null
+	var room_instance := room_set.get_room_instance(room_data)
+	return room_instance.get_enemy_visual() if room_instance != null else null
 
 
 # 入门判断

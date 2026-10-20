@@ -13,6 +13,7 @@ signal deck_initialized(deck_size: int)
 signal card_drawn(runtime_card: RuntimeCard)
 signal card_play_requested(runtime_card: RuntimeCard)
 signal card_played(runtime_card: RuntimeCard)
+signal card_play_presentation_completed(runtime_card: RuntimeCard)
 signal card_discarded(runtime_card: RuntimeCard)
 signal discard_shuffled_into_draw(shuffled_amount: int)
 signal hand_pile_cleared()
@@ -27,6 +28,7 @@ func _ready() -> void:
 	if not validate_configuration():
 		return
 	player_hand_deck.card_play_requested.connect(_on_hand_deck_card_play_requested)
+	player_hand_deck.card_play_exit_finished.connect(_on_card_play_exit_finished)
 	player_hand_deck.card_discard_requested.connect(discard_card)
 
 
@@ -150,17 +152,19 @@ func _on_hand_deck_card_play_requested(runtime_card: RuntimeCard) -> void:
 		return
 	card_play_requested.emit(runtime_card)
 
-func confirm_play_card(runtime_card: RuntimeCard) -> void:
+func confirm_play_card(runtime_card: RuntimeCard) -> bool:
 	var current_index = hand_pile.find(runtime_card)
 	if current_index == -1: 
-		return
+		return false
 
 	# 1. 从手牌移除并向外汇报
 	hand_pile.remove_at(current_index)
 	card_played.emit(runtime_card)
 
 	# 2. 通知手牌节点触发 CardLogic 的飞出动画（新增）
-	player_hand_deck.confirm_play(runtime_card)
+	var presentation_started := player_hand_deck.confirm_play(runtime_card)
+	if not presentation_started:
+		push_warning("CardManager ： Card %d play visual did not start; action continues without a presentation wait" % runtime_card.card_id)
 
 	# 3. 消耗卡牌上绑定的“出牌计数类”Buff（新增）
 	runtime_card.consume_action_event()
@@ -168,6 +172,12 @@ func confirm_play_card(runtime_card: RuntimeCard) -> void:
 	# 4. 压入弃牌堆（原逻辑保留）
 	discard_pile.append(runtime_card)
 	card_discarded.emit(runtime_card)
+	return presentation_started
+
+
+# 手牌子场景报告已确认出牌的离场表现完成。
+func _on_card_play_exit_finished(runtime_card: RuntimeCard) -> void:
+	card_play_presentation_completed.emit(runtime_card)
 
 func cancel_play_card(runtime_card: RuntimeCard) -> void:
 	# 通知手牌节点触发 CardLogic 的飘红与回弹动画

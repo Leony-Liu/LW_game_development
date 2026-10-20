@@ -9,6 +9,7 @@ signal visual_effect_generated(visual_type: String, data: Dictionary)
 signal enemy_action_generated(action: CombatAction)
 # 某方实体阵亡报告
 signal entity_died(entity: CombatEntity)
+signal health_damage_applied(target_id: String, source_id: String, amount: float)
 
 @export var player_entity: CombatEntity
 @export var enemy_entity: CombatEntity
@@ -56,6 +57,12 @@ func can_initialize(player_data: EntityData, enemy_id: int) -> bool:
 		if action == null:
 			push_error("EntityManager: 敌人 %d 的 action_pool 包含空行动。" % enemy_id)
 			return false
+		if action.time_cost <= 0 or action.cooldown < 0:
+			push_error("EntityManager ： Enemy %d has an action with invalid time or cooldown" % enemy_id)
+			return false
+	if enemy_res.action_pool.is_empty():
+		push_error("EntityManager ： Enemy %d has no schedulable actions" % enemy_id)
+		return false
 	return true
 
 
@@ -79,8 +86,17 @@ func initialize(player_data: EntityData, enemy_id: int) -> bool:
 
 	# 3. 激活敌人 AI 并下发行动池，规划首轮行动
 	enemy_ai.setup_ai(enemy_res.action_pool, enemy_entity.entity_id)
-	enemy_ai.plan_initial_actions()
-	return true
+	return enemy_ai.plan_initial_actions()
+
+
+# 仅在当前敌人仍存活时请求下一次行动，规划结果交给 BattleManager 检查。
+func plan_next_enemy_action(current_timeline_time: int, source_id: String) -> bool:
+	if enemy_entity == null or enemy_entity.entity_id != source_id:
+		return false
+	var hp := enemy_entity.attribute_set.get_attribute("hp")
+	if hp == null or hp.get_value() <= 0.0:
+		return false
+	return enemy_ai.plan_next_action(current_timeline_time)
 
 #endregion
 
@@ -163,7 +179,12 @@ func execute_action(action: CombatAction) -> void:
 
 	# 1. 执行对实体属性的直接数值变更（如 HP 扣减、Shield 累加）
 	for impact in action.attribute_impacts:
+		var previous_hp: float = target_entity.attribute_set.get_value("hp") if impact.attribute_name == "hp" else 0.0
 		target_entity.apply_attribute_impact(impact)
+		if impact.attribute_name == "hp":
+			var actual_damage: float = previous_hp - target_entity.attribute_set.get_value("hp")
+			if actual_damage > 0.0:
+				health_damage_applied.emit(target_entity.entity_id, action.source_id, actual_damage)
 
 	# 2. 挂载状态 Buff（实体 AttributeBuff）
 	for buff in action.entity_buffs:

@@ -25,6 +25,10 @@ func _ready() -> void:
 	if not world_manager.world_state_changed.is_connected(_on_world_state_changed):
 		world_manager.world_state_changed.connect(_on_world_state_changed)
 	battle_manager.battle_ended.connect(_on_battle_ended)
+	battle_manager.enemy_attack_started.connect(_on_enemy_attack_started)
+	battle_manager.health_damage_applied.connect(_on_health_damage_applied)
+	battle_manager.action_presentation_cancelled.connect(_on_action_presentation_cancelled)
+	battle_manager.battle_started.connect(_on_battle_started)
 	result_ui.victory_confirmed.connect(_on_victory_confirmed)
 	result_ui.restart_requested.connect(_on_restart_requested)
 	battle_manager.set_presentation_ready(false)
@@ -116,6 +120,41 @@ func _on_world_state_changed(_previous_state: int, current_state: int) -> void:
 func _on_battle_ended(is_player_victory: bool) -> void:
 	_result_pending = true
 	result_ui.show_result(is_player_victory)
+
+
+# 战斗发出执行事件，World 决定当前房间是否有可用模型。
+func _on_enemy_attack_started(source_id: String, execution_id: int, effect_id: int) -> void:
+	var completion := _on_presentation_effect_completed.bind(execution_id, effect_id)
+	if not world_manager.show_enemy_attack_feedback(source_id, completion):
+		_on_presentation_effect_completed(execution_id, effect_id)
+
+
+# 只将实际生命损失映射为对应阵营的表现请求。
+func _on_health_damage_applied(target_id: String, source_id: String, _amount: float, execution_id: int, effect_id: int) -> void:
+	var completion := _on_presentation_effect_completed.bind(execution_id, effect_id)
+	if target_id == "player":
+		if world_manager.show_player_damage_feedback(completion):
+			return
+	elif source_id == "player":
+		if world_manager.show_enemy_hit_feedback(target_id, completion):
+			return
+	_on_presentation_effect_completed(execution_id, effect_id)
+
+
+# 仅将当前效果的完成凭据归还给 BattleManager。
+func _on_presentation_effect_completed(execution_id: int, effect_id: int) -> void:
+	if effect_id > 0:
+		battle_manager.notify_visual_completed(execution_id, effect_id)
+
+
+# 已取消行动的模型与镜头效果不应延续至下一次执行。
+func _on_action_presentation_cancelled(_execution_id: int) -> void:
+	world_manager.cancel_combat_feedback()
+
+
+# 复用 BattleSystem 时清除上场结算后仍在播放的占位效果。
+func _on_battle_started() -> void:
+	world_manager.cancel_combat_feedback()
 
 
 # 胜利确认后通过 World API 清敌并恢复探索。

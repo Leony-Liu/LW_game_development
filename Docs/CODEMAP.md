@@ -51,6 +51,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Room assembly | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/RoomSet.gd` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/BattleRoom.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn` | Builds room instances from `mapdata` |
 | Door interaction / room transition detection | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Door.gd` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/DoorSet.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn` | Door signals relay upward to `WorldManager` |
 | Exploration movement / camera | `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd` | `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerController.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/HeadController.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/CameraBobMount.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/DebugFreeCamera.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | Use the `PlayerVisual/` implementation, not the obsolete standalone debug scene |
+| Combat feedback / action completion | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | `ExpeditionSystem/Scripts/ExpeditionManager.gd`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/PlayerHandDeck.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerDamageFeedback.gd` | Battle tracks card exit and combat effect receipts before Timeline releases the next action |
 | Battle lifecycle | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | `ExpeditionSystem/BattleSystem/BattleSystem.tscn`, `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`, `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `start_battle()` is the public start entry; `battle_ended` is the result signal |
 | Prototype combat HUD | `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` | `ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`, `ExpeditionSystem/BattleSystem/BattleSystem.tscn` | Edit hierarchy/style in HUD scene; `BattleManager._refresh_hud()` supplies values to `CombatHUD.display_state()`; HUD has no gameplay-system references |
 | Timeline / logical time | `ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`, `ExpeditionSystem/Scripts/CombatAction.gd` | Owns `current_time`, `action_line`, and advancement state |
@@ -162,6 +163,7 @@ Related:
 - `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/HeadController.gd`
 - `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/CameraBobMount.gd`
 - `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/DebugFreeCamera.gd`
+- `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerDamageFeedback.gd`
 
 Key entry points / signals:
 - `PlayerVisualManager.change_mode()`
@@ -188,11 +190,13 @@ Key entry points / signals:
 - `BattleManager.set_presentation_ready()`
 - `BattleManager.is_battle_input_locked()`
 - `BattleManager.request_draw_to_full()` / `request_advance_time()`
-- `BattleManager.notify_visual_completed()`
+- `BattleManager.notify_visual_completed(execution_id, effect_id)`
 - `battle_started`
 - `battle_ended(is_player_victory)`
 - `input_lock_changed(is_locked)`
 - `visual_effect_requested(visual_type, data)`
+- `enemy_attack_started(source_id, execution_id, effect_id)` / `health_damage_applied(..., execution_id, effect_id)`
+- `action_presentation_cancelled(execution_id)`
 
 ### Timeline / Enemy AI
 
@@ -209,6 +213,7 @@ Key entry points / signals:
 - `Timeline.receive_card()`
 - `Timeline.advance_timeline_to()`
 - `Timeline.notify_action_finished(action)`
+- `Timeline.reset_for_battle()`
 - `Timeline.cancel_advancement()`
 - `Timeline.has_pending_action()`
 - `Timeline.get_scheduled_enemy_action_snapshots()`
@@ -233,6 +238,7 @@ Related:
 
 Key entry points / signals:
 - `EntityManager.initialize()`
+- `EntityManager.plan_next_enemy_action()`
 - `EntityManager.can_initialize()`
 - `EntityManager.validate_configuration()`
 - `EntityManager.get_enemy_entities()`
@@ -273,7 +279,8 @@ Key entry points / signals:
 - `CardManager.validate_configuration()` / `set_input_locked()`
 - `CardManager.draw_cards()`
 - `CardManager.execute_player_draw_action() -> int`
-- `CardManager.confirm_play_card()`
+- `CardManager.confirm_play_card() -> bool` (whether the card exit visual started)
+- `PlayerHandDeck.card_play_exit_finished` / `CardManager.card_play_presentation_completed`
 - `CardManager.discard_card()`
 - `CardManager.advance_hand_buffs_time()`
 - `RuntimeCard.create_action()`
@@ -321,6 +328,11 @@ Combat HUD:
 - `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` (editable layout and four internal control references)
 - `ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd` (`display_state(snapshot)`, no gameplay queries)
 - `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` (collects subsystem updates and produces display values)
+
+Combat feedback:
+- `ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn` and `EnemyVisual.gd` (enemy model lunge and hit reaction)
+- `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` and `Scripts/PlayerDamageFeedback.gd` (camera shake pivot and damage overlay)
+- `ExpeditionSystem/Scripts/ExpeditionManager.gd` (Battle event to World presentation routing)
 
 Expedition result UI:
 - `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`
@@ -425,7 +437,8 @@ SaveManager
 | `ExpeditionSystem/ExpeditionSystem.tscn` | Top-level root; no root script | ExpeditionManager, prototype provider, WorldSystem, resident BattleSystem, UISystem assembly |
 | `ExpeditionSystem/BattleSystem/BattleSystem.tscn` | `BattleSystem` / `BattleManager.gd` | Battle composition and exported references; `Timeline`, `EnemyAI`, and `EntityManager` remain inline |
 | `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` | `CombatHUD` / `CombatHUD.gd` | Independently editable HUD hierarchy, layout, styles, and internal label references |
-| `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | `PlayerVisual` / `PlayerVisualManager.gd` | Exploration player, head, camera bob, player camera, debug camera |
+| `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | `PlayerVisual` / `PlayerVisualManager.gd` | Exploration player, head, camera bob, damage shake pivot, player camera, damage overlay, debug camera |
+| `ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn` | `EnemyVisual` / `EnemyVisual.gd` | Replaceable model-only lunge and hit reaction |
 | `ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn` | `BattleRoom` / `BattleRoom.gd` | Dynamic room walls, floor, ceiling, enemy visual root |
 | `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn` | `Door` / `Door.gd` | Door body, interaction area, open/close behavior |
 | `ExpeditionSystem/BattleSystem/CardSystem/CardSystem.tscn` | `CardSystem` / `CardManager.gd` | Card-system UI root and PlayerHandDeck binding |
@@ -505,10 +518,15 @@ Card.tscn / Card_Interaction.gd
 ```text
 Timeline.action_triggered
 -> BattleManager._on_timeline_action_triggered()
+-> register any in-flight confirmed card exit for this player action
 -> EntityManager.execute_action()
 -> CombatEntity
 -> AttributeSet / Attribute
 -> BattleManager dispatches action.card_buffs once to CardManager
+-> ExpeditionManager -> WorldManager -> EnemyVisual / PlayerDamageFeedback
+-> card exit or removal -> PlayerHandDeck -> CardManager -> BattleManager
+-> combat Tween finished or canceled -> ExpeditionManager -> BattleManager.notify_visual_completed(execution_id, effect_id)
+-> BattleManager waits for all receipts from this action
 -> Timeline.notify_action_finished(action)
 
 Battle 结束时：
@@ -526,6 +544,17 @@ AllEnemyData / EnemyData
 -> EntityManager.enemy_action_generated
 -> BattleManager
 -> Timeline.add_action()
+
+Timeline.action_triggered (enemy action)
+-> BattleManager._on_timeline_action_triggered()
+-> EntityManager.execute_action()
+-> action presentation receipts completed
+-> EntityManager.plan_next_enemy_action()
+-> EnemyAI.plan_next_action()
+-> EnemyAI.action_planned
+-> EntityManager.enemy_action_generated
+-> BattleManager -> Timeline.add_action()
+-> Timeline.notify_action_finished()
 ```
 
 ### Card data to battle action

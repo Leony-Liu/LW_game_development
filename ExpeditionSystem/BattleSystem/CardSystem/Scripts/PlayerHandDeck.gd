@@ -10,9 +10,12 @@ class_name PlayerHandDeck
 signal card_play_requested(runtime_card: RuntimeCard)
 # 将弃牌请求向上汇报
 signal card_discard_requested(runtime_card: RuntimeCard)
+# 已确认出牌的卡牌视觉离场或被移除时回报完成。
+signal card_play_exit_finished(runtime_card: RuntimeCard)
 
 # 记录当前系统是否锁定了手牌交互
 var is_input_locked: bool = false
+var _playing_cards: Array[RuntimeCard] = []
 
 # 实例化 Card 并直接交给 HBoxContainer 自动排版。
 func add_card_to_hand(runtime_card: RuntimeCard) -> CardLogic:
@@ -31,6 +34,7 @@ func add_card_to_hand(runtime_card: RuntimeCard) -> CardLogic:
 	card_ui.card_played_request.connect(_on_card_played_request)
 	card_ui.card_discarded_request.connect(_on_card_discarded_request)
 	card_ui.exit_finished.connect(_on_card_exit_finished)
+	card_ui.tree_exiting.connect(_on_card_exiting.bind(runtime_card))
 	
 	card_ui.setup(runtime_card)
 	
@@ -67,12 +71,15 @@ func _on_card_discarded_request(runtime_card: RuntimeCard) -> void:
 
 #region 向下调用
 # 上层确认出牌成功后找到对应 Card 并开始出牌动画。
-func confirm_play(runtime_card: RuntimeCard) -> void:
+func confirm_play(runtime_card: RuntimeCard) -> bool:
 	var card_ui := _find_card(runtime_card)
 	if not card_ui:
-		return
+		return false
 	
-	card_ui.confirm_play()
+	if not card_ui.confirm_play():
+		return false
+	_playing_cards.append(runtime_card)
+	return true
 
 # 上层确认弃牌成功后找到对应 Card 并开始弃牌动画。
 func confirm_discard(runtime_card: RuntimeCard) -> void:
@@ -90,14 +97,29 @@ func reject_action(runtime_card: RuntimeCard) -> void:
 		return
 	
 	card_ui.reject_action()
+	_finish_card_play_exit(runtime_card)
 
 # 离场动画完成后由手牌容器负责删除自己的子节点。
 func _on_card_exit_finished(runtime_card: RuntimeCard) -> void:
+	_finish_card_play_exit(runtime_card)
 	var card_ui := _find_card(runtime_card)
 	if not card_ui:
 		return
 	
 	card_ui.queue_free()
+
+
+# 卡牌被提前移除时也结束相应的离场等待。
+func _on_card_exiting(runtime_card: RuntimeCard) -> void:
+	_finish_card_play_exit(runtime_card)
+
+
+# 只为已确认出牌的卡牌发一次完成事件。
+func _finish_card_play_exit(runtime_card: RuntimeCard) -> void:
+	if not _playing_cards.has(runtime_card):
+		return
+	_playing_cards.erase(runtime_card)
+	card_play_exit_finished.emit(runtime_card)
 
 # 根据 RuntimeCard 引用寻找对应的 CardLogic。
 func _find_card(runtime_card: RuntimeCard) -> CardLogic:

@@ -28,11 +28,29 @@ var _advancement_cancelled: bool = false
 
 #region 接收输入与排期
 
-# 添加外部已打包好的行动并重新排序
-func add_action(action: CombatAction) -> void:
+# 添加有效行动并返回排期结果，避免调用方误认失败为成功。
+func add_action(action: CombatAction) -> bool:
+	if action == null or action.trigger_time < current_time or action_line.has(action) or action == _pending_action:
+		push_error("Timeline ： Failed to schedule action: invalid, expired, or duplicate action")
+		return false
+	if not action.is_player and (action.source_id.is_empty() or action.trigger_time <= current_time):
+		push_error("Timeline ： Failed to schedule enemy action: invalid source or execution time")
+		return false
 	action_line.append(action)
 	action_line.sort_custom(_sort_actions)
 	timeline_data_updated.emit(current_time, action_line.duplicate())
+	return true
+
+# 新战斗复用时间轴时清除上一场的逻辑时间与取消状态。
+func reset_for_battle() -> bool:
+	if is_advancing or _pending_action != null:
+		push_error("Timeline ： Cannot reset while an action is advancing")
+		return false
+	current_time = 0
+	action_line.clear()
+	_advancement_cancelled = false
+	timeline_data_updated.emit(current_time, action_line.duplicate())
+	return true
 
 # 接收玩家打出的卡牌，转换为 CombatAction、压入时间轴并驱动时间推进
 func receive_card(runtime_card: RuntimeCard, source_id: String = "player", target_id: String = "enemy") -> void:
@@ -91,6 +109,9 @@ func advance_timeline_to(target_time: int) -> void:
 		action_triggered.emit(next_action)
 		if _pending_action == next_action and not _advancement_cancelled:
 			await _action_completed_step
+		# 放行后的下一个已排期行动从下一帧开始，避免同帧连发。
+		if not _advancement_cancelled and not action_line.is_empty() and action_line[0].trigger_time <= target_time:
+			await get_tree().process_frame
 
 	_pending_action = null
 	pending_action_changed.emit(false)
@@ -126,6 +147,11 @@ func cancel_advancement() -> void:
 # 返回当前是否有行动等待 BattleManager 确认。
 func has_pending_action() -> bool:
 	return _pending_action != null
+
+
+# 供结算协调器核对异步等待后的行动仍是当前待确认对象。
+func is_pending_action(action: CombatAction) -> bool:
+	return action != null and action == _pending_action
 
 
 # 返回未来窗口内已排期敌方行动的只读快照，不暴露可变行动对象。

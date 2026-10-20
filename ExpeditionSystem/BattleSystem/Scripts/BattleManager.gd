@@ -15,25 +15,41 @@ enum BattleResult { NONE, VICTORY, DEFEAT }
 @export var battle_ui: CanvasLayer
 @export var combat_hud: CombatHUD # 必需：只接收显示快照。
 @export var battle_save_module: Node # 可选：挂载 BattleSaveModules
-@export var wait_for_combat_presentation: bool = false
+
+@export_category("Combat Timing")
+@export_range(0.0, 1.0, 0.01) var action_transition_delay: float = 0.1
 
 #region 外部与中介通信信号
 signal battle_started
 signal battle_ended(is_player_victory: bool)
 signal input_lock_changed(is_locked: bool)
 signal visual_effect_requested(visual_type: String, data: Dictionary)
+signal enemy_attack_started(source_id: String, execution_id: int, effect_id: int)
+signal health_damage_applied(target_id: String, source_id: String, amount: float, execution_id: int, effect_id: int)
+signal action_presentation_cancelled(execution_id: int)
 #endregion
 
 # 内部状态
 var is_battle_active: bool = false
 var battle_result: BattleResult = BattleResult.NONE
 var _is_starting_battle: bool = false
-var _is_waiting_for_visual: bool = false
 var _internal_input_locked: bool = true
 var _presentation_input_ready: bool = false
 var _effective_input_locked: bool = false
 var _dependencies_ready: bool = false
 var _hud_refresh_queued: bool = false
+var _enemy_action_schedule_succeeded: bool = false
+var _last_replenished_enemy_action: CombatAction = null
+var _next_execution_id: int = 0
+var _active_execution_id: int = 0
+var _active_action: CombatAction = null
+var _transition_wait_execution_id: int = 0
+var _next_effect_id: int = 0
+var _pending_presentation_effects: Dictionary = {}
+var _presentation_dispatch_open: bool = false
+var _pending_card_exit: RuntimeCard = null
+var _card_exit_execution_id: int = 0
+var _card_exit_effect_id: int = 0
 
 
 # 连接各个子系统的中介信号
@@ -78,16 +94,19 @@ func _validate_dependencies() -> bool:
 func _setup_connections() -> void:
 	# 1. 监听 CardManager 信号
 	card_manager.card_play_requested.connect(_on_card_play_requested)
+	card_manager.card_play_presentation_completed.connect(_on_card_play_presentation_completed)
 
 	# 2. 监听 Timeline 信号
 	timeline.action_triggered.connect(_on_timeline_action_triggered)
 	timeline.time_advanced.connect(_on_timeline_time_advanced)
 	timeline.timeline_advancement_finished.connect(_on_timeline_advancement_finished)
+	timeline.pending_action_changed.connect(_on_timeline_pending_action_changed)
 
 	# 3. 监听 EntityManager 信号
 	entity_manager.enemy_action_generated.connect(_on_enemy_action_generated)
 	entity_manager.visual_effect_generated.connect(_on_visual_effect_generated)
 	entity_manager.entity_died.connect(_on_entity_died)
+	entity_manager.health_damage_applied.connect(_on_health_damage_applied)
 
 
 #region 战斗生命周期与初始化
@@ -129,7 +148,14 @@ func start_battle(
 	print("[BattleManager] 战斗初始化启动...")
 
 	# 所有可恢复校验已通过，再按实体、卡牌顺序写入状态。
-	if not entity_manager.initialize(external_player_data, enemy_id):
+	if not timeline.reset_for_battle():
+		_secure_failed_startup_state()
+		return false
+	_clear_action_presentation()
+	_reset_card_exit_tracking()
+	_enemy_action_schedule_succeeded = false
+	_last_replenished_enemy_action = null
+	if not entity_manager.initialize(external_player_data, enemy_id) or not _enemy_action_schedule_succeeded:
 		push_error("BattleManager: EntityManager 初始化失败。")
 		_secure_failed_startup_state()
 		return false
@@ -204,6 +230,10 @@ func _validate_startup_inputs(
 
 # 将失败后的 Battle 保持为未激活、隐藏且锁定状态。
 func _secure_failed_startup_state() -> void:
+	_clear_action_presentation(true)
+	_reset_card_exit_tracking()
+	if timeline != null:
+		timeline.cancel_advancement()
 	_is_starting_battle = false
 	is_battle_active = false
 	battle_result = BattleResult.NONE
@@ -274,10 +304,26 @@ func _on_card_play_requested(runtime_card: RuntimeCard) -> void:
 	# 2. 仲裁通过：扣除资源并让手牌确认离手进弃牌堆
 	_set_internal_input_locked(true)
 	entity_manager.consume_player_resource(cost, "stamina")
-	card_manager.confirm_play_card(runtime_card)
+	var card_exit_started := card_manager.confirm_play_card(runtime_card)
+	_pending_card_exit = runtime_card if card_exit_started else null
+	_card_exit_execution_id = 0
+	_card_exit_effect_id = 0
 
 	# 3. 将 RuntimeCard 提交给 Timeline，转换并启动时间推进
 	timeline.receive_card(runtime_card, "player", "enemy")
+
+
+# 已确认出牌的离场完成；若其行动已经开始，归还对应凭据。
+func _on_card_play_presentation_completed(runtime_card: RuntimeCard) -> void:
+	if runtime_card != _pending_card_exit:
+		return
+	_pending_card_exit = null
+	var execution_id := _card_exit_execution_id
+	var effect_id := _card_exit_effect_id
+	_card_exit_execution_id = 0
+	_card_exit_effect_id = 0
+	if effect_id > 0:
+		notify_visual_completed(execution_id, effect_id)
 
 #endregion
 
@@ -364,6 +410,21 @@ func _get_entity_display_data(entity: CombatEntity) -> Dictionary:
 
 # 时间轴推进经过特定刻度，触发需要生效的 CombatAction
 func _on_timeline_action_triggered(action: CombatAction) -> void:
+	if not is_battle_active or action == null or not timeline.is_pending_action(action):
+		return
+	_next_execution_id += 1
+	_active_execution_id = _next_execution_id
+	_active_action = action
+	_transition_wait_execution_id = 0
+	_next_effect_id = 0
+	_pending_presentation_effects.clear()
+	_presentation_dispatch_open = true
+	if action.is_player and _pending_card_exit != null:
+		_card_exit_execution_id = _active_execution_id
+		_card_exit_effect_id = _register_presentation_effect()
+	if not action.is_player and action.action_type == "attack":
+		var effect_id := _register_presentation_effect() if enemy_attack_started.has_connections() else 0
+		enemy_attack_started.emit(action.source_id, _active_execution_id, effect_id)
 	# 1. 实体数值结算：交由 EntityManager 结算护盾、生命等属性冲击与实体 Buff
 	entity_manager.execute_action(action)
 
@@ -371,13 +432,115 @@ func _on_timeline_action_triggered(action: CombatAction) -> void:
 	for card_buff in action.card_buffs:
 		card_manager.apply_buff_to_all_hand_cards(card_buff)
 
-	# 3. 未来表现控制器启用等待后，由 notify_visual_completed() 恢复。
-	if _is_waiting_for_visual:
-		await _wait_for_visual_complete()
+	# 派发窗口关闭后，只有全部实际启动的表现均完成才确认原行动。
+	_presentation_dispatch_open = false
+	_try_finish_action_presentation()
 
-	# 4. 携带原行动确认，重复或过期确认不会唤醒其他行动。
-	if is_battle_active:
-		timeline.notify_action_finished(action)
+
+# 为本次行动登记一个视觉完成凭据；同步失败也须归还该凭据。
+func _register_presentation_effect() -> int:
+	if not _presentation_dispatch_open or not is_battle_active or _active_action == null:
+		return 0
+	_next_effect_id += 1
+	_pending_presentation_effects[_next_effect_id] = true
+	return _next_effect_id
+
+
+# 只接受当前行动尚未完成的效果，旧回调无法放行新行动。
+func notify_visual_completed(execution_id: int, effect_id: int) -> bool:
+	if execution_id <= 0 or execution_id != _active_execution_id:
+		return false
+	if not _pending_presentation_effects.has(effect_id):
+		return false
+	_pending_presentation_effects.erase(effect_id)
+	_try_finish_action_presentation()
+	return true
+
+
+# 全部表现结束后等待可配置间隙，再补充敌方排期并释放 Timeline 门闩。
+func _try_finish_action_presentation() -> void:
+	if _presentation_dispatch_open or not _pending_presentation_effects.is_empty():
+		return
+	var action := _active_action
+	if action == null:
+		return
+	if not _is_action_presentation_current(action, _active_execution_id):
+		_clear_action_presentation(true)
+		return
+	if action_transition_delay > 0.0:
+		var execution_id := _active_execution_id
+		if _transition_wait_execution_id == execution_id:
+			return
+		_transition_wait_execution_id = execution_id
+		_wait_for_action_transition_delay(action, execution_id)
+		return
+	_complete_action_presentation(action, _active_execution_id)
+
+
+# 等待期间用执行身份令牌隔离已取消或已替换的行动。
+func _wait_for_action_transition_delay(action: CombatAction, execution_id: int) -> void:
+	await get_tree().create_timer(action_transition_delay, false).timeout
+	if _transition_wait_execution_id != execution_id:
+		return
+	_transition_wait_execution_id = 0
+	if not _is_action_presentation_current(action, execution_id):
+		if _active_action == action and _active_execution_id == execution_id:
+			_clear_action_presentation(true)
+		return
+	_complete_action_presentation(action, execution_id)
+
+
+# 仅在等待结束且原行动仍有效时补排敌人并确认完成。
+func _complete_action_presentation(action: CombatAction, execution_id: int) -> void:
+	if _presentation_dispatch_open or not _pending_presentation_effects.is_empty():
+		return
+	if not _is_action_presentation_current(action, execution_id):
+		if _active_action == action and _active_execution_id == execution_id:
+			_clear_action_presentation(true)
+		return
+	if not action.is_player and action != _last_replenished_enemy_action:
+		_enemy_action_schedule_succeeded = false
+		if entity_manager.plan_next_enemy_action(timeline.current_time, action.source_id):
+			if _enemy_action_schedule_succeeded:
+				_last_replenished_enemy_action = action
+			else:
+				push_error("BattleManager ： Enemy action replenishment failed: Timeline rejected the action")
+		else:
+			push_error("BattleManager ： Enemy action replenishment failed: actor is unavailable or planning failed")
+	_clear_action_presentation()
+	timeline.notify_action_finished(action)
+
+
+# 校验行动身份、执行身份与 Timeline 门闩仍然匹配。
+func _is_action_presentation_current(action: CombatAction, execution_id: int) -> bool:
+	return (
+		is_battle_active
+		and action != null
+		and _active_action == action
+		and _active_execution_id == execution_id
+		and timeline.is_pending_action(action)
+	)
+
+
+# 战斗结束或重启时丢弃旧行动的全部视觉完成凭据。
+func _clear_action_presentation(cancel_effects: bool = false) -> void:
+	var cancelled_execution_id := _active_execution_id if cancel_effects else 0
+	_active_action = null
+	_active_execution_id = 0
+	_transition_wait_execution_id = 0
+	_next_effect_id = 0
+	_pending_presentation_effects.clear()
+	_presentation_dispatch_open = false
+	if cancelled_execution_id > 0:
+		_reset_card_exit_tracking()
+		action_presentation_cancelled.emit(cancelled_execution_id)
+
+
+# 清除上一张已确认出牌卡牌的离场身份。
+func _reset_card_exit_tracking() -> void:
+	_pending_card_exit = null
+	_card_exit_execution_id = 0
+	_card_exit_effect_id = 0
 
 
 # 时间轴流动过程中分段广播流逝时间：推进手牌限时 Buff
@@ -391,6 +554,12 @@ func _on_timeline_advancement_finished() -> void:
 	if is_battle_active:
 		_set_internal_input_locked(false)
 
+
+# 外部取消原行动时立即撤销表现凭据和在途效果。
+func _on_timeline_pending_action_changed(is_pending: bool) -> void:
+	if not is_pending and _active_action != null and not timeline.is_pending_action(_active_action):
+		_clear_action_presentation(true)
+
 #endregion
 
 
@@ -398,20 +567,26 @@ func _on_timeline_advancement_finished() -> void:
 
 # 敌人 AI 决策完毕，将生成的行动压入时间轴排期
 func _on_enemy_action_generated(action: CombatAction) -> void:
-	timeline.add_action(action)
+	_enemy_action_schedule_succeeded = false
+	if not _is_starting_battle and not is_battle_active:
+		push_error("BattleManager ： Enemy action scheduling failed: battle is inactive")
+		return
+	_enemy_action_schedule_succeeded = timeline.add_action(action)
+	if _enemy_action_schedule_succeeded:
+		print("BattleManager ： Enemy action scheduled at time %d for %s" % [action.trigger_time, action.source_id])
+	else:
+		push_error("BattleManager ： Enemy action scheduling failed for %s" % action.source_id)
 
 
 # 转发实体/卡牌系统的视觉请求给外部展示层
 func _on_visual_effect_generated(visual_type: String, data: Dictionary) -> void:
-	_is_waiting_for_visual = wait_for_combat_presentation and visual_effect_requested.has_connections()
-	if wait_for_combat_presentation and not _is_waiting_for_visual:
-		push_warning("BattleManager: 未连接可选战斗表现，跳过表现等待。")
 	visual_effect_requested.emit(visual_type, data)
 
 
-# 供外部视觉控制器（如 VisualManager）在动画播放完毕后回调
-func notify_visual_completed() -> void:
-	_is_waiting_for_visual = false
+# 将已经发生的生命损失向远征层报告，不让实体依赖世界表现节点。
+func _on_health_damage_applied(target_id: String, source_id: String, amount: float) -> void:
+	var effect_id := _register_presentation_effect() if health_damage_applied.has_connections() else 0
+	health_damage_applied.emit(target_id, source_id, amount, _active_execution_id, effect_id)
 
 
 # 实体阵亡结算
@@ -421,8 +596,9 @@ func _on_entity_died(entity: CombatEntity) -> void:
 	is_battle_active = false
 	_presentation_input_ready = false
 	_internal_input_locked = true
-	_is_waiting_for_visual = false
+	_clear_action_presentation(true)
 	timeline.cancel_advancement()
+	_last_replenished_enemy_action = null
 	_apply_battle_presentation()
 	_apply_effective_input_lock()
 	
@@ -456,10 +632,5 @@ func _apply_effective_input_lock() -> void:
 	input_lock_changed.emit(should_lock)
 	card_manager.set_input_locked(should_lock)
 
-
-# 内部挂起协程，等待视觉完成
-func _wait_for_visual_complete() -> void:
-	while _is_waiting_for_visual:
-		await get_tree().process_frame
 
 #endregion

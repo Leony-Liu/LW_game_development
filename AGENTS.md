@@ -154,6 +154,10 @@ If documentation conflicts with verified implementation:
 - Required dependencies and invalid data must fail clearly.
 - Handle success, failure, cancellation, and cleanup paths for lifecycle operations.
 - Presentation layers should reflect gameplay state, not own gameplay truth.
+- Authoritative combat outcomes come from gameplay systems. Visual effects must not change damage, targeting, action timing, collision, or other combat state.
+- Route confirmed gameplay events to presentation through clear interfaces; gameplay must not depend on a specific animation or effect asset.
+- Keep temporary presentation effects replaceable and independently adjustable where useful, without creating a scene for every Tween or visual node.
+- Do not implement or expand deferred functionality without explicit user authorization; preserve unresolved design decisions until the user decides them.
 - Generic infrastructure should remain separate from gameplay-specific logic.
 - Verify only as deeply as required to prove the task.
 - Do not claim runtime behavior from static inspection alone.
@@ -194,6 +198,24 @@ If documentation conflicts with verified implementation:
 - Mark dependencies as required or optional in design and validation.
 - Missing/invalid required dependencies must fail clearly before the dependent operation proceeds; never silently continue in a broken state.
 - Missing optional dependencies may disable only the affected feature and continue safely; make the fallback explicit and warn when silent degradation would hinder debugging.
+
+## Logging and Operation Outcomes
+
+- For new logs in important workflows, and logs deliberately changed in future tasks, use `ScriptName ： Description`: the class name or a clear script identifier, one space on each side of the full-width colon, and a concise, specific, searchable message. Do not bulk-reformat existing logs solely to adopt this convention.
+- Use `print()` for useful development milestones: a major workflow starting, an important subtask finishing, successful initialization, or a significant state transition. Log success only after the relevant operation actually succeeds. Do not require a log in every function or log routine per-frame callbacks, property reads, and loop iterations without a specific diagnostic need.
+- Use `push_warning()` for a recoverable anomaly with a safe fallback. State the problem, its impact, and the fallback when applicable. Do not downgrade a failed required operation to a warning when dependent work cannot proceed correctly.
+- Use `push_error()` for a missing required dependency, failed assembly of a required scene or resource, or another operation that cannot complete safely. Include the operation and reason; state any recovery action when relevant.
+- A diagnostic message does not stop execution, return a failure, or notify the caller. Propagate an outcome when the caller's workflow depends on it: return `false` or a structured result for a synchronous operation, or emit a documented completion/failure signal for an asynchronous operation. The caller must inspect critical outcomes and choose whether to continue, abort, recover, or use a defined fallback.
+- Logs do not replace architectural communication. Keep commands directed through explicit interfaces and events/results through the established return values or signals. Do not add script dependencies, Autoloads, or logging infrastructure merely to produce logs.
+
+Format examples only:
+
+```gdscript
+print("WorldManager ： Map initialization started")
+print("RoomSet ： Room assembly completed, count: %d" % room_count)
+push_warning("DoorSet ： Some doors could not be assembled; invalid entries were skipped")
+push_error("BattleManager ： Battle initialization failed: required dependency is missing")
+```
 
 ## Architecture Audit and Refactoring
 

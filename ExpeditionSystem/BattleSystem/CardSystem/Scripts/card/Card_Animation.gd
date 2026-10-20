@@ -204,9 +204,9 @@ func play_draw() -> void:
 	draw_tween.chain().tween_callback(_emit_draw_finished)
 
 # 播放出牌动画并在完成后发送 exit_finished。
-func play_card_played() -> void:
+func play_card_played() -> bool:
 	if not is_transform_initialized:
-		return
+		return false
 	
 	_prepare_exit_animation()
 	
@@ -221,6 +221,7 @@ func play_card_played() -> void:
 	action_tween.tween_property(card, "modulate:a", 0.0, play_duration)
 	
 	action_tween.chain().tween_callback(_emit_exit_finished)
+	return true
 
 # 播放弃牌动画并让 Visuals 向下掉落。
 func play_discard() -> void:

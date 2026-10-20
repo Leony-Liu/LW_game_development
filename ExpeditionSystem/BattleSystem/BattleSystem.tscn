@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ct4htxn1thykf"]
+[gd_scene format=3 uid="uid://ct4htxn1thykf"]
 
 [ext_resource type="Script" uid="uid://bxwk5d6e4yaon" path="res://ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd" id="1_1c1d2"]
 [ext_resource type="Script" uid="uid://bukn7h70wtv6q" path="res://ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd" id="3_im1mx"]
@@ -7,54 +7,55 @@
 [ext_resource type="PackedScene" uid="uid://c78kcq0ttk5ra" path="res://ExpeditionSystem/BattleSystem/CardSystem/CardSystem.tscn" id="6_00fpp"]
 [ext_resource type="Script" uid="uid://dbq7ojv5fsdf0" path="res://ExpeditionSystem/BattleSystem/EntitySystem/Scripts/CombatEntity.gd" id="6_ko14o"]
 [ext_resource type="Script" uid="uid://bb180w5lpkuou" path="res://ExpeditionSystem/BattleSystem/EntitySystem/Scripts/AttributeSet.gd" id="7_gc2h7"]
-[ext_resource type="PackedScene" path="res://ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn" id="8_hud"]
+[ext_resource type="PackedScene" uid="uid://dmyyjhca6ge40" path="res://ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn" id="8_hud"]
 
-[node name="BattleSystem" type="Node" node_paths=PackedStringArray("timeline", "entity_manager", "card_manager", "battle_ui", "combat_hud")]
+[node name="BattleSystem" type="Node" unique_id=1744004600 node_paths=PackedStringArray("timeline", "entity_manager", "card_manager", "battle_ui", "combat_hud")]
 script = ExtResource("1_1c1d2")
 timeline = NodePath("Timeline")
 entity_manager = NodePath("EntityManager")
 card_manager = NodePath("UI/CardSystem")
 battle_ui = NodePath("UI")
 combat_hud = NodePath("UI/CombatHUD")
+action_transition_delay = 0.4
 
-[node name="Timeline" type="Node" parent="."]
+[node name="Timeline" type="Node" parent="." unique_id=4683384]
 script = ExtResource("3_im1mx")
 
-[node name="EnemyAI" type="Node" parent="."]
+[node name="EnemyAI" type="Node" parent="." unique_id=1741823178]
 script = ExtResource("4_q4v35")
 
-[node name="EntityManager" type="Node" parent="." node_paths=PackedStringArray("player_entity", "enemy_entity", "enemy_ai")]
+[node name="EntityManager" type="Node" parent="." unique_id=443143698 node_paths=PackedStringArray("player_entity", "enemy_entity", "enemy_ai")]
 script = ExtResource("5_t6qnu")
 player_entity = NodePath("PlayerEntity")
 enemy_entity = NodePath("EnemyEntity")
 enemy_ai = NodePath("../EnemyAI")
 
-[node name="PlayerEntity" type="Node" parent="EntityManager" node_paths=PackedStringArray("attribute_set")]
+[node name="PlayerEntity" type="Node" parent="EntityManager" unique_id=1759365529 node_paths=PackedStringArray("attribute_set")]
 script = ExtResource("6_ko14o")
 is_player = true
 attribute_set = NodePath("AttributeSet")
 
-[node name="AttributeSet" type="Node" parent="EntityManager/PlayerEntity"]
+[node name="AttributeSet" type="Node" parent="EntityManager/PlayerEntity" unique_id=618133496]
 script = ExtResource("7_gc2h7")
 
-[node name="EnemyEntity" type="Node" parent="EntityManager" node_paths=PackedStringArray("attribute_set")]
+[node name="EnemyEntity" type="Node" parent="EntityManager" unique_id=327083885 node_paths=PackedStringArray("attribute_set")]
 script = ExtResource("6_ko14o")
 attribute_set = NodePath("AttributeSet")
 
-[node name="AttributeSet" type="Node" parent="EntityManager/EnemyEntity"]
+[node name="AttributeSet" type="Node" parent="EntityManager/EnemyEntity" unique_id=1197901238]
 script = ExtResource("7_gc2h7")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=288347225]
 
-[node name="CardSystem" parent="UI" instance=ExtResource("6_00fpp")]
+[node name="CardSystem" parent="UI" unique_id=1879808500 instance=ExtResource("6_00fpp")]
 
-[node name="PlayerInformation" type="Control" parent="UI"]
+[node name="PlayerInformation" type="Control" parent="UI" unique_id=1546049692]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="CombatHUD" parent="UI" instance=ExtResource("8_hud")]
+[node name="CombatHUD" parent="UI" unique_id=241856801 instance=ExtResource("8_hud")]
 
 [editable path="UI/CardSystem"]
 [editable path="UI/CardSystem/PlayerHandDeck"]

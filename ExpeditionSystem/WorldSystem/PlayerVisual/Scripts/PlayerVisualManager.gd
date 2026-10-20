@@ -13,6 +13,8 @@ signal encounter_approach_finished(transition_id: int, succeeded: bool)
 @export var player_camera: Camera3D
 # 可选：缺失时只停用调试模式。
 @export var debug_free_camera: Camera3D
+# 可选：玩家受伤时的独立镜头与屏幕反馈。
+@export var damage_feedback: PlayerDamageFeedback
 
 @export_group("遇敌接近运镜")
 ## 在此组调整原型运镜速度、停距、转向与到位停顿。
@@ -55,6 +57,11 @@ func change_mode(mode: String) -> bool:
 	):
 		push_warning("PlayerVisualManager: 未配置可用调试相机，保持当前模式。")
 		return false
+	if (
+		next_mode in ["explore", "探索", "preparing_battle", "debug", "调试"]
+		and is_instance_valid(damage_feedback)
+	):
+		damage_feedback.cancel_feedback()
 
 	match next_mode:
 		"explore", "探索":
@@ -91,6 +98,29 @@ func change_mode(mode: String) -> bool:
 
 	current_mode = next_mode
 	return true
+
+
+# 战斗事件只调用表现接口，不修改玩家运动或属性。
+func show_damage_feedback(on_completed: Callable = Callable()) -> bool:
+	if is_instance_valid(damage_feedback) and current_mode == "battle":
+		return damage_feedback.play_damage(on_completed)
+	return false
+
+
+# 战斗取消或重开时撤销独立镜头和屏幕反馈。
+func cancel_damage_feedback() -> void:
+	if is_instance_valid(damage_feedback):
+		damage_feedback.cancel_feedback()
+
+
+# World 初始化失败时停用探索输入；下次进入 explore 会按原路径恢复。
+func suspend_after_world_initialization_failure() -> void:
+	cancel_encounter_approach()
+	if is_instance_valid(player):
+		player.set_active(false)
+	if is_instance_valid(head):
+		head.set_active(false)
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 # 预检当前玩家、相机与目标能否启动遇敌接近。
