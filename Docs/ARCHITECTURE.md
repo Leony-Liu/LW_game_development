@@ -215,6 +215,8 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 `PlayerDamageFeedback` 是可选表现节点：它只驱动行走晃动节点下的独立 `DamageShakePivot` 与不拦截输入的红色 `ColorRect`。重复受伤替换旧 Tween 并恢复基准局部变换；离开战斗模式或节点退出场景树时清理效果。`[LIVE][SOURCE]`
 
+`PlayerCamera/Lantern` 实例来自独立的 `Lantern.tscn`；`LanternGravityPivot/LanternMotionPivot` 下共同承载 `ModelRoot` 与 `LanternLight`，模型通过独立的 `oil_lantern_001_production.tscn` 装配。`PlayerVisualManager` 将 `HeadController.rotation.x` 与已有玩家运动信号分别转发给 `LanternController.set_head_pitch()` 和 `update_movement()`；控制器只驱动有界的俯仰惯性、次级摆动与点燃期间的灯光闪烁，`set_lit(enabled)` 保持灯光开关接口，不持有燃料或其他玩法状态。`[LIVE][SOURCE]`
+
 ### `UISystem`
 
 `UISystem` 显示远征的胜利或失败结果，并把玩家确认动作发给 `ExpeditionManager`。它持有面板显示状态与操作信号；结果由 `BattleManager` 判定，清敌与恢复探索由 `WorldManager` 执行。`[SOURCE]`

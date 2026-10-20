@@ -11,6 +11,8 @@ signal encounter_approach_finished(transition_id: int, succeeded: bool)
 # 可选：缺失时只停用行走晃动。
 @export var bob_mount: Node3D
 @export var player_camera: Camera3D
+# 可选：缺失时停用提灯的俯仰补偿与次级晃动。
+@export var lantern_controller: LanternController
 # 可选：缺失时只停用调试模式。
 @export var debug_free_camera: Camera3D
 # 可选：玩家受伤时的独立镜头与屏幕反馈。
@@ -26,6 +28,11 @@ signal encounter_approach_finished(transition_id: int, succeeded: bool)
 
 var current_mode: String = "explore"
 var _active_approach_id: int = -1
+
+# 将真实头部俯仰角转交给提灯表现，不读取当前活动相机。
+func _process(_delta: float) -> void:
+	if is_instance_valid(head) and is_instance_valid(lantern_controller):
+		lantern_controller.set_head_pitch(head.rotation.x)
 
 # 初始化运动中继并进入探索表现模式。
 func _ready() -> void:
@@ -188,6 +195,8 @@ func _set_debug_active(active: bool) -> void:
 func _on_player_movement_changed(delta: float, speed: float, is_on_floor: bool, is_sprinting: bool) -> void:
 	if bob_mount and bob_mount.has_method("apply_bob"):
 		bob_mount.apply_bob(delta, speed, is_on_floor, is_sprinting)
+	if is_instance_valid(lantern_controller):
+		lantern_controller.update_movement(delta, speed, is_on_floor, is_sprinting)
 
 
 # 只中继当前运镜的完成结果，旧身份不会推进 World。

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://c7fak83tt1s2d"]
+
+[ext_resource type="Script" uid="uid://b5yqkdig8tf0" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Lantern/LanternController.gd" id="1_controller"]
+[ext_resource type="PackedScene" uid="uid://d2hctujx70p8o" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/Lantern/oil_lantern_001_production.tscn" id="2_w5l3q"]
+
+[node name="Lantern" type="Node3D" unique_id=621698834 node_paths=PackedStringArray("gravity_pivot", "motion_pivot", "lantern_light")]
+script = ExtResource("1_controller")
+gravity_pivot = NodePath("LanternGravityPivot")
+motion_pivot = NodePath("LanternGravityPivot/LanternMotionPivot")
+lantern_light = NodePath("LanternGravityPivot/LanternMotionPivot/LanternLight")
+
+[node name="LanternGravityPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0)
+
+[node name="LanternMotionPivot" type="Node3D" parent="LanternGravityPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51, 0)
+
+[node name="ModelRoot" type="Node3D" parent="LanternGravityPivot/LanternMotionPivot" unique_id=1337135507]
+
+[node name="Oil_Lantern_001_Production" parent="LanternGravityPivot/LanternMotionPivot/ModelRoot" unique_id=1338732251 instance=ExtResource("2_w5l3q")]
+
+[node name="LanternLight" type="OmniLight3D" parent="LanternGravityPivot/LanternMotionPivot" unique_id=1590428343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33830142, 0)
+light_color = Color(1, 0.76, 0.46, 1)
+light_energy = 1.2
+omni_range = 8.0
