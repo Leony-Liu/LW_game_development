@@ -50,6 +50,7 @@ var _presentation_dispatch_open: bool = false
 var _pending_card_exit: RuntimeCard = null
 var _card_exit_execution_id: int = 0
 var _card_exit_effect_id: int = 0
+var _hovered_runtime_card: RuntimeCard = null
 
 
 # 连接各个子系统的中介信号
@@ -82,7 +83,7 @@ func _unhandled_input(event: InputEvent) -> void:
 # 校验场景保存的必需子系统引用。
 func _validate_dependencies() -> bool:
 	if timeline == null or entity_manager == null or card_manager == null:
-		push_error("BattleManager: 缺少必需的 Timeline、EntityManager 或 CardManager 引用。")
+		push_error("[BattleManager]  缺少必需的 Timeline、EntityManager 或 CardManager 引用。")
 		return false
 	if battle_ui == null or combat_hud == null:
 		push_error("BattleManager: 缺少必需的 battle_ui 或 combat_hud 引用。")
@@ -95,6 +96,14 @@ func _setup_connections() -> void:
 	# 1. 监听 CardManager 信号
 	card_manager.card_play_requested.connect(_on_card_play_requested)
 	card_manager.card_play_presentation_completed.connect(_on_card_play_presentation_completed)
+	combat_hud.draw_requested.connect(_on_hud_draw_requested)
+	combat_hud.discard_mode_toggle_requested.connect(_on_hud_discard_toggle_requested)
+	combat_hud.advance_requested.connect(_on_hud_advance_requested)
+	card_manager.discard_empty_area_clicked.connect(_on_discard_empty_area_clicked)
+	card_manager.card_discarded.connect(_on_hud_card_discarded.unbind(1))
+	card_manager.player_hand_deck.discard_mode_changed.connect(combat_hud.set_discard_mode)
+	card_manager.player_hand_deck.discard_mode_changed.connect(_on_preview_discard_mode_changed)
+	card_manager.card_hover_changed.connect(_on_card_hover_changed)
 
 	# 2. 监听 Timeline 信号
 	timeline.action_triggered.connect(_on_timeline_action_triggered)
@@ -140,6 +149,8 @@ func start_battle(
 		return false
 
 	_is_starting_battle = true
+	_hovered_runtime_card = null
+	combat_hud.clear_intent_preview()
 	battle_result = BattleResult.NONE
 	_presentation_input_ready = false
 	_internal_input_locked = true
@@ -288,6 +299,52 @@ func request_advance_time() -> bool:
 	timeline.advance_timeline_to(timeline.current_time + PLAYER_ADVANCE_TIME)
 	return true
 
+
+# HUD 按钮仍调用现有 Battle 入口，弃牌模式时不接收这两类请求。
+func _on_hud_draw_requested() -> void:
+	if not card_manager.player_hand_deck.is_discard_mode_active:
+		request_draw_to_full()
+
+
+func _on_hud_advance_requested() -> void:
+	if not card_manager.player_hand_deck.is_discard_mode_active:
+		request_advance_time()
+
+
+# 弃牌按钮只切换手牌模式，不直接修改牌堆。
+func _on_hud_discard_toggle_requested() -> void:
+	var hand := card_manager.player_hand_deck
+	if hand.is_discard_mode_active:
+		hand.set_discard_mode(false)
+	elif _can_accept_player_control():
+		hand.set_discard_mode(true)
+
+
+# 空白点击与成功弃牌均结束手牌模式。
+func _on_discard_empty_area_clicked() -> void:
+	card_manager.player_hand_deck.set_discard_mode(false)
+
+
+func _on_hud_card_discarded() -> void:
+	card_manager.player_hand_deck.set_discard_mode(false)
+
+
+# 手牌悬停只保存当前运行时卡牌，实际命中列表在刷新时重算。
+func _on_card_hover_changed(runtime_card: RuntimeCard) -> void:
+	_hovered_runtime_card = runtime_card
+	if runtime_card == null:
+		combat_hud.clear_intent_preview()
+	_queue_hud_refresh()
+
+
+# 弃牌模式抢占悬停表现；退出后读取仍在悬停的卡牌。
+func _on_preview_discard_mode_changed(active: bool) -> void:
+	if active:
+		combat_hud.clear_intent_preview()
+	else:
+		_hovered_runtime_card = card_manager.player_hand_deck.get_hovered_runtime_card()
+	_queue_hud_refresh()
+
 # 响应玩家手牌出牌请求：进行资源校验与出牌调度
 func _on_card_play_requested(runtime_card: RuntimeCard) -> void:
 	if not _can_accept_player_control():
@@ -375,19 +432,37 @@ func _refresh_hud() -> void:
 	var enemies: Array[Dictionary] = []
 	for entity in entity_manager.get_enemy_entities():
 		enemies.append(_get_entity_display_data(entity))
+	var future_actions := timeline.get_scheduled_enemy_action_snapshots(100)
 	combat_hud.display_state({
 		"player": _get_entity_display_data(entity_manager.player_entity),
 		"enemies": enemies,
 		"piles": {"hand": card_manager.hand_pile.size(), "limit": card_manager.hand_limit,
 			"draw": card_manager.draw_pile.size(), "discard": card_manager.discard_pile.size()},
 		"current_time": timeline.current_time,
-		"future_actions": timeline.get_scheduled_enemy_action_snapshots(100),
+		"future_actions": future_actions,
+		"preview_action_ids": _get_card_preview_action_ids(future_actions),
 		"scheduled_actions": timeline.get_scheduled_enemy_action_snapshots(1000000),
 		"input_allowed": is_battle_active and not is_battle_input_locked(),
 		"is_advancing": timeline.is_advancing,
 		"has_pending_action": timeline.has_pending_action(),
 		"battle_ended": battle_result != BattleResult.NONE,
 	})
+
+
+# Timeline 的推进含目标时刻；同刻 priority 只影响结算先后，不改变已排期行动的可达性。
+func _get_card_preview_action_ids(future_actions: Array[Dictionary]) -> Array[int]:
+	var ids: Array[int] = []
+	if _hovered_runtime_card == null or not _can_accept_player_control() or not battle_ui.visible:
+		return ids
+	if card_manager.player_hand_deck.is_discard_mode_active or not card_manager.hand_pile.has(_hovered_runtime_card):
+		return ids
+	var target_time := timeline.current_time + _hovered_runtime_card.get_time_cost()
+	var card_trigger_time := timeline.current_time if _hovered_runtime_card.get_priority() == 0 else target_time
+	var reached_time := maxi(target_time, card_trigger_time)
+	for action in future_actions:
+		if int(action.trigger_time) <= reached_time:
+			ids.append(int(action.action_instance_id))
+	return ids
 
 
 # 复制显示所需属性；没有显式上限时沿用初始化值。
@@ -594,6 +669,8 @@ func _on_entity_died(entity: CombatEntity) -> void:
 	if not is_battle_active:
 		return
 	is_battle_active = false
+	_hovered_runtime_card = null
+	combat_hud.clear_intent_preview()
 	_presentation_input_ready = false
 	_internal_input_locked = true
 	_clear_action_presentation(true)
@@ -617,6 +694,13 @@ func _set_internal_input_locked(is_locked: bool) -> void:
 # 显隐战斗 UI，BattleSystem 本身保持运行。
 func _apply_battle_presentation() -> void:
 	battle_ui.visible = is_battle_active and _presentation_input_ready
+	if not battle_ui.visible:
+		_hovered_runtime_card = null
+		combat_hud.clear_intent_preview()
+	if not battle_ui.visible and card_manager != null and card_manager.player_hand_deck != null:
+		card_manager.player_hand_deck.set_discard_mode(false)
+		if combat_hud != null:
+			combat_hud.hide_intent_tooltip()
 
 
 # 仅在最终锁状态变化时向手牌广播。
@@ -629,6 +713,9 @@ func _apply_effective_input_lock() -> void:
 	if should_lock == _effective_input_locked:
 		return
 	_effective_input_locked = should_lock
+	if should_lock:
+		_hovered_runtime_card = null
+		combat_hud.clear_intent_preview()
 	input_lock_changed.emit(should_lock)
 	card_manager.set_input_locked(should_lock)
 

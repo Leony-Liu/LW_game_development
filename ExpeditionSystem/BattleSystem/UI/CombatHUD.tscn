@@ -2,7 +2,81 @@
 
 [ext_resource type="Script" uid="uid://dgrylxgehd5bp" path="res://ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd" id="1_hud"]
 
-[node name="CombatHUD" type="Control" unique_id=1223785805 node_paths=PackedStringArray("player_info_label", "enemy_info_container", "future_actions_label", "debug_status_label")]
+[sub_resource type="StyleBoxFlat" id="EnemyBackground"]
+bg_color = Color(0.18, 0.13, 0.14, 0.75)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="EnemyFill"]
+bg_color = Color(0.96, 0.68, 0.69, 0.96)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="ButtonFace"]
+bg_color = Color(0.98, 0.97, 0.89, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.27, 0.24, 0.95)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+
+[sub_resource type="StyleBoxFlat" id="HealthCircle"]
+bg_color = Color(0.94, 0.66, 0.68, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.19, 0.19, 0.95)
+corner_radius_top_left = 135
+corner_radius_top_right = 135
+corner_radius_bottom_right = 135
+corner_radius_bottom_left = 135
+
+[sub_resource type="StyleBoxFlat" id="StaminaDiamond"]
+bg_color = Color(0.59, 0.89, 0.62, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24, 0.56, 0.36, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="ManaDiamond"]
+bg_color = Color(0.46, 0.75, 0.97, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24, 0.47, 0.76, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="IntentTooltipBackground"]
+bg_color = Color(0.11, 0.1, 0.09, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.91, 0.76, 0.45, 0.9)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[node name="CombatHUD" type="Control" unique_id=1223785805 node_paths=PackedStringArray("player_hp_label", "resource_values_label", "stamina_pips", "mana_pips", "enemy_hp_bar", "enemy_hp_label", "intent_row", "intent_template", "draw_button", "discard_button", "advance_button", "intent_tooltip", "intent_tooltip_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,86 +85,295 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_hud")
-player_info_label = NodePath("Margin/Columns/LeftPanel/LeftContent/PlayerInfo")
-enemy_info_container = NodePath("Margin/Columns/RightPanel/RightContent/EnemyInfo")
-future_actions_label = NodePath("Margin/Columns/RightPanel/RightContent/FutureActions")
-debug_status_label = NodePath("Margin/Columns/LeftPanel/LeftContent/DebugStatus")
+player_hp_label = NodePath("PlayerInformation/HealthCircle/HPValue")
+resource_values_label = NodePath("PlayerInformation/HealthCircle/ResourceValues")
+stamina_pips = NodePath("PlayerInformation/StaminaPips")
+mana_pips = NodePath("PlayerInformation/ManaPips")
+enemy_hp_bar = NodePath("EnemyStatus/HealthBar")
+enemy_hp_label = NodePath("EnemyStatus/HealthValue")
+intent_row = NodePath("EnemyStatus/IntentPlaceholders")
+intent_template = NodePath("EnemyStatus/IntentTemplate")
+draw_button = NodePath("ActionButtons/DrawButton")
+discard_button = NodePath("ActionButtons/DiscardButton")
+advance_button = NodePath("ActionButtons/AdvanceButton")
+intent_tooltip = NodePath("IntentTooltip")
+intent_tooltip_label = NodePath("IntentTooltip/TooltipMargin/TooltipText")
 
-[node name="Margin" type="MarginContainer" parent="." unique_id=405921798]
+[node name="EnemyStatus" type="Control" parent="." unique_id=1338513157]
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 18.0
-offset_top = 18.0
-offset_right = -18.0
-offset_bottom = 420.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 58.0
+offset_right = 300.0
+offset_bottom = 180.0
 grow_horizontal = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="Columns" type="HBoxContainer" parent="Margin" unique_id=248271267]
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="LeftPanel" type="PanelContainer" parent="Margin/Columns" unique_id=1120068210]
-custom_minimum_size = Vector2(330, 0)
-layout_mode = 2
-
-[node name="LeftContent" type="VBoxContainer" parent="Margin/Columns/LeftPanel" unique_id=1919787022]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="PlayerInfo" type="Label" parent="Margin/Columns/LeftPanel/LeftContent" unique_id=518002305]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.88, 0.95, 1, 1)
-theme_override_font_sizes/font_size = 16
-text = "玩家状态
-等待 Battle 初始化"
-
-[node name="Separator" type="HSeparator" parent="Margin/Columns/LeftPanel/LeftContent" unique_id=1395630595]
-layout_mode = 2
-
-[node name="DebugStatus" type="Label" parent="Margin/Columns/LeftPanel/LeftContent" unique_id=396038]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.82, 0.92, 1)
-theme_override_font_sizes/font_size = 16
-text = "调试状态
-玩家输入: 锁定"
-
-[node name="Spacer" type="Control" parent="Margin/Columns" unique_id=1416193409]
-layout_mode = 2
-size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="RightPanel" type="PanelContainer" parent="Margin/Columns" unique_id=1962342987]
-custom_minimum_size = Vector2(520, 0)
-layout_mode = 2
+[node name="HealthBar" type="ProgressBar" parent="EnemyStatus" unique_id=404986774]
+layout_mode = 1
+offset_right = 600.0
+offset_bottom = 44.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("EnemyBackground")
+theme_override_styles/fill = SubResource("EnemyFill")
+value = 100.0
+show_percentage = false
 
-[node name="RightContent" type="VBoxContainer" parent="Margin/Columns/RightPanel" unique_id=2127905957]
-layout_mode = 2
-theme_override_constants/separation = 10
+[node name="IntentPlaceholders" type="HBoxContainer" parent="EnemyStatus" unique_id=1526042151]
+layout_mode = 1
+offset_top = 63.0
+offset_right = 140.0
+offset_bottom = 119.0
+mouse_filter = 2
+theme_override_constants/separation = 30
 
-[node name="EnemyInfo" type="VBoxContainer" parent="Margin/Columns/RightPanel/RightContent" unique_id=1219669566]
+[node name="IntentTemplate" type="Panel" parent="EnemyStatus"]
+visible = false
+modulate = Color(1, 0.91, 0.48, 1)
+custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
-theme_override_constants/separation = 6
+mouse_filter = 0
+theme_override_styles/panel = SubResource("ButtonFace")
 
-[node name="Placeholder" type="Label" parent="Margin/Columns/RightPanel/RightContent/EnemyInfo" unique_id=839294312]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.86, 1)
-theme_override_font_sizes/font_size = 16
-text = "敌人状态
-等待 Battle 初始化"
+[node name="HealthValue" type="Label" parent="EnemyStatus" unique_id=176486571]
+layout_mode = 1
+offset_left = 410.0
+offset_top = 55.0
+offset_right = 600.0
+offset_bottom = 119.0
+theme_override_colors/font_color = Color(0.99, 0.97, 0.91, 1)
+theme_override_colors/font_shadow_color = Color(0.08, 0.07, 0.06, 0.95)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 34
+text = "100/100"
+horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="Margin/Columns/RightPanel/RightContent" unique_id=1267720709]
-layout_mode = 2
+[node name="PlayerInformation" type="Control" parent="." unique_id=803194324]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = -358.0
+offset_right = 391.0
+offset_bottom = -18.0
+grow_vertical = 0
+mouse_filter = 2
 
-[node name="FutureActions" type="Label" parent="Margin/Columns/RightPanel/RightContent" unique_id=574421140]
+[node name="HealthCircle" type="Panel" parent="PlayerInformation" unique_id=78151490]
+layout_mode = 1
+offset_left = 45.0
+offset_top = 25.0
+offset_right = 315.0
+offset_bottom = 295.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("HealthCircle")
+
+[node name="HPValue" type="Label" parent="PlayerInformation/HealthCircle" unique_id=968640288]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -22.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.14, 0.13, 0.13, 1)
+theme_override_font_sizes/font_size = 38
+text = "100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResourceValues" type="Label" parent="PlayerInformation/HealthCircle" unique_id=65347624]
+layout_mode = 1
+offset_left = 18.0
+offset_top = 186.0
+offset_right = 252.0
+offset_bottom = 224.0
+theme_override_colors/font_color = Color(0.19, 0.19, 0.2, 0.95)
+theme_override_font_sizes/font_size = 17
+text = "体力 0/0  ·  法力 0/0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StaminaPips" type="Control" parent="PlayerInformation" unique_id=33801102]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 360.0
+offset_bottom = 340.0
+mouse_filter = 2
+
+[node name="Pip1" type="Panel" parent="PlayerInformation/StaminaPips" unique_id=324829644]
+layout_mode = 1
+offset_left = 160.0
+offset_top = 4.0
+offset_right = 196.0
+offset_bottom = 40.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StaminaDiamond")
+
+[node name="Pip2" type="Panel" parent="PlayerInformation/StaminaPips" unique_id=1985002723]
+layout_mode = 1
+offset_left = 228.0
+offset_top = 26.0
+offset_right = 264.0
+offset_bottom = 62.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StaminaDiamond")
+
+[node name="Pip3" type="Panel" parent="PlayerInformation/StaminaPips" unique_id=1641597506]
+layout_mode = 1
+offset_left = 277.0
+offset_top = 74.0
+offset_right = 313.0
+offset_bottom = 110.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StaminaDiamond")
+
+[node name="Pip4" type="Panel" parent="PlayerInformation/StaminaPips" unique_id=918298270]
+layout_mode = 1
+offset_left = 300.0
+offset_top = 142.0
+offset_right = 336.0
+offset_bottom = 178.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StaminaDiamond")
+
+[node name="ManaPips" type="Control" parent="PlayerInformation" unique_id=1813310805]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 360.0
+offset_bottom = 340.0
+mouse_filter = 2
+
+[node name="Pip1" type="Panel" parent="PlayerInformation/ManaPips" unique_id=712885886]
+layout_mode = 1
+offset_left = 22.0
+offset_top = 128.0
+offset_right = 58.0
+offset_bottom = 164.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ManaDiamond")
+
+[node name="Pip2" type="Panel" parent="PlayerInformation/ManaPips" unique_id=307219416]
+layout_mode = 1
+offset_left = 37.0
+offset_top = 199.0
+offset_right = 73.0
+offset_bottom = 235.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ManaDiamond")
+
+[node name="Pip3" type="Panel" parent="PlayerInformation/ManaPips" unique_id=1195222424]
+layout_mode = 1
+offset_left = 83.0
+offset_top = 252.0
+offset_right = 119.0
+offset_bottom = 288.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ManaDiamond")
+
+[node name="Pip4" type="Panel" parent="PlayerInformation/ManaPips" unique_id=883616662]
+layout_mode = 1
+offset_left = 151.0
+offset_top = 269.0
+offset_right = 187.0
+offset_bottom = 305.0
+rotation = 0.785398
+pivot_offset = Vector2(18, 18)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ManaDiamond")
+
+[node name="ActionButtons" type="VBoxContainer" parent="." unique_id=1456136078]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -271.0
+offset_top = -310.0
+offset_right = -46.0
+offset_bottom = -42.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 26
+
+[node name="DrawButton" type="Button" parent="ActionButtons" unique_id=394324740]
+custom_minimum_size = Vector2(225, 72)
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.93, 0.8, 0.72, 1)
-theme_override_font_sizes/font_size = 16
-text = "未来 100 时间单位 · 敌方行动
-暂无已排期行动"
-autowrap_mode = 2
+focus_mode = 0
+mouse_filter = 0
+theme_override_colors/font_color = Color(0.12, 0.12, 0.12, 1)
+theme_override_colors/font_disabled_color = Color(0.48, 0.46, 0.42, 1)
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("ButtonFace")
+theme_override_styles/disabled = SubResource("ButtonFace")
+text = "抽牌"
+
+[node name="DiscardButton" type="Button" parent="ActionButtons" unique_id=2100553945]
+custom_minimum_size = Vector2(225, 72)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+theme_override_colors/font_color = Color(0.12, 0.12, 0.12, 1)
+theme_override_colors/font_disabled_color = Color(0.48, 0.46, 0.42, 1)
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("ButtonFace")
+theme_override_styles/disabled = SubResource("ButtonFace")
+text = "弃牌"
+
+[node name="AdvanceButton" type="Button" parent="ActionButtons" unique_id=524231246]
+custom_minimum_size = Vector2(225, 72)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+theme_override_colors/font_color = Color(0.12, 0.12, 0.12, 1)
+theme_override_colors/font_disabled_color = Color(0.48, 0.46, 0.42, 1)
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("ButtonFace")
+theme_override_styles/disabled = SubResource("ButtonFace")
+text = "推进"
+
+[node name="IntentTooltip" type="PanelContainer" parent="."]
+visible = false
+z_index = 200
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("IntentTooltipBackground")
+
+[node name="TooltipMargin" type="MarginContainer" parent="IntentTooltip"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="TooltipText" type="Label" parent="IntentTooltip/TooltipMargin"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.98, 0.94, 0.84, 1)
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3

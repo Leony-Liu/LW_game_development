@@ -514,6 +514,8 @@ Card.tscn / Card_Interaction.gd
 -> Timeline.receive_card()
 ```
 
+卡牌悬停预览沿 `Card_Interaction.gd` → `CardLogic.hover_changed` → `PlayerHandDeck.card_hover_changed` → `CardManager.card_hover_changed` → `BattleManager` 传递当前 `RuntimeCard`；协调器把已排期行动的实例 ID 交给 `CombatHUD` 缩放现有图标。运行时卡牌属性更新由 `CardLogic.hovered_stats_updated` 触发同一路径刷新。
+
 ### Timeline action resolution
 
 ```text

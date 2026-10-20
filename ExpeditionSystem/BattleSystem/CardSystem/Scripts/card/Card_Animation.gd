@@ -256,6 +256,14 @@ func play_error_feedback() -> void:
 	
 	feedback_tween.tween_property(visual_root, "modulate", original_visual_modulate, 0.20)
 
+
+# 用原有 Visuals 着色表现当前弃牌目标，退出模式时立即还原。
+func set_discard_target(active: bool) -> void:
+	_kill_tween(feedback_tween)
+	if not is_instance_valid(visual_root):
+		return
+	visual_root.modulate = Color(1.0, 0.35, 0.35, original_visual_modulate.a) if active else original_visual_modulate
+
 # 取消离场动画并把视觉状态恢复到默认值。
 func cancel_action_and_restore() -> void:
 	_kill_tween(action_tween)

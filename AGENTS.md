@@ -201,7 +201,7 @@ If documentation conflicts with verified implementation:
 
 ## Logging and Operation Outcomes
 
-- For new logs in important workflows, and logs deliberately changed in future tasks, use `ScriptName ： Description`: the class name or a clear script identifier, one space on each side of the full-width colon, and a concise, specific, searchable message. Do not bulk-reformat existing logs solely to adopt this convention.
+- For new logs in important workflows, and logs deliberately changed in future tasks, use `[ScriptName] Description`: the class name or a clear script identifier, one space on each side of the full-width colon, and a concise, specific, searchable message. Do not bulk-reformat existing logs solely to adopt this convention.
 - Use `print()` for useful development milestones: a major workflow starting, an important subtask finishing, successful initialization, or a significant state transition. Log success only after the relevant operation actually succeeds. Do not require a log in every function or log routine per-frame callbacks, property reads, and loop iterations without a specific diagnostic need.
 - Use `push_warning()` for a recoverable anomaly with a safe fallback. State the problem, its impact, and the fallback when applicable. Do not downgrade a failed required operation to a warning when dependent work cannot proceed correctly.
 - Use `push_error()` for a missing required dependency, failed assembly of a required scene or resource, or another operation that cannot complete safely. Include the operation and reason; state any recovery action when relevant.
@@ -211,10 +211,10 @@ If documentation conflicts with verified implementation:
 Format examples only:
 
 ```gdscript
-print("WorldManager ： Map initialization started")
-print("RoomSet ： Room assembly completed, count: %d" % room_count)
-push_warning("DoorSet ： Some doors could not be assembled; invalid entries were skipped")
-push_error("BattleManager ： Battle initialization failed: required dependency is missing")
+print("[WorldManager] Map initialization started")
+print("[RoomSet] Room assembly completed, count: %d" % room_count)
+push_warning("[DoorSet] Some doors could not be assembled; invalid entries were skipped")
+push_error("[BattleManager] Battle initialization failed: required dependency is missing")
 ```
 
 ## Architecture Audit and Refactoring

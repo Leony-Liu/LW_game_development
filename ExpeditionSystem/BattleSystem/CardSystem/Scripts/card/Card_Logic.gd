@@ -31,6 +31,8 @@ signal card_played_request(runtime_card: RuntimeCard)
 signal card_discarded_request(runtime_card: RuntimeCard)
 # 卡牌离场动画完成后通知手牌容器删除节点。
 signal exit_finished(runtime_card: RuntimeCard)
+signal hover_changed(runtime_card: RuntimeCard, hovered: bool)
+signal hovered_stats_updated(runtime_card: RuntimeCard)
 
 # 保存当前 UI 对应的 RuntimeCard。
 var runtime_card: RuntimeCard
@@ -39,6 +41,7 @@ var state: CardState = CardState.DRAWING
 # 保存鼠标当前是否位于卡牌范围。
 var is_hovered: bool = false
 var _is_system_locked: bool = false
+var _discard_mode_active: bool = false
 # 保留兼容属性并通过状态判断是否锁定。
 var is_locked: bool:
 	get:
@@ -94,14 +97,19 @@ func _update_visuals() -> void:
 	
 	cost_label.text = str(runtime_card.get_resource_cost())
 	animation.set_cost_color(cost_label, is_attack)
+	if is_hovered and state == CardState.IDLE:
+		hovered_stats_updated.emit(runtime_card)
 
 #region 交互触发
-# 左键只发送出牌请求并等待上层确认。
+# 左键按当前手牌模式发送请求并等待上层确认。
 func _on_left_clicked() -> void:
 	if state != CardState.IDLE:
 		return
-	
+	if _discard_mode_active:
+		_on_right_clicked()
+		return
 	state = CardState.REQUESTING_PLAY
+	_clear_hover_for_action()
 	interaction.set_enabled(false)
 	
 	card_played_request.emit(runtime_card)
@@ -112,6 +120,7 @@ func _on_right_clicked() -> void:
 		return
 	
 	state = CardState.REQUESTING_DISCARD
+	_clear_hover_for_action()
 	interaction.set_enabled(false)
 	
 	card_discarded_request.emit(runtime_card)
@@ -123,6 +132,9 @@ func _on_hover_started() -> void:
 	
 	is_hovered = true
 	animation.play_hover_enter()
+	hover_changed.emit(runtime_card, true)
+	if _discard_mode_active:
+		animation.set_discard_target(true)
 
 # 鼠标离开时恢复 Visuals 默认状态。
 func _on_hover_ended() -> void:
@@ -130,7 +142,16 @@ func _on_hover_ended() -> void:
 		return
 	
 	is_hovered = false
+	animation.set_discard_target(false)
 	animation.play_hover_exit()
+	hover_changed.emit(runtime_card, false)
+
+
+# 卡牌进入操作流程时立即撤销悬停预览。
+func _clear_hover_for_action() -> void:
+	if is_hovered:
+		is_hovered = false
+		hover_changed.emit(runtime_card, false)
 #endregion
 
 #region 动画触发
@@ -145,16 +166,18 @@ func confirm_play() -> bool:
 	return true
 
 # 上层确认弃牌成功后才播放弃牌动画。
-func confirm_discard() -> void:
+func confirm_discard() -> bool:
 	if state != CardState.REQUESTING_DISCARD:
-		return
+		return false
 	
 	state = CardState.EXITING
+	animation.set_discard_target(false)
 	animation.play_discard()
+	return true
 
 # 上层拒绝请求后恢复交互并播放错误反馈。
 func reject_action() -> void:
-	if state == CardState.IDLE or state == CardState.DRAWING:
+	if state != CardState.REQUESTING_PLAY and state != CardState.REQUESTING_DISCARD:
 		return
 	
 	animation.cancel_action_and_restore()
@@ -166,10 +189,16 @@ func reject_action() -> void:
 		get_global_mouse_position()
 	)
 	
-	animation.play_error_feedback()
+	if _discard_mode_active:
+		animation.set_discard_target(is_hovered)
+	else:
+		animation.play_error_feedback()
 	
 	if is_hovered:
 		animation.play_hover_enter()
+		if _discard_mode_active:
+			animation.set_discard_target(true)
+		hover_changed.emit(runtime_card, true)
 	else:
 		animation.play_hover_exit()
 
@@ -187,6 +216,7 @@ func _on_draw_finished() -> void:
 	
 	if is_hovered:
 		animation.play_hover_enter()
+		hover_changed.emit(runtime_card, true)
 
 # 离场动画完成后通知 PlayerHandDeck 删除卡牌。
 func _on_exit_animation_finished() -> void:
@@ -216,5 +246,14 @@ func _process(delta: float) -> void:
 # 接收系统锁并保留状态，避免动画结束时错误解锁。
 func set_system_lock(locked: bool) -> void:
 	_is_system_locked = locked
+	if locked and is_hovered:
+		is_hovered = false
+		hover_changed.emit(runtime_card, false)
 	if state == CardState.IDLE:
 		interaction.set_enabled(not locked)
+
+
+# 手牌视图下发模式时只切换本卡的显示与左键含义。
+func set_discard_mode(active: bool) -> void:
+	_discard_mode_active = active
+	animation.set_discard_target(active and state == CardState.IDLE and is_hovered)

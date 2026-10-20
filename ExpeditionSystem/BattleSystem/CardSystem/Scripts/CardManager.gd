@@ -1,7 +1,7 @@
 ## 管理 Battle 内抽牌堆、手牌与弃牌堆。
 ## 负责初始化、流转与 Buff，并向 BattleManager 返回启动结果。
 class_name CardManager
-extends Node
+extends Control
 
 # 绑定手牌展示节点
 @export var player_hand_deck: PlayerHandDeck
@@ -17,6 +17,8 @@ signal card_play_presentation_completed(runtime_card: RuntimeCard)
 signal card_discarded(runtime_card: RuntimeCard)
 signal discard_shuffled_into_draw(shuffled_amount: int)
 signal hand_pile_cleared()
+signal discard_empty_area_clicked
+signal card_hover_changed(runtime_card: RuntimeCard)
 #endregion
 
 var draw_pile: Array[RuntimeCard] = []
@@ -30,6 +32,24 @@ func _ready() -> void:
 	player_hand_deck.card_play_requested.connect(_on_hand_deck_card_play_requested)
 	player_hand_deck.card_play_exit_finished.connect(_on_card_play_exit_finished)
 	player_hand_deck.card_discard_requested.connect(discard_card)
+	player_hand_deck.card_hover_changed.connect(card_hover_changed.emit)
+
+
+# 仅将下方手牌区的空白左键点击上报给战斗协调器。
+func _gui_input(event: InputEvent) -> void:
+	if not player_hand_deck.is_discard_mode_active:
+		return
+	var click := event as InputEventMouseButton
+	if click == null or not click.pressed or click.button_index != MOUSE_BUTTON_LEFT:
+		return
+	var hand_top := player_hand_deck.get_global_rect().position.y
+	if click.global_position.y < maxf(0.0, hand_top - 80.0):
+		return
+	for child in player_hand_deck.get_children():
+		if child is CardLogic and child.get_global_rect().has_point(click.global_position):
+			return
+	discard_empty_area_clicked.emit()
+	accept_event()
 
 
 # 校验必需手牌视图及卡牌场景，失败时不继续装配。
@@ -184,18 +204,20 @@ func cancel_play_card(runtime_card: RuntimeCard) -> void:
 	player_hand_deck.reject_action(runtime_card)
 
 # 弃牌
-func discard_card(runtime_card: RuntimeCard) -> void:
+func discard_card(runtime_card: RuntimeCard) -> bool:
 	var current_index = hand_pile.find(runtime_card)
-	if current_index == -1: 
-		return
+	if current_index == -1 or player_hand_deck.is_input_locked:
+		player_hand_deck.reject_action(runtime_card)
+		return false
 
+	if not player_hand_deck.confirm_discard(runtime_card):
+		player_hand_deck.reject_action(runtime_card)
+		return false
 	hand_pile.remove_at(current_index)
-
-	# 新增：通知 UI 触发下落掉出动画
-	player_hand_deck.confirm_discard(runtime_card)
 
 	discard_pile.append(runtime_card)
 	card_discarded.emit(runtime_card)
+	return true
 
 # 弃全部手牌
 func discard_all_hand_pile() -> void:

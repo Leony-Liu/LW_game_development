@@ -59,7 +59,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.324762, 0)
 
 [node name="PlayerVisual" parent="WorldSystem/PlayerVisualRoot" unique_id=1791432276 instance=ExtResource("2_kcca6")]
 
-[node name="DebugFreeCamera" parent="WorldSystem/PlayerVisualRoot/PlayerVisual" index="1"]
+[node name="DebugFreeCamera" parent="WorldSystem/PlayerVisualRoot/PlayerVisual" index="1" unique_id=348396201]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12524, 0)
 top_level = false
 

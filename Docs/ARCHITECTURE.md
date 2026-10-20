@@ -248,13 +248,10 @@ BattleSystem [BattleManager]
 └─ UI（CanvasLayer）
    ├─ CardSystem [CardManager]
    │  └─ PlayerHandDeck
-   ├─ PlayerInformation
    └─ CombatHUD [CombatHUD.tscn]
-      └─ Margin
-         └─ Columns
-            ├─ LeftPanel
-            ├─ Spacer
-            └─ RightPanel
+      ├─ EnemyStatus
+      ├─ PlayerInformation
+      └─ ActionButtons
 ```
 
 ### `BattleManager`
@@ -326,16 +323,16 @@ BattleSystem [BattleManager]
 
 ### 战斗 `UI`
 
-战斗 `UI` 展示战斗状态并把手牌操作送往 `CardManager`。`BattleManager` 监听现有子系统信号，合并同一帧更新，向 `CombatHUD.display_state(snapshot)` 下发显示值；HUD 只格式化文本，不连接或查询玩法系统，不保存战斗结束副本。`BattleManager` 决定整层界面显隐，并经 `CardManager.set_input_locked()` 向手牌视图下发输入锁。`[SOURCE]`
+战斗 `UI` 展示战斗状态并把手牌操作送往 `CardManager`。`BattleManager` 监听现有子系统信号，合并同一帧更新，向 `CombatHUD.display_state(snapshot)` 下发显示值；HUD 只更新自身控件，不连接或查询玩法系统，不保存战斗结束副本。`BattleManager` 决定整层界面显隐，并经 `CardManager.set_input_locked()` 向手牌视图下发输入锁。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `BattleSystem/UI` 为 `CanvasLayer`；`CardSystem` 是原有场景实例，`PlayerInformation` 保持内联，`CombatHUD` 实例化 `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn`。HUD 场景持有内部布局、样式及四个控件引用；BattleSystem 根节点绑定 `combat_hud` `[LIVE]` |
-| 输入 | `BattleManager` 控制 `UI.visible` 并调用 `CombatHUD.display_state(snapshot)`；`PlayerHandDeck` 与 `CardLogic` 接收卡牌数据和输入锁 |
-| 输出 | `CardLogic.card_played_request` → `PlayerHandDeck.card_play_requested` → `CardManager.card_play_requested`；`CombatHUD` 刷新玩家、敌人、牌堆、时间轴文本 |
-| 数据 | `CombatHUD` 只保留控件与呈现文本；快照仅在本次渲染使用。刷新排队标志属于 `BattleManager`；`PlayerHandDeck` 保存界面输入锁和卡牌节点 `[SOURCE]` |
+| 位置与组成 | `BattleSystem/UI` 为 `CanvasLayer`；`CardSystem` 是原有场景实例，`PlayerInformation` 位于 `CombatHUD.tscn` 内，取代父场景中原本空置的同名节点。HUD 场景持有敌人血条、玩家生命与资源标记、未来行动图标模板及只读提示框、抽牌、弃牌、推进按钮；BattleSystem 根节点绑定 `combat_hud` `[LIVE]` |
+| 输入 | `BattleManager` 控制 `UI.visible` 并调用 `CombatHUD.display_state(snapshot)`；HUD 三按钮向 `BattleManager` 发出操作意图；`PlayerHandDeck` 与 `CardLogic` 接收卡牌数据、弃牌模式和输入锁 |
+| 输出 | `CardLogic.card_played_request` → `PlayerHandDeck.card_play_requested` → `CardManager.card_play_requested`；卡牌悬停由 `Card_Interaction` 检测，经 `CardLogic.hover_changed`、`PlayerHandDeck.card_hover_changed`、`CardManager.card_hover_changed` 通知 `BattleManager`；弃牌请求经 `PlayerHandDeck` 到 `CardManager.discard_card()`，成功后 `card_discarded` 通知 `BattleManager` 退出模式；HUD 刷新玩家与敌人状态及未来行动图标 |
+| 数据 | `CombatHUD` 只保留控件引用、按钮显示状态、当前悬停图标的显示身份及预览中的行动实例 ID；行动图标保存对应快照的实例标识与显示字段作为节点元数据。`CombatHUD.hide_intent_tooltip()` 和 `clear_intent_preview()` 分别清除提示框和预览。弃牌模式由 `PlayerHandDeck` 持有并向各卡牌视图下发；`BattleManager` 协调按钮、输入锁、模式结束及只读悬停预览。`CardManager` 仍持有牌堆，且只在手牌区下方的空白点击时发出取消通知。刷新排队标志属于 `BattleManager` `[SOURCE]` |
 
-快照包含 `player`、`enemies`、`piles`、`current_time`、`future_actions`、`scheduled_actions`、`input_allowed`、`is_advancing`、`has_pending_action`、`battle_ended`，只含字典、数组和显示值。实体快照含 ID、名称及 HP/体力/法力与上限；无显式上限时沿用属性初始化值。未来列表仍查询 100 时间单位，下次行动查询仍用原 1000000 范围。未收到快照的独立 HUD 保留场景占位文本。`[SOURCE]`
+快照包含 `player`、`enemies`、`piles`、`current_time`、`future_actions`、`preview_action_ids`、`scheduled_actions`、`input_allowed`、`is_advancing`、`has_pending_action`、`battle_ended`，只含字典、数组和显示值。实体快照含 ID、名称及 HP/体力/法力与上限；无显式上限时沿用属性初始化值。`future_actions` 继续使用 100 时间单位窗口，行动条目包含 `action_instance_id`（本次运行中的 `CombatAction` 实例标识）、`source_id`、`action_name`、`action_type`、`trigger_time`、`relative_time` 和 `priority`；攻击的明确负向 HP 冲击另提供 `base_damage`，增益的明确正向护盾冲击另提供 `shield_gain`，均为可选显示值。`BattleManager` 用悬停 `RuntimeCard.get_time_cost()` 与 `get_priority()` 和当前 `future_actions` 计算本次时间推进可到达的实例 ID；Timeline 的目标时间含边界，同刻优先级只改变结算先后。`CombatHUD` 仅按这些 ID 缩放已有可见图标，弃牌模式、输入锁及战斗关闭会清除预览。HUD 用首个敌人快照绘制顶部血条及对应行动图标，悬停时依实例标识显示名称、类型、时间及已有数值，并随鼠标移动且保持在视口内；在圆盘内显示玩家当前/最大 HP 与资源数值，用四格菱形明暗表达资源比例。未收到快照的独立 HUD 保留场景占位值。`[SOURCE]`
 
 ## 7. 数据结构与生命周期
 

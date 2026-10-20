@@ -163,13 +163,30 @@ func get_scheduled_enemy_action_snapshots(horizon: int = 100) -> Array[Dictionar
 			continue
 		if action.trigger_time <= current_time or action.trigger_time > end_time:
 			continue
-		snapshots.append({
+		var display: Dictionary = {
+			"action_instance_id": action.get_instance_id(),
 			"relative_time": action.trigger_time - current_time,
 			"trigger_time": action.trigger_time,
 			"source_id": action.source_id,
 			"action_name": action.action_name,
+			"action_type": action.action_type,
 			"priority": action.priority,
-		})
+		}
+		if action.action_type == "attack":
+			var base_damage := 0.0
+			for impact in action.attribute_impacts:
+				if impact.attribute_name == "hp" and impact.value < 0.0:
+					base_damage += -impact.value
+			if base_damage > 0.0:
+				display["base_damage"] = base_damage
+		elif action.action_type == "buff":
+			var shield_gain := 0.0
+			for impact in action.attribute_impacts:
+				if impact.attribute_name == "shield" and impact.value > 0.0:
+					shield_gain += impact.value
+			if shield_gain > 0.0:
+				display["shield_gain"] = shield_gain
+		snapshots.append(display)
 	return snapshots
 
 # 用于时间轴排序的方法
