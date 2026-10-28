@@ -31,7 +31,7 @@
 | [9. 状态归属摘要](#9-状态归属摘要) | 当前运行时状态持有者 |
 | [10. 依赖方向审计](#10-依赖方向审计) | 脚本边界、保留例外与未修复问题 |
 | [11. 内容生产就绪评估](#11-内容生产就绪评估) | 增量内容任务的可用范围与阻塞 |
-| [12. 本次验证记录](#12-本次验证记录) | 2026-10-28 的实际证据与未验证范围 |
+| [12. 阶段收尾与验证记录](#12-阶段收尾与验证记录) | 当前收尾边界、既有逻辑证据与历史记录 |
 
 ## 2. 项目架构总览
 
@@ -306,7 +306,7 @@ BattleSystem [BattleManager]
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `BattleSystem/Timeline`；`CombatSystem/Scripts/Timeline.gd` `[LIVE]` |
+| 位置与组成 | `BattleSystem/Timeline`；`ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` `[LIVE]` |
 | 输入 | `add_action(action) -> bool`、`reset_for_battle() -> bool`、`receive_card(runtime_card, source_id, target_id)`、`advance_timeline_to(target_time)`、`notify_action_finished(action)`、`cancel_advancement()` |
 | 输出 | `action_triggered(action)`、`time_advanced(delta_time)`、`timeline_data_updated(current_time, action_line)`、`pending_action_changed(is_pending)`、`timeline_advancement_finished`；`get_scheduled_enemy_action_snapshots(horizon)` 返回字典快照 |
 | 数据 | `current_time`、`action_line`、`is_advancing`、当前待确认行动；按触发时间、优先级及玩家先序排序 `[SOURCE]` |
@@ -345,14 +345,14 @@ BattleSystem [BattleManager]
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `BattleSystem/EnemyAI`；`CombatSystem/Scripts/EnemyAI.gd` `[LIVE]` |
+| 位置与组成 | `BattleSystem/EnemyAI`；`ExpeditionSystem/BattleSystem/CombatSystem/Scripts/EnemyAI.gd` `[LIVE]` |
 | 输入 | `setup_ai(action_pool, entity_id, target_id)`、`plan_initial_actions()`、`plan_next_action(current_timeline_time)` |
 | 输出 | `action_planned(action: CombatAction)`；经 `EntityManager.enemy_action_generated` 进入 `Timeline.add_action()` |
 | 数据 | `_action_pool`、`_cooldown_tracker`、`_last_planned_time`、施法者与目标 ID `[SOURCE]` |
 
 `EntityManager.initialize()` 调用 `plan_initial_actions()` 生成首个排期行动。之后 `BattleManager` 在敌方行动结算及其表现完成、Battle 仍激活且原行动仍为 Timeline 待确认对象时，经 `EntityManager.plan_next_enemy_action()` 请求补充一个行动，再确认原行动完成，使 `Timeline` 在继续推进时看到新排期。重复行动引用、过期时间与排期失败由 `Timeline.add_action()` 拒绝并返回结果；BattleManager 检查结果，不进行同步重试。当前保存场景只有一个敌人实体；多个独立 AI 实例各自保存冷却与规划指针。`[SOURCE]`
 
-`EnemyAction` 当前在两个敌人 `.tres` 内作为子资源编辑；支持配置时间、冷却、权重和 `effect_data`。AI 的 `attack` 读取 `damage`（缺省 10），`buff` 读取 `shield` 并以自身为目标，`skill` 仍为 `pass`；行动 priority 固定为 1。预检拒绝空池、空行动、非正 time_cost 与负 cooldown，但未校验 action_id 唯一性、权重或效果字典模式。后续补排失败会记录错误并确认原行动，不会自动结束 Battle 或恢复敌方行动链。`[SOURCE]`
+`EnemyAction` 当前在两个敌人 `.tres` 内作为子资源编辑；支持配置时间、冷却、权重和 `effect_data`。AI 的 `attack` 读取 `damage`（缺省 10），`buff` 读取 `shield` 并以自身为目标，`skill` 仍为 `pass`；行动 priority 固定为 1。EntityManager 跳过缺失行动引用，空池只停用敌人排期，不阻止 Battle 初始化；非正 time_cost 和负 cooldown 仍明确拒绝。尚未校验 action_id 唯一性、权重或效果字典模式。后续补排失败会记录错误并确认原行动，不会自动结束 Battle 或恢复敌方行动链。`[SOURCE]`
 
 ### 战斗 `UI`
 
@@ -369,11 +369,19 @@ BattleSystem [BattleManager]
 
 ## 7. 数据结构与生命周期
 
+| 数据层 | 所有权与生命周期 |
+| --- | --- |
+| CardData / WeaponData | 数据库索引的共享静态定义；保存模板数值和起始引用，不作为可变玩家状态 |
+| WeaponInstance | 玩家拥有的具体武器 UID、模板关联及 combat_deck / reserve_deck；PlayerCardSaveModule 保存拥有列表与当前武器 UID |
+| CardContainer / CardInstance | 武器拥有容器，容器有序持有卡牌；CardInstance 保存具体卡 UID、模板 ID 和长期 modifiers，弱引用记录当前所属容器 |
+| RuntimeCard | BattleManager 从 combat_deck 转换，CardManager 管理战斗牌堆；source_instance_uid 关联原卡，不生成持久身份，不写回临时状态 |
+
 | 数据链 | 当前转换与持有位置 | 证据 |
 | --- | --- | --- |
 | `MapBlueprint → WorldGenerator.generate() → mapdata → RoomSet / DoorSet` | `WorldManager.mapdata` 保存 `rooms` / `doors`；两个 Set 创建场景实例 | `[SOURCE]` |
 | `RoomData → BattleRoom` | `mapdata.rooms` 的 `RoomData` 传给 `BattleRoom.room_data`；`RoomSet` 保存对象到实例的映射 | `[SOURCE]` |
-| `CardData → CardInstance → RuntimeCard → CombatAction` | PlayerSaveManager 初始化或恢复容器；GameManager 注入同批实例；BattleManager 保留来源 UID；RuntimeCard 生成行动 | `[SOURCE]` |
+| `WeaponData → WeaponInstance → combat_deck / reserve_deck` | GameManager 按 NewGameConfig 选择初始模板并请求创建；已有武器由 PlayerCardSaveModule 恢复，PlayerSaveManager 协调存取 | `[SOURCE]` |
+| `CardData → CardInstance → RuntimeCard → CombatAction` | 新武器工厂逐项创建 CardInstance；GameManager 仅注入 combat_deck 的同批实例；BattleManager 保留来源 UID；RuntimeCard 生成行动 | `[SOURCE]` |
 | `EntityData → CombatEntity → AttributeSet → Attribute` | ExpeditionManager 按已有场景配置构造 EntityData；EntityManager 注册属性 | `[SOURCE]` |
 | `EnemyData / EnemyAction → CombatEntity / EnemyAI → CombatAction` | `AllEnemyData.get_enemy()` 提供属性和行动池；`EntityManager` 装配敌人并启动首轮规划，BattleManager 在行动结算后请求下一次规划 | `[SOURCE]` |
 | `RuntimeCard / EnemyAI → CombatAction → Timeline → EntityManager` | 卡牌与 AI 生成行动；Timeline 排期；BattleManager 转交到期行动 | `[SOURCE]` |
@@ -506,14 +514,14 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 | `Card_Logic.gd`；动态 Card.tscn 根 | 绑定一张 RuntimeCard，持有显示/动画状态 | 必需内部控件、Interaction/Animation；读单一卡牌模型并监听 `stats_updated`；发出牌/弃牌意图；不改牌堆或玩家资源 |
 | `Card_Interaction.gd` / `Card_Animation.gd`；Card.tscn 子节点 | 输入检测 / Tween 生命周期 | 注入通用 Control 目标；调用控件 API、发交互/动画完成信号；不依赖 CardManager、Timeline 或 BattleManager |
 | `RuntimeCard.gd` / `CardBuff.gd`；RefCounted，CardManager 牌堆持有 | 战斗卡牌数据与 Buff 列表 / 可变时间次数 | 模板由构造参数注入；`create_action()` 生成 CombatAction；`stats_updated` 通知单卡视图；共享 Buff 风险见下表 |
-| `CardInstance.gd` / `CardContainer.gd`；RefCounted，玩家数据模块持有 | 长期卡牌实例 / 有身份的有序容器 | 模板显式注入，数据对象不访问 Autoload；转移移动原对象，不改变 UID |
+| `WeaponInstance.gd` / `CardContainer.gd` / `CardInstance.gd`；RefCounted，按武器→容器→卡牌持有 | 具体武器身份 / 有序双牌组 / 长期卡牌身份与修改器 | 模板显式注入，数据对象不访问 Autoload；combat 容量 20，转移移动原对象并保留 UID |
 | `EntityData.gd` / `CombatAction.gd`；RefCounted，由 ExpeditionManager / Card或AI 创建 | 启动属性输入 / 一次行动载荷 | 调用者传入数据；无节点、反向管理器引用或信号；由相应消费方解释 |
 | `MapBlueprint.gd` / `RoomData.gd`；Resource，默认配置 / mapdata 持有 | 生成配置 / 房间与敌人事实 | 由 WorldGenerator 创建房间数据，World/BattleRoom 操作；不主动找管理器 |
 | `R_carddata.gd` / `R_EnemyData.gd` / `R_EnemyAction.gd`；Resource，目录索引持有 | 卡牌模板 / 敌人模板 / 行动配置 | 由 PlayerSaveManager、EntityManager、EnemyAI 向下读取；CardData.play 的旧效果执行路径未接入现行 Battle |
 | `SaveModule.gd`；RefCounted，SaveManager 注册表持有 | 通用序列化接口，无玩法事实 | `get_save_data()` / `load_save_data()` / `clear_data()` 由 SaveManager 调用；不要求具体玩法监听者 |
 | `BattleSaveModule.gd`；SaveModule 子类，当前未挂载 | 旧战前快照缓存，非现行状态持有者 | 反向调用注入的 save_manager 注册/保存，读取 AllEnemyData；与 Battle 可选 Node 槽接口不兼容，保留为遗留问题 |
 | `R_cardeffect.gd`、`E_cost.gd`、`E_Priority.gd`、`E_AddPoison.gd`；Resource 旧效果路径 | 旧卡牌直接修改 source/target | 依赖调用者提供旧字段/方法，现行 RuntimeCard 不调用；迁移范围待单独处理 |
-| `PlayerSaveManager.gd` / `PlayerCardSaveModule.gd`；Autoload / RefCounted | 玩家持久卡牌容器、初始化身份、最小恢复标记 | 管理器调用静态目录和 SaveManager；模块只接受显式模板，负责业务数据校验/恢复，不访问场景或反向调用拥有者 |
+| `PlayerSaveManager.gd` / `PlayerCardSaveModule.gd`；Autoload / RefCounted | 玩家数据的存取协调 / 拥有的武器列表、当前武器 UID、最小恢复标记 | 新游戏选择归 GameManager 配置；模块接收模板并序列化武器模型，不访问场景或反向调用拥有者 |
 
 ### 旧审计问题的当前状态
 
@@ -564,7 +572,7 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 | 替换敌人/玩家战斗反馈 | Battle 事件 → ExpeditionManager → World → EnemyVisual / PlayerDamageFeedback | Ready with constraints | 游戏事实与表现分离，模型/pivots/覆盖层可编辑；本轮未运行 Tween 视觉/取消验收，必须归还完成凭据 | 保持布尔启动结果与完成/取消回报；验收不改逻辑时间和伤害 |
 | HUD、卡牌视觉与局部布局 | BattleManager._refresh_hud() → CombatHUD.display_state()；Card.tscn / Animation | Ready with constraints | 引用与初始化通过；HUD 不查询玩法系统，手牌只观察单卡；首敌显示、字段契约与卡牌离场凭据有约束 | 布局先改所属场景；新显示字段由协调器提供，补目标分辨率与交互验收 |
 | 提灯模型/光照的 Inspector 调整 | PlayerVisual → LanternController → gravity/motion pivots / model scene | Ready with constraints | 独立场景和导出参数、引用可解析；没有 Fuel owner，俯仰/移动观感未在本轮验证 | 保留表现职责，替换后人工检查低头和移动 |
-| 武器双牌组与最小基地循环 | WeaponInstance → PlayerSaveManager → GameManager → ExpeditionManager；Base P 进入远征，死亡确认返回 | Ready with constraints | testweapon、UID/顺序保存恢复、P、开门 Battle 与缺失内容路径已做集中隔离检查；无设施或装备 UI，HP/Fuel 写回未实现 | 用户手动验收复用角色的移动与画面 |
+| 武器双牌组与最小基地循环 | WeaponInstance → PlayerSaveManager → GameManager → ExpeditionManager；Base P 进入，探索 L / 死亡确认返回 | Ready with constraints | 有武器/开门与 L 返回的既有集中逻辑记录；Base 操控问题用户已手动解决，无设施/编辑/切换交互，HP/Fuel 写回未实现 | 确认下一内容/交互切片，并单独安排完整游玩与表现验收 |
 | 完整 checkpoint / 远征存档 | 当前只保存玩家容器和 active 标记；BattleSaveModule 遗留 | Not ready | 不保存房间、地图、实体或战斗；中断只生成新远征 | 本切片之外继续暂缓，不把活动标记当作 Room Entry checkpoint |
 | 导出包资源发现与发布运行 | 目录加载器 → 导出资源 remap | Not verified | 本轮仅本地编辑器二进制 headless；无导出构建或包内扫描证据 | 发布相关任务再验证，不能从本地加载成功推导 |
 | 当前玩家战斗参数调整 | ExpeditionManager Inspector → EntityData → start_battle | Ready with constraints | 保留原有场景参数；本次未重新验收完整战斗，实体属性仍每场构造 | 不与持久卡牌容器或尚未实现的 HP 继承混淆 |
@@ -584,9 +592,28 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 
 优先级按内容任务决定：批量新机制卡前先处理资源语义/效果载荷与 Buff 设计；远征成长前先处理实体属性写回。玩家容器存档已按本次明确任务接通，其他 checkpoint 扩展继续暂缓。未决项保留 Buff 归属/时机、资源类型、并列排序、modifiers 转换及高级伤害/Shield 规则；身份持久化不替代这些设计。
 
-## 12. 本次验证记录
+## 12. 阶段收尾与验证记录
 
-日期：2026-10-28；只修改 ARCHITECTURE 与 CODEMAP。以下为本次重新执行的验证；未重跑的旧探针结果不作为本次证据。
+### 本阶段收尾（2026-10-28）
+
+本次只同步 README、CODEMAP、ARCHITECTURE、GAME_DESIGN，按当前源码、保存场景和工作树状态核对既有实现。未运行 Godot、未重跑以下逻辑探针、未检查画面或导出；本次文档一致性检查不能替代运行验证。没有启动测试进程、操作用户 Editor 或读写玩家存档。
+
+| 既有记录 | 实际覆盖与边界 |
+| --- | --- |
+| weapon_deck_probe.log：WEAPON_DECK_CHECKS=72 FAILURES=0 | 当时的武器 3001、两组起始引用、独立卡牌 UID、有序容器/迁移、P 交接、开门到 Battle、空牌组及缺失内容路径；包含隔离存档检查，不是完整战斗回归 |
+| base_return_probe.log：BASE_RETURN_CHECKS=31 FAILURES=0 | 当时的主菜单入口、共享玩家配置、L 状态限制/重复输入、保存失败保留远征、主动返回、死亡返回与中断恢复；死亡返回通过现有确认信号触发，不是完整战斗死亡验收 |
+
+上述日志仍位于忽略目录 `.codex_runtime/`，本次只读取其最终结果，临时探针已经删除，不能把历史计数当作当前可重跑的版本化测试套件。日志含预期失败注入及系统证书库读取错误，不代表 stderr 全空；早先进程清理记录不代表当前 Editor PID。
+
+Base 操控问题由用户确认已手动解决。当前保存的 Base 仍复用 PlayerVisual 子场景，本次不重新归因、不记录未经核实的修复细节，也不把这项用户确认扩展为完整视觉/碰撞/游玩验收。
+
+未完成：基地设施、双牌组编辑 UI、武器获取/存放/切换交互、更多作者内容、跨战斗属性写回、完整地图/战斗 checkpoint；完整游玩与导出仍需单独验证。GAME_DESIGN 的完整试玩版仍以界面式基地为目标，当前可移动 3D Base 是本阶段原型；两者不应混写为已经一致。死亡资产损失和完整 checkpoint 仍是后续目标，本阶段无新增损失规则。
+
+### 早期导航审计（历史快照）
+
+以下保留历史证据与限制。旧记录中的 provider、示例武器 ID 1、未配置武器、独立 warehouse 和“缺模板拒绝恢复”均已被第 4/7 节的当前武器双牌组契约取代，不能作为当前初始化、存档格式或导航依据。
+
+早期记录日期：2026-10-28；当时只修改 ARCHITECTURE 与 CODEMAP。以下为当时执行的检查，并非本次收尾重新执行的验证。
 
 - 静态清单：52 个项目 `.gd`、22 个 `.tscn`、12 个 `.tres`（不含 addons/cache）。检查保存层级、脚本挂载、主要导出引用/信号连接代码与内容生产链；扫描场景/资源显式 `res://` 外部引用，仅发现旧 `WorldSystem/DebugFreeCamera.tscn` 的缺失脚本。两个 `.tmp` 单独作为遗留材料查看，不算有效场景。
 - CLI：经 `tools/godot_cli.ps1 --version` 确认为 `4.7.2.stable.official.ed1daf0bf`。临时 SceneTree 探针存于仓库外，通过同一 wrapper 的 `--headless --path . --script <absolute_probe.gd>` 执行；52 个脚本加载并通过 `can_instantiate()`，21 个可用场景加载并实例化、12 个资源加载，64 处保存 NodePath 可解析，断言失败 0。旧 DebugFreeCamera 场景显式跳过，未声称全仓场景无错误。场景保存连接数为 0，主要信号由脚本动态连接，不能把此计数解释为无事件通信。
@@ -597,7 +624,7 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 
 未执行：Editor MCP/Runtime MCP 现场检查、窗口渲染/截图/人工交互、完整走门与运镜、胜利清敌/失败重开回归、多 AI/多敌人场景、完整 Buff 组合、不同敌人连续战斗属性残留验证、存档 I/O/恢复、Release/导出包验证。wrapper 隔离自动化 user/temp 数据，探针没有创建、加载或覆盖存档槽。临时探针与日志不加入玩法源码或受版本管理的测试入口。
 
-### 主菜单、卡牌身份与武器元数据补充验证（2026-10-28）
+### 早期主菜单、卡牌身份与武器元数据（历史快照，2026-10-28）
 
 本任务修改 MainMenu、CardInstance、RuntimeCard、BattleManager 并新增 WeaponData / 示例资源，保留任务开始前已暂存的 Base、素材移动和文档改动。以下证据独立于上方导航审计：
 
@@ -611,21 +638,7 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 
 未验收：完整战斗胜负、跨战斗状态、Base 内交互与可见场景内容、Base-to-Expedition、存档恢复、导出包。CardInstance.modifiers 的 runtime 语义及 Weapon = Deck 的具体字段仍待设计。
 
-### 主菜单、卡牌身份与武器元数据补充验证（2026-10-28）
-
-本任务修改 MainMenu、CardInstance、RuntimeCard、BattleManager 并新增 WeaponData / 示例资源，保留任务开始前已暂存的 Base、素材移动和文档改动。以下证据独立于上方导航审计：
-
-- 经 `tools/godot_cli.ps1` 运行临时 SceneTree 探针，headless 和窗口运行均获得应用断言失败 0、最终标记和退出码 0。窗口最终使用项目原有 Vulkan / Forward+，另做过 Compatibility 检查；未修改 renderer 配置。
-- 同模板 4096 个实例 UID 均为 64 位十六进制且无重复；现有旧格式 UID、CardInstance / RuntimeCard JSON 往返、缺失/空/空白/null/非字符串 UID 的替代、修改器字典深拷贝、两参数 RuntimeCard 和旧字典兼容通过。Runtime 基础消耗、时间、优先级、伤害行动及现有 Buff 运算保持测试值。
-- 实际 Expedition 场景入树、地图装配进入 EXPLORE，provider 配置通过。直接调用 Battle.start_battle，15 张牌的来源 UID 全部与输入匹配，6 张起手牌与首轮敌人排期完成；不等于完整走门、运镜或完整遭遇回归。
-- 按 project.godot 原主场景引用加载菜单，两个按钮名称/中文标签与单次保存连接通过；1920×1080、1280×720、640×360 下按钮矩形均位于菜单内。最终窗口探针注入鼠标按下/释放，进入精确 `res://BaseSystem/Base.tscn` 并确认 Field；重新加载菜单后聚焦 Quit 并注入 Enter，正常退出。1280×720 截图已检查中文字体与居中布局。场景加载失败分支仅源码检查，未破坏真实 Base 资源来注入失败。
-- 示例资源加载为 `WeaponData`，ID 1、名称、描述有效。无 registry，因此没有 ID 查询/重复 ID 行为；此任务不定义武器牌组格式或全局访问。
-- stderr 仍有 `Failed to read the root certificate store`，旧数据替代 UID 的警告是预期输出；不声称日志全空。首轮探针的 JSON 数字类型比较和错误敌人测试 ID，以及后续鼠标注入坐标空间问题均已在临时探针中修正；最终应用断言失败 0。
-- 最终窗口 Godot PID `41756`、wrapper PID `31660` 已退出；此前任务启动的验证进程亦已退出。9876/9877 无 TCP 监听，用户 Editor PID `21680` 保留。未操作用户存档，临时探针运行后移除；日志和截图留在忽略的 `.codex_runtime/task_menu_identity/`。
-
-未验收：完整战斗胜负、跨战斗状态、Base 内交互与可见场景内容、Base-to-Expedition、存档恢复、导出包。CardInstance.modifiers 的 runtime 语义及 Weapon = Deck 的具体字段仍待设计。
-
-### 玩家卡牌容器与远征中断恢复（2026-10-28）
+### 早期玩家卡牌容器与远征中断恢复（历史快照，2026-10-28）
 
 本轮只运行同一个临时 headless 聚焦检查：经 tools/godot_cli.ps1 执行，初次因新类尚未进入全局类缓存而编译失败；恢复构造改为显式加载自身脚本后重跑，最终 PLAYER_CONTAINER_FOCUSED_FAILURES=0，退出码 0。未另外运行视觉、完整遭遇、导出或其他回归套件。
 
