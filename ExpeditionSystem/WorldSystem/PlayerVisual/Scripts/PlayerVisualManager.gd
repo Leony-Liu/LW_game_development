@@ -130,6 +130,11 @@ func suspend_after_world_initialization_failure() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
+# 预检正式战斗表现的必需角色与相机依赖。
+func can_present_battle() -> bool:
+	return _validate_required_dependencies()
+
+
 # 预检当前玩家、相机与目标能否启动遇敌接近。
 func can_start_encounter_approach(target: Node3D) -> bool:
 	if not is_instance_valid(player) or not is_instance_valid(head):

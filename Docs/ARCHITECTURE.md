@@ -15,7 +15,7 @@
 
 树形图表示保存的 SceneTree，明确注明“概念分组”的图除外。`Resource` 与 `RefCounted` 是数据对象。
 
-审计日期：2026-10-28。本次从真实文件复核配置、场景接线、52 个项目脚本及内容生产链；有限 headless 验证的范围、已知失败路径和限制见第 12 节。本文不是完整依赖图或完整游戏验收记录。
+导航审计基线日期：2026-10-28，原覆盖 52 个项目脚本；后续玩家容器与场景恢复的限定改动见相关章节及第 12 节新增验证记录。本文不是完整依赖图或完整游戏验收记录。
 
 ## 1. 目录
 
@@ -44,13 +44,14 @@ Application
 ├─ MainMenu
 ├─ GameManager
 ├─ SaveManager
+├─ PlayerSaveManager
 └─ Static Data
    ├─ AllCardData
+   ├─ AllWeaponData
    └─ AllEnemyData
 
 ExpeditionSystem
 ├─ ExpeditionManager
-├─ PrototypePlayerDataProvider
 ├─ WorldSystem
 │  └─ PlayerVisualSystem（PlayerVisual 场景）
 ├─ BattleSystem
@@ -66,7 +67,6 @@ MainMenu（主场景，Control；MainMenu.gd）
 
 Expedition‌System（独立保存场景，Node）
 ├─ ExpeditionManager
-├─ PrototypePlayerDataProvider
 ├─ WorldSystem [WorldManager]
 │  ├─ RoomSet
 │  ├─ DoorSet
@@ -81,10 +81,12 @@ Expedition‌System（独立保存场景，Node）
 
 | 名称 | 脚本 | 当前作用 |
 | --- | --- | --- |
-| `GameManager` | `Scripts/GameManager.gd` | 已注册；`_ready()`、`_process()` 为空 `[LIVE][PLACEHOLDER]` |
+| `GameManager` | `Scripts/GameManager.gd` | 应用级 Start、进入远征、死亡返回与中断恢复 `[SOURCE]` |
 | `SaveManager` | `Scripts/SaveManager.gd` | 存档槽、模块注册与 JSON 读写 `[LIVE][SOURCE]` |
 | `AllCardData` | `Scripts/CardData/AllCardData.gd` | `CardData` 资源索引 `[LIVE][SOURCE]` |
+| `AllWeaponData` | `Scripts/WeaponData/AllWeaponData.gd` | 静态武器定义索引；在 AllCardData 之后初始化 `[SOURCE]` |
 | `AllEnemyData` | `Scripts/EnemyData/AllEnemyData.gd` | `EnemyData` 资源索引 `[LIVE][SOURCE]` |
+| `PlayerSaveManager` | `Scripts/PlayerSaveManager.gd` | 位于静态数据库之后，协调武器恢复、保存与交接 `[SOURCE]` |
 | `godot_mcp_runtime` | `addons/godot-mcp/` | 开发工具运行时 `[LIVE]` |
 
 `project.godot` 保存 Forward Plus、1920×1080 UI 基准、1280×720 窗口覆盖和 `canvas_items/expand` 拉伸，以及全局 Theme/字体 UID。战斗通过 InputMap 的 `combat_draw_to_full`（F）、`combat_advance_time`（Space）接收操作；探索 PlayerController 与门/调试相机仍直接读取 WASD、Shift、E 等按键。已有 InputMap 项不能单凭名称视作对应玩法已实现或已支持重绑定。`[LIVE][SOURCE]`
@@ -94,11 +96,12 @@ Expedition‌System（独立保存场景，Node）
 | 系统 | 位置 | 类型 | 主要作用 |
 | --- | --- | --- | --- |
 | `MainMenu` | `MainMenuSystem/MainMenu.tscn` | 主场景 | 应用入口节点 |
-| `GameManager` | `Scripts/GameManager.gd` | Autoload | 空的应用级脚本 `[PLACEHOLDER]` |
+| `GameManager` | `Scripts/GameManager.gd` | Autoload | 保存后提交应用级场景切换 |
 | `SaveManager` | `Scripts/SaveManager.gd` | Autoload | 存档文件与模块生命周期 |
 | `AllCardData` / `AllEnemyData` | `Scripts/CardData/` / `Scripts/EnemyData/` | Autoload | 静态资源索引 |
+| `AllWeaponData` | `Scripts/WeaponData/AllWeaponData.gd` | Autoload | 静态武器定义加载与卡牌模板引用校验 |
 | `ExpeditionManager` | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | 场景节点 | 遭遇与战斗启动交接 |
-| `PrototypePlayerDataProvider` | `ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd` | 场景节点 | 从 Inspector 配置生成战斗输入 |
+| `PlayerSaveManager` | `Scripts/PlayerSaveManager.gd` | Autoload | 恢复/保存武器模型与卡牌交接；初始选择归应用配置 |
 | `WorldSystem` | `ExpeditionSystem/WorldSystem/` | 场景子树 | 地图、房间、门与世界状态 |
 | `PlayerVisual` | `ExpeditionSystem/WorldSystem/PlayerVisual/` | 子场景 | 玩家控制、相机与遇敌接近 |
 | `BattleSystem` | `ExpeditionSystem/BattleSystem/` | 常驻子场景 | 单场战斗装配与协调 |
@@ -106,7 +109,7 @@ Expedition‌System（独立保存场景，Node）
 
 ## 4. Application 系统
 
-本节的 `Application` 只是阅读分组：`MainMenu` 是主场景节点，`GameManager`、`SaveManager`、`AllCardData` 和 `AllEnemyData` 是分别注册的 Autoload。当前没有统一的 `Application` 节点承载这些服务；远征内的 World/Battle 交接由 `ExpeditionManager` 处理。`[LIVE][SOURCE]`
+本节的 `Application` 只是阅读分组：`MainMenu` 是主场景节点，GameManager、SaveManager、静态数据库和 PlayerSaveManager 分别注册为 Autoload。GameManager 向玩家数据服务和新场景下发调用；远征协调器通过 death_confirmed 向上通知，不反向控制应用流程。远征内 World/Battle 交接仍由 ExpeditionManager 负责。`[SOURCE]`
 
 ### `MainMenu`
 
@@ -116,19 +119,21 @@ Expedition‌System（独立保存场景，Node）
 | --- | --- |
 | 位置与组成 | `MainMenuSystem/MainMenu.tscn`；`Control` 根挂载 `MainMenu.gd`，内部 CenterContainer / VBoxContainer / 两个 Button `[SOURCE]` |
 | 输入 | `project.godot` 的 `run/main_scene` 指向该场景 |
-| 输出 | Start 的保存信号连接调用 `SceneTree.change_scene_to_file("res://BaseSystem/Base.tscn")` 并检查 Error；失败时报告错误并保留菜单。Quit 调用 `SceneTree.quit()` `[SOURCE]` |
+| 输出 | Start 调用 `GameManager.start_game() -> bool` 并检查失败结果；正常进入 Base，中断标记为 true 时恢复玩家数据并直接进入新远征。Quit 调用 SceneTree.quit() `[SOURCE]` |
 
-主场景 UID 保持 `uid://cu8ebs30en5qs`。`BaseSystem/Base.tscn` 已存在且经菜单运行加载验证，当前包含 Field 和 Interactive items，没有基地交互、整备或 Base-to-Expedition 切换。GameManager 尚无应用流程 API，因此本次入口操作保留在 MainMenu 脚本，不新增管理器。远征玩法验证仍直接运行 `ExpeditionSystem/ExpeditionSystem.tscn`。`[SOURCE][VERIFY]`
+主场景 UID 保持 `uid://cu8ebs30en5qs`。Base 实例化已有完整 PlayerVisual.tscn，复用 CharacterBody3D、PlayerController、HeadController、提灯与主相机；共享受伤表现组件不接收 Base 战斗事件。Base.gd 只在活动 Base 接收 InputMap.start_expedition（物理 P），过滤重复按键；GameManager 重入门闩阻止并发切换。Editor 直接运行 Expedition 时，GameManager 延迟启动同样完成恢复/初始化、牌组交接、保存与活动标记。没有设施交互或整备 UI。`[SOURCE]`
 
 ### `GameManager`
 
-`GameManager` 是已注册的 Autoload，但当前生命周期方法为空；不能据其名称推断它已负责场景切换或远征协调。`[LIVE][SOURCE][PLACEHOLDER]`
+`GameManager` 使用既有 Autoload 承担应用流程。先加载并实例化目标场景，进入远征前调用 initialize_player_deck() 注入原对象，再检查与持久来源的数量、顺序、对象及 UID。进入远征保存 active=true，死亡确认保存 active=false；保存成功才调用 SceneTree.change_scene_to_node()，原生切换失败时保存回原标记。若回滚写入也失败，会明确报错停止流程，不能声称已恢复磁盘状态。`[SOURCE]`
+
+InputMap.return_to_base（物理 L）由 ExpeditionManager 接收：只在 WorldState.EXPLORE、没有协调器/Battle 启动、活动战斗或待确认结果时发出 return_to_base_requested，忽略重复按键。GameManager.return_to_base() 再检查当前场景路径、协调器状态与应用切换门闩；主动返回与死亡确认共用 _return_to_base() → _save_and_transition(Base, false)。保存失败保留远征、恢复内存活动标记并报告错误，不清除玩家数据；成功时 Base 继续使用同一持久武器和双牌组。不增加地图/敌人/RuntimeCard 保存或撤退惩罚。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `Scripts/GameManager.gd`；`GameManager` Autoload `[LIVE]` |
-| 输入 | Godot 节点生命周期 `_ready()`、`_process(delta)` |
-| 输出与数据 | 两个方法均为空实现 `[SOURCE][PLACEHOLDER]` |
+| 输入 | start_game()、start_expedition()、return_to_base()、ExpeditionManager.death_confirmed / return_to_base_requested |
+| 输出与数据 | bool 返回请求是否成功提交；scene_changed 后解除重入门闩并报告完成。无地图或战斗快照。`[SOURCE]` |
 
 ### `SaveManager`
 
@@ -141,9 +146,23 @@ Expedition‌System（独立保存场景，Node）
 | 输出 | `save_started`、`save_finished(success)`、`load_started`、`load_finished(success)`；读写 `user://saves/<slot_id>.json` |
 | 数据 | `current_slot_id`、`current_metadata`、`_modules`；文件根字典含 `metadata` 与 `modules_data` |
 
+create_new_save()/load_slot()/save_game() 返回 bool；create_new_save(..., save_immediately=false) 允许先初始化业务数据，不写入空白中间快照。SaveModule 新增 can_save() / try_load_save_data()，兼容旧 void load_save_data()；PlayerCardSaveModule 提供明确失败结果。加载先验证根结构和模块数据，缺可选模板保留持久记录，结构失败保留原槽位和文件；写入使用 .json.tmp、flush 和 rename 提交，不直接截断原文件。未注册模块原数据会保留。`[SOURCE]`
+
+### `WeaponInstance`、`PlayerSaveManager` 与 `CardContainer`
+
+WeaponInstance（Scripts/RefCounted/WeaponInstance.gd）是持久武器模型：unique_id、weapon_id / weapon_data、combat_deck、reserve_deck。每把武器持有两个独立有序 CardContainer；战斗容器容量 20，备用容器无额外上限。CardInstance 弱引用记录所属容器，add_card 拒绝已有归属，transfer_to 移动原对象并保留 UID，失败回到原位置。没有独立玩家卡牌仓库。`[SOURCE]`
+
+PlayerSaveManager 协调恢复、保存和交接；PlayerCardSaveModule 保存 schema_version=2、owned_weapons、current_weapon_uid、expedition_was_active。模型允许多把武器，本切片只初始化一把，无切换或多武器 UI。默认槽位 user://saves/player_cards.json。缺少 CardData 的已存卡牌仍保留 ID、UID、modifiers 和位置，战斗转换诊断并跳过；无效结构或重复 UID 拒绝恢复，保留原文件。缺失 WeaponData 的既有武器保留模板 ID 与双牌组。`[SOURCE]`
+
+GameManager 使用独立 NewGameConfig / Scripts/NewGame.tres 选择初始武器 3001；只有没有已有武器时调用 WeaponInstance.create_starting()，按两个静态数组逐项创建独立 UID，允许重复模板 ID。已有武器及空牌组只恢复，不补牌。原 testweapon 资源配置 combat 14 Attack + 6 Skill，reserve 6 Attack + 4 Skill；Attack 1001–1005 各 4 张，Skill 2001–2002 各 5 张。`[SOURCE]`
+
+旧无版本模块：weapon_deck 前 20 张按序迁入 combat_deck，超限卡按序放入 reserve_deck，再追加原 warehouse。保留全部原卡牌 UID、modifiers 和各来源顺序，报告迁移及超限数。旧未初始化且容器皆空可按新游戏初始化；未初始化却已有卡牌、未知容器或损坏数据不猜测归属，拒绝恢复并保留原文件。迁移先发生在内存，下一次既定保存时写入新结构。`[SOURCE]`
+
+只在进入远征前、死亡确认后与探索 L 主动返回时保存；无逐次编辑或行动自动保存。active=true 时下一次 Start 恢复武器并直接生成新远征；不保存地图、房间、敌人、EntityData、RuntimeCard、时间轴或战斗 Buff。本切片不新增死亡资产损失规则。`[SOURCE]`
+
 ### `AllCardData` 与 `AllEnemyData`
 
-这两个 Autoload 分别索引卡牌与敌人静态资源，供 provider 校验卡牌 ID、供 World 和 Battle 查询敌人 ID。它们持有资源索引；原型配置、房间敌人事实和战斗内实体状态仍由各自系统持有。`[SOURCE]`
+这两个 Autoload 分别索引卡牌与敌人静态资源，供武器模型和存档模块构造/恢复实例、供 World 和 Battle 查询敌人。它们只持有资源索引；玩家容器、房间事实和战斗实体仍由各自拥有者持有。`[SOURCE]`
 
 | 系统与位置 | 输入 | 输出与数据 |
 | --- | --- | --- |
@@ -156,12 +175,12 @@ Expedition‌System（独立保存场景，Node）
 
 ### 组成与通信
 
-`ExpeditionSystem/ExpeditionSystem.tscn` 中，`ExpeditionManager`、`PrototypePlayerDataProvider`、`WorldSystem`、`BattleSystem`、`UISystem` 为同级子节点。`ExpeditionManager` 保存对 provider、World、Battle、UISystem 的引用。`[LIVE]`
+`ExpeditionSystem/ExpeditionSystem.tscn` 中，ExpeditionManager、WorldSystem、BattleSystem、UISystem 为同级节点。应用级 GameManager 在入树前向 ExpeditionManager 注入持久牌组；原 PrototypePlayerDataProvider 节点、脚本与 UID 元数据已删除。原玩家战斗属性迁到 ExpeditionManager Inspector，沿用场景已有值。`[SOURCE]`
 
 ```text
 WorldManager.encounter_requested(RoomData, enemy_id)
 → ExpeditionManager
-→ PrototypePlayerDataProvider.get_player_data() / get_player_deck()
+→ ExpeditionManager._create_player_data() / get_player_deck()
 → BattleManager.start_battle(deck, player_data, enemy_id)
 → WorldManager.resolve_encounter_request(RoomData, startup_succeeded)
 
@@ -172,25 +191,18 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 ### `ExpeditionManager`
 
-`ExpeditionManager` 接收 World 的遭遇请求，向 provider 取得玩家输入，交给 `BattleManager` 启动，再将启动结果交还 World。这个场景节点只协调 World/Battle 的生命周期边界：World 保留房间和探索状态，Battle 保留战斗状态。它自身保存启动重入门闩与待确认结果标志，并通过 `UISystem` 接收结果操作。`[SOURCE]`
+ExpeditionManager 接收 World 的遭遇请求，使用已注入的同批 CardInstance 和场景配置创建的 EntityData 启动 Battle，再交还启动结果。不会为每次遭遇重建持久卡牌。旧直接运行远征没有 initialize_player_deck，开门事件到协调器后被 _deck_initialized 门闩拒绝；现由 GameManager 补全直接入口。空战斗牌组允许启动；缺 CardData 条目在 BattleManager._convert_deck_to_runtime() 跳过，保留可用卡的顺序和 RuntimeCard.source_instance_uid，只读取 combat_deck。缺 EnemyData 时 EntityManager 省略敌人及 AI，缺行动引用则跳过，无可用行动不排期；必需场景和非法行动数值仍明确失败。World 保留探索事实，Battle 保留战斗状态；协调器只持有牌组引用快照、启动门闩和待确认结果标志。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/ExpeditionManager`；`ExpeditionSystem/Scripts/ExpeditionManager.gd`；导出 `world_manager`、`battle_manager`、`prototype_player_data_provider`、`result_ui` `[LIVE]` |
+| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/ExpeditionManager`；导出 world_manager、battle_manager、result_ui 和玩家战斗属性 `[SOURCE]` |
 | 输入 | `WorldManager.encounter_requested(room_data, enemy_id)`、`world_state_changed(previous_state, current_state)` |
-| 输出 | 调用 provider、`BattleManager.start_battle()`、`WorldManager.resolve_encounter_request()`、`BattleManager.set_presentation_ready()` |
+| 输出 | BattleManager.start_battle()、WorldManager.resolve_encounter_request()、BattleManager.set_presentation_ready()；死亡确认向上发出 death_confirmed，探索 L 返回发出 return_to_base_requested |
 | 数据 | `_is_starting_battle` 保存启动重入门闩，`_result_pending` 保存待确认结果标志；从 `WorldManager` 查询当前房间与 pending 状态 `[SOURCE]` |
 
-### `PrototypePlayerDataProvider`
+### 玩家战斗属性边界
 
-`PrototypePlayerDataProvider` 把 Inspector 中的原型玩家配置转成 `EntityData` 和 `CardInstance`，让启动交接可以取得明确的输入。它持有原型配置并调用 `AllCardData` 校验 ID，再将对应 `CardData` 注入 `CardInstance.new(id, template)`；数据对象自身不访问 Autoload。战斗激活和运行时牌堆由 Battle 子系统管理。`[SOURCE]`
-
-| 项目 | 当前实现 |
-| --- | --- |
-| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/PrototypePlayerDataProvider`；`ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd` `[LIVE]` |
-| 输入 | Inspector 中的玩家属性、`prototype_card_ids` 与配置标志；通过 `AllCardData.get_cards()` 校验 ID |
-| 输出 | `validate_configuration() -> bool`、`get_player_data() -> EntityData`、`get_player_deck() -> Array[CardInstance]` |
-| 数据 | 导出字段保存原型配置；按请求构造玩家数据和卡牌实例 `[SOURCE]` |
+ExpeditionManager._create_player_data() 沿用原已配置的身份、HP、体力、法力及回复值，不新增玩法数值。EntityData 仍是每场战斗输入，本任务未实现跨战斗 HP 继承；持久双牌组归 WeaponInstance，不能从这些属性或旧测试 ID 列表推导牌组。`[SOURCE]`
 
 ### `WorldSystem`
 
@@ -205,9 +217,9 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 `WorldGenerator.generate(blueprint)` 返回 `rooms` / `doors` 字典；`WorldManager.init_map() -> bool` 检查结构和初始房间，依次检查 `RoomSet.build_rooms() -> bool`、`DoorSet.build_doors() -> bool`，再赋值 `mapdata` 并调用 `enter_explore_mode() -> bool`；探索切换失败时回滚清空地图。`RoomSet` 按 `RoomData.connected_doors` 建立 `BattleRoom`，并保存 RoomData 到实例及接近锚点的索引；`DoorSet` 创建 `Door` 并中继 `door_opened`。`[SOURCE]`
 
-Blueprint 当前配置房间数/浮动、Boss 配额、遇敌/精英概率和类型权重。RoomData 只定义 `INITIAL/NORMAL`；所有房间均由一个 `battle_room_scene` 装配，尚无设施房或按类型选房间预制体的路径。生成器按 `EnemyData.enemy_level` 抽敌人（0 普通、1 精英、2 Boss）；现有两个模板为 0/1，默认 `boss_count = 0`。启用 Boss 配额前须提供 level 2 模板，否则生成 `has_enemies = true, enemy_id = -1`，敌人房装配会失败。10 米网格和形状偏好仍为代码常量，World 的开门推算也使用 10 米网格。`[SOURCE]`
+Blueprint 当前配置房间数/浮动、Boss 配额、遇敌/精英概率和类型权重。RoomData 只定义 `INITIAL/NORMAL`；所有房间均由一个 `battle_room_scene` 装配，尚无设施房或按类型选房间预制体的路径。生成器按 `EnemyData.enemy_level` 抽敌人（0 普通、1 精英、2 Boss）；现有两个模板为 0/1，默认 `boss_count = 0`。启用 Boss 配额前须提供 level 2 模板，否则生成 `has_enemies = true, enemy_id = -1`；房间仍可装配并进入战斗，省略缺失敌人。10 米网格和形状偏好仍为代码常量，World 的开门推算也使用 10 米网格。`[SOURCE]`
 
-`BattleRoom.build_room() -> bool` 组装四面墙、地板和天花板，`is_assembled` 供创建它的 `RoomSet` 在入树同步 `_ready()` 后检查。有敌人的房间还需要有效敌人 ID、`enemy_root` 和接近锚点；无敌人的房间可以缺少这些表现引用。任一必需组件失败时房间撤下本次挂载；`RoomSet` / `DoorSet` 失败时撤下本批实例。World 收到失败结果后清理两组实例、清空 `mapdata`、通过 `PlayerVisualManager` 停用探索输入并保持 `INIT`；再次进入探索时恢复输入。无门的有效地图不需要门场景。失败日志不替代各层的布尔结果。`[SOURCE]`
+`BattleRoom.build_room() -> bool` 组装四面墙、地板和天花板，`is_assembled` 供创建它的 `RoomSet` 在入树同步 `_ready()` 后检查。敌人模板、`enemy_root`、接近锚点是可选内容；缺敌人模板时隐藏模型，缺接近目标时跳过运镜进入已启动 Battle。墙体、地板、天花板及其场景仍是必需依赖。任一必需组件失败时房间撤下本次挂载；`RoomSet` / `DoorSet` 失败时撤下本批实例。World 收到失败结果后清理两组实例、清空 `mapdata`、通过 `PlayerVisualManager` 停用探索输入并保持 `INIT`；再次进入探索时恢复输入。无门的有效地图不需要门场景。失败日志不替代各层的布尔结果。`[SOURCE]`
 
 `BattleRoom/EnemyRoot/EnemyVisual` 是可选模型表现。`EnemyVisual.gd` 只移动自身的 `MeshInstance3D`，不移动 `EnemyRoot`、碰撞或实体属性；受击和攻击各用短 Tween 返回保存的局部变换，重复事件替换旧 Tween，房间清敌释放节点时终止效果。`[LIVE][SOURCE]`
 
@@ -241,7 +253,7 @@ Blueprint 当前配置房间数/浮动、Boss 配额、遇敌/精英概率和类
 | 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`；`ExpeditionResultUI.gd`、`VictoryPanel`、`GameOverPanel` `[LIVE]` |
 | 输入、输出与数据 | 接收结果显隐请求；发出 `victory_confirmed`、`restart_requested`，不修改 World 或 Battle `[SOURCE]` |
 
-`ExpeditionManager` 接收 `BattleManager.battle_ended`。胜利确认后调用 `WorldManager.finish_battle()`，由当前 `BattleRoom.clear_enemies()` 清除敌人，再恢复探索；失败确认后重新实例化远征场景，生成新地图与玩家输入。`[SOURCE]`
+ExpeditionManager 接收 BattleManager.battle_ended。胜利确认仍清敌并恢复探索；失败按钮保留 RestartButton/restart_requested 接线，标签改为“返回基地”，由协调器发出 death_confirmed，GameManager 保存容器并清恢复标记后进入 Base。失败时保留结果面板供重试，不再重新加载远征。`[SOURCE]`
 
 ## 6. BattleSystem
 
@@ -361,27 +373,31 @@ BattleSystem [BattleManager]
 | --- | --- | --- |
 | `MapBlueprint → WorldGenerator.generate() → mapdata → RoomSet / DoorSet` | `WorldManager.mapdata` 保存 `rooms` / `doors`；两个 Set 创建场景实例 | `[SOURCE]` |
 | `RoomData → BattleRoom` | `mapdata.rooms` 的 `RoomData` 传给 `BattleRoom.room_data`；`RoomSet` 保存对象到实例的映射 | `[SOURCE]` |
-| `CardData → CardInstance → RuntimeCard → CombatAction` | `AllCardData` 索引模板；provider 按 ID 构造实例；`BattleManager` 用 `card_id`、`card_data`、`unique_id` 构造运行时卡；`RuntimeCard.create_action()` 生成行动 | `[SOURCE]` |
-| `EntityData → CombatEntity → AttributeSet → Attribute` | provider 构造 `EntityData`；`EntityManager.initialize()` 注册玩家实体属性 | `[SOURCE]` |
+| `CardData → CardInstance → RuntimeCard → CombatAction` | PlayerSaveManager 初始化或恢复容器；GameManager 注入同批实例；BattleManager 保留来源 UID；RuntimeCard 生成行动 | `[SOURCE]` |
+| `EntityData → CombatEntity → AttributeSet → Attribute` | ExpeditionManager 按已有场景配置构造 EntityData；EntityManager 注册属性 | `[SOURCE]` |
 | `EnemyData / EnemyAction → CombatEntity / EnemyAI → CombatAction` | `AllEnemyData.get_enemy()` 提供属性和行动池；`EntityManager` 装配敌人并启动首轮规划，BattleManager 在行动结算后请求下一次规划 | `[SOURCE]` |
 | `RuntimeCard / EnemyAI → CombatAction → Timeline → EntityManager` | 卡牌与 AI 生成行动；Timeline 排期；BattleManager 转交到期行动 | `[SOURCE]` |
 | `SaveModule → SaveManager → JSON` | 注册模块提供序列化数据；`SaveManager` 写入 `metadata` / `modules_data`，加载时回调模块 | `[SOURCE]` |
 
 `BattleManager._convert_deck_to_runtime()` 将 `CardInstance.unique_id` 传给 `RuntimeCard.source_instance_uid`。模板数字 ID、Godot Resource UID 和卡牌实例 UID 是不同身份；同模板的具体卡具有不同实例 UID。`RuntimeCard` 不生成来源身份，无实例来源时允许空字符串。`CardInstance.modifiers` 仍只保存在输入实例中，未参与 runtime 属性计算；转换语义待设计，本次未自动映射到 Buff。`[SOURCE]`
 
-`CardInstance.new(id, template, instance_uid = "")` 和 `CardInstance.from_dictionary(data, template)` 都要求注入 ID 匹配的 `CardData`。新身份由 `Crypto.generate_random_bytes(32)` 生成 256 位随机十六进制字符串；恢复时原样保留有效旧字符串，仅缺失、空白或非字符串 UID 才生成替代并警告。修改器继续深拷贝，无有效模板的恢复明确失败。两类卡牌的 dictionary API 保留各自 UID 字段；RuntimeCard 两参数构造和缺来源字段的旧字典仍兼容。未接通存档管线。`[SOURCE]`
+`CardInstance.new(id, template, instance_uid = "")` 和 from_dictionary(data, template) 接收匹配 CardData；已存模板缺失时仍保留身份与修改器，战斗转换时跳过。新 UID 使用 256 位安全随机值，恢复保留有效旧 UID，旧数据缺 UID 时补建并警告。RuntimeCard 来源 UID 契约不变；本次未新增 modifier/Buff 转换。`[SOURCE]`
 
 ### 静态武器模板基础
 
-`Scripts/Resource/Weapon/R_weapondata.gd` 定义 `WeaponData extends Resource`，只导出 `id`、`name`、`description`。`Scripts/WeaponData/Weapons/ExampleWeapon.tres` 是 ID 1 的元数据示例，可通过 `ResourceLoader.load()` 读取为 WeaponData。当前无武器查询消费者，因此不创建 registry 或 Autoload；示例不代表可玩武器。Weapon = Deck 的方向保持不变，具体牌组字段/序列化、装备和 runtime 转换尚未建立。`[SOURCE]`
+WeaponData extends Resource，字段为 id、name、description 与 starting_combat_deck_card_ids / starting_reserve_deck_card_ids。静态引用允许重复模板 ID；WeaponInstance.create_starting() 逐项创建独立 UID。共享模板不保存玩家可变状态，武器实例持有两个有序容器。`[SOURCE]`
+
+`Scripts/WeaponData/AllWeaponData.gd` 作为唯一武器定义索引，沿用现有全局静态数据库模式；注册于 AllCardData 之后，只扫描 Weapons/ 同层 `.tres`。武器资源无效、ID 非正数/重复或起始战斗牌组超过 20 张时明确失败，不发布部分索引。缺失的可选卡牌引用仅诊断，武器仍入库，创建新实例时跳过缺失条目；重复卡牌模板 ID 合法。`[SOURCE]`
+
+get_weapons() 返回索引浅副本，get_weapon(id) 对不存在 ID 返回 null，空库有效且不反复重载。现有用户资源 testweapon.tres（3001）保留原身份与描述，配置 20 张战斗引用和 10 张备用引用。GameManager 从独立 NewGame.tres 读取初始选择；武器切换和装备 UI 未实现。`[SOURCE]`
 
 ### 内容创建与消费的实际边界
 
-- 卡牌模板在 `Scripts/CardData/Cards/` 创建，经索引和 provider 的 `prototype_card_ids` 进入当前测试牌组；新增模板不会自动加入牌组。`RuntimeCard.create_action()` 仅生成伤害与可选 `shield` 数值冲击；`CardData` Resource 本身没有导出 `shield` 字段。`effects` 虽复制进 runtime 字典，但现行执行链不调用 `CardData.play()` / `CardEffect.execute()`，也没有模板到 `card_buffs/entity_buffs` 的转换。`[SOURCE]`
+- 卡牌模板在 `Scripts/CardData/Cards/` 创建；新武器的双牌组来自 WeaponData 两组起始引用，Battle 只转换已有 combat_deck。RuntimeCard.create_action() 仍只生成伤害与可选 shield 冲击，旧 effects 未接入，modifier/Buff 语义不变。`[SOURCE]`
 - 现有“蓄力”“崩势步”“致命斩击”“迅跃斩”的描述包含下一次增伤或增伤比例，但这些描述不是效果实现证据；现有模板也没有接通相应 Buff。不能把增加文本或填充旧 effects 当作新机制已完成。`[SOURCE]`
 - `get_resource_cost()` 对 Attack 取 stamina_cost、其他类型取 mana_cost，但 Battle 的出牌预检和扣费都写死使用 `stamina`。这是确认的显示/执行资源语义不一致；最终类型默认资源规则仍属 GAME_DESIGN 的待设计项。`[SOURCE]`
 - 计数 Buff 在 `CardManager.confirm_play_card()` 内消耗，早于 `Timeline.receive_card()` 创建行动；持续时间只由 `advance_hand_buffs_time()` 推进当前手牌。此处记录当前顺序，不将其确认为最终 Buff 规则。`[SOURCE]`
-- provider 每次遭遇都创建新的 EntityData 与 CardInstance；实体状态变化没有写回 provider 的路径。CardInstance 的“长期”是对象设计能力，当前没有武器牌组拥有者、跨战斗 HP 继承或持久保存接入。`[SOURCE][PLACEHOLDER]`
+- CardInstance 由玩家容器持有并跨遭遇复用、可保存恢复；EntityData 仍按每场配置创建，未接入跨战斗 HP 继承或战斗属性写回。`[SOURCE]`
 
 ### 存档接口的当前兼容性
 
@@ -391,7 +407,7 @@ BattleSystem [BattleManager]
 
 遗留 `BattleSaveModule.load_save_data()` 仍手工以两参数构造 RuntimeCard，未调用其 `from_dictionary()`，因此也不恢复新增来源 UID；该路径未启用，本次按存档暂停边界保留，不将新的 dictionary 契约宣称为完整存档兼容。`[SOURCE][LEGACY]`
 
-SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpoint。GAME_DESIGN 已确认 Room Entry / Battle Start Checkpoint 与 Battle 中断后整场重开，精确保存 Battle 中间队列已非待决需求；实现仍未接通。存档开发按 README 暂缓，只有用户明确恢复时再处理接入、失败结果及格式兼容。`[SOURCE][PLACEHOLDER]`
+本次按用户明确任务恢复玩家容器的最小存档接入，仅包含两个容器、初始化身份和 expedition_was_active。Room Entry / Battle Start Checkpoint 尚未实现；当前中断恢复直接生成新远征，不恢复旧地图、房间或战斗。旧 BattleSaveModule 保持未启用，其接口问题不由本次玩家模块修复。`[SOURCE]`
 
 ## 8. 跨系统通信
 
@@ -411,11 +427,12 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 
 ### 战斗与数据
 
-启动接口把 `external_deck`、`external_player_data` 和 `enemy_id` 一起交给 `BattleManager`：前两项来自 provider 的原型输入，敌人 ID 来自 World 的房间事实。Battle 将牌组转为 `RuntimeCard`，并让 `EntityManager` 按玩家数据和敌人资源建立实体。随后各子系统传递同一个 `CombatAction` 供排期、结算及完成确认；`time_advanced(delta_time)` 将实际流逝时间交给卡牌 Buff 和资源回复的持有者。`[SOURCE]`
+Battle 启动参数 external_deck 来自已注入的持久实例，external_player_data 来自 ExpeditionManager 的原有场景属性，enemy_id 来自 World 房间事实。后续 RuntimeCard、CombatAction、Timeline 与实体执行链不变，运行时状态不会写回持久容器。`[SOURCE]`
 
 | 方向 | 接口与重要参数 | 当前传递 |
 | --- | --- | --- |
-| `ExpeditionManager → PrototypePlayerDataProvider` | `validate_configuration()`、`get_player_data()`、`get_player_deck()` | `EntityData` 与 `Array[CardInstance]` `[SOURCE]` |
+| `GameManager → PlayerSaveManager / ExpeditionManager` | get_expedition_deck()、initialize_player_deck(cards, content_state)、validate_deck_handoff() | 原有有序 CardInstance 对象，按数量/顺序/UID 检查 `[SOURCE]` |
+| `ExpeditionManager → GameManager` | death_confirmed 信号 | 仅通知死亡确认；应用拥有者决定保存与返回 Base `[SOURCE]` |
 | `ExpeditionManager → BattleManager` | `start_battle(external_deck: Array[CardInstance], external_player_data: EntityData, enemy_id: int) -> bool` | 战斗启动输入和成败结果 `[SOURCE]` |
 | `BattleManager → EntityManager / CardManager` | `EntityManager.can_initialize(player_data: EntityData, enemy_id: int)` / `initialize(player_data: EntityData, enemy_id: int)`；`CardManager.can_initialize(player_deck: Array[RuntimeCard])` / `initialize(player_deck: Array[RuntimeCard])` | 玩家实体输入与运行时牌组 `[SOURCE]` |
 | `EnemyAI → EntityManager → BattleManager → Timeline` | `action_planned(action)` → `enemy_action_generated(action)` → `add_action(action)` | `CombatAction` `[SOURCE]` |
@@ -459,7 +476,7 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 | 敌方行动池、冷却与规划时间 | `EnemyAI` | `[SOURCE]` |
 | 抽牌堆、手牌、弃牌堆 | `CardManager` | `[SOURCE]` |
 | 单卡战斗 Buff 列表 | `RuntimeCard`；共享可变 Buff 的计时归属仍待明确 | `[SOURCE]`，见第 10 节 |
-| 原型玩家与牌组配置 | `PrototypePlayerDataProvider` | `[SOURCE]` |
+| 玩家战斗属性配置 / 持久武器双牌组 | ExpeditionManager Inspector / WeaponInstance + PlayerCardSaveModule | 分离属性输入与武器模型；PlayerSaveManager 只协调存取 `[SOURCE]` |
 | 远征结果面板显示状态 | `UISystem` | `[SOURCE]` |
 | 存档槽、元数据、模块注册表 | `SaveManager` | `[SOURCE]` |
 
@@ -489,14 +506,14 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 | `Card_Logic.gd`；动态 Card.tscn 根 | 绑定一张 RuntimeCard，持有显示/动画状态 | 必需内部控件、Interaction/Animation；读单一卡牌模型并监听 `stats_updated`；发出牌/弃牌意图；不改牌堆或玩家资源 |
 | `Card_Interaction.gd` / `Card_Animation.gd`；Card.tscn 子节点 | 输入检测 / Tween 生命周期 | 注入通用 Control 目标；调用控件 API、发交互/动画完成信号；不依赖 CardManager、Timeline 或 BattleManager |
 | `RuntimeCard.gd` / `CardBuff.gd`；RefCounted，CardManager 牌堆持有 | 战斗卡牌数据与 Buff 列表 / 可变时间次数 | 模板由构造参数注入；`create_action()` 生成 CombatAction；`stats_updated` 通知单卡视图；共享 Buff 风险见下表 |
-| `CardInstance.gd`；RefCounted，provider 创建、启动参数持有 | 长期卡牌 ID、模板、修改器、实例身份 | 必需 CardData 注入；序列化不访问 Autoload；无信号。独立于 RuntimeCard 生命周期 |
-| `EntityData.gd` / `CombatAction.gd`；RefCounted，由 provider / Card或AI 创建 | 启动属性输入 / 一次行动载荷 | 调用者传入数据；无节点、反向管理器引用或信号；由相应消费方解释 |
+| `CardInstance.gd` / `CardContainer.gd`；RefCounted，玩家数据模块持有 | 长期卡牌实例 / 有身份的有序容器 | 模板显式注入，数据对象不访问 Autoload；转移移动原对象，不改变 UID |
+| `EntityData.gd` / `CombatAction.gd`；RefCounted，由 ExpeditionManager / Card或AI 创建 | 启动属性输入 / 一次行动载荷 | 调用者传入数据；无节点、反向管理器引用或信号；由相应消费方解释 |
 | `MapBlueprint.gd` / `RoomData.gd`；Resource，默认配置 / mapdata 持有 | 生成配置 / 房间与敌人事实 | 由 WorldGenerator 创建房间数据，World/BattleRoom 操作；不主动找管理器 |
-| `R_carddata.gd` / `R_EnemyData.gd` / `R_EnemyAction.gd`；Resource，目录索引持有 | 卡牌模板 / 敌人模板 / 行动配置 | 由 provider、EntityManager、EnemyAI 向下读取；CardData.play 的旧效果执行路径未接入现行 Battle |
+| `R_carddata.gd` / `R_EnemyData.gd` / `R_EnemyAction.gd`；Resource，目录索引持有 | 卡牌模板 / 敌人模板 / 行动配置 | 由 PlayerSaveManager、EntityManager、EnemyAI 向下读取；CardData.play 的旧效果执行路径未接入现行 Battle |
 | `SaveModule.gd`；RefCounted，SaveManager 注册表持有 | 通用序列化接口，无玩法事实 | `get_save_data()` / `load_save_data()` / `clear_data()` 由 SaveManager 调用；不要求具体玩法监听者 |
 | `BattleSaveModule.gd`；SaveModule 子类，当前未挂载 | 旧战前快照缓存，非现行状态持有者 | 反向调用注入的 save_manager 注册/保存，读取 AllEnemyData；与 Battle 可选 Node 槽接口不兼容，保留为遗留问题 |
 | `R_cardeffect.gd`、`E_cost.gd`、`E_Priority.gd`、`E_AddPoison.gd`；Resource 旧效果路径 | 旧卡牌直接修改 source/target | 依赖调用者提供旧字段/方法，现行 RuntimeCard 不调用；迁移范围待单独处理 |
-| `PlayerSaveManager.gd`；未挂载空 Node | 无已实现持久化职责 | 无有效依赖或信号；不能视为玩家数据权威 |
+| `PlayerSaveManager.gd` / `PlayerCardSaveModule.gd`；Autoload / RefCounted | 玩家持久卡牌容器、初始化身份、最小恢复标记 | 管理器调用静态目录和 SaveManager；模块只接受显式模板，负责业务数据校验/恢复，不访问场景或反向调用拥有者 |
 
 ### 旧审计问题的当前状态
 
@@ -510,7 +527,7 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 
 - EntityManager 注入同级 EnemyAI 是明确装配的下级规划器关系，不因 SceneTree 同级而构成反向依赖；PlayerController 接收 HeadController 也是局部运动组合。
 - Timeline 的 `action_triggered` 有明确必需消费者 BattleManager，后者以同一行动调用 `notify_action_finished()`；这是现有具备取消出口的完成协议。Timeline 不读取信号监听者的返回值。
-- provider、WorldGenerator、WorldManager、ExpeditionManager 和 EntityManager 对 AllCardData/AllEnemyData 的访问是对低层静态目录的显式依赖；目录不反向访问使用者。数据模型自身已去除该隐藏依赖。
+- PlayerSaveManager、WorldGenerator、WorldManager、ExpeditionManager 和 EntityManager 对静态目录的访问是显式低层依赖；数据模型通过参数取得模板，目录不反向访问使用者。
 - CardLogic 观察一张 RuntimeCard、通用交互/动画组件操作注入的 Control，以及 Attribute 的计算缓存均有局部责任边界，不能仅凭对象引用判为循环。
 
 ### 未修复项与验证边界
@@ -519,13 +536,13 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 | --- | --- | --- |
 | 高 / 确认：共享可变 CardBuff 归属 | `apply_buff_to_all_hand_cards()` 将同一实例加入多张牌，之后各 RuntimeCard 分别修改其 time_left/count_left；当前模板未产生该载荷，属于扩展入口的确认风险，非本轮默认牌组故障复现 | 需先明确每牌独立效果还是整手共享效果；前者逐牌创建状态，后者由一个拥有者推进共享计数。GAME_DESIGN 的 Buff 时机仍待设计，本次不猜测 |
 | 高 / 确认：卡牌内容消费与资源语义缺口 | 第 7 节：effects 未接入、增伤描述无对应载荷、mana_cost 计算后仍扣 stamina；当前模板无法表达所有已写描述 | 批量生产新机制/非 Attack 卡前先明确资源规则并安排单独实现任务；不是要求本轮重构 |
-| 高 / 确认：跨战斗数据缺失 | provider 每场重新创建输入，ExpeditionManager 只接收胜负，无 HP/牌组写回；与已确认跨战斗 HP 目标有差距 | 在远征成长内容前明确状态输入/结果写回契约；保留原型配置职责 |
+| 高 / 确认：跨战斗实体状态缺失 | 持久牌组已跨遭遇复用；HP 等 EntityData 仍按场景配置每场创建，无结算写回 | 后续另行定义属性继承；本次只处理卡牌容器与恢复标记 |
 | 中 / 确认：遗留存档反向调用及接口错位 | BattleSaveModule 反向调用存档协调器，且是 RefCounted，无法直接赋给 Battle 的可选 Node 槽，也无 save_initial_state | 当前未挂载；需在存档接入任务中决定注册/快照的上级拥有者，不把旧模块当可用方案 |
 | 中 / 确认：输入校验和失败处置不完整 | 重复模板 ID 直接覆盖；AI 不校验权重/action_id 唯一性，补排失败仅报错并继续；ExpeditionManager/结果 UI 必需引用仍主要用 assert | 新内容先做 ID/行动池/引用校验；独立任务补关键失败策略，本轮未运行故障注入或 Release 验证 |
 | 低 / 确认：旧效果路径 | E_cost 旧路径重复修改 stamina；现行 RuntimeCard 不调用该效果 | 不影响本次实际 Battle 路径；保留迁移/清理任务，未启用旧效果 |
 | 低 / 确认：失效场景 | `ExpeditionSystem/WorldSystem/DebugFreeCamera.tscn` 引用缺失脚本，未被活动远征引用；两个 `.tmp` 为旧接线 | 不作为新内容入口；独立清理任务处理，不以加载器成功掩盖该路径 |
 | 待验证：房间缓存与实体复用 | BattleRoom 缓存 enemy_id；World 只更新 current_room_coords，未同步 inside/entry；EntityManager 逐键注册敌人属性，没有清空上场独有属性的入口 | 静态可见同步/重置缺口；新房间事件和不同属性敌人连续战斗需针对性运行验证，不宣称当前已复现玩家错误 |
-| 确认静态缺口 / 故障未运行：存档 I/O | `load_slot()` 未检查 FileAccess.open 是否为 null，缺失文件不发 load_finished(false)，JSON 根类型未校验；模块 load 无成功结果契约 | 暂停路径，未测试或覆盖用户存档；恢复开发后用隔离数据验证失败及部分恢复处置 |
+| 已处理本次依赖：玩家存档 I/O | bool 操作结果、打开/根结构校验、模块恢复失败回滚和临时文件提交已接入 | 隔离检查覆盖缺模板、保存失败和标记回滚；未覆盖所有操作系统 I/O 故障或旧 BattleSaveModule |
 | 待验证：公式依赖和替换表现 | AttributeSet 允许相互依赖 Callable，当前无绑定调用方；已登记效果若漏回调没有超时兜底 | 不把潜在公式循环或未制作表现视为已复现缺陷；新增效果验证完成/取消/释放 |
 
 实现与设计仍有差距：当前一个敌人实体与一个 EnemyAI，不能把多个独立 AI 的状态隔离等同于完整多敌人 Battle。第 6 节已核对单敌人的装配、目标别名、补排与 HUD 首敌显示约束，本轮未运行多 AI 或多敌人测试。
@@ -538,7 +555,7 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 
 | 内容 / 关注点 | 已核实实现路径 | 就绪等级 | 证据与实际限制 | 建议下一步 |
 | --- | --- | --- | --- | --- |
-| 普通伤害卡数值与文本 | CardData → AllCardData → provider → RuntimeCard → CombatAction | Ready with constraints | 模板/牌组加载及 Battle 启动已验证；唯一 ID、手工加入原型牌组；旧 effects 不执行，描述须匹配真实伤害 | 只在现有字段内出任务；单卡验证实际伤害/扣费/时间 |
+| 普通伤害卡数值与文本 | CardData → AllCardData → WeaponInstance.combat_deck → RuntimeCard → CombatAction | Ready with constraints | testweapon 3001 的 20 张战斗牌已验证进入开门 Battle；旧 effects 不执行 | 内容由用户配置，单卡验证实际伤害/扣费/时间 |
 | 新卡牌机制、计次/持续 Buff | CombatAction.card_buffs → BattleManager → CardManager → RuntimeCard | Not ready | API 存在，但无模板载荷转换，共享可变 Buff 与 confirm 前后消耗语义未定 | 先确认 Buff 归属/时机与资源分类，再实现一个机制切片 |
 | 单敌人类型、攻击数值与冷却 | EnemyData / EnemyAction → EntityManager / EnemyAI → Timeline | Ready with constraints | 两个模板加载；现有敌人首次攻击/冷却补排已运行；attack/shield 分支有限，权重和 ID 需人工校验 | 新模板先验证属性、行动池、地图等级可选性与连续战斗复用 |
 | 特殊敌方 skill / 多敌人 Battle | EnemyAI.skill；BattleSystem 单敌人装配 | Not ready | skill 为 pass；固定目标、实体和 HUD 首敌约束，枚举 API 不能弥补装配缺口 | 各自单独定义范围，不能仅新增 .tres 或复制 AI 节点 |
@@ -547,16 +564,16 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 | 替换敌人/玩家战斗反馈 | Battle 事件 → ExpeditionManager → World → EnemyVisual / PlayerDamageFeedback | Ready with constraints | 游戏事实与表现分离，模型/pivots/覆盖层可编辑；本轮未运行 Tween 视觉/取消验收，必须归还完成凭据 | 保持布尔启动结果与完成/取消回报；验收不改逻辑时间和伤害 |
 | HUD、卡牌视觉与局部布局 | BattleManager._refresh_hud() → CombatHUD.display_state()；Card.tscn / Animation | Ready with constraints | 引用与初始化通过；HUD 不查询玩法系统，手牌只观察单卡；首敌显示、字段契约与卡牌离场凭据有约束 | 布局先改所属场景；新显示字段由协调器提供，补目标分辨率与交互验收 |
 | 提灯模型/光照的 Inspector 调整 | PlayerVisual → LanternController → gravity/motion pivots / model scene | Ready with constraints | 独立场景和导出参数、引用可解析；没有 Fuel owner，俯仰/移动观感未在本轮验证 | 保留表现职责，替换后人工检查低头和移动 |
-| 远征成长、跨战斗 HP/牌组、基地循环 | provider 每场新建数据；MainMenu 可进入 Base，GameManager 仍为空；WeaponData 只有元数据 | Not ready | 缺 Base-to-Expedition、状态写回、武器/经济/任务/Fuel 等活动消费链，与设计目标有明确差距 | 优先小范围建立远征玩家数据输入/写回契约；不要把 provider 当长期权威 |
-| checkpoint / 长期存档 | SaveManager / SaveModule；BattleSaveModule 遗留 | Not ready | 无业务注册/恢复入口，接口错位；README 明确暂缓 | 等用户恢复开发，再按已确认 checkpoint 边界接入 |
+| 武器双牌组与最小基地循环 | WeaponInstance → PlayerSaveManager → GameManager → ExpeditionManager；Base P 进入远征，死亡确认返回 | Ready with constraints | testweapon、UID/顺序保存恢复、P、开门 Battle 与缺失内容路径已做集中隔离检查；无设施或装备 UI，HP/Fuel 写回未实现 | 用户手动验收复用角色的移动与画面 |
+| 完整 checkpoint / 远征存档 | 当前只保存玩家容器和 active 标记；BattleSaveModule 遗留 | Not ready | 不保存房间、地图、实体或战斗；中断只生成新远征 | 本切片之外继续暂缓，不把活动标记当作 Room Entry checkpoint |
 | 导出包资源发现与发布运行 | 目录加载器 → 导出资源 remap | Not verified | 本轮仅本地编辑器二进制 headless；无导出构建或包内扫描证据 | 发布相关任务再验证，不能从本地加载成功推导 |
-| 当前原型玩家参数调整 | provider Inspector → EntityData → start_battle | Ready | 字段映射、有效模板注入、配置与 Battle 启动已验证；结论仅限原型输入数值调整 | 保留每场重新构造的明确边界 |
+| 当前玩家战斗参数调整 | ExpeditionManager Inspector → EntityData → start_battle | Ready with constraints | 保留原有场景参数；本次未重新验收完整战斗，实体属性仍每场构造 | 不与持久卡牌容器或尚未实现的 HP 继承混淆 |
 
 从八项架构维度看：
 
 | 维度 | 当前判断 |
 | --- | --- |
-| 所有权与模块边界 | World/Battle/Card/Entity/Timeline 的主要责任可追踪，原型 provider 与长期数据之间仍有缺口；合理同级注入见第 10 节 |
+| 所有权与模块边界 | World/Battle/Card/Entity/Timeline 与玩家容器权威已区分；应用流程统一由 GameManager 协调，实体状态写回仍有缺口 |
 | 数据驱动 | 基础卡牌、敌人行动、地图概率可配置；新效果转换、房型行为、资源路由仍需代码任务 |
 | 局部扩展成本 | 现有数值/视觉通常局部修改；新机制需沿 producer → CombatAction → consumer 核对，不能假设 effects 是扩展接口 |
 | 权威状态与表现分离 | HUD 快照、卡牌意图信号、战斗表现凭据已有明确入口；完成协议仍须由替换组件遵守 |
@@ -565,7 +582,7 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 | 窄范围验证 | CLI、资源加载和临时探针可用；没有可直接重跑全部旧审计场景的受版本管理测试套件，视觉/交互仍需单独验收 |
 | 当前成熟度与未来需求 | 原型闭环部件可继续迭代；基地、跨战斗成长、设施/任务与 checkpoint 缺口明确，不等于试玩版完成 |
 
-优先级按内容任务决定：批量新机制卡前先处理资源语义/效果载荷与 Buff 设计；远征成长前先处理跨战斗数据契约。旧效果与失效场景的清理可后置；存档保持暂停。未决项保留：Buff 归属/消耗时机、类型默认资源、同阵营精确并列排序、CardInstance.modifiers 转换及高级伤害/Shield 规则（见 GAME_DESIGN §31、34、42–43、63–69）。实例身份传递已按本次明确任务实现，不据此确定其他转换规则。
+优先级按内容任务决定：批量新机制卡前先处理资源语义/效果载荷与 Buff 设计；远征成长前先处理实体属性写回。玩家容器存档已按本次明确任务接通，其他 checkpoint 扩展继续暂缓。未决项保留 Buff 归属/时机、资源类型、并列排序、modifiers 转换及高级伤害/Shield 规则；身份持久化不替代这些设计。
 
 ## 12. 本次验证记录
 
@@ -607,3 +624,13 @@ SaveManager 可提供模块式 JSON I/O，但不等于当前游戏已有 checkpo
 - 最终窗口 Godot PID `41756`、wrapper PID `31660` 已退出；此前任务启动的验证进程亦已退出。9876/9877 无 TCP 监听，用户 Editor PID `21680` 保留。未操作用户存档，临时探针运行后移除；日志和截图留在忽略的 `.codex_runtime/task_menu_identity/`。
 
 未验收：完整战斗胜负、跨战斗状态、Base 内交互与可见场景内容、Base-to-Expedition、存档恢复、导出包。CardInstance.modifiers 的 runtime 语义及 Weapon = Deck 的具体字段仍待设计。
+
+### 玩家卡牌容器与远征中断恢复（2026-10-28）
+
+本轮只运行同一个临时 headless 聚焦检查：经 tools/godot_cli.ps1 执行，初次因新类尚未进入全局类缓存而编译失败；恢复构造改为显式加载自身脚本后重跑，最终 PLAYER_CONTAINER_FOCUSED_FAILURES=0，退出码 0。未另外运行视觉、完整遭遇、导出或其他回归套件。
+
+检查涵盖未配置武器时的空容器与成功空交接、使用现有卡牌模板的临时实例转移、两个容器的顺序/UID 磁盘往返、缺模板拒绝恢复、非空来源缺牌拒绝交接、保存失败阻止场景切换、切换失败持久化回滚恢复标记、正常 Start 到 Base、活动标记恢复后直接实例化新 Expedition（无 Base 中转）、已有失败确认信号保存后返回 Base。RuntimeCard 的来源 UID 与持久卡牌隔离也经过检查。死亡由结果状态和现有按钮信号模拟，未声称真实战斗死亡或完整走门链路已验收。
+
+数据只写入 wrapper 隔离环境中的 codex_player_cards_probe_<PID> 与对应 _invalid 临时槽，已清理；未操作真实玩家槽。新武器定义和初始牌组均未配置，因此“真实武器初始化出的牌组”及“已配置空武器”的内容路径未运行验证；只对代码进行了检查。无截图或视觉验收。
+
+最终测试 PID 44860 退出，首轮 PID 44400 超时退出也已确认；用户 Editor PID 21680 保留，9876/9877 无监听。日志包含预期的失败注入诊断及系统证书读取错误，不声称 stderr 全空。CardData、WeaponData、现有卡牌/武器资源、RuntimeCard、BattleManager、BattleSaveModule 与原 MainMenu.tscn 修改按任务开始时的 SHA-256 核对未变。临时探针随后移除，日志保留在忽略的 .codex_runtime/task_player_containers/。

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cu8ebs30en5qs"]
 
-[ext_resource type="Script" path="res://MainMenuSystem/MainMenu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://c3i2qq56t2n2i" path="res://MainMenuSystem/MainMenu.gd" id="1_menu"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=1103799070]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1680833723]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,17 +19,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Buttons" type="VBoxContainer" parent="CenterContainer"]
+[node name="Buttons" type="VBoxContainer" parent="CenterContainer" unique_id=1032386222]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="StartButton" type="Button" parent="CenterContainer/Buttons"]
+[node name="StartButton" type="Button" parent="CenterContainer/Buttons" unique_id=733100859]
 custom_minimum_size = Vector2(320, 72)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "开始游戏"
 
-[node name="QuitButton" type="Button" parent="CenterContainer/Buttons"]
+[node name="QuitButton" type="Button" parent="CenterContainer/Buttons" unique_id=488000197]
 custom_minimum_size = Vector2(320, 72)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36

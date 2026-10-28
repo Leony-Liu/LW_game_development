@@ -7,11 +7,12 @@ var card_id: int          # 静态数据的ID
 var card_data: CardData   # 原始卡牌数据
 var modifiers: Array      # 修改器列表
 var unique_id: String     # 实例卡牌UID
+var container_ref: WeakRef # 所属容器的弱引用，避免循环持有。
 
 # 初始化这张牌的所有数据
 func _init(id: int, template: CardData, instance_uid: String = "") -> void:
 	card_id = id
-	if template == null or template.id != id:
+	if id <= 0 or (template != null and template.id != id):
 		push_error("CardInstance: 必须注入与 card_id 匹配的 CardData。")
 		return
 	card_data = template
@@ -34,9 +35,11 @@ func to_dictionary() -> Dictionary:
 # 反序列化，将字典变成一个卡牌实例
 static func from_dictionary(data: Dictionary, template: CardData) -> CardInstance:
 	var id := int(data.get("card_id", 0))
-	if template == null or template.id != id:
+	if id <= 0 or (template != null and template.id != id):
 		push_error("CardInstance: 无法恢复卡牌，缺少匹配的 CardData。")
 		return null
+	if template == null:
+		push_warning("[CardInstance] 缺少 CardData ID %d；保留持久身份与修改器，战斗时跳过。" % id)
 	var saved_uid: Variant = data.get("unique_id", "")
 	var instance_uid: String = saved_uid if saved_uid is String else ""
 	var instance = CardInstance.new(id, template, instance_uid)

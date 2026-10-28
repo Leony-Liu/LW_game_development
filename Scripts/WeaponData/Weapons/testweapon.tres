@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://sfgawvsht68s"]
+
+[ext_resource type="Script" uid="uid://bev38cn3hqts6" path="res://Scripts/Resource/Weapon/R_weapondata.gd" id="1_q7h1t"]
+
+[resource]
+script = ExtResource("1_q7h1t")
+id = 3001
+name = "testweapon"
+starting_combat_deck_card_ids = Array[int]([1001, 1002, 1003, 1004, 1005, 1001, 1002, 1003, 1004, 1005, 1001, 1002, 1003, 1004, 2001, 2002, 2001, 2002, 2001, 2002])
+starting_reserve_deck_card_ids = Array[int]([1005, 1001, 1002, 1003, 1004, 1005, 2001, 2002, 2001, 2002])
+metadata/_custom_type_script = "uid://bev38cn3hqts6"

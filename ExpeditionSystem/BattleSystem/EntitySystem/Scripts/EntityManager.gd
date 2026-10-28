@@ -16,6 +16,8 @@ signal health_damage_applied(target_id: String, source_id: String, amount: float
 @export var enemy_ai: EnemyAI
 
 var _player_resource_regen_progress: Dictionary = {}
+var has_active_enemy: bool = false
+var has_enemy_actions: bool = false
 
 # 校验依赖并连接实体与 EnemyAI 信号。
 func _ready() -> void:
@@ -51,18 +53,13 @@ func can_initialize(player_data: EntityData, enemy_id: int) -> bool:
 
 	var enemy_res: EnemyData = AllEnemyData.get_enemy(enemy_id)
 	if not enemy_res:
-		push_error("EntityManager: 无法找到 ID 为 %d 的敌人数据配置" % enemy_id)
-		return false
+		return true
 	for action in enemy_res.action_pool:
 		if action == null:
-			push_error("EntityManager: 敌人 %d 的 action_pool 包含空行动。" % enemy_id)
-			return false
+			continue
 		if action.time_cost <= 0 or action.cooldown < 0:
 			push_error("EntityManager ： Enemy %d has an action with invalid time or cooldown" % enemy_id)
 			return false
-	if enemy_res.action_pool.is_empty():
-		push_error("EntityManager ： Enemy %d has no schedulable actions" % enemy_id)
-		return false
 	return true
 
 
@@ -77,6 +74,13 @@ func initialize(player_data: EntityData, enemy_id: int) -> bool:
 	# 1. 玩家数据装载
 	player_entity.initialize_from_data(player_data)
 	player_entity.entity_id = "player"
+	has_active_enemy = enemy_res != null
+	has_enemy_actions = false
+	if not has_active_enemy:
+		enemy_entity.entity_id = ""
+		enemy_ai.setup_ai([], "")
+		push_warning("[EntityManager] 缺少 EnemyData ID %d；省略敌人及 AI，仍启动战斗。" % enemy_id)
+		return true
 
 	# 2. 将敌人静态属性装配到运行时实体。
 	enemy_entity.entity_id = "enemy_%d" % enemy_id
@@ -85,13 +89,23 @@ func initialize(player_data: EntityData, enemy_id: int) -> bool:
 		enemy_entity.attribute_set.register_attribute(attr_name, initial_val)
 
 	# 3. 激活敌人 AI 并下发行动池，规划首轮行动
-	enemy_ai.setup_ai(enemy_res.action_pool, enemy_entity.entity_id)
+	var available_actions: Array[EnemyAction] = []
+	for action in enemy_res.action_pool:
+		if action != null:
+			available_actions.append(action)
+	if available_actions.size() != enemy_res.action_pool.size():
+		push_warning("[EntityManager] 敌人行动池含缺失引用；已跳过不可用行动。")
+	enemy_ai.setup_ai(available_actions, enemy_entity.entity_id)
+	has_enemy_actions = not available_actions.is_empty()
+	if not has_enemy_actions:
+		push_warning("[EntityManager] 敌人没有可用行动；保留敌人，跳过 AI 排期并继续进入战斗。")
+		return true
 	return enemy_ai.plan_initial_actions()
 
 
 # 仅在当前敌人仍存活时请求下一次行动，规划结果交给 BattleManager 检查。
 func plan_next_enemy_action(current_timeline_time: int, source_id: String) -> bool:
-	if enemy_entity == null or enemy_entity.entity_id != source_id:
+	if not has_active_enemy or not has_enemy_actions or enemy_entity == null or enemy_entity.entity_id != source_id:
 		return false
 	var hp := enemy_entity.attribute_set.get_attribute("hp")
 	if hp == null or hp.get_value() <= 0.0:
@@ -164,6 +178,8 @@ func _advance_resource_regeneration(
 # 返回当前场景树中的全部敌方实体，只提供只读枚举入口。
 func get_enemy_entities() -> Array[CombatEntity]:
 	var enemies: Array[CombatEntity] = []
+	if not has_active_enemy:
+		return enemies
 	for node in find_children("*", "CombatEntity", true, false):
 		var entity := node as CombatEntity
 		if entity != null and not entity.is_player:
@@ -196,7 +212,7 @@ func execute_action(action: CombatAction) -> void:
 func _get_entity_by_id(id: String) -> CombatEntity:
 	if player_entity and (player_entity.entity_id == id or id == "player"):
 		return player_entity
-	if enemy_entity and (enemy_entity.entity_id == id or id == "enemy" or id.begins_with("enemy_")):
+	if has_active_enemy and enemy_entity and (enemy_entity.entity_id == id or id == "enemy" or id.begins_with("enemy_")):
 		return enemy_entity
 	return null
 

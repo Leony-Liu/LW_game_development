@@ -43,6 +43,6 @@ func _on_confirm_pressed() -> void:
 	victory_confirmed.emit()
 
 
-# 将重新开始请求上报给 ExpeditionManager。
+# 沿用现有信号接口，上报失败后的返回基地确认。
 func _on_restart_pressed() -> void:
 	restart_requested.emit()

@@ -61,12 +61,6 @@ func report_encounter(room_data: RoomData) -> bool:
 	if not room_data.has_enemies:
 		push_error("[WorldManager] 无法上报遭遇：目标房间没有敌人。")
 		return false
-	if room_data.enemy_id < 0:
-		push_error("[WorldManager] 无法上报遭遇：enemy_id 无效。")
-		return false
-	if AllEnemyData.get_enemy(room_data.enemy_id) == null:
-		push_error("[WorldManager] 无法上报遭遇：找不到 enemy_id %d。" % room_data.enemy_id)
-		return false
 	if not encounter_requested.has_connections():
 		push_warning("[WorldManager] 遭遇请求没有消费者，保持探索状态。")
 		return false
@@ -108,7 +102,7 @@ func has_valid_encounter_approach(room_data: RoomData, enemy_id: int) -> bool:
 	if room_set == null or player_visual == null:
 		return false
 	var target := room_set.get_encounter_approach_target(room_data)
-	return target != null and player_visual.can_start_encounter_approach(target)
+	return player_visual.can_present_battle() and (target == null or player_visual.can_start_encounter_approach(target))
 
 
 ## 生成并装配地图；只有全部必需阶段成功后才进入探索。
@@ -200,11 +194,17 @@ func enter_preparing_battle_mode(target_room: RoomData) -> bool:
 		push_error("[WorldManager] 准备战斗前缺少 RoomSet 或 PlayerVisualManager。")
 		return false
 	var approach_target := room_set.get_encounter_approach_target(target_room)
-	if approach_target == null or not player_visual.can_start_encounter_approach(approach_target):
-		push_error("[WorldManager] 准备战斗前缺少有效的敌人接近目标或玩家表现依赖。")
-		return false
 	if not player_visual.change_mode("preparing_battle"):
 		push_error("[WorldManager] 无法切换到战斗准备表现状态。")
+		return false
+	if approach_target == null:
+		push_warning("[WorldManager] 缺少可选敌人接近目标；跳过运镜并进入已启动的战斗。")
+		if not player_visual.change_mode("battle"):
+			return false
+		_set_world_state(WorldState.BATTLE)
+		return true
+	if not player_visual.can_start_encounter_approach(approach_target):
+		push_error("[WorldManager] 玩家接近运镜依赖无效。")
 		return false
 
 	_preparation_transition_id += 1

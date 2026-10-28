@@ -66,9 +66,6 @@ func _validate_assembly() -> bool:
 		if direction not in room_data.connected_doors and wall_scene == null:
 			push_error("BattleRoom ： 房间组装失败：实心墙体场景缺失。")
 			return false
-	if room_data.has_enemies and (room_data.enemy_id < 0 or not is_instance_valid(enemy_root) or not is_instance_valid(encounter_approach_anchor)):
-		push_error("BattleRoom ： 房间组装失败：敌人房缺少有效敌人 ID 或接近目标节点。")
-		return false
 	return true
 
 
@@ -108,7 +105,7 @@ func _setup_enemies() -> void:
 
 	if enemy_root:
 		# 无敌人时隐藏根节点，有敌人时激活显示
-		enemy_root.visible = (enemy_id != -1)
+		enemy_root.visible = room_data.has_enemies and AllEnemyData.get_all_enemy_data().has(enemy_id)
 		
 		# 预留透传：如果子节点挂载了脚本且包含 enemy_id 属性，直接向下同步
 		for child in enemy_root.get_children():

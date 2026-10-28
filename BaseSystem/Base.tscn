@@ -2,19 +2,27 @@
 
 [ext_resource type="PackedScene" uid="uid://o0jy78jn4shj" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Floor.tscn" id="1_jrlue"]
 [ext_resource type="PackedScene" uid="uid://b4tmgwlvlc11l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Wall.tscn" id="2_id8sb"]
+[ext_resource type="Script" uid="uid://cf6ysi5ylhn34" path="res://BaseSystem/Scripts/Base.gd" id="3_base"]
+[ext_resource type="PackedScene" uid="uid://diasj0i1yv8ea" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn" id="4_player"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_k3l0r"]
 
 [node name="Base" type="Node3D" unique_id=1222264343]
+script = ExtResource("3_base")
+
+[node name="PlayerVisual" parent="." unique_id=1841750863 instance=ExtResource("4_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.324762, 0)
 
 [node name="Field" type="Node3D" parent="." unique_id=1378303198]
 
 [node name="Floor" parent="Field" unique_id=780458477 instance=ExtResource("1_jrlue")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.03866, 0, 5.0386596)
 
 [node name="Floor2" parent="Field" unique_id=1370078657 instance=ExtResource("1_jrlue")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.032831, 0, -5)
 
 [node name="Floor3" parent="Field" unique_id=1606459738 instance=ExtResource("1_jrlue")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5.027062)
 
 [node name="Floor4" parent="Field" unique_id=94386815 instance=ExtResource("1_jrlue")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
@@ -44,3 +52,20 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10.1
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10.1787615, 0, 4.9576726)
 
 [node name="Interactive items" type="Node3D" parent="." unique_id=1292068120]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactive items" unique_id=1929830343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.048098, 1.2420816, -4.2986403)
+mesh = SubResource("BoxMesh_k3l0r")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Interactive items" unique_id=1379591192]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.048098, 1.2420816, 3.9532146)
+mesh = SubResource("BoxMesh_k3l0r")
+
+[node name="Lights" type="Node3D" parent="." unique_id=801828422]
+
+[node name="AreaLight3D" type="AreaLight3D" parent="Lights" unique_id=1425705205]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 5.1341963, 0)
+light_energy = 8.662
+light_indirect_energy = 3.254
+light_volumetric_fog_energy = 3.028
+area_range = 18.14

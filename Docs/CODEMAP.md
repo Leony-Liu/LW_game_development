@@ -19,11 +19,13 @@ task
 | Entry | Class / attachment | Primary role | Inspect when |
 | --- | --- | --- | --- |
 | `project.godot` | Godot project configuration | Main scene, Autoloads, input map, plugins, project settings | Any entry-point, global-service, configuration, or input task |
-| `MainMenuSystem/MainMenu.tscn` | Root `MainMenu`; `MainMenu.gd`, `Control` | Configured main scene (`uid://cu8ebs30en5qs`); Start/Quit buttons | Application startup; Start loads `BaseSystem/Base.tscn` |
-| `BaseSystem/Base.tscn` | Root `Base`; `Node3D`, no script | Existing Field and Interactive items composition | MainMenu destination; no Base-to-Expedition flow yet |
-| `Scripts/GameManager.gd` | Autoload `GameManager`; `Node` | Application-flow entry | Base/main-menu/Expedition transition work; see its `[PLACEHOLDER]` warning below |
-| `Scripts/SaveManager.gd` | Autoload `SaveManager`; `Node` | Save slots, module registry, JSON I/O | Paused persistence work only; no active gameplay module registration |
+| `MainMenuSystem/MainMenu.tscn` | Root `MainMenu`; `MainMenu.gd`, `Control` | Configured main scene (`uid://cu8ebs30en5qs`); Start/Quit buttons | Start calls GameManager; Base normally, fresh Expedition on interrupted-session marker |
+| `BaseSystem/Base.tscn` | Root `Base`; `Node3D`, `BaseSystem/Scripts/Base.gd` | Field, Interactive items and complete PlayerVisual | Base-only P calls save-aware GameManager.start_expedition() |
+| `Scripts/GameManager.gd` | Autoload `GameManager`; `Node` | Application flow and save-before-transition coordination | `start_game()`, `start_expedition()`, death return and recovery |
+| `Scripts/SaveManager.gd` | Autoload `SaveManager`; `Node` | Save slots, module registry, checked JSON I/O | Atomic file commit; bool operation results; legacy BattleSaveModule remains inactive |
+| `Scripts/PlayerSaveManager.gd` | Autoload `PlayerSaveManager`; after static databases | Weapon persistence coordinator | save/load, current weapon access, combat deck handoff and marker; initial choice belongs to GameManager |
 | `Scripts/CardData/AllCardData.gd` | Autoload `AllCardData`; `Node` | Loads `CardData` resources by ID | Card lookup, card database, persistent card construction |
+| `Scripts/WeaponData/AllWeaponData.gd` | Autoload `AllWeaponData`; `Node`, after `AllCardData` | Validates and indexes static `WeaponData` | Two starting arrays; testweapon 3001; missing optional card references warn and skip during creation |
 | `Scripts/EnemyData/AllEnemyData.gd` | Autoload `AllEnemyData`; `Node` | Loads `EnemyData` resources by ID | Enemy lookup, map enemy assignment, battle entity setup |
 | `ExpeditionSystem/ExpeditionSystem.tscn` | Top-level root; no attached script | Expedition assembly | Expedition, World/Battle composition, or saved node-reference wiring |
 | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | Attached to `ExpeditionManager`; `Node` | Expedition-level World/Battle coordination location | Explore/Battle handoff or expedition lifecycle |
@@ -36,7 +38,9 @@ Configured Autoloads in `project.godot`:
 GameManager      -> Scripts/GameManager.gd
 SaveManager      -> Scripts/SaveManager.gd
 AllCardData      -> Scripts/CardData/AllCardData.gd
+AllWeaponData    -> Scripts/WeaponData/AllWeaponData.gd (after AllCardData)
 AllEnemyData     -> Scripts/EnemyData/AllEnemyData.gd
+PlayerSaveManager -> Scripts/PlayerSaveManager.gd (after static databases)
 godot_mcp_runtime -> development infrastructure, not gameplay ownership
 ```
 
@@ -45,9 +49,9 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Task / concern | Read first | Then inspect | Notes |
 | --- | --- | --- | --- |
 | Main scene / Autoloads / input map | `project.godot` | Referenced scene or Autoload script | Main scene is UID-backed; verify both config and scene |
-| Main menu / application or Base <-> Expedition flow | `MainMenuSystem/MainMenu.gd` | `MainMenuSystem/MainMenu.tscn`, `BaseSystem/Base.tscn`, `Scripts/GameManager.gd` | Menu directly loads Base or quits; GameManager remains a placeholder; Base-to-Expedition is not implemented |
-| Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | Startup, presentation readiness, victory confirmation, and defeat restart are implemented; result buttons are in `UISystem/Scripts/ExpeditionResultUI.gd` |
-| Prototype player / deck input | `ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd` | `ExpeditionSystem/BattleSystem/Scripts/EntityData.gd`, `Scripts/RefCounted/CardInstance.gd`, `Scripts/CardData/AllCardData.gd` | Prototype-only input route; persistent player data is separate |
+| Main menu / application or Base <-> Expedition flow | `Scripts/GameManager.gd` | `MainMenuSystem/MainMenu.gd`, `Scripts/PlayerSaveManager.gd`, `BaseSystem/Base.tscn`, `BaseSystem/Scripts/Base.gd` | Normal Start enters Base; interrupted Start directly creates Expedition; Base P uses start_expedition(); direct Editor expedition receives same handoff |
+| Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | GameManager injects persistent deck before entry; victory continues exploration; death_confirmed signals GameManager to save and return Base |
+| Persistent player / battle input | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | Persistent ordered card instances; ExpeditionManager Inspector retains existing combat attribute configuration; prototype provider removed |
 | Map generation | `ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd` | `Scripts/MapBlueprint.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd`, `Scripts/EnemyData/AllEnemyData.gd` | `generate()` returns `rooms` and `doors` dictionaries |
 | World state / current room / encounter pre-flow | `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/DoorSet.gd` | `WorldManager.mapdata` is the current runtime map container |
 | Room data / encounter state | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/BattleRoom.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd` | Resource fields hold enemy and room state |
@@ -68,11 +72,11 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Battle-time card state | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd` | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardBuff.gd`, `ExpeditionSystem/Scripts/CombatAction.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | Mutable per-battle representation |
 | Persistent card instance | `Scripts/RefCounted/CardInstance.gd` | `Scripts/Resource/Card/R_carddata.gd`, `Scripts/CardData/AllCardData.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd` | Carries `card_id`, `modifiers`, and `unique_id` outside active battle |
 | Static card data | `Scripts/Resource/Card/R_carddata.gd` | `Scripts/CardData/AllCardData.gd`, `Scripts/CardData/Cards/` | `CardData` resource type and templates |
-| Static weapon metadata | `Scripts/Resource/Weapon/R_weapondata.gd` | `Scripts/WeaponData/Weapons/ExampleWeapon.tres` | `WeaponData`: id/name/description only; direct ResourceLoader loading, no registry or gameplay consumer |
+| Static weapon definitions / database | `Scripts/Resource/Weapon/R_weapondata.gd` | `Scripts/WeaponData/AllWeaponData.gd`, `Scripts/WeaponData/Weapons/` | id/name/description plus starting_combat_deck_card_ids / starting_reserve_deck_card_ids; testweapon 3001; initial selection in Scripts/NewGame.tres |
 | Card buffs | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardBuff.gd` | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | Runtime modifiers only |
 | Enemy data | `Scripts/Resource/Enemy/R_EnemyData.gd` | `Scripts/Resource/Enemy/R_EnemyAction.gd`, `Scripts/EnemyData/AllEnemyData.gd`, `Scripts/EnemyData/EnemyDatas/` | Static enemy attributes and action pools |
-| Save infrastructure | `Scripts/SaveManager.gd` | `Scripts/RefCounted/SaveModule.gd` | Development paused per README; no current gameplay registration/checkpoint chain |
-| Persistent player data | `Scripts/PlayerSaveManager.gd` | `Scripts/SaveManager.gd`, `ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd` | Placeholder only; not an Autoload and not current data authority |
+| Save infrastructure | `Scripts/SaveManager.gd` | `Scripts/RefCounted/SaveModule.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | Player containers and expedition_was_active only; no room/battle runtime checkpoint |
+| Persistent player data | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | get_current_weapon(), initialize_new_weapon(), get_expedition_deck(), validate_deck_handoff(); WeaponInstance owns both containers |
 | Card UI visuals / interaction | `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn` | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Logic.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Interaction.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Animation.gd` | Scene owns UI composition; `RuntimeCard` owns battle card state |
 | Automated Godot validation | `tools/godot_cli.ps1` | Target `.gd` / `.tscn` plus `project.godot` | Use the smallest targeted CLI check that proves the task |
 
@@ -82,15 +86,15 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 
 | 任务 | 先看 / 最小文件组 | 需要扩大范围时才追入 | 定位注意事项 |
 | --- | --- | --- | --- |
-| 新增/修改基础伤害卡 | `Scripts/Resource/Card/R_carddata.gd`、`Scripts/CardData/Cards/`、`ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd` | `Scripts/CardData/AllCardData.gd`；测试牌组在 `ExpeditionSystem/ExpeditionSystem.tscn` 的 `prototype_card_ids` | 当前 7 模板；ID 唯一，扫描不递归；新增文件不会自动进入牌组 |
+| 新增/修改基础伤害卡 | `Scripts/Resource/Card/R_carddata.gd`、`Scripts/CardData/Cards/`、`ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd` | `Scripts/CardData/AllCardData.gd`；WeaponData 的两个 starting 数组 | 当前 7 模板；testweapon 3001 引用 5 Attack、2 Skill；已有存档不因新增模板补牌 |
 | 新卡牌效果 / Buff | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd`、`ExpeditionSystem/Scripts/CombatAction.gd` | `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`、`ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`、`ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardBuff.gd`；实体效果再看 EntityManager | 当前 create_action 只转伤害/可选盾；旧 effects 不执行，共享 Buff/计数时机待设计；资源金额按类型计算但统一扣 stamina |
 | 新增/修改敌人及行动 | `Scripts/EnemyData/EnemyDatas/`、`Scripts/Resource/Enemy/R_EnemyData.gd`、`Scripts/Resource/Enemy/R_EnemyAction.gd` | `Scripts/EnemyData/AllEnemyData.gd`、`ExpeditionSystem/BattleSystem/CombatSystem/Scripts/EnemyAI.gd`、`ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd` | 行动为敌人 .tres 子资源；attack / 自身 shield 可消费，skill 为空；time_cost > 0、cooldown >= 0，人工检查权重/唯一 action_id |
 | 修改地图参数 / 房间 / 遭遇 | `ExpeditionSystem/WorldSystem/Scripts/test_mapblueprint.tres`、`Scripts/MapBlueprint.gd` | `ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd`；房间外观从 `ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn` 与 `Prefab/`；遭遇从 `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd` 与 RoomData | 当前单一房间场景，只有 INITIAL/NORMAL、单 enemy_id；Boss 配额需 level 2 模板，现无此模板；设施房不是已存在入口 |
 | 修改伤害结算 / 排期 / 时间 | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/CombatEntity.gd`、`ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`、`ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`、`ExpeditionSystem/Scripts/CombatAction.gd` | apply_attribute_impact / execute_action / receive_card / notify_action_finished；先核对 GAME_DESIGN 时机，不用 Tween 改逻辑时间 |
 | 添加/替换战斗反馈 | `ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn` 与 `EnemyVisual.gd`；玩家反馈为 `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerDamageFeedback.gd` 与 `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | 新事件才追 `ExpeditionSystem/Scripts/ExpeditionManager.gd`、WorldManager、BattleManager | 保留 bool 启动结果、完成/取消 Callable 与 execution_id/effect_id；保持 EnemyRoot、碰撞与属性不受表现控制 |
 | 修改 HUD / 卡牌表现 | `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn`、`ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd`；单卡从 `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn` | 新快照字段再看 BattleManager._refresh_hud；手牌布局看 `ExpeditionSystem/BattleSystem/CardSystem/Scripts/PlayerHandDeck.gd`；交互/动画看其 `Scripts/card/` | HUD 只收值；卡牌保留 Visuals、导出控件与离场完成通知；行动预览用 action_instance_id |
-| 修改原型玩家输入 / 远征状态 | `ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd`、`ExpeditionSystem/BattleSystem/Scripts/EntityData.gd`、`ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn` 的 provider 配置；WorldManager / BattleManager 只在边界变化时检查 | provider 每场新建数据；跨战斗 HP/武器牌组写回、Fuel/成长没有活动实现入口 |
-| 存档 / checkpoint | `Docs/README.md`、`Scripts/SaveManager.gd`、`Scripts/RefCounted/SaveModule.gd` | `ExpeditionSystem/BattleSystem/Scripts/BattleSaveModule.gd` 仅作遗留审查；`Scripts/RefCounted/CardInstance.gd` 提供对象序列化 | 暂缓，需用户明确恢复；Game Design 已确定 checkpoint，不要实现 Battle 中途快照；PlayerSaveManager 为空 |
+| 修改玩家输入 / 远征状态 | `Scripts/PlayerSaveManager.gd`、`Scripts/RefCounted/PlayerCardSaveModule.gd`、`ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn` 的玩家战斗属性配置；WorldManager / BattleManager 只在边界变化时检查 | 持久牌组由 GameManager 注入；每场 EntityData 属性仍由现有场景配置创建，不持久化 HP/Fuel |
+| 玩家容器存档 / 中断恢复 | `Scripts/PlayerSaveManager.gd`、`Scripts/RefCounted/PlayerCardSaveModule.gd`、`Scripts/GameManager.gd` | `Scripts/SaveManager.gd`、`Scripts/RefCounted/SaveModule.gd`、`Scripts/RefCounted/CardContainer.gd` | 进入远征前保存并置 active；死亡确认保存并清 active；恢复为全新远征，未接通房间/Battle checkpoint |
 
 ## 3. System maps
 
@@ -102,6 +106,8 @@ Primary:
 - `MainMenuSystem/MainMenu.gd`
 - `BaseSystem/Base.tscn`
 - `Scripts/GameManager.gd`
+- `BaseSystem/Scripts/Base.gd` (Base-only P input)
+- `Scripts/NewGame.tres` / `Scripts/Resource/NewGameConfig.gd` (initial weapon 3001)
 
 Related:
 - `Scripts/SaveManager.gd`
@@ -117,14 +123,16 @@ Primary:
 - `ExpeditionSystem/ExpeditionSystem.tscn`
 
 Related:
-- `ExpeditionSystem/Scripts/PrototypePlayerDataProvider.gd`
+- `Scripts/PlayerSaveManager.gd`
 - `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`
 - `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`
 
 Key entry points:
-- `PrototypePlayerDataProvider.validate_configuration()`
-- `PrototypePlayerDataProvider.get_player_data()`
-- `PrototypePlayerDataProvider.get_player_deck()`
+- `GameManager.start_game()` / `start_expedition()` / `return_to_base()` (save owned data, clear marker, reuse death-return transition)
+- `PlayerSaveManager.get_expedition_deck()` / `validate_deck_handoff()`
+- `ExpeditionManager.initialize_player_deck()` / `get_player_deck()` / `death_confirmed`
+- `ExpeditionManager.can_return_to_base()` / `return_to_base_requested`: InputMap `return_to_base` (L), EXPLORE only without battle startup/active battle/pending result; GameManager validates active scene and transition latch again
+- `BattleManager.is_starting_battle()`: read-only startup gate for Expedition return validation
 - `ExpeditionManager._on_world_encounter_requested()`
 - `ExpeditionManager._on_world_state_changed()`
 
@@ -312,7 +320,7 @@ Key entry points / signals:
 - `CardLogic.card_played_request`
 - `PlayerHandDeck.card_play_requested`
 - `CardManager.card_play_requested`
-- `CardInstance.new(id, template, instance_uid = "")` / `from_dictionary(data, template)` require matching `CardData`; the current creator is `PrototypePlayerDataProvider`
+- `CardInstance.new(id, template, instance_uid = "")` / `from_dictionary(data, template)` preserve UID; missing saved templates retain persistent records and are skipped in battle; WeaponInstance creates initial cards, PlayerCardSaveModule restores them
 - `BattleManager._convert_deck_to_runtime()` passes `CardInstance.unique_id` to `RuntimeCard.source_instance_uid`; both dictionary APIs preserve identity
 
 ### Static Data / Resources
@@ -322,10 +330,12 @@ Key entry points / signals:
 | `MapBlueprint` | `Scripts/MapBlueprint.gd` | `ExpeditionSystem/WorldSystem/Scripts/test_mapblueprint.tres` |
 | `RoomData` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd` | Created by `WorldGenerator.gd` at runtime |
 | `CardData` | `Scripts/Resource/Card/R_carddata.gd` | `Scripts/CardData/Cards/`; loaded by `AllCardData.gd` |
-| `WeaponData` | `Scripts/Resource/Weapon/R_weapondata.gd` | `Scripts/WeaponData/Weapons/ExampleWeapon.tres`; direct resource loading, no Autoload |
+| `WeaponData` | `Scripts/Resource/Weapon/R_weapondata.gd` | `Scripts/WeaponData/Weapons/`; indexed by `AllWeaponData.gd`; testweapon.tres ID 3001, 20 combat / 10 reserve references |
 | `EnemyData` | `Scripts/Resource/Enemy/R_EnemyData.gd` | `Scripts/EnemyData/EnemyDatas/`; loaded by `AllEnemyData.gd` |
 | `EnemyAction` | `Scripts/Resource/Enemy/R_EnemyAction.gd` | Subresources inside enemy data resources |
-| `EntityData` | `ExpeditionSystem/BattleSystem/Scripts/EntityData.gd` | Constructed by the current player-data provider |
+| `EntityData` | `ExpeditionSystem/BattleSystem/Scripts/EntityData.gd` | Constructed from ExpeditionManager's existing Inspector combat attributes |
+| `WeaponInstance` | `Scripts/RefCounted/WeaponInstance.gd` | Persistent weapon UID, static definition, combat/reserve containers; starting factory and dictionary APIs |
+| `CardContainer` | `Scripts/RefCounted/CardContainer.gd` | Ordered CardInstance collection; combat capacity 20, reserve unlimited; transfers retain existing object and UID |
 | `CombatAction` | `ExpeditionSystem/Scripts/CombatAction.gd` | Constructed by `RuntimeCard.gd` and `EnemyAI.gd` |
 
 ### Save / Persistence
@@ -333,6 +343,8 @@ Key entry points / signals:
 Primary:
 - `Scripts/SaveManager.gd`
 - `Scripts/RefCounted/SaveModule.gd`
+- `Scripts/RefCounted/PlayerCardSaveModule.gd`
+- `Scripts/RefCounted/CardContainer.gd`
 
 Related:
 - `Scripts/RefCounted/CardInstance.gd`
@@ -344,6 +356,9 @@ Key entry points / signals:
 - `SaveManager.load_slot()`
 - `SaveManager.save_game()`
 - `SaveManager.unload_current_save()`
+- `SaveModule.try_load_save_data()` / `can_save()` (checked extension, preserves legacy void load API)
+- `CardContainer.get_cards()` / `add_card()` / `remove_card()` / `transfer_to()` / dictionary APIs
+- `PlayerSaveManager.save_with_expedition_marker()` (default slot: user://saves/player_cards.json)
 - `save_started` / `save_finished`
 - `load_started` / `load_finished`
 
@@ -411,12 +426,12 @@ Door.open_door()
 -> encounter_requested(RoomData, enemy_id)
 -> ExpeditionManager._on_world_encounter_requested()
 -> WorldManager.is_encounter_pending(RoomData)
--> PrototypePlayerDataProvider.validate_configuration()
--> get_player_data() / get_player_deck()
+-> ExpeditionManager._create_player_data() / get_player_deck()
+-> previously injected persistent CardInstance objects (no per-encounter card creation)
 -> BattleManager.start_battle(...) -> bool (internally checks EntityManager.can_initialize() / CardManager.can_initialize())
 -> WorldManager.resolve_encounter_request(RoomData, startup_succeeded)
 -> PREPARING_BATTLE resolves RoomData -> BattleRoom -> EncounterApproachAnchor
--> real PlayerController moves and faces target with collision
+-> real PlayerController moves and faces target with collision; absent optional target skips approach and enters BATTLE
 -> completion validates transition id + RoomData + target identity
 -> WorldManager.world_state_changed(..., BATTLE)
 -> ExpeditionManager._on_world_state_changed()
@@ -426,7 +441,8 @@ Door.open_door()
 ```text
 Scripts/Resource/Card/R_carddata.gd (CardData)
 -> AllCardData
--> PrototypePlayerDataProvider injects CardData into CardInstance
+-> GameManager creates WeaponInstance from Scripts/NewGame.tres or restores PlayerCardSaveModule
+-> WeaponInstance.combat_deck -> GameManager -> ExpeditionManager.initialize_player_deck()
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard
@@ -466,8 +482,8 @@ SaveManager
 | Scene | Root / attached script | Inspect for |
 | --- | --- | --- |
 | `MainMenuSystem/MainMenu.tscn` | `MainMenu` / `MainMenu.gd`; `Control` | Editable centered Start/Quit buttons; starts Base directly |
-| `BaseSystem/Base.tscn` | `Base`; no script | Existing base Field/Interactive items scene; verified menu destination |
-| `ExpeditionSystem/ExpeditionSystem.tscn` | Top-level root; no root script | ExpeditionManager, prototype provider, WorldSystem, resident BattleSystem, UISystem assembly |
+| `BaseSystem/Base.tscn` | `Base` / `BaseSystem/Scripts/Base.gd` | Field/Interactive items plus complete PlayerVisual; P invokes GameManager.start_expedition() |
+| `ExpeditionSystem/ExpeditionSystem.tscn` | Top-level root; no root script | ExpeditionManager with combat attributes and injected deck, WorldSystem, resident BattleSystem, UISystem assembly |
 | `ExpeditionSystem/BattleSystem/BattleSystem.tscn` | `BattleSystem` / `BattleManager.gd` | Battle composition and exported references; `Timeline`, `EnemyAI`, and `EntityManager` remain inline |
 | `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` | `CombatHUD` / `CombatHUD.gd` | Independently editable HUD hierarchy, layout, styles, and internal label references |
 | `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | `PlayerVisual` / `PlayerVisualManager.gd` | Exploration player, head, camera bob, damage shake pivot, player camera, damage overlay, debug camera |
@@ -489,8 +505,9 @@ SaveManager
 | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd` | Runtime room/encounter resource type |
 | `Scripts/Resource/Card/R_carddata.gd` | `CardData` resource definition |
 | `Scripts/CardData/Cards/` | Card template resources |
-| `Scripts/Resource/Weapon/R_weapondata.gd` | `WeaponData` static metadata definition |
-| `Scripts/WeaponData/Weapons/ExampleWeapon.tres` | Example weapon template; not a playable weapon |
+| `Scripts/Resource/Weapon/R_weapondata.gd` | `WeaponData` static metadata and two ordered starting card-template ID arrays |
+| `Scripts/WeaponData/AllWeaponData.gd` | Weapon database Autoload; loading, ID/deck-reference validation and queries |
+| `Scripts/WeaponData/Weapons/` | User-authored definitions; existing testweapon.tres ID 3001 |
 | `Scripts/Resource/Enemy/R_EnemyData.gd` | `EnemyData` resource definition |
 | `Scripts/Resource/Enemy/R_EnemyAction.gd` | `EnemyAction` resource definition |
 | `Scripts/EnemyData/EnemyDatas/` | Enemy template resources |
@@ -500,13 +517,11 @@ SaveManager
 
 | Path | Status | Reason / preferred route |
 | --- | --- | --- |
-| `ExpeditionSystem/BattleSystem/Scripts/BattleSaveModule.gd` | `[LEGACY]` | EntityData fields are now aligned, but no active construction/registration chain exists. Extends RefCounted, incompatible with Battle's optional Node slot, lacks save_initial_state(), and input-to-runtime compilation is empty. Persistence remains paused. |
+| `ExpeditionSystem/BattleSystem/Scripts/BattleSaveModule.gd` | `[LEGACY]` | No active construction/registration chain; incompatible with Battle's optional Node slot. Remains inactive; use PlayerCardSaveModule only for current player-container persistence. |
 | `Scripts/CardData/CardEffect/` | `[LEGACY]` | Old `CardData -> CardEffect` execution path coexists with the battle `RuntimeCard -> CombatAction` path. Do not extend or delete it without an explicit migration task. |
 | `ExpeditionSystem/WorldSystem/DebugFreeCamera.tscn` | `[DO NOT USE AS NEW ARCHITECTURE]` | Unreferenced by the saved current Expedition scene and points to missing `WorldSystem/Scripts/DebugFreeCamera.gd`. Use `PlayerVisual.tscn` plus `PlayerVisual/Scripts/DebugFreeCamera.gd`. |
 | `ExpeditionSystem/ExpeditionSystem.tscn4534689310.tmp` | `[TEMPORARY]` | Tracked editor recovery artifact with obsolete scene wiring. Use `ExpeditionSystem.tscn`. |
 | `ExpeditionSystem/BattleSystem/CardSystem/CardSystem.tscn58389123.tmp` | `[TEMPORARY]` | Tracked editor recovery artifact containing stale `res://Scene/Battle_Scene/...` paths. Use `CardSystem.tscn`. |
-| `Scripts/PlayerSaveManager.gd` | `[PLACEHOLDER]` | Empty and unmounted. Do not treat it as implemented persistent-player ownership. |
-| `Scripts/GameManager.gd` | `[PLACEHOLDER]` | Autoload exists, but application flow is not implemented. |
 
 ## 7. Common implementation chains
 
@@ -601,7 +616,8 @@ Timeline.action_triggered (enemy action)
 ```text
 CardData
 -> AllCardData
--> PrototypePlayerDataProvider injects CardData into CardInstance
+-> GameManager creates WeaponInstance from Scripts/NewGame.tres or restores PlayerCardSaveModule
+-> WeaponInstance.combat_deck -> GameManager -> ExpeditionManager.initialize_player_deck()
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard

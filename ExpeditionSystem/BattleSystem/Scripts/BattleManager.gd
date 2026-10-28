@@ -120,6 +120,11 @@ func _setup_connections() -> void:
 
 #region 战斗生命周期与初始化
 
+# 供远征协调器只读校验启动阶段，避免其读取内部启动门闩。
+func is_starting_battle() -> bool:
+	return _is_starting_battle
+
+
 # 外部系统调用入口：输入卡牌实例数组、玩家实体数据与敌人ID启动战斗
 func start_battle(
 	external_deck: Array[CardInstance],
@@ -166,7 +171,7 @@ func start_battle(
 	_reset_card_exit_tracking()
 	_enemy_action_schedule_succeeded = false
 	_last_replenished_enemy_action = null
-	if not entity_manager.initialize(external_player_data, enemy_id) or not _enemy_action_schedule_succeeded:
+	if not entity_manager.initialize(external_player_data, enemy_id) or (entity_manager.has_enemy_actions and not _enemy_action_schedule_succeeded):
 		push_error("BattleManager: EntityManager 初始化失败。")
 		_secure_failed_startup_state()
 		return false
@@ -229,13 +234,6 @@ func _validate_startup_inputs(
 	if external_player_data == null:
 		push_error("BattleManager: external_player_data 为空。")
 		return false
-	if enemy_id < 0:
-		push_error("BattleManager: enemy_id 无效。")
-		return false
-	for card_instance in external_deck:
-		if card_instance == null or card_instance.card_data == null:
-			push_error("BattleManager: external_deck 包含无效 CardInstance。")
-			return false
 	return true
 
 
@@ -258,11 +256,14 @@ func _secure_failed_startup_state() -> void:
 func _convert_deck_to_runtime(deck: Array[CardInstance]) -> Array[RuntimeCard]:
 	var runtime_deck: Array[RuntimeCard] = []
 	for instance in deck:
-		if not instance:
+		if instance == null or instance.card_data == null or instance.card_data.id != instance.card_id:
+			push_warning("[BattleManager] 跳过缺少有效模板的 CardInstance：%s。" % (instance.unique_id if instance != null else "null"))
 			continue
 		# 利用 RuntimeCard 构造函数解析 CardData 对象或其字典属性
 		var runtime_card = RuntimeCard.new(instance.card_id, instance.card_data, instance.unique_id)
 		runtime_deck.append(runtime_card)
+	if runtime_deck.is_empty():
+		push_warning("[BattleManager] 战斗牌组为空或无可用模板；仍进入战斗，不生成替代卡牌。")
 	return runtime_deck
 
 #endregion

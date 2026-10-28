@@ -1,14 +1,96 @@
 ## 协调一次远征内的 World 与 Battle 边界。
-## 校验遭遇与原型玩家输入，并执行一次可靠的 Battle 启动交接。
+## 接收应用级注入的持久卡牌实例，并上报死亡确认。
 extends Node
+
+signal death_confirmed
+signal return_to_base_requested
 
 @export var world_manager: WorldManager
 @export var battle_manager: BattleManager
-@export var prototype_player_data_provider: PrototypePlayerDataProvider
 @export var result_ui: ExpeditionResultUI
+
+@export_category("玩家战斗属性")
+@export var player_attributes_configured: bool = false
+@export var player_entity_id: String = ""
+@export var player_entity_name: String = ""
+@export var player_max_hp: float = 0.0
+@export var player_current_hp: float = 0.0
+@export var player_shield: float = 0.0
+@export var player_max_stamina: float = 0.0
+@export var player_current_stamina: float = 0.0
+@export var player_stamina_regen_rate: float = 0.0
+@export var player_max_mana: float = 0.0
+@export var player_current_mana: float = 0.0
+@export var player_mana_regen_rate: float = 0.0
+@export var player_custom_properties: Dictionary = {}
 
 var _is_starting_battle := false
 var _result_pending := false
+var _deck_initialized := false
+var _player_deck: Array[CardInstance] = []
+
+
+# 只有权威探索状态且没有战斗启动或待确认结果时允许主动返回。
+func can_return_to_base() -> bool:
+	return (
+		is_instance_valid(world_manager) and is_instance_valid(battle_manager)
+		and world_manager.current_state == WorldManager.WorldState.EXPLORE
+		and not _is_starting_battle and not _result_pending
+		and not battle_manager.is_battle_active and not battle_manager.is_starting_battle()
+	)
+
+
+# 远征只上报返回意图；应用层再次校验并负责保存和切换。
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.echo:
+		return
+	if event.is_action_pressed("return_to_base") and can_return_to_base():
+		get_viewport().set_input_as_handled()
+		return_to_base_requested.emit()
+
+
+# 场景入树前接受原卡牌对象；空来源是有效状态，不生成补牌。
+func initialize_player_deck(cards: Array[CardInstance], content_state: String) -> bool:
+	if _deck_initialized:
+		push_error("[ExpeditionManager] 牌组交接失败：本次远征已经初始化。")
+		return false
+	var seen: Dictionary = {}
+	for card in cards:
+		if card == null or (card.card_data != null and card.card_data.id != card.card_id):
+			push_error("[ExpeditionManager] 牌组交接失败：收到无效 CardInstance。")
+			return false
+		if card.unique_id.strip_edges().is_empty() or seen.has(card.unique_id):
+			push_error("[ExpeditionManager] 牌组交接失败：收到空或重复实例 UID。")
+			return false
+		seen[card.unique_id] = true
+	_player_deck = cards.duplicate()
+	_deck_initialized = true
+	print("[ExpeditionManager] 牌组交接完成：内容状态 %s，数量 %d；空来源不视为传输失败。" % [content_state, cards.size()])
+	return true
+
+
+# 每次遭遇都使用这批持久实例，不重新创建卡牌。
+func get_player_deck() -> Array[CardInstance]:
+	return _player_deck.duplicate()
+
+
+# 沿用原场景已配置的玩家属性，本次不持久化或新增数值。
+func _create_player_data() -> EntityData:
+	if not player_attributes_configured or player_entity_id.strip_edges().is_empty() or player_entity_name.strip_edges().is_empty():
+		push_error("[ExpeditionManager] 玩家战斗属性未配置。")
+		return null
+	var data := EntityData.new(player_entity_id, player_entity_name)
+	data.max_hp = player_max_hp
+	data.current_hp = player_current_hp
+	data.shield = player_shield
+	data.max_stamina = player_max_stamina
+	data.current_stamina = player_current_stamina
+	data.stamina_regen_rate = player_stamina_regen_rate
+	data.max_mana = player_max_mana
+	data.current_mana = player_current_mana
+	data.mana_regen_rate = player_mana_regen_rate
+	data.custom_properties = player_custom_properties.duplicate(true)
+	return data
 
 
 # 校验依赖并接收 World 的遭遇请求。
@@ -16,10 +98,6 @@ func _ready() -> void:
 	assert(world_manager != null, "ExpeditionManager: 缺少必需的 world_manager 引用。")
 	assert(battle_manager != null, "ExpeditionManager: 缺少必需的 battle_manager 引用。")
 	assert(result_ui != null, "ExpeditionManager: 缺少必需的 result_ui 引用。")
-	assert(
-		prototype_player_data_provider != null,
-		"ExpeditionManager: 缺少必需的 prototype_player_data_provider 引用。"
-	)
 	if not world_manager.encounter_requested.is_connected(_on_world_encounter_requested):
 		world_manager.encounter_requested.connect(_on_world_encounter_requested)
 	if not world_manager.world_state_changed.is_connected(_on_world_state_changed):
@@ -48,15 +126,15 @@ func _on_world_encounter_requested(room_data: RoomData, enemy_id: int) -> void:
 	if not _is_encounter_context_valid(room_data, enemy_id):
 		_reject_encounter(room_data, "遭遇上下文已失效。")
 		return
-	if not prototype_player_data_provider.validate_configuration():
-		_reject_encounter(room_data, "PrototypePlayerDataProvider 配置无效。")
+	if not _deck_initialized:
+		_reject_encounter(room_data, "尚未接收持久牌组；请通过 GameManager.start_expedition() 启动。")
 		return
 
 	_is_starting_battle = true
-	var player_data := prototype_player_data_provider.get_player_data()
-	var player_deck := prototype_player_data_provider.get_player_deck()
+	var player_data := _create_player_data()
+	var player_deck := get_player_deck()
 	if not _are_battle_inputs_valid(player_data, player_deck):
-		_reject_encounter(room_data, "provider 未生成有效的 Battle 输入。")
+		_reject_encounter(room_data, "未生成有效的玩家属性或持久牌组输入。")
 		return
 	if not _is_encounter_context_valid(room_data, enemy_id):
 		_reject_encounter(room_data, "构造 Battle 输入后遭遇上下文已失效。")
@@ -82,7 +160,7 @@ func _is_encounter_context_valid(room_data: RoomData, enemy_id: int) -> bool:
 		return false
 	if not world_manager.is_encounter_pending(room_data):
 		return false
-	if room_data.enemy_id != enemy_id or enemy_id < 0:
+	if room_data.enemy_id != enemy_id:
 		return false
 	if world_manager.current_state != WorldManager.WorldState.EXPLORE:
 		return false
@@ -91,21 +169,16 @@ func _is_encounter_context_valid(room_data: RoomData, enemy_id: int) -> bool:
 	)
 	if current_room != room_data:
 		return false
-	if AllEnemyData.get_enemy(enemy_id) == null:
-		return false
 	return world_manager.has_valid_encounter_approach(room_data, enemy_id)
 
 
-# 校验 provider 输出类型与卡牌静态引用，不新增玩法数值规则。
+# 玩家属性是必需输入；缺失卡牌模板由 Battle 转换时跳过。
 func _are_battle_inputs_valid(
 	player_data: EntityData,
 	player_deck: Array[CardInstance]
 ) -> bool:
 	if player_data == null:
 		return false
-	for card_instance in player_deck:
-		if card_instance == null or card_instance.card_data == null:
-			return false
 	return true
 
 
@@ -168,13 +241,11 @@ func _on_victory_confirmed() -> void:
 	result_ui.hide_result()
 
 
-# 失败确认后重新实例化远征场景，丢弃本次临时状态。
+# 沿用失败确认入口，将保存与返回基地交给应用级拥有者。
 func _on_restart_requested() -> void:
 	if not _result_pending or battle_manager.battle_result != BattleManager.BattleResult.DEFEAT:
 		return
-	var error := get_tree().change_scene_to_file("res://ExpeditionSystem/ExpeditionSystem.tscn")
-	if error != OK:
-		push_error("ExpeditionManager: 无法重新开始远征，错误码 %d。" % error)
+	death_confirmed.emit()
 
 
 # 释放失败请求并恢复启动门闩，使 World 可以安全重试。

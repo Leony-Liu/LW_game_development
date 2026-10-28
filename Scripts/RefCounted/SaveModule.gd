@@ -15,6 +15,15 @@ func get_save_data():
 func load_save_data(_data):
 	push_error("SaveModule: 必须重写 load_save_data() 方法！")
 
+# 新模块可返回恢复结果；旧模块继续沿用原有 void 接口。
+func try_load_save_data(data: Variant) -> bool:
+	load_save_data(data)
+	return true
+
+# 新模块可在文件写入前拒绝无效业务状态。
+func can_save() -> bool:
+	return true
+
 # 当玩家退回主菜单（卸载存档）时，SaveManager 会统一调用此方法清空本模块在内存中的数据，防止前一个存档的数据残留。
 func clear_data():
 	push_error("SaveModule: 必须重写 clear_data() 方法！")
