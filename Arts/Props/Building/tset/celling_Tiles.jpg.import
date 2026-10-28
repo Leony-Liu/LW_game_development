@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu146sikaux1p"
-path.s3tc="res://.godot/imported/floor_3x3_carpet.jpg-61621483c9cb0490eca822c0ba856adc.s3tc.ctex"
+uid="uid://b558jtfihlall"
+path.s3tc="res://.godot/imported/celling_Tiles.jpg-cce9f102ff08d36e930dd9d719417882.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "da70a6342f6ae6787db07734f8567746"
+"md5": "f7629a4572fe2f294499a0c92dc0f020"
 }
 
 [deps]
 
-source_file="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/floor_3x3_carpet.jpg"
-dest_files=["res://.godot/imported/floor_3x3_carpet.jpg-61621483c9cb0490eca822c0ba856adc.s3tc.ctex"]
+source_file="res://Arts/Props/Building/tset/celling_Tiles.jpg"
+dest_files=["res://.godot/imported/celling_Tiles.jpg-cce9f102ff08d36e930dd9d719417882.s3tc.ctex"]
 
 [params]
 

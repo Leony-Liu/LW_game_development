@@ -9,15 +9,18 @@ var modifiers: Array      # 修改器列表
 var unique_id: String     # 实例卡牌UID
 
 # 初始化这张牌的所有数据
-func _init(id: int, template: CardData) -> void:
+func _init(id: int, template: CardData, instance_uid: String = "") -> void:
 	card_id = id
 	if template == null or template.id != id:
 		push_error("CardInstance: 必须注入与 card_id 匹配的 CardData。")
 		return
 	card_data = template
 		
-	# 赋予UID
-	unique_id = str(Time.get_ticks_usec()) + "_" + str(randi() % 1000)
+	# 恢复时保留原身份；新实例使用 256 位安全随机值。
+	if instance_uid.strip_edges().is_empty():
+		unique_id = Crypto.new().generate_random_bytes(32).hex_encode()
+	else:
+		unique_id = instance_uid
 	modifiers = []
 
 # 公开方法：序列化，将数据变成字典
@@ -34,9 +37,12 @@ static func from_dictionary(data: Dictionary, template: CardData) -> CardInstanc
 	if template == null or template.id != id:
 		push_error("CardInstance: 无法恢复卡牌，缺少匹配的 CardData。")
 		return null
-	var instance = CardInstance.new(id, template)
+	var saved_uid: Variant = data.get("unique_id", "")
+	var instance_uid: String = saved_uid if saved_uid is String else ""
+	var instance = CardInstance.new(id, template, instance_uid)
+	if instance_uid.strip_edges().is_empty():
+		push_warning("[CardInstance] 恢复数据缺少有效 unique_id，已为旧卡牌生成替代身份。")
 	instance.modifiers = data.get("modifiers", []).duplicate(true)
-	instance.unique_id = data.get("unique_id", "")
 	return instance
 
 # 获取卡牌名称

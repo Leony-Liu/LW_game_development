@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bj7ysjngtbq7c"]
 
-[ext_resource type="PackedScene" uid="uid://mqk2o0di8l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/celling.tscn" id="1_amqcc"]
+[ext_resource type="PackedScene" uid="uid://mqk2o0di8l" path="res://Arts/Props/Building/tset/celling.tscn" id="1_amqcc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_emj38"]
 size = Vector3(10, 0.1, 10)

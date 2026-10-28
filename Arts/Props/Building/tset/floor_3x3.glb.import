@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cv5wmlbu66bye"
-path="res://.godot/imported/floor_3x3.glb-f548729b3a52278fd412905ad4217583.scn"
+path="res://.godot/imported/floor_3x3.glb-8039731d2fad439e266e00273fc81b86.scn"
 
 [deps]
 
-source_file="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/floor_3x3.glb"
-dest_files=["res://.godot/imported/floor_3x3.glb-f548729b3a52278fd412905ad4217583.scn"]
+source_file="res://Arts/Props/Building/tset/floor_3x3.glb"
+dest_files=["res://.godot/imported/floor_3x3.glb-8039731d2fad439e266e00273fc81b86.scn"]
 
 [params]
 

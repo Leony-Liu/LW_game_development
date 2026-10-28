@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c4gpl5gpp6inc"
-path.s3tc="res://.godot/imported/testdoor_Door_03.jpg-d0175bf71d6eec2cd643f1a441153953.s3tc.ctex"
+path.s3tc="res://.godot/imported/testdoor_Door_03.jpg-ebee020d414f801dbc939402b7bb3096.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/testdoor_Door_03.jpg"
-dest_files=["res://.godot/imported/testdoor_Door_03.jpg-d0175bf71d6eec2cd643f1a441153953.s3tc.ctex"]
+source_file="res://Arts/Props/Building/tset/testdoor_Door_03.jpg"
+dest_files=["res://.godot/imported/testdoor_Door_03.jpg-ebee020d414f801dbc939402b7bb3096.s3tc.ctex"]
 
 [params]
 

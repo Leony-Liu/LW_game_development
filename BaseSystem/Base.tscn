@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bbbkmtjxwec5t"]
+
+[ext_resource type="PackedScene" uid="uid://o0jy78jn4shj" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Floor.tscn" id="1_jrlue"]
+[ext_resource type="PackedScene" uid="uid://b4tmgwlvlc11l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Wall.tscn" id="2_id8sb"]
+
+[node name="Base" type="Node3D" unique_id=1222264343]
+
+[node name="Field" type="Node3D" parent="." unique_id=1378303198]
+
+[node name="Floor" parent="Field" unique_id=780458477 instance=ExtResource("1_jrlue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5)
+
+[node name="Floor2" parent="Field" unique_id=1370078657 instance=ExtResource("1_jrlue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+
+[node name="Floor3" parent="Field" unique_id=1606459738 instance=ExtResource("1_jrlue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+
+[node name="Floor4" parent="Field" unique_id=94386815 instance=ExtResource("1_jrlue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
+
+[node name="Wall" parent="Field" unique_id=132109932 instance=ExtResource("2_id8sb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -10.040783)
+
+[node name="Wall5" parent="Field" unique_id=514710492 instance=ExtResource("2_id8sb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -10.040783)
+
+[node name="Wall2" parent="Field" unique_id=391970461 instance=ExtResource("2_id8sb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 10.059519)
+
+[node name="Wall6" parent="Field" unique_id=1120836938 instance=ExtResource("2_id8sb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 10.059519)
+
+[node name="Wall3" parent="Field" unique_id=1587963852 instance=ExtResource("2_id8sb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.1707535, 0, -5.0423274)
+
+[node name="Wall7" parent="Field" unique_id=1599822263 instance=ExtResource("2_id8sb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.1707535, 0, 4.9576726)
+
+[node name="Wall4" parent="Field" unique_id=1935373036 instance=ExtResource("2_id8sb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10.1787615, 0, -5.0423274)
+
+[node name="Wall8" parent="Field" unique_id=355239130 instance=ExtResource("2_id8sb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10.1787615, 0, 4.9576726)
+
+[node name="Interactive items" type="Node3D" parent="." unique_id=1292068120]

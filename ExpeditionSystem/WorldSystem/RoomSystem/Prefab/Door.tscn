@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c3jaitphg2byh"]
 
 [ext_resource type="Script" uid="uid://bx83nincis30o" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Door.gd" id="1_216lf"]
-[ext_resource type="PackedScene" uid="uid://cc5feudgfsy37" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/testdoor.tscn" id="2_gt263"]
+[ext_resource type="PackedScene" uid="uid://cc5feudgfsy37" path="res://Arts/Props/Building/tset/testdoor.tscn" id="2_gt263"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_wnmae"]
 size = Vector3(2, 3, 0.1)

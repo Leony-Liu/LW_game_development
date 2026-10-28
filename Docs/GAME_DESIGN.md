@@ -1167,9 +1167,10 @@ CardData
 
 只属于当前战斗，可以拥有临时 Buff 和计算后的战斗状态。
 
+已确认：由 `CardInstance` 转换的 `RuntimeCard` 必须保留来源实例 UID，用于关联同一张具体卡；不以模板 ID 代替实例身份。无 `CardInstance` 来源的 runtime 卡允许没有来源 UID。
+
 #### 43.4 仍待确定【待设计】
 
-- `CardInstance.unique_id` 是否必须进入 battle runtime；
 - `CardInstance.modifiers` 如何转换为战斗内 modifier / Buff；
 - 哪些 modifier 跨远征永久保留；
 - 哪些效果只存在于当前 Battle。
@@ -1813,9 +1814,10 @@ Battle 开始时记录：
 
 ### 69. CardInstance → RuntimeCard【待设计】
 
-仍需明确：
+已确认：`unique_id` 进入 Battle，由 `RuntimeCard.source_instance_uid` 保留；序列化恢复保留已有身份，旧数据缺失有效 UID 时才生成替代。
 
-- `unique_id` 是否进入 Battle；
+其余仍需明确：
+
 - 永久 `modifiers` 如何转化；
 - 升级信息如何参与 RuntimeCard 计算；
 - 哪些状态在 Battle 结束后写回长期卡牌实例。

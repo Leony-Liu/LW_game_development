@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cc5feudgfsy37"]
+
+[ext_resource type="PackedScene" uid="uid://dm4ejupfo360t" path="res://Arts/Props/Building/tset/testdoor.glb" id="1_ixjwc"]
+
+[node name="testdoor" unique_id=1585447255 instance=ExtResource("1_ixjwc")]

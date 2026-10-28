@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dm4ejupfo360t"
-path="res://.godot/imported/testdoor.glb-446537ff2f938a24a337f0ececb0cb92.scn"
+path="res://.godot/imported/testdoor.glb-6fc5515355881f4f1a32540196df830f.scn"
 
 [deps]
 
-source_file="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/testdoor.glb"
-dest_files=["res://.godot/imported/testdoor.glb-446537ff2f938a24a337f0ececb0cb92.scn"]
+source_file="res://Arts/Props/Building/tset/testdoor.glb"
+dest_files=["res://.godot/imported/testdoor.glb-6fc5515355881f4f1a32540196df830f.scn"]
 
 [params]
 

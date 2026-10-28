@@ -1,3 +1,5 @@
+## 保存单场战斗卡牌数据与临时 Buff，生成 CombatAction。
+## 可选保留来源实例身份，不创建长期卡牌身份。
 class_name RuntimeCard
 extends RefCounted
 
@@ -5,11 +7,13 @@ signal stats_updated
 
 var card_id: int
 var card_data: Dictionary
+var source_instance_uid: String = "" # 无 CardInstance 来源时为空。
 var active_buffs: Array[CardBuff] = []
 
 # 初始化
-func _init(id: int, raw_data: Variant) -> void:
+func _init(id: int, raw_data: Variant, instance_uid: String = "") -> void:
 	card_id = id
+	source_instance_uid = instance_uid
 	card_data = {}
 	
 	if typeof(raw_data) == TYPE_DICTIONARY:
@@ -27,7 +31,8 @@ func _init(id: int, raw_data: Variant) -> void:
 func to_dictionary() -> Dictionary:
 	return {
 		"card_id": card_id,
-		"card_data": card_data
+		"card_data": card_data,
+		"source_instance_uid": source_instance_uid
 	}
 
 # 从字典快速反序列化生成实例的静态方法
@@ -36,7 +41,8 @@ static func from_dictionary(dict: Dictionary) -> RuntimeCard:
 	var c_data = dict.get("card_data", {})
 	if c_id == 0:
 		return null
-	return RuntimeCard.new(c_id, c_data)
+	var saved_uid: Variant = dict.get("source_instance_uid", "")
+	return RuntimeCard.new(c_id, c_data, saved_uid if saved_uid is String else "")
 
 #region CardBuff的添加与消耗
 # 添加单个 buff

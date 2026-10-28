@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://o0jy78jn4shj"]
 
-[ext_resource type="PackedScene" uid="uid://2pwwxymga82l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/floor_3x_32.tscn" id="1_lyc3r"]
+[ext_resource type="PackedScene" uid="uid://2pwwxymga82l" path="res://Arts/Props/Building/tset/floor_3x_32.tscn" id="1_lyc3r"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_fjxb7"]
 size = Vector3(10, 0.1, 10)

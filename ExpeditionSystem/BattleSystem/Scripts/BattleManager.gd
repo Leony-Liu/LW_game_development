@@ -261,7 +261,7 @@ func _convert_deck_to_runtime(deck: Array[CardInstance]) -> Array[RuntimeCard]:
 		if not instance:
 			continue
 		# 利用 RuntimeCard 构造函数解析 CardData 对象或其字典属性
-		var runtime_card = RuntimeCard.new(instance.card_id, instance.card_data)
+		var runtime_card = RuntimeCard.new(instance.card_id, instance.card_data, instance.unique_id)
 		runtime_deck.append(runtime_card)
 	return runtime_deck
 

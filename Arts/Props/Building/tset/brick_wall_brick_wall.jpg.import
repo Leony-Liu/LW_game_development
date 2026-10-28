@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c365xeprypwua"
-path.s3tc="res://.godot/imported/brick_wall_concrete_bare.jpg-0c1656605c0558589fdc75cb20a03cdd.s3tc.ctex"
+uid="uid://ylsudxpq2fmy"
+path.s3tc="res://.godot/imported/brick_wall_brick_wall.jpg-a1ab32b0f0cb9f8c25f66d076a6a223f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "d67d6a1fd4075b2d597763fbb9624ca0"
+"md5": "a96bc97a9b8329790c7eff70a1e1fe9e"
 }
 
 [deps]
 
-source_file="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/brick_wall_concrete_bare.jpg"
-dest_files=["res://.godot/imported/brick_wall_concrete_bare.jpg-0c1656605c0558589fdc75cb20a03cdd.s3tc.ctex"]
+source_file="res://Arts/Props/Building/tset/brick_wall_brick_wall.jpg"
+dest_files=["res://.godot/imported/brick_wall_brick_wall.jpg-a1ab32b0f0cb9f8c25f66d076a6a223f.s3tc.ctex"]
 
 [params]
 

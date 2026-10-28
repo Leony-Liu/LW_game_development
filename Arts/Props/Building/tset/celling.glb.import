@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bmjtknyplupru"
-path="res://.godot/imported/brick_wall.glb-0057158c1e7ce1966aa49778349ac4b6.scn"
+uid="uid://dwyvjwecm6qau"
+path="res://.godot/imported/celling.glb-8b4a6c3d22628213ab23845279a302f3.scn"
 
 [deps]
 
-source_file="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/brick_wall.glb"
-dest_files=["res://.godot/imported/brick_wall.glb-0057158c1e7ce1966aa49778349ac4b6.scn"]
+source_file="res://Arts/Props/Building/tset/celling.glb"
+dest_files=["res://.godot/imported/celling.glb-8b4a6c3d22628213ab23845279a302f3.scn"]
 
 [params]
 

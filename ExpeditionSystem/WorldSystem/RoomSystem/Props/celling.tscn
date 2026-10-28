@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://mqk2o0di8l"]
-
-[ext_resource type="PackedScene" uid="uid://dwyvjwecm6qau" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/celling.glb" id="1_itg70"]
-
-[node name="celling" unique_id=1544915123 instance=ExtResource("1_itg70")]

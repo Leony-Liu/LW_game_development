@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b4tmgwlvlc11l"]
 
-[ext_resource type="PackedScene" uid="uid://ciwxan7xaldey" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/brick_wall_2.tscn" id="1_kpnah"]
+[ext_resource type="PackedScene" uid="uid://ciwxan7xaldey" path="res://Arts/Props/Building/tset/brick_wall_2.tscn" id="1_kpnah"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s00mh"]
 size = Vector3(10, 2, 0.1)
