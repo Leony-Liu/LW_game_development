@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://wupdljc1nnfi"]
 
-[ext_resource type="FontFile" uid="uid://jdg6h0onc3a1" path="res://Arts/Fort/ark-pixel-12px-monospaced-zh_cn.ttf" id="1_xvh6t"]
+[ext_resource type="FontFile" uid="uid://dd5wvuws1n7tu" path="res://Arts/Fort/SourceHanSansSC-Medium.otf" id="1_xvh6t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvh6t"]
 bg_color = Color(0.6, 0.6, 0.6, 0)

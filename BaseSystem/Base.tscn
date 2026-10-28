@@ -4,11 +4,28 @@
 [ext_resource type="PackedScene" uid="uid://b4tmgwlvlc11l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Wall.tscn" id="2_id8sb"]
 [ext_resource type="Script" uid="uid://cf6ysi5ylhn34" path="res://BaseSystem/Scripts/Base.gd" id="3_base"]
 [ext_resource type="PackedScene" uid="uid://diasj0i1yv8ea" path="res://ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn" id="4_player"]
+[ext_resource type="PackedScene" path="res://BaseSystem/UI/BaseUI.tscn" id="5_ui"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xvh6t"]
+albedo_color = Color(0.15686275, 1, 0.24705882, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cg5tx"]
+material = SubResource("StandardMaterial3D_xvh6t")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xvh6t"]
+radius = 2.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_k3l0r"]
 
-[node name="Base" type="Node3D" unique_id=1222264343]
+[sub_resource type="SphereShape3D" id="EditorRange"]
+radius = 2.0
+
+[node name="Base" type="Node3D" unique_id=1222264343 node_paths=PackedStringArray("player_visual", "entrance_area", "editor_area", "base_ui")]
 script = ExtResource("3_base")
+player_visual = NodePath("PlayerVisual")
+entrance_area = NodePath("Facility/testentrance/InteractionArea")
+editor_area = NodePath("Facility/testcardeditor/InteractionArea")
+base_ui = NodePath("BaseUI")
 
 [node name="PlayerVisual" parent="." unique_id=1841750863 instance=ExtResource("4_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.324762, 0)
@@ -51,15 +68,29 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10.1
 [node name="Wall8" parent="Field" unique_id=355239130 instance=ExtResource("2_id8sb")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10.1787615, 0, 4.9576726)
 
-[node name="Interactive items" type="Node3D" parent="." unique_id=1292068120]
+[node name="Facility" type="Node3D" parent="." unique_id=1292068120]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactive items" unique_id=1929830343]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.048098, 1.2420816, -4.2986403)
+[node name="testentrance" type="MeshInstance3D" parent="Facility" unique_id=2074222115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.048098087, 1.2420816, -9.29864)
+mesh = SubResource("BoxMesh_cg5tx")
+
+[node name="InteractionArea" type="Area3D" parent="Facility/testentrance" unique_id=880717229]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Facility/testentrance/InteractionArea" unique_id=845820820]
+shape = SubResource("SphereShape3D_xvh6t")
+
+[node name="testcardeditor" type="MeshInstance3D" parent="Facility" unique_id=1379591192]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.048098, 1.2420816, 3.9532146)
 mesh = SubResource("BoxMesh_k3l0r")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Interactive items" unique_id=1379591192]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.048098, 1.2420816, 3.9532146)
-mesh = SubResource("BoxMesh_k3l0r")
+[node name="InteractionArea" type="Area3D" parent="Facility/testcardeditor" unique_id=1654256127]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Facility/testcardeditor/InteractionArea" unique_id=1913852635]
+shape = SubResource("EditorRange")
+
+[node name="BaseUI" parent="." unique_id=1995217083 instance=ExtResource("5_ui")]
 
 [node name="Lights" type="Node3D" parent="." unique_id=801828422]
 

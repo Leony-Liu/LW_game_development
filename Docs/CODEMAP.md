@@ -4,7 +4,7 @@
 
 This is the repository navigation map for Codex. Use it before a broad repository search: locate the likely implementation files here, then inspect those real files. Real workspace files override this document. This file does not define gameplay rules, architecture rules, milestone status, or production scope.
 
-阶段收尾核对日期：2026-10-28。本次按当前源码同步武器双牌组、玩家存档、主菜单、Base P、远征 L 和开门战斗导航；未重做全仓审计。早期 52 脚本/22 场景/12 资源仅是历史审计基线，不是当前总量；既有逻辑证据与历史记录见 `Docs/ARCHITECTURE.md` 第 12 节。`[LIVE]` 表示保存接线已核对，`[SOURCE]` 表示源码证据，均不代表完整运行验收。
+核对日期：2026-10-28。当前导航包括武器双牌组、玩家存档、主菜单、Base 设施 E/确认/编辑、远征 L 和开门战斗；P 临时入口已移除。未重做全仓审计；早期 52 脚本/22 场景/12 资源仅是历史基线，不是当前总量。逻辑证据与历史记录见 `Docs/ARCHITECTURE.md` 第 12 节。`[LIVE]` 表示保存接线，`[SOURCE]` 表示源码证据，均不代表视觉验收。
 
 ```text
 task
@@ -20,7 +20,7 @@ task
 | --- | --- | --- | --- |
 | `project.godot` | Godot project configuration | Main scene, Autoloads, input map, plugins, project settings | Any entry-point, global-service, configuration, or input task |
 | `MainMenuSystem/MainMenu.tscn` | Root `MainMenu`; `MainMenu.gd`, `Control` | Configured main scene (`uid://cu8ebs30en5qs`); Start/Quit buttons | Start calls GameManager; Base normally, fresh Expedition on interrupted-session marker |
-| `BaseSystem/Base.tscn` | Root `Base`; `Node3D`, `BaseSystem/Scripts/Base.gd` | Field, Interactive items and complete PlayerVisual | Base-only P calls save-aware GameManager.start_expedition() |
+| `BaseSystem/Base.tscn` | Root `Base`; `Node3D`, `BaseSystem/Scripts/Base.gd` | Existing Field, Facility/testentrance, Facility/testcardeditor, Lights, PlayerVisual and BaseUI | Nearest Area3D target + E opens confirmation/editor; confirmation calls save-aware GameManager.start_expedition() |
 | `Scripts/GameManager.gd` | Autoload `GameManager`; `Node` | Application flow and save-before-transition coordination | `start_game()`, `start_expedition()`, `return_to_base()`, death return and recovery |
 | `Scripts/SaveManager.gd` | Autoload `SaveManager`; `Node` | Save slots, module registry, checked JSON I/O | Atomic file commit; bool operation results; legacy BattleSaveModule remains inactive |
 | `Scripts/PlayerSaveManager.gd` | Autoload `PlayerSaveManager`; after static databases | Weapon persistence coordinator | save/load, current weapon access, combat deck handoff and marker; initial choice belongs to GameManager |
@@ -48,7 +48,8 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 
 | Input | Source and route |
 | --- | --- |
-| P / `start_expedition` | `project.godot` → `BaseSystem/Scripts/Base.gd` → `GameManager.start_expedition()`; active Base only |
+| E / `interact` in Base | `project.godot` → `BaseSystem/Scripts/Base.gd`; proximity to entrance/editor required, nearest target only; entrance confirm calls GameManager.start_expedition() |
+| P | Temporary expedition shortcut and its dedicated InputMap action removed; use entrance facility |
 | L / `return_to_base` | `project.godot` → `ExpeditionManager.can_return_to_base()` / `return_to_base_requested` → `GameManager.return_to_base()`; active Expedition EXPLORE only, no battle/result/transition in progress |
 | F / `combat_draw_to_full`, Space / `combat_advance_time` | `project.godot` → `BattleManager._unhandled_input()`; battle input gates remain owned by BattleManager |
 | WASD / mouse / Shift / Esc | Shared `PlayerController.gd` and `HeadController.gd` in `PlayerVisual.tscn`; Base has no separate movement implementation |
@@ -59,7 +60,8 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Task / concern | Read first | Then inspect | Notes |
 | --- | --- | --- | --- |
 | Main scene / Autoloads / input map | `project.godot` | Referenced scene or Autoload script | Main scene is UID-backed; verify both config and scene |
-| Main menu / application or Base <-> Expedition flow | `Scripts/GameManager.gd` | `MainMenuSystem/MainMenu.gd`, `Scripts/PlayerSaveManager.gd`, `BaseSystem/Base.tscn`, `BaseSystem/Scripts/Base.gd` | Normal Start enters Base; interrupted Start directly creates Expedition; Base P uses start_expedition(); direct Editor expedition receives same handoff |
+| Main menu / application or Base <-> Expedition flow | `Scripts/GameManager.gd` | `MainMenuSystem/MainMenu.gd`, `Scripts/PlayerSaveManager.gd`, `BaseSystem/Base.tscn`, `BaseSystem/Scripts/Base.gd` | Normal Start enters Base; interrupted Start directly creates Expedition; entrance E confirmation uses start_expedition(); direct Editor expedition receives same handoff |
+| Base facilities / weapon deck editor | `BaseSystem/Scripts/Base.gd`, `BaseSystem/UI/BaseUI.tscn` | `BaseSystem/UI/WeaponDeckEditor.tscn`, `BaseSystem/UI/Scripts/WeaponDeckEditor.gd`, `BaseSystem/UI/Scripts/WeaponDeckCard.gd`, `BaseSystem/UI/Scripts/WeaponDeckRegion.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn`, `Scripts/RefCounted/CardContainer.gd` | Base owns transfers; four-column vertical combat grid, foreground horizontal reserve row; adapter reuses CardLogic.display_instance with presentation_only; same persistent instance, no new save trigger |
 | Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | GameManager injects combat_deck instances; victory continues exploration; death_confirmed / return_to_base_requested notify GameManager to save and return Base |
 | Persistent player / battle input | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | WeaponInstance owns ordered combat/reserve containers; only combat goes to Battle; ExpeditionManager Inspector supplies current combat attributes |
 | Initial weapon / authored starting references | `Scripts/NewGame.tres`, `Scripts/Resource/NewGameConfig.gd` | `Scripts/GameManager.gd`, `Scripts/WeaponData/Weapons/testweapon.tres`, `Scripts/RefCounted/WeaponInstance.gd` | initial_weapon_id 3001; create only when no saved weapon exists, preserve existing deck identities and contents |
@@ -117,7 +119,11 @@ Primary:
 - `MainMenuSystem/MainMenu.gd`
 - `BaseSystem/Base.tscn`
 - `Scripts/GameManager.gd`
-- `BaseSystem/Scripts/Base.gd` (Base-only P input)
+- `BaseSystem/Scripts/Base.gd` (nearest facility E input, modal ownership and live container transfers)
+- `BaseSystem/UI/BaseUI.tscn` / `BaseSystem/UI/Scripts/BaseUI.gd` (prompt, confirmation and editor composition)
+- `BaseSystem/UI/WeaponDeckEditor.tscn` / `BaseSystem/UI/Scripts/WeaponDeckEditor.gd` (four-column combat grid and overlapping foreground reserve row; native single-axis scrolling)
+- `BaseSystem/UI/WeaponDeckCard.tscn` / `BaseSystem/UI/Scripts/WeaponDeckCard.gd` (Card.tscn composition, uniform scaling, drag and right-click adapter; card presentation remains in CardLogic)
+- `BaseSystem/UI/Scripts/WeaponDeckRegion.gd` (native scroll and background drop target)
 - `Scripts/NewGame.tres` / `Scripts/Resource/NewGameConfig.gd` (initial weapon 3001)
 
 Related:
@@ -494,7 +500,10 @@ SaveManager
 | Scene | Root / attached script | Inspect for |
 | --- | --- | --- |
 | `MainMenuSystem/MainMenu.tscn` | `MainMenu` / `MainMenu.gd`; `Control` | Start calls GameManager.start_game(): Base normally, newly generated Expedition on active recovery marker; Quit exits |
-| `BaseSystem/Base.tscn` | `Base` / `BaseSystem/Scripts/Base.gd` | Field/Interactive items plus complete PlayerVisual; P invokes GameManager.start_expedition() |
+| `BaseSystem/Base.tscn` | `Base` / `BaseSystem/Scripts/Base.gd` | Existing facilities, Area3D proximity, PlayerVisual, BaseUI; E opens confirmation/editor; P no longer starts expedition |
+| `BaseSystem/UI/BaseUI.tscn` | `CanvasLayer` / `BaseUI.gd` | Unique prompt, ConfirmationDialog and DeckEditor; presentation only |
+| `BaseSystem/UI/WeaponDeckEditor.tscn` | `Control` / `WeaponDeckEditor.gd` | DeckLayers: vertical four-column CombatGrid, opaque foreground ReservePanel with horizontal ReserveRow; counts, close and status |
+| `BaseSystem/UI/WeaponDeckCard.tscn` | `Control` / `WeaponDeckCard.gd` | Instanced Card.tscn with presentation_only and display_instance(CardInstance); adapter owns only scaling and deck input |
 | `ExpeditionSystem/ExpeditionSystem.tscn` | Top-level root; no root script | ExpeditionManager with combat attributes and injected deck, WorldSystem, resident BattleSystem, UISystem assembly |
 | `ExpeditionSystem/BattleSystem/BattleSystem.tscn` | `BattleSystem` / `BattleManager.gd` | Battle composition and exported references; `Timeline`, `EnemyAI`, and `EntityManager` remain inline |
 | `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` | `CombatHUD` / `CombatHUD.gd` | Independently editable HUD hierarchy, layout, styles, and internal label references |

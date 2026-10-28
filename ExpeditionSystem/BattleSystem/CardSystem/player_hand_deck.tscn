@@ -1,14 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://csq7wsuq3pvpm"]
+[gd_scene format=3 uid="uid://csq7wsuq3pvpm"]
 
 [ext_resource type="Script" uid="uid://fptev7g2dxkf" path="res://ExpeditionSystem/BattleSystem/CardSystem/Scripts/PlayerHandDeck.gd" id="1_s4kns"]
 [ext_resource type="PackedScene" uid="uid://b5bqwwplbqjgj" path="res://ExpeditionSystem/BattleSystem/CardSystem/Card.tscn" id="2_b1et5"]
 
-[node name="PlayerHandDeck" type="HBoxContainer"]
-layout_mode = 0
+[node name="PlayerHandDeck" type="HBoxContainer" unique_id=1081231708]
 offset_right = 200.0
 offset_bottom = 280.0
 mouse_filter = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 1
 alignment = 1
 script = ExtResource("1_s4kns")
 card_scene = ExtResource("2_b1et5")
+left_reserved_width = 400.0
+bottom_margin = 0.0

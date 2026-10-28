@@ -65,7 +65,7 @@ func change_mode(mode: String) -> bool:
 		push_warning("PlayerVisualManager: 未配置可用调试相机，保持当前模式。")
 		return false
 	if (
-		next_mode in ["explore", "探索", "preparing_battle", "debug", "调试"]
+		next_mode in ["explore", "探索", "preparing_battle", "modal", "debug", "调试"]
 		and is_instance_valid(damage_feedback)
 	):
 		damage_feedback.cancel_feedback()
@@ -79,8 +79,8 @@ func change_mode(mode: String) -> bool:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			next_mode = "explore"
 
-		"preparing_battle", "battle":
-			if next_mode == "battle":
+		"preparing_battle", "battle", "modal":
+			if next_mode in ["battle", "modal"]:
 				cancel_encounter_approach()
 			_set_exploration_controls_active(false)
 			_set_player_camera_active(true)

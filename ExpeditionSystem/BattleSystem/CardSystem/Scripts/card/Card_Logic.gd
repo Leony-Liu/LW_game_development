@@ -19,6 +19,10 @@ enum CardState {
 @export var name_label: Label
 # 保存描述文本节点。
 @export var description: Label
+# 可选类型文本；旧场景未绑定时仍保留费用颜色提示。
+@export var type_label: Label
+# 静态展示复用卡面，不启用战斗输入或抽牌动画。
+@export var presentation_only: bool = false
 # 保存输入组件。
 @export var interaction: Node
 # 保存动画组件。
@@ -50,6 +54,8 @@ var is_locked: bool:
 # 初始化组件并在第一帧渲染前隐藏卡牌。
 func _ready() -> void:
 	animation.setup(self, %Visuals)
+	if presentation_only:
+		return
 	animation.prepare_draw()
 	
 	interaction.setup(self)
@@ -79,24 +85,42 @@ func setup(in_runtime_card: RuntimeCard) -> void:
 	animation.initialize_transform()
 	animation.play_draw()
 
+# 直接展示持久实例的模板，不创建 RuntimeCard 或改写实例数据。
+func display_instance(card: CardInstance) -> void:
+	if not presentation_only:
+		push_error("[CardLogic] 静态展示失败：必须启用 presentation_only。")
+		return
+	if card.card_data == null:
+		name_label.text = "模板不可用（ID %d）" % card.card_id
+		description.text = ""
+		cost_label.text = ""
+		if type_label != null:
+			type_label.text = ""
+		return
+	var data := card.card_data
+	var cost := data.stamina_cost if data.card_type == CardData.CardType.Attack else data.mana_cost
+	_display_data(data.name, data.description, cost, data.card_type)
+
+# 共用模板上的文本和费用颜色，不参与牌组或战斗状态计算。
+func _display_data(card_name: String, card_description: String, cost: int, card_type: int) -> void:
+	name_label.text = tr(card_name)
+	description.text = tr(card_description)
+	cost_label.text = str(cost)
+	if type_label != null:
+		type_label.text = CardData.CardType.find_key(card_type)
+	animation.set_cost_color(cost_label, card_type == CardData.CardType.Attack)
+
 # 根据 RuntimeCard 数据刷新所有文本表现。
 func _update_visuals() -> void:
 	if not runtime_card:
 		return
 	
-	var type_value = runtime_card.card_data.get("card_type", 0)
-	var is_attack: bool = type_value == 0
-	
-	name_label.text = tr(
-		str(runtime_card.card_data.get("name", "未命名"))
+	_display_data(
+		str(runtime_card.card_data.get("name", "未命名")),
+		str(runtime_card.card_data.get("description", "")),
+		runtime_card.get_resource_cost(),
+		int(runtime_card.card_data.get("card_type", 0))
 	)
-	
-	description.text = tr(
-		str(runtime_card.card_data.get("description", ""))
-	)
-	
-	cost_label.text = str(runtime_card.get_resource_cost())
-	animation.set_cost_color(cost_label, is_attack)
 	if is_hovered and state == CardState.IDLE:
 		hovered_stats_updated.emit(runtime_card)
 

@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://BaseSystem/UI/Scripts/BaseUI.gd" id="1"]
+[ext_resource type="PackedScene" path="res://BaseSystem/UI/WeaponDeckEditor.tscn" id="2"]
+
+[node name="BaseUI" type="CanvasLayer"]
+script = ExtResource("1")
+
+[node name="Prompt" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.81, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeckEditor" parent="." instance=ExtResource("2")]
+unique_name_in_owner = true
+
+[node name="ExpeditionConfirmation" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "进入远征"
+initial_position = 1
+size = Vector2i(440, 180)
+exclusive = true
+transient = true
+dialog_text = "是否进入远征？"
+dialog_hide_on_ok = false
+ok_button_text = "确认"
+cancel_button_text = "取消"

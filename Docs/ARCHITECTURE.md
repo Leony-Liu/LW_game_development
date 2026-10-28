@@ -121,7 +121,19 @@ Expedition‌System（独立保存场景，Node）
 | 输入 | `project.godot` 的 `run/main_scene` 指向该场景 |
 | 输出 | Start 调用 `GameManager.start_game() -> bool` 并检查失败结果；正常进入 Base，中断标记为 true 时恢复玩家数据并直接进入新远征。Quit 调用 SceneTree.quit() `[SOURCE]` |
 
-主场景 UID 保持 `uid://cu8ebs30en5qs`。Base 实例化已有完整 PlayerVisual.tscn，复用 CharacterBody3D、PlayerController、HeadController、提灯与主相机；共享受伤表现组件不接收 Base 战斗事件。Base.gd 只在活动 Base 接收 InputMap.start_expedition（物理 P），过滤重复按键；GameManager 重入门闩阻止并发切换。Editor 直接运行 Expedition 时，GameManager 延迟启动同样完成恢复/初始化、牌组交接、保存与活动标记。没有设施交互或整备 UI。`[SOURCE]`
+主场景 UID 保持 `uid://cu8ebs30en5qs`。Base 实例化已有完整 PlayerVisual.tscn，复用 CharacterBody3D、PlayerController、HeadController、提灯与主相机；共享受伤表现组件不接收 Base 战斗事件。Base.gd 只在活动 Base 接收 InputMap.interact（物理 E），按原生检测区选择最近设施并管理唯一模态；远征入口确认后调用 GameManager.start_expedition()，应用重入门闩阻止并发切换。P 临时入口已移除。Editor 直接运行 Expedition 时，GameManager 延迟启动同样完成恢复/初始化、牌组交接、保存与活动标记。已有两个测试设施及基础双牌组编辑窗口，其他设施与武器获取/切换仍未实现。`[SOURCE]`
+
+### Base 设施与双牌组编辑
+
+Base 仍是组合根：保留 Facility/testentrance 与 Facility/testcardeditor 的可见模型、变换、材质和 Lights；两者各新增 InteractionArea/CollisionShape3D。Base 导出 player_visual、entrance_area、editor_area、base_ui 必需引用。Area3D.overlaps_body() 只接受共享玩家的真实 CharacterBody3D；重叠时按距离选择一个设施，离开即隐藏提示。不新增通用设施框架。`[SOURCE]`
+
+BaseUI.tscn（CanvasLayer）组合唯一提示 Label、ConfirmationDialog 和独立 WeaponDeckEditor.tscn（Control）。Base.gd 持有唯一模态状态、打开前的模式/鼠标状态和编辑武器引用；PlayerVisualManager.change_mode("modal") 统一关闭移动/视角并释放鼠标，取消、关闭或 Esc 后恢复。UI 只上报意图，确认失败保留模态供取消/重试；E 在打开前被消费，不用于确认按钮。`[SOURCE]`
+
+编辑窗口接收当前 WeaponInstance，只读渲染两个容器。WeaponDeckCard.tscn 仅适配牌组输入和等比缩放，内部实例化既有 Card.tscn；CardLogic.presentation_only 禁用战斗输入与抽牌隐藏，display_instance(CardInstance) 直接绑定真实名称、类型、费用和描述，不创建 RuntimeCard。缺模板时显示诊断并保留真实卡牌位置，不生成替代内容。实战用四列 GridContainer + 纵向 ScrollContainer；备用用单行 HBoxContainer + 横向 ScrollContainer，滚轮由指针所在区域原生处理。`[SOURCE]`
+
+DeckLayers 内的 CombatPanel 占满主区域，后置且 z_index = 1 的不透明 ReservePanel 以 anchor_top = 0.66 覆盖其下部，遮住第三行的一部分；两区卡面按模板 240:360 比例统一缩放。CombatPadding 底部为覆盖区留出滚动余量，使末行仍能滚到前景上方。备用面板阻止点击穿透；静态卡面内部忽略鼠标，仅适配层处理右键和拖放。Header/CloseButton 位于 DeckLayers 之外。最终视觉与手感仍待用户人工验收。`[SOURCE]`
+
+WeaponDeckCard / WeaponDeckRegion 只发右键或拖放意图；载荷含会话 ID、原容器 ID 和卡牌 UID。窗口拒绝旧会话/同容器请求，Base 验证源卡及容量后调用原 CardContainer.transfer_to()，将同一实例追加到另一容器末尾。保留武器 UID、卡牌 UID、modifiers 和其余顺序，实战满 20 时显示拒绝原因。打开/关闭不创建武器、不重置起始数组、不新增保存；编辑在内存立即生效，远征入口确认时沿既有流程保存，L/死亡边界不变。`[SOURCE]`
 
 ### `GameManager`
 
@@ -511,7 +523,7 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 | `AttributeSet.gd`；每个实体的子节点 | 属性字典和初始值 | 创建 Attribute；中继 `value_changed` 为 `attribute_updated`；可选公式是注入 Callable，无管理器查找 |
 | `Attribute.gd` / `AttributeBuff.gd`；RefCounted，AttributeSet/Attribute 持有 | 属性计算值、缓存和修改器；缓存不是独立游戏事实 | 属性操作及 `value_changed`；Buff 只计算数值；不访问场景树或全局服务 |
 | `PlayerHandDeck.gd`；CardSystem 子场景 | 卡牌视图列表、输入锁和布局，牌堆权威在 CardManager | 必需 `card_scene: PackedScene`；创建 CardLogic，调用确认/拒绝动画；中继出牌与弃牌意图 |
-| `Card_Logic.gd`；动态 Card.tscn 根 | 绑定一张 RuntimeCard，持有显示/动画状态 | 必需内部控件、Interaction/Animation；读单一卡牌模型并监听 `stats_updated`；发出牌/弃牌意图；不改牌堆或玩家资源 |
+| `Card_Logic.gd`；动态 Card.tscn 根 | 战斗绑定 RuntimeCard 并持有显示/动画状态；presentation_only 直接展示 CardInstance 模板 | 必需费用/名称/描述控件、Interaction/Animation；类型控件可选；战斗监听 `stats_updated` 并发出牌/弃牌意图，静态模式不连接战斗输入或播放抽牌动画；不改牌堆或玩家资源 |
 | `Card_Interaction.gd` / `Card_Animation.gd`；Card.tscn 子节点 | 输入检测 / Tween 生命周期 | 注入通用 Control 目标；调用控件 API、发交互/动画完成信号；不依赖 CardManager、Timeline 或 BattleManager |
 | `RuntimeCard.gd` / `CardBuff.gd`；RefCounted，CardManager 牌堆持有 | 战斗卡牌数据与 Buff 列表 / 可变时间次数 | 模板由构造参数注入；`create_action()` 生成 CombatAction；`stats_updated` 通知单卡视图；共享 Buff 风险见下表 |
 | `WeaponInstance.gd` / `CardContainer.gd` / `CardInstance.gd`；RefCounted，按武器→容器→卡牌持有 | 具体武器身份 / 有序双牌组 / 长期卡牌身份与修改器 | 模板显式注入，数据对象不访问 Autoload；combat 容量 20，转移移动原对象并保留 UID |
@@ -572,7 +584,7 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 | 替换敌人/玩家战斗反馈 | Battle 事件 → ExpeditionManager → World → EnemyVisual / PlayerDamageFeedback | Ready with constraints | 游戏事实与表现分离，模型/pivots/覆盖层可编辑；本轮未运行 Tween 视觉/取消验收，必须归还完成凭据 | 保持布尔启动结果与完成/取消回报；验收不改逻辑时间和伤害 |
 | HUD、卡牌视觉与局部布局 | BattleManager._refresh_hud() → CombatHUD.display_state()；Card.tscn / Animation | Ready with constraints | 引用与初始化通过；HUD 不查询玩法系统，手牌只观察单卡；首敌显示、字段契约与卡牌离场凭据有约束 | 布局先改所属场景；新显示字段由协调器提供，补目标分辨率与交互验收 |
 | 提灯模型/光照的 Inspector 调整 | PlayerVisual → LanternController → gravity/motion pivots / model scene | Ready with constraints | 独立场景和导出参数、引用可解析；没有 Fuel owner，俯仰/移动观感未在本轮验证 | 保留表现职责，替换后人工检查低头和移动 |
-| 武器双牌组与最小基地循环 | WeaponInstance → PlayerSaveManager → GameManager → ExpeditionManager；Base P 进入，探索 L / 死亡确认返回 | Ready with constraints | 有武器/开门与 L 返回的既有集中逻辑记录；Base 操控问题用户已手动解决，无设施/编辑/切换交互，HP/Fuel 写回未实现 | 确认下一内容/交互切片，并单独安排完整游玩与表现验收 |
+| 武器双牌组与最小基地循环 | WeaponInstance → PlayerSaveManager → GameManager → ExpeditionManager；Base 设施 E 确认进入，探索 L / 死亡确认返回 | Ready with constraints | 有武器/开门与 L 返回的既有集中逻辑记录；Base 操控问题用户已手动解决，两个设施与双牌组编辑已有集中逻辑检查，武器获取/切换仍未实现，HP/Fuel 写回未实现 | 确认下一内容/交互切片，并单独安排完整游玩与表现验收 |
 | 完整 checkpoint / 远征存档 | 当前只保存玩家容器和 active 标记；BattleSaveModule 遗留 | Not ready | 不保存房间、地图、实体或战斗；中断只生成新远征 | 本切片之外继续暂缓，不把活动标记当作 Room Entry checkpoint |
 | 导出包资源发现与发布运行 | 目录加载器 → 导出资源 remap | Not verified | 本轮仅本地编辑器二进制 headless；无导出构建或包内扫描证据 | 发布相关任务再验证，不能从本地加载成功推导 |
 | 当前玩家战斗参数调整 | ExpeditionManager Inspector → EntityData → start_battle | Ready with constraints | 保留原有场景参数；本次未重新验收完整战斗，实体属性仍每场构造 | 不与持久卡牌容器或尚未实现的 HP 继承混淆 |
@@ -594,9 +606,15 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 
 ## 12. 阶段收尾与验证记录
 
-### 本阶段收尾（2026-10-28）
+### 基地设施与双牌组编辑验证（2026-10-28）
 
-本次只同步 README、CODEMAP、ARCHITECTURE、GAME_DESIGN，按当前源码、保存场景和工作树状态核对既有实现。未运行 Godot、未重跑以下逻辑探针、未检查画面或导出；本次文档一致性检查不能替代运行验证。没有启动测试进程、操作用户 Editor 或读写玩家存档。
+经 tools/godot_cli.ps1 的同一个临时 headless 探针获得 FACILITY_CHECKS=55 FAILURES=0。覆盖实际 Area3D 与玩家重叠/最近目标、E 范围限制、确认/取消、模态控制锁定/恢复、双容器显示、原生滚动配置、右键/拖放回调双向转移、20 张容量拒绝、旧会话拒绝、缺模板/空数据、关闭重开不重置、不增加编辑保存、确认保存失败留在 Base/重试、空战斗牌组入征和原有 L 返回。
+
+原设施几何参数、材质及设施/玩家/灯光变换与接入前用户保存快照一致。只使用 wrapper 隔离临时槽，未覆盖用户存档；日志含预期保存失败注入和系统证书读取错误。拖放通过回调逻辑检查，未声称真实鼠标拖拽、布局或手感验收；无截图、多分辨率、完整遭遇、导出或其他回归。临时探针/快照在任务末清理，日志留于忽略目录 .codex_runtime/facility_probe.log。
+
+### 前一阶段文档收尾（历史，2026-10-28）
+
+当时只同步 README、CODEMAP、ARCHITECTURE、GAME_DESIGN，按当时源码、保存场景和工作树状态核对既有实现。未运行 Godot、未重跑以下逻辑探针、未检查画面或导出；本次文档一致性检查不能替代运行验证。没有启动测试进程、操作用户 Editor 或读写玩家存档。
 
 | 既有记录 | 实际覆盖与边界 |
 | --- | --- |
@@ -607,7 +625,7 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 
 Base 操控问题由用户确认已手动解决。当前保存的 Base 仍复用 PlayerVisual 子场景，本次不重新归因、不记录未经核实的修复细节，也不把这项用户确认扩展为完整视觉/碰撞/游玩验收。
 
-未完成：基地设施、双牌组编辑 UI、武器获取/存放/切换交互、更多作者内容、跨战斗属性写回、完整地图/战斗 checkpoint；完整游玩与导出仍需单独验证。GAME_DESIGN 的完整试玩版仍以界面式基地为目标，当前可移动 3D Base 是本阶段原型；两者不应混写为已经一致。死亡资产损失和完整 checkpoint 仍是后续目标，本阶段无新增损失规则。
+该收尾时点的后续工作（两个测试设施与双牌组编辑现已接通）：其他基地设施、武器获取/存放/切换交互、更多作者内容、跨战斗属性写回、完整地图/战斗 checkpoint；完整游玩与导出仍需单独验证。GAME_DESIGN 的完整试玩版仍以界面式基地为目标，当前可移动 3D Base 是本阶段原型；两者不应混写为已经一致。死亡资产损失和完整 checkpoint 仍是后续目标，本阶段无新增损失规则。
 
 ### 早期导航审计（历史快照）
 

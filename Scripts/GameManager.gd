@@ -53,7 +53,7 @@ func start_game() -> bool:
 	return scene != null and _commit_transition(scene)
 
 
-# 基地 P 与中断恢复共用保存感知的远征入口。
+# 基地设施确认与中断恢复共用保存感知的远征入口。
 func start_expedition() -> bool:
 	if _transition_in_progress or not _ensure_player_weapon():
 		return false
