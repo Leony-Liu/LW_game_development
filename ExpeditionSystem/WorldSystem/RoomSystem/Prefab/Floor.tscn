@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://o0jy78jn4shj"]
+[gd_scene format=3 uid="uid://o0jy78jn4shj"]
+
+[ext_resource type="PackedScene" uid="uid://2pwwxymga82l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/floor_3x_32.tscn" id="1_lyc3r"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_fjxb7"]
 size = Vector3(10, 0.1, 10)
@@ -6,12 +8,16 @@ size = Vector3(10, 0.1, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_bxwtu"]
 size = Vector3(10, 0.1, 10)
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" unique_id=780458477]
 
-[node name="Floor" type="StaticBody3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="." unique_id=96738395]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1351764645]
+visible = false
 mesh = SubResource("BoxMesh_fjxb7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+[node name="floor_3x32" parent="Floor" unique_id=1812779214 instance=ExtResource("1_lyc3r")]
+transform = Transform3D(3.3426178, 0, 0, 0, 1, 0, 0, 0, 3.3426178, -5, 0.056802094, 5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=432450091]
 shape = SubResource("BoxShape3D_bxwtu")

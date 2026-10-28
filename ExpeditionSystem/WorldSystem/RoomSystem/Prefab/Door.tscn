@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3jaitphg2byh"]
+[gd_scene format=3 uid="uid://c3jaitphg2byh"]
 
 [ext_resource type="Script" uid="uid://bx83nincis30o" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Door.gd" id="1_216lf"]
+[ext_resource type="PackedScene" uid="uid://cc5feudgfsy37" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/testdoor.tscn" id="2_gt263"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_wnmae"]
 size = Vector3(2, 3, 0.1)
@@ -12,22 +13,25 @@ size = Vector3(2, 3, 0.1)
 height = 3.0
 radius = 1.5
 
-[node name="Door" type="Node3D" node_paths=PackedStringArray("door_body", "interaction_area")]
+[node name="Door" type="Node3D" unique_id=1350537711 node_paths=PackedStringArray("door_body", "interaction_area")]
 script = ExtResource("1_216lf")
 door_body = NodePath("DoorBody")
 interaction_area = NodePath("InteractionArea")
 
-[node name="DoorBody" type="StaticBody3D" parent="."]
+[node name="DoorBody" type="StaticBody3D" parent="." unique_id=491058860]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DoorBody"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DoorBody" unique_id=1288338283]
 mesh = SubResource("BoxMesh_wnmae")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorBody"]
+[node name="testdoor" parent="DoorBody" unique_id=1585447255 instance=ExtResource("2_gt263")]
+transform = Transform3D(1.5331118, 0, 0, 0, 1.5331118, 0, 0, 0, 1.5718039, 0, -2.5433035, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorBody" unique_id=168768831]
 shape = SubResource("BoxShape3D_216lf")
 
-[node name="InteractionArea" type="Area3D" parent="."]
+[node name="InteractionArea" type="Area3D" parent="." unique_id=873503432]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=128731923]
 shape = SubResource("CylinderShape3D_216lf")

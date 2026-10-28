@@ -58,6 +58,7 @@ folder_colors={
 "res://ExpeditionSystem/BattleSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/": "yellow",
+"res://ExpeditionSystem/WorldSystem/RoomSystem/Props/": "purple",
 "res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/": "yellow",
 "res://ExpeditionSystem/WorldSystem/Scripts/": "yellow",
 "res://MainMenuSystem/": "blue",

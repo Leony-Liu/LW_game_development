@@ -69,6 +69,9 @@ script = ExtResource("1_vrybq")
 [node name="BattleSystem" parent="." unique_id=1786665297 instance=ExtResource("3_h5q8n")]
 action_transition_delay = 0.5
 
+[node name="PlayerHandDeck" parent="BattleSystem/UI/CardSystem" parent_id_path=PackedInt32Array(1786665297, 1879808500) index="0"]
+offset_top = -280.0
+
 [node name="UISystem" type="CanvasLayer" parent="." unique_id=1716876260 node_paths=PackedStringArray("victory_panel", "game_over_panel", "confirm_button", "restart_button")]
 script = ExtResource("5_result_ui")
 victory_panel = NodePath("VictoryPanel")
@@ -147,3 +150,6 @@ layout_mode = 2
 text = "重新开始远征"
 
 [editable path="WorldSystem/PlayerVisualRoot/PlayerVisual"]
+[editable path="BattleSystem"]
+[editable path="BattleSystem/UI/CardSystem"]
+[editable path="BattleSystem/UI/CardSystem/PlayerHandDeck"]

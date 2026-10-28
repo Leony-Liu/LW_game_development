@@ -1,18 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4tmgwlvlc11l"]
+[gd_scene format=3 uid="uid://b4tmgwlvlc11l"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_6brlt"]
-size = Vector3(10, 3, 0.1)
+[ext_resource type="PackedScene" uid="uid://ciwxan7xaldey" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/brick_wall_2.tscn" id="1_kpnah"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s00mh"]
 size = Vector3(10, 2, 0.1)
 
-[node name="Wall" type="Node3D"]
+[node name="Wall" type="Node3D" unique_id=132109932]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=316950878]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_6brlt")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=640219859]
 shape = SubResource("BoxShape3D_s00mh")
+
+[node name="brick_wall2" parent="StaticBody3D" unique_id=1700781655 instance=ExtResource("1_kpnah")]
+transform = Transform3D(1.258137, 0, 0, 0, 1.5726712, 0, 0, 0, 1, 0, -1.5006282, 0)
+
+[node name="brick_wall3" parent="StaticBody3D" unique_id=810055396 instance=ExtResource("1_kpnah")]
+transform = Transform3D(-1.2581369, 0, 8.742277e-08, 0, 1.572671, 0, -1.0998982e-07, 0, -1, 0, -1.5006282, 0)

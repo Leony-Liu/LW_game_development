@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://ciwxan7xaldey"]
+
+[ext_resource type="PackedScene" uid="uid://bmjtknyplupru" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/brick_wall.glb" id="1_qhmwv"]
+
+[node name="brick_wall2" unique_id=1700781655 instance=ExtResource("1_qhmwv")]

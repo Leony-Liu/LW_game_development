@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj7ysjngtbq7c"]
+[gd_scene format=3 uid="uid://bj7ysjngtbq7c"]
+
+[ext_resource type="PackedScene" uid="uid://mqk2o0di8l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Props/celling.tscn" id="1_amqcc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_emj38"]
 size = Vector3(10, 0.1, 10)
@@ -6,12 +8,16 @@ size = Vector3(10, 0.1, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_nvq7l"]
 size = Vector3(10, 0.1, 10)
 
-[node name="Ceiling" type="Node3D"]
+[node name="Ceiling" type="Node3D" unique_id=96388672]
 
-[node name="ceiling" type="StaticBody3D" parent="."]
+[node name="ceiling" type="StaticBody3D" parent="." unique_id=2020089526]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ceiling"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ceiling" unique_id=1755851707]
+visible = false
 mesh = SubResource("BoxMesh_emj38")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ceiling"]
+[node name="celling" parent="ceiling" unique_id=1544915123 instance=ExtResource("1_amqcc")]
+transform = Transform3D(0.4674807, 0, 0, 0, 1, 0, 0, 0, 0.5773595, 0, 0, 0.10427499)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ceiling" unique_id=1891160606]
 shape = SubResource("BoxShape3D_nvq7l")
