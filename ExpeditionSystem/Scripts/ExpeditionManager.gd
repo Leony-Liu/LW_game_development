@@ -4,6 +4,11 @@ extends Node
 
 signal death_confirmed
 signal return_to_base_requested
+signal extraction_requested(operation_id: int)
+
+enum TerminalState { ACTIVE, EXTRACTING, DEAD }
+var _terminal_state := TerminalState.ACTIVE
+var _extraction_operation_id := 0
 
 @export var world_manager: WorldManager
 @export var battle_manager: BattleManager
@@ -30,18 +35,64 @@ var _deck_initialized := false
 var _player_deck: Array[CardInstance] = []
 
 
-# 只有权威探索状态且没有战斗启动或待确认结果时允许主动返回。
-func can_return_to_base() -> bool:
+# 当前远征的唯一终局门闩，同时拒绝战斗、结果和世界转换冲突。
+func _can_begin_terminal_operation() -> bool:
 	return (
-		is_instance_valid(world_manager) and is_instance_valid(battle_manager)
-		and world_manager.current_state == WorldManager.WorldState.EXPLORE
+		is_inside_tree() and owner != null and get_tree().current_scene == owner
+		and _deck_initialized and _terminal_state == TerminalState.ACTIVE
+		and is_instance_valid(world_manager) and is_instance_valid(battle_manager)
+		and world_manager.can_interact_in_exploration()
 		and not _is_starting_battle and not _result_pending
 		and not battle_manager.is_battle_active and not battle_manager.is_starting_battle()
 	)
 
 
-# 远征只上报返回意图；应用层再次校验并负责保存和切换。
+# L 只供开发调试，不能作为发布版的撤离或结算路径。
+func can_return_to_base() -> bool:
+	return OS.is_debug_build() and _can_begin_terminal_operation()
+
+
+# 上层持有终局状态，设施只接收当前交互是否可用。
+func _process(_delta: float) -> void:
+	if is_instance_valid(world_manager):
+		world_manager.update_extraction_interaction(_can_begin_terminal_operation())
+
+
+# 接受只代表已锁定操作并上报，应用层仍须验证结算及保存。
+func request_extraction(room: RoomData, facility: Node3D) -> bool:
+	if not _can_begin_terminal_operation() or not world_manager.is_extraction_context_valid(room, facility):
+		return false
+	if not extraction_requested.has_connections():
+		world_manager.show_extraction_status("撤离不可用：应用处理入口未连接。")
+		push_error("[ExpeditionManager] 撤离请求失败：应用处理入口未连接；保留远征。")
+		return false
+	_terminal_state = TerminalState.EXTRACTING
+	_extraction_operation_id += 1
+	world_manager.update_extraction_interaction(false)
+	print("[ExpeditionManager] 撤离请求已接受，开始校验结算依赖。")
+	extraction_requested.emit(_extraction_operation_id)
+	return true
+
+
+# 失败只释放匹配操作，死亡或旧请求回调不能重新打开远征。
+func reject_extraction(operation_id: int, reason: String) -> bool:
+	if _terminal_state != TerminalState.EXTRACTING or operation_id != _extraction_operation_id:
+		return false
+	_terminal_state = TerminalState.ACTIVE
+	world_manager.show_extraction_status(reason)
+	world_manager.update_extraction_interaction(_can_begin_terminal_operation())
+	return true
+
+
+# 上层在处理通知时校验操作身份，避免旧场景通知提交终局。
+func is_extraction_pending(operation_id: int) -> bool:
+	return _terminal_state == TerminalState.EXTRACTING and operation_id == _extraction_operation_id
+
+
+# 开发快捷键仍只上报意图；应用层另做 debug 与场景校验。
 func _unhandled_input(event: InputEvent) -> void:
+	if not OS.is_debug_build():
+		return
 	if event is InputEventKey and event.echo:
 		return
 	if event.is_action_pressed("return_to_base") and can_return_to_base():
@@ -102,6 +153,7 @@ func _ready() -> void:
 		world_manager.encounter_requested.connect(_on_world_encounter_requested)
 	if not world_manager.world_state_changed.is_connected(_on_world_state_changed):
 		world_manager.world_state_changed.connect(_on_world_state_changed)
+	world_manager.extraction_requested.connect(request_extraction)
 	battle_manager.battle_ended.connect(_on_battle_ended)
 	battle_manager.enemy_attack_started.connect(_on_enemy_attack_started)
 	battle_manager.health_damage_applied.connect(_on_health_damage_applied)
@@ -114,6 +166,9 @@ func _ready() -> void:
 
 # 接收有效遭遇事实，并在启动成功后接受原请求。
 func _on_world_encounter_requested(room_data: RoomData, enemy_id: int) -> void:
+	if _terminal_state != TerminalState.ACTIVE:
+		_reject_encounter(room_data, "远征正在撤离或已进入死亡终局。")
+		return
 	if _result_pending:
 		_reject_encounter(room_data, "战斗结果尚未确认。")
 		return
@@ -191,6 +246,8 @@ func _on_world_state_changed(_previous_state: int, current_state: int) -> void:
 
 # 接收 Battle 的最终结果，并等待玩家选择后续远征动作。
 func _on_battle_ended(is_player_victory: bool) -> void:
+	if not is_player_victory:
+		_terminal_state = TerminalState.DEAD
 	_result_pending = true
 	result_ui.show_result(is_player_victory)
 

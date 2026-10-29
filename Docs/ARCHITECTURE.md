@@ -139,12 +139,12 @@ WeaponDeckCard / WeaponDeckRegion 只发右键或拖放意图；载荷含会话 
 
 `GameManager` 使用既有 Autoload 承担应用流程。先加载并实例化目标场景，进入远征前调用 initialize_player_deck() 注入原对象，再检查与持久来源的数量、顺序、对象及 UID。进入远征保存 active=true，死亡确认保存 active=false；保存成功才调用 SceneTree.change_scene_to_node()，原生切换失败时保存回原标记。若回滚写入也失败，会明确报错停止流程，不能声称已恢复磁盘状态。`[SOURCE]`
 
-InputMap.return_to_base（物理 L）由 ExpeditionManager 接收：只在 WorldState.EXPLORE、没有协调器/Battle 启动、活动战斗或待确认结果时发出 return_to_base_requested，忽略重复按键。GameManager.return_to_base() 再检查当前场景路径、协调器状态与应用切换门闩；主动返回与死亡确认共用 _return_to_base() → _save_and_transition(Base, false)。保存失败保留远征、恢复内存活动标记并报告错误，不清除玩家数据；成功时 Base 继续使用同一持久武器和双牌组。不增加地图/敌人/RuntimeCard 保存或撤退惩罚。`[SOURCE]`
+InputMap.return_to_base（物理 L）仅供开发调试：ExpeditionManager 的输入入口和 can_return_to_base()、GameManager.return_to_base() 均要求 OS.is_debug_build()，还须通过当前场景、探索、终局/战斗/结果和应用转换检查。调试返回明确不执行撤离奖励结算；仍与死亡确认复用 _return_to_base() → _save_and_transition(Base, false)。死亡确认走独立监听和私有返回路径，不受 debug 限制。保存失败保留远征、恢复内存标记，成功后仍保留现有武器与牌组；设计第 16 节的死亡资产损失尚未实现，本次不改变它。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
 | 位置与组成 | `Scripts/GameManager.gd`；`GameManager` Autoload `[LIVE]` |
-| 输入 | start_game()、start_expedition()、return_to_base()、ExpeditionManager.death_confirmed / return_to_base_requested |
+| 输入 | start_game()、start_expedition()、开发 return_to_base()、ExpeditionManager.death_confirmed / return_to_base_requested / extraction_requested(operation_id) |
 | 输出与数据 | bool 返回请求是否成功提交；scene_changed 后解除重入门闩并报告完成。无地图或战斗快照。`[SOURCE]` |
 
 ### `SaveManager`
@@ -209,8 +209,18 @@ ExpeditionManager 接收 World 的遭遇请求，使用已注入的同批 CardIn
 | --- | --- |
 | 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/ExpeditionManager`；导出 world_manager、battle_manager、result_ui 和玩家战斗属性 `[SOURCE]` |
 | 输入 | `WorldManager.encounter_requested(room_data, enemy_id)`、`world_state_changed(previous_state, current_state)` |
-| 输出 | BattleManager.start_battle()、WorldManager.resolve_encounter_request()、BattleManager.set_presentation_ready()；死亡确认向上发出 death_confirmed，探索 L 返回发出 return_to_base_requested |
-| 数据 | `_is_starting_battle` 保存启动重入门闩，`_result_pending` 保存待确认结果标志；从 `WorldManager` 查询当前房间与 pending 状态 `[SOURCE]` |
+| 输出 | BattleManager.start_battle()、WorldManager.resolve_encounter_request()、BattleManager.set_presentation_ready()；death_confirmed、开发 return_to_base_requested、extraction_requested(operation_id)；应用层失败通过 reject_extraction() 下发 |
+| 数据 | `_is_starting_battle` 保存启动门闩，`_result_pending` 保存待确认结果；`_terminal_state` 为 ACTIVE/EXTRACTING/DEAD，`_extraction_operation_id` 拒绝过期失败回调；World 保留房间与 pending 事实 `[SOURCE]` |
+
+### 初始房撤离入口与当前阻塞
+
+`BattleRoom.tscn` 继续作为通用房间，只新增可调的 ExtractionFacilityMount 与撤离预制体引用。BattleRoom.build_room() 先清理旧设施，仅按 RoomData.RoomType.INITIAL 创建一个 ExtractionFacility.tscn；NORMAL 不创建。挂载位置使用原生 Node3D transform，交互半径使用场景中的 SphereShape3D.radius。占位 CylinderMesh 与 Label3D 没有阻挡移动的实体碰撞；未添加图片或新的全局交互系统。`[SOURCE]`
+
+设施接收 World 提供的真实玩家和 enabled 值，只按 Area3D.overlaps_body() 显示提示；E/interact 在 _unhandled_key_input 中处理，选中且在范围内的设施先于门的 _unhandled_input 消费事件，防止一次按键同时开门和撤离。通知沿 ExtractionFacility → BattleRoom → RoomSet → WorldManager → ExpeditionManager → GameManager 上报。每层验证当前实例归属；World 检查当前 INITIAL 房间、探索/待处理遭遇、真实范围，协调器检查活动场景、牌组交接、战斗/结果及唯一终局门闩，应用层复核场景与转换状态。`[SOURCE]`
+
+接受请求将终局门闩设为 EXTRACTING 并分配 operation_id；重复请求、旧回调、死亡后的失败回调不能重开该操作。当前没有资源仓库、随身物资/魂模型、逐物资转换数据、长期资源保存模块及幂等结算记录。GameManager._on_extraction_requested() 因此明确拒绝，调用匹配的 reject_extraction() 恢复交互并显示缺项；不调用保存、不清除活动标记、不结束远征、不返回 Base，也不声称收益已入账。木材/金属/塑料/魂的设计分类不等于已有转换数值或可假定为空的仓库。`[SOURCE]`
+
+本次复用既有 PlayerSaveManager.save_with_expedition_marker() 与 GameManager._save_and_transition() 只验证开发返回和死亡路径，未新增可成功结算的替代函数。完整成功撤离须待资源归属、物资转换和持久结算能力真实落地；随身资源的适用结算边界也不得凭空推定。初始房停留及请求被拒绝不改变玩家控制或既有燃料行为。`[SOURCE]`
 
 ### 玩家战斗属性边界
 

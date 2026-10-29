@@ -6,8 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://b4tmgwlvlc11l" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Wall.tscn" id="2_afubj"]
 [ext_resource type="PackedScene" uid="uid://bj7ysjngtbq7c" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Ceiling.tscn" id="4_nm0wd"]
 [ext_resource type="PackedScene" uid="uid://chhps0rjfreou" path="res://ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn" id="5_gf0ju"]
+[ext_resource type="PackedScene" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/ExtractionFacility.tscn" id="6_extraction"]
 
-[node name="BattleRoom" type="Node3D" unique_id=1940335011 node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root", "encounter_approach_anchor")]
+[node name="BattleRoom" type="Node3D" unique_id=1940335011 node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root", "encounter_approach_anchor", "extraction_facility_mount")]
 script = ExtResource("1_byiho")
 north_wall = NodePath("Field/NorthWall")
 east_wall = NodePath("Field/EastWall")
@@ -21,6 +22,11 @@ wall_scene = ExtResource("2_afubj")
 door_wall_scene = ExtResource("1_8pu1m")
 floor_scene = ExtResource("1_o841m")
 ceiling_scene = ExtResource("4_nm0wd")
+extraction_facility_mount = NodePath("ExtractionFacilityMount")
+extraction_facility_scene = ExtResource("6_extraction")
+
+[node name="ExtractionFacilityMount" type="Node3D" parent="."]
+position = Vector3(-2.8, 0, -2.8)
 
 [node name="testlight" type="Node3D" parent="." unique_id=280381261]
 

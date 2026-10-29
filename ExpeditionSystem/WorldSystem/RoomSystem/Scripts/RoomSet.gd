@@ -3,6 +3,7 @@
 class_name RoomSet
 extends Node3D
 
+signal extraction_requested(room: RoomData, facility: Node3D)
 @export_group("场景预制体")
 @export var battle_room_scene: PackedScene
 
@@ -38,6 +39,7 @@ func build_rooms(mapdata: Dictionary) -> bool:
 		room_instance.position = Vector3(pos.x, 0.0, pos.y)
 		room_instance.name = "Room_%d_%d" % [int(pos.x), int(pos.y)]
 		_room_instances_by_data[room_data] = room_instance
+		room_instance.extraction_requested.connect(_on_extraction_requested)
 	print("RoomSet ： 房间组装完成，数量：%d。" % _room_instances_by_data.size())
 	return true
 
@@ -57,6 +59,18 @@ func get_room_instance(room_data: RoomData) -> BattleRoom:
 	if not is_instance_valid(room_instance):
 		return null
 	return room_instance
+
+
+# 只中继仍由当前 RoomSet 索引持有的设施，拒绝旧地图回调。
+func _on_extraction_requested(room_data: RoomData, facility: Node3D) -> void:
+	if facility != null and get_extraction_facility(room_data) == facility:
+		extraction_requested.emit(room_data, facility)
+
+
+# 使用现有 RoomData 索引查询初始房设施，不建立第二套注册表。
+func get_extraction_facility(room_data: RoomData) -> Node3D:
+	var room := get_room_instance(room_data)
+	return room.get_extraction_facility() if room != null else null
 
 
 # 返回指定房间当前敌人的世界空间接近目标。

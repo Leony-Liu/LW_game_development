@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dsywj55q1i13s"]
+
+[ext_resource type="Script" uid="uid://cid2wca8ustub" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/ExtractionFacility.gd" id="1_facility"]
+
+[sub_resource type="StandardMaterial3D" id="PlaceholderMaterial"]
+albedo_color = Color(0.2, 0.65, 0.4, 1)
+
+[sub_resource type="CylinderMesh" id="PlaceholderMesh"]
+material = SubResource("PlaceholderMaterial")
+top_radius = 0.28
+bottom_radius = 0.45
+height = 0.9
+
+[sub_resource type="SphereShape3D" id="InteractionShape"]
+resource_local_to_scene = true
+radius = 1.5
+
+[node name="ExtractionFacility" type="Node3D" unique_id=1434819917 node_paths=PackedStringArray("interaction_area", "prompt_label")]
+script = ExtResource("1_facility")
+interaction_area = NodePath("InteractionArea")
+prompt_label = NodePath("Prompt")
+
+[node name="Visuals" type="Node3D" parent="." unique_id=720776627]
+
+[node name="Placeholder" type="MeshInstance3D" parent="Visuals" unique_id=481815315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("PlaceholderMesh")
+
+[node name="Title" type="Label3D" parent="Visuals" unique_id=981688989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+billboard = 1
+text = "撤离设施"
+font_size = 36
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=859573080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=521917091]
+shape = SubResource("InteractionShape")
+
+[node name="Prompt" type="Label3D" parent="." unique_id=177502840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+visible = false
+billboard = 1
+text = "按 E 撤离"
+font_size = 28
+autowrap_mode = 3
+width = 560.0

@@ -3,6 +3,8 @@
 class_name BattleRoom
 extends Node3D
 
+signal extraction_requested(room: RoomData, facility: Node3D)
+
 ## 房间数据变化时对外发送的信号
 signal room_data_changed(updated_data: RoomData)
 
@@ -25,6 +27,12 @@ signal room_data_changed(updated_data: RoomData)
 @export var floor_scene: PackedScene
 ## 天花板场景
 @export var ceiling_scene: PackedScene
+
+@export_group("初始房设施")
+@export var extraction_facility_mount: Node3D
+@export var extraction_facility_scene: PackedScene
+
+var _extraction_facility: Node3D
 
 
 # 本房间当前分配的敌人 ID (-1 表示无敌人)
@@ -79,8 +87,52 @@ func build_room() -> bool:
 		_clear_partial_assembly()
 		return false
 	_setup_enemies()
+	if not _setup_extraction_facility():
+		_clear_partial_assembly()
+		return false
 	is_assembled = true
 	return true
+
+
+# 每次重建先撤下旧设施，只按权威 INITIAL 标记创建一次。
+func _setup_extraction_facility() -> bool:
+	_clear_extraction_facility()
+	if room_data.room_type != RoomData.RoomType.INITIAL:
+		return true
+	if not is_instance_valid(extraction_facility_mount) or extraction_facility_scene == null:
+		push_error("[BattleRoom] 初始房组装失败：缺少撤离设施挂载点或场景。")
+		return false
+	var candidate := extraction_facility_scene.instantiate()
+	if not candidate is Node3D or candidate.get_script() != preload("res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/ExtractionFacility.gd") or not candidate.validate_configuration():
+		if candidate != null:
+			candidate.free()
+		push_error("[BattleRoom] 初始房组装失败：撤离设施场景或交互配置无效。")
+		return false
+	_extraction_facility = candidate
+	extraction_facility_mount.add_child(candidate)
+	candidate.interaction_requested.connect(_on_extraction_requested.bind(candidate))
+	return true
+
+
+# 本房间只上报属于自己当前实例的设施意图。
+func _on_extraction_requested(facility: Node3D) -> void:
+	if is_instance_valid(facility) and get_extraction_facility() == facility:
+		extraction_requested.emit(room_data, facility)
+
+
+# 按本房间的类型和装配结果查询设施，不从坐标推断初始房。
+func get_extraction_facility() -> Node3D:
+	if not is_assembled or room_data == null or room_data.room_type != RoomData.RoomType.INITIAL:
+		return null
+	return _extraction_facility if is_instance_valid(_extraction_facility) else null
+
+
+# 撤下时立即断开旧实例，延迟释放不留下可交互副本。
+func _clear_extraction_facility() -> void:
+	if is_instance_valid(_extraction_facility):
+		_extraction_facility.get_parent().remove_child(_extraction_facility)
+		_extraction_facility.queue_free()
+	_extraction_facility = null
 
 ## 1. 组装四面墙体
 func _setup_walls() -> bool:
@@ -130,6 +182,7 @@ func _mount_scene(parent_node: Node3D, scene_to_instantiate: PackedScene, compon
 
 # 装配中途失败时移除已挂载的结构，不保留半成品。
 func _clear_partial_assembly() -> void:
+	_clear_extraction_facility()
 	for mount in [north_wall, east_wall, south_wall, west_wall, floor_root, ceiling_root]:
 		if is_instance_valid(mount):
 			_clear_children(mount)

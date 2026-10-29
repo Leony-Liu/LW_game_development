@@ -79,12 +79,13 @@ func _prepare_expedition(scene: Node) -> bool:
 		return false
 	coordinator.death_confirmed.connect(_on_expedition_death_confirmed)
 	coordinator.return_to_base_requested.connect(_on_expedition_return_requested)
+	coordinator.extraction_requested.connect(_on_extraction_requested.bind(coordinator))
 	return true
 
 
 # 只接受当前远征处于探索阶段的请求，不允许从其他场景调用。
 func return_to_base() -> bool:
-	if _transition_in_progress:
+	if not OS.is_debug_build() or _transition_in_progress:
 		return false
 	var scene := get_tree().current_scene
 	if scene == null or scene.scene_file_path != EXPEDITION_SCENE_PATH:
@@ -92,7 +93,23 @@ func return_to_base() -> bool:
 	var coordinator := scene.get_node_or_null("ExpeditionManager")
 	if coordinator == null or not coordinator.can_return_to_base():
 		return false
+	print("[GameManager] 开发调试返回：不执行撤离奖励结算。")
 	return _return_to_base()
+
+
+# 缺少真实资源模型与转换数据时明确拒绝，不保存假结算或清除恢复标记。
+func _on_extraction_requested(operation_id: int, coordinator: Node) -> void:
+	if not is_instance_valid(coordinator) or not coordinator.is_extraction_pending(operation_id):
+		return
+	var scene := get_tree().current_scene
+	if _transition_in_progress or scene == null or scene.scene_file_path != EXPEDITION_SCENE_PATH or scene.get_node_or_null("ExpeditionManager") != coordinator:
+		if not coordinator.reject_extraction(operation_id, "撤离未提交：场景或应用转换状态已失效。"):
+			push_warning("[GameManager] 撤离失败通知已失效，保留当前终局状态。")
+		return
+	var reason := "撤离未完成：尚缺远征资源仓库、随身物资/魂、转换数据及长期资源结算存档。"
+	if not coordinator.reject_extraction(operation_id, reason):
+		return
+	push_error("[GameManager] %s 保留远征、武器牌组和恢复标记，不执行保存或返回。" % reason)
 
 
 # 监听者处理返回请求并检查结果，失败时保留当前远征供恢复或重试。

@@ -5,6 +5,7 @@ extends Node
 
 signal encounter_requested(room_data: RoomData, enemy_id: int)
 signal world_state_changed(previous_state: int, current_state: int)
+signal extraction_requested(room_data: RoomData, facility: Node3D)
 
 enum WorldState {
 	INIT,             # 初始化生成阶段
@@ -30,10 +31,13 @@ var _pending_encounter_room: RoomData = null
 var _preparation_transition_id: int = 0
 var _preparation_room: RoomData = null
 var _preparation_target: Node3D = null
+var _presented_extraction_facility: Node3D = null
 
 
 # 初始化门事件监听并生成默认地图。
 func _ready() -> void:
+	if room_set:
+		room_set.extraction_requested.connect(_on_extraction_requested)
 	# 监听 DoorSet 的开门中继信号
 	if door_set:
 		door_set.door_opened_relay.connect(_on_door_opened)
@@ -45,6 +49,56 @@ func _ready() -> void:
 	# 启动时执行初始化生成，失败时保持 INIT。
 	if not init_map(default_blueprint):
 		return
+
+
+# 只允许没有待处理遭遇或运镜的真实探索交互。
+func can_interact_in_exploration() -> bool:
+	return (
+		current_state == WorldState.EXPLORE and _pending_encounter_room == null
+		and is_instance_valid(player_visual) and is_instance_valid(player_visual.player)
+		and player_visual.current_mode == "explore" and player_visual.player.is_active
+	)
+
+
+# 当前房间必须有 INITIAL 标记，设施必须仍属于本次装配。
+func get_current_extraction_facility() -> Node3D:
+	var room: RoomData = mapdata.get("rooms", {}).get(current_room_coords)
+	if room == null or room.room_type != RoomData.RoomType.INITIAL or not is_instance_valid(room_set):
+		return null
+	return room_set.get_extraction_facility(room)
+
+
+# 在转发意图前复核当前房间、设施实例和玩家真实范围。
+func is_extraction_context_valid(room: RoomData, facility: Node3D) -> bool:
+	return (
+		can_interact_in_exploration() and room != null
+		and room == mapdata.get("rooms", {}).get(current_room_coords)
+		and is_instance_valid(facility) and facility == get_current_extraction_facility()
+		and facility.is_player_in_range(player_visual.player)
+	)
+
+
+# 上层只下发是否允许交互，World 将玩家及提示状态交给当前设施。
+func update_extraction_interaction(allowed: bool) -> void:
+	var facility := get_current_extraction_facility()
+	if is_instance_valid(_presented_extraction_facility) and _presented_extraction_facility != facility:
+		_presented_extraction_facility.configure_interaction(null, false)
+	_presented_extraction_facility = facility
+	if facility != null:
+		facility.configure_interaction(player_visual.player, allowed and can_interact_in_exploration())
+
+
+# 不把旧地图或越界设施的通知当作当前撤离请求。
+func _on_extraction_requested(room: RoomData, facility: Node3D) -> void:
+	if is_extraction_context_valid(room, facility):
+		extraction_requested.emit(room, facility)
+
+
+# 失败提示沿既有房间归属下发，不由设施查询应用或存档。
+func show_extraction_status(message: String) -> void:
+	var facility := get_current_extraction_facility()
+	if facility != null:
+		facility.show_status(message)
 
 
 # 校验并上报待处理遭遇；返回值只表示已通知，不读取监听者的处理结果。

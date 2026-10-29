@@ -49,8 +49,9 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Input | Source and route |
 | --- | --- |
 | E / `interact` in Base | `project.godot` → `BaseSystem/Scripts/Base.gd`; proximity to entrance/editor required, nearest target only; entrance confirm calls GameManager.start_expedition() |
-| P | Temporary expedition shortcut and its dedicated InputMap action removed; use entrance facility |
-| L / `return_to_base` | `project.godot` → `ExpeditionManager.can_return_to_base()` / `return_to_base_requested` → `GameManager.return_to_base()`; active Expedition EXPLORE only, no battle/result/transition in progress |
+| P / `start_expedition` | Legacy InputMap declaration remains, but no active gameplay input handler was found; it does not create a return/extraction bypass. Use the Base entrance facility |
+| E / `interact` at initial-room extraction facility | `ExtractionFacility` → `BattleRoom` → `RoomSet` → `WorldManager` → `ExpeditionManager.request_extraction()` → `GameManager._on_extraction_requested()`; real overlap, current INITIAL room and idle exploration required; missing resource settlement currently rejects without saving or returning |
+| L / `return_to_base` | Development only: `OS.is_debug_build()` guards the Expedition input/eligibility and `GameManager.return_to_base()`; retains saved debug return, explicitly performs no extraction reward settlement; release cannot use this shortcut |
 | F / `combat_draw_to_full`, Space / `combat_advance_time` | `project.godot` → `BattleManager._unhandled_input()`; battle input gates remain owned by BattleManager |
 | WASD / mouse / Shift / Esc | Shared `PlayerController.gd` and `HeadController.gd` in `PlayerVisual.tscn`; Base has no separate movement implementation |
 | E door interaction | `Door.gd` currently checks `KEY_E` directly; the declared `interact` InputMap action is not the door's active input route |
@@ -148,7 +149,8 @@ Key entry points:
 - `GameManager.start_game()` / `start_expedition()` / `return_to_base()` (save owned data, clear marker, reuse death-return transition)
 - `PlayerSaveManager.get_expedition_deck()` / `validate_deck_handoff()`
 - `ExpeditionManager.initialize_player_deck()` / `get_player_deck()` / `death_confirmed`
-- `ExpeditionManager.can_return_to_base()` / `return_to_base_requested`: InputMap `return_to_base` (L), EXPLORE only without battle startup/active battle/pending result; GameManager validates active scene and transition latch again
+- `ExpeditionManager.can_return_to_base()` / `return_to_base_requested`: debug-build-only L; requires current Expedition, initialized deck, active exploration and no terminal/battle/result conflict; GameManager checks debug build and application transition again
+- `ExpeditionManager.request_extraction()` / `extraction_requested(operation_id)` / `reject_extraction()`: locks a single terminal operation and rejects stale failure callbacks; current GameManager rejects missing resource/settlement dependencies before any persistence
 - `BattleManager.is_starting_battle()`: read-only startup gate for Expedition return validation
 - `ExpeditionManager._on_world_encounter_requested()`
 - `ExpeditionManager._on_world_state_changed()`
@@ -189,6 +191,8 @@ Primary:
 Scenes:
 - `ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn`
 - `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn`
+- `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/ExtractionFacility.tscn` (editable nonblocking primitive placeholder, SphereShape3D radius and Label3D prompt; only instantiated for INITIAL)
+- `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/ExtractionFacility.gd` (receives player/enabled state, emits E intent from real Area overlap; no scene or save ownership)
 - `ExpeditionSystem/WorldSystem/RoomSystem/Prefab/`
 
 Key entry points / signals:
@@ -197,6 +201,8 @@ Key entry points / signals:
 - `RoomSet.get_room_instance()` / `get_encounter_approach_target()`
 - `BattleRoom.get_encounter_approach_target()`
 - `BattleRoom.clear_enemies()`
+- `BattleRoom.get_extraction_facility()` / `RoomSet.get_extraction_facility()` / `extraction_requested(room_data, facility)` (existing RoomData identity index; rebuild removes old instances)
+- `WorldManager.is_extraction_context_valid()` / `update_extraction_interaction()` (current initial room, owned facility and real player proximity; does not settle rewards)
 - `DoorSet.build_doors()` / `door_opened_relay`
 - `Door.open_door()` / `door_opened`
 

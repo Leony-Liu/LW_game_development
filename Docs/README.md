@@ -359,9 +359,9 @@ AI 负责：
 
 当前阶段已接通 **武器双牌组、玩家数据持久化及 Base ↔ Expedition 的最小应用流程**，可作为后续内容与整备交互开发的基础；不代表完整试玩版或完整远征成长循环完成。
 
-当前已接通 WeaponInstance 拥有的战斗/备用双牌组、最小保存和应用级场景流程。主菜单正常进入 Base；Base 复用完整 PlayerVisual 控制、碰撞和相机，接近 Facility/testentrance 按 E 打开确认，确认后通过 GameManager.start_expedition() 保存并进入远征。中断恢复武器与双牌组并直接生成新远征；死亡确认保存并清标记后返回 Base，胜利继续探索。Facility/testcardeditor 的 E 交互可打开同一武器的双牌组编辑窗口；P 临时入口及专用映射已移除。
+当前已接通 WeaponInstance 拥有的战斗/备用双牌组、最小保存和应用级场景流程。主菜单正常进入 Base；Base 复用完整 PlayerVisual 控制、碰撞和相机，接近 Facility/testentrance 按 E 打开确认，确认后通过 GameManager.start_expedition() 保存并进入远征。中断恢复武器与双牌组并直接生成新远征；死亡确认保存并清标记后返回 Base，胜利继续探索。Facility/testcardeditor 的 E 交互可打开同一武器的双牌组编辑窗口；P 没有活动启动处理器，InputMap 中的 start_expedition 遗留声明保持原样。
 
-远征探索阶段按 L 可保存玩家武器与双牌组、清除中断标记并直接返回 Base；战斗、准备阶段、待确认结果与场景切换期间均拒绝。Base 与 Expedition 复用 PlayerVisual 玩家实现；此前 Base 操控问题已由用户手动解决。本次收尾不重新调查原因，也不把该确认扩大为其他画面、碰撞或完整流程的人工验收。
+远征探索阶段的 L 返回仅保留在 OS.is_debug_build() 的开发环境：保存武器与双牌组、清除中断标记后返回 Base，不执行撤离收益结算；发布版不能用它绕过撤离。战斗、准备、待确认结果、撤离中和场景转换均拒绝。初始房已增加真实 E 撤离设施入口，但资源仓库、随身资源、转换数据与长期结算存档尚缺，当前会明确拒绝并保留远征，完整成功撤离仍未接通。死亡返回沿既有保存路径保持原样。Base 与 Expedition 复用 PlayerVisual；此前 Base 操控问题已由用户手动解决，画面和手感仍需用户验收。
 
 WeaponData 使用 starting_combat_deck_card_ids / starting_reserve_deck_card_ids。已有 testweapon（3001）配置 20 张战斗牌（14 Attack、6 Skill）与 10 张备用牌（6 Attack、4 Skill）；Attack 1001–1005 各 4 张，Skill 2001–2002 各 5 张。Scripts/NewGame.tres 指定初始武器 3001，仅初始化尚无武器的玩家；已有武器恢复原 UID 和双牌组，不按模板重新补牌。没有独立玩家卡牌仓库，战斗只从武器的 combat_deck 转换 RuntimeCard。
 
