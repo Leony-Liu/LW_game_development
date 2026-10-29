@@ -3,17 +3,22 @@
 class_name CombatHUD
 extends Control
 
+@export_group("Player Status")
+@export var player_hp_bar: ProgressBar
 @export var player_hp_label: Label
 @export var resource_values_label: Label
 @export var stamina_pips: Control
 @export var mana_pips: Control
+@export_group("Enemy Status")
 @export var enemy_hp_bar: ProgressBar
 @export var enemy_hp_label: Label
 @export var intent_row: HBoxContainer
 @export var intent_template: Panel
+@export_group("Actions")
 @export var draw_button: Button
 @export var discard_button: Button
 @export var advance_button: Button
+@export_group("Intent Preview")
 @export var intent_tooltip: PanelContainer
 @export var intent_tooltip_label: Label
 @export_range(1.0, 1.3, 0.01) var intent_preview_scale: float = 1.12
@@ -46,7 +51,7 @@ func _ready() -> void:
 
 # 必需控件缺失时阻止依赖此界面继续启动。
 func validate_configuration() -> bool:
-	if player_hp_label == null or resource_values_label == null or stamina_pips == null or mana_pips == null:
+	if player_hp_bar == null or player_hp_label == null or resource_values_label == null or stamina_pips == null or mana_pips == null:
 		push_error("[CombatHUD] 玩家状态控件引用缺失。")
 		return false
 	if enemy_hp_bar == null or enemy_hp_label == null:
@@ -78,11 +83,15 @@ func display_state(snapshot: Dictionary) -> void:
 	if bool(snapshot.battle_ended):
 		hide_intent_tooltip()
 	if player.is_empty():
+		player_hp_bar.max_value = 1.0
+		player_hp_bar.value = 0.0
 		player_hp_label.text = "—"
 		resource_values_label.text = "体力 —  ·  法力 —"
 		_set_pips(stamina_pips, 0.0, 1.0)
 		_set_pips(mana_pips, 0.0, 1.0)
 	else:
+		player_hp_bar.max_value = maxf(float(player.max_hp), 1.0)
+		player_hp_bar.value = clampf(float(player.hp), 0.0, player_hp_bar.max_value)
 		player_hp_label.text = "%s/%s" % [_format_number(player.hp), _format_number(player.max_hp)]
 		resource_values_label.text = "体力 %s/%s  ·  法力 %s/%s" % [
 			_format_number(player.stamina), _format_number(player.max_stamina),

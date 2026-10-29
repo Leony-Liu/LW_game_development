@@ -131,7 +131,7 @@ BaseUI.tscn（CanvasLayer）组合唯一提示 Label、ConfirmationDialog 和独
 
 编辑窗口接收当前 WeaponInstance，只读渲染两个容器。WeaponDeckCard.tscn 仅适配牌组输入和等比缩放，内部实例化既有 Card.tscn；CardLogic.presentation_only 禁用战斗输入与抽牌隐藏，display_instance(CardInstance) 直接绑定真实名称、类型、费用和描述，不创建 RuntimeCard。缺模板时显示诊断并保留真实卡牌位置，不生成替代内容。实战用四列 GridContainer + 纵向 ScrollContainer；备用用单行 HBoxContainer + 横向 ScrollContainer，滚轮由指针所在区域原生处理。`[SOURCE]`
 
-DeckLayers 内的 CombatPanel 占满主区域，后置且 z_index = 1 的不透明 ReservePanel 以 anchor_top = 0.66 覆盖其下部，遮住第三行的一部分；两区卡面按模板 240:360 比例统一缩放。CombatPadding 底部为覆盖区留出滚动余量，使末行仍能滚到前景上方。备用面板阻止点击穿透；静态卡面内部忽略鼠标，仅适配层处理右键和拖放。Header/CloseButton 位于 DeckLayers 之外。最终视觉与手感仍待用户人工验收。`[SOURCE]`
+DeckLayers 内的 CombatPanel 位于上方中间、ReservePanel 位于下方较宽区域，两者独立锚定并分开排列；实战仍为可调列数的纵向网格，备用仍为横向单行。两区卡面按模板 240:360 比例统一缩放，以 preferred_card_scale 为首选值，并受实际滚动区高度和网格宽度限制；CombatPadding 仅保留原生内边距，不再为覆盖区追加底部余量。面板及按钮预留忽略输入的空纹理槽；静态卡面内部仍忽略鼠标，仅适配层处理右键和拖放。Header/CloseButton 位于 DeckLayers 之外。Figma 接入及编辑入口见 Docs/UI_WORKFLOW.md；最终视觉与手感仍待用户人工验收。`[SOURCE]`
 
 WeaponDeckCard / WeaponDeckRegion 只发右键或拖放意图；载荷含会话 ID、原容器 ID 和卡牌 UID。窗口拒绝旧会话/同容器请求，Base 验证源卡及容量后调用原 CardContainer.transfer_to()，将同一实例追加到另一容器末尾。保留武器 UID、卡牌 UID、modifiers 和其余顺序，实战满 20 时显示拒绝原因。打开/关闭不创建武器、不重置起始数组、不新增保存；编辑在内存立即生效，远征入口确认时沿既有流程保存，L/死亡边界不变。`[SOURCE]`
 
@@ -237,7 +237,7 @@ Blueprint 当前配置房间数/浮动、Boss 配额、遇敌/精英概率和类
 
 `report_encounter()` 的 `true` 只表示有效通知已发出，不表示 Battle 已接受。World 保留唯一 pending 请求，直到协调器调用 `resolve_encounter_request()`；不读取监听者的同步处理结果。没有消费者时明确返回 `false`，不留下 pending，也不切换 World 状态。`[SOURCE]`
 
-当前“进入房间”的事实在门打开动画完成后，通过门与玩家相对位置推算，并立即更新 `current_room_coords`；并非玩家穿越门面的检测。`entry_direction` 在生成房间时赋值，当前走门不刷新；`is_player_inside/nearby` 也没有活动调用方同步。它们不能直接充当已实现的 Room Entry Checkpoint。`[SOURCE]`
+当前“进入房间”的事实仍在门打开动画完成后产生：`Door.open_door()` 记录本次交互开始时的玩家世界位置，`WorldManager._on_door_opened()` 通过 `Door.get_opening_player_position()` 使用该位置推算门对面的房间，并立即更新 `current_room_coords`，避免奔跑时已越过门面导致方向反转。无交互者的程序化开门或非 Door 的旧 Node3D 通知保持按当前玩家位置推算的兼容行为。`door_opened(door)` 及其动画完成时机不变，并非新增玩家穿越门面的检测。`entry_direction` 在生成房间时赋值，当前走门不刷新；`is_player_inside/nearby` 也没有活动调用方同步。它们不能直接充当已实现的 Room Entry Checkpoint。`[SOURCE]`
 
 ### `PlayerVisualSystem`
 
@@ -286,7 +286,8 @@ BattleSystem [BattleManager]
 │     └─ AttributeSet
 └─ UI（CanvasLayer）
    ├─ CardSystem [CardManager]
-   │  └─ PlayerHandDeck
+   │  └─ HandLayout [Control]
+   │     └─ PlayerHandDeck
    └─ CombatHUD [CombatHUD.tscn]
       ├─ EnemyStatus
       ├─ PlayerInformation
@@ -346,7 +347,7 @@ BattleSystem [BattleManager]
 
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `BattleSystem/UI/CardSystem` 挂 `CardManager.gd`；子场景含 `PlayerHandDeck`，卡牌节点由 `Card.tscn` 实例化 `[LIVE]` |
+| 位置与组成 | `BattleSystem/UI/CardSystem` 挂 `CardManager.gd`；子场景内联 `HandLayout/PlayerHandDeck`，卡牌节点由 `Card.tscn` 实例化 `[LIVE]` |
 | 输入 | `initialize(player_deck: Array[RuntimeCard])`、`draw_cards(amount)`、`confirm_play_card(runtime_card)`、`discard_card(runtime_card)`、`advance_hand_buffs_time(delta_time)`、`set_input_locked(is_locked)`；`PlayerHandDeck.card_play_requested` |
 | 输出 | `deck_initialized`、`card_drawn`、`card_play_requested`、`card_played`、`card_play_presentation_completed`、`card_discarded`、`discard_shuffled_into_draw`、`hand_pile_cleared`；更新手牌节点 |
 | 数据 | `draw_pile`、`hand_pile`、`discard_pile`；每张 `RuntimeCard.active_buffs` 保存战斗内卡牌 Buff `[SOURCE]` |
@@ -377,7 +378,7 @@ BattleSystem [BattleManager]
 | 输出 | `CardLogic.card_played_request` → `PlayerHandDeck.card_play_requested` → `CardManager.card_play_requested`；卡牌悬停由 `Card_Interaction` 检测，经 `CardLogic.hover_changed`、`PlayerHandDeck.card_hover_changed`、`CardManager.card_hover_changed` 通知 `BattleManager`；弃牌请求经 `PlayerHandDeck` 到 `CardManager.discard_card()`，成功后 `card_discarded` 通知 `BattleManager` 退出模式；HUD 刷新玩家与敌人状态及未来行动图标 |
 | 数据 | `CombatHUD` 只保留控件引用、按钮显示状态、当前悬停图标的显示身份及预览中的行动实例 ID；行动图标保存对应快照的实例标识与显示字段作为节点元数据。`CombatHUD.hide_intent_tooltip()` 和 `clear_intent_preview()` 分别清除提示框和预览。弃牌模式由 `PlayerHandDeck` 持有并向各卡牌视图下发；`BattleManager` 协调按钮、输入锁、模式结束及只读悬停预览。`CardManager` 仍持有牌堆，且只在手牌区下方的空白点击时发出取消通知。刷新排队标志属于 `BattleManager` `[SOURCE]` |
 
-快照包含 `player`、`enemies`、`piles`、`current_time`、`future_actions`、`preview_action_ids`、`scheduled_actions`、`input_allowed`、`is_advancing`、`has_pending_action`、`battle_ended`，只含字典、数组和显示值。实体快照含 ID、名称及 HP/体力/法力与上限；无显式上限时沿用属性初始化值。`future_actions` 继续使用 100 时间单位窗口，行动条目包含 `action_instance_id`（本次运行中的 `CombatAction` 实例标识）、`source_id`、`action_name`、`action_type`、`trigger_time`、`relative_time` 和 `priority`；攻击的明确负向 HP 冲击另提供 `base_damage`，增益的明确正向护盾冲击另提供 `shield_gain`，均为可选显示值。`BattleManager` 用悬停 `RuntimeCard.get_time_cost()` 与 `get_priority()` 和当前 `future_actions` 计算本次时间推进可到达的实例 ID；Timeline 的目标时间含边界，同刻优先级只改变结算先后。`CombatHUD` 仅按这些 ID 缩放已有可见图标，弃牌模式、输入锁及战斗关闭会清除预览。HUD 用首个敌人快照绘制顶部血条及对应行动图标，悬停时依实例标识显示名称、类型、时间及已有数值，并随鼠标移动且保持在视口内；在圆盘内显示玩家当前/最大 HP 与资源数值，用四格菱形明暗表达资源比例。未收到快照的独立 HUD 保留场景占位值。`[SOURCE]`
+快照包含 `player`、`enemies`、`piles`、`current_time`、`future_actions`、`preview_action_ids`、`scheduled_actions`、`input_allowed`、`is_advancing`、`has_pending_action`、`battle_ended`，只含字典、数组和显示值。实体快照含 ID、名称及 HP/体力/法力与上限；无显式上限时沿用属性初始化值。`future_actions` 继续使用 100 时间单位窗口，行动条目包含 `action_instance_id`（本次运行中的 `CombatAction` 实例标识）、`source_id`、`action_name`、`action_type`、`trigger_time`、`relative_time` 和 `priority`；攻击的明确负向 HP 冲击另提供 `base_damage`，增益的明确正向护盾冲击另提供 `shield_gain`，均为可选显示值。`BattleManager` 用悬停 `RuntimeCard.get_time_cost()` 与 `get_priority()` 和当前 `future_actions` 计算本次时间推进可到达的实例 ID；Timeline 的目标时间含边界，同刻优先级只改变结算先后。`CombatHUD` 仅按这些 ID 缩放已有可见图标，弃牌模式、输入锁及战斗关闭会清除预览。HUD 用首个敌人快照绘制上方细血条及对应行动图标，悬停时依实例标识显示名称、类型、时间及已有数值，并随鼠标移动且保持在视口内；玩家当前/最大 HP 同时驱动左下横条与数值，底部四格菱形仍表达资源比例。CardSystem 内联的 HandLayout 定义下方中间可用区域，其 PlayerHandDeck 根据真实卡数在宽高范围内缩放居中；ActionButtons 在 HUD 内保持右侧纵向按钮。空纹理槽只负责装饰。未收到快照的独立 HUD 保留场景占位值，Expedition 场景保留 HUD 显示覆盖。`[SOURCE]`
 
 ## 7. 数据结构与生命周期
 

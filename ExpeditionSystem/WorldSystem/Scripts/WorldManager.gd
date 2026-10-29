@@ -360,6 +360,12 @@ func _on_door_opened(door_node: Node3D) -> void:
 		return
 
 	var player_pos_3d := player_visual.player.global_position
+	# 动画完成时玩家可能已经穿门，优先使用本次开门的发起位置。
+	var opened_door := door_node as Door
+	if opened_door != null:
+		var opening_position := opened_door.get_opening_player_position()
+		if opening_position.is_finite():
+			player_pos_3d = opening_position
 	var door_pos_2d := Vector2(door_node.global_position.x, door_node.global_position.z)
 	var player_pos_2d := Vector2(player_pos_3d.x, player_pos_3d.z)
 

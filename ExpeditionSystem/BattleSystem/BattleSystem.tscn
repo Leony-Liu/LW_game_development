@@ -50,18 +50,7 @@ script = ExtResource("7_gc2h7")
 [node name="CardSystem" parent="UI" unique_id=1879808500 instance=ExtResource("6_00fpp")]
 hand_limit = 5
 
-[node name="PlayerHandDeck" parent="UI/CardSystem" index="0"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_top = -280.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 0
-
 [node name="CombatHUD" parent="UI" unique_id=241856801 instance=ExtResource("8_hud")]
 
 [editable path="UI/CardSystem"]
-[editable path="UI/CardSystem/PlayerHandDeck"]
+[editable path="UI/CardSystem/HandLayout/PlayerHandDeck"]

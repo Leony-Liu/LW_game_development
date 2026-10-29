@@ -267,6 +267,7 @@ A module may be logically independent without being a separate scene. Nodes such
 - Avoid brittle assumptions about exact parent paths or distant parts of the SceneTree. However, do not restructure working code solely to eliminate every NodePath; preserve simple, stable local relationships when they are appropriate.
 - Keep gameplay truth in its responsible gameplay system. UI and visual scenes present state and emit player intent; they must not become duplicate authorities for gameplay data.
 - Expose likely-to-be-tuned values through the Inspector, exported properties, Resources, or Themes instead of burying adjustment points in scripts.
+- For Figma-to-Godot UI work, follow `Docs/UI_WORKFLOW.md`: artwork slots must preserve input and data-driven controls; keep composition and meaningful layout adjustments editable in native scenes. Scope automated visual acceptance separately from scene and interaction-logic checks.
 
 ## Refactoring Existing Scenes
 

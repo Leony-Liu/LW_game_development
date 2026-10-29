@@ -1,3 +1,5 @@
+## 管理门体动画和范围交互，并在开门完成时上报事件。
+## 保留开门发起位置，避免动画期间穿门导致进入方向反转。
 class_name Door
 extends Node3D
 
@@ -22,6 +24,7 @@ var is_open: bool = false
 var is_animating: bool = false
 var current_player: CharacterBody3D = null
 var initial_body_y: float = 0.0
+var _opening_player_position: Vector3 = Vector3.INF
 
 
 func _ready() -> void:
@@ -63,6 +66,7 @@ func _process(_delta: float) -> void:
 
 ## 开门逻辑：向 -Y 方向平滑下沉 3m
 func open_door() -> void:
+	_opening_player_position = current_player.global_position if is_instance_valid(current_player) else Vector3.INF
 	is_animating = true
 	var target_y := initial_body_y - open_depth
 	
@@ -76,6 +80,11 @@ func open_door() -> void:
 		is_animating = false
 		door_opened.emit(self)
 	)
+
+
+# 提供本次交互的发起位置；无交互者的程序调用不提供位置。
+func get_opening_player_position() -> Vector3:
+	return _opening_player_position
 
 
 ## 关门逻辑：回到初始 Y 轴位置并阻挡通路

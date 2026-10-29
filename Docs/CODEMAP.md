@@ -61,7 +61,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | --- | --- | --- | --- |
 | Main scene / Autoloads / input map | `project.godot` | Referenced scene or Autoload script | Main scene is UID-backed; verify both config and scene |
 | Main menu / application or Base <-> Expedition flow | `Scripts/GameManager.gd` | `MainMenuSystem/MainMenu.gd`, `Scripts/PlayerSaveManager.gd`, `BaseSystem/Base.tscn`, `BaseSystem/Scripts/Base.gd` | Normal Start enters Base; interrupted Start directly creates Expedition; entrance E confirmation uses start_expedition(); direct Editor expedition receives same handoff |
-| Base facilities / weapon deck editor | `BaseSystem/Scripts/Base.gd`, `BaseSystem/UI/BaseUI.tscn` | `BaseSystem/UI/WeaponDeckEditor.tscn`, `BaseSystem/UI/Scripts/WeaponDeckEditor.gd`, `BaseSystem/UI/Scripts/WeaponDeckCard.gd`, `BaseSystem/UI/Scripts/WeaponDeckRegion.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn`, `Scripts/RefCounted/CardContainer.gd` | Base owns transfers; four-column vertical combat grid, foreground horizontal reserve row; adapter reuses CardLogic.display_instance with presentation_only; same persistent instance, no new save trigger |
+| Base facilities / weapon deck editor | `BaseSystem/Scripts/Base.gd`, `BaseSystem/UI/BaseUI.tscn` | `BaseSystem/UI/WeaponDeckEditor.tscn`, `BaseSystem/UI/Scripts/WeaponDeckEditor.gd`, `BaseSystem/UI/Scripts/WeaponDeckCard.gd`, `BaseSystem/UI/Scripts/WeaponDeckRegion.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn`, `Scripts/RefCounted/CardContainer.gd` | Base owns transfers; separated upper combat grid and lower horizontal reserve row; adapter reuses CardLogic.display_instance with presentation_only; same persistent instance, no new save trigger |
 | Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | GameManager injects combat_deck instances; victory continues exploration; death_confirmed / return_to_base_requested notify GameManager to save and return Base |
 | Persistent player / battle input | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | WeaponInstance owns ordered combat/reserve containers; only combat goes to Battle; ExpeditionManager Inspector supplies current combat attributes |
 | Initial weapon / authored starting references | `Scripts/NewGame.tres`, `Scripts/Resource/NewGameConfig.gd` | `Scripts/GameManager.gd`, `Scripts/WeaponData/Weapons/testweapon.tres`, `Scripts/RefCounted/WeaponInstance.gd` | initial_weapon_id 3001; create only when no saved weapon exists, preserve existing deck identities and contents |
@@ -382,8 +382,10 @@ Key entry points / signals:
 
 ### UI
 
+UI production / Figma handoff: `Docs/UI_WORKFLOW.md` (native layout adjustments, empty artwork slots, asset naming recommendations and logic-only validation boundaries).
+
 Combat HUD:
-- `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` (editable layout; 13 exported control references, including intent template and tooltip)
+- `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn` (editable enemy/player health groups, bottom resource pips and right-side action VBox; 14 exported control references, including both health bars, intent template and tooltip; empty artwork slots)
 - `ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd` (`display_state(snapshot)`, no gameplay queries)
 - `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` (collects subsystem updates and produces display values)
 
@@ -401,6 +403,13 @@ Primary card UI area:
 - `ExpeditionSystem/BattleSystem/CardSystem/CardSystem.tscn`
 - `ExpeditionSystem/BattleSystem/CardSystem/player_hand_deck.tscn`
 - `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn`
+
+- `CardSystem.tscn/HandLayout/PlayerHandDeck` (authored hand area; actual card count fits its width/height through the existing hand script; empty `HandLayout/PanelArt`)
+
+Weapon deck editor:
+- `BaseSystem/UI/WeaponDeckEditor.tscn` (`Window/Content/DeckLayers` contains independently anchored `CombatPanel` and `ReservePanel`; native padding, grid/row separation and panel artwork slots)
+- `BaseSystem/UI/Scripts/WeaponDeckEditor.gd` (`preferred_card_scale` under Card Layout; fits actual card views after native container layout)
+- `BaseSystem/UI/WeaponDeckCard.tscn`, `BaseSystem/UI/Scripts/WeaponDeckCard.gd`, `BaseSystem/UI/Scripts/WeaponDeckRegion.gd` (existing card adapter and single-axis scrolling/drop targets)
 
 Navigation rule:
 - Inspect `CardManager.gd` for pile/state ownership.

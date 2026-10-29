@@ -4,12 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://b5bqwwplbqjgj" path="res://ExpeditionSystem/BattleSystem/CardSystem/Card.tscn" id="2_b1et5"]
 
 [node name="PlayerHandDeck" type="HBoxContainer" unique_id=1081231708]
-offset_right = 200.0
-offset_bottom = 280.0
+offset_right = 240.0
+offset_bottom = 360.0
 mouse_filter = 2
 theme_override_constants/separation = 1
 alignment = 1
 script = ExtResource("1_s4kns")
 card_scene = ExtResource("2_b1et5")
-left_reserved_width = 400.0
+left_reserved_width = 0.0
+right_reserved_width = 0.0
 bottom_margin = 0.0

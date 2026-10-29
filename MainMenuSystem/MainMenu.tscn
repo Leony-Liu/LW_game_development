@@ -11,6 +11,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=692808879]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.37413925, 0.37413928, 0.37413922, 1)
+
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1680833723]
 layout_mode = 1
 anchors_preset = 15

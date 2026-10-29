@@ -62,10 +62,6 @@ script = ExtResource("1_vrybq")
 [node name="BattleSystem" parent="." unique_id=1786665297 instance=ExtResource("3_h5q8n")]
 action_transition_delay = 0.5
 
-[node name="PlayerHandDeck" parent="BattleSystem/UI/CardSystem" parent_id_path=PackedInt32Array(1786665297, 1879808500) index="0"]
-offset_top = -786.0
-offset_bottom = -506.0
-
 [node name="CombatHUD" parent="BattleSystem/UI" parent_id_path=PackedInt32Array(1786665297, 288347225) index="1" unique_id=241856801]
 visible = true
 
@@ -149,4 +145,4 @@ text = "返回基地"
 [editable path="WorldSystem/PlayerVisualRoot/PlayerVisual"]
 [editable path="BattleSystem"]
 [editable path="BattleSystem/UI/CardSystem"]
-[editable path="BattleSystem/UI/CardSystem/PlayerHandDeck"]
+[editable path="BattleSystem/UI/CardSystem/HandLayout/PlayerHandDeck"]

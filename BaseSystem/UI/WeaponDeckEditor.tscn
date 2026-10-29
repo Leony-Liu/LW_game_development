@@ -1,31 +1,14 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://de4d2l5j8jc3o"]
 
-[ext_resource type="Script" path="res://BaseSystem/UI/Scripts/WeaponDeckEditor.gd" id="1"]
-[ext_resource type="Script" path="res://BaseSystem/UI/Scripts/WeaponDeckRegion.gd" id="2"]
+[ext_resource type="Script" uid="uid://ywhl63bqycjx" path="res://BaseSystem/UI/Scripts/WeaponDeckEditor.gd" id="1"]
+[ext_resource type="Script" uid="uid://bmnrhxk2nahgk" path="res://BaseSystem/UI/Scripts/WeaponDeckRegion.gd" id="2"]
 [ext_resource type="PackedScene" path="res://BaseSystem/UI/WeaponDeckCard.tscn" id="3"]
 
-[sub_resource type="StyleBoxFlat" id="WindowStyle"]
-bg_color = Color(0.06, 0.08, 0.09, 1)
-content_margin_left = 22.0
-content_margin_top = 18.0
-content_margin_right = 22.0
-content_margin_bottom = 18.0
+[sub_resource type="CanvasTexture" id="CanvasTexture_vbltu"]
+specular_color = Color(18.886684, 18.886684, 18.886684, 1)
+specular_shininess = 0.0
 
-[sub_resource type="StyleBoxFlat" id="CombatStyle"]
-bg_color = Color(0.10, 0.14, 0.12, 1)
-content_margin_left = 14.0
-content_margin_top = 12.0
-content_margin_right = 14.0
-content_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="ReserveStyle"]
-bg_color = Color(0.18, 0.12, 0.11, 1)
-content_margin_left = 14.0
-content_margin_top = 12.0
-content_margin_right = 14.0
-content_margin_bottom = 12.0
-
-[node name="DeckEditor" type="Control"]
+[node name="DeckEditor" type="Control" unique_id=1621663030]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -36,7 +19,8 @@ grow_vertical = 2
 script = ExtResource("1")
 card_scene = ExtResource("3")
 
-[node name="Dimmer" type="ColorRect" parent="."]
+[node name="Dimmer" type="ColorRect" parent="." unique_id=530871874]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,112 +29,139 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.72)
 
-[node name="Window" type="PanelContainer" parent="."]
+[node name="Window" type="PanelContainer" parent="." unique_id=1265618531]
 layout_mode = 1
-anchor_left = 0.06
-anchor_top = 0.05
-anchor_right = 0.94
-anchor_bottom = 0.95
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.025
+anchor_right = 0.975
+anchor_bottom = 0.975
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("WindowStyle")
 
-[node name="Content" type="VBoxContainer" parent="Window"]
+[node name="PanelArt" type="TextureRect" parent="Window" unique_id=1036305674]
+visible = false
 layout_mode = 2
-theme_override_constants/separation = 12
+mouse_filter = 2
+expand_mode = 1
 
-[node name="Header" type="HBoxContainer" parent="Window/Content"]
+[node name="Content" type="VBoxContainer" parent="Window" unique_id=1576764529]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="Window/Content" unique_id=108867066]
 layout_mode = 2
 
-[node name="WeaponName" type="Label" parent="Window/Content/Header"]
+[node name="WeaponName" type="Label" parent="Window/Content/Header" unique_id=300533054]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 28
 text = "武器牌组"
 
-[node name="CloseButton" type="Button" parent="Window/Content/Header"]
+[node name="CloseButton" type="Button" parent="Window/Content/Header" unique_id=110662168]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 44)
 layout_mode = 2
 text = "关闭"
 
-[node name="Help" type="Label" parent="Window/Content"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "拖到另一牌组或右键移动卡牌；滚轮或滚动条浏览；Esc 关闭"
-autowrap_mode = 3
-
-[node name="DeckLayers" type="Control" parent="Window/Content"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="CombatPanel" type="PanelContainer" parent="Window/Content/DeckLayers"]
+[node name="FrameArt" type="TextureRect" parent="Window/Content/Header/CloseButton" unique_id=1132191925]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("CombatStyle")
+mouse_filter = 2
+expand_mode = 1
 
-[node name="Content" type="VBoxContainer" parent="Window/Content/DeckLayers/CombatPanel"]
+[node name="Help" type="Label" parent="Window/Content" unique_id=2086942695]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "拖到另一牌组或右键移动卡牌；滚轮或滚动条浏览；Esc 关闭"
+autowrap_mode = 3
+
+[node name="DeckLayers" type="Control" parent="Window/Content" unique_id=1463727510]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CombatPanel" type="PanelContainer" parent="Window/Content/DeckLayers" unique_id=1331678547]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.16
+anchor_right = 0.84
+anchor_bottom = 0.58
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelArt" type="TextureRect" parent="Window/Content/DeckLayers/CombatPanel" unique_id=1577943060]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("CanvasTexture_vbltu")
+expand_mode = 1
+
+[node name="Content" type="VBoxContainer" parent="Window/Content/DeckLayers/CombatPanel" unique_id=330229597]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="CombatCount" type="Label" parent="Window/Content/DeckLayers/CombatPanel/Content"]
+[node name="CombatCount" type="Label" parent="Window/Content/DeckLayers/CombatPanel/Content" unique_id=1355039365]
 unique_name_in_owner = true
 layout_mode = 2
 text = "实战牌组 0/20"
 
-[node name="CombatScroll" type="ScrollContainer" parent="Window/Content/DeckLayers/CombatPanel/Content"]
+[node name="CombatScroll" type="ScrollContainer" parent="Window/Content/DeckLayers/CombatPanel/Content" unique_id=1649666712]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 1
 script = ExtResource("2")
-container_id = "combat_deck"
 
-[node name="CombatPadding" type="MarginContainer" parent="Window/Content/DeckLayers/CombatPanel/Content/CombatScroll"]
+[node name="CombatPadding" type="MarginContainer" parent="Window/Content/DeckLayers/CombatPanel/Content/CombatScroll" unique_id=1948207897]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 1
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
-[node name="CombatGrid" type="GridContainer" parent="Window/Content/DeckLayers/CombatPanel/Content/CombatScroll/CombatPadding"]
+[node name="CombatGrid" type="GridContainer" parent="Window/Content/DeckLayers/CombatPanel/Content/CombatScroll/CombatPadding" unique_id=891798611]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-mouse_filter = 1
 theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 20
 columns = 4
 
-[node name="ReservePanel" type="PanelContainer" parent="Window/Content/DeckLayers"]
+[node name="ReservePanel" type="PanelContainer" parent="Window/Content/DeckLayers" unique_id=723207940]
 unique_name_in_owner = true
-z_index = 1
 layout_mode = 1
-anchor_top = 0.66
+anchors_preset = -1
+anchor_top = 0.61
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
-theme_override_styles/panel = SubResource("ReserveStyle")
 
-[node name="Content" type="VBoxContainer" parent="Window/Content/DeckLayers/ReservePanel"]
+[node name="PanelArt" type="TextureRect" parent="Window/Content/DeckLayers/ReservePanel" unique_id=1790669415]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+
+[node name="Content" type="VBoxContainer" parent="Window/Content/DeckLayers/ReservePanel" unique_id=733629400]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ReserveCount" type="Label" parent="Window/Content/DeckLayers/ReservePanel/Content"]
+[node name="ReserveCount" type="Label" parent="Window/Content/DeckLayers/ReservePanel/Content" unique_id=109817360]
 unique_name_in_owner = true
 layout_mode = 2
 text = "备用牌组 0"
 
-[node name="ReserveScroll" type="ScrollContainer" parent="Window/Content/DeckLayers/ReservePanel/Content"]
+[node name="ReserveScroll" type="ScrollContainer" parent="Window/Content/DeckLayers/ReservePanel/Content" unique_id=520275290]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -159,13 +170,12 @@ vertical_scroll_mode = 0
 script = ExtResource("2")
 container_id = "reserve_deck"
 
-[node name="ReserveRow" type="HBoxContainer" parent="Window/Content/DeckLayers/ReservePanel/Content/ReserveScroll"]
+[node name="ReserveRow" type="HBoxContainer" parent="Window/Content/DeckLayers/ReservePanel/Content/ReserveScroll" unique_id=1539812301]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 1
-theme_override_constants/separation = 24
+theme_override_constants/separation = 28
 
-[node name="Status" type="Label" parent="Window/Content"]
+[node name="Status" type="Label" parent="Window/Content" unique_id=308933675]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2

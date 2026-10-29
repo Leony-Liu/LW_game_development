@@ -44,7 +44,7 @@ func _queue_hand_layout() -> void:
 	_update_hand_layout.call_deferred()
 
 
-# 给左右信息区留出空间，卡牌自身仍由原 HBoxContainer 排列。
+# 在父级可编辑区域内缩放居中，卡牌仍由原 HBoxContainer 排列。
 func _update_hand_layout() -> void:
 	var canvas := get_parent() as Control
 	if canvas == null or not is_inside_tree():
@@ -62,7 +62,8 @@ func _update_hand_layout() -> void:
 	var left_space := minf(left_reserved_width, canvas.size.x * 0.23)
 	var right_space := minf(right_reserved_width, canvas.size.x * 0.18)
 	var available_width := maxf(1.0, canvas.size.x - left_space - right_space)
-	var hand_scale := minf(1.0, available_width / natural_width)
+	var available_height := maxf(1.0, canvas.size.y - minf(bottom_margin, canvas.size.y * 0.08))
+	var hand_scale := minf(1.0, minf(available_width / natural_width, available_height / card_height))
 	size = Vector2(natural_width, card_height)
 	scale = Vector2.ONE * hand_scale
 	position = Vector2(left_space + (available_width - natural_width * hand_scale) * 0.5,
