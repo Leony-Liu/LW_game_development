@@ -389,6 +389,16 @@ For Codex-launched Godot validation processes:
 
 ---
 
+# Codex Process Artifacts
+
+- Use `.ai/` as the canonical home for Codex-specific process artifacts; read `.ai/README.md` for its organization.
+- Put maintained process-only helpers in `.ai/scripts/`, generated snapshots in `.ai/generated/`, automation state/logs in `.ai/runtime/`, and disposable probes/scratch files in `.ai/tmp/`.
+- Keep stable project tools, canonical documentation, gameplay code, scenes, resources, and user-maintained files in their established locations.
+- Inspect ownership and references before moving existing files; update callers and documentation when an approved migration changes paths.
+- Clean up task-created disposable files at completion; preserve useful existing logs and user data.
+
+---
+
 # Documentation Maintenance
 
 Update only the document responsible for the changed information.

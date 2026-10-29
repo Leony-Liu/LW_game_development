@@ -2,5 +2,9 @@
 .godot/
 /android/
 .codex_runtime/
-# Generated web-model snapshot
+# Legacy root snapshot safeguard
 PROJECT_DUMP.md
+# Codex-generated process artifacts (maintained .ai files remain trackable)
+/.ai/generated/
+/.ai/runtime/
+/.ai/tmp/

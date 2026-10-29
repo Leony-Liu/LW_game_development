@@ -5,7 +5,7 @@
 # - Auto-discover the 4.7.2 Windows executable under D:\APP\Godot.
 # - Prefer the console executable for reliable synchronous CLI behavior.
 # - Run from the repository root.
-# - Isolate automated Godot user/temp data under .codex_runtime/.
+# - Isolate automated Godot user/temp data under .ai/runtime/.
 # - Forward arbitrary Godot CLI arguments and preserve the exit code.
 #
 # Optional override:
@@ -31,7 +31,7 @@ $GodotSearchRoot = "D:\APP\Godot"
 # tools/godot_cli.ps1 -> repository root
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
 $ProjectFile = Join-Path $ProjectRoot "project.godot"
-$RuntimeRoot = Join-Path $ProjectRoot ".codex_runtime"
+$RuntimeRoot = Join-Path $ProjectRoot ".ai/runtime"
 
 if (-not (Test-Path -LiteralPath $ProjectFile -PathType Leaf)) {
     throw "project.godot was not found at the expected repository root: $ProjectRoot"

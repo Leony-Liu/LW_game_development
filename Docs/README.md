@@ -99,6 +99,8 @@ README 不替代：
 | `Docs/ARCHITECTURE.md` | 系统关系、职责边界、接口、数据流 |
 | `Docs/CODEMAP.md` | AI 实现阶段的代码导航和文件定位 |
 
+Codex 专用过程文件集中在 `.ai/`，归属与放置规则见 [`.ai/README.md`](../.ai/README.md)；规范文档仍按上表维护。
+
 
 ---
 

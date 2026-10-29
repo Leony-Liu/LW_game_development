@@ -414,15 +414,18 @@ Primary:
 - `addons/godot-mcp/`
 
 Related:
-- `.codex_runtime/` (generated isolated automation state; not gameplay source)
-- `build_godot_snapshot.py` (existing standalone Python source-snapshot generator; default output `PROJECT_DUMP.md`; not a test runner or live implementation authority; no removal decision is inferred)
+- `.ai/README.md` (Codex process-artifact ownership and placement; root `AGENTS.md` remains the collaboration contract)
+- `.ai/runtime/` (generated isolated automation state, logs and verification evidence; migrated from `.codex_runtime/` on 2026-10-29; not gameplay source)
+- `.ai/scripts/build_godot_snapshot.py` (standalone Python source-snapshot generator; discovers the project root above its script location; default output `.ai/generated/PROJECT_DUMP.md`; not a test runner or live implementation authority)
+- `.ai/generated/PROJECT_DUMP.md` (ignored generated snapshot; existing snapshot migrated unchanged, not automatically refreshed)
+- `.ai/tmp/` (ignored task-scoped temporary probes and scratch files; remove disposable task-created files on completion)
 
 Validation entry points:
 
-- `tools/godot_cli.ps1 --version` resolves the installed 4.7.2 executable; `GODOT_472_PATH` can override discovery. The wrapper isolates automation user/temp data in `.codex_runtime/`.
+- `tools/godot_cli.ps1 --version` resolves the installed 4.7.2 executable; `GODOT_472_PATH` can override discovery. The wrapper isolates automation user/temp data in `.ai/runtime/`.
 - `tools/godot_cli.ps1 --headless --path . --script <absolute_probe.gd>` runs a scoped external probe. Avoid preloading typed gameplay dependencies before Autoload names are registered in a SceneTree script; defer business-script loading until initialization. Track the probe PID and confirm its final marker as well as the exit code.
 - Direct gameplay entry: `tools/godot_cli.ps1 --headless --path . res://ExpeditionSystem/ExpeditionSystem.tscn --quit-after 120`; this checks bounded startup, not a complete encounter or visual quality.
-- No dedicated, versioned automated regression suite was found among project sources/tooling. Older audit probe counts are not runnable test entry points. Build a task-scoped probe outside gameplay source when needed.
+- No dedicated, versioned automated regression suite was found among project sources/tooling. Older audit probe counts are not runnable test entry points. Build a task-scoped probe in `.ai/tmp/` outside gameplay source when needed.
 - Editor plugin: `addons/godot-mcp/plugin.gd` (9876); runtime Autoload: `addons/godot-mcp/runtime_bridge.gd` (9877). Avoid launching a second Editor against the user's session; clean up only task-created processes and verify released ports.
 
 ## 4. Important data lifecycle routes

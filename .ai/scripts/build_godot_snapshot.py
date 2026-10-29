@@ -15,18 +15,17 @@ build_godot_snapshot.py
 - 无第三方依赖，Windows / macOS / Linux 都可运行
 
 最简单用法：
-    1. 把本脚本放到 Godot 项目根目录（和 project.godot 同级）
-    2. 运行：
-       python build_godot_snapshot.py
+    在项目根目录运行（也支持从其他工作目录通过脚本绝对路径运行）：
+       python .ai/scripts/build_godot_snapshot.py
 
 指定项目目录：
-    python build_godot_snapshot.py "D:\\Game project\\Godot\\LW_game_development"
+    python .ai/scripts/build_godot_snapshot.py "D:\\Game project\\Godot\\LW_game_development"
 
 指定输出文件：
-    python build_godot_snapshot.py --output PROJECT_DUMP.md
+    python .ai/scripts/build_godot_snapshot.py --output .ai/generated/custom_snapshot.md
 
 取消单文件大小限制：
-    python build_godot_snapshot.py --max-file-mb 0
+    python .ai/scripts/build_godot_snapshot.py --max-file-mb 0
 """
 
 from __future__ import annotations
@@ -48,6 +47,8 @@ from typing import Iterable
 IGNORE_DIRS = {
     ".git",
     ".godot",
+    ".ai",
+    # 兼容尚未迁移的旧工作区，避免收集自动化数据。
     ".codex_runtime",
     ".idea",
     ".vscode",
@@ -310,9 +311,10 @@ def choose_root(explicit_root: str | None) -> Path:
     script_dir = Path(__file__).resolve().parent
     cwd = Path.cwd().resolve()
 
-    # 最适合“脚本直接放项目根目录”的使用方式。
-    if (script_dir / "project.godot").is_file():
-        return script_dir
+    # 从脚本位置向上定位项目，兼容 .ai/scripts/ 与原根目录布局。
+    for candidate in (script_dir, *script_dir.parents):
+        if (candidate / "project.godot").is_file():
+            return candidate
 
     # 也支持在项目根目录终端执行脚本。
     if (cwd / "project.godot").is_file():
@@ -495,16 +497,16 @@ def parse_args() -> argparse.Namespace:
         "project_root",
         nargs="?",
         help=(
-            "Godot 项目根目录。省略时优先使用脚本所在目录，"
-            "前提是其中存在 project.godot。"
+            "Godot 项目根目录。省略时从脚本目录向上查找 project.godot，"
+            "其次尝试当前工作目录。"
         ),
     )
 
     parser.add_argument(
         "-o",
         "--output",
-        default="PROJECT_DUMP.md",
-        help="输出文件名或路径。默认：PROJECT_DUMP.md",
+        default=".ai/generated/PROJECT_DUMP.md",
+        help="输出文件名或路径（相对项目根目录）。默认：.ai/generated/PROJECT_DUMP.md",
     )
 
     parser.add_argument(
@@ -539,7 +541,7 @@ def main() -> int:
     if not project_file.is_file():
         print(
             f"[ERROR] 在项目根目录找不到 project.godot：{root}\n"
-            "请把脚本放到 Godot 项目根目录，或显式传入项目路径。",
+            "请将脚本保留在项目的 .ai/scripts/ 中，或显式传入项目路径。",
             file=sys.stderr,
         )
         return 2

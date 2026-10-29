@@ -606,6 +606,8 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 
 ## 12. 阶段收尾与验证记录
 
+路径迁移说明（2026-10-29）：历史记录中 `.codex_runtime/` 下的数据已原样迁至 `.ai/runtime/`，相对子路径保持不变；下文保留执行当时的路径、日期、PID 和结果。当前工具入口与过程文件位置见 `Docs/CODEMAP.md` 的 Development tooling 和 `.ai/README.md`；本次目录整理不重新验证历史玩法结果。
+
 ### 基地设施与双牌组编辑验证（2026-10-28）
 
 经 tools/godot_cli.ps1 的同一个临时 headless 探针获得 FACILITY_CHECKS=55 FAILURES=0。覆盖实际 Area3D 与玩家重叠/最近目标、E 范围限制、确认/取消、模态控制锁定/恢复、双容器显示、原生滚动配置、右键/拖放回调双向转移、20 张容量拒绝、旧会话拒绝、缺模板/空数据、关闭重开不重置、不增加编辑保存、确认保存失败留在 Base/重试、空战斗牌组入征和原有 L 返回。
