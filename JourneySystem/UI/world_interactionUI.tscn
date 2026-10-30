@@ -2,6 +2,15 @@
 
 [ext_resource type="Script" uid="uid://b7ec4on0fwswn" path="res://JourneySystem/UI/Scripts/world_interaction_HUD.gd" id="1_wdm6u"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_waoc8"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.20784314, 0.20784314, 0.20784314, 0.5176471)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rl64m"]
+font_size = 66
+shadow_color = Color(0, 0, 0, 0.85882354)
+
 [node name="Control" type="Control" unique_id=858941749]
 layout_mode = 3
 anchors_preset = 15
@@ -11,24 +20,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wdm6u")
 
-[node name="Panel" type="Panel" parent="." unique_id=338348781]
-layout_mode = 0
-offset_left = 946.0
-offset_top = 519.0
-offset_right = 1339.0
-offset_bottom = 619.0
-
 [node name="Label" type="Label" parent="." unique_id=258494114]
 layout_mode = 0
-offset_left = 961.0
-offset_top = 524.0
-offset_right = 1324.0
-offset_bottom = 611.0
+offset_left = 1146.0
+offset_top = 647.0
+offset_right = 1509.0
+offset_bottom = 734.0
 theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_waoc8")
 text = "TEXT"
+label_settings = SubResource("LabelSettings_rl64m")
+horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="ItemList" type="ItemList" parent="." unique_id=887433451]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0

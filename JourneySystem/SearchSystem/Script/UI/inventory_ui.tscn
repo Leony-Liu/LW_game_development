@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://cyi0fqi0624qh"]
 
-[node name="InventoryUI" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2hl0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rb8fw"]
+font_size = 60
+
+[node name="InventoryUI" type="Control" unique_id=817768578]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -8,7 +13,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="ItemList" type="ItemList" parent="." unique_id=1713949117]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="Panel2" type="Panel" parent="." unique_id=35223809]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 34.0
+offset_right = 799.0
+offset_bottom = 1020.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2hl0")
+
+[node name="Label" type="Label" parent="." unique_id=394507612]
+layout_mode = 0
+offset_left = 289.0
+offset_top = 497.0
+offset_right = 614.0
+offset_bottom = 557.0
+text = "InventoryUI"
+label_settings = SubResource("LabelSettings_rb8fw")
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -46,4 +46,4 @@ func open_search(object: InteractableObject) -> void:
 ## 关闭搜索界面
 func close_search() -> void:
 	UIManager.hide_all()
-	current_object = null
+	#current_object = null

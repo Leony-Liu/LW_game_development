@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://cyi0fqi0624qh" path="res://JourneySystem/SearchSystem/Script/UI/inventory_ui.tscn" id="7_g7ais"]
 [ext_resource type="Script" uid="uid://fl6legvkghit" path="res://JourneySystem/SearchSystem/Script/inventory_ui.gd" id="8_4tus6"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_rb8fw"]
+font_size = 36
+
 [node name="World" type="Node3D" unique_id=831134462]
 
 [node name="MapManager" type="Node3D" parent="." unique_id=1686218424 groups=["dungeon_manager"]]
@@ -21,12 +24,30 @@ room_scene = ExtResource("3_a6g2o")
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1624393801]
 
 [node name="Control" parent="UILayer" unique_id=960937535 instance=ExtResource("2_qyo7k")]
-script = null
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="RoomID" type="Label" parent="UILayer" unique_id=1022840896]
+offset_left = 1605.0
+offset_top = 40.0
+offset_right = 1839.0
+offset_bottom = 122.0
+text = "当前房间ID：0"
+label_settings = SubResource("LabelSettings_rb8fw")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SearchUI" parent="UILayer" unique_id=153190268 instance=ExtResource("5_na8fq")]
+visible = false
 script = ExtResource("6_h6bmn")
 
 [node name="InventoryUI" parent="UILayer" unique_id=919643617 instance=ExtResource("7_g7ais")]
+visible = false
 script = ExtResource("8_4tus6")
 
 [editable path="UILayer/SearchUI"]

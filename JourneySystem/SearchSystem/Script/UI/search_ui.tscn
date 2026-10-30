@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://eirjqi3byf6r"]
 
-[node name="SearchUI" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwli3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rb8fw"]
+font_size = 60
+
+[node name="SearchUI" type="Control" unique_id=1368323926]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -8,7 +13,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="ItemList" type="ItemList" parent="." unique_id=1712977010]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="." unique_id=511588165]
+layout_mode = 0
+offset_left = 1073.0
+offset_top = 34.0
+offset_right = 1776.0
+offset_bottom = 1020.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wwli3")
+
+[node name="Label" type="Label" parent="." unique_id=802437970]
+layout_mode = 0
+offset_left = 1244.0
+offset_top = 461.0
+offset_right = 1612.0
+offset_bottom = 567.0
+text = "searchUI"
+label_settings = SubResource("LabelSettings_rb8fw")
+horizontal_alignment = 1
+vertical_alignment = 1

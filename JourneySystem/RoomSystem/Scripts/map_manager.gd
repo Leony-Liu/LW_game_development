@@ -8,6 +8,7 @@ class_name MapManager
 const TARGET_ROOM_COUNT = 15#最大房间总数
 @export var room_scene: PackedScene
 @onready var room_container: Node3D = $"../RoomContainer"
+@onready var room_id: Label = $"../UILayer/RoomID"
 
 var rooms: Dictionary = {}
 
@@ -143,6 +144,8 @@ func change_room(target_room_id: int, enter_side: String):
 	
 	var player =get_tree().get_first_node_in_group("Player")
 	player.global_position = target_room.get_spawn_position(enter_side)
+	
+	room_id.text = "当前房间ID: %d" % target_room_id
 	pass
 
 
