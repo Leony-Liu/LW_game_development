@@ -7,6 +7,7 @@ extends Area3D
 var object_name: String#交互场景物体名字
 var searched: bool = false#是否已被搜索
 var loot_table: Array = []#当前物体使用的掉落表
+var remaining_items: Array[ItemData] = []#该物体搜索后剩余的物品
 
 ##开始交互
 func interact():
@@ -17,17 +18,17 @@ func interact():
 ##生成随机物品
 func generate_loot() -> Array[ItemData]:
 	if searched:
-		return []
+		return remaining_items
 	
 	searched = true
 	
-	var result: Array = []
 	if loot_table.is_empty():
-		return ItemDataBase.get_random_items(5)#后续添加随机数量
+		remaining_items = ItemDataBase.get_random_items(randi_range(1, 3))
+		return remaining_items
 	
 	for item_id in loot_table:
 		var item: ItemData = ItemDataBase.find_item(item_id)
 		if item != null:
-			result.append(item)
-	return result
+			remaining_items.append(item)
+	return remaining_items
 	pass

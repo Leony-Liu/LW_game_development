@@ -12,8 +12,7 @@ var rng:= RandomNumberGenerator.new()
 
 ##初始化搜索
 func open_search(object: InteractableObject):
-	if not object.searched:
-		generate_items(object)
+	generate_items(object)
 	
 	UIManager.refresh_search(current_items)
 	pass
@@ -21,8 +20,7 @@ func open_search(object: InteractableObject):
 
 ##调用ItemDatabase随机生成物品
 func generate_items(object: InteractableObject):
-	current_items.clear()
-	
+	# 引用该物体的剩余物品，拿取时同步修改物体保存的结果。
 	current_items = object.generate_loot()
 	pass
 
@@ -31,7 +29,7 @@ func generate_items(object: InteractableObject):
 func take_item(item: ItemData):
 	
 	#判断交互物品是否存在搜索列表
-	if item == null:
+	if item == null or not current_items.has(item):
 		return
 	
 	#添加物品到玩家背包
@@ -50,7 +48,7 @@ func get_items()-> Array[ItemData]:
 	return current_items
 
 
-##关闭搜索时清空当前搜索结果
+##关闭搜索时解除当前列表引用，保留物体的剩余物品
 func clear():
-	current_items.clear()
+	current_items = []
 	pass

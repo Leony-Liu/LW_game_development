@@ -1,16 +1,3 @@
 [remap]
 
-importer="csv_translation"
-type="Translation"
-uid="uid://corp188cl00fl"
-
-[deps]
-
-source_file="res://DataBase/AllItemData.csv"
-
-[params]
-
-compress=1
-delimiter=0
-unescape_keys=false
-unescape_translations=true
+importer="keep"
