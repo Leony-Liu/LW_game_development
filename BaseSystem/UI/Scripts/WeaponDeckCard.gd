@@ -9,6 +9,11 @@ var container_id: String
 var card_uid: String
 var session_id: int
 var _display_name: String
+var _interaction_enabled: bool = true
+
+# 仅切换本实例的编辑操作，保留 PASS 输入和原生滚轮传播。
+func set_interaction_enabled(enabled: bool) -> void:
+	_interaction_enabled = enabled
 
 # 卡面不接收输入，由本适配层唯一处理牌组操作。
 func _ready() -> void:
@@ -39,12 +44,14 @@ func display_card(card: CardInstance, source_id: String, session: int) -> void:
 
 # 右键只通知当前容器和实例身份。
 func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+	if _interaction_enabled and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		accept_event()
 		transfer_requested.emit(container_id, card_uid)
 
 # 原生左键拖拽只携带身份；预览采用已有名称。
 func _get_drag_data(_position: Vector2) -> Variant:
+	if not _interaction_enabled:
+		return null
 	var preview := Label.new()
 	preview.text = _display_name
 	preview.custom_minimum_size = Vector2(160, 50)
@@ -53,7 +60,7 @@ func _get_drag_data(_position: Vector2) -> Variant:
 
 # 卡片区域也接受来自另一容器的拖放，行为与空白区域一致。
 func _can_drop_data(_position: Vector2, data: Variant) -> bool:
-	return data is Dictionary and data.get("kind") == "weapon_deck_card" and data.get("session_id") == session_id and data.get("source_id") in ["combat_deck", "reserve_deck"] and data.get("source_id") != container_id and data.get("card_uid") is String
+	return _interaction_enabled and data is Dictionary and data.get("kind") == "weapon_deck_card" and data.get("session_id") == session_id and data.get("source_id") in ["combat_deck", "reserve_deck"] and data.get("source_id") != container_id and data.get("card_uid") is String
 
 # 上报拖放目标，交由窗口与 Base 再校验。
 func _drop_data(_position: Vector2, data: Variant) -> void:

@@ -4,15 +4,38 @@ class_name RoomSet
 extends Node3D
 
 signal extraction_requested(room: RoomData, facility: Node3D)
+signal player_entered_room(room_coords: Vector2)
 @export_group("场景预制体")
 @export var battle_room_scene: PackedScene
 
 var _room_instances_by_data: Dictionary = {}
+var _entry_player: CharacterBody3D
+
+# World 提供真实玩家引用，房间只接受这一个物理体。
+func configure_entry_player(player_body: CharacterBody3D) -> bool:
+	if not is_instance_valid(player_body):
+		push_error("[RoomSet] 入室检测配置失败：缺少真实玩家物理体。")
+		return false
+	_entry_player = player_body
+	return true
+
+# 初次物理同步后通过房间原有触发器补查重叠，不按生成坐标推定占用。
+func refresh_player_room_occupancy() -> void:
+	for room in _room_instances_by_data.values():
+		room.refresh_player_room_occupancy()
+
+# 只中继当前装配实例和原 RoomData，旧房间通知不能污染新地图。
+func _on_player_entered(room_data: RoomData, room: BattleRoom) -> void:
+	if get_room_instance(room_data) == room and room.is_player_inside_entry():
+		player_entered_room.emit(room_data.room_position)
 
 
 ## 接收地图数据；任一必需房间失败时清除本批实例并返回失败。
 func build_rooms(mapdata: Dictionary) -> bool:
 	clear_rooms()
+	if not is_instance_valid(_entry_player):
+		push_error("[RoomSet] 房间组装失败：入室检测尚未绑定真实玩家物理体。")
+		return false
 	var rooms_value: Variant = mapdata.get("rooms")
 	if not rooms_value is Dictionary or rooms_value.is_empty():
 		push_error("RoomSet ： 房间组装失败：地图缺少有效房间数据。")
@@ -32,6 +55,7 @@ func build_rooms(mapdata: Dictionary) -> bool:
 				room_instance.free()
 			return _fail_build("battle_room_scene 根节点不是 BattleRoom。")
 		room_instance.room_data = room_data
+		room_instance.configure_entry_player(_entry_player)
 		add_child(room_instance)
 		if not room_instance.is_assembled:
 			return _fail_build("房间 %s 的必需结构未完成。" % pos)
@@ -40,6 +64,7 @@ func build_rooms(mapdata: Dictionary) -> bool:
 		room_instance.name = "Room_%d_%d" % [int(pos.x), int(pos.y)]
 		_room_instances_by_data[room_data] = room_instance
 		room_instance.extraction_requested.connect(_on_extraction_requested)
+		room_instance.player_entered.connect(_on_player_entered.bind(room_instance))
 	print("RoomSet ： 房间组装完成，数量：%d。" % _room_instances_by_data.size())
 	return true
 

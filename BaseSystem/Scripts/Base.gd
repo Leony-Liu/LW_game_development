@@ -2,7 +2,7 @@
 ## 玩家控制归 PlayerVisual，持久数据归武器模型，保存切换归 GameManager。
 extends Node3D
 
-enum Modal { NONE, EXPEDITION, DECK_EDITOR }
+enum Modal { NONE, EXPEDITION, DECK_EDITOR, COMBAT_VIEW }
 
 @export var player_visual: PlayerVisualManager
 @export var entrance_area: Area3D
@@ -21,6 +21,7 @@ func _ready() -> void:
 	if player_visual == null or entrance_area == null or editor_area == null or base_ui == null or not base_ui.validate_configuration():
 		push_error("[Base] 初始化失败：缺少必需的玩家、设施检测区域或 UI 场景配置。")
 		set_process(false)
+		set_process_input(false)
 		set_process_unhandled_input(false)
 		return
 	base_ui.expedition_confirmed.connect(_on_expedition_confirmed)
@@ -30,6 +31,35 @@ func _ready() -> void:
 # 原生 Area3D 提供范围事实；只选择与真实玩家碰撞体重叠的最近设施。
 func _process(_delta: float) -> void:
 	_update_interaction_target()
+
+# 在 GUI 焦点遍历前消费 Tab；编辑或其他模态期间保持当前窗口。
+func _input(event: InputEvent) -> void:
+	if get_tree().current_scene != self or (event is InputEventKey and event.echo):
+		return
+	if event.is_action_pressed("toggle_weapon_deck_viewer"):
+		get_viewport().set_input_as_handled()
+		if _modal == Modal.COMBAT_VIEW:
+			_close_modal()
+		elif _modal == Modal.NONE:
+			_open_combat_view()
+	elif _modal == Modal.COMBAT_VIEW and event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_close_modal()
+
+# 通过原权威入口获取当前武器，仅把实战牌组交给 UI。
+func _open_combat_view() -> void:
+	if _modal != Modal.NONE:
+		return
+	var weapon: WeaponInstance = PlayerSaveManager.get_current_weapon() if PlayerSaveManager.ensure_loaded() else null
+	_previous_mode = player_visual.current_mode
+	_previous_mouse_mode = Input.mouse_mode
+	if not player_visual.change_mode("modal"):
+		push_error("[Base] 无法打开实战牌组：玩家控制锁定失败。")
+		return
+	_modal = Modal.COMBAT_VIEW
+	_selected_area = null
+	var cards: Array[CardInstance] = weapon.combat_deck.get_cards() if weapon != null else []
+	base_ui.show_combat_view(cards)
 
 # 所有设施共用一个 E 入口；模态期间只处理关闭，不接收新设施交互。
 func _unhandled_input(event: InputEvent) -> void:

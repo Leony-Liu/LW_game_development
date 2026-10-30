@@ -32,12 +32,17 @@ func show_confirmation() -> void:
 # 将当前武器传给牌组视图，不初始化任何玩家数据。
 func show_editor(weapon: WeaponInstance) -> void:
 	show_prompt("")
-	%DeckEditor.open_editor(weapon)
+	%DeckEditor.open_for_edit(weapon)
+
+# Tab 复用同一个窗口实例，只接收实战牌组。
+func show_combat_view(cards: Array[CardInstance]) -> void:
+	show_prompt("")
+	%DeckEditor.open_combat_view(cards)
 
 # 关闭所有模态表现，控制恢复仍由 Base 负责。
 func hide_modals() -> void:
 	%ExpeditionConfirmation.hide()
-	%DeckEditor.hide()
+	%DeckEditor.close_editor()
 
 # 保存或初始化失败时保留确认窗口，允许取消或重试。
 func show_entry_failure() -> void:

@@ -1,5 +1,5 @@
 ## 协调一次远征内的 World 与 Battle 边界。
-## 接收应用级注入的持久卡牌实例，并上报死亡确认。
+## 引用应用级注入的武器实战容器，并上报死亡确认。
 extends Node
 
 signal death_confirmed
@@ -13,6 +13,8 @@ var _extraction_operation_id := 0
 @export var world_manager: WorldManager
 @export var battle_manager: BattleManager
 @export var result_ui: ExpeditionResultUI
+@export var weapon_deck_editor: Control
+@export var expedition_map: Control
 
 @export_category("玩家战斗属性")
 @export var player_attributes_configured: bool = false
@@ -32,7 +34,9 @@ var _extraction_operation_id := 0
 var _is_starting_battle := false
 var _result_pending := false
 var _deck_initialized := false
-var _player_deck: Array[CardInstance] = []
+var _player_combat_container: CardContainer
+var _deck_viewer_open := false
+var _map_open := false
 
 
 # 当前远征的唯一终局门闩，同时拒绝战斗、结果和世界转换冲突。
@@ -54,6 +58,10 @@ func can_return_to_base() -> bool:
 
 # 上层持有终局状态，设施只接收当前交互是否可用。
 func _process(_delta: float) -> void:
+	if _map_open and not _can_keep_map_open():
+		_close_expedition_map(false)
+	if _deck_viewer_open and not _can_keep_deck_viewer_open():
+		_close_deck_viewer(false)
 	if is_instance_valid(world_manager):
 		world_manager.update_extraction_interaction(_can_begin_terminal_operation())
 
@@ -67,6 +75,8 @@ func request_extraction(room: RoomData, facility: Node3D) -> bool:
 		push_error("[ExpeditionManager] 撤离请求失败：应用处理入口未连接；保留远征。")
 		return false
 	_terminal_state = TerminalState.EXTRACTING
+	_close_expedition_map(false)
+	_close_deck_viewer(false)
 	_extraction_operation_id += 1
 	world_manager.update_extraction_interaction(false)
 	print("[ExpeditionManager] 撤离请求已接受，开始校验结算依赖。")
@@ -88,6 +98,105 @@ func reject_extraction(operation_id: int, reason: String) -> bool:
 func is_extraction_pending(operation_id: int) -> bool:
 	return _terminal_state == TerminalState.EXTRACTING and operation_id == _extraction_operation_id
 
+# 在焦点遍历前消费 Tab；关闭时不拦截其他系统的 Esc。
+func _input(event: InputEvent) -> void:
+	if owner == null or get_tree().current_scene != owner or (event is InputEventKey and event.echo):
+		return
+	if event.is_action_pressed("toggle_expedition_map"):
+		get_viewport().set_input_as_handled()
+		if _map_open:
+			_close_expedition_map(true)
+		else:
+			_open_expedition_map()
+	elif event.is_action_pressed("toggle_weapon_deck_viewer"):
+		get_viewport().set_input_as_handled()
+		if _deck_viewer_open:
+			_close_deck_viewer(true)
+		elif _can_begin_terminal_operation() and not GameManager.is_scene_transition_pending():
+			_open_deck_viewer()
+	elif _deck_viewer_open and event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_close_deck_viewer(true)
+
+# M 只在既有探索资格满足且没有牌组模态时打开地图。
+func _open_expedition_map() -> void:
+	if _map_open or _deck_viewer_open or not _can_begin_terminal_operation() or GameManager.is_scene_transition_pending():
+		return
+	if not is_instance_valid(expedition_map):
+		push_error("[ExpeditionManager] 地图未打开：缺少 ExpeditionMap 场景引用。")
+		return
+	if not world_manager.begin_expedition_map():
+		return
+	_map_open = true
+	_on_expedition_map_updated(world_manager.get_expedition_map_snapshot())
+	expedition_map.show()
+
+# 地图期间不要求移动仍启用，而是核验 World 持有的输入挂起状态。
+func _can_keep_map_open() -> bool:
+	return (
+		is_inside_tree() and owner != null and get_tree().current_scene == owner
+		and not GameManager.is_scene_transition_pending()
+		and _terminal_state == TerminalState.ACTIVE and not _is_starting_battle and not _result_pending
+		and is_instance_valid(battle_manager) and not battle_manager.is_battle_active
+		and not battle_manager.is_starting_battle() and is_instance_valid(world_manager)
+		and world_manager.is_expedition_map_valid()
+	)
+
+# 手动关闭恢复正常探索输入；自动关闭不覆盖新世界阶段的控制状态。
+func _close_expedition_map(manual: bool) -> void:
+	if not _map_open:
+		return
+	var restore_controls := manual and _can_keep_map_open()
+	_map_open = false
+	if is_instance_valid(expedition_map):
+		expedition_map.hide()
+	if is_instance_valid(world_manager):
+		world_manager.end_expedition_map(restore_controls)
+
+# 显示层只接收 World 提供的发现快照，不自行重建探索状态。
+func _on_expedition_map_updated(snapshot: Dictionary) -> void:
+	if is_instance_valid(expedition_map):
+		expedition_map.display_map(snapshot)
+
+# 复用既有终局、遭遇及战斗门闩，只读传递持久 CardInstance。
+func _open_deck_viewer() -> void:
+	if _deck_viewer_open or not _can_begin_terminal_operation() or GameManager.is_scene_transition_pending():
+		return
+	if not is_instance_valid(weapon_deck_editor) or weapon_deck_editor.card_scene == null:
+		push_error("[ExpeditionManager] 实战牌组未打开：共享牌组 UI 配置缺失。")
+		return
+	if not world_manager.begin_exploration_modal():
+		return
+	_deck_viewer_open = true
+	weapon_deck_editor.open_combat_view(get_player_deck())
+
+# 模态期间允许维持窗口，但任何世界、战斗或场景冲突都会使其失效。
+func _can_keep_deck_viewer_open() -> bool:
+	return (
+		is_inside_tree() and owner != null and get_tree().current_scene == owner
+		and not GameManager.is_scene_transition_pending()
+		and _terminal_state == TerminalState.ACTIVE and not _is_starting_battle and not _result_pending
+		and is_instance_valid(battle_manager) and not battle_manager.is_battle_active
+		and not battle_manager.is_starting_battle() and is_instance_valid(world_manager)
+		and world_manager.is_exploration_modal_valid()
+	)
+
+# 恢复资格必须在清理前确认；自动关闭绝不回写旧探索模式。
+func _close_deck_viewer(manual: bool = true) -> void:
+	if not _deck_viewer_open:
+		return
+	var restore_controls := manual and _can_keep_deck_viewer_open()
+	_deck_viewer_open = false
+	if is_instance_valid(weapon_deck_editor):
+		weapon_deck_editor.close_editor()
+	if is_instance_valid(world_manager):
+		world_manager.end_exploration_modal(restore_controls)
+
+# 离开场景时只清理会话，不重新启用即将退出的玩家。
+func _exit_tree() -> void:
+	_close_expedition_map(false)
+	_close_deck_viewer(false)
+
 
 # 开发快捷键仍只上报意图；应用层另做 debug 与场景校验。
 func _unhandled_input(event: InputEvent) -> void:
@@ -100,29 +209,48 @@ func _unhandled_input(event: InputEvent) -> void:
 		return_to_base_requested.emit()
 
 
-# 场景入树前接受原卡牌对象；空来源是有效状态，不生成补牌。
-func initialize_player_deck(cards: Array[CardInstance], content_state: String) -> bool:
+# 只绑定武器原有实战容器；空容器有效，不创建容器或卡牌。
+func initialize_player_combat_container(combat_container: CardContainer) -> bool:
 	if _deck_initialized:
 		push_error("[ExpeditionManager] 牌组交接失败：本次远征已经初始化。")
 		return false
+	if combat_container == null or combat_container.container_id != "combat_deck" or combat_container.capacity != 20:
+		push_error("[ExpeditionManager] 牌组交接失败：必须提供容量为 20 的实战容器。")
+		return false
+	var cards := combat_container.get_cards()
+	if cards.size() > combat_container.capacity:
+		push_error("[ExpeditionManager] 牌组交接失败：实战容器超过容量。")
+		return false
 	var seen: Dictionary = {}
 	for card in cards:
-		if card == null or (card.card_data != null and card.card_data.id != card.card_id):
+		if card == null or card.card_id <= 0 or (card.card_data != null and card.card_data.id != card.card_id):
 			push_error("[ExpeditionManager] 牌组交接失败：收到无效 CardInstance。")
+			return false
+		if card.container_ref == null or card.container_ref.get_ref() != combat_container:
+			push_error("[ExpeditionManager] 牌组交接失败：卡牌不属于提供的实战容器。")
 			return false
 		if card.unique_id.strip_edges().is_empty() or seen.has(card.unique_id):
 			push_error("[ExpeditionManager] 牌组交接失败：收到空或重复实例 UID。")
 			return false
 		seen[card.unique_id] = true
-	_player_deck = cards.duplicate()
+	_player_combat_container = combat_container
 	_deck_initialized = true
+	var content_state := "CONFIGURED_EMPTY" if cards.is_empty() else "READY"
 	print("[ExpeditionManager] 牌组交接完成：内容状态 %s，数量 %d；空来源不视为传输失败。" % [content_state, cards.size()])
 	return true
 
 
-# 每次遭遇都使用这批持久实例，不重新创建卡牌。
+# 仅供交接方核验原容器身份，不暴露内部卡牌数组。
+func get_player_combat_container() -> CardContainer:
+	return _player_combat_container
+
+
+# 每次都从权威容器取得最新顺序副本，卡牌对象与 UID 不变。
 func get_player_deck() -> Array[CardInstance]:
-	return _player_deck.duplicate()
+	if _player_combat_container == null:
+		push_error("[ExpeditionManager] 读取牌组失败：尚未绑定实战容器。")
+		return []
+	return _player_combat_container.get_cards()
 
 
 # 沿用原场景已配置的玩家属性，本次不持久化或新增数值。
@@ -149,6 +277,14 @@ func _ready() -> void:
 	assert(world_manager != null, "ExpeditionManager: 缺少必需的 world_manager 引用。")
 	assert(battle_manager != null, "ExpeditionManager: 缺少必需的 battle_manager 引用。")
 	assert(result_ui != null, "ExpeditionManager: 缺少必需的 result_ui 引用。")
+	if not is_instance_valid(expedition_map):
+		push_error("[ExpeditionManager] 地图不可用：缺少 ExpeditionMap 引用。")
+	world_manager.expedition_map_updated.connect(_on_expedition_map_updated)
+	_on_expedition_map_updated(world_manager.get_expedition_map_snapshot())
+	if is_instance_valid(weapon_deck_editor):
+		weapon_deck_editor.close_requested.connect(_close_deck_viewer)
+	else:
+		push_error("[ExpeditionManager] 实战牌组查看不可用：缺少共享 WeaponDeckEditor 引用。")
 	if not world_manager.encounter_requested.is_connected(_on_world_encounter_requested):
 		world_manager.encounter_requested.connect(_on_world_encounter_requested)
 	if not world_manager.world_state_changed.is_connected(_on_world_state_changed):
@@ -166,6 +302,9 @@ func _ready() -> void:
 
 # 接收有效遭遇事实，并在启动成功后接受原请求。
 func _on_world_encounter_requested(room_data: RoomData, enemy_id: int) -> void:
+	var interrupted_viewer := _deck_viewer_open or _map_open
+	_close_expedition_map(false)
+	_close_deck_viewer(false)
 	if _terminal_state != TerminalState.ACTIVE:
 		_reject_encounter(room_data, "远征正在撤离或已进入死亡终局。")
 		return
@@ -179,24 +318,24 @@ func _on_world_encounter_requested(room_data: RoomData, enemy_id: int) -> void:
 		_reject_encounter(room_data, "Battle 已处于激活状态。")
 		return
 	if not _is_encounter_context_valid(room_data, enemy_id):
-		_reject_encounter(room_data, "遭遇上下文已失效。")
+		_reject_encounter(room_data, "遭遇上下文已失效。", interrupted_viewer)
 		return
 	if not _deck_initialized:
-		_reject_encounter(room_data, "尚未接收持久牌组；请通过 GameManager.start_expedition() 启动。")
+		_reject_encounter(room_data, "尚未接收持久牌组；请通过 GameManager.start_expedition() 启动。", interrupted_viewer)
 		return
 
 	_is_starting_battle = true
 	var player_data := _create_player_data()
 	var player_deck := get_player_deck()
 	if not _are_battle_inputs_valid(player_data, player_deck):
-		_reject_encounter(room_data, "未生成有效的玩家属性或持久牌组输入。")
+		_reject_encounter(room_data, "未生成有效的玩家属性或持久牌组输入。", interrupted_viewer)
 		return
 	if not _is_encounter_context_valid(room_data, enemy_id):
-		_reject_encounter(room_data, "构造 Battle 输入后遭遇上下文已失效。")
+		_reject_encounter(room_data, "构造 Battle 输入后遭遇上下文已失效。", interrupted_viewer)
 		return
 
 	if not battle_manager.start_battle(player_deck, player_data, enemy_id):
-		_reject_encounter(room_data, "BattleManager 拒绝或未完成启动。")
+		_reject_encounter(room_data, "BattleManager 拒绝或未完成启动。", interrupted_viewer)
 		return
 
 	_is_starting_battle = false
@@ -239,6 +378,9 @@ func _are_battle_inputs_valid(
 
 # 将世界阶段转换为 Battle 的表现门闩，不干预 Battle 内部输入锁。
 func _on_world_state_changed(_previous_state: int, current_state: int) -> void:
+	if current_state != WorldManager.WorldState.EXPLORE:
+		_close_expedition_map(false)
+		_close_deck_viewer(false)
 	var presentation_ready := current_state == WorldManager.WorldState.BATTLE
 	if not battle_manager.set_presentation_ready(presentation_ready):
 		push_error("ExpeditionManager: World 已进入 BATTLE，但 Battle 尚未激活。")
@@ -246,6 +388,8 @@ func _on_world_state_changed(_previous_state: int, current_state: int) -> void:
 
 # 接收 Battle 的最终结果，并等待玩家选择后续远征动作。
 func _on_battle_ended(is_player_victory: bool) -> void:
+	_close_expedition_map(false)
+	_close_deck_viewer(false)
 	if not is_player_victory:
 		_terminal_state = TerminalState.DEAD
 	_result_pending = true
@@ -284,6 +428,8 @@ func _on_action_presentation_cancelled(_execution_id: int) -> void:
 
 # 复用 BattleSystem 时清除上场结算后仍在播放的占位效果。
 func _on_battle_started() -> void:
+	_close_expedition_map(false)
+	_close_deck_viewer(false)
 	world_manager.cancel_combat_feedback()
 
 
@@ -306,10 +452,14 @@ func _on_restart_requested() -> void:
 
 
 # 释放失败请求并恢复启动门闩，使 World 可以安全重试。
-func _reject_encounter(room_data: RoomData, reason: String) -> void:
+func _reject_encounter(room_data: RoomData, reason: String, interrupted_viewer: bool = false) -> void:
 	_is_starting_battle = false
 	push_warning("ExpeditionManager: %s" % reason)
 	if not world_manager.is_encounter_pending(room_data):
 		return
 	if not world_manager.resolve_encounter_request(room_data, false):
 		push_error("ExpeditionManager: 无法释放对应的 encounter request。")
+		return
+	# 遭遇失败后由 World 重新进入有效探索，不能遗留已关闭窗口的控制锁。
+	if interrupted_viewer and _terminal_state == TerminalState.ACTIVE and not _result_pending and not battle_manager.is_battle_active and world_manager.current_state == WorldManager.WorldState.EXPLORE:
+		world_manager.enter_explore_mode()

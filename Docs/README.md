@@ -361,9 +361,17 @@ AI 负责：
 
 当前已接通 WeaponInstance 拥有的战斗/备用双牌组、最小保存和应用级场景流程。主菜单正常进入 Base；Base 复用完整 PlayerVisual 控制、碰撞和相机，接近 Facility/testentrance 按 E 打开确认，确认后通过 GameManager.start_expedition() 保存并进入远征。中断恢复武器与双牌组并直接生成新远征；死亡确认保存并清标记后返回 Base，胜利继续探索。Facility/testcardeditor 的 E 交互可打开同一武器的双牌组编辑窗口；P 没有活动启动处理器，InputMap 中的 start_expedition 遗留声明保持原样。
 
+Base 与远征探索阶段现可按 Tab 只读查看实战牌组，Tab / Esc / 关闭按钮结束；复用同一 WeaponDeckEditor 场景及卡面，保留原 E 编辑流程。远征只在无遭遇、战斗启动、结果、终局或场景切换冲突的 EXPLORE 打开；自动关闭不恢复过时探索控制，不新增保存操作。2026-10-30 经 tools/godot_cli.ps1 的隔离 headless 探针取得 `COMBAT_VIEW_RESULT checks=94 failures=0 saves=0`，覆盖真实按键注入、卡片上滚轮、E 入口、转移回调/容量、关闭重开和真实遭遇启动。人工拖拽手感、编辑器实际画面、多分辨率与完整战斗胜负未验收；日志中的系统证书读取错误不属于此功能，缺模板与拒绝遭遇警告来自故障用例。
+
 远征探索阶段的 L 返回仅保留在 OS.is_debug_build() 的开发环境：保存武器与双牌组、清除中断标记后返回 Base，不执行撤离收益结算；发布版不能用它绕过撤离。战斗、准备、待确认结果、撤离中和场景转换均拒绝。初始房已增加真实 E 撤离设施入口，但资源仓库、随身资源、转换数据与长期结算存档尚缺，当前会明确拒绝并保留远征，完整成功撤离仍未接通。死亡返回沿既有保存路径保持原样。Base 与 Expedition 复用 PlayerVisual；此前 Base 操控问题已由用户手动解决，画面和手感仍需用户验收。
 
+远征发现地图已接入：M 开关，真实玩家进入 BattleRoom 内侧检测区后才揭示房间；物理占用与开门预测目标分开记录，不改变原遭遇流程。地图期间仅挂起移动/视角输入，保持 explore 模式，关闭恢复正常探索输入；与 Tab 窗口互斥，战斗/结果/终局和场景转换时自动关闭。三个根节点颜色与地图布局可在独立 ExpeditionMap 场景调整，编辑预览与运行时数据隔离；未新增地图存档。
+
+2026-10-30 经 tools/godot_cli.ps1 的隔离探针获得 headless `EXPEDITION_MAP_RESULT checks=78 failures=0 saves=0`、Windows Compatibility 窗口 `checks=85 failures=0 saves=0`。验证真实重叠/玩家原点、开门不揭示、外来物理体过滤、重入去重、初始化/失败清理、M/Tab 互斥、输入锁与原生鼠标捕获、真实 Battle 启动，以及截图中的中心标记叠放和三色独立重绘。缺玩家绑定/房间场景、空牌组和缺可选接近锚点是故障/降级用例；另有系统证书读取错误。未验收 Forward Plus 实际渲染、人工完整走图/战斗胜负及导出包；窗口截图只证明本次测试尺寸的表现。
+
 WeaponData 使用 starting_combat_deck_card_ids / starting_reserve_deck_card_ids。已有 testweapon（3001）配置 20 张战斗牌（14 Attack、6 Skill）与 10 张备用牌（6 Attack、4 Skill）；Attack 1001–1005 各 4 张，Skill 2001–2002 各 5 张。Scripts/NewGame.tres 指定初始武器 3001，仅初始化尚无武器的玩家；已有武器恢复原 UID 和双牌组，不按模板重新补牌。没有独立玩家卡牌仓库，战斗只从武器的 combat_deck 转换 RuntimeCard。
+
+远征牌组交接现引用当前 WeaponInstance 原有的 Combat CardContainer；ExpeditionManager 每次查看或开战通过 get_player_deck() 取得最新数组副本，不再把进入时的数组快照作为长期来源。2026-10-30 经 tools/godot_cli.ps1 的隔离 headless 探针获得 `COMBAT_CONTAINER_RESULT checks=105 failures=0 saves=0`，覆盖原容器身份、快照独立性、增删/插入顺序、两场真实 Battle 启动和第二场最新牌组、缺模板跳过、Base 编辑回调及 Reserve 数据/对象不变。保存格式、死亡和撤离路径未改；本轮不实现 Soul 或工作台，也不代表完整人工战斗/走门验收。
 
 | 状态 | 本阶段范围 |
 | --- | --- |

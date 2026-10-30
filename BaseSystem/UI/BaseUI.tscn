@@ -27,6 +27,7 @@ vertical_alignment = 1
 
 [node name="DeckEditor" parent="." instance=ExtResource("2")]
 unique_name_in_owner = true
+visible = false
 
 [node name="ExpeditionConfirmation" type="ConfirmationDialog" parent="."]
 unique_name_in_owner = true

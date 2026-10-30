@@ -49,6 +49,8 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Input | Source and route |
 | --- | --- |
 | E / `interact` in Base | `project.godot` → `BaseSystem/Scripts/Base.gd`; proximity to entrance/editor required, nearest target only; entrance confirm calls GameManager.start_expedition() |
+| Tab / `toggle_weapon_deck_viewer` | Physical Tab → active Base or ExpeditionManager `_input()` before GUI focus traversal; shared WeaponDeckEditor COMBAT_VIEW, Tab / ui_cancel / close button closes; EDIT remains open on Tab |
+| M / `toggle_expedition_map` | Physical M → ExpeditionManager `_input()`; toggles ExpeditionMap only in idle EXPLORE; no Esc shortcut; mutually exclusive with the deck viewer |
 | P / `start_expedition` | Legacy InputMap declaration remains, but no active gameplay input handler was found; it does not create a return/extraction bypass. Use the Base entrance facility |
 | E / `interact` at initial-room extraction facility | `ExtractionFacility` → `BattleRoom` → `RoomSet` → `WorldManager` → `ExpeditionManager.request_extraction()` → `GameManager._on_extraction_requested()`; real overlap, current INITIAL room and idle exploration required; missing resource settlement currently rejects without saving or returning |
 | L / `return_to_base` | Development only: `OS.is_debug_build()` guards the Expedition input/eligibility and `GameManager.return_to_base()`; retains saved debug return, explicitly performs no extraction reward settlement; release cannot use this shortcut |
@@ -63,10 +65,12 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Main scene / Autoloads / input map | `project.godot` | Referenced scene or Autoload script | Main scene is UID-backed; verify both config and scene |
 | Main menu / application or Base <-> Expedition flow | `Scripts/GameManager.gd` | `MainMenuSystem/MainMenu.gd`, `Scripts/PlayerSaveManager.gd`, `BaseSystem/Base.tscn`, `BaseSystem/Scripts/Base.gd` | Normal Start enters Base; interrupted Start directly creates Expedition; entrance E confirmation uses start_expedition(); direct Editor expedition receives same handoff |
 | Base facilities / weapon deck editor | `BaseSystem/Scripts/Base.gd`, `BaseSystem/UI/BaseUI.tscn` | `BaseSystem/UI/WeaponDeckEditor.tscn`, `BaseSystem/UI/Scripts/WeaponDeckEditor.gd`, `BaseSystem/UI/Scripts/WeaponDeckCard.gd`, `BaseSystem/UI/Scripts/WeaponDeckRegion.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn`, `Scripts/RefCounted/CardContainer.gd` | Base owns transfers; separated upper combat grid and lower horizontal reserve row; adapter reuses CardLogic.display_instance with presentation_only; same persistent instance, no new save trigger |
+| Read-only Combat Deck in Base / Expedition | `BaseSystem/UI/Scripts/WeaponDeckEditor.gd`, `BaseSystem/Scripts/Base.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `BaseSystem/UI/BaseUI.tscn`, `ExpeditionSystem/ExpeditionSystem.tscn/UISystem/DeckEditor`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `Scripts/GameManager.gd` | One shared scene; open_for_edit / open_combat_view / close_editor; World begin/end_exploration_modal coordinates PlayerVisual; GameManager.is_scene_transition_pending reads the existing transition gate |
 | Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | GameManager injects combat_deck instances; victory continues exploration; death_confirmed / return_to_base_requested notify GameManager to save and return Base |
 | Persistent player / battle input | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | WeaponInstance owns ordered combat/reserve containers; only combat goes to Battle; ExpeditionManager Inspector supplies current combat attributes |
 | Initial weapon / authored starting references | `Scripts/NewGame.tres`, `Scripts/Resource/NewGameConfig.gd` | `Scripts/GameManager.gd`, `Scripts/WeaponData/Weapons/testweapon.tres`, `Scripts/RefCounted/WeaponInstance.gd` | initial_weapon_id 3001; create only when no saved weapon exists, preserve existing deck identities and contents |
 | Map generation | `ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd` | `Scripts/MapBlueprint.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd`, `Scripts/EnemyData/AllEnemyData.gd` | `generate()` returns `rooms` and `doors` dictionaries |
+| Discovery map / physical room occupancy | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/BattleRoom.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd` | `BattleRoom.tscn/RoomEntryArea`, `RoomSet.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd`, `ExpeditionSystem/UISystem/ExpeditionMap.tscn`, `ExpeditionSystem/UISystem/Scripts/ExpeditionMap.gd` | Actual player binding and origin-inside check → register_player_entered_room → discovered-only snapshot; player_room_coords is separate from the door/encounter target current_room_coords |
 | World state / current room / encounter pre-flow | `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/DoorSet.gd` | `WorldManager.mapdata` is the current runtime map container |
 | Room data / encounter state | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/BattleRoom.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd` | Resource fields hold enemy and room state |
 | Room assembly | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/RoomSet.gd` | `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/BattleRoom.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn` | Builds room instances from `mapdata` |
@@ -90,7 +94,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Card buffs | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardBuff.gd` | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | Runtime modifiers only |
 | Enemy data | `Scripts/Resource/Enemy/R_EnemyData.gd` | `Scripts/Resource/Enemy/R_EnemyAction.gd`, `Scripts/EnemyData/AllEnemyData.gd`, `Scripts/EnemyData/EnemyDatas/` | Static enemy attributes and action pools |
 | Save infrastructure | `Scripts/SaveManager.gd` | `Scripts/RefCounted/SaveModule.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | Player containers and expedition_was_active only; no room/battle runtime checkpoint |
-| Persistent player data | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | get_current_weapon(), initialize_new_weapon(), get_expedition_deck(), validate_deck_handoff(); WeaponInstance owns both containers |
+| Persistent player data | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | get_current_weapon(), initialize_new_weapon(), get_expedition_combat_container(); compatible get_expedition_deck() / validate_deck_handoff() snapshots remain; WeaponInstance owns both containers |
 | Card UI visuals / interaction | `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn` | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Logic.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Interaction.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Animation.gd` | Scene owns UI composition; `RuntimeCard` owns battle card state |
 | Automated Godot validation | `tools/godot_cli.ps1` | Target `.gd` / `.tscn` plus `project.godot` | Use the smallest targeted CLI check that proves the task |
 
@@ -147,8 +151,8 @@ Related:
 
 Key entry points:
 - `GameManager.start_game()` / `start_expedition()` / `return_to_base()` (save owned data, clear marker, reuse death-return transition)
-- `PlayerSaveManager.get_expedition_deck()` / `validate_deck_handoff()`
-- `ExpeditionManager.initialize_player_deck()` / `get_player_deck()` / `death_confirmed`
+- `PlayerSaveManager.get_expedition_combat_container()`; compatible `get_expedition_deck()` / `validate_deck_handoff()` snapshots
+- `ExpeditionManager.initialize_player_combat_container()` / `get_player_combat_container()` / `get_player_deck()` / `death_confirmed` (same combat container, fresh card snapshot per read)
 - `ExpeditionManager.can_return_to_base()` / `return_to_base_requested`: debug-build-only L; requires current Expedition, initialized deck, active exploration and no terminal/battle/result conflict; GameManager checks debug build and application transition again
 - `ExpeditionManager.request_extraction()` / `extraction_requested(operation_id)` / `reject_extraction()`: locks a single terminal operation and rejects stale failure callbacks; current GameManager rejects missing resource/settlement dependencies before any persistence
 - `BattleManager.is_starting_battle()`: read-only startup gate for Expedition return validation
@@ -405,6 +409,11 @@ Expedition result UI:
 - `ExpeditionSystem/UISystem/Scripts/ExpeditionResultUI.gd`
 - `ExpeditionSystem/Scripts/ExpeditionManager.gd` (result signal coordination)
 
+Discovery map UI:
+- `ExpeditionSystem/UISystem/ExpeditionMap.tscn`, `ExpeditionSystem/UISystem/Scripts/ExpeditionMap.gd` (full-screen custom Control drawing, root Map Colors / Map Layout exports, isolated editor preview, runtime-ready hides)
+- `WorldManager.get_expedition_map_snapshot()` / `expedition_map_updated(snapshot)` → `ExpeditionManager` → `ExpeditionMap.display_map(snapshot)`; no undiscovered room data reaches the drawing layer
+- `WorldManager.begin_expedition_map()` / `end_expedition_map()` → `PlayerVisualManager.suspend_exploration_input()` / `resume_exploration_input()`; no temporary mode change
+
 Primary card UI area:
 - `ExpeditionSystem/BattleSystem/CardSystem/CardSystem.tscn`
 - `ExpeditionSystem/BattleSystem/CardSystem/player_hand_deck.tscn`
@@ -414,8 +423,9 @@ Primary card UI area:
 
 Weapon deck editor:
 - `BaseSystem/UI/WeaponDeckEditor.tscn` (`Window/Content/DeckLayers` contains independently anchored `CombatPanel` and `ReservePanel`; native padding, grid/row separation and panel artwork slots)
-- `BaseSystem/UI/Scripts/WeaponDeckEditor.gd` (`preferred_card_scale` under Card Layout; fits actual card views after native container layout)
+- `BaseSystem/UI/Scripts/WeaponDeckEditor.gd` (`DisplayMode.EDIT` / `COMBAT_VIEW`; `open_for_edit()`, compatible `open_editor()`, `open_combat_view()`, `close_editor()`; same card factory and `preferred_card_scale`)
 - `BaseSystem/UI/WeaponDeckCard.tscn`, `BaseSystem/UI/Scripts/WeaponDeckCard.gd`, `BaseSystem/UI/Scripts/WeaponDeckRegion.gd` (existing card adapter and single-axis scrolling/drop targets)
+- `BaseSystem/UI/BaseUI.tscn/DeckEditor`, `ExpeditionSystem/ExpeditionSystem.tscn/UISystem/DeckEditor` (hidden parent instances of the same scene; independent WeaponDeckEditor root stays visible)
 
 Navigation rule:
 - Inspect `CardManager.gd` for pile/state ownership.
@@ -478,7 +488,7 @@ Door.open_door()
 Scripts/Resource/Card/R_carddata.gd (CardData)
 -> AllCardData
 -> GameManager selects Scripts/NewGame.tres for a new WeaponInstance; PlayerSaveManager coordinates PlayerCardSaveModule restoration
--> WeaponInstance.combat_deck -> GameManager -> ExpeditionManager.initialize_player_deck()
+-> WeaponInstance.combat_deck (same CardContainer) -> GameManager -> ExpeditionManager.initialize_player_combat_container()
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard
@@ -657,7 +667,7 @@ Timeline.action_triggered (enemy action)
 CardData
 -> AllCardData
 -> GameManager selects Scripts/NewGame.tres for a new WeaponInstance; PlayerSaveManager coordinates PlayerCardSaveModule restoration
--> WeaponInstance.combat_deck -> GameManager -> ExpeditionManager.initialize_player_deck()
+-> WeaponInstance.combat_deck (same CardContainer) -> GameManager -> ExpeditionManager.initialize_player_combat_container()
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard

@@ -6,6 +6,7 @@ extends Node
 signal encounter_requested(room_data: RoomData, enemy_id: int)
 signal world_state_changed(previous_state: int, current_state: int)
 signal extraction_requested(room_data: RoomData, facility: Node3D)
+signal expedition_map_updated(snapshot: Dictionary)
 
 enum WorldState {
 	INIT,             # 初始化生成阶段
@@ -27,17 +28,24 @@ enum WorldState {
 var current_state: WorldState = WorldState.INIT
 var mapdata: Dictionary = {}
 var current_room_coords: Vector2 = Vector2.ZERO
+var explored_room_coords: Array[Vector2] = []
+var player_room_coords: Vector2 = Vector2.INF
+var initial_room_coords: Vector2 = Vector2.INF
 var _pending_encounter_room: RoomData = null
 var _preparation_transition_id: int = 0
 var _preparation_room: RoomData = null
 var _preparation_target: Node3D = null
 var _presented_extraction_facility: Node3D = null
+var _exploration_modal_active := false
+var _modal_previous_mode: String = "explore"
+var _modal_previous_mouse_mode: int = Input.MOUSE_MODE_CAPTURED
 
 
 # 初始化门事件监听并生成默认地图。
 func _ready() -> void:
 	if room_set:
 		room_set.extraction_requested.connect(_on_extraction_requested)
+		room_set.player_entered_room.connect(register_player_entered_room)
 	# 监听 DoorSet 的开门中继信号
 	if door_set:
 		door_set.door_opened_relay.connect(_on_door_opened)
@@ -50,14 +58,106 @@ func _ready() -> void:
 	if not init_map(default_blueprint):
 		return
 
+# 只登记当前真实触发器确认的入室，不改开门/遇敌使用的 current_room_coords。
+func register_player_entered_room(room_coords: Vector2) -> bool:
+	var room_data: RoomData = mapdata.get("rooms", {}).get(room_coords)
+	if room_data == null or not is_instance_valid(room_set):
+		return false
+	var room := room_set.get_room_instance(room_data)
+	if room == null or not room.is_player_inside_entry():
+		return false
+	var changed := player_room_coords != room_coords or room_coords not in explored_room_coords
+	player_room_coords = room_coords
+	if room_coords not in explored_room_coords:
+		explored_room_coords.append(room_coords)
+	if changed:
+		expedition_map_updated.emit(get_expedition_map_snapshot())
+	return true
+
+# 输出发现坐标副本，绘制层永远收不到未发现房间列表。
+func get_expedition_map_snapshot() -> Dictionary:
+	return {
+		"explored_room_coords": explored_room_coords.duplicate(),
+		"player_room_coords": player_room_coords,
+		"initial_room_coords": initial_room_coords,
+		"room_spacing": WorldGenerator.ROOM_SIZE,
+	}
+
+# 重建或失败时清空本次远征状态，并通知显示层撤下旧地图。
+func _reset_exploration_map() -> void:
+	explored_room_coords.clear()
+	player_room_coords = Vector2.INF
+	initial_room_coords = Vector2.INF
+	expedition_map_updated.emit(get_expedition_map_snapshot())
+
+# 等物理系统同步后检查真实初始占用；旧地图的延迟任务直接失效。
+func _check_initial_room_occupancy(initial_room: RoomData) -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	if mapdata.get("rooms", {}).get(initial_room.room_position) == initial_room and is_instance_valid(room_set):
+		room_set.refresh_player_room_occupancy()
+
+# 地图叠层只挂起探索输入，不改变 PlayerVisual 的生命周期模式。
+func begin_expedition_map() -> bool:
+	if not can_interact_in_exploration() or not player_visual.suspend_exploration_input():
+		return false
+	update_extraction_interaction(false)
+	return true
+
+# 独立于牌组模态查询地图输入锁是否仍属于有效探索。
+func is_expedition_map_valid() -> bool:
+	return (
+		current_state == WorldState.EXPLORE and _pending_encounter_room == null
+		and _preparation_room == null and is_instance_valid(player_visual)
+		and player_visual.current_mode == "explore" and player_visual.is_exploration_input_suspended()
+	)
+
+# World 已离开探索时只释放挂起标志，由新模式持有最终控制状态。
+func end_expedition_map(restore_controls: bool) -> void:
+	if is_instance_valid(player_visual):
+		player_visual.resume_exploration_input(restore_controls and is_expedition_map_valid())
+
 
 # 只允许没有待处理遭遇或运镜的真实探索交互。
 func can_interact_in_exploration() -> bool:
 	return (
 		current_state == WorldState.EXPLORE and _pending_encounter_room == null
+		and _preparation_room == null and not _exploration_modal_active
 		and is_instance_valid(player_visual) and is_instance_valid(player_visual.player)
 		and player_visual.current_mode == "explore" and player_visual.player.is_active
 	)
+
+# 由 World 锁住玩家表现，UI 不直接访问 PlayerController。
+func begin_exploration_modal() -> bool:
+	if not can_interact_in_exploration():
+		return false
+	_modal_previous_mode = player_visual.current_mode
+	_modal_previous_mouse_mode = Input.mouse_mode
+	if not player_visual.change_mode("modal"):
+		push_error("[WorldManager] 探索模态未打开：玩家控制锁定失败。")
+		return false
+	_exploration_modal_active = true
+	update_extraction_interaction(false)
+	return true
+
+# 仅查询本次模态仍处于无冲突探索阶段，不重建远征状态机。
+func is_exploration_modal_valid() -> bool:
+	return (
+		_exploration_modal_active and current_state == WorldState.EXPLORE
+		and _pending_encounter_room == null and _preparation_room == null
+		and is_instance_valid(player_visual) and player_visual.current_mode == "modal"
+	)
+
+# 自动关闭只释放模态归属；手动关闭才允许恢复仍有效的探索控制。
+func end_exploration_modal(restore_controls: bool) -> void:
+	var may_restore := restore_controls and is_exploration_modal_valid()
+	_exploration_modal_active = false
+	if not may_restore:
+		return
+	if not player_visual.change_mode(_modal_previous_mode):
+		push_error("[WorldManager] 探索模态关闭后无法恢复玩家控制。")
+		return
+	Input.mouse_mode = _modal_previous_mouse_mode
 
 
 # 当前房间必须有 INITIAL 标记，设施必须仍属于本次装配。
@@ -162,7 +262,8 @@ func has_valid_encounter_approach(room_data: RoomData, enemy_id: int) -> bool:
 ## 生成并装配地图；只有全部必需阶段成功后才进入探索。
 func init_map(blueprint: MapBlueprint = null) -> bool:
 	print("WorldManager ： 地图初始化开始。")
-	current_state = WorldState.INIT
+	_set_world_state(WorldState.INIT)
+	_reset_exploration_map()
 	mapdata = {}
 	current_room_coords = Vector2.ZERO
 	_pending_encounter_room = null
@@ -193,6 +294,8 @@ func init_map(blueprint: MapBlueprint = null) -> bool:
 	print("WorldManager ： 地图数据生成完成，房间：%d，门：%d。" % [rooms.size(), doors.size()])
 
 	# 2. 分发数据给两个 Set 节点进行实体装配
+	if not room_set.configure_entry_player(player_visual.player):
+		return _abort_map_initialization("入室检测缺少真实玩家物理体。")
 	if not room_set.build_rooms(generated_map):
 		return _abort_map_initialization("房间组装失败。")
 	if not door_set.build_doors(generated_map):
@@ -200,8 +303,10 @@ func init_map(blueprint: MapBlueprint = null) -> bool:
 
 	# 3. 设置初始房间与状态
 	mapdata = generated_map
+	initial_room_coords = rooms[Vector2.ZERO].room_position
 	if not enter_explore_mode():
 		return _abort_map_initialization("探索表现状态切换失败。")
+	_check_initial_room_occupancy(rooms[Vector2.ZERO])
 	print("WorldManager ： 地图初始化完成，已进入 EXPLORE。")
 	return true
 
@@ -215,6 +320,7 @@ func _abort_map_initialization(reason: String) -> bool:
 	if is_instance_valid(player_visual):
 		player_visual.suspend_after_world_initialization_failure()
 	mapdata = {}
+	_reset_exploration_map()
 	current_room_coords = Vector2.ZERO
 	current_state = WorldState.INIT
 	push_error("WorldManager ： 地图初始化中止：%s" % reason)

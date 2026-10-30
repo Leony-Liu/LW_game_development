@@ -6,10 +6,15 @@ signal card_dropped(data: Dictionary, destination_id: String)
 
 @export_enum("combat_deck", "reserve_deck") var container_id: String = "combat_deck"
 var session_id: int = 0
+var _interaction_enabled: bool = true
+
+# 关闭拖放目标而不影响 ScrollContainer 的滚轮处理。
+func set_interaction_enabled(enabled: bool) -> void:
+	_interaction_enabled = enabled
 
 # 仅接收当前编辑会话中来自另一个牌组的卡牌身份。
 func _can_drop_data(_position: Vector2, data: Variant) -> bool:
-	return data is Dictionary and data.get("kind") == "weapon_deck_card" and data.get("session_id") == session_id and data.get("source_id") in ["combat_deck", "reserve_deck"] and data.get("source_id") != container_id and data.get("card_uid") is String
+	return _interaction_enabled and data is Dictionary and data.get("kind") == "weapon_deck_card" and data.get("session_id") == session_id and data.get("source_id") in ["combat_deck", "reserve_deck"] and data.get("source_id") != container_id and data.get("card_uid") is String
 
 # 拖放后由窗口通知拥有者，ScrollContainer 继续负责滚轮与滚动条。
 func _drop_data(_position: Vector2, data: Variant) -> void:

@@ -9,6 +9,10 @@ const EXPEDITION_SCENE_PATH: String = "res://ExpeditionSystem/ExpeditionSystem.t
 
 var _transition_in_progress: bool = false
 
+# 供场景内临时 UI 避开应用已经提交的场景切换。
+func is_scene_transition_pending() -> bool:
+	return _transition_in_progress
+
 
 # Editor 直接运行远征也完成同一存档交接，不再留下未注入的场景。
 func _ready() -> void:
@@ -68,12 +72,15 @@ func start_expedition() -> bool:
 
 # 普通入口与 Editor 直接运行均接收同一武器的战斗容器。
 func _prepare_expedition(scene: Node) -> bool:
-	var handoff := PlayerSaveManager.get_expedition_deck()
-	if not handoff["success"]:
+	var combat_container := PlayerSaveManager.get_expedition_combat_container()
+	if combat_container == null:
 		return false
 	var coordinator := scene.get_node_or_null("ExpeditionManager")
-	if coordinator == null or not coordinator.initialize_player_deck(handoff["cards"], handoff["state"]):
+	if coordinator == null or not coordinator.initialize_player_combat_container(combat_container):
 		push_error("[GameManager] 远征准备失败：缺少有效的牌组交接接口。")
+		return false
+	if coordinator.get_player_combat_container() != combat_container:
+		push_error("[GameManager] 远征准备失败：实战容器引用与武器来源不一致。")
 		return false
 	if not PlayerSaveManager.validate_deck_handoff(coordinator.get_player_deck()):
 		return false

@@ -1,9 +1,10 @@
 ## 按 RoomData 组装单个房间的结构与敌人表现。
-## 对外提供与当前敌人绑定的场景接近锚点。
+## 上报真实玩家入室，并提供当前敌人的场景接近锚点。
 class_name BattleRoom
 extends Node3D
 
 signal extraction_requested(room: RoomData, facility: Node3D)
+signal player_entered(room: RoomData)
 
 ## 房间数据变化时对外发送的信号
 signal room_data_changed(updated_data: RoomData)
@@ -17,6 +18,8 @@ signal room_data_changed(updated_data: RoomData)
 @export var ceiling_root: Node3D
 @export var enemy_root: Node3D
 @export var encounter_approach_anchor: Node3D
+@export var room_entry_area: Area3D
+@export var room_entry_shape: CollisionShape3D
 
 @export_group("场景预制体")
 ## 实心墙体场景
@@ -33,6 +36,8 @@ signal room_data_changed(updated_data: RoomData)
 @export var extraction_facility_scene: PackedScene
 
 var _extraction_facility: Node3D
+var _entry_player: CharacterBody3D
+var _player_inside_entry := false
 
 
 # 本房间当前分配的敌人 ID (-1 表示无敌人)
@@ -44,9 +49,54 @@ var room_data: RoomData:
 	set = set_room_data
 
 func _ready() -> void:
+	set_physics_process(false)
+	if is_instance_valid(room_entry_area):
+		room_entry_area.body_entered.connect(_on_entry_body_entered)
+		room_entry_area.body_exited.connect(_on_entry_body_exited)
 	# 若 RoomSet 在 add_child 之前已赋值 room_data，进入节点树时立即构建
 	if room_data:
 		build_room()
+
+# 接收拥有者绑定的唯一玩家物理体，不通过名字或任意 CharacterBody 判定。
+func configure_entry_player(player_body: CharacterBody3D) -> void:
+	_entry_player = player_body
+	_player_inside_entry = false
+	set_physics_process(false)
+
+# 面积重叠后仍检查玩家原点，避免胶囊边缘提前揭示邻室。
+func is_player_inside_entry() -> bool:
+	if not is_assembled or not is_instance_valid(_entry_player) or not room_entry_area.overlaps_body(_entry_player):
+		return false
+	var local_player := room_entry_shape.to_local(_entry_player.global_position)
+	var half_size: Vector3 = (room_entry_shape.shape as BoxShape3D).size * 0.5
+	return absf(local_player.x) < half_size.x and absf(local_player.z) < half_size.z
+
+# 供首次物理同步后补查，已在室内时不重复通知。
+func refresh_player_room_occupancy() -> void:
+	if not is_assembled or not is_instance_valid(_entry_player):
+		return
+	set_physics_process(room_entry_area.overlaps_body(_entry_player))
+	var inside := is_player_inside_entry()
+	if inside and not _player_inside_entry:
+		_player_inside_entry = true
+		player_entered.emit(room_data)
+	else:
+		_player_inside_entry = inside
+
+# 只在玩家与触发器重叠期间跟踪是否真正跨过房间内侧边界。
+func _physics_process(_delta: float) -> void:
+	refresh_player_room_occupancy()
+
+# 其他物理体不会启动检测或产生探索记录。
+func _on_entry_body_entered(body: Node3D) -> void:
+	if body == _entry_player:
+		refresh_player_room_occupancy()
+
+# 离开后允许下次真实重入再次通知当前位置。
+func _on_entry_body_exited(body: Node3D) -> void:
+	if body == _entry_player:
+		_player_inside_entry = false
+		set_physics_process(false)
 
 ## 接收 RoomSet 传递数据的入口
 func set_room_data(new_data: RoomData) -> void:
@@ -60,6 +110,9 @@ func set_room_data(new_data: RoomData) -> void:
 func _validate_assembly() -> bool:
 	if room_data == null:
 		push_error("BattleRoom ： 房间组装失败：缺少 RoomData。")
+		return false
+	if not is_instance_valid(room_entry_area) or not is_instance_valid(room_entry_shape) or not room_entry_shape.shape is BoxShape3D:
+		push_error("[BattleRoom] 房间组装失败：缺少有效的入室检测区域或 BoxShape3D。")
 		return false
 	if not is_instance_valid(north_wall) or not is_instance_valid(east_wall) or not is_instance_valid(south_wall) or not is_instance_valid(west_wall):
 		push_error("BattleRoom ： 房间组装失败：缺少墙体挂载节点。")
@@ -80,6 +133,7 @@ func _validate_assembly() -> bool:
 ## 根据 room_data 数据组装房间场景，并保存可供 RoomSet 检查的结果。
 func build_room() -> bool:
 	is_assembled = false
+	_player_inside_entry = false
 	if not _validate_assembly():
 		_clear_partial_assembly()
 		return false
@@ -182,6 +236,8 @@ func _mount_scene(parent_node: Node3D, scene_to_instantiate: PackedScene, compon
 
 # 装配中途失败时移除已挂载的结构，不保留半成品。
 func _clear_partial_assembly() -> void:
+	set_physics_process(false)
+	_player_inside_entry = false
 	_clear_extraction_facility()
 	for mount in [north_wall, east_wall, south_wall, west_wall, floor_root, ceiling_root]:
 		if is_instance_valid(mount):

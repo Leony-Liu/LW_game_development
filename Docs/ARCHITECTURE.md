@@ -75,6 +75,9 @@ Expedition‌System（独立保存场景，Node）
 │  └─ WorldGenerator
 ├─ BattleSystem [BattleManager]
 └─ UISystem（CanvasLayer）
+   ├─ VictoryPanel / GameOverPanel
+   ├─ DeckEditor（共享 WeaponDeckEditor.tscn，默认隐藏）
+   └─ ExpeditionMap（独立 Control 场景，运行时 _ready 隐藏）
 ```
 
 ### Autoload
@@ -105,7 +108,7 @@ Expedition‌System（独立保存场景，Node）
 | `WorldSystem` | `ExpeditionSystem/WorldSystem/` | 场景子树 | 地图、房间、门与世界状态 |
 | `PlayerVisual` | `ExpeditionSystem/WorldSystem/PlayerVisual/` | 子场景 | 玩家控制、相机与遇敌接近 |
 | `BattleSystem` | `ExpeditionSystem/BattleSystem/` | 常驻子场景 | 单场战斗装配与协调 |
-| `UISystem` | `ExpeditionSystem/ExpeditionSystem.tscn` | `CanvasLayer` | 胜利与失败结果面板及操作信号 |
+| `UISystem` | `ExpeditionSystem/ExpeditionSystem.tscn` | `CanvasLayer` | 结果面板与共享牌组窗口的组合；各自向 ExpeditionManager 上报意图 |
 
 ## 4. Application 系统
 
@@ -129,6 +132,10 @@ Base 仍是组合根：保留 Facility/testentrance 与 Facility/testcardeditor 
 
 BaseUI.tscn（CanvasLayer）组合唯一提示 Label、ConfirmationDialog 和独立 WeaponDeckEditor.tscn（Control）。Base.gd 持有唯一模态状态、打开前的模式/鼠标状态和编辑武器引用；PlayerVisualManager.change_mode("modal") 统一关闭移动/视角并释放鼠标，取消、关闭或 Esc 后恢复。UI 只上报意图，确认失败保留模态供取消/重试；E 在打开前被消费，不用于确认按钮。`[SOURCE]`
 
+WeaponDeckEditor 只有同一场景和卡面工厂，提供 `open_for_edit(WeaponInstance)`、兼容入口 `open_editor(WeaponInstance)`、`open_combat_view(Array[CardInstance])` 和 `close_editor()`。EDIT 保留双牌组编辑；COMBAT_VIEW 只隐藏 ReservePanel，保留 CombatPanel 的场景布局，使用原 Card.tscn 展示传入的实战卡牌。卡片和滚动区按实例禁用拖放/右键，编辑器出口再次验证模式与会话；只读状态不向 Base 发出转移请求，滚轮仍通过适配层的 PASS 传播。每次打开重建卡片，关闭清卡并重置为 EDIT，不触发保存。独立场景根节点可见，BaseUI 与远征 UISystem 的实例覆盖为隐藏。`[SOURCE]`
+
+Base 在 `_input()` 消费 `toggle_weapon_deck_viewer`（物理 Tab），无模态时沿原 PlayerSaveManager 入口读取当前武器的 combat_deck，并复用 BaseUI 中已有窗口；Tab / ui_cancel / 关闭按钮结束只读模态。EDIT 和远征确认期间 Tab 不切换窗口；原 E 交互与 Base 转移/容量校验保持不变。`[SOURCE]`
+
 编辑窗口接收当前 WeaponInstance，只读渲染两个容器。WeaponDeckCard.tscn 仅适配牌组输入和等比缩放，内部实例化既有 Card.tscn；CardLogic.presentation_only 禁用战斗输入与抽牌隐藏，display_instance(CardInstance) 直接绑定真实名称、类型、费用和描述，不创建 RuntimeCard。缺模板时显示诊断并保留真实卡牌位置，不生成替代内容。实战用四列 GridContainer + 纵向 ScrollContainer；备用用单行 HBoxContainer + 横向 ScrollContainer，滚轮由指针所在区域原生处理。`[SOURCE]`
 
 DeckLayers 内的 CombatPanel 位于上方中间、ReservePanel 位于下方较宽区域，两者独立锚定并分开排列；实战仍为可调列数的纵向网格，备用仍为横向单行。两区卡面按模板 240:360 比例统一缩放，以 preferred_card_scale 为首选值，并受实际滚动区高度和网格宽度限制；CombatPadding 仅保留原生内边距，不再为覆盖区追加底部余量。面板及按钮预留忽略输入的空纹理槽；静态卡面内部仍忽略鼠标，仅适配层处理右键和拖放。Header/CloseButton 位于 DeckLayers 之外。Figma 接入及编辑入口见 Docs/UI_WORKFLOW.md；最终视觉与手感仍待用户人工验收。`[SOURCE]`
@@ -137,7 +144,7 @@ WeaponDeckCard / WeaponDeckRegion 只发右键或拖放意图；载荷含会话 
 
 ### `GameManager`
 
-`GameManager` 使用既有 Autoload 承担应用流程。先加载并实例化目标场景，进入远征前调用 initialize_player_deck() 注入原对象，再检查与持久来源的数量、顺序、对象及 UID。进入远征保存 active=true，死亡确认保存 active=false；保存成功才调用 SceneTree.change_scene_to_node()，原生切换失败时保存回原标记。若回滚写入也失败，会明确报错停止流程，不能声称已恢复磁盘状态。`[SOURCE]`
+`GameManager` 使用既有 Autoload 承担应用流程。先加载并实例化目标场景，进入远征前经 PlayerSaveManager.get_expedition_combat_container() 取得当前武器原有的实战 CardContainer，调用 initialize_player_combat_container() 绑定同一引用，再检查容器对象身份以及快照的数量、顺序、卡牌对象及 UID。进入远征保存 active=true，死亡确认保存 active=false；保存成功才调用 SceneTree.change_scene_to_node()，原生切换失败时保存回原标记。若回滚写入也失败，会明确报错停止流程，不能声称已恢复磁盘状态。`[SOURCE]`
 
 InputMap.return_to_base（物理 L）仅供开发调试：ExpeditionManager 的输入入口和 can_return_to_base()、GameManager.return_to_base() 均要求 OS.is_debug_build()，还须通过当前场景、探索、终局/战斗/结果和应用转换检查。调试返回明确不执行撤离奖励结算；仍与死亡确认复用 _return_to_base() → _save_and_transition(Base, false)。死亡确认走独立监听和私有返回路径，不受 debug 限制。保存失败保留远征、恢复内存标记，成功后仍保留现有武器与牌组；设计第 16 节的死亡资产损失尚未实现，本次不改变它。`[SOURCE]`
 
@@ -203,7 +210,9 @@ WorldManager.world_state_changed(previous_state, current_state)
 
 ### `ExpeditionManager`
 
-ExpeditionManager 接收 World 的遭遇请求，使用已注入的同批 CardInstance 和场景配置创建的 EntityData 启动 Battle，再交还启动结果。不会为每次遭遇重建持久卡牌。旧直接运行远征没有 initialize_player_deck，开门事件到协调器后被 _deck_initialized 门闩拒绝；现由 GameManager 补全直接入口。空战斗牌组允许启动；缺 CardData 条目在 BattleManager._convert_deck_to_runtime() 跳过，保留可用卡的顺序和 RuntimeCard.source_instance_uid，只读取 combat_deck。缺 EnemyData 时 EntityManager 省略敌人及 AI，缺行动引用则跳过，无可用行动不排期；必需场景和非法行动数值仍明确失败。World 保留探索事实，Battle 保留战斗状态；协调器只持有牌组引用快照、启动门闩和待确认结果标志。`[SOURCE]`
+ExpeditionManager 接收 World 的遭遇请求，每次通过 get_player_deck() 从已绑定的权威 Combat CardContainer 取得新数组快照，并按场景配置创建 EntityData 启动 Battle，再交还启动结果。WeaponInstance 继续拥有容器，ExpeditionManager 只持有同一对象引用，不接收武器或备用容器、不创建或替换容器、不缓存永久卡牌数组；get_player_combat_container() 只供交接方核验身份。容器后续成员变化会出现在下一次快照中，卡牌仍是原 CardInstance。GameManager 为正常进入及 Editor 直接入口完成同一容器交接。空战斗牌组允许启动；缺 CardData 条目在 BattleManager._convert_deck_to_runtime() 跳过，保留可用卡的顺序和 RuntimeCard.source_instance_uid。缺 EnemyData 时 EntityManager 省略敌人及 AI，缺行动引用则跳过，无可用行动不排期；必需场景和非法行动数值仍明确失败。World 保留探索事实，Battle 保留战斗状态；协调器持有容器引用、启动门闩和待确认结果标志。`[SOURCE]`
+
+旧 initialize_player_deck(cards, content_state) 数组初始化入口的唯一源码调用方已迁移。PlayerSaveManager.get_expedition_deck() 和 validate_deck_handoff() 保留快照兼容接口；前者现在从同一容器生成快照。容器交接检查 combat_deck 身份、20 张容量、卡牌所属容器及 UID，缺模板的持久条目仍可保留。本轮只调整交接，不增加编辑业务或保存操作，存档格式、死亡及撤离路径不变。`[SOURCE]`
 
 | 项目 | 当前实现 |
 | --- | --- |
@@ -247,7 +256,17 @@ Blueprint 当前配置房间数/浮动、Boss 配额、遇敌/精英概率和类
 
 `report_encounter()` 的 `true` 只表示有效通知已发出，不表示 Battle 已接受。World 保留唯一 pending 请求，直到协调器调用 `resolve_encounter_request()`；不读取监听者的同步处理结果。没有消费者时明确返回 `false`，不留下 pending，也不切换 World 状态。`[SOURCE]`
 
-当前“进入房间”的事实仍在门打开动画完成后产生：`Door.open_door()` 记录本次交互开始时的玩家世界位置，`WorldManager._on_door_opened()` 通过 `Door.get_opening_player_position()` 使用该位置推算门对面的房间，并立即更新 `current_room_coords`，避免奔跑时已越过门面导致方向反转。无交互者的程序化开门或非 Door 的旧 Node3D 通知保持按当前玩家位置推算的兼容行为。`door_opened(door)` 及其动画完成时机不变，并非新增玩家穿越门面的检测。`entry_direction` 在生成房间时赋值，当前走门不刷新；`is_player_inside/nearby` 也没有活动调用方同步。它们不能直接充当已实现的 Room Entry Checkpoint。`[SOURCE]`
+开门/遭遇目标仍在门打开动画完成后预测：`Door.open_door()` 记录交互开始时的玩家位置，`WorldManager._on_door_opened()` 沿原路径推算门对面的房间并更新 `current_room_coords`，避免奔跑穿门后的方向反转。它继续服务遭遇校验、准备、结果/反馈和撤离上下文；本次没有将其改成物理占用坐标，也没有改变开门通知时机。`entry_direction` 与 `is_player_inside/nearby` 沿用原行为，不作为地图发现或 checkpoint。`[SOURCE]`
+
+### 真实入室与发现地图
+
+`BattleRoom.tscn/RoomEntryArea` 是只监测的 Area3D。当前墙挂载位在水平 ±4.95 米，墙碰撞厚 0.1 米，故触发器水平范围为内侧 ±4.9 米（9.8×9.8），竖向 0.1–2.9 米；Inspector 可调整检测形状。World 将现有 `player_visual.player` 向 RoomSet 和各 BattleRoom 显式绑定。只有该物理体的重叠会启动检测，并继续检查玩家原点是否进入内侧水平范围，避免胶囊擦边就提前揭示。玩家重叠期间才运行检测；离开后停用，重入可再次报告位置。通知沿 `BattleRoom.player_entered(RoomData)` → RoomSet 校验当前实例并中继 `player_entered_room(Vector2)` → `WorldManager.register_player_entered_room()`；World 再核验当前真实占用。`[SOURCE]`
+
+World 单独持有 `explored_room_coords: Array[Vector2]`、`player_room_coords`、`initial_room_coords`；未占用坐标用 Vector2.INF 表示。首次入室添加一次发现，返回旧室只移动标记。初始化/失败会清空记录并发出空快照；初始房不因生成而发现，初次物理同步后用当前房间实例补查占用，旧地图延迟检查和旧房间通知均不能污染新图。不修改 RoomData 或新增存档。`[SOURCE]`
+
+`get_expedition_map_snapshot()` 只含发现坐标副本、实际玩家/初始坐标和生成器原有 ROOM_SIZE；经 `expedition_map_updated(snapshot)` → ExpeditionManager → `ExpeditionMap.display_map()`。UISystem 实例化独立 `ExpeditionMap.tscn`，根绘制脚本只呈现快照，沿原 X/Z→2D X/Y 投影统一居中、等比缩放，无未知占位/连接线。根节点的 Map Colors 独立导出白/绿/金黄颜色；菱形先画、较小玩家圆后画。`@tool` 仅提供隔离的单位样例预览，运行时 _ready 隐藏，不将预览当地图数据。`[SOURCE]`
+
+ExpeditionManager 独占物理 M 输入及地图显隐，复用活动场景、ACTIVE、探索/遭遇、战斗启动/激活、结果和应用转换门闩，与 Tab 牌组窗口互斥；Esc 不关闭地图。World 的 `begin_expedition_map()` / `end_expedition_map()` 调用 PlayerVisualManager 的 `suspend_exploration_input()` / `resume_exploration_input()`，只停用 PlayerController / HeadController 并释放鼠标，不调用临时 change_mode，也不暂停 SceneTree。手动 M 关闭仍有效的探索时恢复输入和正常鼠标捕获；遭遇、World 离开探索、战斗、结果/终局或场景退出自动关闭，不激活过时探索控制。正式模式切换会使输入挂起标志失效。`[SOURCE]`
 
 ### `PlayerVisualSystem`
 
@@ -270,9 +289,13 @@ Blueprint 当前配置房间数/浮动、Boss 配额、遇敌/精英概率和类
 
 `UISystem` 显示远征的胜利或失败结果，并把玩家确认动作发给 `ExpeditionManager`。它持有面板显示状态与操作信号；结果由 `BattleManager` 判定，清敌与恢复探索由 `WorldManager` 执行。`[SOURCE]`
 
+同一 CanvasLayer 另含共享 `res://BaseSystem/UI/WeaponDeckEditor.tscn` 的隐藏实例，导出给 ExpeditionManager；结果 UI 脚本不管理牌组窗口。ExpeditionManager 在 `_input()` 消费 Tab，仅在活动场景、已交接牌组、ACTIVE、World 的无冲突 EXPLORE 且无战斗启动/激活、待确认结果或应用场景切换时打开 COMBAT_VIEW。输入来自 `get_player_deck() -> Array[CardInstance]` 的顺序副本，仍引用原持久实战卡牌，不携带武器/备用容器或构造 RuntimeCard。`[SOURCE]`
+
+ExpeditionManager 通过 `WorldManager.begin_exploration_modal()`、`is_exploration_modal_valid()`、`end_exploration_modal(restore_controls)` 协调控制；World 保存原模式/鼠标状态并向 PlayerVisualManager 下发 `change_mode("modal")`，不暂停 SceneTree。仅仍有效的探索内手动关闭恢复旧控制。遭遇、战斗开始/结果、离开 EXPLORE、撤离/终局、应用场景切换或场景退出时自动关闭，不回写旧探索模式；每帧资格检查覆盖状态标志变化。若窗口被遭遇打断而请求随后遭拒，在 pending 成功释放且仍可探索时由 World 重新进入探索，避免残留控制锁。`GameManager.is_scene_transition_pending()` 只读暴露既有转换门闩。`[SOURCE]`
+
 | 项目 | 当前实现 |
 | --- | --- |
-| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`；`ExpeditionResultUI.gd`、`VictoryPanel`、`GameOverPanel` `[LIVE]` |
+| 位置与组成 | `ExpeditionSystem/ExpeditionSystem.tscn/UISystem`；`ExpeditionResultUI.gd`、`VictoryPanel`、`GameOverPanel`、共享 `DeckEditor` 实例 `[LIVE]` |
 | 输入、输出与数据 | 接收结果显隐请求；发出 `victory_confirmed`、`restart_requested`，不修改 World 或 Battle `[SOURCE]` |
 
 ExpeditionManager 接收 BattleManager.battle_ended。胜利确认仍清敌并恢复探索；失败按钮保留 RestartButton/restart_requested 接线，标签改为“返回基地”，由协调器发出 death_confirmed，GameManager 保存容器并清恢复标记后进入 Base。失败时保留结果面板供重试，不再重新加载远征。`[SOURCE]`
@@ -462,7 +485,7 @@ Battle 启动参数 external_deck 来自已注入的持久实例，external_play
 
 | 方向 | 接口与重要参数 | 当前传递 |
 | --- | --- | --- |
-| `GameManager → PlayerSaveManager / ExpeditionManager` | get_expedition_deck()、initialize_player_deck(cards, content_state)、validate_deck_handoff() | 原有有序 CardInstance 对象，按数量/顺序/UID 检查 `[SOURCE]` |
+| `GameManager → PlayerSaveManager / ExpeditionManager` | get_expedition_combat_container()、initialize_player_combat_container(container)、get_player_combat_container()、validate_deck_handoff() | 当前武器原有 Combat CardContainer 引用；核验对象身份，快照继续检查数量/顺序/UID `[SOURCE]` |
 | `ExpeditionManager → GameManager` | death_confirmed 信号 | 仅通知死亡确认；应用拥有者决定保存与返回 Base `[SOURCE]` |
 | `ExpeditionManager → BattleManager` | `start_battle(external_deck: Array[CardInstance], external_player_data: EntityData, enemy_id: int) -> bool` | 战斗启动输入和成败结果 `[SOURCE]` |
 | `BattleManager → EntityManager / CardManager` | `EntityManager.can_initialize(player_data: EntityData, enemy_id: int)` / `initialize(player_data: EntityData, enemy_id: int)`；`CardManager.can_initialize(player_deck: Array[RuntimeCard])` / `initialize(player_deck: Array[RuntimeCard])` | 玩家实体输入与运行时牌组 `[SOURCE]` |

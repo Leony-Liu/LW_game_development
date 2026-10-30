@@ -34,6 +34,12 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wmcl5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lwbiy"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [resource]
 default_font = ExtResource("1_xvh6t")
 default_font_size = 22
@@ -50,3 +56,7 @@ Button/styles/focus = SubResource("StyleBoxFlat_xvh6t")
 Button/styles/hover = SubResource("StyleBoxFlat_d78h3")
 Button/styles/normal = SubResource("StyleBoxFlat_hby33")
 Button/styles/pressed = SubResource("StyleBoxFlat_skcb4")
+ScrollContainer/colors/scroll_hint_horizontal_color = Color(0, 0, 0, 0)
+ScrollContainer/colors/scroll_hint_vertical_color = Color(0, 0, 0, 0)
+ScrollContainer/styles/focus = SubResource("StyleBoxFlat_wmcl5")
+ScrollContainer/styles/panel = SubResource("StyleBoxFlat_lwbiy")

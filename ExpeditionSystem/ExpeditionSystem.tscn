@@ -11,14 +11,18 @@
 [ext_resource type="PackedScene" uid="uid://ct4htxn1thykf" path="res://ExpeditionSystem/BattleSystem/BattleSystem.tscn" id="3_h5q8n"]
 [ext_resource type="PackedScene" uid="uid://c3jaitphg2byh" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Door.tscn" id="4_vrybq"]
 [ext_resource type="Script" uid="uid://7sgfq2eckdfg" path="res://ExpeditionSystem/UISystem/Scripts/ExpeditionResultUI.gd" id="5_result_ui"]
+[ext_resource type="PackedScene" path="res://BaseSystem/UI/WeaponDeckEditor.tscn" id="6_deck_editor"]
+[ext_resource type="PackedScene" path="res://ExpeditionSystem/UISystem/ExpeditionMap.tscn" id="7_map"]
 
 [node name="Expedition‌System" type="Node" unique_id=692706964]
 
-[node name="ExpeditionManager" type="Node" parent="." unique_id=1711523906 node_paths=PackedStringArray("world_manager", "battle_manager", "result_ui")]
+[node name="ExpeditionManager" type="Node" parent="." unique_id=1711523906 node_paths=PackedStringArray("world_manager", "battle_manager", "result_ui", "weapon_deck_editor", "expedition_map")]
 script = ExtResource("1_2pn7p")
 world_manager = NodePath("../WorldSystem")
 battle_manager = NodePath("../BattleSystem")
 result_ui = NodePath("../UISystem")
+weapon_deck_editor = NodePath("../UISystem/DeckEditor")
+expedition_map = NodePath("../UISystem/ExpeditionMap")
 player_attributes_configured = true
 player_entity_id = "player"
 player_entity_name = "player"
@@ -141,6 +145,11 @@ horizontal_alignment = 1
 [node name="RestartButton" type="Button" parent="UISystem/GameOverPanel/CenterContainer/PanelContainer/VBoxContainer" unique_id=1096384164]
 layout_mode = 2
 text = "返回基地"
+
+[node name="DeckEditor" parent="UISystem" instance=ExtResource("6_deck_editor")]
+visible = false
+
+[node name="ExpeditionMap" parent="UISystem" instance=ExtResource("7_map")]
 
 [editable path="WorldSystem/PlayerVisualRoot/PlayerVisual"]
 [editable path="BattleSystem"]

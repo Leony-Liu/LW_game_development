@@ -8,7 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://chhps0rjfreou" path="res://ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn" id="5_gf0ju"]
 [ext_resource type="PackedScene" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/ExtractionFacility.tscn" id="6_extraction"]
 
-[node name="BattleRoom" type="Node3D" unique_id=1940335011 node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root", "encounter_approach_anchor", "extraction_facility_mount")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_room_entry"]
+size = Vector3(9.8, 2.8, 9.8)
+
+[node name="BattleRoom" type="Node3D" unique_id=1940335011 node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root", "encounter_approach_anchor", "room_entry_area", "room_entry_shape", "extraction_facility_mount")]
 script = ExtResource("1_byiho")
 north_wall = NodePath("Field/NorthWall")
 east_wall = NodePath("Field/EastWall")
@@ -18,12 +21,23 @@ floor_root = NodePath("Field/FloorRoot")
 ceiling_root = NodePath("Field/CeilingRoot")
 enemy_root = NodePath("EnemyRoot")
 encounter_approach_anchor = NodePath("EnemyRoot/EncounterApproachAnchor")
+room_entry_area = NodePath("RoomEntryArea")
+room_entry_shape = NodePath("RoomEntryArea/CollisionShape3D")
 wall_scene = ExtResource("2_afubj")
 door_wall_scene = ExtResource("1_8pu1m")
 floor_scene = ExtResource("1_o841m")
 ceiling_scene = ExtResource("4_nm0wd")
 extraction_facility_mount = NodePath("ExtractionFacilityMount")
 extraction_facility_scene = ExtResource("6_extraction")
+
+[node name="RoomEntryArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RoomEntryArea"]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("BoxShape3D_room_entry")
 
 [node name="ExtractionFacilityMount" type="Node3D" parent="."]
 position = Vector3(-2.8, 0, -2.8)

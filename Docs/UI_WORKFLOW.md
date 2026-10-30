@@ -44,7 +44,7 @@ HUD 独立场景原先保存为隐藏状态，编辑时可临时显示根节点�
 | `CardSystem.tscn` | `HandLayout/PanelArt` |
 | `WeaponDeckEditor.tscn` | `Window/PanelArt`、`Window/Content/DeckLayers/{CombatPanel,ReservePanel}/PanelArt`、`Window/Content/Header/CloseButton/FrameArt` |
 
-这些槽当前 `texture = null`，`expand_mode = IGNORE_SIZE`，`mouse_filter = IGNORE`；不添加图片也能运行。面板槽由所属 Container 填满内容范围，其余槽随父节点 anchors 填满；默认 stretch 为 Scale，保持比例的图标可在 Inspector 改为 Keep Aspect Centered。
+这些槽使用 `expand_mode = IGNORE_SIZE`、`mouse_filter = IGNORE`；多数仍为 `texture = null`，`CombatPanel/PanelArt` 已配置 CanvasTexture，具体内容以当前场景为准，保留已有配置。面板槽由所属 Container 填满内容范围，其余槽随父节点 anchors 填满；默认 stretch 为 Scale，保持比例的图标可在 Inspector 改为 Keep Aspect Centered。
 
 用户导入素材后直接给槽的 `Texture` 赋值，不替换功能节点、不新增按钮回调。`FrameArt` 是覆盖层，使用中间透明的边框素材，避免盖住已有数值或按钮文字；完整按钮皮肤应配置原 Button 的 Theme Overrides / Styles（含各状态），血条背景和填充应配置 ProgressBar 的 background/fill StyleBox，需拉伸边框时使用 `StyleBoxTexture` 的 margin。当前 StyleBoxFlat 是可调整的原生占位样式，接入正式素材时按需替换。行动图标从隐藏模板复制，其 `IconArt` 会随模板进入动态实例。
 
@@ -55,6 +55,14 @@ HUD 独立场景原先保存为隐藏状态，编辑时可临时显示根节点�
 BattleManager 汇总显示快照；CombatHUD 仅显示并发出抽牌、弃牌、推进意图。CardManager 管理战斗牌堆，PlayerHandDeck 与 CardLogic 保留现有输入、锁定、悬停和离场回报。手牌数量来自实际状态，不按目标稿固定五张。
 
 WeaponInstance / CardContainer / CardInstance 持有武器和有序牌组。WeaponDeckEditor 从当前模型创建可重复卡片；WeaponDeckCard 复用 Card.tscn 的 `presentation_only` 和 `display_instance()`，不创建替代 RuntimeCard。WeaponDeckRegion 与适配层只转发意图，Base 校验会话后的源牌和容量，并移动同一个实例。素材、布局列数、可见数量不能改变容量、UID、修饰器、顺序、保存时机或模态控制。
+
+WeaponDeckEditor 独立场景根节点保持可见，便于直接编辑；BaseUI 和远征 UISystem 中的实例默认隐藏，由运行时拥有者显式打开/关闭。EDIT 展示原双牌组；Tab 的 COMBAT_VIEW 复用同一场景和卡面，只隐藏 ReservePanel，不改变两个面板的 anchors/offsets。只读模式按实例关闭编辑输入，保留卡片上的原生滚轮传播；不要为只读模式复制布局、扩张 CombatPanel 或禁用 ScrollContainer。
+
+## 远征发现地图
+
+`ExpeditionSystem/UISystem/ExpeditionMap.tscn` 是独立全屏 Control，实例在 Expedition 的 UISystem CanvasLayer。根节点 `Map Colors` 调整房间框、玩家圆和初始菱形颜色；`Map Layout` 调整首选方框尺寸、间距、内边距和线宽。背景为原生 ColorRect。绘制层只接收已发现坐标，按原网格位置等比布局，不创建逐房场景或显示未知占位/连接线。
+
+独立场景根节点保持可见；其纯表现 `@tool` 脚本用隔离单位样例提供编辑预览，无 World/Expedition 依赖。运行时 _ready 自动隐藏，由 ExpeditionManager 的 M 输入控制显隐，预览样例不进入运行时快照。菱形大于圆且先画，玩家位于初始房时仍可辨认两个标记。
 
 ## 验证与交付
 

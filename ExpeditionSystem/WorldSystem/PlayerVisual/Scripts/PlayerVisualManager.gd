@@ -28,6 +28,29 @@ signal encounter_approach_finished(transition_id: int, succeeded: bool)
 
 var current_mode: String = "explore"
 var _active_approach_id: int = -1
+var _exploration_input_suspended := false
+
+# 地图只暂时停用输入，不切换模式、相机、反馈或接近生命周期。
+func suspend_exploration_input() -> bool:
+	if not _validate_required_dependencies() or current_mode != "explore" or _exploration_input_suspended or not player.is_active:
+		return false
+	_exploration_input_suspended = true
+	_set_exploration_controls_active(false)
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	return true
+
+# 仅释放本次输入挂起；世界转换后不重新激活探索。
+func resume_exploration_input(restore_controls: bool) -> void:
+	if not _exploration_input_suspended:
+		return
+	_exploration_input_suspended = false
+	if restore_controls and current_mode == "explore" and _validate_required_dependencies():
+		_set_exploration_controls_active(true)
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+# World 通过此查询校验临时输入锁的归属。
+func is_exploration_input_suspended() -> bool:
+	return _exploration_input_suspended
 
 # 将真实头部俯仰角转交给提灯表现，不读取当前活动相机。
 func _process(_delta: float) -> void:
@@ -104,6 +127,7 @@ func change_mode(mode: String) -> bool:
 			return false
 
 	current_mode = next_mode
+	_exploration_input_suspended = false
 	return true
 
 
@@ -122,6 +146,7 @@ func cancel_damage_feedback() -> void:
 
 # World 初始化失败时停用探索输入；下次进入 explore 会按原路径恢复。
 func suspend_after_world_initialization_failure() -> void:
+	_exploration_input_suspended = false
 	cancel_encounter_approach()
 	if is_instance_valid(player):
 		player.set_active(false)
