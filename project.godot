@@ -74,6 +74,7 @@ folder_colors={
 "res://JourneySystem/RoomSystem/ScenesAssets/": "green",
 "res://JourneySystem/RoomSystem/Scripts/": "yellow",
 "res://JourneySystem/SearchSystem/SceneAssets/": "teal",
+"res://JourneySystem/SearchSystem/Script/": "yellow",
 "res://JourneySystem/UI/Scripts/": "yellow",
 "res://Localization/": "pink"
 }

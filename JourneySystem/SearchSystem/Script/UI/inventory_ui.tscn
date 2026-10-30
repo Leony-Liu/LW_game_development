@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://cyi0fqi0624qh"]
 
+[ext_resource type="Texture2D" uid="uid://da4then3rrix0" path="res://icon.svg" id="1_4mxhv"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2hl0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rb8fw"]
@@ -13,11 +15,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemList" type="ItemList" parent="." unique_id=1713949117]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="Panel2" type="Panel" parent="." unique_id=35223809]
 layout_mode = 0
 offset_left = 96.0
@@ -25,6 +22,17 @@ offset_top = 34.0
 offset_right = 799.0
 offset_bottom = 1020.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_h2hl0")
+
+[node name="ItemList" type="ItemList" parent="." unique_id=1713949117]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 59.0
+offset_right = 770.0
+offset_bottom = 993.0
+item_count = 1
+icon_scale = 0.4
+item_0/text = "Apple"
+item_0/icon = ExtResource("1_4mxhv")
 
 [node name="Label" type="Label" parent="." unique_id=394507612]
 layout_mode = 0

@@ -1,1 +1,2 @@
 ID,ItemName,ItemType,Rarity,Weight,IconPath,Description
+1,苹果,Consumable,1,10,res://icon.svg,一个新鲜的苹果，食用后恢复少量生命值

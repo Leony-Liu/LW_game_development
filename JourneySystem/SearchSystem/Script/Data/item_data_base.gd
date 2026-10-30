@@ -49,7 +49,7 @@ func load_csv(path: String):
 		var item := ItemData.new(id,item_name,item_type,rarity,weight,icon,description)
 		item_list.append(item)
 		
-		file.close()
+	file.close()
 	pass
 
 
