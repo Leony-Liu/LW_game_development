@@ -1,8 +1,12 @@
 [gd_scene format=3 uid="uid://cyi0fqi0624qh"]
 
+[ext_resource type="Texture2D" uid="uid://dj3abyqj4rrqj" path="res://Arts/INDUSTRIAL — Grey, Signal Blue & Orange.png" id="1_0pk5c"]
 [ext_resource type="Texture2D" uid="uid://da4then3rrix0" path="res://icon.svg" id="1_4mxhv"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2hl0"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_co7rm"]
+texture = ExtResource("1_0pk5c")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kqmvr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rb8fw"]
 font_size = 60
@@ -21,14 +25,17 @@ offset_left = 96.0
 offset_top = 34.0
 offset_right = 799.0
 offset_bottom = 1020.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_h2hl0")
+theme_override_styles/panel = SubResource("StyleBoxTexture_co7rm")
 
 [node name="ItemList" type="ItemList" parent="." unique_id=1713949117]
 layout_mode = 0
-offset_left = 125.0
-offset_top = 59.0
-offset_right = 770.0
-offset_bottom = 993.0
+offset_left = 191.0
+offset_top = 271.0
+offset_right = 704.0
+offset_bottom = 884.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 56
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kqmvr")
 item_count = 1
 icon_scale = 0.4
 item_0/text = "Apple"
@@ -36,10 +43,10 @@ item_0/icon = ExtResource("1_4mxhv")
 
 [node name="Label" type="Label" parent="." unique_id=394507612]
 layout_mode = 0
-offset_left = 289.0
-offset_top = 497.0
-offset_right = 614.0
-offset_bottom = 557.0
+offset_left = 266.0
+offset_top = 148.0
+offset_right = 596.0
+offset_bottom = 208.0
 text = "InventoryUI"
 label_settings = SubResource("LabelSettings_rb8fw")
 horizontal_alignment = 1

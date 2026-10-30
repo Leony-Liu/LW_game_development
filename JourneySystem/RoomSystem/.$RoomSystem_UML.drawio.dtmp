@@ -1,0 +1,195 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram name="RoomSystem 类图" id="journey-room-system">
+    <mxGraphModel dx="2431" dy="1469" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MapManager" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=54;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);fontSize=13;" value="MapManager&#xa;（地图管理器，继承 Node）" vertex="1">
+          <mxGeometry height="742" width="600" x="620" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_0" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+PackedScene player_scene 玩家预制体" vertex="1">
+          <mxGeometry height="34" width="600" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_1" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+const int TARGET_ROOM_COUNT = 15 最大房间数量" vertex="1">
+          <mxGeometry height="34" width="600" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_2" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+PackedScene room_scene 房间预制体" vertex="1">
+          <mxGeometry height="34" width="600" y="122" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_3" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+Node3D room_container 存放生成房间的节点" vertex="1">
+          <mxGeometry height="34" width="600" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_4" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+Label room_id 显示当前房间编号的 UI" vertex="1">
+          <mxGeometry height="34" width="600" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_5" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+Dictionary rooms 保存房间 ID 与 RoomData 的对应关系" vertex="1">
+          <mxGeometry height="34" width="600" y="224" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_6" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int next_room_id 下一个房间编号" vertex="1">
+          <mxGeometry height="34" width="600" y="258" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_7" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int current_room_id 当前所在房间编号" vertex="1">
+          <mxGeometry height="34" width="600" y="292" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_8" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int start_room_id 初始房间编号" vertex="1">
+          <mxGeometry height="34" width="600" y="326" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_line" parent="MapManager" style="line;strokeWidth=1;fillColor=none;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="600" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_9" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+_ready() 生成地图、建立连接并延迟生成玩家" vertex="1">
+          <mxGeometry height="34" width="600" y="368" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_10" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+generate_map() 随机生成相邻房间直至目标数量" vertex="1">
+          <mxGeometry height="34" width="600" y="402" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_11" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+create_room(pos) 创建房间数据并分配编号" vertex="1">
+          <mxGeometry height="34" width="600" y="436" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_12" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+get_room_by_position(pos) 按网格坐标查找房间数据" vertex="1">
+          <mxGeometry height="34" width="600" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_13" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+connect_rooms() 记录上下左右相邻房间的编号" vertex="1">
+          <mxGeometry height="34" width="600" y="504" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_14" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+build_map() 实例化房间、设置坐标并配置门" vertex="1">
+          <mxGeometry height="34" width="600" y="538" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_15" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+set_room_doors(room, room_data) 配置门的目标并移除无连接的门" vertex="1">
+          <mxGeometry height="34" width="600" y="572" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_16" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+enter_door(door) 检查目标编号并触发房间切换" vertex="1">
+          <mxGeometry height="34" width="600" y="606" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_17" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+change_room(target_room_id, enter_side) 传送玩家并更新 UI" vertex="1">
+          <mxGeometry height="34" width="600" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_18" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+spawn_player() 实例化玩家并放置在初始房间" vertex="1">
+          <mxGeometry height="34" width="600" y="674" as="geometry" />
+        </mxCell>
+        <mxCell id="MapManager_19" parent="MapManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+find_room_instance(room_id): Room 按编号查找房间实例" vertex="1">
+          <mxGeometry height="34" width="600" y="708" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=54;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);fontSize=13;" value="RoomData&#xa;（房间数据，继承 Node）" vertex="1">
+          <mxGeometry height="300" width="420" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_0" parent="RoomData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int id 房间唯一编号" vertex="1">
+          <mxGeometry height="34" width="420" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_1" parent="RoomData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+Vector2i grid_pos 房间的网格坐标" vertex="1">
+          <mxGeometry height="34" width="420" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_2" parent="RoomData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+String room_type = &quot;normal&quot; 房间类型" vertex="1">
+          <mxGeometry height="34" width="420" y="122" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_3" parent="RoomData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int left_room = -1 左侧相邻房间编号" vertex="1">
+          <mxGeometry height="34" width="420" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_4" parent="RoomData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int right_room = -1 右侧相邻房间编号" vertex="1">
+          <mxGeometry height="34" width="420" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_5" parent="RoomData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int up_room = -1 上方相邻房间编号" vertex="1">
+          <mxGeometry height="34" width="420" y="224" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_6" parent="RoomData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int down_room = -1 下方相邻房间编号" vertex="1">
+          <mxGeometry height="34" width="420" y="258" as="geometry" />
+        </mxCell>
+        <mxCell id="RoomData_line" parent="RoomData" style="line;strokeWidth=1;fillColor=none;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="420" y="292" as="geometry" />
+        </mxCell>
+        <mxCell id="Room" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=54;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);fontSize=13;" value="Room&#xa;（房间场景，继承 Node3D）" vertex="1">
+          <mxGeometry height="164" width="440" x="40" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="Room_0" parent="Room" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+RoomData room_data 当前房间的数据" vertex="1">
+          <mxGeometry height="34" width="440" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="Room_line" parent="Room" style="line;strokeWidth=1;fillColor=none;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="440" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="Room_1" parent="Room" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+get_spawn_position(side) 获取指定方向门的出生位置" vertex="1">
+          <mxGeometry height="34" width="440" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="Room_2" parent="Room" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+get_player_spawn(): Vector3 获取玩家初始出生位置" vertex="1">
+          <mxGeometry height="34" width="440" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="Door" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=54;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);fontSize=13;" value="Door&#xa;（房间门，继承 Node3D）" vertex="1">
+          <mxGeometry height="470" width="600" x="620" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_0" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+String prompt_text = &quot;OPEN THE DOOR [E]&quot; 交互提示文本" vertex="1">
+          <mxGeometry height="34" width="600" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_1" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+bool is_player_in_range = false 玩家是否处于交互范围" vertex="1">
+          <mxGeometry height="34" width="600" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_2" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int door_id = 0 门的编号" vertex="1">
+          <mxGeometry height="34" width="600" y="122" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_3" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+String direction 门的朝向" vertex="1">
+          <mxGeometry height="34" width="600" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_4" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+int target_room_id = -1 目标房间编号" vertex="1">
+          <mxGeometry height="34" width="600" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_5" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+String enter_side 进入目标房间时的方向" vertex="1">
+          <mxGeometry height="34" width="600" y="224" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_line" parent="Door" style="line;strokeWidth=1;fillColor=none;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="600" y="258" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_6" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+get_spawn_position() 返回 SpawnPoint 的世界坐标" vertex="1">
+          <mxGeometry height="34" width="600" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_7" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+_ready() 节点就绪回调（当前为空实现）" vertex="1">
+          <mxGeometry height="34" width="600" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_8" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+_on_area_3d_body_entered(body) 检测玩家进入并请求显示提示" vertex="1">
+          <mxGeometry height="34" width="600" y="334" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_9" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+_on_area_3d_body_exited(body) 检测玩家离开并请求隐藏提示" vertex="1">
+          <mxGeometry height="34" width="600" y="368" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_10" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+_input(event) 在范围内按交互键时调用 open_chest()" vertex="1">
+          <mxGeometry height="34" width="600" y="402" as="geometry" />
+        </mxCell>
+        <mxCell id="Door_11" parent="Door" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+open_chest() 查找 dungeon_manager 并调用 enter_door(self)" vertex="1">
+          <mxGeometry height="34" width="600" y="436" as="geometry" />
+        </mxCell>
+        <mxCell id="edge52" edge="1" parent="1" source="MapManager" style="curved=1;startArrow=none;endArrow=open;endSize=12;rounded=0;fontSize=13;labelBackgroundColor=default;exitX=0;exitY=0.18;entryX=1;entryY=0.3;" target="RoomData" value="create_room() 创建 / rooms 保存">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge53" edge="1" parent="1" source="MapManager" style="curved=1;startArrow=none;endArrow=open;endSize=12;rounded=0;fontSize=13;labelBackgroundColor=default;exitX=0;exitY=0.72;entryX=1;entryY=0.35;" target="Room" value="build_map() 创建并注入 room_data">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge54" edge="1" parent="1" source="Room" style="curved=1;startArrow=none;endArrow=open;endSize=12;rounded=0;fontSize=13;labelBackgroundColor=default;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="RoomData" value="room_data 持有房间数据">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge55" edge="1" parent="1" source="Room" style="curved=1;startArrow=none;endArrow=open;endSize=12;rounded=0;fontSize=13;labelBackgroundColor=default;exitX=0.5;exitY=1;entryX=0;entryY=0.22;" target="Door" value="Doors 子节点（0～4 个） / get_spawn_position()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="1130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge56" edge="1" parent="1" source="MapManager" style="curved=1;startArrow=none;endArrow=open;endSize=12;rounded=0;fontSize=13;labelBackgroundColor=default;exitX=0.35;exitY=1;entryX=0.35;entryY=0;" target="Door" value="set_room_doors() 配置目标和入口">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge57" edge="1" parent="1" source="Door" style="curved=1;startArrow=none;endArrow=open;endSize=12;rounded=0;fontSize=13;labelBackgroundColor=default;exitX=1;exitY=0.75;entryX=1;entryY=0.75;" target="MapManager" value="enter_door(self) → change_room()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1370" y="1380" />
+              <mxPoint x="1370" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
