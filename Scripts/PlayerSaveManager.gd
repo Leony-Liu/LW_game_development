@@ -48,25 +48,18 @@ func initialize_new_weapon(weapon: WeaponInstance) -> bool:
 func get_current_weapon() -> WeaponInstance:
 	return _module.get_current_weapon()
 
-# 返回武器实际持有的实战容器，不复制容器或传递备用牌组。
-func get_expedition_combat_container() -> CardContainer:
+# 保留持久牌组快照接口；远征初始化改由当前武器创建独立副本。
+func get_expedition_deck() -> Dictionary:
 	if not ensure_loaded() or not _module.can_save():
-		return null
+		return {"success": false, "cards": []}
 	var weapon := get_current_weapon()
 	if weapon == null:
-		push_error("[PlayerSaveManager] 远征交接失败：没有当前武器。")
-		return null
-	return weapon.combat_deck
-
-# 保留原快照接口，缺失模板的持久条目仍保留。
-func get_expedition_deck() -> Dictionary:
-	var combat_container := get_expedition_combat_container()
-	if combat_container == null:
+		push_error("[PlayerSaveManager] 读取牌组快照失败：没有当前武器。")
 		return {"success": false, "cards": []}
-	var cards := combat_container.get_cards()
+	var cards := weapon.combat_deck.get_cards()
 	return {"success": true, "cards": cards, "state": "CONFIGURED_EMPTY" if cards.is_empty() else "READY"}
 
-# 验证应用级交接保留数量、顺序、对象及 UID。
+# 兼容持久牌组快照的身份校验，不用于远征独立副本。
 func validate_deck_handoff(received: Array[CardInstance]) -> bool:
 	var weapon := get_current_weapon()
 	if weapon == null:

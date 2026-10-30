@@ -371,13 +371,31 @@ Base 与远征探索阶段现可按 Tab 只读查看实战牌组，Tab / Esc / �
 
 WeaponData 使用 starting_combat_deck_card_ids / starting_reserve_deck_card_ids。已有 testweapon（3001）配置 20 张战斗牌（14 Attack、6 Skill）与 10 张备用牌（6 Attack、4 Skill）；Attack 1001–1005 各 4 张，Skill 2001–2002 各 5 张。Scripts/NewGame.tres 指定初始武器 3001，仅初始化尚无武器的玩家；已有武器恢复原 UID 和双牌组，不按模板重新补牌。没有独立玩家卡牌仓库，战斗只从武器的 combat_deck 转换 RuntimeCard。
 
-远征牌组交接现引用当前 WeaponInstance 原有的 Combat CardContainer；ExpeditionManager 每次查看或开战通过 get_player_deck() 取得最新数组副本，不再把进入时的数组快照作为长期来源。2026-10-30 经 tools/godot_cli.ps1 的隔离 headless 探针获得 `COMBAT_CONTAINER_RESULT checks=105 failures=0 saves=0`，覆盖原容器身份、快照独立性、增删/插入顺序、两场真实 Battle 启动和第二场最新牌组、缺模板跳过、Base 编辑回调及 Reserve 数据/对象不变。保存格式、死亡和撤离路径未改；本轮不实现 Soul 或工作台，也不代表完整人工战斗/走门验收。
+远征现由 ExpeditionManager 持有独立的 ExpeditionPlayerData；GameManager 传入当前持久 WeaponInstance，由模型显式复制武器、战斗/备用容器和每张 CardInstance。保留武器/卡牌 UID、顺序、容量与修改器，共享静态 WeaponData / CardData；远征编辑不直接改变 Base 武器。get_player_deck() / get_player_reserve_deck() 每次读取远征容器的新数组快照，Battle 每场接收最新战斗快照。失败、退出或替换时释放远征数据；不保存或结算该副本。
+
+2026-10-30 经 tools/godot_cli.ps1 的隔离 headless 探针获得 `EXPEDITION_PLAYER_RESULT checks=288 failures=0 saves=9`。覆盖对象身份、全部现有实例字段、嵌套修改器与双向隔离、两场真实 Battle 启动、Base 编辑与既有保存、死亡确认/L 返回、撤离拒绝、中断恢复、直接入口及初始化/保存失败清理。9 次保存尝试含测试置标记和两次预期失败注入；复制、远征编辑和两场战斗本身未触发保存。使用独立测试槽并删除，日志在 `.ai/runtime/expedition_player_probe.log`；对象型/循环修改器明确拒绝复制。保存格式、保存触发点、死亡和撤离处理保持原样，成功撤离结算与死亡资产损失仍未实现。完整人工战斗、走门、视觉与导出未验收；此 Task 1A-2 记录不含 Soul 或钱包；后续 Task 1B 实现见下方，工作台仍未实现。
 
 | 状态 | 本阶段范围 |
 | --- | --- |
 | 已实现并有最小逻辑验证记录 | Start/Exit 主菜单；武器数据库和双牌组模型；卡牌 UID 与 runtime 来源身份；玩家数据保存/恢复；设施 E 确认进入远征；双牌组拖放/右键编辑；探索 L 返回；开门到 Battle 初始化 |
 | 已有基础、仍需内容或人工验收 | 单把 testweapon 的原型流程；后续武器/卡牌内容；画面、输入手感及完整远征胜负流程。Base 操控的用户修正不等同于整体验收 |
 | 未实现 | 其他基地设施；武器获取、存放及切换交互；跨战斗 HP/Fuel 写回；完整地图/战斗 checkpoint 恢复 |
+
+Task 2 已接入单敌人遭遇胜利 Soul 奖励：EnemyData 的 Inspector 属性 soul_reward 默认 2，现有 1001/1002 均继承默认值；可独立覆盖，0 为无奖励，负值或缺模板不发奖。ExpeditionManager 在启动前截取奖励值，Battle 与 World 交接成功后发布本场上下文；收到 BattleManager.battle_ended(true) 且权威结果为 VICTORY 时直接入账当前钱包。领取门闩限定本场，防止重复/重入，同类敌人在新遭遇仍可获奖；失败、中止、死亡或远征清理不会发奖。无物理掉落、奖励 UI 或新增保存。
+
+2026-10-30 隔离 CLI 探针：`REWARD_RESULT checks=48 failures=0 saves=2`，覆盖两个默认敌人、配置覆盖与捕获、零/负奖励、重复/重入、同类下一场、真实 Battle 启动失败、中止、缺钱包、钱包拒绝、死亡返回和 Base 武器隔离。2 次保存仅为原有入征及死亡返回；奖励新增保存为 0。日志 `.ai/runtime/reward_probe.log`；未验收人工完整战斗、镜头表现与导出。
+
+Task 2 已接入单敌人遭遇胜利 Soul 奖励：EnemyData 的 Inspector 属性 soul_reward 默认 2，现有 1001/1002 均继承默认值；可独立覆盖，0 为无奖励，负值或缺模板不发奖。ExpeditionManager 在启动前截取奖励值，Battle 与 World 交接成功后发布本场上下文；收到 BattleManager.battle_ended(true) 且权威结果为 VICTORY 时直接入账当前钱包。领取门闩限定本场，防止重复/重入，同类敌人在新遭遇仍可获奖；失败、中止、死亡或远征清理不会发奖。无物理掉落、奖励 UI 或新增保存。
+
+2026-10-30 隔离 CLI 探针：`REWARD_RESULT checks=48 failures=0 saves=2`，覆盖两个默认敌人、配置覆盖与捕获、零/负奖励、重复/重入、同类下一场、真实 Battle 启动失败、中止、缺钱包、钱包拒绝、死亡返回和 Base 武器隔离。2 次保存仅为原有入征及死亡返回；奖励新增保存为 0。日志 `.ai/runtime/reward_probe.log`；未验收人工完整战斗、镜头表现与导出。
+
+Task 1B 已新增 ExpeditionPlayerData 拥有的瞬态 ExpeditionWallet。新远征默认 0 Soul；initialize_from_weapon / initialize_player_data 可选 initial_soul 仅预留注入能力，当前 GameManager 仍用默认 0。ExpeditionManager 提供 get_soul_balance / add_soul / try_spend_soul，并转发 soul_balance_changed；不持有第二份余额。金额为整数，收入/支出必须为正，余额不足或 int64 加法溢出时拒绝且不通知；没有人为余额上限。退出或重新初始化时清空并释放钱包，Soul 不序列化、不结算、不跨局转移。该 Task 1B 记录不含奖励调用；后续敌人奖励见 Task 2，工作台和 UI 仍未接入。
+
+2026-10-30 隔离 headless 验证：`WALLET_RESULT checks=93 failures=0 saves=3`，覆盖钱包操作/信号、模型与协调器生命周期、现有全部武器配置复制兼容、真实 Battle 启动、Base 编辑与死亡返回。3 次保存来自既有进入/死亡流程，钱包操作新增保存为 0；日志 `.ai/runtime/wallet_probe.log`。当前作者配置的 modifiers 为空，不受对象型/循环修改器复制限制影响；未读取用户存档或修改复制规则。人工完整战斗、视觉和导出未验收。
+
+Task 1B 已新增 ExpeditionPlayerData 拥有的瞬态 ExpeditionWallet。新远征默认 0 Soul；initialize_from_weapon / initialize_player_data 可选 initial_soul 仅预留注入能力，当前 GameManager 仍用默认 0。ExpeditionManager 提供 get_soul_balance / add_soul / try_spend_soul，并转发 soul_balance_changed；不持有第二份余额。金额为整数，收入/支出必须为正，余额不足或 int64 加法溢出时拒绝且不通知；没有人为余额上限。退出或重新初始化时清空并释放钱包，Soul 不序列化、不结算、不跨局转移。该 Task 1B 记录不含奖励调用；后续敌人奖励见 Task 2，工作台和 UI 仍未接入。
+
+2026-10-30 隔离 headless 验证：`WALLET_RESULT checks=93 failures=0 saves=3`，覆盖钱包操作/信号、模型与协调器生命周期、现有全部武器配置复制兼容、真实 Battle 启动、Base 编辑与死亡返回。3 次保存来自既有进入/死亡流程，钱包操作新增保存为 0；日志 `.ai/runtime/wallet_probe.log`。当前作者配置的 modifiers 为空，不受对象型/循环修改器复制限制影响；未读取用户存档或修改复制规则。人工完整战斗、视觉和导出未验收。
 
 既有集中检查记录为 72 项/0 失败与 31 项/0 失败，分别覆盖武器/开门链路和 L 返回/失败/恢复分支；仅代表当时的隔离逻辑验证。具体证据与历史边界见 ARCHITECTURE 第 12 节。上述为上阶段记录。本次设施集中逻辑探针 55 项、0 失败，覆盖范围/E、确认/取消、模态控制、转移/容量、确认保存失败与重试、P 移除和 L 返回；只检查逻辑与 UI 回调，不检查画面、真实拖拽手感、分辨率或导出。
 
@@ -425,7 +443,7 @@ World ↔ Battle
 1. **基地整备：** 卡牌编辑设施操作当前武器的 combat_deck / reserve_deck；跨容器拖放或右键移动原实例，实战上限 20，目标容器末尾追加，不提供删除、复制或武器切换。
 2. **进入远征：** 玩家能够从基地进入现有远征流程。
 3. **返回基地：** 死亡确认后保存并返回 Base；另提供探索阶段的 L 主动返回入口，不增加损失或撤退惩罚。
-4. **整备配置接入远征：** 武器 combat_deck 的持久实例已接入远征与战斗；编辑立即更新内存中的武器实例，关闭窗口不重置牌组、不新增自动保存；进入远征时按既有边界持久化。
+4. **整备配置接入远征：** Base 编辑立即更新持久武器，进入远征时复制完整武器和双牌组供本次远征使用，Battle 只读取远征战斗快照；关闭窗口不重置牌组、不新增自动保存，进入远征仍按既有边界保存 Base 数据，远征副本不直接回写。
 
 预期的整体流程方向：
 

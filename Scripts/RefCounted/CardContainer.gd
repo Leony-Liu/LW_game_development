@@ -19,6 +19,22 @@ func get_cards() -> Array[CardInstance]:
 	return _cards.duplicate()
 
 
+# 完整复制配置与有序卡牌；不继承旧容器归属或任何监听者。
+func clone() -> CardContainer:
+	if container_id.strip_edges().is_empty() or (capacity >= 0 and _cards.size() > capacity):
+		push_error("[CardContainer] 复制失败：容器身份或容量无效。")
+		return null
+	var copied: CardContainer = load("res://Scripts/RefCounted/CardContainer.gd").new(container_id, capacity)
+	for card in _cards:
+		if card == null or card.container_ref == null or card.container_ref.get_ref() != self:
+			push_error("[CardContainer] 复制失败：卡牌为空或所属容器不一致。")
+			return null
+		var copied_card := card.clone()
+		if copied_card == null or not copied.add_card(copied_card):
+			return null
+	return copied
+
+
 # 按实例身份查找，不以模板 ID 区分具体卡。
 func find_card(uid: String) -> CardInstance:
 	for card in _cards:

@@ -60,13 +60,16 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 
 ## 2. Task routing / Fast lookup
 
+Task 2 enemy Soul rewards: `Scripts/Resource/Enemy/R_EnemyData.gd` exports `soul_reward=2` (existing 1001/1002 inherit default). `ExpeditionSystem/Scripts/ExpeditionManager.gd` captures the active encounter reward, receives existing `BattleManager.battle_ended(bool)`, and calls `settle_active_encounter_reward()` → `add_soul()` → ExpeditionWallet. Encounter-local claim guard prevents duplicate/reentrant credit; zero is settled silently, invalid/defeated/aborted encounters give nothing. No reward UI, physical loot or persistence.
+
 | Task / concern | Read first | Then inspect | Notes |
 | --- | --- | --- | --- |
 | Main scene / Autoloads / input map | `project.godot` | Referenced scene or Autoload script | Main scene is UID-backed; verify both config and scene |
 | Main menu / application or Base <-> Expedition flow | `Scripts/GameManager.gd` | `MainMenuSystem/MainMenu.gd`, `Scripts/PlayerSaveManager.gd`, `BaseSystem/Base.tscn`, `BaseSystem/Scripts/Base.gd` | Normal Start enters Base; interrupted Start directly creates Expedition; entrance E confirmation uses start_expedition(); direct Editor expedition receives same handoff |
 | Base facilities / weapon deck editor | `BaseSystem/Scripts/Base.gd`, `BaseSystem/UI/BaseUI.tscn` | `BaseSystem/UI/WeaponDeckEditor.tscn`, `BaseSystem/UI/Scripts/WeaponDeckEditor.gd`, `BaseSystem/UI/Scripts/WeaponDeckCard.gd`, `BaseSystem/UI/Scripts/WeaponDeckRegion.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn`, `Scripts/RefCounted/CardContainer.gd` | Base owns transfers; separated upper combat grid and lower horizontal reserve row; adapter reuses CardLogic.display_instance with presentation_only; same persistent instance, no new save trigger |
 | Read-only Combat Deck in Base / Expedition | `BaseSystem/UI/Scripts/WeaponDeckEditor.gd`, `BaseSystem/Scripts/Base.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `BaseSystem/UI/BaseUI.tscn`, `ExpeditionSystem/ExpeditionSystem.tscn/UISystem/DeckEditor`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `Scripts/GameManager.gd` | One shared scene; open_for_edit / open_combat_view / close_editor; World begin/end_exploration_modal coordinates PlayerVisual; GameManager.is_scene_transition_pending reads the existing transition gate |
-| Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerVisualManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | GameManager injects combat_deck instances; victory continues exploration; death_confirmed / return_to_base_requested notify GameManager to save and return Base |
+| Expedition lifecycle / World <-> Battle coordination | `ExpeditionSystem/Scripts/ExpeditionManager.gd` | `Scripts/RefCounted/ExpeditionPlayerData.gd`, `ExpeditionSystem/ExpeditionSystem.tscn`, `ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | GameManager supplies persistent weapon source; ExpeditionPlayerData owns independent clone; each encounter uses latest expedition combat snapshot; victory continues exploration, death/return notify GameManager |
+| Independent expedition weapon / deep copy | `Scripts/RefCounted/ExpeditionPlayerData.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/CardInstance.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | initialize_from_weapon / clone / clear; separate weapon, containers and cards; preserve UID/order/capacity/modifiers and static template references; no save or settlement |
 | Persistent player / battle input | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd`, `ExpeditionSystem/Scripts/ExpeditionManager.gd` | WeaponInstance owns ordered combat/reserve containers; only combat goes to Battle; ExpeditionManager Inspector supplies current combat attributes |
 | Initial weapon / authored starting references | `Scripts/NewGame.tres`, `Scripts/Resource/NewGameConfig.gd` | `Scripts/GameManager.gd`, `Scripts/WeaponData/Weapons/testweapon.tres`, `Scripts/RefCounted/WeaponInstance.gd` | initial_weapon_id 3001; create only when no saved weapon exists, preserve existing deck identities and contents |
 | Map generation | `ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd` | `Scripts/MapBlueprint.gd`, `ExpeditionSystem/WorldSystem/RoomSystem/Scripts/Resource/RoomData.gd`, `Scripts/EnemyData/AllEnemyData.gd` | `generate()` returns `rooms` and `doors` dictionaries |
@@ -94,7 +97,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | Card buffs | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardBuff.gd` | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/RuntimeCard.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/CardManager.gd`, `ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd` | Runtime modifiers only |
 | Enemy data | `Scripts/Resource/Enemy/R_EnemyData.gd` | `Scripts/Resource/Enemy/R_EnemyAction.gd`, `Scripts/EnemyData/AllEnemyData.gd`, `Scripts/EnemyData/EnemyDatas/` | Static enemy attributes and action pools |
 | Save infrastructure | `Scripts/SaveManager.gd` | `Scripts/RefCounted/SaveModule.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | Player containers and expedition_was_active only; no room/battle runtime checkpoint |
-| Persistent player data | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | get_current_weapon(), initialize_new_weapon(), get_expedition_combat_container(); compatible get_expedition_deck() / validate_deck_handoff() snapshots remain; WeaponInstance owns both containers |
+| Persistent player data | `Scripts/PlayerSaveManager.gd` | `Scripts/RefCounted/WeaponInstance.gd`, `Scripts/RefCounted/CardContainer.gd`, `Scripts/RefCounted/PlayerCardSaveModule.gd` | get_current_weapon(), initialize_new_weapon(); get_expedition_deck() / validate_deck_handoff() remain persistent snapshot APIs; no direct expedition-container handoff |
 | Card UI visuals / interaction | `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn` | `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Logic.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Interaction.gd`, `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/Card_Animation.gd` | Scene owns UI composition; `RuntimeCard` owns battle card state |
 | Automated Godot validation | `tools/godot_cli.ps1` | Target `.gd` / `.tscn` plus `project.godot` | Use the smallest targeted CLI check that proves the task |
 
@@ -111,7 +114,7 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 | 修改伤害结算 / 排期 / 时间 | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/CombatEntity.gd`、`ExpeditionSystem/BattleSystem/CombatSystem/Scripts/Timeline.gd` | `ExpeditionSystem/BattleSystem/EntitySystem/Scripts/EntityManager.gd`、`ExpeditionSystem/BattleSystem/Scripts/BattleManager.gd`、`ExpeditionSystem/Scripts/CombatAction.gd` | apply_attribute_impact / execute_action / receive_card / notify_action_finished；先核对 GAME_DESIGN 时机，不用 Tween 改逻辑时间 |
 | 添加/替换战斗反馈 | `ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn` 与 `EnemyVisual.gd`；玩家反馈为 `ExpeditionSystem/WorldSystem/PlayerVisual/Scripts/PlayerDamageFeedback.gd` 与 `ExpeditionSystem/WorldSystem/PlayerVisual/PlayerVisual.tscn` | 新事件才追 `ExpeditionSystem/Scripts/ExpeditionManager.gd`、WorldManager、BattleManager | 保留 bool 启动结果、完成/取消 Callable 与 execution_id/effect_id；保持 EnemyRoot、碰撞与属性不受表现控制 |
 | 修改 HUD / 卡牌表现 | `ExpeditionSystem/BattleSystem/UI/CombatHUD.tscn`、`ExpeditionSystem/BattleSystem/Scripts/CombatHUD.gd`；单卡从 `ExpeditionSystem/BattleSystem/CardSystem/Card.tscn` | 新快照字段再看 BattleManager._refresh_hud；手牌布局看 `ExpeditionSystem/BattleSystem/CardSystem/Scripts/PlayerHandDeck.gd`；交互/动画看 `ExpeditionSystem/BattleSystem/CardSystem/Scripts/card/` | HUD 只收值；卡牌保留 Visuals、导出控件与离场完成通知；行动预览用 action_instance_id |
-| 修改玩家输入 / 远征状态 | `Scripts/PlayerSaveManager.gd`、`Scripts/RefCounted/PlayerCardSaveModule.gd`、`ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn` 的玩家战斗属性配置；WorldManager / BattleManager 只在边界变化时检查 | 持久牌组由 GameManager 注入；每场 EntityData 属性仍由现有场景配置创建，不持久化 HP/Fuel |
+| 修改玩家输入 / 远征状态 | `Scripts/PlayerSaveManager.gd`、`Scripts/RefCounted/ExpeditionPlayerData.gd`、`ExpeditionSystem/Scripts/ExpeditionManager.gd` | `ExpeditionSystem/ExpeditionSystem.tscn` 的玩家战斗属性配置；WorldManager / BattleManager 只在边界变化时检查 | GameManager 传来源武器供远征独立复制；每场 EntityData 仍由现有场景配置创建，不持久化 HP/Fuel |
 | 玩家容器存档 / 中断恢复 | `Scripts/PlayerSaveManager.gd`、`Scripts/RefCounted/PlayerCardSaveModule.gd`、`Scripts/GameManager.gd` | `Scripts/SaveManager.gd`、`Scripts/RefCounted/SaveModule.gd`、`Scripts/RefCounted/CardContainer.gd` | 进入远征前保存并置 active；死亡确认保存并清 active；恢复为全新远征，未接通房间/Battle checkpoint |
 
 ## 3. System maps
@@ -151,8 +154,9 @@ Related:
 
 Key entry points:
 - `GameManager.start_game()` / `start_expedition()` / `return_to_base()` (save owned data, clear marker, reuse death-return transition)
-- `PlayerSaveManager.get_expedition_combat_container()`; compatible `get_expedition_deck()` / `validate_deck_handoff()` snapshots
-- `ExpeditionManager.initialize_player_combat_container()` / `get_player_combat_container()` / `get_player_deck()` / `death_confirmed` (same combat container, fresh card snapshot per read)
+- `PlayerSaveManager.get_current_weapon()`; compatible persistent `get_expedition_deck()` / `validate_deck_handoff()` snapshots
+- `ExpeditionManager.initialize_player_data()` / `get_expedition_weapon()` / `get_player_deck()` / `get_player_reserve_deck()` / `clear_player_data()`; compatible `get_player_combat_container()` returns expedition container only
+- `ExpeditionPlayerData.initialize_from_weapon()` / `get_weapon_instance()` / `get_combat_deck()` / `get_reserve_deck()` / `clear()`; all three instance/container models expose `clone()`
 - `ExpeditionManager.can_return_to_base()` / `return_to_base_requested`: debug-build-only L; requires current Expedition, initialized deck, active exploration and no terminal/battle/result conflict; GameManager checks debug build and application transition again
 - `ExpeditionManager.request_extraction()` / `extraction_requested(operation_id)` / `reject_extraction()`: locks a single terminal operation and rejects stale failure callbacks; current GameManager rejects missing resource/settlement dependencies before any persistence
 - `BattleManager.is_starting_battle()`: read-only startup gate for Expedition return validation
@@ -361,9 +365,13 @@ Key entry points / signals:
 | `EnemyData` | `Scripts/Resource/Enemy/R_EnemyData.gd` | `Scripts/EnemyData/EnemyDatas/`; loaded by `AllEnemyData.gd` |
 | `EnemyAction` | `Scripts/Resource/Enemy/R_EnemyAction.gd` | Subresources inside enemy data resources |
 | `EntityData` | `ExpeditionSystem/BattleSystem/Scripts/EntityData.gd` | Constructed from ExpeditionManager's existing Inspector combat attributes |
-| `WeaponInstance` | `Scripts/RefCounted/WeaponInstance.gd` | Persistent weapon UID, static definition, combat/reserve containers; starting factory and dictionary APIs |
+| `WeaponInstance` | `Scripts/RefCounted/WeaponInstance.gd` | Weapon UID, static definition, combat/reserve containers; starting factory, clone and dictionary APIs; separate Base and expedition representations |
+| `ExpeditionPlayerData` | `Scripts/RefCounted/ExpeditionPlayerData.gd` | Single-run RefCounted model; owns cloned weapon, fresh combat/reserve snapshots, clear; no persistence |
+| `ExpeditionWallet` | `Scripts/RefCounted/ExpeditionWallet.gd` | Single-run Soul balance, owned by ExpeditionPlayerData; initialize/get_soul_balance/add_soul/try_spend_soul/clear; balance_changed; no persistence |
 | `CardContainer` | `Scripts/RefCounted/CardContainer.gd` | Ordered CardInstance collection; combat capacity 20, reserve unlimited; transfers retain existing object and UID |
 | `CombatAction` | `ExpeditionSystem/Scripts/CombatAction.gd` | Constructed by `RuntimeCard.gd` and `EnemyAI.gd` |
+
+Task 1B currency route: `ExpeditionManager.get_soul_balance()` / `add_soul(amount)` / `try_spend_soul(amount)` → `ExpeditionPlayerData.get_wallet()` → `ExpeditionWallet`; `balance_changed` → `ExpeditionManager.soul_balance_changed`. Both player-data initialization methods accept optional `initial_soul=0`; GameManager uses default zero. Cleanup disconnects before clearing/releasing. Enemy reward caller is implemented in Task 2; no workbench or extraction settlement callers.
 
 ### Save / Persistence
 
@@ -473,7 +481,7 @@ Door.open_door()
 -> ExpeditionManager._on_world_encounter_requested()
 -> WorldManager.is_encounter_pending(RoomData)
 -> ExpeditionManager._create_player_data() / get_player_deck()
--> previously injected persistent CardInstance objects (no per-encounter card creation)
+-> latest ExpeditionPlayerData combat snapshot (independent expedition CardInstance objects, no per-encounter persistent card creation)
 -> BattleManager.start_battle(...) -> bool (internally checks EntityManager.can_initialize() / CardManager.can_initialize())
 -> WorldManager.resolve_encounter_request(RoomData, startup_succeeded)
 -> PREPARING_BATTLE resolves RoomData -> BattleRoom -> EncounterApproachAnchor
@@ -488,7 +496,9 @@ Door.open_door()
 Scripts/Resource/Card/R_carddata.gd (CardData)
 -> AllCardData
 -> GameManager selects Scripts/NewGame.tres for a new WeaponInstance; PlayerSaveManager coordinates PlayerCardSaveModule restoration
--> WeaponInstance.combat_deck (same CardContainer) -> GameManager -> ExpeditionManager.initialize_player_combat_container()
+-> PlayerSaveManager.get_current_weapon() -> GameManager -> ExpeditionManager.initialize_player_data(source)
+-> ExpeditionPlayerData.initialize_from_weapon() -> WeaponInstance.clone() -> CardContainer.clone() -> CardInstance.clone()
+-> ExpeditionManager.get_player_deck() reads latest expedition Combat CardContainer snapshot
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard
@@ -667,7 +677,9 @@ Timeline.action_triggered (enemy action)
 CardData
 -> AllCardData
 -> GameManager selects Scripts/NewGame.tres for a new WeaponInstance; PlayerSaveManager coordinates PlayerCardSaveModule restoration
--> WeaponInstance.combat_deck (same CardContainer) -> GameManager -> ExpeditionManager.initialize_player_combat_container()
+-> PlayerSaveManager.get_current_weapon() -> GameManager -> ExpeditionManager.initialize_player_data(source)
+-> ExpeditionPlayerData owns WeaponInstance.clone() with independent combat/reserve containers and cards
+-> ExpeditionManager.get_player_deck() reads latest expedition combat snapshot
 -> BattleManager.start_battle()
 -> BattleManager._convert_deck_to_runtime()
 -> RuntimeCard

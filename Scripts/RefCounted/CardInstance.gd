@@ -24,6 +24,32 @@ func _init(id: int, template: CardData, instance_uid: String = "") -> void:
 		unique_id = instance_uid
 	modifiers = []
 
+# 复制同一身份的独立表示；所属容器由新容器重新绑定。
+func clone() -> CardInstance:
+	if card_id <= 0 or unique_id.strip_edges().is_empty() or (card_data != null and card_data.id != card_id):
+		push_error("[CardInstance] 复制失败：卡牌身份或模板无效。")
+		return null
+	if not _can_copy_modifier_value(modifiers):
+		push_error("[CardInstance] 复制失败：modifiers 含对象引用或过深嵌套，无法保证独立副本。")
+		return null
+	var copied := CardInstance.new(card_id, card_data, unique_id)
+	copied.modifiers = modifiers.duplicate(true)
+	return copied
+
+# 修改器只复制值与嵌套集合，拒绝隐式共享对象及循环结构。
+func _can_copy_modifier_value(value: Variant, depth: int = 0) -> bool:
+	if depth > 64 or typeof(value) in [TYPE_OBJECT, TYPE_CALLABLE, TYPE_SIGNAL, TYPE_RID]:
+		return false
+	if value is Array:
+		for item in value:
+			if not _can_copy_modifier_value(item, depth + 1):
+				return false
+	elif value is Dictionary:
+		for key in value:
+			if not _can_copy_modifier_value(key, depth + 1) or not _can_copy_modifier_value(value[key], depth + 1):
+				return false
+	return true
+
 # 公开方法：序列化，将数据变成字典
 func to_dictionary() -> Dictionary:
 	return {

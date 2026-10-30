@@ -26,6 +26,9 @@ func _bootstrap_direct_expedition() -> void:
 		return
 	if not _ensure_player_weapon() or not _prepare_expedition(scene) or not PlayerSaveManager.save_with_expedition_marker(true):
 		push_error("[GameManager] 直接远征初始化失败；保留原存档并停用探索。")
+		var coordinator := scene.get_node_or_null("ExpeditionManager")
+		if coordinator != null:
+			coordinator.clear_player_data()
 		var world := scene.get_node_or_null("WorldSystem")
 		if world != null:
 			world.player_visual.suspend_after_world_initialization_failure()
@@ -70,19 +73,14 @@ func start_expedition() -> bool:
 	return _save_and_transition(scene, true)
 
 
-# 普通入口与 Editor 直接运行均接收同一武器的战斗容器。
+# 应用只传递来源武器；远征数据模型自行创建独立副本。
 func _prepare_expedition(scene: Node) -> bool:
-	var combat_container := PlayerSaveManager.get_expedition_combat_container()
-	if combat_container == null:
-		return false
 	var coordinator := scene.get_node_or_null("ExpeditionManager")
-	if coordinator == null or not coordinator.initialize_player_combat_container(combat_container):
-		push_error("[GameManager] 远征准备失败：缺少有效的牌组交接接口。")
+	if coordinator == null:
+		push_error("[GameManager] 远征准备失败：缺少 ExpeditionManager。")
 		return false
-	if coordinator.get_player_combat_container() != combat_container:
-		push_error("[GameManager] 远征准备失败：实战容器引用与武器来源不一致。")
-		return false
-	if not PlayerSaveManager.validate_deck_handoff(coordinator.get_player_deck()):
+	if not coordinator.initialize_player_data(PlayerSaveManager.get_current_weapon()):
+		push_error("[GameManager] 远征准备失败：玩家武器独立副本初始化失败。")
 		return false
 	coordinator.death_confirmed.connect(_on_expedition_death_confirmed)
 	coordinator.return_to_base_requested.connect(_on_expedition_return_requested)

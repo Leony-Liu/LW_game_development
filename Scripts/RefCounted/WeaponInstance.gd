@@ -18,6 +18,30 @@ func _init(id: int, template: WeaponData, uid: String = "") -> void:
 	combat_deck = CardContainer.new("combat_deck", COMBAT_LIMIT)
 	reserve_deck = CardContainer.new("reserve_deck")
 
+# 保留武器与卡牌身份，显式复制双容器及全部可变实例数据。
+func clone() -> WeaponInstance:
+	if weapon_id <= 0 or unique_id.strip_edges().is_empty() or (weapon_data != null and weapon_data.id != weapon_id):
+		push_error("[WeaponInstance] 复制失败：武器身份或模板无效。")
+		return null
+	if combat_deck == null or reserve_deck == null or combat_deck == reserve_deck:
+		push_error("[WeaponInstance] 复制失败：缺少两个独立牌组容器。")
+		return null
+	var combat_copy := combat_deck.clone()
+	var reserve_copy := reserve_deck.clone()
+	if combat_copy == null or reserve_copy == null:
+		return null
+	var seen: Dictionary = {}
+	for container in [combat_copy, reserve_copy]:
+		for card in container.get_cards():
+			if seen.has(card.unique_id):
+				push_error("[WeaponInstance] 复制失败：双牌组存在重复卡牌 UID。")
+				return null
+			seen[card.unique_id] = true
+	var copied: WeaponInstance = load("res://Scripts/RefCounted/WeaponInstance.gd").new(weapon_id, weapon_data, unique_id)
+	copied.combat_deck = combat_copy
+	copied.reserve_deck = reserve_copy
+	return copied
+
 # 每个模板引用创建独立实例；缺失的可选卡牌只跳过并诊断。
 static func create_starting(template: WeaponData, cards: Dictionary) -> WeaponInstance:
 	if template == null or template.starting_combat_deck_card_ids.size() > COMBAT_LIMIT:
