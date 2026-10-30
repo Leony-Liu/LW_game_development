@@ -43,3 +43,18 @@ func get_cards() -> Dictionary:
 		push_warning("卡牌库为空，尝试重新加载...")
 		_load_all_cards()
 	return card_database
+
+
+# 按资源对象去重，返回当前有效注册模板快照，不触发重新扫描。
+func get_card_pool() -> Array[CardData]:
+	var pool: Array[CardData] = []
+	var seen: Dictionary = {}
+	for entry in card_database.values():
+		# 沿用 CardInstance 的正数模板 ID 契约，不筛选卡牌数值或类型。
+		if not entry is CardData or not is_instance_valid(entry) or entry.id <= 0:
+			continue
+		if seen.has(entry):
+			continue
+		seen[entry] = true
+		pool.append(entry)
+	return pool

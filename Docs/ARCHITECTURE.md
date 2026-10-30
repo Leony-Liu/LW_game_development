@@ -201,6 +201,18 @@ WeaponInstance.clone() → CardContainer.clone() → CardInstance.clone() 显式
 
 ### `AllCardData` 与 `AllEnemyData`
 
+Task 3A：AllCardData.get_card_pool() 从当前 card_database 返回新的 Array[CardData]，只接受 CardData 且 id > 0（沿用 CardInstance 契约），排除 null/其他类型/无效 ID。按资源对象引用去重，不按名称或 ID 合并不同资源；不扫描目录、不缓存第二份注册表，也不触发 get_cards() 的空库重载。原加载与 get_cards() 行为保持不变。`[SOURCE]`
+
+`Scripts/RefCounted/CardOfferGenerator.gd` 为 RefCounted，构造时注入 `Callable(AllCardData, "get_card_pool")`，可选注入已设种子的 RandomNumberGenerator。每次 generate_offer() 取得当前完整池，执行三次 randi_range(0, size-1)，独立、等概率、有放回地追加原 CardData 引用；允许重复和三张相同，不考虑武器/稀有度/当前牌组。默认 RNG 只在构造时 randomize，不修改全局 RNG。缺查询接口或空池报错并返回空的类型化数组。无 CardInstance、UID、交易、牌组或存档操作，也尚未接入工作台。此阶段按明确 Task 3A 全注册表要求实施，GAME_DESIGN 第 40 节的武器专属池不在本阶段实现。`[SOURCE]`
+
+2026-10-30 隔离 CLI 验证 `OFFER_RESULT checks=879 failures=0 saves=0`：逐次比对固定 seed 的独立均匀索引；覆盖全部作者模板、引用去重、同名同 ID 不同对象、空池/无效项、三张相同、动态注册、资源与既有武器卡牌不变。源码边界比对确认原加载、CardData/CardInstance、Battle、钱包及敌人数据脚本未改；生成器无实例/UID 创建路径。日志 `.ai/runtime/offer_probe.log`。未做工作台 UI、人工游玩或导出验收。
+
+Task 3A：AllCardData.get_card_pool() 从当前 card_database 返回新的 Array[CardData]，只接受 CardData 且 id > 0（沿用 CardInstance 契约），排除 null/其他类型/无效 ID。按资源对象引用去重，不按名称或 ID 合并不同资源；不扫描目录、不缓存第二份注册表，也不触发 get_cards() 的空库重载。原加载与 get_cards() 行为保持不变。`[SOURCE]`
+
+`Scripts/RefCounted/CardOfferGenerator.gd` 为 RefCounted，构造时注入 `Callable(AllCardData, "get_card_pool")`，可选注入已设种子的 RandomNumberGenerator。每次 generate_offer() 取得当前完整池，执行三次 randi_range(0, size-1)，独立、等概率、有放回地追加原 CardData 引用；允许重复和三张相同，不考虑武器/稀有度/当前牌组。默认 RNG 只在构造时 randomize，不修改全局 RNG。缺查询接口或空池报错并返回空的类型化数组。无 CardInstance、UID、交易、牌组或存档操作，也尚未接入工作台。此阶段按明确 Task 3A 全注册表要求实施，GAME_DESIGN 第 40 节的武器专属池不在本阶段实现。`[SOURCE]`
+
+2026-10-30 隔离 CLI 验证 `OFFER_RESULT checks=879 failures=0 saves=0`：逐次比对固定 seed 的独立均匀索引；覆盖全部作者模板、引用去重、同名同 ID 不同对象、空池/无效项、三张相同、动态注册、资源与既有武器卡牌不变。源码边界比对确认原加载、CardData/CardInstance、Battle、钱包及敌人数据脚本未改；生成器无实例/UID 创建路径。日志 `.ai/runtime/offer_probe.log`。未做工作台 UI、人工游玩或导出验收。
+
 这两个 Autoload 分别索引卡牌与敌人静态资源，供武器模型和存档模块构造/恢复实例、供 World 和 Battle 查询敌人。它们只持有资源索引；玩家容器、房间事实和战斗实体仍由各自拥有者持有。`[SOURCE]`
 
 | 系统与位置 | 输入 | 输出与数据 |

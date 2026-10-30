@@ -381,6 +381,8 @@ WeaponData 使用 starting_combat_deck_card_ids / starting_reserve_deck_card_ids
 | 已有基础、仍需内容或人工验收 | 单把 testweapon 的原型流程；后续武器/卡牌内容；画面、输入手感及完整远征胜负流程。Base 操控的用户修正不等同于整体验收 |
 | 未实现 | 其他基地设施；武器获取、存放及切换交互；跨战斗 HP/Fuel 写回；完整地图/战斗 checkpoint 恢复 |
 
+Task 3A 已增加只读卡池快照 AllCardData.get_card_pool() 与独立 CardOfferGenerator：全部有效注册模板按资源引用去重，每次独立、等概率、有放回地生成 3 个 CardData 候选，可重复或三张相同；不筛选武器、稀有度或已有牌组。支持注入 seed RNG，空池明确失败。未创建 CardInstance/UID，也未接入交易、牌组修改或工作台。隔离 CLI 验证 `OFFER_RESULT checks=879 failures=0 saves=0`，含确定性逐抽样对照、注册表/模板/既有实例不变检查；日志 `.ai/runtime/offer_probe.log`。人工 UI、游玩和导出未验收。
+
 Task 2 已接入单敌人遭遇胜利 Soul 奖励：EnemyData 的 Inspector 属性 soul_reward 默认 2，现有 1001/1002 均继承默认值；可独立覆盖，0 为无奖励，负值或缺模板不发奖。ExpeditionManager 在启动前截取奖励值，Battle 与 World 交接成功后发布本场上下文；收到 BattleManager.battle_ended(true) 且权威结果为 VICTORY 时直接入账当前钱包。领取门闩限定本场，防止重复/重入，同类敌人在新遭遇仍可获奖；失败、中止、死亡或远征清理不会发奖。无物理掉落、奖励 UI 或新增保存。
 
 2026-10-30 隔离 CLI 探针：`REWARD_RESULT checks=48 failures=0 saves=2`，覆盖两个默认敌人、配置覆盖与捕获、零/负奖励、重复/重入、同类下一场、真实 Battle 启动失败、中止、缺钱包、钱包拒绝、死亡返回和 Base 武器隔离。2 次保存仅为原有入征及死亡返回；奖励新增保存为 0。日志 `.ai/runtime/reward_probe.log`；未验收人工完整战斗、镜头表现与导出。

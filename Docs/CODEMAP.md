@@ -60,6 +60,8 @@ godot_mcp_runtime -> development infrastructure, not gameplay ownership
 
 ## 2. Task routing / Fast lookup
 
+Task 3A card offers: `Scripts/CardData/AllCardData.gd::get_card_pool()` returns valid positive-ID CardData references, deduplicated by object identity. `Scripts/RefCounted/CardOfferGenerator.gd` takes the pool Callable and optional seeded RNG; `generate_offer()` returns exactly 3 independent uniform draws with replacement, or an empty typed array on failure. Example: `CardOfferGenerator.new(Callable(AllCardData, "get_card_pool"))`. No extra provider, instances, UIDs, payments or workbench UI.
+
 Task 2 enemy Soul rewards: `Scripts/Resource/Enemy/R_EnemyData.gd` exports `soul_reward=2` (existing 1001/1002 inherit default). `ExpeditionSystem/Scripts/ExpeditionManager.gd` captures the active encounter reward, receives existing `BattleManager.battle_ended(bool)`, and calls `settle_active_encounter_reward()` → `add_soul()` → ExpeditionWallet. Encounter-local claim guard prevents duplicate/reentrant credit; zero is settled silently, invalid/defeated/aborted encounters give nothing. No reward UI, physical loot or persistence.
 
 | Task / concern | Read first | Then inspect | Notes |
