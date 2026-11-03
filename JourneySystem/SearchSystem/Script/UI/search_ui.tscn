@@ -7,6 +7,8 @@ texture = ExtResource("1_2lp85")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdp5t"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2lp85"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_rb8fw"]
 font_size = 60
 
@@ -17,6 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="." unique_id=511588165]
 layout_mode = 0
@@ -35,6 +38,9 @@ offset_bottom = 876.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 56
 theme_override_styles/panel = SubResource("StyleBoxEmpty_bdp5t")
+theme_override_styles/hovered = SubResource("StyleBoxFlat_2lp85")
+allow_reselect = true
+allow_search = false
 icon_scale = 0.4
 
 [node name="Label" type="Label" parent="." unique_id=802437970]

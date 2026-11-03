@@ -3,6 +3,7 @@
 ##作用：显示和关闭UI
 extends Node
 
+var is_search_open: bool = false
 
 ##显示背包UI
 func show_inventory():
@@ -16,6 +17,8 @@ func show_search():
 	var search_ui := get_tree().current_scene.get_node("UILayer/SearchUI") as Control
 
 	search_ui.show()
+	is_search_open = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	pass
 
 
@@ -40,4 +43,6 @@ func hide_all():
 	
 	var inventory_ui := get_tree().current_scene.get_node("UILayer/InventoryUI") as Control
 	inventory_ui.hide()
+	is_search_open = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	pass

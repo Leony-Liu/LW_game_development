@@ -18,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Panel2" type="Panel" parent="." unique_id=35223809]
 layout_mode = 0
@@ -36,6 +37,7 @@ offset_bottom = 884.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 56
 theme_override_styles/panel = SubResource("StyleBoxEmpty_kqmvr")
+allow_reselect = true
 item_count = 1
 icon_scale = 0.4
 item_0/text = "Apple"
