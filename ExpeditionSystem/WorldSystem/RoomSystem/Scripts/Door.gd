@@ -25,6 +25,26 @@ var is_animating: bool = false
 var current_player: CharacterBody3D = null
 var initial_body_y: float = 0.0
 var _opening_player_position: Vector3 = Vector3.INF
+var _external_dispatch := false
+var _interaction_player_ref: WeakRef
+
+# World 通过 DoorSet 下发唯一玩家；独立场景保留原按键路径。
+func configure_interaction_dispatch(player: CharacterBody3D) -> void:
+	_external_dispatch = true
+	_interaction_player_ref = weakref(player) if is_instance_valid(player) else null
+	current_player = null
+
+# 仲裁使用真实重叠，不接受其他物理体或动画中的门。
+func can_interact(player: CharacterBody3D) -> bool:
+	return is_inside_tree() and not is_queued_for_deletion() and not is_open and not is_animating and is_instance_valid(player) and is_instance_valid(interaction_area) and (not _external_dispatch or (_interaction_player_ref != null and _interaction_player_ref.get_ref() == player)) and interaction_area.overlaps_body(player)
+
+# 复用原开门动画及发起位置记录，不创建另一套门逻辑。
+func request_interaction(player: CharacterBody3D) -> bool:
+	if not can_interact(player):
+		return false
+	current_player = player
+	open_door()
+	return true
 
 
 func _ready() -> void:
@@ -42,8 +62,10 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _external_dispatch:
+		return
 	# 门处于关闭状态、玩家在交互范围内、按 E 键触发开门
-	if not is_open and not is_animating and current_player != null:
+	if not is_open and not is_animating and is_instance_valid(current_player):
 		if event is InputEventKey and event.pressed and event.keycode == KEY_E:
 			open_door()
 			get_viewport().set_input_as_handled()
@@ -52,7 +74,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	# 门打开后持续检测：当玩家与门的水平距离超过 2m 时自动关门
 	if is_open and not is_animating:
-		if current_player:
+		if is_instance_valid(current_player):
 			var door_pos_2d := Vector2(global_position.x, global_position.z)
 			var player_pos_2d := Vector2(current_player.global_position.x, current_player.global_position.z)
 			var distance := door_pos_2d.distance_to(player_pos_2d)
@@ -107,6 +129,8 @@ func close_door() -> void:
 # ==============================================================================
 
 func _on_interaction_area_body_entered(body: Node3D) -> void:
+	if _external_dispatch and (_interaction_player_ref == null or _interaction_player_ref.get_ref() != body):
+		return
 	if body is CharacterBody3D:
 		current_player = body
 

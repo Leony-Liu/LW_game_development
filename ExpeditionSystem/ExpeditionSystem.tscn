@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cgstkmha5whja"]
 
 [ext_resource type="Script" uid="uid://ccb783k5mdxpc" path="res://ExpeditionSystem/Scripts/ExpeditionManager.gd" id="1_2pn7p"]
+[ext_resource type="Script" path="res://ExpeditionSystem/Scripts/expedition_system.gd" id="1_entry"]
 [ext_resource type="PackedScene" uid="uid://dn2c6ojwph1kq" path="res://ExpeditionSystem/WorldSystem/RoomSystem/BattleRoom.tscn" id="1_5x4cq"]
 [ext_resource type="Script" uid="uid://dxhwr3y7lk3s1" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldManager.gd" id="1_b0kv7"]
 [ext_resource type="Script" uid="uid://dooun8tqr6wym" path="res://ExpeditionSystem/WorldSystem/Scripts/WorldGenerator.gd" id="1_vrybq"]
@@ -13,16 +14,19 @@
 [ext_resource type="Script" uid="uid://7sgfq2eckdfg" path="res://ExpeditionSystem/UISystem/Scripts/ExpeditionResultUI.gd" id="5_result_ui"]
 [ext_resource type="PackedScene" path="res://BaseSystem/UI/WeaponDeckEditor.tscn" id="6_deck_editor"]
 [ext_resource type="PackedScene" path="res://ExpeditionSystem/UISystem/ExpeditionMap.tscn" id="7_map"]
+[ext_resource type="PackedScene" path="res://ExpeditionSystem/UISystem/CardWorkbench.tscn" id="8_workbench"]
 
 [node name="Expedition‌System" type="Node" unique_id=692706964]
+script = ExtResource("1_entry")
 
-[node name="ExpeditionManager" type="Node" parent="." unique_id=1711523906 node_paths=PackedStringArray("world_manager", "battle_manager", "result_ui", "weapon_deck_editor", "expedition_map")]
+[node name="ExpeditionManager" type="Node" parent="." unique_id=1711523906 node_paths=PackedStringArray("world_manager", "battle_manager", "result_ui", "weapon_deck_editor", "expedition_map", "card_workbench")]
 script = ExtResource("1_2pn7p")
 world_manager = NodePath("../WorldSystem")
 battle_manager = NodePath("../BattleSystem")
 result_ui = NodePath("../UISystem")
 weapon_deck_editor = NodePath("../UISystem/DeckEditor")
 expedition_map = NodePath("../UISystem/ExpeditionMap")
+card_workbench = NodePath("../UISystem/CardWorkbench")
 player_attributes_configured = true
 player_entity_id = "player"
 player_entity_name = "player"
@@ -150,6 +154,8 @@ text = "返回基地"
 visible = false
 
 [node name="ExpeditionMap" parent="UISystem" instance=ExtResource("7_map")]
+
+[node name="CardWorkbench" parent="UISystem" instance=ExtResource("8_workbench")]
 
 [editable path="WorldSystem/PlayerVisualRoot/PlayerVisual"]
 [editable path="BattleSystem"]

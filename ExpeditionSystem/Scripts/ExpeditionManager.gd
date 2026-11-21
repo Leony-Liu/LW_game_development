@@ -1,8 +1,10 @@
 ## 协调一次远征内的 World 与 Battle 边界。
 ## 持有独立 ExpeditionPlayerData，并上报死亡确认。
+class_name ExpeditionManager
 extends Node
 
 const ExpeditionPlayerData = preload("res://Scripts/RefCounted/ExpeditionPlayerData.gd")
+const CardWorkbenchSession = preload("res://Scripts/RefCounted/CardWorkbenchSession.gd")
 
 signal death_confirmed
 signal return_to_base_requested
@@ -18,6 +20,7 @@ var _extraction_operation_id := 0
 @export var result_ui: ExpeditionResultUI
 @export var weapon_deck_editor: Control
 @export var expedition_map: Control
+@export var card_workbench: Control
 
 @export_category("玩家战斗属性")
 @export var player_attributes_configured: bool = false
@@ -40,6 +43,7 @@ var _deck_initialized := false
 var _expedition_player_data: ExpeditionPlayerData
 var _deck_viewer_open := false
 var _map_open := false
+var _workbench_open := false
 var _encounter_reward_active := false
 var _encounter_soul_reward: int = 0
 var _encounter_reward_claimed := false
@@ -64,6 +68,8 @@ func can_return_to_base() -> bool:
 
 # 上层持有终局状态，设施只接收当前交互是否可用。
 func _process(_delta: float) -> void:
+	if _workbench_open and (not _can_keep_workbench_open() or not is_instance_valid(card_workbench) or not card_workbench.has_valid_context()):
+		close_workbench(false)
 	if _encounter_reward_active and is_instance_valid(battle_manager) and not battle_manager.is_battle_active and battle_manager.battle_result == BattleManager.BattleResult.NONE:
 		_clear_encounter_reward()
 	if _map_open and not _can_keep_map_open():
@@ -71,7 +77,7 @@ func _process(_delta: float) -> void:
 	if _deck_viewer_open and not _can_keep_deck_viewer_open():
 		_close_deck_viewer(false)
 	if is_instance_valid(world_manager):
-		world_manager.update_extraction_interaction(_can_begin_terminal_operation())
+		world_manager.update_interaction_targets(_can_begin_terminal_operation())
 
 
 # 接受只代表已锁定操作并上报，应用层仍须验证结算及保存。
@@ -86,7 +92,7 @@ func request_extraction(room: RoomData, facility: Node3D) -> bool:
 	_close_expedition_map(false)
 	_close_deck_viewer(false)
 	_extraction_operation_id += 1
-	world_manager.update_extraction_interaction(false)
+	world_manager.update_interaction_targets(false)
 	print("[ExpeditionManager] 撤离请求已接受，开始校验结算依赖。")
 	extraction_requested.emit(_extraction_operation_id)
 	return true
@@ -98,7 +104,7 @@ func reject_extraction(operation_id: int, reason: String) -> bool:
 		return false
 	_terminal_state = TerminalState.ACTIVE
 	world_manager.show_extraction_status(reason)
-	world_manager.update_extraction_interaction(_can_begin_terminal_operation())
+	world_manager.update_interaction_targets(_can_begin_terminal_operation())
 	return true
 
 
@@ -109,6 +115,9 @@ func is_extraction_pending(operation_id: int) -> bool:
 # 在焦点遍历前消费 Tab；关闭时不拦截其他系统的 Esc。
 func _input(event: InputEvent) -> void:
 	if owner == null or get_tree().current_scene != owner or (event is InputEventKey and event.echo):
+		return
+	if _workbench_open and (event.is_action_pressed("toggle_expedition_map") or event.is_action_pressed("toggle_weapon_deck_viewer")):
+		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("toggle_expedition_map"):
 		get_viewport().set_input_as_handled()
@@ -128,7 +137,7 @@ func _input(event: InputEvent) -> void:
 
 # M 只在既有探索资格满足且没有牌组模态时打开地图。
 func _open_expedition_map() -> void:
-	if _map_open or _deck_viewer_open or not _can_begin_terminal_operation() or GameManager.is_scene_transition_pending():
+	if _workbench_open or _map_open or _deck_viewer_open or not _can_begin_terminal_operation() or GameManager.is_scene_transition_pending():
 		return
 	if not is_instance_valid(expedition_map):
 		push_error("[ExpeditionManager] 地图未打开：缺少 ExpeditionMap 场景引用。")
@@ -166,6 +175,49 @@ func _on_expedition_map_updated(snapshot: Dictionary) -> void:
 	if is_instance_valid(expedition_map):
 		expedition_map.display_map(snapshot)
 
+# 未来设施复用此入口；不新增快捷键或实例。
+func open_workbench() -> bool:
+	if _workbench_open:
+		return _can_keep_workbench_open() and is_instance_valid(card_workbench) and card_workbench.has_valid_context()
+	if _map_open or _deck_viewer_open or not _can_begin_terminal_operation() or GameManager.is_scene_transition_pending():
+		return false
+	if not is_instance_valid(card_workbench) or get_workbench_session() == null:
+		push_error("[ExpeditionManager] 工作台未打开：缺少界面或业务会话。")
+		return false
+	if not world_manager.begin_exploration_modal():
+		return false
+	_workbench_open = true
+	if not card_workbench.open_workbench(self):
+		close_workbench(true)
+		return false
+	return true
+
+# 只公开当前模态归属，界面不能绕过协调器自行打开。
+func is_workbench_open() -> bool:
+	return _workbench_open
+
+# World 校验当前设施后上报，再通过原工作台打开门闩。
+func _on_workbench_requested(room: RoomData, facility: Node3D) -> void:
+	if not world_manager.is_workbench_context_valid(room, facility):
+		return
+	if not open_workbench():
+		push_warning("[ExpeditionManager] 工作台请求未打开：当前远征或模态状态不允许。")
+
+# 共用现有探索模态有效性及战斗/场景门闩。
+func _can_keep_workbench_open() -> bool:
+	return _deck_initialized and _can_keep_deck_viewer_open()
+
+# 手动关闭恢复打开前状态，自动关闭不覆盖新世界阶段的控制。
+func close_workbench(manual: bool = true) -> void:
+	if not _workbench_open:
+		return
+	var restore_controls := manual and _can_keep_workbench_open()
+	_workbench_open = false
+	if is_instance_valid(card_workbench):
+		card_workbench.clear_context()
+	if is_instance_valid(world_manager):
+		world_manager.end_exploration_modal(restore_controls)
+
 # 复用既有终局、遭遇及战斗门闩，只读传递远征 CardInstance。
 func _open_deck_viewer() -> void:
 	if _deck_viewer_open or not _can_begin_terminal_operation() or GameManager.is_scene_transition_pending():
@@ -202,6 +254,7 @@ func _close_deck_viewer(manual: bool = true) -> void:
 
 # 离开场景时只清理会话，不重新启用即将退出的玩家。
 func _exit_tree() -> void:
+	close_workbench(false)
 	_close_expedition_map(false)
 	_close_deck_viewer(false)
 	clear_player_data()
@@ -222,7 +275,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func initialize_player_data(source: WeaponInstance, initial_soul: int = 0) -> bool:
 	clear_player_data()
 	var data := ExpeditionPlayerData.new()
-	if not data.initialize_from_weapon(source, initial_soul):
+	if not data.initialize_from_weapon(source, initial_soul, Callable(AllCardData, "get_card_pool")):
 		push_error("[ExpeditionManager] 玩家数据初始化失败；未保留远征武器。")
 		return false
 	_expedition_player_data = data
@@ -236,6 +289,9 @@ func initialize_player_data(source: WeaponInstance, initial_soul: int = 0) -> bo
 
 # 清理仅释放本次远征数据，不写入持久武器或存档。
 func clear_player_data() -> void:
+	if is_instance_valid(world_manager):
+		world_manager.update_interaction_targets(false)
+	close_workbench(false)
 	_clear_encounter_reward()
 	_deck_initialized = false
 	if _expedition_player_data != null:
@@ -244,6 +300,13 @@ func clear_player_data() -> void:
 			wallet.balance_changed.disconnect(_on_soul_balance_changed)
 		_expedition_player_data.clear()
 	_expedition_player_data = null
+
+
+# 直接运行场景的启动失败由远征内部清理并停用探索控制。
+func abort_failed_initialization() -> void:
+	clear_player_data()
+	if is_instance_valid(world_manager) and is_instance_valid(world_manager.player_visual):
+		world_manager.player_visual.suspend_after_world_initialization_failure()
 
 
 # 未初始化时只返回安全默认值，不创建钱包。
@@ -272,6 +335,11 @@ func _on_soul_balance_changed(current_balance: int) -> void:
 # 暴露远征副本的完整武器，绝不返回 Base 来源武器。
 func get_expedition_weapon() -> WeaponInstance:
 	return _expedition_player_data.get_weapon_instance() if _expedition_player_data != null else null
+
+
+# 不复制待选状态，未来 UI 通过同一会话执行业务操作。
+func get_workbench_session() -> CardWorkbenchSession:
+	return _expedition_player_data.get_workbench_session() if _expedition_player_data != null else null
 
 
 # 保留容器访问入口，来源改为远征独立武器。
@@ -317,6 +385,10 @@ func _create_player_data() -> EntityData:
 
 # 校验依赖并接收 World 的遭遇请求。
 func _ready() -> void:
+	if is_instance_valid(card_workbench):
+		card_workbench.close_requested.connect(close_workbench)
+	else:
+		push_error("[ExpeditionManager] 工作台不可用：缺少 CardWorkbench 场景引用。")
 	assert(world_manager != null, "ExpeditionManager: 缺少必需的 world_manager 引用。")
 	assert(battle_manager != null, "ExpeditionManager: 缺少必需的 battle_manager 引用。")
 	assert(result_ui != null, "ExpeditionManager: 缺少必需的 result_ui 引用。")
@@ -333,6 +405,7 @@ func _ready() -> void:
 	if not world_manager.world_state_changed.is_connected(_on_world_state_changed):
 		world_manager.world_state_changed.connect(_on_world_state_changed)
 	world_manager.extraction_requested.connect(request_extraction)
+	world_manager.workbench_requested.connect(_on_workbench_requested)
 	if not battle_manager.battle_ended.is_connected(_on_battle_ended):
 		battle_manager.battle_ended.connect(_on_battle_ended)
 	battle_manager.enemy_attack_started.connect(_on_enemy_attack_started)
@@ -346,7 +419,8 @@ func _ready() -> void:
 
 # 接收有效遭遇事实，并在启动成功后接受原请求。
 func _on_world_encounter_requested(room_data: RoomData, enemy_id: int) -> void:
-	var interrupted_viewer := _deck_viewer_open or _map_open
+	var interrupted_viewer := _deck_viewer_open or _map_open or _workbench_open
+	close_workbench(false)
 	_close_expedition_map(false)
 	_close_deck_viewer(false)
 	if _terminal_state != TerminalState.ACTIVE:
@@ -435,6 +509,7 @@ func _on_world_state_changed(_previous_state: int, current_state: int) -> void:
 	if current_state == WorldManager.WorldState.INIT:
 		_clear_encounter_reward()
 	if current_state != WorldManager.WorldState.EXPLORE:
+		close_workbench(false)
 		_close_expedition_map(false)
 		_close_deck_viewer(false)
 	var presentation_ready := current_state == WorldManager.WorldState.BATTLE
@@ -444,6 +519,8 @@ func _on_world_state_changed(_previous_state: int, current_state: int) -> void:
 
 # 接收 Battle 的最终结果，并等待玩家选择后续远征动作。
 func _on_battle_ended(is_player_victory: bool) -> void:
+	world_manager.update_interaction_targets(false)
+	close_workbench(false)
 	_close_expedition_map(false)
 	_close_deck_viewer(false)
 	if not is_player_victory:
@@ -515,6 +592,8 @@ func _on_action_presentation_cancelled(_execution_id: int) -> void:
 
 # 复用 BattleSystem 时清除上场结算后仍在播放的占位效果。
 func _on_battle_started() -> void:
+	world_manager.update_interaction_targets(false)
+	close_workbench(false)
 	_clear_encounter_reward()
 	_close_expedition_map(false)
 	_close_deck_viewer(false)

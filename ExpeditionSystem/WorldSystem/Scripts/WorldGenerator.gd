@@ -1,3 +1,5 @@
+## 生成连通地图并分配房间类型与敌人配置。
+## 在遭遇配置前保证至少一个非初始安全房供工作台选址。
 class_name WorldGenerator
 extends Node
 
@@ -25,11 +27,14 @@ func generate(blueprint: MapBlueprint) -> Dictionary:
 	if not blueprint:
 		push_error("WorldGenerator: 传入的 MapBlueprint 为空！")
 		return { "rooms": rooms, "doors": doors }
+	if blueprint.boss_count < 0 or blueprint.boss_count > 997:
+		push_error("[WorldGenerator] 地图生成失败：Boss 配额必须在 0 至 997 之间，以保留初始房和安全房。")
+		return {"rooms": rooms, "doors": doors}
 
 	# 根据基准数量和波动比率计算最终目标房间数
 	var min_count := int(round(blueprint.base_room_count * (1.0 - blueprint.count_variance)))
 	var max_count := int(round(blueprint.base_room_count * (1.0 + blueprint.count_variance)))
-	var target_room_count := clampi(randi_range(min_count, max_count), 1, 999)
+	var target_room_count := clampi(randi_range(min_count, max_count), blueprint.boss_count + 2, 999)
 
 	# 1. 创建位于 (0, 0) 的初始房间
 	var start_pos = Vector2.ZERO
@@ -124,6 +129,12 @@ func _populate_enemies_and_types(rooms: Dictionary, blueprint: MapBlueprint) -> 
 		boss_room.has_enemies = true
 		boss_room.enemy_id = _fetch_enemy_id_by_level(2)
 		available_positions.erase(b_pos)
+	# 普通遭遇尚未分配，先预留一个正常安全房，不改写已配置的敌人房。
+	var reserved_safe_position: Vector2 = available_positions.pick_random()
+	rooms[reserved_safe_position].room_type = RoomData.RoomType.NORMAL
+	rooms[reserved_safe_position].has_enemies = false
+	rooms[reserved_safe_position].enemy_id = -1
+	available_positions.erase(reserved_safe_position)
 
 	# 2. 剩余普通房间按概率分配常规敌人（0 级普通怪 / 1 级精英怪）
 	for r_pos in available_positions:

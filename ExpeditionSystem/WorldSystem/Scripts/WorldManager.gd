@@ -6,6 +6,7 @@ extends Node
 signal encounter_requested(room_data: RoomData, enemy_id: int)
 signal world_state_changed(previous_state: int, current_state: int)
 signal extraction_requested(room_data: RoomData, facility: Node3D)
+signal workbench_requested(room_data: RoomData, facility: Node3D)
 signal expedition_map_updated(snapshot: Dictionary)
 
 enum WorldState {
@@ -39,12 +40,15 @@ var _presented_extraction_facility: Node3D = null
 var _exploration_modal_active := false
 var _modal_previous_mode: String = "explore"
 var _modal_previous_mouse_mode: int = Input.MOUSE_MODE_CAPTURED
+var _interaction_allowed := false
+var _active_interaction_ref: WeakRef
 
 
 # 初始化门事件监听并生成默认地图。
 func _ready() -> void:
 	if room_set:
 		room_set.extraction_requested.connect(_on_extraction_requested)
+		room_set.workbench_requested.connect(_on_workbench_requested)
 		room_set.player_entered_room.connect(register_player_entered_room)
 	# 监听 DoorSet 的开门中继信号
 	if door_set:
@@ -178,14 +182,103 @@ func is_extraction_context_valid(room: RoomData, facility: Node3D) -> bool:
 	)
 
 
-# 上层只下发是否允许交互，World 将玩家及提示状态交给当前设施。
+# 保留撤离旧入口，统一进入 World 的目标仲裁。
 func update_extraction_interaction(allowed: bool) -> void:
+	update_interaction_targets(allowed)
+
+# 上层下发资格，World 对现有门与设施选择唯一最近目标。
+func update_interaction_targets(allowed: bool) -> void:
+	_interaction_allowed = allowed
+	_clear_interaction_target()
 	var facility := get_current_extraction_facility()
 	if is_instance_valid(_presented_extraction_facility) and _presented_extraction_facility != facility:
 		_presented_extraction_facility.configure_interaction(null, false)
 	_presented_extraction_facility = facility
+	var player: CharacterBody3D = player_visual.player if is_instance_valid(player_visual) else null
 	if facility != null:
-		facility.configure_interaction(player_visual.player, allowed and can_interact_in_exploration())
+		facility.set_external_interaction_dispatch(true)
+		facility.configure_interaction(player, false)
+	if not is_instance_valid(room_set) or not is_instance_valid(player_visual) or not is_instance_valid(player_visual.player):
+		return
+	for data in room_set.get_workbench_rooms():
+		var workbench_facility := room_set.get_workbench_facility(data)
+		if workbench_facility.is_inside_tree():
+			workbench_facility.configure_interaction(player, false)
+	if not allowed or not can_interact_in_exploration():
+		return
+	var candidates: Array[Node3D] = []
+	if is_instance_valid(door_set):
+		for door in door_set.get_interaction_candidates(player):
+			candidates.append(door)
+	if facility != null and facility.is_player_in_range(player):
+		candidates.append(facility)
+	var data: RoomData = mapdata.get("rooms", {}).get(player_room_coords)
+	var workbench := room_set.get_workbench_facility(data)
+	if _is_workbench_location_valid(data, workbench):
+		candidates.append(workbench)
+	var selected: Node3D
+	var distance := INF
+	for target in candidates:
+		var candidate_distance := target.global_position.distance_squared_to(player.global_position)
+		if selected == null or candidate_distance < distance or (is_equal_approx(candidate_distance, distance) and str(target.get_path()) < str(selected.get_path())):
+			selected = target
+			distance = candidate_distance
+	if selected != null:
+		_active_interaction_ref = weakref(selected)
+		if selected.has_method("configure_interaction"):
+			selected.configure_interaction(player, true)
+
+# 同一 World 为门和设施选择唯一目标，不另建注册表。
+func get_active_interaction_target() -> Node3D:
+	var target: Node3D = _active_interaction_ref.get_ref() if _active_interaction_ref != null else null
+	if not _interaction_allowed or not can_interact_in_exploration() or not is_instance_valid(target) or not target.is_inside_tree() or target.is_queued_for_deletion():
+		return null
+	if target is Door:
+		return target if target.can_interact(player_visual.player) else null
+	return target if target.is_player_in_range(player_visual.player) else null
+
+# 切换目标或生命周期结束时立即撤掉旧设施提示与资格。
+func _clear_interaction_target() -> void:
+	var previous: Node3D = _active_interaction_ref.get_ref() if _active_interaction_ref != null else null
+	_active_interaction_ref = null
+	if is_instance_valid(previous) and previous.is_inside_tree() and previous.has_method("configure_interaction"):
+		var player: CharacterBody3D = player_visual.player if is_instance_valid(player_visual) else null
+		previous.configure_interaction(player, false)
+
+# 复用 interact 动作；所有远征门与设施只由此消费一次 E。
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.is_action_pressed("interact", true):
+		return
+	get_viewport().set_input_as_handled()
+	if event.echo:
+		return
+	update_interaction_targets(_interaction_allowed)
+	var target := get_active_interaction_target()
+	if target is Door:
+		target.request_interaction(player_visual.player)
+	elif target != null:
+		target.request_interaction()
+
+# 工作台由物理占用房间和原房间索引校验，不使用开门预测坐标。
+func _is_workbench_location_valid(room: RoomData, facility: Node3D) -> bool:
+	if not can_interact_in_exploration() or room == null or room.room_type == RoomData.RoomType.INITIAL or room.has_enemies:
+		return false
+	var instance := room_set.get_room_instance(room)
+	return room == mapdata.get("rooms", {}).get(player_room_coords) and instance != null and instance.is_player_inside_entry() and is_instance_valid(facility) and not facility.is_queued_for_deletion() and facility.is_inside_tree() and room_set.get_workbench_facility(room) == facility and facility.is_player_in_range(player_visual.player)
+
+# 上层在打开前复核当前目标，旧地图或伪造通知不能打开 UI。
+func is_workbench_context_valid(room: RoomData, facility: Node3D) -> bool:
+	return get_active_interaction_target() == facility and _is_workbench_location_valid(room, facility)
+
+# 设施意图沿既有房间归属链上报，由远征拥有者决定打开。
+func _on_workbench_requested(room: RoomData, facility: Node3D) -> void:
+	if is_workbench_context_valid(room, facility):
+		workbench_requested.emit(room, facility)
+
+# 退出或换图前清除目标引用，设施随房间生命周期销毁。
+func _exit_tree() -> void:
+	_interaction_allowed = false
+	_clear_interaction_target()
 
 
 # 不把旧地图或越界设施的通知当作当前撤离请求。
@@ -261,6 +354,8 @@ func has_valid_encounter_approach(room_data: RoomData, enemy_id: int) -> bool:
 
 ## 生成并装配地图；只有全部必需阶段成功后才进入探索。
 func init_map(blueprint: MapBlueprint = null) -> bool:
+	_interaction_allowed = false
+	_clear_interaction_target()
 	print("WorldManager ： 地图初始化开始。")
 	_set_world_state(WorldState.INIT)
 	_reset_exploration_map()
@@ -298,8 +393,10 @@ func init_map(blueprint: MapBlueprint = null) -> bool:
 		return _abort_map_initialization("入室检测缺少真实玩家物理体。")
 	if not room_set.build_rooms(generated_map):
 		return _abort_map_initialization("房间组装失败。")
-	if not door_set.build_doors(generated_map):
+	if not door_set.configure_interaction_player(player_visual.player) or not door_set.build_doors(generated_map):
 		return _abort_map_initialization("门组装失败。")
+	if room_set.generate_workbench_facilities(1) != 1:
+		return _abort_map_initialization("工作台生成失败：本次远征必须有且仅有一个设施。")
 
 	# 3. 设置初始房间与状态
 	mapdata = generated_map
@@ -445,6 +542,8 @@ func _set_world_state(next_state: WorldState) -> void:
 		return
 	var previous_state := current_state
 	current_state = next_state
+	if next_state != WorldState.EXPLORE:
+		update_extraction_interaction(false)
 	world_state_changed.emit(previous_state, current_state)
 
 

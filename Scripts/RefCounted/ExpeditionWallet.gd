@@ -28,10 +28,15 @@ func get_soul_balance() -> int:
 
 # 增加正整数，并在写入前防止 int64 溢出。
 func add_soul(amount: int) -> bool:
-	if amount <= 0 or amount > 9223372036854775807 - _soul_balance:
+	if not can_add_soul(amount):
 		return false
 	_set_balance(_soul_balance + amount)
 	return true
+
+
+# 供跨模型交易预检，不修改余额或发送通知。
+func can_add_soul(amount: int) -> bool:
+	return amount > 0 and amount <= 9223372036854775807 - _soul_balance
 
 
 # 先检查余额，失败不扣款或通知。

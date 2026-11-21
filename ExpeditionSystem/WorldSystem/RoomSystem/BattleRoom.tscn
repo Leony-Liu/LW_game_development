@@ -7,11 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://bj7ysjngtbq7c" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/Ceiling.tscn" id="4_nm0wd"]
 [ext_resource type="PackedScene" uid="uid://chhps0rjfreou" path="res://ExpeditionSystem/WorldSystem/RoomSystem/EnemyVisual/EnemyVisual.tscn" id="5_gf0ju"]
 [ext_resource type="PackedScene" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/ExtractionFacility.tscn" id="6_extraction"]
+[ext_resource type="PackedScene" path="res://ExpeditionSystem/WorldSystem/RoomSystem/Prefab/CardWorkbenchFacility.tscn" id="7_workbench"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_room_entry"]
 size = Vector3(9.8, 2.8, 9.8)
 
-[node name="BattleRoom" type="Node3D" unique_id=1940335011 node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root", "encounter_approach_anchor", "room_entry_area", "room_entry_shape", "extraction_facility_mount")]
+[node name="BattleRoom" type="Node3D" unique_id=1940335011 node_paths=PackedStringArray("north_wall", "east_wall", "south_wall", "west_wall", "floor_root", "ceiling_root", "enemy_root", "encounter_approach_anchor", "room_entry_area", "room_entry_shape", "extraction_facility_mount", "workbench_facility_mount")]
 script = ExtResource("1_byiho")
 north_wall = NodePath("Field/NorthWall")
 east_wall = NodePath("Field/EastWall")
@@ -29,6 +30,11 @@ floor_scene = ExtResource("1_o841m")
 ceiling_scene = ExtResource("4_nm0wd")
 extraction_facility_mount = NodePath("ExtractionFacilityMount")
 extraction_facility_scene = ExtResource("6_extraction")
+workbench_facility_mount = NodePath("WorkbenchFacilityMount")
+workbench_facility_scene = ExtResource("7_workbench")
+
+[node name="WorkbenchFacilityMount" type="Marker3D" parent="."]
+position = Vector3(0, 0.05, 0)
 
 [node name="RoomEntryArea" type="Area3D" parent="."]
 collision_layer = 0

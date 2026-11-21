@@ -181,17 +181,37 @@ GameManager 使用独立 NewGameConfig / Scripts/NewGame.tres 选择初始武器
 
 ### `ExpeditionPlayerData` 与独立复制
 
+Task 3B：ExpeditionPlayerData 另拥有 `CardWorkbenchSession`，初始化接口扩展为 initialize_from_weapon(source, initial_soul=0, pool_source=Callable())。pool_source 为必需依赖：ExpeditionManager 注入 Callable(AllCardData, "get_card_pool")，模型本身不访问 Autoload；直接调用模型的其他使用者也须显式提供有效查询。武器复制、钱包和会话全部成功后才发布，失败不保留部分组件。clear() 先清理会话并释放其武器/钱包/生成器引用，再释放武器和清空钱包；新远征会话无候选。`[SOURCE]`
+
+`Scripts/RefCounted/CardWorkbenchSession.gd` 只持有注入的远征武器、钱包、CardOfferGenerator，不反向引用玩家模型。begin_draw() 返回 Result 枚举：先检查会话、已有候选、Combat 空位与 3 Soul，再生成三个有效模板，生成成功才扣费并保存候选。已有候选返回 OFFER_ALREADY_PENDING，UI 通过 get_pending_offer() 取得保留顺序和模板引用的新数组；关闭 UI 不应调用 clear()，不退款、不替换候选，也不序列化。`[SOURCE]`
+
+choose_card(index) 重查候选和容量，只有此时调用 CardInstance.new() 生成 UID 并追加到 Combat；成功后清候选，失败保留已购候选且不退款。delete_card(instance, "combat_deck"/"reserve_deck") 同时核对精确对象、UID 与容器归属，用 ExpeditionWallet.can_add_soul(1) 预检溢出，移除后入账 1 Soul；意外入账失败则把原对象按原索引放回。两个容器之间的 transfer_to 不经过删除逻辑，不发退款。一个交易门闩覆盖全部同步通知，防止扣费/退款信号重入；修订号使清理回调里的旧交易不能重新建立候选。`[SOURCE]`
+
+pending_offer_changed / card_added / card_removed 在成功状态变更后通知；会话不显示 UI。ExpeditionManager.get_workbench_session() 不复制会话，get_expedition_weapon() 继续暴露完整远征双牌组。后续应复用 WeaponDeckEditor 的显示/意图接口，并由远征拥有者处理转移，禁止接入 Base 的持久数据或保存流程；本次未修改编辑器或另造调整算法。`[SOURCE]`
+
+2026-10-30 隔离 CLI 探针：`WORKBENCH_RESULT checks=57 failures=0 saves=2`。覆盖费用/容量/空池/生成失败、待选快照与模拟 UI 重开、选择后身份/模板/顺序、失败保留、双牌组精确删除、溢出及故障退款回滚、交易重入、支付回调清理、初始化失败/退出、Base 编辑与真实 Battle 最新牌组、死亡返回。2 次保存仅为既有入征/死亡边界，业务新增保存为 0；日志 `.ai/runtime/workbench_probe.log`。源码比对确认奖励、克隆、Battle、Base 编辑和保存/死亡/撤离方法未变。未做工作台 UI、设施、人工拖拽或完整游玩/导出验收。
+
+Task 3B：ExpeditionPlayerData 另拥有 `CardWorkbenchSession`，初始化接口扩展为 initialize_from_weapon(source, initial_soul=0, pool_source=Callable())。pool_source 为必需依赖：ExpeditionManager 注入 Callable(AllCardData, "get_card_pool")，模型本身不访问 Autoload；直接调用模型的其他使用者也须显式提供有效查询。武器复制、钱包和会话全部成功后才发布，失败不保留部分组件。clear() 先清理会话并释放其武器/钱包/生成器引用，再释放武器和清空钱包；新远征会话无候选。`[SOURCE]`
+
+`Scripts/RefCounted/CardWorkbenchSession.gd` 只持有注入的远征武器、钱包、CardOfferGenerator，不反向引用玩家模型。begin_draw() 返回 Result 枚举：先检查会话、已有候选、Combat 空位与 3 Soul，再生成三个有效模板，生成成功才扣费并保存候选。已有候选返回 OFFER_ALREADY_PENDING，UI 通过 get_pending_offer() 取得保留顺序和模板引用的新数组；关闭 UI 不应调用 clear()，不退款、不替换候选，也不序列化。`[SOURCE]`
+
+choose_card(index) 重查候选和容量，只有此时调用 CardInstance.new() 生成 UID 并追加到 Combat；成功后清候选，失败保留已购候选且不退款。delete_card(instance, "combat_deck"/"reserve_deck") 同时核对精确对象、UID 与容器归属，用 ExpeditionWallet.can_add_soul(1) 预检溢出，移除后入账 1 Soul；意外入账失败则把原对象按原索引放回。两个容器之间的 transfer_to 不经过删除逻辑，不发退款。一个交易门闩覆盖全部同步通知，防止扣费/退款信号重入；修订号使清理回调里的旧交易不能重新建立候选。`[SOURCE]`
+
+pending_offer_changed / card_added / card_removed 在成功状态变更后通知；会话不显示 UI。ExpeditionManager.get_workbench_session() 不复制会话，get_expedition_weapon() 继续暴露完整远征双牌组。后续应复用 WeaponDeckEditor 的显示/意图接口，并由远征拥有者处理转移，禁止接入 Base 的持久数据或保存流程；本次未修改编辑器或另造调整算法。`[SOURCE]`
+
+2026-10-30 隔离 CLI 探针：`WORKBENCH_RESULT checks=57 failures=0 saves=2`。覆盖费用/容量/空池/生成失败、待选快照与模拟 UI 重开、选择后身份/模板/顺序、失败保留、双牌组精确删除、溢出及故障退款回滚、交易重入、支付回调清理、初始化失败/退出、Base 编辑与真实 Battle 最新牌组、死亡返回。2 次保存仅为既有入征/死亡边界，业务新增保存为 0；日志 `.ai/runtime/workbench_probe.log`。源码比对确认奖励、克隆、Battle、Base 编辑和保存/死亡/撤离方法未变。未做工作台 UI、设施、人工拖拽或完整游玩/导出验收。
+
 Task 1B：ExpeditionPlayerData 同时拥有独立武器与 `ExpeditionWallet`，后文 Task 1A-2 的武器复制约定保持不变。initialize_from_weapon(source, initial_soul=0) 清理旧数据、拒绝负初值，完整构造武器副本和新钱包后才发布；任一失败均不保留旧钱包或部分组件。get_wallet() 为模型访问入口；clear() 先释放模型引用，再将旧钱包清零，重复清理安全。模型不序列化钱包。`[SOURCE]`
 
 ExpeditionWallet 为独立 RefCounted，唯一余额为 _soul_balance，soul_balance 只读展示；initialize / get_soul_balance / add_soul / try_spend_soul / clear 不访问其他系统。负初值拒绝且保留原有效余额；收支拒绝非正金额，支出预检余额，收入预检 int64 溢出，不设人为上限。成功变化后发 balance_changed(current_balance)，失败或同值初始化/清零不发信号。`[SOURCE]`
 
-ExpeditionManager.initialize_player_data(source, initial_soul=0) 将初值向下传递，并连接唯一钱包监听；get_soul_balance / add_soul / try_spend_soul 仅委托钱包，缺模型或钱包时返回 0 / false，不自动补建。_on_soul_balance_changed 转发 soul_balance_changed；clear_player_data 先断开监听再清理模型，旧钱包之后变化不会通知当前远征。GameManager 不传入 Soul，正常新局为 0。钱包无敌人、卡牌、UI、存档或结算依赖，敌人奖励现由协调器接入（见 Task 2）；工作台调用尚未实现。`[SOURCE]`
+ExpeditionManager.initialize_player_data(source, initial_soul=0) 将初值向下传递，并连接唯一钱包监听；get_soul_balance / add_soul / try_spend_soul 仅委托钱包，缺模型或钱包时返回 0 / false，不自动补建。_on_soul_balance_changed 转发 soul_balance_changed；clear_player_data 先断开监听再清理模型，旧钱包之后变化不会通知当前远征。GameManager 不传入 Soul，正常新局为 0。钱包无敌人、卡牌、UI、存档或结算依赖，敌人奖励现由协调器接入（见 Task 2）；工作台业务调用已在 Task 3B 接入，UI 与设施尚未实现。`[SOURCE]`
 
 Task 1B：ExpeditionPlayerData 同时拥有独立武器与 `ExpeditionWallet`，后文 Task 1A-2 的武器复制约定保持不变。initialize_from_weapon(source, initial_soul=0) 清理旧数据、拒绝负初值，完整构造武器副本和新钱包后才发布；任一失败均不保留旧钱包或部分组件。get_wallet() 为模型访问入口；clear() 先释放模型引用，再将旧钱包清零，重复清理安全。模型不序列化钱包。`[SOURCE]`
 
 ExpeditionWallet 为独立 RefCounted，唯一余额为 _soul_balance，soul_balance 只读展示；initialize / get_soul_balance / add_soul / try_spend_soul / clear 不访问其他系统。负初值拒绝且保留原有效余额；收支拒绝非正金额，支出预检余额，收入预检 int64 溢出，不设人为上限。成功变化后发 balance_changed(current_balance)，失败或同值初始化/清零不发信号。`[SOURCE]`
 
-ExpeditionManager.initialize_player_data(source, initial_soul=0) 将初值向下传递，并连接唯一钱包监听；get_soul_balance / add_soul / try_spend_soul 仅委托钱包，缺模型或钱包时返回 0 / false，不自动补建。_on_soul_balance_changed 转发 soul_balance_changed；clear_player_data 先断开监听再清理模型，旧钱包之后变化不会通知当前远征。GameManager 不传入 Soul，正常新局为 0。钱包无敌人、卡牌、UI、存档或结算依赖，敌人奖励现由协调器接入（见 Task 2）；工作台调用尚未实现。`[SOURCE]`
+ExpeditionManager.initialize_player_data(source, initial_soul=0) 将初值向下传递，并连接唯一钱包监听；get_soul_balance / add_soul / try_spend_soul 仅委托钱包，缺模型或钱包时返回 0 / false，不自动补建。_on_soul_balance_changed 转发 soul_balance_changed；clear_player_data 先断开监听再清理模型，旧钱包之后变化不会通知当前远征。GameManager 不传入 Soul，正常新局为 0。钱包无敌人、卡牌、UI、存档或结算依赖，敌人奖励现由协调器接入（见 Task 2）；工作台业务调用已在 Task 3B 接入，UI 与设施尚未实现。`[SOURCE]`
 
 `Scripts/RefCounted/ExpeditionPlayerData.gd` 为 RefCounted，拥有单次远征的 WeaponInstance 与 ExpeditionWallet。initialize_from_weapon(source, initial_soul=0) 先清除旧数据，再调用通用 WeaponInstance.clone()；仅在复制完整成功后发布武器。get_weapon_instance() 暴露远征完整武器，get_combat_deck() / get_reserve_deck() 按需从对应容器获取新数组快照；数组中的卡牌是远征实例，快照不是永久牌组来源。不访问存档、UI、Battle 或 Autoload，钱包同样仅属于本次远征。`[SOURCE]`
 
@@ -223,6 +243,110 @@ Task 3A：AllCardData.get_card_pool() 从当前 card_database 返回新的 Array
 目前目录有 7 个卡牌模板、2 个敌人模板；加载器只扫描目录这一层。AllCardData 读取 `.tres`，AllEnemyData 同时处理 `.tres` / `.res` / `.remap`。两者均以 ID 直接覆盖字典项，没有重复 ID 拒绝机制；新增内容须核对唯一 ID。卡牌导出包的资源重映射发现能力本次未验证。`[SOURCE][VERIFY]`
 
 ## 5. ExpeditionSystem
+
+### Task 5C：共享 E 交互与工作台打开
+
+既有架构没有跨门/设施的统一仲裁：Door 自行 _unhandled_input，ExtractionFacility 自行 _unhandled_key_input。本轮在原 WorldManager 协调层扩展唯一目标选择，不添加新 Node、Autoload 或独立交互注册表。ExpeditionManager 下发当前交互资格；World.update_interaction_targets 从 DoorSet 原子节点与 RoomSet 原索引查询有效候选，选离真实玩家最近的 Node3D，同距按节点路径排序。update_extraction_interaction 保留为兼容包装。远征 DoorSet 将实际玩家弱引用注入门并启用外部派发，撤离设施也启用外部派发；两者在远征内不再自行响应 E，独立场景保留旧输入路径。`[SOURCE]`
+
+World._unhandled_key_input 复用已存在的 interact（物理 E），先消费事件，忽略 echo，重新验证当前目标后只请求一次：门调用 Door.request_interaction(player) 并复用原开门动画/发起位置；设施调用原 request_interaction。工作台仍没有键盘监听，不访问 UI 或业务数据。已有 1.5 米 Area3D、碰撞层/掩码和生成约束不变，仅增加初始隐藏的 Label3D Prompt，文本 `E - 使用工作台`。只有唯一选中、启用、真实玩家重叠且探索资格有效时显示；范围离开、模态、战斗、移除/换图/清理或玩家替换后撤销。撤离提示也服从唯一目标规则，原失败状态文字在刷新时保留。`[SOURCE]`
+
+设施创建处只连接一次 interaction_requested → BattleRoom._on_workbench_requested → RoomSet._on_workbench_requested → WorldManager._on_workbench_requested → ExpeditionManager._on_workbench_requested。各层核对原 RoomData/房间/设施身份；World 使用真实 player_room_coords 和原房间入室检测、玩家重叠及当前选中对象，不用开门预测坐标。协调器再次验证后调用既有 open_workbench，复用常驻 UI、会话、钱包和远征武器，无 Base 或保存依赖。独立设施手工发射过期信号不能绕过这些检查。`[SOURCE]`
+
+工作台、地图、Tab 模态进入时立即清目标并禁用提示；打开期间共享 E 不派发，已有 M/Tab/单层 Esc 逻辑不改。Battle 启动/结果、World 非 EXPLORE 状态、clear_player_data 和退出时禁用交互，弱引用与房间归属检查阻止旧目标继续请求；设施随房间销毁，旧地图中继因索引不匹配失效。每图仍恰好一个非初始/非敌人工作台，原选址、发现、UI 和交易实现均未修改。`[SOURCE]`
+
+2026-10-30 隔离 CLI 最终验证：`WORKBENCH_INTERACTION_RESULT checks=44 failures=0 saves=1`，不同随机地图复测通过。覆盖真实物理重叠/指定玩家、实际 E/echo、门与工作台重叠仲裁及原门动画、提示、模态 E/M/Tab/Esc、已付款候选恢复、战斗阻断、设施移除/换图/玩家替换/退出、单次信号连接，以及原撤离 E 与失败提示。1 次保存仅为既有入征边界，交互新增保存为 0；日志 `.ai/runtime/workbench_interaction_probe.log`。初期探针的玩家替换类型及靠近门的范围外测试点已修正；最终无脚本错误，缺结算撤离诊断为预期用例。未执行人工完整走图/鼠标手感、视觉、多分辨率或导出验收。
+
+### Task 5B：工作台随机放置
+
+WorldGenerator 仍先生成连通拓扑与双向门，再分配房间类型和敌人。为满足当前每图一个工作台，房间数最小值变为 boss_count + 2（初始房、Boss 配额、至少一个正常安全房），保留原 999 上限；负 Boss 配额或超过 997 明确失败。Boss 按原算法选完后，从尚未分配普通敌人的非 Boss 房中随机预留一个 NORMAL、has_enemies=false、enemy_id=-1 的安全房；其他房仍按原概率分配。不把已经配置的遭遇改成安全房；因此与旧版本同 seed 的敌人分布不保证相同。`[SOURCE]`
+
+WorldManager.init_map 在 RoomSet 完成房间实例与身份登记、DoorSet 完成门装配后，进入 EXPLORE 前调用 RoomSet.generate_workbench_facilities(1)，返回值必须等于 1，否则走既有 _abort_map_initialization 清图并挂起控制。RoomSet.get_eligible_workbench_rooms 只使用原 RoomData→BattleRoom 索引，验证真实房间身份/挂载/装配状态/有限非退化变换，按 RoomData.room_type 排除 INITIAL，按 has_enemies / enemy_id 排除配置遭遇；不检查敌人模型是否显示或已生成。当前只有 NORMAL 为有效非战斗类型，不新增房间类型或第二套注册表。`[SOURCE]`
+
+generate_workbench_facilities(target_count=1, rng=null) 支持注入 RNG，默认沿用全局随机约定；在候选中均匀抽索引并移除，未来多数量也不重复选房。超出可用数量时夹到可用数量并报告，空候选/无效依赖失败，放置中途失败撤回本批。当前 World 只传 1，不随机数量。成功批次置完成门闩，重复调用只返回实际已放置数量，不追加或重新选址；clear_rooms 在新地图批次重置门闩。现有房间常驻整次远征，无独立懒加载/卸载路径，不引入额外持久选址状态。`[SOURCE]`
+
+BattleRoom 通过原设施场景引用创建一次，并将其归属 WorkbenchFacilityMount：房间中心 (0,0.05,0)，对应 10×10 地板碰撞顶面，远离墙中央门位；挂载点还按真实 RoomEntryArea 盒范围预留 1.5 米安全距离。设施本身模型、非阻挡碰撞与范围不改，configure_interaction 注入 RoomSet 原有真实玩家并启用 Area。get_workbench_facility 查询原对象，房间/世界清理销毁子设施；失败回滚先移出树再释放。没有连接交互到 UI，也无 E 或提示。`[SOURCE]`
+
+放置不调用发现/入室接口，不写 explored_room_coords、player_room_coords 或 current_room_coords。真实玩家进入设施房后仍由原 RoomEntryArea 与 World.register_player_entered_room 揭示。2026-10-30 隔离 CLI：`WORKBENCH_PLACEMENT_RESULT checks=498 failures=0 saves=0`；覆盖多 seed、100% 遇敌概率、最小房间/Boss 保证、图连通与门邻接、真实世界一设施/锚点/玩家绑定、未探索不揭示与真实入室揭示、固定 RNG、候选变化、多数量夹取/不重复、批次回滚及零候选整图失败/恢复。日志 `.ai/runtime/workbench_placement_probe.log`。首轮探针曾触发 Editor 直运行的既有保存入口，发生于 wrapper 隔离目录，复测已隔离此入口；没有新增生产保存调用。原 UI、设施脚本/模型、地图发现方法、门、移动、Battle/奖励/钱包未改。未验收人工完整走图、渲染、E 到 UI 或导出。
+
+### Task 5B：工作台随机放置
+
+WorldGenerator 仍先生成连通拓扑与双向门，再分配房间类型和敌人。为满足当前每图一个工作台，房间数最小值变为 boss_count + 2（初始房、Boss 配额、至少一个正常安全房），保留原 999 上限；负 Boss 配额或超过 997 明确失败。Boss 按原算法选完后，从尚未分配普通敌人的非 Boss 房中随机预留一个 NORMAL、has_enemies=false、enemy_id=-1 的安全房；其他房仍按原概率分配。不把已经配置的遭遇改成安全房；因此与旧版本同 seed 的敌人分布不保证相同。`[SOURCE]`
+
+WorldManager.init_map 在 RoomSet 完成房间实例与身份登记、DoorSet 完成门装配后，进入 EXPLORE 前调用 RoomSet.generate_workbench_facilities(1)，返回值必须等于 1，否则走既有 _abort_map_initialization 清图并挂起控制。RoomSet.get_eligible_workbench_rooms 只使用原 RoomData→BattleRoom 索引，验证真实房间身份/挂载/装配状态/有限非退化变换，按 RoomData.room_type 排除 INITIAL，按 has_enemies / enemy_id 排除配置遭遇；不检查敌人模型是否显示或已生成。当前只有 NORMAL 为有效非战斗类型，不新增房间类型或第二套注册表。`[SOURCE]`
+
+generate_workbench_facilities(target_count=1, rng=null) 支持注入 RNG，默认沿用全局随机约定；在候选中均匀抽索引并移除，未来多数量也不重复选房。超出可用数量时夹到可用数量并报告，空候选/无效依赖失败，放置中途失败撤回本批。当前 World 只传 1，不随机数量。成功批次置完成门闩，重复调用只返回实际已放置数量，不追加或重新选址；clear_rooms 在新地图批次重置门闩。现有房间常驻整次远征，无独立懒加载/卸载路径，不引入额外持久选址状态。`[SOURCE]`
+
+BattleRoom 通过原设施场景引用创建一次，并将其归属 WorkbenchFacilityMount：房间中心 (0,0.05,0)，对应 10×10 地板碰撞顶面，远离墙中央门位；挂载点还按真实 RoomEntryArea 盒范围预留 1.5 米安全距离。设施本身模型、非阻挡碰撞与范围不改，configure_interaction 注入 RoomSet 原有真实玩家并启用 Area。get_workbench_facility 查询原对象，房间/世界清理销毁子设施；失败回滚先移出树再释放。没有连接交互到 UI，也无 E 或提示。`[SOURCE]`
+
+放置不调用发现/入室接口，不写 explored_room_coords、player_room_coords 或 current_room_coords。真实玩家进入设施房后仍由原 RoomEntryArea 与 World.register_player_entered_room 揭示。2026-10-30 隔离 CLI：`WORKBENCH_PLACEMENT_RESULT checks=498 failures=0 saves=0`；覆盖多 seed、100% 遇敌概率、最小房间/Boss 保证、图连通与门邻接、真实世界一设施/锚点/玩家绑定、未探索不揭示与真实入室揭示、固定 RNG、候选变化、多数量夹取/不重复、批次回滚及零候选整图失败/恢复。日志 `.ai/runtime/workbench_placement_probe.log`。首轮探针曾触发 Editor 直运行的既有保存入口，发生于 wrapper 隔离目录，复测已隔离此入口；没有新增生产保存调用。原 UI、设施脚本/模型、地图发现方法、门、移动、Battle/奖励/钱包未改。未验收人工完整走图、渲染、E 到 UI 或导出。
+
+### Task 5A：3D 工作台设施预制体
+
+`ExpeditionSystem/WorldSystem/RoomSystem/Prefab/CardWorkbenchFacility.tscn` 与同目录体系下 `Scripts/CardWorkbenchFacility.gd` 沿用既有 ExtractionFacility 组织方式；未新建设施管理器或更改房间生成。Node3D 根节点原点在地面，Visuals 为 BoxMesh 桌面、四条桌腿与 Label3D 名称；未找到现成工作台模型，使用简单原始几何，不导入美术。没有 PhysicsBody3D，作为与撤离设施一致的非阻挡占位；InteractionArea 位于 y=0.8，SphereShape3D 半径 1.5，shape 为 resource_local_to_scene，collision_layer=0、collision_mask=1、monitoring=true、monitorable=false，检测玩家默认层而不进入环境/战斗射线目标。`[SOURCE]`
+
+设施只提供 validate_configuration()、configure_interaction(player, enabled) -> bool、is_player_in_range(player) 与 request_interaction() -> bool，并发无参数 interaction_requested。默认禁用，未来拥有者注入真实 CharacterBody3D 和资格；request 只在入树、未排队删除、已启用、指定玩家真实重叠时通知。玩家为弱引用，退出清空上下文，无监听者时发信号安全；返回 true 仅代表意图已发出，不代表 UI 已打开。没有输入回调、UI/Autoload/存档/钱包或会话依赖。未来 Task 5C 需通过现有上层协调验证房间/远征资格，再调用 ExpeditionManager.open_workbench()；本轮未连接该信号、未接入 E、未放置或选择房间。`[SOURCE]`
+
+未来房间持有实例并负责销毁；场景无持久状态，多实例运行数据独立。2026-10-30 隔离 CLI：`WORKBENCH_FACILITY_RESULT checks=29 failures=0 saves=0`，验证场景/网格资源加载、配置、真实物理重叠/指定玩家过滤、无 E 行为、非阻挡移动、包含 Area 查询的射线不命中、形状实例隔离、玩家释放/设施移除/所属节点销毁。日志 `.ai/runtime/workbench_facility_probe.log`；缺玩家报错为预期失败用例，另有系统证书错误，无脚本错误。未进行实际渲染、人工视觉、放置、门到设施交互或导出验收；房间、门、玩家、战斗、地图与 UI 源码本轮未修改。
+
+### Task 5A：3D 工作台设施预制体
+
+`ExpeditionSystem/WorldSystem/RoomSystem/Prefab/CardWorkbenchFacility.tscn` 与同目录体系下 `Scripts/CardWorkbenchFacility.gd` 沿用既有 ExtractionFacility 组织方式；未新建设施管理器或更改房间生成。Node3D 根节点原点在地面，Visuals 为 BoxMesh 桌面、四条桌腿与 Label3D 名称；未找到现成工作台模型，使用简单原始几何，不导入美术。没有 PhysicsBody3D，作为与撤离设施一致的非阻挡占位；InteractionArea 位于 y=0.8，SphereShape3D 半径 1.5，shape 为 resource_local_to_scene，collision_layer=0、collision_mask=1、monitoring=true、monitorable=false，检测玩家默认层而不进入环境/战斗射线目标。`[SOURCE]`
+
+设施只提供 validate_configuration()、configure_interaction(player, enabled) -> bool、is_player_in_range(player) 与 request_interaction() -> bool，并发无参数 interaction_requested。默认禁用，未来拥有者注入真实 CharacterBody3D 和资格；request 只在入树、未排队删除、已启用、指定玩家真实重叠时通知。玩家为弱引用，退出清空上下文，无监听者时发信号安全；返回 true 仅代表意图已发出，不代表 UI 已打开。没有输入回调、UI/Autoload/存档/钱包或会话依赖。未来 Task 5C 需通过现有上层协调验证房间/远征资格，再调用 ExpeditionManager.open_workbench()；本轮未连接该信号、未接入 E、未放置或选择房间。`[SOURCE]`
+
+未来房间持有实例并负责销毁；场景无持久状态，多实例运行数据独立。2026-10-30 隔离 CLI：`WORKBENCH_FACILITY_RESULT checks=29 failures=0 saves=0`，验证场景/网格资源加载、配置、真实物理重叠/指定玩家过滤、无 E 行为、非阻挡移动、包含 Area 查询的射线不命中、形状实例隔离、玩家释放/设施移除/所属节点销毁。日志 `.ai/runtime/workbench_facility_probe.log`；缺玩家报错为预期失败用例，另有系统证书错误，无脚本错误。未进行实际渲染、人工视觉、放置、门到设施交互或导出验收；房间、门、玩家、战斗、地图与 UI 源码本轮未修改。
+
+### Task 4B：CardWorkbench 功能界面
+
+`ExpeditionSystem/UISystem/CardWorkbench.tscn` 为可编辑的 Control 场景，根节点保存为可见，非 @tool 脚本在运行时 _ready 隐藏。ExpeditionSystem 的 UISystem 常驻一个实例，由 ExpeditionManager.card_workbench 导出引用。公开入口为 ExpeditionManager.open_workbench() / close_workbench()，未来设施应调用该入口；本轮不增加设施或 E 输入。界面只用标准 PanelContainer/BoxContainer/Label/Button；没有新增装饰、素材、Theme、动画或 Fuel。`[SOURCE]`
+
+CardWorkbench.gd 使用 CLOSED / MAIN_MENU / DRAW_OFFER / DELETE_EDITOR / DELETE_CONFIRMATION / ADJUST_EDITOR 表现状态，弱引用当前协调器和匹配会话，仅保存确认所需的临时精确卡牌引用。初始 Soul 从协调器查询，打开期间监听 soul_balance_changed，关闭/退出断开；不缓存余额或候选作为权威状态。调用会话后重新核验上下文，避免同步余额通知关闭界面后被旧回调重新打开。`[SOURCE]`
+
+候选屏在场景中固定三个 Button 位置，各实例化原 `BattleSystem/CardSystem/Card.tscn`，启用 presentation_only 并调用新增 CardLogic.display_card_data(CardData)；不创建 CardInstance/UID 或替代渲染器。菜单 Draw 调用原 begin_draw，成功后按索引展示原候选，选中调用 choose_card(index)。失败保留候选及错误文本；关闭不清会话或退款，重开若有 pending 直接回候选屏且不再扣费。菜单 Delete/Adjust 使用子实例化的原 WeaponDeckEditor.tscn，两者传入同一远征武器与会话。Tab 使用远征原来的独立只读实例；两个实例共用同一个编辑器场景与脚本，不是第二套编辑器实现。`[SOURCE]`
+
+删除选择仅打开简单确认面板，显示精确实例名称与所在牌组。Cancel/Esc 清除临时引用并返回删除选择，不调用业务；Confirm 调用会话 delete_card，依据 Result 显示反馈并刷新编辑器，成功后仍在删除模式。调整使用 EXPEDITION_EDIT；编辑器 close_requested 返回主菜单。Esc 每次仅处理一层并消费事件：确认取消、编辑返回主菜单、候选/主菜单关闭整个工作台。`[SOURCE]`
+
+模态归属仍在 ExpeditionManager：打开前校验活动远征、探索/战斗/终局/场景切换及已有 Tab/M 模态，调用 WorldManager.begin_exploration_modal 保存原模式与鼠标状态。手动关闭仅在原模态仍有效时通过 end_exploration_modal 恢复；战斗、World 状态转换、清理和退出时自动关闭，不强行启用新阶段控制。工作台打开时 Tab/M 不叠加窗口，关闭后原功能保持。界面不访问 PlayerSaveManager，不执行保存，原工作台交易、钱包及敌人奖励未改。`[SOURCE]`
+
+2026-10-30 CLI 隔离验证：`WORKBENCH_UI_RESULT checks=61 failures=0 saves=2`。覆盖场景实例化/保存可见性/运行隐藏、三张原卡牌和直接模板展示、三功能/确认取消与失效对象、满牌/缺魂/空池/候选失败保留、关闭重开与支付回调关闭、精确候选索引、调整/原武器隔离、Soul 监听、Esc/Tab/M 实际按键、移动与相机锁定/恢复、状态转换和真实 Battle 启动自动关闭、死亡返回及 UI 释放。2 次保存仅为原有入征/死亡边界，UI 新增保存为 0；日志 `.ai/runtime/workbench_ui_probe.log`。无脚本错误，空池诊断为预期用例，另有系统证书错误。未执行实际 Editor 打开、人工视觉/鼠标手感、多分辨率或导出验收；可见性依据保存场景与 headless 实例检查，不能等同人工视觉通过。
+
+### Task 4B：CardWorkbench 功能界面
+
+`ExpeditionSystem/UISystem/CardWorkbench.tscn` 为可编辑的 Control 场景，根节点保存为可见，非 @tool 脚本在运行时 _ready 隐藏。ExpeditionSystem 的 UISystem 常驻一个实例，由 ExpeditionManager.card_workbench 导出引用。公开入口为 ExpeditionManager.open_workbench() / close_workbench()，未来设施应调用该入口；本轮不增加设施或 E 输入。界面只用标准 PanelContainer/BoxContainer/Label/Button；没有新增装饰、素材、Theme、动画或 Fuel。`[SOURCE]`
+
+CardWorkbench.gd 使用 CLOSED / MAIN_MENU / DRAW_OFFER / DELETE_EDITOR / DELETE_CONFIRMATION / ADJUST_EDITOR 表现状态，弱引用当前协调器和匹配会话，仅保存确认所需的临时精确卡牌引用。初始 Soul 从协调器查询，打开期间监听 soul_balance_changed，关闭/退出断开；不缓存余额或候选作为权威状态。调用会话后重新核验上下文，避免同步余额通知关闭界面后被旧回调重新打开。`[SOURCE]`
+
+候选屏在场景中固定三个 Button 位置，各实例化原 `BattleSystem/CardSystem/Card.tscn`，启用 presentation_only 并调用新增 CardLogic.display_card_data(CardData)；不创建 CardInstance/UID 或替代渲染器。菜单 Draw 调用原 begin_draw，成功后按索引展示原候选，选中调用 choose_card(index)。失败保留候选及错误文本；关闭不清会话或退款，重开若有 pending 直接回候选屏且不再扣费。菜单 Delete/Adjust 使用子实例化的原 WeaponDeckEditor.tscn，两者传入同一远征武器与会话。Tab 使用远征原来的独立只读实例；两个实例共用同一个编辑器场景与脚本，不是第二套编辑器实现。`[SOURCE]`
+
+删除选择仅打开简单确认面板，显示精确实例名称与所在牌组。Cancel/Esc 清除临时引用并返回删除选择，不调用业务；Confirm 调用会话 delete_card，依据 Result 显示反馈并刷新编辑器，成功后仍在删除模式。调整使用 EXPEDITION_EDIT；编辑器 close_requested 返回主菜单。Esc 每次仅处理一层并消费事件：确认取消、编辑返回主菜单、候选/主菜单关闭整个工作台。`[SOURCE]`
+
+模态归属仍在 ExpeditionManager：打开前校验活动远征、探索/战斗/终局/场景切换及已有 Tab/M 模态，调用 WorldManager.begin_exploration_modal 保存原模式与鼠标状态。手动关闭仅在原模态仍有效时通过 end_exploration_modal 恢复；战斗、World 状态转换、清理和退出时自动关闭，不强行启用新阶段控制。工作台打开时 Tab/M 不叠加窗口，关闭后原功能保持。界面不访问 PlayerSaveManager，不执行保存，原工作台交易、钱包及敌人奖励未改。`[SOURCE]`
+
+2026-10-30 CLI 隔离验证：`WORKBENCH_UI_RESULT checks=61 failures=0 saves=2`。覆盖场景实例化/保存可见性/运行隐藏、三张原卡牌和直接模板展示、三功能/确认取消与失效对象、满牌/缺魂/空池/候选失败保留、关闭重开与支付回调关闭、精确候选索引、调整/原武器隔离、Soul 监听、Esc/Tab/M 实际按键、移动与相机锁定/恢复、状态转换和真实 Battle 启动自动关闭、死亡返回及 UI 释放。2 次保存仅为原有入征/死亡边界，UI 新增保存为 0；日志 `.ai/runtime/workbench_ui_probe.log`。无脚本错误，空池诊断为预期用例，另有系统证书错误。未执行实际 Editor 打开、人工视觉/鼠标手感、多分辨率或导出验收；可见性依据保存场景与 headless 实例检查，不能等同人工视觉通过。
+
+### Task 4A：共享牌组编辑器上下文
+
+继续复用唯一 `BaseSystem/UI/WeaponDeckEditor.tscn`、WeaponDeckCard 和原 CardLogic 卡面；场景、布局、节点路径与默认可见性未改。DisplayMode 保留 EDIT / COMBAT_VIEW 的原枚举值，增加 EXPEDITION_EDIT / EXPEDITION_DELETE_SELECT。Base 的 open_for_edit / open_editor / display_weapon 与 transfer_requested 链路保留，Base 仍校验意图并调用 CardContainer.transfer_to，保存仍归原应用边界。编辑器不访问 PlayerSaveManager。`[SOURCE]`
+
+远征调用 setup_editor(weapon, mode, workbench_session) → bool，必须显式提供原 Expedition WeaponInstance 和匹配的 CardWorkbenchSession，不能代入 Base 武器。编辑器只持有两者弱引用；get_weapon_instance() 返回原对象，没有额外副本。EXPEDITION_EDIT 直接复用 CardContainer.transfer_to 的原子移动、追加顺序和容量检查，不上报 Base 的转移信号、不保存；没有新增同容器重排算法（原界面也只支持跨容器末尾追加）。`[SOURCE]`
+
+EXPEDITION_DELETE_SELECT 展示双牌组，仅左键选择，禁用卡片与区域拖放、右键转移。WeaponDeckCard 上报容器 ID/UID/窗口会话 ID，编辑器从当前容器重新解析精确对象并发 card_selected_for_deletion(CardInstance, DeckType)。DeckType 为 COMBAT/RESERVE，deck_id_for_type() 转为业务层既有 "combat_deck"/"reserve_deck"。编辑器不删除、不退款、不创建卡牌，也不显示确认；未来拥有者确认后调用 CardWorkbenchSession.delete_card，取消无需修改数据。`[SOURCE]`
+
+refresh_weapon() 按原武器容器刷新；会话 card_added/card_removed 自动刷新，外部容器转移/顺序变化通过可见远征模式中的显示快照比较刷新，快照不作为权威数据。关闭/切换/退出时断开会话监听并丢弃上下文；会话清理后操作入口立即拒绝旧上下文，下一帧关闭显示，即使外部仍持有武器也不能继续编辑。COMBAT_VIEW 继续使用 get_player_deck 的数组输入、隐藏 Reserve、禁用修改，并沿原 Tab 模态流程开关。`[SOURCE]`
+
+2026-10-30 CLI 隔离验证：`EDITOR_CONTEXT_RESULT checks=44 failures=0 saves=1`。覆盖 Base 原右键/拖放/容量、远征原引用/转移/隔离、两区精确选择/同模板实例区分/禁止修改、业务增删/外部转移刷新、模式切换/重开/无效数据/清理，以及 Base/远征真实 Tab 输入。1 次保存为既有入征边界，编辑器新增保存为 0；日志 `.ai/runtime/editor_context_probe.log`。源码比对确认场景、Base、存档/死亡/撤离、钱包、奖励及工作台业务未改。UI 输入以 headless 按键注入和原生控件回调验证，未进行人工鼠标拖拽、视觉、多分辨率或完整游玩/导出验收；没有工作台 UI 或设施。
+
+### Task 4A：共享牌组编辑器上下文
+
+继续复用唯一 `BaseSystem/UI/WeaponDeckEditor.tscn`、WeaponDeckCard 和原 CardLogic 卡面；场景、布局、节点路径与默认可见性未改。DisplayMode 保留 EDIT / COMBAT_VIEW 的原枚举值，增加 EXPEDITION_EDIT / EXPEDITION_DELETE_SELECT。Base 的 open_for_edit / open_editor / display_weapon 与 transfer_requested 链路保留，Base 仍校验意图并调用 CardContainer.transfer_to，保存仍归原应用边界。编辑器不访问 PlayerSaveManager。`[SOURCE]`
+
+远征调用 setup_editor(weapon, mode, workbench_session) → bool，必须显式提供原 Expedition WeaponInstance 和匹配的 CardWorkbenchSession，不能代入 Base 武器。编辑器只持有两者弱引用；get_weapon_instance() 返回原对象，没有额外副本。EXPEDITION_EDIT 直接复用 CardContainer.transfer_to 的原子移动、追加顺序和容量检查，不上报 Base 的转移信号、不保存；没有新增同容器重排算法（原界面也只支持跨容器末尾追加）。`[SOURCE]`
+
+EXPEDITION_DELETE_SELECT 展示双牌组，仅左键选择，禁用卡片与区域拖放、右键转移。WeaponDeckCard 上报容器 ID/UID/窗口会话 ID，编辑器从当前容器重新解析精确对象并发 card_selected_for_deletion(CardInstance, DeckType)。DeckType 为 COMBAT/RESERVE，deck_id_for_type() 转为业务层既有 "combat_deck"/"reserve_deck"。编辑器不删除、不退款、不创建卡牌，也不显示确认；未来拥有者确认后调用 CardWorkbenchSession.delete_card，取消无需修改数据。`[SOURCE]`
+
+refresh_weapon() 按原武器容器刷新；会话 card_added/card_removed 自动刷新，外部容器转移/顺序变化通过可见远征模式中的显示快照比较刷新，快照不作为权威数据。关闭/切换/退出时断开会话监听并丢弃上下文；会话清理后操作入口立即拒绝旧上下文，下一帧关闭显示，即使外部仍持有武器也不能继续编辑。COMBAT_VIEW 继续使用 get_player_deck 的数组输入、隐藏 Reserve、禁用修改，并沿原 Tab 模态流程开关。`[SOURCE]`
+
+2026-10-30 CLI 隔离验证：`EDITOR_CONTEXT_RESULT checks=44 failures=0 saves=1`。覆盖 Base 原右键/拖放/容量、远征原引用/转移/隔离、两区精确选择/同模板实例区分/禁止修改、业务增删/外部转移刷新、模式切换/重开/无效数据/清理，以及 Base/远征真实 Tab 输入。1 次保存为既有入征边界，编辑器新增保存为 0；日志 `.ai/runtime/editor_context_probe.log`。源码比对确认场景、Base、存档/死亡/撤离、钱包、奖励及工作台业务未改。UI 输入以 headless 按键注入和原生控件回调验证，未进行人工鼠标拖拽、视觉、多分辨率或完整游玩/导出验收；没有工作台 UI 或设施。
 
 ### 组成与通信
 
@@ -269,7 +393,7 @@ ExpeditionManager 拥有 _expedition_player_data，不保留来源武器或来�
 
 `BattleRoom.tscn` 继续作为通用房间，只新增可调的 ExtractionFacilityMount 与撤离预制体引用。BattleRoom.build_room() 先清理旧设施，仅按 RoomData.RoomType.INITIAL 创建一个 ExtractionFacility.tscn；NORMAL 不创建。挂载位置使用原生 Node3D transform，交互半径使用场景中的 SphereShape3D.radius。占位 CylinderMesh 与 Label3D 没有阻挡移动的实体碰撞；未添加图片或新的全局交互系统。`[SOURCE]`
 
-设施接收 World 提供的真实玩家和 enabled 值，只按 Area3D.overlaps_body() 显示提示；E/interact 在 _unhandled_key_input 中处理，选中且在范围内的设施先于门的 _unhandled_input 消费事件，防止一次按键同时开门和撤离。通知沿 ExtractionFacility → BattleRoom → RoomSet → WorldManager → ExpeditionManager → GameManager 上报。每层验证当前实例归属；World 检查当前 INITIAL 房间、探索/待处理遭遇、真实范围，协调器检查活动场景、牌组交接、战斗/结果及唯一终局门闩，应用层复核场景与转换状态。`[SOURCE]`
+设施接收 World 提供的真实玩家和 enabled 值，只按 Area3D.overlaps_body() 显示提示；Task 5C 后远征 E/interact 由 WorldManager 唯一派发，撤离设施的独立 _unhandled_key_input 仅保留给未接管的独立场景。通知沿 ExtractionFacility → BattleRoom → RoomSet → WorldManager → ExpeditionManager → GameManager 上报。每层验证当前实例归属；World 检查当前 INITIAL 房间、探索/待处理遭遇、真实范围，协调器检查活动场景、牌组交接、战斗/结果及唯一终局门闩，应用层复核场景与转换状态。`[SOURCE]`
 
 接受请求将终局门闩设为 EXTRACTING 并分配 operation_id；重复请求、旧回调、死亡后的失败回调不能重开该操作。当前没有资源仓库、随身物资/魂模型、逐物资转换数据、长期资源保存模块及幂等结算记录。GameManager._on_extraction_requested() 因此明确拒绝，调用匹配的 reject_extraction() 恢复交互并显示缺项；不调用保存、不清除活动标记、不结束远征、不返回 Base，也不声称收益已入账。木材/金属/塑料/魂的设计分类不等于已有转换数值或可假定为空的仓库。`[SOURCE]`
 

@@ -1,0 +1,158 @@
+[gd_scene format=3 uid="uid://d1dcj0sgfiojl"]
+
+[ext_resource type="Script" uid="uid://b0ml143n50p1s" path="res://ExpeditionSystem/UISystem/Scripts/CardWorkbench.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b5bqwwplbqjgj" path="res://ExpeditionSystem/BattleSystem/CardSystem/Card.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://de4d2l5j8jc3o" path="res://BaseSystem/UI/WeaponDeckEditor.tscn" id="3"]
+
+[node name="CardWorkbench" type="Control" unique_id=2143127497]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1887753446]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="VBoxContainer" parent="Panel" unique_id=1177221286]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="Panel/Content" unique_id=577659916]
+layout_mode = 2
+
+[node name="Soul" type="Label" parent="Panel/Content/Header" unique_id=801834163]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Soul"
+
+[node name="Close" type="Button" parent="Panel/Content/Header" unique_id=405975346]
+unique_name_in_owner = true
+layout_mode = 2
+text = "关闭工作台"
+
+[node name="Status" type="Label" parent="Panel/Content" unique_id=1376683251]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Body" type="Control" parent="Panel/Content" unique_id=334430439]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MainMenu" type="VBoxContainer" parent="Panel/Content/Body" unique_id=1600068679]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 648.0
+offset_right = -620.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Draw" type="Button" parent="Panel/Content/Body/MainMenu" unique_id=1395236707]
+unique_name_in_owner = true
+layout_mode = 2
+text = "抽卡（3 Soul）"
+
+[node name="Delete" type="Button" parent="Panel/Content/Body/MainMenu" unique_id=188494928]
+unique_name_in_owner = true
+layout_mode = 2
+text = "删除卡牌"
+
+[node name="Adjust" type="Button" parent="Panel/Content/Body/MainMenu" unique_id=413374350]
+unique_name_in_owner = true
+layout_mode = 2
+text = "调整牌组"
+
+[node name="Candidates" type="HBoxContainer" parent="Panel/Content/Body" unique_id=1346280444]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Candidate0" type="Button" parent="Panel/Content/Body/Candidates" unique_id=1975191059]
+custom_minimum_size = Vector2(240, 360)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Card" parent="Panel/Content/Body/Candidates/Candidate0" unique_id=662441806 instance=ExtResource("2")]
+layout_mode = 0
+offset_top = 0.0
+offset_bottom = 360.0
+presentation_only = true
+
+[node name="Candidate1" type="Button" parent="Panel/Content/Body/Candidates" unique_id=243682510]
+custom_minimum_size = Vector2(240, 360)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Card" parent="Panel/Content/Body/Candidates/Candidate1" unique_id=534954601 instance=ExtResource("2")]
+layout_mode = 0
+offset_top = 0.0
+offset_bottom = 360.0
+presentation_only = true
+
+[node name="Candidate2" type="Button" parent="Panel/Content/Body/Candidates" unique_id=1906605968]
+custom_minimum_size = Vector2(240, 360)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Card" parent="Panel/Content/Body/Candidates/Candidate2" unique_id=1995158063 instance=ExtResource("2")]
+layout_mode = 0
+offset_top = 0.0
+offset_bottom = 360.0
+presentation_only = true
+
+[node name="DeckEditor" parent="Panel/Content/Body" unique_id=703511507 instance=ExtResource("3")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="Confirmation" type="PanelContainer" parent="." unique_id=1790135291]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="Confirmation" unique_id=471657539]
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="Confirmation/Center" unique_id=356586713]
+layout_mode = 2
+
+[node name="ConfirmationText" type="Label" parent="Confirmation/Center/Content" unique_id=1398288393]
+unique_name_in_owner = true
+layout_mode = 2
+text = "确认删除卡牌？"
+
+[node name="Buttons" type="HBoxContainer" parent="Confirmation/Center/Content" unique_id=1072440703]
+layout_mode = 2
+
+[node name="Confirm" type="Button" parent="Confirmation/Center/Content/Buttons" unique_id=1970723831]
+unique_name_in_owner = true
+layout_mode = 2
+text = "确认删除"
+
+[node name="Cancel" type="Button" parent="Confirmation/Center/Content/Buttons" unique_id=1943324213]
+unique_name_in_owner = true
+layout_mode = 2
+text = "取消"

@@ -4,6 +4,7 @@ class_name BattleRoom
 extends Node3D
 
 signal extraction_requested(room: RoomData, facility: Node3D)
+signal workbench_requested(room: RoomData, facility: Node3D)
 signal player_entered(room: RoomData)
 
 ## 房间数据变化时对外发送的信号
@@ -36,6 +37,10 @@ signal room_data_changed(updated_data: RoomData)
 @export var extraction_facility_scene: PackedScene
 
 var _extraction_facility: Node3D
+@export_group("工作台设施")
+@export var workbench_facility_mount: Node3D
+@export var workbench_facility_scene: PackedScene
+var _workbench_facility: Node3D
 var _entry_player: CharacterBody3D
 var _player_inside_entry := false
 
@@ -167,6 +172,55 @@ func _setup_extraction_facility() -> bool:
 	candidate.interaction_requested.connect(_on_extraction_requested.bind(candidate))
 	return true
 
+# 依据生成数据与装配状态判定，不读取敌人节点显隐。
+func can_host_workbench() -> bool:
+	if not is_assembled or room_data == null or room_data.room_type != RoomData.RoomType.NORMAL or room_data.has_enemies or room_data.enemy_id > 0:
+		return false
+	if not is_instance_valid(workbench_facility_mount) or not is_ancestor_of(workbench_facility_mount) or workbench_facility_scene == null:
+		return false
+	if not workbench_facility_mount.global_position.is_finite() or not workbench_facility_mount.global_basis.is_finite():
+		return false
+	# 沿实际入室内侧盒检查挂载点，预留原设施 1.5 米范围，远离墙面门位。
+	var local_mount := room_entry_shape.to_local(workbench_facility_mount.global_position)
+	var half_size: Vector3 = (room_entry_shape.shape as BoxShape3D).size * 0.5
+	return absf(local_mount.x) + 1.5 < half_size.x and absf(local_mount.z) + 1.5 < half_size.z
+
+# 房间拥有设施；坐标来自已有中央挂载点，真实玩家由 RoomSet 注入。
+func place_workbench_facility(player: CharacterBody3D) -> bool:
+	if not can_host_workbench() or is_instance_valid(_workbench_facility) or not is_instance_valid(player):
+		push_error("[BattleRoom] 工作台放置失败：房间不符合条件、已有设施或缺少玩家。")
+		return false
+	var candidate := workbench_facility_scene.instantiate()
+	if not candidate is Node3D or candidate.get_script() != preload("res://ExpeditionSystem/WorldSystem/RoomSystem/Scripts/CardWorkbenchFacility.gd") or not candidate.validate_configuration():
+		if candidate != null:
+			candidate.free()
+		push_error("[BattleRoom] 工作台放置失败：设施场景或配置无效。")
+		return false
+	workbench_facility_mount.add_child(candidate)
+	if not candidate.configure_interaction(player, true):
+		workbench_facility_mount.remove_child(candidate)
+		candidate.queue_free()
+		return false
+	_workbench_facility = candidate
+	candidate.interaction_requested.connect(_on_workbench_requested.bind(candidate))
+	return true
+
+# 只上报本房间当前拥有的设施，旧节点不能沿链路继续通知。
+func _on_workbench_requested(facility: Node3D) -> void:
+	if facility == get_workbench_facility() and is_assembled:
+		workbench_requested.emit(room_data, facility)
+
+# 提供本房间实际拥有的设施，不重新生成或随机选择。
+func get_workbench_facility() -> Node3D:
+	return _workbench_facility if is_instance_valid(_workbench_facility) else null
+
+# 失败回滚时立即移出物理世界，生命周期最终由房间收尾。
+func clear_workbench_facility() -> void:
+	if is_instance_valid(_workbench_facility):
+		_workbench_facility.get_parent().remove_child(_workbench_facility)
+		_workbench_facility.queue_free()
+	_workbench_facility = null
+
 
 # 本房间只上报属于自己当前实例的设施意图。
 func _on_extraction_requested(facility: Node3D) -> void:
@@ -236,6 +290,7 @@ func _mount_scene(parent_node: Node3D, scene_to_instantiate: PackedScene, compon
 
 # 装配中途失败时移除已挂载的结构，不保留半成品。
 func _clear_partial_assembly() -> void:
+	clear_workbench_facility()
 	set_physics_process(false)
 	_player_inside_entry = false
 	_clear_extraction_facility()

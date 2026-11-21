@@ -12,6 +12,11 @@ signal interaction_requested
 var _player: CharacterBody3D
 var _interaction_enabled := false
 var _status_message := ""
+var _external_dispatch := false
+
+# 远征 World 接管派发时停用原独立按键路径。
+func set_external_interaction_dispatch(enabled: bool) -> void:
+	_external_dispatch = enabled
 
 # 必需节点无效时停止交互，不创建替代检测区。
 func _ready() -> void:
@@ -41,6 +46,8 @@ func _process(_delta: float) -> void:
 
 # 沿用 E 动作；在门的 unhandled_input 之前消费已选中的设施交互。
 func _unhandled_key_input(event: InputEvent) -> void:
+	if _external_dispatch:
+		return
 	if event is InputEventKey and not event.echo and event.is_action_pressed("interact") and request_interaction():
 		get_viewport().set_input_as_handled()
 

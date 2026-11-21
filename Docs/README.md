@@ -95,6 +95,8 @@ README 不替代：
 | --- | --- |
 | `/AGENTS.md` | AI 协作规则、工作流程、修改原则、验证要求 |
 | `Docs/README.md` | 项目状态、当前阶段、开发方向、协作流程 |
+| `Docs/CODE_STANDARDS.md` | 代码架构与实现规范 |
+| `Docs/SYSTEM_REGISTRY.md` | 项目负责人已批准的 System / Subsystem 分类与实现状态 |
 | `Docs/GAME_DESIGN.md` | 游戏设计目标、玩法规则、玩家体验 |
 | `Docs/ARCHITECTURE.md` | 系统关系、职责边界、接口、数据流 |
 | `Docs/CODEMAP.md` | AI 实现阶段的代码导航和文件定位 |
@@ -265,6 +267,16 @@ README
 
         ↓
 
+CODE_STANDARDS
+核对代码架构规则
+
+        ↓
+
+SYSTEM_REGISTRY
+边界任务核对已批准分类
+
+        ↓
+
 CODEMAP
 定位实现文件
 
@@ -357,6 +369,8 @@ AI 负责：
 
 # 当前开发阶段
 
+架构工作已进入 **Phase R2：System Boundary Normalization**，采用适度规范化，优先处理经确认的跨系统耦合。`Docs/CODE_STANDARDS.md` v1.0 已由项目负责人于 2026-11-03 正式接受；`Docs/SYSTEM_REGISTRY.md` 的既有 System / Subsystem 分类保持批准状态。本轮 R2.0 建立迁移前验证基线，证据见 `.ai/runtime/r2_0_baseline_2026-11-03.md`；下一项计划实施任务为 R2.1 `PlayerLoadoutSystem` 边界。此阶段状态不改变下述既有玩法实现进度，也不表示架构迁移已完成。
+
 当前阶段已接通 **武器双牌组、玩家数据持久化及 Base ↔ Expedition 的最小应用流程**，可作为后续内容与整备交互开发的基础；不代表完整试玩版或完整远征成长循环完成。
 
 当前已接通 WeaponInstance 拥有的战斗/备用双牌组、最小保存和应用级场景流程。主菜单正常进入 Base；Base 复用完整 PlayerVisual 控制、碰撞和相机，接近 Facility/testentrance 按 E 打开确认，确认后通过 GameManager.start_expedition() 保存并进入远征。中断恢复武器与双牌组并直接生成新远征；死亡确认保存并清标记后返回 Base，胜利继续探索。Facility/testcardeditor 的 E 交互可打开同一武器的双牌组编辑窗口；P 没有活动启动处理器，InputMap 中的 start_expedition 遗留声明保持原样。
@@ -380,6 +394,30 @@ WeaponData 使用 starting_combat_deck_card_ids / starting_reserve_deck_card_ids
 | 已实现并有最小逻辑验证记录 | Start/Exit 主菜单；武器数据库和双牌组模型；卡牌 UID 与 runtime 来源身份；玩家数据保存/恢复；设施 E 确认进入远征；双牌组拖放/右键编辑；探索 L 返回；开门到 Battle 初始化 |
 | 已有基础、仍需内容或人工验收 | 单把 testweapon 的原型流程；后续武器/卡牌内容；画面、输入手感及完整远征胜负流程。Base 操控的用户修正不等同于整体验收 |
 | 未实现 | 其他基地设施；武器获取、存放及切换交互；跨战斗 HP/Fuel 写回；完整地图/战斗 checkpoint 恢复 |
+
+Task 5C 已接通生成工作台的 E 到 UI 流程：指定玩家进入原 1.5 米 Area 并成为有效最近目标时显示 `E - 使用工作台`；WorldManager 复用 interact 动作统一派发门/设施，单次 E 只激活一个目标，echo 忽略。设施经 BattleRoom/RoomSet/World 向远征协调器通知，调用原 open_workbench，复用常驻 UI。工作台自身没有 E 监听；门和撤离在远征中停用独立按键路径，原动画与撤离处理保留。模态、战斗、离开范围、设施移除、玩家替换和清理使目标/提示失效；M/Tab/Esc 行为保持。
+
+CLI 最终 `WORKBENCH_INTERACTION_RESULT checks=44 failures=0 saves=1`，含真实 E 输入、重叠目标唯一派发、候选恢复、控制/模态、生命周期及撤离提示回归；1 次保存来自既有入征调用，交互新增保存为 0。日志 `.ai/runtime/workbench_interaction_probe.log`。地图生成、UI、交易与发现实现未改；人工走图、观感、鼠标手感和导出未验收。
+
+Task 5B 已接入每张成功远征地图恰好 1 个工作台设施。资格来自生成期 RoomData，排除 INITIAL 和已配置敌人的房间；房间/门装配后、开放探索前随机放置到选中房间中央挂载点，绑定真实玩家。生成前预留正常安全房，房间数至少 boss_count+2，不事后移除遭遇；其余遇敌规则不变，同 seed 的旧版本敌人分布可能变化。支持未来传入多个目标数量，但当前只请求 1；同批次重复调用不追加，随房间和新地图清理。
+
+CLI 验证 `WORKBENCH_PLACEMENT_RESULT checks=498 failures=0 saves=0`，覆盖极端遇敌概率/最小地图/Boss、连通门邻接、固定 seed 选址、多数量与回滚、零候选整图失败、实例归属/玩家绑定及原发现机制。放置不揭示位置，真实进入后才显示该房间；没有 E、提示或 UI 打开接线。日志 `.ai/runtime/workbench_placement_probe.log`。人工走图、渲染及导出未验收。
+
+Task 5A 已新增独立 CardWorkbenchFacility 3D 场景：基础桌面/四腿与名称占位，沿用撤离设施的非阻挡 Area3D 球形检测（半径 1.5、layer 0/mask 1）。指定玩家与可用性由未来拥有者注入，request_interaction() 只发 interaction_requested，不打开界面；后续须接到 ExpeditionManager.open_workbench()。未放入任何房间，未添加房间规则、随机生成、E 监听、UI 或业务改动。
+
+CLI 隔离验证 `WORKBENCH_FACILITY_RESULT checks=29 failures=0 saves=0`：覆盖独立加载、物理重叠过滤、移动/射线非阻挡、多实例隔离与销毁清理；日志 `.ai/runtime/workbench_facility_probe.log`。仅确认网格资源可加载，实际渲染、人工观感、设施放置及 E 到 UI 的流程尚未验收/实现。
+
+Task 4B 已接通功能优先的 CardWorkbench UI：远征 UISystem 常驻一个场景，运行时隐藏、编辑场景根节点保持可见。入口 `ExpeditionManager.open_workbench()`，尚无设施或 E 交互。主菜单显示 Soul 和抽卡/删除/调整/关闭；候选使用三张原 Card.tscn 直接展示 CardData，待选关闭重开恢复且不重购；删除先确认再调用原会话，调整复用原 WeaponDeckEditor 场景。普通控件无新增装饰或 Theme 改造。模态复用 WorldManager，手动关闭恢复原控制/鼠标，战斗/状态失效自动关闭；Tab/M 关闭工作台后照常工作。
+
+隔离 CLI 检查 `WORKBENCH_UI_RESULT checks=61 failures=0 saves=2`：覆盖功能、原卡牌/索引/候选不变、交易错误、确认取消/失效、重开/同步回调关闭、Soul 监听、移动/相机与鼠标恢复、实际 Esc/Tab/M、状态转换/真实 Battle 和死亡返回。UI 新增保存为 0，2 次来自原有场景边界；日志 `.ai/runtime/workbench_ui_probe.log`。人工 Editor 画面、鼠标手感、多分辨率和导出未验收。
+
+Task 4A 已适配唯一 WeaponDeckEditor 场景：保留 Base EDIT 与 Tab COMBAT_VIEW，增加远征调整和删除选择模式。setup_editor 接收原远征武器和匹配工作台会话，不复制武器、不访问 Base 存档；调整共用 CardContainer.transfer_to。删除模式只上报精确 CardInstance 与 DeckType，禁用拖放/转移，确认和退款仍归未来拥有者/现有业务会话。业务增删、外部转移与重开会刷新；远征清理后拒绝旧操作并关闭。未增加工作台 UI、设施或确认框。
+
+CLI 隔离检查 `EDITOR_CONTEXT_RESULT checks=44 failures=0 saves=1`，覆盖 Base/远征调整、实例选择、禁用修改、刷新和清理、真实 Tab 输入与 Combat-only 可见性；保存仅为既有入征调用。日志 `.ai/runtime/editor_context_probe.log`。场景布局、Base 保存、工作台业务、钱包及敌人奖励未改；人工视觉、鼠标拖拽、多分辨率和导出未验收。
+
+Task 3B 已实现 CardWorkbenchSession 业务层：ExpeditionPlayerData 拥有单次远征会话，生成成功才支付 3 Soul，保存 3 个候选直至成功选择或远征结束；模拟 UI 关闭/重开保留原候选且不退款。选择才创建 CardInstance/UID，追加到 Combat（最多 20）；Combat/Reserve 均可精确删除实例并退 1 Soul，转移不退款。已加同步交易门闩和退款溢出预检/失败回滚。协调器提供同一会话和完整远征武器，未接入 UI、设施或 Base 保存。
+
+2026-10-30 CLI 隔离验证 `WORKBENCH_RESULT checks=57 failures=0 saves=2`，包括失败/重入/清理、退款回滚、实例隔离及真实 Battle 使用最新牌组；2 次保存只来自既有入征/死亡返回，业务新增保存为 0。日志 `.ai/runtime/workbench_probe.log`。卡池通过协调器显式注入，直接初始化 ExpeditionPlayerData 的调用方也必须提供查询接口；不再允许缺少此依赖的初始化。人工工作台交互、视觉、完整游玩和导出未验收。
 
 Task 3A 已增加只读卡池快照 AllCardData.get_card_pool() 与独立 CardOfferGenerator：全部有效注册模板按资源引用去重，每次独立、等概率、有放回地生成 3 个 CardData 候选，可重复或三张相同；不筛选武器、稀有度或已有牌组。支持注入 seed RNG，空池明确失败。未创建 CardInstance/UID，也未接入交易、牌组修改或工作台。隔离 CLI 验证 `OFFER_RESULT checks=879 failures=0 saves=0`，含确定性逐抽样对照、注册表/模板/既有实例不变检查；日志 `.ai/runtime/offer_probe.log`。人工 UI、游玩和导出未验收。
 

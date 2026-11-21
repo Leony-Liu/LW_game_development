@@ -26,12 +26,9 @@ func _bootstrap_direct_expedition() -> void:
 		return
 	if not _ensure_player_weapon() or not _prepare_expedition(scene) or not PlayerSaveManager.save_with_expedition_marker(true):
 		push_error("[GameManager] 直接远征初始化失败；保留原存档并停用探索。")
-		var coordinator := scene.get_node_or_null("ExpeditionManager")
-		if coordinator != null:
-			coordinator.clear_player_data()
-		var world := scene.get_node_or_null("WorldSystem")
-		if world != null:
-			world.player_visual.suspend_after_world_initialization_failure()
+		var expedition := scene as ExpeditionSystem
+		if expedition != null:
+			expedition.abort_failed_initialization()
 
 
 # 新游戏选择属于应用配置，既有武器绝不按起始数组重置。
@@ -75,16 +72,21 @@ func start_expedition() -> bool:
 
 # 应用只传递来源武器；远征数据模型自行创建独立副本。
 func _prepare_expedition(scene: Node) -> bool:
-	var coordinator := scene.get_node_or_null("ExpeditionManager")
-	if coordinator == null:
-		push_error("[GameManager] 远征准备失败：缺少 ExpeditionManager。")
+	var expedition := scene as ExpeditionSystem
+	if expedition == null:
+		push_error("[GameManager] 远征准备失败：场景根节点缺少 ExpeditionSystem Entry。")
 		return false
-	if not coordinator.initialize_player_data(PlayerSaveManager.get_current_weapon()):
+	var result := expedition.initialize_player_data(ExpeditionInitializationRequest.new(PlayerSaveManager.get_current_weapon()))
+	if not result.succeeded:
 		push_error("[GameManager] 远征准备失败：玩家武器独立副本初始化失败。")
 		return false
-	coordinator.death_confirmed.connect(_on_expedition_death_confirmed)
-	coordinator.return_to_base_requested.connect(_on_expedition_return_requested)
-	coordinator.extraction_requested.connect(_on_extraction_requested.bind(coordinator))
+	if not expedition.death_confirmed.is_connected(_on_expedition_death_confirmed):
+		expedition.death_confirmed.connect(_on_expedition_death_confirmed)
+	if not expedition.return_to_base_requested.is_connected(_on_expedition_return_requested):
+		expedition.return_to_base_requested.connect(_on_expedition_return_requested)
+	var extraction_handler := _on_extraction_requested.bind(expedition)
+	if not expedition.extraction_requested.is_connected(extraction_handler):
+		expedition.extraction_requested.connect(extraction_handler)
 	return true
 
 
@@ -95,24 +97,24 @@ func return_to_base() -> bool:
 	var scene := get_tree().current_scene
 	if scene == null or scene.scene_file_path != EXPEDITION_SCENE_PATH:
 		return false
-	var coordinator := scene.get_node_or_null("ExpeditionManager")
-	if coordinator == null or not coordinator.can_return_to_base():
+	var expedition := scene as ExpeditionSystem
+	if expedition == null or not expedition.can_return_to_base():
 		return false
 	print("[GameManager] 开发调试返回：不执行撤离奖励结算。")
 	return _return_to_base()
 
 
 # 缺少真实资源模型与转换数据时明确拒绝，不保存假结算或清除恢复标记。
-func _on_extraction_requested(operation_id: int, coordinator: Node) -> void:
-	if not is_instance_valid(coordinator) or not coordinator.is_extraction_pending(operation_id):
+func _on_extraction_requested(event: ExpeditionExtractionRequestedEvent, expedition: ExpeditionSystem) -> void:
+	if event == null or not is_instance_valid(expedition) or not expedition.is_extraction_pending(event.operation_id):
 		return
 	var scene := get_tree().current_scene
-	if _transition_in_progress or scene == null or scene.scene_file_path != EXPEDITION_SCENE_PATH or scene.get_node_or_null("ExpeditionManager") != coordinator:
-		if not coordinator.reject_extraction(operation_id, "撤离未提交：场景或应用转换状态已失效。"):
+	if _transition_in_progress or scene == null or scene.scene_file_path != EXPEDITION_SCENE_PATH or scene != expedition:
+		if not expedition.reject_extraction(ExpeditionExtractionRejectionRequest.new(event.operation_id, "撤离未提交：场景或应用转换状态已失效。")):
 			push_warning("[GameManager] 撤离失败通知已失效，保留当前终局状态。")
 		return
 	var reason := "撤离未完成：尚缺远征资源仓库、随身物资/魂、转换数据及长期资源结算存档。"
-	if not coordinator.reject_extraction(operation_id, reason):
+	if not expedition.reject_extraction(ExpeditionExtractionRejectionRequest.new(event.operation_id, reason)):
 		return
 	push_error("[GameManager] %s 保留远征、武器牌组和恢复标记，不执行保存或返回。" % reason)
 

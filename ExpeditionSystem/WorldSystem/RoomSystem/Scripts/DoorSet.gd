@@ -5,6 +5,23 @@ signal door_opened_relay(door: Node3D)
 
 @export_group("场景预制体")
 @export var door_scene: PackedScene
+var _interaction_player_ref: WeakRef
+
+# 由 World 注入真实玩家，新建门只使用共享派发入口。
+func configure_interaction_player(player: CharacterBody3D) -> bool:
+	if not is_instance_valid(player):
+		push_error("[DoorSet] 交互配置失败：缺少真实玩家。")
+		return false
+	_interaction_player_ref = weakref(player)
+	return true
+
+# 查询现有门节点，不维护第二份交互注册表。
+func get_interaction_candidates(player: CharacterBody3D) -> Array[Door]:
+	var candidates: Array[Door] = []
+	for child in get_children():
+		if child is Door and child.can_interact(player):
+			candidates.append(child)
+	return candidates
 
 
 ## 接收地图数据；任一必需门失败时清除本批实例并返回失败。
@@ -32,6 +49,8 @@ func build_doors(blueprint: Dictionary) -> bool:
 			door_instance.free()
 			return _fail_build("Door 缺少门体或交互区域引用。")
 		add_child(door_instance)
+		if _interaction_player_ref != null:
+			door_instance.configure_interaction_dispatch(_interaction_player_ref.get_ref())
 		door_instance.position = Vector3(door_pos.x, 0.0, door_pos.y)
 		var is_horizontal: bool = (doors[door_pos] == "horizontal")
 		door_instance.rotation.y = deg_to_rad(90.0) if is_horizontal else 0.0

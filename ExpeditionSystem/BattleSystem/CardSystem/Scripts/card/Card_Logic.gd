@@ -97,7 +97,13 @@ func display_instance(card: CardInstance) -> void:
 		if type_label != null:
 			type_label.text = ""
 		return
-	var data := card.card_data
+	display_card_data(card.card_data)
+
+# 候选仅展示静态模板，不创建 CardInstance 或 RuntimeCard。
+func display_card_data(data: CardData) -> void:
+	if not presentation_only or data == null:
+		push_error("[CardLogic] 模板展示失败：需要静态展示模式和有效 CardData。")
+		return
 	var cost := data.stamina_cost if data.card_type == CardData.CardType.Attack else data.mana_cost
 	_display_data(data.name, data.description, cost, data.card_type)
 

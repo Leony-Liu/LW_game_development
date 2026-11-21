@@ -4,16 +4,25 @@ extends Control
 
 signal transfer_requested(container_id: String, uid: String)
 signal card_dropped(data: Dictionary, destination_id: String)
+signal selection_requested(container_id: String, uid: String, request_session: int)
 
 var container_id: String
 var card_uid: String
 var session_id: int
 var _display_name: String
 var _interaction_enabled: bool = true
+var _selection_enabled := false
 
 # 仅切换本实例的编辑操作，保留 PASS 输入和原生滚轮传播。
 func set_interaction_enabled(enabled: bool) -> void:
 	_interaction_enabled = enabled
+	_selection_enabled = false
+
+# 选择模式只接受左键，禁用原拖放和右键转移。
+func set_selection_enabled(enabled: bool) -> void:
+	_selection_enabled = enabled
+	if enabled:
+		_interaction_enabled = false
 
 # 卡面不接收输入，由本适配层唯一处理牌组操作。
 func _ready() -> void:
@@ -44,6 +53,10 @@ func display_card(card: CardInstance, source_id: String, session: int) -> void:
 
 # 右键只通知当前容器和实例身份。
 func _gui_input(event: InputEvent) -> void:
+	if _selection_enabled and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		accept_event()
+		selection_requested.emit(container_id, card_uid, session_id)
+		return
 	if _interaction_enabled and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		accept_event()
 		transfer_requested.emit(container_id, card_uid)
